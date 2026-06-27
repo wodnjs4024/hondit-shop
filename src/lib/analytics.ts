@@ -17,10 +17,12 @@ declare global {
   }
 }
 
-const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const fallbackMeasurementId = "G-FKMMTFM45C";
+const envMeasurementId = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const measurementId = envMeasurementId && envMeasurementId !== "G-XXXXXXXXXX" ? envMeasurementId : fallbackMeasurementId;
 let initialized = false;
 
-const hasMeasurementId = Boolean(measurementId && measurementId !== "G-XXXXXXXXXX");
+const hasMeasurementId = Boolean(measurementId);
 const attributionKey = "hondit_attribution_v1";
 
 function getDefaultAttribution(): Attribution {
@@ -96,6 +98,11 @@ export function initAnalytics() {
   const id = measurementId;
   if (!id) return;
 
+  if (window.gtag) {
+    initialized = true;
+    return;
+  }
+
   const script = document.createElement("script");
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
@@ -106,7 +113,7 @@ export function initAnalytics() {
     window.dataLayer?.push(args);
   };
   window.gtag("js", new Date());
-  window.gtag("config", id);
+  window.gtag("config", id, { send_page_view: false });
   initialized = true;
 }
 
