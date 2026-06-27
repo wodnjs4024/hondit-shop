@@ -134,8 +134,9 @@ export function trackPageView(path: string) {
   if (hasMeasurementId && typeof window !== "undefined" && window.gtag && measurementId) {
     const attribution = getAttributionPayload();
 
-    window.gtag("config", measurementId, {
+    window.gtag("event", "page_view", {
       page_path: path,
+      page_location: window.location.href,
       page_title: document.title,
       ...attribution,
     });
