@@ -3,10 +3,23 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { MobileShopCTA } from "./components/MobileShopCTA";
 import { SectionRail } from "./components/SectionRail";
 import { SiteHeader } from "./components/SiteHeader";
+import { AdminLayout } from "./components/AdminLayout";
 import { sections, type SectionId } from "./data/siteData";
 import { trackPageView } from "./lib/analytics";
+import { AdminDashboardPage } from "./pages/AdminDashboardPage";
+import { AdminLoginPage } from "./pages/AdminLoginPage";
+import { AdminOrderDetailPage } from "./pages/AdminOrderDetailPage";
+import { AdminOrdersPage } from "./pages/AdminOrdersPage";
+import { AdminProductsPage } from "./pages/AdminProductsPage";
+import { AdminSettingsPage } from "./pages/AdminSettingsPage";
+import { BulkOrdersPage } from "./pages/BulkOrdersPage";
+import { BulkProductPage } from "./pages/BulkProductPage";
+import { CartPage } from "./pages/CartPage";
+import { CheckoutPage } from "./pages/CheckoutPage";
 import { HomePage } from "./pages/HomePage";
 import { JejuPage } from "./pages/JejuPage";
+import { OrderCompletePage } from "./pages/OrderCompletePage";
+import { PolicyPage } from "./pages/PolicyPage";
 
 function getScrollProgress() {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
@@ -121,6 +134,20 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
+        <Route path="/bulk-orders" element={<BulkOrdersPage />} />
+        <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order-complete/:orderNumber" element={<OrderCompletePage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboardPage />} />
+          <Route path="orders" element={<AdminOrdersPage />} />
+          <Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
+          <Route path="products" element={<AdminProductsPage />} />
+          <Route path="settings" element={<AdminSettingsPage />} />
+        </Route>
+        <Route path="/:policy" element={<PolicyPage />} />
       </Routes>
       {isHome && <SectionRail activeSection={activeSection} progress={progress} />}
       <MobileShopCTA visible={mobileCtaVisible} dark={activeSection === "diffuser"} />

@@ -14,6 +14,7 @@ const navItems: HeaderNavItem[] = [
   { label: "Find Yours", href: "/#ritual" },
   { label: "Singapore Days", href: "/#singapore" },
   { label: "Our Jeju", to: "/jeju" },
+  { label: "Bulk Orders", to: "/bulk-orders" },
   { label: "About", href: "/#about" },
 ];
 
@@ -47,7 +48,7 @@ export function SiteHeader() {
           <NavLink
             key={item.label}
             to={item.to}
-            onClick={() => trackJejuClick("header")}
+            onClick={() => item.to === "/jeju" && trackJejuClick("header")}
           >
             {item.label}
           </NavLink>

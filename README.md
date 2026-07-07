@@ -1,6 +1,6 @@
 # hondit-shop
 
-Jeju-inspired Korean care and scent landing page for hondit Singapore. The site is built for an Instagram bio link and guides visitors to Shopee Singapore product pages and the official Shopee store.
+Jeju-inspired Korean care and scent website for hondit Singapore. The site is built for an Instagram bio link, Shopee Singapore traffic tracking, and direct Singapore bulk orders through PayPal Sandbox.
 
 ## Local setup
 
@@ -27,12 +27,35 @@ npm run build
 ## Project structure
 
 - Product links and section navigation data: `src/data/siteData.ts`
+- Bulk order product data and fallback prices: `src/data/bulkProducts.ts`
+- Cart and checkout helpers: `src/lib/cart.ts`, `src/lib/bulkApi.ts`
+- Vercel API functions: `api`
 - GA4 event helpers: `src/lib/analytics.ts`
 - Page sections: `src/sections`
 - Shared UI components: `src/components`
 - Global styles and design tokens: `src/styles/global.css`
 - Site images: `public/images`
 - Original supplied images: `input-assets`
+
+## Bulk orders
+
+The same hondit website now includes:
+
+- `/bulk-orders` product catalog
+- `/cart` local guest cart
+- `/checkout` guest PayPal Sandbox checkout
+- `/order-complete/:orderNumber` public order confirmation
+- `/admin` protected order, product, and settings dashboard
+
+There is no customer login. Admin access uses Supabase Auth email/password plus the `admin_profiles` table.
+
+Bulk prices include Singapore EMS shipping:
+
+- Foam Oil 150ml: SGD 255 per 30-unit pack
+- Foaming Cleanser 200ml: SGD 255 per 30-unit pack
+- Cleansing Water 300ml: SGD 255 per 30-unit pack
+- Diffuser 350g: SGD 420 per 20-unit pack
+- Diffuser 500g: SGD 920 per 20-unit pack
 
 ## GA4 measurement ID
 
@@ -57,7 +80,15 @@ docs/analytics-operations.md
 3. Use the default Vite settings:
    - Build command: `npm run build`
    - Output directory: `dist`
-4. Add `VITE_GA_MEASUREMENT_ID` in Vercel environment variables when the real GA4 ID is ready.
+4. Add the environment variables from `.env.example`.
+5. Redeploy after adding or changing environment variables.
+
+Detailed setup guides:
+
+- `VERCEL_DEPLOYMENT.md`
+- `PAYPAL_SANDBOX_SETUP.md`
+- `ADMIN_SETUP.md`
+- `ORDER_EVIDENCE_GUIDE.md`
 
 ## GitHub connection later
 

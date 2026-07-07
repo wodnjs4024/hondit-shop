@@ -212,6 +212,19 @@ export function HomePage() {
           </div>
         </section>
 
+        <section className="bulk-teaser section-shell">
+          <div className="section-inner section-inner--wide bulk-teaser__grid">
+            <div>
+              <p className="eyebrow">BULK ORDERS</p>
+              <h2>Ordering 20 or more units?</h2>
+              <p>
+                Selected hondit products are available for direct bulk purchase with Singapore EMS shipping included in the listed price.
+              </p>
+            </div>
+            <Link className="button button--primary" to="/bulk-orders">View Bulk Orders</Link>
+          </div>
+        </section>
+
         <About />
       </main>
       <Footer />
