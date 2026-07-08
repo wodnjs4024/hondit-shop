@@ -149,7 +149,7 @@ export function BulkProductPage() {
       [
         currentForm.customerNote.trim(),
         currentForm.gstRequired
-          ? `GST/tax invoice requested. GST/business number: ${currentForm.gstNumber.trim() || "not provided"}`
+          ? `Company invoice requested. Business/GST/UEN number: ${currentForm.gstNumber.trim() || "not provided"}`
           : "",
       ]
         .filter(Boolean)
@@ -312,11 +312,11 @@ export function BulkProductPage() {
                 </label>
                 <label className="checkout-confirm checkout-form__wide">
                   <input type="checkbox" checked={form.gstRequired} onChange={(event) => update("gstRequired", event.target.checked)} />
-                  I need a GST / tax invoice.
+                  I need a company invoice / business receipt.
                 </label>
                 {form.gstRequired && (
                   <label className="checkout-form__wide">
-                    GST / business registration number
+                    Business registration number, UEN or GST number
                     <input value={form.gstNumber} onChange={(event) => update("gstNumber", event.target.value)} />
                   </label>
                 )}
