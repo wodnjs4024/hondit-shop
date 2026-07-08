@@ -21,7 +21,8 @@ const defaultSettings = {
 
 function segments(req) {
   const url = new URL(req.url, "https://hondit.local");
-  const path = url.pathname.replace(/^\/api\/admin\/?/, "");
+  const rewrittenPath = url.searchParams.get("path");
+  const path = rewrittenPath || url.pathname.replace(/^\/api\/admin\/?/, "");
   return path.split("/").filter(Boolean);
 }
 
