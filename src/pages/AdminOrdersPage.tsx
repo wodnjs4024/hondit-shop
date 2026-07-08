@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { adminFetch } from "../lib/bulkApi";
 import { AdminNotice, AdminOrderTable } from "./AdminDashboardPage";
 
@@ -31,22 +31,53 @@ type OrderRow = {
 };
 
 const paymentStatuses = ["", "pending", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"];
-const orderStatuses = ["", "pending_payment", "paid", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
+const orderStatuses = ["", "pending_payment", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
 
 export function AdminOrdersPage() {
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [error, setError] = useState("");
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [filters, setFilters] = useState({ q: "", paymentStatus: "", orderStatus: "", orderType: "", from: "", to: "" });
+  const [notificationStatus, setNotificationStatus] = useState(typeof Notification === "undefined" ? "unsupported" : Notification.permission);
+  const knownOrderIds = useRef<Set<string>>(new Set());
+  const hasLoadedOnce = useRef(false);
+  const notificationStatusRef = useRef(notificationStatus);
+
+  useEffect(() => {
+    notificationStatusRef.current = notificationStatus;
+  }, [notificationStatus]);
 
   const load = () => {
     const params = new URLSearchParams(Object.entries(filters).filter(([, value]) => value));
     adminFetch<{ orders: OrderRow[] }>(`/api/admin/orders?${params.toString()}`)
       .then((data) => {
+        const nextIds = new Set(data.orders.map((order) => order.id));
+        const newPaidOrders = data.orders.filter(
+          (order) => hasLoadedOnce.current && !knownOrderIds.current.has(order.id) && order.payment_status === "completed",
+        );
         setOrders(data.orders);
         setLastUpdated(new Date());
+        knownOrderIds.current = nextIds;
+        hasLoadedOnce.current = true;
+
+        if (notificationStatusRef.current === "granted") {
+          newPaidOrders.forEach((order) => {
+            new Notification("New hondit order", {
+              body: `${order.order_number} / ${order.customer_name} / S$${Number(order.total_sgd || 0).toFixed(2)}`,
+            });
+          });
+        }
       })
       .catch((err) => setError(err.message));
+  };
+
+  const enableNotifications = async () => {
+    if (typeof Notification === "undefined") {
+      setNotificationStatus("unsupported");
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    setNotificationStatus(permission);
   };
 
   useEffect(() => {
@@ -116,6 +147,9 @@ export function AdminOrdersPage() {
         <input placeholder="Order type" value={filters.orderType} onChange={(event) => setFilters({ ...filters, orderType: event.target.value })} />
         <button className="button button--primary" type="submit">Apply</button>
         <button className="button button--ghost" type="button" onClick={load}>Refresh now</button>
+        <button className="button button--ghost" type="button" onClick={enableNotifications}>
+          {notificationStatus === "granted" ? "Browser alerts on" : "Enable browser alerts"}
+        </button>
         <button className="button button--ghost" type="button" onClick={exportCsv}>Export Filtered Orders CSV</button>
       </form>
       <section className="admin-panel">

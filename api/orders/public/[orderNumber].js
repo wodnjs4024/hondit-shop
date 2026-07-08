@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     if (!orderNumber) return json(res, 400, { error: "Order number is required" });
 
     const orders = await supabase(
-      `/orders?order_number=eq.${encodeURIComponent(orderNumber)}&select=id,order_number,payment_status,order_status,total_units,total_packs,total_sgd,currency,customer_name,country_code,city,postal_code`,
+      `/orders?order_number=eq.${encodeURIComponent(orderNumber)}&select=id,order_number,payment_status,order_status,total_units,total_packs,total_sgd,currency,customer_name,customer_email,customer_phone,country_code,address_line_1,address_line_2,city,postal_code`,
     );
     if (!orders.length) return json(res, 404, { error: "Order not found" });
 

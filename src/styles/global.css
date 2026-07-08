@@ -2991,6 +2991,34 @@ body.is-cart-open {
   font-size: clamp(1.2rem, 3vw, 1.55rem);
 }
 
+.direct-payment-summary dl {
+  display: grid;
+  gap: 7px;
+  margin: 8px 0;
+}
+
+.direct-payment-summary dl div {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.direct-payment-summary dt {
+  color: rgba(44, 42, 40, 0.56);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.direct-payment-summary dd {
+  min-width: 0;
+  margin: 0;
+  color: var(--deep-navy);
+  font-size: 0.86rem;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
 .bulk-product-info {
   display: grid;
   gap: 12px;

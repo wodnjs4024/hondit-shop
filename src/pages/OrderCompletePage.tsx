@@ -30,6 +30,7 @@ export function OrderCompletePage() {
           <p className="eyebrow">ORDER COMPLETE</p>
           <h1>Your order is confirmed.</h1>
           <p>Your PayPal payment has been received. Please save your order number for future reference.</p>
+          <p>If your email, phone number or shipping address is incorrect, contact hondit immediately with your order number before shipment.</p>
 
           {error && <p className="form-error">{error}</p>}
 
@@ -43,12 +44,18 @@ export function OrderCompletePage() {
                   <div><dt>Order status</dt><dd>{order.order_status}</dd></div>
                   <div><dt>Total units</dt><dd>{order.total_units}</dd></div>
                   <div><dt>Total payment</dt><dd>{formatSgd(order.total_sgd)}</dd></div>
-                  <div><dt>Shipping summary</dt><dd>Singapore, {order.city} {order.postal_code}</dd></div>
+                  <div><dt>Name</dt><dd>{order.customer_name || "-"}</dd></div>
+                  <div><dt>Email</dt><dd>{order.customer_email || "-"}</dd></div>
+                  <div><dt>Phone</dt><dd>{order.customer_phone || "-"}</dd></div>
+                  <div>
+                    <dt>Shipping address</dt>
+                    <dd>{[order.address_line_1, order.address_line_2, order.city, order.postal_code].filter(Boolean).join(", ")}</dd>
+                  </div>
                 </dl>
                 <div className="order-items-compact">
                   {order.items.map((item) => (
                     <p key={`${item.product_name_snapshot}-${item.volume_snapshot}`}>
-                      {item.product_name_snapshot} {item.volume_snapshot} · {item.total_units} units
+                      {item.product_name_snapshot} {item.volume_snapshot} / {item.total_units} units
                     </p>
                   ))}
                 </div>
@@ -58,7 +65,7 @@ export function OrderCompletePage() {
 
           <div className="bulk-card__actions">
             <Link className="button button--primary" to="/bulk-orders">Continue Shopping</Link>
-            <Link className="button button--ghost" to="/">Return to hondit</Link>
+            <Link className="button button--ghost" to="/contact">Contact hondit</Link>
             <button className="button button--quiet" type="button" onClick={() => window.print()}>Print Order Receipt</button>
           </div>
         </div>

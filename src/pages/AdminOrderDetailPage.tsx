@@ -12,7 +12,7 @@ type AdminOrderDetail = {
   history: Array<Record<string, string | null>>;
 };
 
-const orderStatuses = ["pending_payment", "paid", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
+const orderStatuses = ["pending_payment", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
 
 export function AdminOrderDetailPage() {
   const { orderId = "" } = useParams();
@@ -21,6 +21,14 @@ export function AdminOrderDetailPage() {
   const [form, setForm] = useState({
     order_status: "paid",
     payment_status: "pending",
+    customer_name: "",
+    customer_email: "",
+    customer_phone: "",
+    company_name: "",
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    postal_code: "",
     tracking_carrier: "",
     tracking_number: "",
     shipped_at: "",
@@ -38,6 +46,14 @@ export function AdminOrderDetailPage() {
         setForm({
           order_status: String(data.order.order_status || "paid"),
           payment_status: String(data.order.payment_status || "pending"),
+          customer_name: String(data.order.customer_name || ""),
+          customer_email: String(data.order.customer_email || ""),
+          customer_phone: String(data.order.customer_phone || ""),
+          company_name: String(data.order.company_name || ""),
+          address_line_1: String(data.order.address_line_1 || ""),
+          address_line_2: String(data.order.address_line_2 || ""),
+          city: String(data.order.city || ""),
+          postal_code: String(data.order.postal_code || ""),
           tracking_carrier: String(data.order.tracking_carrier || ""),
           tracking_number: String(data.order.tracking_number || ""),
           shipped_at: String(data.order.shipped_at || "").slice(0, 10),
@@ -135,6 +151,7 @@ export function AdminOrderDetailPage() {
         </div>
         <div className="admin-action-grid">
           <button className="button button--ghost" type="button" onClick={() => quickUpdate("paid", "completed")}>Mark paid</button>
+          <button className="button button--ghost" type="button" onClick={() => quickUpdate("address_check", "completed")}>Address check</button>
           <button className="button button--ghost" type="button" onClick={() => quickUpdate("preparing", "completed")}>Start preparing</button>
           <button className="button button--ghost" type="button" onClick={() => quickUpdate("packed", "completed")}>Mark packed</button>
           <button className="button button--ghost" type="button" onClick={() => quickUpdate("shipped", "completed")}>Mark shipped</button>
@@ -198,7 +215,15 @@ export function AdminOrderDetailPage() {
       </section>
 
       <form className="admin-panel admin-form" onSubmit={submit}>
-        <h2>Shipping and status</h2>
+        <h2>Customer, shipping and status</h2>
+        <label>Customer name<input value={form.customer_name} onChange={(event) => setForm({ ...form, customer_name: event.target.value })} /></label>
+        <label>Email<input value={form.customer_email} onChange={(event) => setForm({ ...form, customer_email: event.target.value })} /></label>
+        <label>Phone<input value={form.customer_phone} onChange={(event) => setForm({ ...form, customer_phone: event.target.value })} /></label>
+        <label>Company<input value={form.company_name} onChange={(event) => setForm({ ...form, company_name: event.target.value })} /></label>
+        <label>Address line 1<input value={form.address_line_1} onChange={(event) => setForm({ ...form, address_line_1: event.target.value })} /></label>
+        <label>Address line 2<input value={form.address_line_2} onChange={(event) => setForm({ ...form, address_line_2: event.target.value })} /></label>
+        <label>City / District<input value={form.city} onChange={(event) => setForm({ ...form, city: event.target.value })} /></label>
+        <label>Postal code<input value={form.postal_code} onChange={(event) => setForm({ ...form, postal_code: event.target.value })} /></label>
         <label>Order status<select value={form.order_status} onChange={(event) => setForm({ ...form, order_status: event.target.value })}>{orderStatuses.map((status) => <option key={status}>{status}</option>)}</select></label>
         <label>Payment status<select value={form.payment_status} onChange={(event) => setForm({ ...form, payment_status: event.target.value })}>
           {["pending", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"].map((status) => <option key={status}>{status}</option>)}

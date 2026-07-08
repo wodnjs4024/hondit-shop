@@ -36,7 +36,11 @@ export type PublicOrder = {
   total_sgd: number;
   currency: "SGD";
   customer_name?: string;
+  customer_email?: string;
+  customer_phone?: string;
   country_code?: string;
+  address_line_1?: string;
+  address_line_2?: string | null;
   city?: string;
   postal_code?: string;
   items: Array<{

@@ -325,7 +325,7 @@ export function BulkProductPage() {
                 </label>
                 <label className="checkout-confirm checkout-form__wide">
                   <input type="checkbox" checked={form.reviewed} onChange={(event) => update("reviewed", event.target.checked)} />
-                  I confirm: {product.name}, {quantity} units, {formatSgd(totalSgd)}, Singapore EMS included.
+                  I confirm that my email, phone number, shipping address, product quantity and final payment amount are correct.
                 </label>
               </form>
 
@@ -335,7 +335,17 @@ export function BulkProductPage() {
                 <strong>
                   {quantity} units / {formatSgd(totalSgd)}
                 </strong>
+                <dl>
+                  <div><dt>Name</dt><dd>{form.customerName || "-"}</dd></div>
+                  <div><dt>Email</dt><dd>{form.customerEmail || "-"}</dd></div>
+                  <div><dt>Phone</dt><dd>{form.customerPhone || "-"}</dd></div>
+                  <div>
+                    <dt>Shipping address</dt>
+                    <dd>{[form.addressLine1, form.addressLine2, form.city, form.postalCode].filter(Boolean).join(", ") || "-"}</dd>
+                  </div>
+                </dl>
                 <span>PayPal {paypalMode === "sandbox" ? "Sandbox " : ""}payment. Currency: SGD.</span>
+                <span>If any shipping information is incorrect after payment, contact hondit immediately with your order number before shipment.</span>
               </div>
 
               {error && <p className="form-error">{error}</p>}
