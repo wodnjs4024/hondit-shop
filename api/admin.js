@@ -7,7 +7,7 @@ import {
   supabase,
   toDbProduct,
   verifyAdmin,
-} from "../_utils.js";
+} from "./_utils.js";
 
 const defaultSettings = {
   id: 1,
