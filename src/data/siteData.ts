@@ -5,6 +5,8 @@ export const links = {
   shopeeStore: "https://shopee.sg/hondit.office.sg",
 };
 
+export const DISCOUNT_LABEL = "30% OFF";
+
 export type Product = {
   id: string;
   name: string;
@@ -18,12 +20,9 @@ export type Product = {
   image: string;
   alt: string;
   href: string;
-  eventName:
-    | "shopee_foam_oil_click"
-    | "shopee_foaming_cleanser_click"
-    | "shopee_cleansing_water_click"
-    | "shopee_diffuser_500_click"
-    | "shopee_diffuser_350_click";
+  listPrice: number;
+  salePrice: number;
+  eventName: string;
 };
 
 export const cleansingProducts: Product[] = [
@@ -40,6 +39,8 @@ export const cleansingProducts: Product[] = [
     image: "/images/foam-oil.png",
     alt: "hondit Foam Oil cleanser product bottle with original label and packaging.",
     href: "https://shopee.sg/-Jessence-Vegan-Foam-Oil-150ml-pH-5.5-Fragrance-Free-Triple-Cleanser-for-Sensitive-Skin-hondit-i.1777500029.46061061091?extraParams=%7B%22display_model_id%22%3A340962094822%2C%22model_selection_logic%22%3A3%7D",
+    listPrice: 27.36,
+    salePrice: 19.15,
     eventName: "shopee_foam_oil_click",
   },
   {
@@ -55,6 +56,8 @@ export const cleansingProducts: Product[] = [
     image: "/images/foaming-cleanser.png",
     alt: "hondit Foaming Cleanser product tube with original label and packaging.",
     href: "https://shopee.sg/-Jessence-Vegan-Foaming-Cleanser-200ml-pH-5.5-Fragrance-Free-Face-Wash-for-Sensitive-Skin-hondit-i.1777500029.48211055800?extraParams=%7B%22display_model_id%22%3A370962042962%2C%22model_selection_logic%22%3A3%7D",
+    listPrice: 29.45,
+    salePrice: 20.62,
     eventName: "shopee_foaming_cleanser_click",
   },
   {
@@ -70,6 +73,8 @@ export const cleansingProducts: Product[] = [
     image: "/images/cleansing-water.png",
     alt: "hondit Cleansing Water product bottle with original label and packaging.",
     href: "https://shopee.sg/-Jessence-Vegan-Cleansing-Water-300ml-pH-5.5-Fragrance-Free-Makeup-Remover-for-Sensitive-Skin-hondit-i.1777500029.49661058384?extraParams=%7B%22display_model_id%22%3A435962061879%2C%22model_selection_logic%22%3A3%7D",
+    listPrice: 28.89,
+    salePrice: 20.22,
     eventName: "shopee_cleansing_water_click",
   },
 ];
@@ -88,6 +93,8 @@ export const diffuserProducts: Product[] = [
     image: "/images/diffuser-500g.png",
     alt: "hondit volcanic stone diffuser 500g package with citrus oil included.",
     href: "https://shopee.sg/Diffuser-Home-Fragrance-Air-Freshener-Room-Scent-Aroma-Diffuser-with-Citrus-Essential-Oil-10ml-500g-i.1777500029.56058301270?extraParams=%7B%22display_model_id%22%3A420908704644%2C%22model_selection_logic%22%3A3%7D",
+    listPrice: 91.79,
+    salePrice: 64.25,
     eventName: "shopee_diffuser_500_click",
   },
   {
@@ -103,9 +110,50 @@ export const diffuserProducts: Product[] = [
     image: "/images/diffuser-350g.png",
     alt: "hondit volcanic stone diffuser 350g package with citrus oil included.",
     href: "https://shopee.sg/Aroma-Diffuser-Stone-Diffuser-with-Citrus-Essential-Oil-10ml-Home-Fragrance-Air-Freshener-Room-Scent-350g-i.1777500029.47159645745?extraParams=%7B%22display_model_id%22%3A445946326744%2C%22model_selection_logic%22%3A3%7D",
+    listPrice: 47.66,
+    salePrice: 33.36,
     eventName: "shopee_diffuser_350_click",
   },
 ];
+
+export const setProducts: Product[] = [
+  {
+    id: "soap-toothpaste-set",
+    name: "Soap & Toothpaste Set",
+    displayName: "Daily Care Soap & Toothpaste Set",
+    category: "DAILY CARE SET",
+    size: "Set",
+    description: "A practical everyday care set for simple gifting and daily use.",
+    bestFor: "Gifting / Daily care / Travel-ready routines",
+    ctaLabel: "Buy on Shopee",
+    chips: ["Daily care", "Giftable", "Ships from Korea"],
+    image: "/images/foaming-cleanser.png",
+    alt: "hondit soap and toothpaste set for daily care.",
+    href: links.shopeeStore,
+    listPrice: 43.55,
+    salePrice: 30.49,
+    eventName: "shopee_soap_toothpaste_set_click",
+  },
+  {
+    id: "bar-soap-set-3",
+    name: "Bar Soap Set of 3",
+    displayName: "Bar Soap Set of 3",
+    category: "DAILY SOAP SET",
+    size: "3 pcs",
+    description: "A simple soap set for bathroom shelves, guest rooms and daily cleansing.",
+    bestFor: "Guest rooms / Daily cleansing / Small gifts",
+    ctaLabel: "Buy on Shopee",
+    chips: ["3-piece set", "Giftable", "Ships from Korea"],
+    image: "/images/cleansing-water.png",
+    alt: "hondit three-piece bar soap set.",
+    href: links.shopeeStore,
+    listPrice: 54.41,
+    salePrice: 38.09,
+    eventName: "shopee_bar_soap_set_3_click",
+  },
+];
+
+export const retailProducts: Product[] = [...diffuserProducts.slice().reverse(), ...cleansingProducts, ...setProducts];
 
 export const guideCards = [
   {

@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FAQAccordion } from "../components/FAQAccordion";
 import { ProductCard } from "../components/ProductCard";
-import { cleansingProducts, diffuserProducts, ritualCards, trustItems } from "../data/siteData";
-import { trackJejuPreview, trackRitualSelect } from "../lib/analytics";
+import { cleansingProducts, diffuserProducts, links, retailProducts, ritualCards, trustItems } from "../data/siteData";
+import { trackEvent, trackJejuPreview, trackRitualSelect, trackStoreClick } from "../lib/analytics";
 import { About } from "../sections/About";
 import { Footer } from "../sections/Footer";
 
@@ -27,13 +27,26 @@ export function HomePage() {
               A considered collection of Korean cleansing and home fragrance, selected for calm everyday moments in Singapore.
             </p>
             <div className="commerce-hero__actions">
-              <a className="button button--primary" href="#cleansing">
+              <a className="button button--primary" href="#retail-shop">
                 Shop the collection
               </a>
-              <Link className="button button--ghost" to="/jeju" onClick={() => trackJejuPreview("hero")}>
-                Discover Our Jeju
+              <Link className="button button--ghost" to="/bulk-orders">
+                Order by pack
               </Link>
             </div>
+            <div className="hero-purchase-routes" aria-label="Choose shopping route">
+              <a href={links.shopeeStore} target="_blank" rel="noreferrer" onClick={() => trackStoreClick("hero_personal")}>
+                <span>For personal use</span>
+                <strong>Shop on Shopee</strong>
+                <em>Single items, ships from Korea</em>
+              </a>
+              <Link to="/bulk-orders" onClick={() => trackEvent("view_bulk_list", { button_location: "hero_bulk_card" })}>
+                <span>For bulk / resellers</span>
+                <strong>Order by pack</strong>
+                <em>Bulk quantities, free Singapore EMS, delivered within Singapore</em>
+              </Link>
+            </div>
+            <Link className="hero-quote-link" to="/contact">Need a custom quantity? Request a quote</Link>
             <div className="hero-categories" aria-label="Product categories">
               <a href="#cleansing">
                 <span>SKIN</span>
@@ -43,6 +56,26 @@ export function HomePage() {
                 <span>SPACE</span>
                 Volcanic stone scent
               </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="retail-shop section-shell" id="retail-shop">
+          <div className="section-inner section-inner--wide">
+            <div className="section-heading">
+              <p>SHOP ON SHOPEE SG</p>
+              <h2>
+                Retail prices made
+                <span>easy to compare.</span>
+              </h2>
+              <p className="section-copy">
+                Every retail product shows the normal price, sale price and current Shopee discount clearly before you leave the site.
+              </p>
+            </div>
+            <div className="product-grid product-grid--three">
+              {retailProducts.map((product, index) => (
+                <ProductCard key={product.id} product={product} index={index} tone={product.category?.includes("DIFFUSER") ? "sand" : "water"} location="retail_shop" />
+              ))}
             </div>
           </div>
         </section>

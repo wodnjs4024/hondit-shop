@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { bulkProducts, formatSgd, type BulkCategory, type BulkProduct } from "../data/bulkProducts";
+import { BULK_QTY_STEP, bulkProducts, formatSgd, getBulkMoq, getBulkTotal, getStockStatus, type BulkCategory, type BulkProduct } from "../data/bulkProducts";
 import { fetchBulkProducts } from "../lib/bulkApi";
 import { addToCart } from "../lib/cart";
 
@@ -35,13 +35,13 @@ export function BulkOrdersPage() {
             <p className="eyebrow">BULK ORDERS</p>
             <h1>Direct orders for selected hondit products.</h1>
             <p>
-              All listed prices include Singapore EMS shipping. Available to individual, group and business buyers.
+              Bulk prices are lower because they exclude the marketplace fees applied on Shopee. Ordering directly here passes those savings on to you.
             </p>
           </div>
           <aside className="bulk-note">
             <span>Singapore delivery only</span>
-            <strong>Pack-based ordering</strong>
-            <p>Products are ordered by pack quantity so totals remain clear before payment.</p>
+            <strong>Free Singapore EMS shipping</strong>
+            <p>Shipping is included in the displayed bulk price. No separate shipping fee is added at checkout.</p>
           </aside>
         </div>
       </section>
@@ -71,6 +71,7 @@ export function BulkOrdersPage() {
                   <p className="bulk-card__category">{product.category}</p>
                   <h2>{product.name}</h2>
                   <p>{product.shortDescription}</p>
+                  <p className={`stock-pill stock-pill--${getStockStatus(product).toLowerCase().replaceAll(" ", "-")}`}>{getStockStatus(product)}</p>
                   <dl className="bulk-price-list">
                     <div>
                       <dt>Volume</dt>
@@ -81,18 +82,18 @@ export function BulkOrdersPage() {
                       <dd>{formatSgd(product.unitPriceSgd)}</dd>
                     </div>
                     <div>
-                      <dt>1 pack</dt>
-                      <dd>{product.packQuantity} units</dd>
+                      <dt>Minimum</dt>
+                      <dd>{getBulkMoq(product)} units</dd>
                     </div>
                     <div>
-                      <dt>Pack total</dt>
-                      <dd>{formatSgd(product.packPriceSgd)}</dd>
+                      <dt>MOQ total</dt>
+                      <dd>{formatSgd(getBulkTotal(product, getBulkMoq(product)))}</dd>
                     </div>
                   </dl>
-                  <p className="shipping-pill">Singapore EMS shipping included</p>
+                  <p className="shipping-pill">Minimum {getBulkMoq(product)} units. Increase in steps of {BULK_QTY_STEP}. Free Singapore EMS shipping included.</p>
                   <div className="bulk-card__actions">
-                    <button className="button button--primary" type="button" onClick={() => addToCart(product.slug, 1)}>
-                      Add 1 pack to cart
+                    <button className="button button--primary" type="button" onClick={() => addToCart(product.slug, getBulkMoq(product))} disabled={getStockStatus(product) === "Sold out"}>
+                      Add MOQ to cart
                     </button>
                     <Link className="button button--ghost" to={`/bulk-orders/${product.slug}`}>
                       View details

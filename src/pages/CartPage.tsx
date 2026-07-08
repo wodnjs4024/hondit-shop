@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { bulkProducts, formatSgd, type BulkProduct } from "../data/bulkProducts";
+import { BULK_QTY_STEP, bulkProducts, formatSgd, normalizeBulkQuantity, type BulkProduct } from "../data/bulkProducts";
 import { fetchBulkProducts } from "../lib/bulkApi";
 import { getCartLines, getCartSummary, readCart, removeCartItem, setCartItem, type CartItem } from "../lib/cart";
 
@@ -46,17 +46,17 @@ export function CartPage() {
                     <img src={line.product.imageUrl} alt={line.product.name} />
                     <div>
                       <h2>{line.product.name}</h2>
-                      <p>{line.product.volumeLabel} · 1 pack = {line.product.packQuantity} units</p>
-                      <p>{formatSgd(line.product.unitPriceSgd)} per unit · {formatSgd(line.product.packPriceSgd)} per pack</p>
+                      <p>{line.product.volumeLabel} · minimum {line.product.packQuantity} units · +{BULK_QTY_STEP} units</p>
+                      <p>{formatSgd(line.product.unitPriceSgd)} per unit · Singapore EMS included</p>
                     </div>
                     <div className="pack-stepper">
-                      <span>Packs</span>
+                      <span>Units</span>
                       <div>
-                        <button type="button" onClick={() => updatePackCount(line.product.slug, line.packCount - 1)}>-</button>
+                        <button type="button" onClick={() => updatePackCount(line.product.slug, normalizeBulkQuantity(line.product, line.packCount - BULK_QTY_STEP))}>-</button>
                         <strong>{line.packCount}</strong>
-                        <button type="button" onClick={() => updatePackCount(line.product.slug, line.packCount + 1)}>+</button>
+                        <button type="button" onClick={() => updatePackCount(line.product.slug, normalizeBulkQuantity(line.product, line.packCount + BULK_QTY_STEP))}>+</button>
                       </div>
-                      <em>{line.totalUnits} units</em>
+                      <em>Total units</em>
                     </div>
                     <strong>{formatSgd(line.lineTotalSgd)}</strong>
                     <button type="button" onClick={() => { removeCartItem(line.product.slug); sync(); }}>Remove</button>
@@ -67,10 +67,10 @@ export function CartPage() {
               <aside className="order-summary">
                 <h2>Order Summary</h2>
                 <dl>
-                  <div><dt>Total packs</dt><dd>{summary.totalPacks}</dd></div>
+                  <div><dt>Order lines</dt><dd>{lines.length}</dd></div>
                   <div><dt>Total units</dt><dd>{summary.totalUnits}</dd></div>
                   <div><dt>Subtotal</dt><dd>{formatSgd(summary.subtotalSgd)}</dd></div>
-                  <div><dt>Shipping</dt><dd>Included</dd></div>
+                  <div><dt>Shipping</dt><dd>Free Singapore EMS included</dd></div>
                   <div><dt>Total in SGD</dt><dd>{formatSgd(summary.totalSgd)}</dd></div>
                 </dl>
                 <Link className="button button--primary" to="/checkout">Proceed to Checkout</Link>

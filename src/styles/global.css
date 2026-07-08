@@ -358,6 +358,138 @@ body::before {
   min-width: min(100%, 190px);
 }
 
+.hero-purchase-routes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: min(100%, 620px);
+  margin: 22px auto 0;
+}
+
+.hero-purchase-routes a {
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 18px;
+  padding: 16px;
+  color: var(--ink);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(248, 245, 239, 0.46));
+  box-shadow: 0 18px 48px rgba(23, 52, 91, 0.08);
+  text-align: left;
+  text-decoration: none;
+}
+
+.hero-purchase-routes span,
+.hero-purchase-routes em {
+  display: block;
+  color: rgba(44, 42, 40, 0.62);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-purchase-routes strong {
+  display: block;
+  margin: 6px 0 4px;
+  color: var(--deep-navy);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3.5vw, 1.78rem);
+  line-height: 1;
+}
+
+.hero-purchase-routes em {
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.hero-quote-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: var(--deep-navy);
+  font-size: 0.84rem;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.retail-shop {
+  padding: clamp(64px, 10vw, 112px) 0;
+  background:
+    radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.86), transparent 28%),
+    radial-gradient(circle at 88% 16%, rgba(215, 237, 247, 0.42), transparent 34%),
+    linear-gradient(180deg, #f7f2e8 0%, #fbf8f1 100%);
+}
+
+.contact-page {
+  background: #f7f2e8;
+}
+
+.contact-hero {
+  padding-top: clamp(120px, 18vw, 180px);
+  text-align: center;
+  background:
+    radial-gradient(circle at 16% 10%, rgba(255, 255, 255, 0.78), transparent 30%),
+    radial-gradient(circle at 82% 20%, rgba(215, 237, 247, 0.34), transparent 34%),
+    linear-gradient(180deg, #f7f2e8, #fbf8f1);
+}
+
+.contact-hero h1 {
+  margin: 0;
+  color: var(--deep-navy);
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7vw, 5.4rem);
+  line-height: 0.94;
+}
+
+.contact-hero p {
+  max-width: 620px;
+  margin: 20px auto 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.contact-form {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(23, 52, 91, 0.08);
+  border-radius: 20px;
+  padding: clamp(18px, 4vw, 30px);
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: var(--shadow-card);
+}
+
+.contact-form label {
+  display: grid;
+  gap: 7px;
+  color: rgba(44, 42, 40, 0.72);
+  font-size: 0.8rem;
+  font-weight: 850;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  min-height: 46px;
+  border: 1px solid rgba(23, 52, 91, 0.12);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--ink);
+  font: inherit;
+}
+
+.contact-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.contact-form__trap {
+  position: absolute;
+  left: -9999px;
+}
+
 .hero__discover {
   position: absolute;
   bottom: 22px;
@@ -443,6 +575,7 @@ body::before {
 }
 
 .product-card__image-link {
+  position: relative;
   display: flex;
   min-height: 44px;
   align-items: center;
@@ -451,6 +584,21 @@ body::before {
   aspect-ratio: 1 / 1.05;
   background: radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.18) 62%);
   text-decoration: none;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: #fffaf4;
+  background: linear-gradient(135deg, var(--hondit-orange), #a73d23);
+  box-shadow: 0 12px 28px rgba(194, 83, 47, 0.2);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
 }
 
 .product-card__image-link img {
@@ -510,6 +658,35 @@ body::before {
   color: var(--ink-soft);
   font-size: 0.9rem;
   line-height: 1.54;
+}
+
+.retail-price {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  align-items: baseline;
+  width: fit-content;
+}
+
+.retail-price__list {
+  color: rgba(44, 42, 40, 0.46);
+  font-size: 0.86rem;
+  font-weight: 750;
+  text-decoration: line-through;
+}
+
+.retail-price strong {
+  color: var(--hondit-orange);
+  font-size: clamp(1.22rem, 3vw, 1.52rem);
+  font-weight: 950;
+}
+
+.retail-price em {
+  grid-column: 1 / -1;
+  color: rgba(44, 42, 40, 0.68);
+  font-size: 0.76rem;
+  font-style: normal;
+  font-weight: 760;
 }
 
 .product-card__chips,
@@ -2185,6 +2362,39 @@ body::before {
   font-size: 0.62rem;
 }
 
+.stock-pill {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 30px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0 12px;
+  color: #367258;
+  background: rgba(54, 114, 88, 0.12);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stock-pill--low-stock {
+  color: #9a651e;
+  background: rgba(218, 157, 69, 0.16);
+}
+
+.stock-pill--sold-out,
+.stock-pill--restocking {
+  color: var(--terra);
+  background: rgba(194, 83, 47, 0.12);
+}
+
+.bulk-price-explainer {
+  border-left: 3px solid rgba(232, 74, 40, 0.42);
+  padding-left: 14px;
+  color: rgba(44, 42, 40, 0.76) !important;
+  font-size: 0.92rem;
+}
+
 .bulk-card__actions {
   display: flex;
   flex-wrap: wrap;
@@ -2275,6 +2485,25 @@ body::before {
   cursor: pointer;
   font-size: 1.15rem;
   font-weight: 900;
+}
+
+.pack-stepper input {
+  width: 86px;
+  min-height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(248, 245, 239, 0.88);
+  color: var(--deep-navy);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.pack-stepper button:disabled,
+.button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
 }
 
 .pack-stepper em {
@@ -2827,6 +3056,20 @@ body::before {
 }
 
 @media (min-width: 768px) {
+  .hero-purchase-routes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-form__wide,
+  .contact-form .button,
+  .contact-form .setup-warning {
+    grid-column: 1 / -1;
+  }
+
   .bulk-hero__grid,
   .bulk-teaser__grid {
     grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);

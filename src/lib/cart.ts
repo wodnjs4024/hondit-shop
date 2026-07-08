@@ -1,4 +1,4 @@
-import { bulkProducts, type BulkProduct } from "../data/bulkProducts";
+import { bulkProducts, getBulkTotal, normalizeBulkQuantity, type BulkProduct } from "../data/bulkProducts";
 
 export type CartItem = {
   slug: string;
@@ -16,7 +16,7 @@ const cartKey = "hondit_bulk_cart_v1";
 
 function clampPackCount(value: number) {
   if (!Number.isFinite(value)) return 1;
-  return Math.max(1, Math.min(99, Math.floor(value)));
+  return Math.max(1, Math.floor(value));
 }
 
 export function readCart(): CartItem[] {
@@ -71,12 +71,12 @@ export function getCartLines(items = readCart(), products = bulkProducts): CartL
     .map((item) => {
       const product = products.find((entry) => entry.slug === item.slug && entry.active);
       if (!product) return null;
-      const packCount = clampPackCount(item.packCount);
+      const packCount = normalizeBulkQuantity(product, item.packCount);
       return {
         product,
         packCount,
-        totalUnits: product.packQuantity * packCount,
-        lineTotalSgd: product.packPriceSgd * packCount,
+        totalUnits: packCount,
+        lineTotalSgd: getBulkTotal(product, packCount),
       };
     })
     .filter((line): line is CartLine => Boolean(line));

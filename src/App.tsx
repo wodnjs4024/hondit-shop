@@ -17,6 +17,7 @@ import { BulkOrdersPage } from "./pages/BulkOrdersPage";
 import { BulkProductPage } from "./pages/BulkProductPage";
 import { CartPage } from "./pages/CartPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
+import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
 import { JejuPage } from "./pages/JejuPage";
 import { OrderCompletePage } from "./pages/OrderCompletePage";
@@ -151,6 +152,7 @@ export default function App() {
         <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/order-complete/:orderNumber" element={<OrderCompletePage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminLayout />}>

@@ -10,12 +10,10 @@ type HeaderNavItem =
   | { label: string; to: string; href?: never };
 
 const navItems: HeaderNavItem[] = [
-  { label: "Shop", href: "/#cleansing" },
-  { label: "Find Yours", href: "/#ritual" },
-  { label: "Singapore Days", href: "/#singapore" },
-  { label: "Our Jeju", to: "/jeju" },
-  { label: "Bulk Orders", to: "/bulk-orders" },
+  { label: "Shop", href: "/#retail-shop" },
+  { label: "Bulk", to: "/bulk-orders" },
   { label: "About", href: "/#about" },
+  { label: "Contact", to: "/contact" },
 ];
 
 export function SiteHeader() {

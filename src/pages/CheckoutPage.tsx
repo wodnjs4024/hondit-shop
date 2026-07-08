@@ -190,13 +190,13 @@ export function CheckoutPage() {
                 {lines.map((line) => (
                   <div className="summary-line" key={line.product.slug}>
                     <span>{line.product.name} {line.product.volumeLabel}</span>
-                    <em>{line.packCount} packs · {line.totalUnits} units</em>
+                    <em>{line.totalUnits} units · Singapore EMS included</em>
                     <strong>{formatSgd(line.lineTotalSgd)}</strong>
                   </div>
                 ))}
                 <dl>
                   <div><dt>Subtotal</dt><dd>{formatSgd(summary.subtotalSgd)}</dd></div>
-                  <div><dt>Shipping</dt><dd>Included</dd></div>
+                  <div><dt>Shipping</dt><dd>Free Singapore EMS included</dd></div>
                   <div><dt>Final total</dt><dd>{formatSgd(summary.totalSgd)}</dd></div>
                   <div><dt>Currency</dt><dd>SGD</dd></div>
                 </dl>

@@ -108,15 +108,24 @@ export function calculateCart(cart, products) {
   const lines = cart.map((item) => {
     const product = products.find((entry) => entry.slug === item.slug && entry.active && entry.purchaseEnabled);
     if (!product) throw new Error(`Product is not available: ${item.slug}`);
-    const packCount = Math.max(1, Math.min(99, Math.floor(Number(item.packCount) || 1)));
+    const moq = Number(product.packQuantity || 1);
+    const step = 10;
+    const maxUnits = Number(product.inventoryPacks || 0) > 0 ? Number(product.inventoryPacks) * moq : 0;
+    const requested = Math.max(moq, Math.floor(Number(item.packCount) || moq));
+    let quantity = moq + Math.floor((requested - moq) / step) * step;
+    if (maxUnits > 0 && quantity > maxUnits) {
+      quantity = moq + Math.floor((maxUnits - moq) / step) * step;
+    }
+    if (maxUnits > 0 && maxUnits < moq) throw new Error(`Product is sold out: ${product.slug}`);
+    quantity = Math.max(moq, quantity);
     return {
       product,
-      packCount,
-      totalUnits: product.packQuantity * packCount,
-      lineTotalSgd: Number((product.packPriceSgd * packCount).toFixed(2)),
+      packCount: quantity,
+      totalUnits: quantity,
+      lineTotalSgd: Number((product.unitPriceSgd * quantity).toFixed(2)),
     };
   });
-  const totalPacks = lines.reduce((sum, line) => sum + line.packCount, 0);
+  const totalPacks = lines.reduce((sum, line) => sum + Math.ceil(line.totalUnits / Math.max(1, line.product.packQuantity)), 0);
   const totalUnits = lines.reduce((sum, line) => sum + line.totalUnits, 0);
   const totalSgd = Number(lines.reduce((sum, line) => sum + line.lineTotalSgd, 0).toFixed(2));
   return { lines, totalPacks, totalUnits, totalSgd };

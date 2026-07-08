@@ -21,6 +21,40 @@ export type BulkProduct = {
   usage: string[];
 };
 
+export const BULK_QTY_STEP = 10;
+
+export function getBulkMoq(product: BulkProduct) {
+  return product.packQuantity;
+}
+
+export function getBulkMaxUnits(product: BulkProduct) {
+  return product.inventoryPacks > 0 ? product.inventoryPacks * product.packQuantity : undefined;
+}
+
+export function normalizeBulkQuantity(product: BulkProduct, value: number) {
+  const moq = getBulkMoq(product);
+  const maxUnits = getBulkMaxUnits(product);
+  const raw = Number.isFinite(value) ? Math.floor(value) : moq;
+  let next = Math.max(moq, raw);
+  next = moq + Math.floor((next - moq) / BULK_QTY_STEP) * BULK_QTY_STEP;
+  if (maxUnits && next > maxUnits) {
+    next = moq + Math.floor((maxUnits - moq) / BULK_QTY_STEP) * BULK_QTY_STEP;
+  }
+  return Math.max(moq, next);
+}
+
+export function getBulkTotal(product: BulkProduct, quantity: number) {
+  return Number((product.unitPriceSgd * quantity).toFixed(2));
+}
+
+export function getStockStatus(product: BulkProduct) {
+  const maxUnits = getBulkMaxUnits(product);
+  const moq = getBulkMoq(product);
+  if (maxUnits !== undefined && maxUnits < moq) return "Sold out";
+  if (maxUnits !== undefined && maxUnits <= moq * 2) return "Low stock";
+  return "In stock";
+}
+
 export const bulkProducts: BulkProduct[] = [
   {
     id: "foam-oil",

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import type { Product } from "../data/siteData";
+import { DISCOUNT_LABEL, type Product } from "../data/siteData";
+import { formatSgd } from "../data/bulkProducts";
 import { trackProductClick } from "../lib/analytics";
 import { ExternalLink } from "./ExternalLink";
 
@@ -11,6 +12,7 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product, index, tone = "water", location }: ProductCardProps) {
+  const savings = Math.max(0, product.listPrice - product.salePrice);
   const track = (clickTarget: "image" | "button") => {
     trackProductClick({
       eventName: product.eventName,
@@ -36,6 +38,7 @@ export function ProductCard({ product, index, tone = "water", location }: Produc
         aria-label={`View ${product.name} on Shopee Singapore`}
         onClick={() => track("image")}
       >
+        <span className="discount-badge">{DISCOUNT_LABEL}</span>
         <img
           src={product.image}
           alt={product.alt}
@@ -52,6 +55,11 @@ export function ProductCard({ product, index, tone = "water", location }: Produc
           {product.size && <span>{product.size}</span>}
         </div>
         <p className="product-card__description">{product.description}</p>
+        <div className="retail-price" aria-label={`${product.name} retail price`}>
+          <span className="retail-price__list">{formatSgd(product.listPrice)}</span>
+          <strong>{formatSgd(product.salePrice)}</strong>
+          <em>You save {formatSgd(savings)}</em>
+        </div>
         {product.bestFor && (
           <p className="product-card__best">
             <span>BEST FOR</span>
@@ -64,7 +72,7 @@ export function ProductCard({ product, index, tone = "water", location }: Produc
           ))}
         </div>
         <ExternalLink className="button button--quiet" href={product.href} onClick={() => track("button")}>
-          {product.ctaLabel || "View on Shopee SG"}
+          {product.ctaLabel || "Buy on Shopee"}
         </ExternalLink>
       </div>
     </motion.article>
