@@ -38,8 +38,6 @@ type OrderForm = {
   city: string;
   postalCode: string;
   customerNote: string;
-  gstRequired: boolean;
-  gstNumber: string;
   reviewed: boolean;
 };
 
@@ -56,8 +54,6 @@ const initialForm: OrderForm = {
   city: "",
   postalCode: "",
   customerNote: "",
-  gstRequired: false,
-  gstNumber: "",
   reviewed: false,
 };
 
@@ -145,15 +141,7 @@ export function BulkProductPage() {
     addressLine2: currentForm.addressLine2.trim() || undefined,
     city: currentForm.city.trim(),
     postalCode: currentForm.postalCode.trim(),
-    customerNote:
-      [
-        currentForm.customerNote.trim(),
-        currentForm.gstRequired
-          ? `Company invoice requested. Business/GST/UEN number: ${currentForm.gstNumber.trim() || "not provided"}`
-          : "",
-      ]
-        .filter(Boolean)
-        .join("\n") || undefined,
+    customerNote: currentForm.customerNote.trim() || undefined,
     attribution: readAttribution(),
     cart: [{ slug: currentProduct.slug, packCount: currentQuantity }],
   });
@@ -310,18 +298,13 @@ export function BulkProductPage() {
                 <label>
                   Postal code *<input value={form.postalCode} onChange={(event) => update("postalCode", event.target.value)} />
                 </label>
-                <label className="checkout-confirm checkout-form__wide">
-                  <input type="checkbox" checked={form.gstRequired} onChange={(event) => update("gstRequired", event.target.checked)} />
-                  I need a company invoice / business receipt.
-                </label>
-                {form.gstRequired && (
-                  <label className="checkout-form__wide">
-                    Business registration number, UEN or GST number
-                    <input value={form.gstNumber} onChange={(event) => update("gstNumber", event.target.value)} />
-                  </label>
-                )}
                 <label className="checkout-form__wide">
-                  Order note<textarea value={form.customerNote} onChange={(event) => update("customerNote", event.target.value)} />
+                  Order note
+                  <textarea
+                    value={form.customerNote}
+                    onChange={(event) => update("customerNote", event.target.value)}
+                    placeholder="For receipt, company delivery name or special handling requests, write here."
+                  />
                 </label>
                 <label className="checkout-confirm checkout-form__wide">
                   <input type="checkbox" checked={form.reviewed} onChange={(event) => update("reviewed", event.target.checked)} />
