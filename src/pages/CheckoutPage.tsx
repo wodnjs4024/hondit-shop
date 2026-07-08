@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { bulkProducts, formatSgd } from "../data/bulkProducts";
-import { capturePayPalOrder, createPayPalOrder, type CheckoutPayload } from "../lib/bulkApi";
+import { bulkProducts, formatSgd, type BulkProduct } from "../data/bulkProducts";
+import { capturePayPalOrder, createPayPalOrder, fetchBulkProducts, type CheckoutPayload } from "../lib/bulkApi";
 import { clearCart, getCartLines, getCartSummary, readCart } from "../lib/cart";
 
 declare global {
@@ -66,9 +66,14 @@ export function CheckoutPage() {
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState("");
   const [ready, setReady] = useState(false);
+  const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
   const createdOrderNumber = useRef("");
 
-  const lines = useMemo(() => getCartLines(readCart(), bulkProducts), []);
+  useEffect(() => {
+    fetchBulkProducts().then(setProducts);
+  }, []);
+
+  const lines = useMemo(() => getCartLines(readCart(), products), [products]);
   const summary = getCartSummary(lines);
 
   const payload = (): CheckoutPayload => ({

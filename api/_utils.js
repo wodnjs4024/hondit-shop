@@ -87,6 +87,8 @@ export function toDbProduct(product) {
     active: product.active,
     purchase_enabled: product.purchaseEnabled,
     sort_order: product.sortOrder,
+    features: Array.isArray(product.features) ? product.features : [],
+    usage: Array.isArray(product.usage) ? product.usage : [],
     updated_at: new Date().toISOString(),
   };
 }

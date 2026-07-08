@@ -1,19 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { bulkProducts, formatSgd } from "../data/bulkProducts";
+import { bulkProducts, formatSgd, type BulkProduct } from "../data/bulkProducts";
+import { fetchBulkProducts } from "../lib/bulkApi";
 import { getCartLines, getCartSummary, readCart, removeCartItem, setCartItem, type CartItem } from "../lib/cart";
 
 export function CartPage() {
   const [items, setItems] = useState<CartItem[]>(readCart());
+  const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
 
   const sync = () => setItems(readCart());
 
   useEffect(() => {
+    fetchBulkProducts().then(setProducts);
     window.addEventListener("hondit-cart-change", sync);
     return () => window.removeEventListener("hondit-cart-change", sync);
   }, []);
 
-  const lines = useMemo(() => getCartLines(items, bulkProducts), [items]);
+  const lines = useMemo(() => getCartLines(items, products), [items, products]);
   const summary = getCartSummary(lines);
 
   const updatePackCount = (slug: string, next: number) => {

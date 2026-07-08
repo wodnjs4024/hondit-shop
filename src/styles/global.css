@@ -2762,6 +2762,63 @@ body::before {
   background: rgba(234, 246, 252, 0.76);
 }
 
+.admin-product-row select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(23, 52, 91, 0.14);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--ink);
+  font: inherit;
+}
+
+.admin-product-row__head,
+.admin-toolbar,
+.admin-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-toolbar {
+  margin: 0 0 18px;
+  justify-content: flex-start;
+}
+
+.admin-row-actions {
+  justify-content: flex-start;
+}
+
+.admin-product-status {
+  display: inline-flex;
+  margin: 0 0 6px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(194, 83, 47, 0.12);
+  color: var(--terra);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-product-status.is-live {
+  background: rgba(54, 114, 88, 0.12);
+  color: #367258;
+}
+
+.admin-inline-grid--product-main,
+.admin-inline-grid--textarea {
+  margin-top: 12px;
+}
+
+.admin-inline-grid--textarea {
+  grid-template-columns: 1fr;
+}
+
 .admin-switches {
   display: flex;
   flex-wrap: wrap;
@@ -2801,6 +2858,10 @@ body::before {
 
   .admin-inline-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .admin-inline-grid--textarea {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
