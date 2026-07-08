@@ -116,44 +116,7 @@ export const diffuserProducts: Product[] = [
   },
 ];
 
-export const setProducts: Product[] = [
-  {
-    id: "soap-toothpaste-set",
-    name: "Soap & Toothpaste Set",
-    displayName: "Daily Care Soap & Toothpaste Set",
-    category: "DAILY CARE SET",
-    size: "Set",
-    description: "A practical everyday care set for simple gifting and daily use.",
-    bestFor: "Gifting / Daily care / Travel-ready routines",
-    ctaLabel: "Buy on Shopee",
-    chips: ["Daily care", "Giftable", "Ships from Korea"],
-    image: "/images/foaming-cleanser.png",
-    alt: "hondit soap and toothpaste set for daily care.",
-    href: links.shopeeStore,
-    listPrice: 43.55,
-    salePrice: 30.49,
-    eventName: "shopee_soap_toothpaste_set_click",
-  },
-  {
-    id: "bar-soap-set-3",
-    name: "Bar Soap Set of 3",
-    displayName: "Bar Soap Set of 3",
-    category: "DAILY SOAP SET",
-    size: "3 pcs",
-    description: "A simple soap set for bathroom shelves, guest rooms and daily cleansing.",
-    bestFor: "Guest rooms / Daily cleansing / Small gifts",
-    ctaLabel: "Buy on Shopee",
-    chips: ["3-piece set", "Giftable", "Ships from Korea"],
-    image: "/images/cleansing-water.png",
-    alt: "hondit three-piece bar soap set.",
-    href: links.shopeeStore,
-    listPrice: 54.41,
-    salePrice: 38.09,
-    eventName: "shopee_bar_soap_set_3_click",
-  },
-];
-
-export const retailProducts: Product[] = [...diffuserProducts.slice().reverse(), ...cleansingProducts, ...setProducts];
+export const retailProducts: Product[] = [...diffuserProducts.slice().reverse(), ...cleansingProducts];
 
 export const guideCards = [
   {
