@@ -1,5 +1,5 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+﻿import { FormEvent, useEffect, useMemo, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { formatSgd } from "../data/bulkProducts";
 import { adminFetch } from "../lib/bulkApi";
 import { AdminNotice } from "./AdminDashboardPage";
@@ -102,6 +102,14 @@ export function AdminOrderDetailPage() {
 
   const refundPayPal = async () => {
     setActionError("");
+    if (form.payment_status !== "completed") {
+      setActionError("Only completed PayPal payments can be refunded.");
+      return;
+    }
+    if (!detail?.order.paypal_capture_id) {
+      setActionError("This order has no PayPal capture ID. It was not paid, so there is nothing to refund in PayPal.");
+      return;
+    }
     if (!window.confirm("Refund this order in PayPal? This should only be used when you really want to return the payment.")) return;
     const reason = form.refund_reason || form.internal_note || "Admin full refund";
     try {
@@ -116,6 +124,14 @@ export function AdminOrderDetailPage() {
   };
 
   const quickUpdate = async (order_status: string, payment_status = form.payment_status) => {
+    const paid = form.payment_status === "completed";
+    if (["paid", "address_check", "preparing", "packed", "shipped", "delivered"].includes(order_status) && !paid) {
+      setActionError("This checkout has not been paid. Do not prepare, ship or mark it as paid.");
+      return;
+    }
+    if (order_status === "cancelled" && !window.confirm("Cancel this unpaid checkout attempt? This will keep it out of active order operations.")) return;
+    if (order_status === "refunded" && !window.confirm("Mark this order as refunded only if the refund was actually completed outside this screen.")) return;
+    setActionError("");
     await adminFetch(`/api/admin/orders/${orderId}`, {
       method: "PATCH",
       body: JSON.stringify({
@@ -132,6 +148,16 @@ export function AdminOrderDetailPage() {
   if (!detail) return <AdminNotice message="Loading order..." />;
 
   const { order, items, paymentEvents, history } = detail;
+  const paymentStatus = String(order.payment_status || "");
+  const orderStatus = String(order.order_status || "");
+  const isPaid = paymentStatus === "completed";
+  const isPending = paymentStatus === "pending";
+  const isRefunded = paymentStatus === "refunded" || orderStatus === "refunded";
+  const isCancelled = paymentStatus === "cancelled" || orderStatus === "cancelled";
+  const hasPayPalCapture = Boolean(order.paypal_capture_id);
+  const canFulfill = isPaid && !isRefunded && !isCancelled;
+  const canCancelUnpaid = isPending && !isCancelled;
+  const canRefundInPayPal = isPaid && hasPayPalCapture && !isRefunded;
 
   const exportOrderCsv = () => {
     downloadCsv(`hondit-order-${order.order_number}.csv`, evidence.replaceAll("\n", "\r\n"));
@@ -142,24 +168,39 @@ export function AdminOrderDetailPage() {
       <div className="admin-heading">
         <p className="eyebrow">ORDER DETAIL</p>
         <h1>{order.order_number}</h1>
+        <div className="admin-page-actions">
+          <Link className="button button--ghost" to="/admin">Admin home</Link>
+          <Link className="button button--ghost" to="/admin/orders">All orders</Link>
+        </div>
       </div>
       <section className="admin-panel admin-action-panel">
         <div>
           <p className="eyebrow">OPERATIONS</p>
           <h2>Order control center</h2>
-          <p className="admin-muted">Use these buttons for common shop operations. PayPal refunds still need to be issued in PayPal, then marked here for records.</p>
+          {isPending ? (
+            <p className="admin-muted">This customer opened PayPal checkout but did not complete payment. Do not prepare or ship this order.</p>
+          ) : (
+            <p className="admin-muted">Use these buttons only after PayPal payment is completed. Refunds require a PayPal capture ID.</p>
+          )}
         </div>
         <div className="admin-action-grid">
-          <button className="button button--ghost" type="button" onClick={() => quickUpdate("paid", "completed")}>Mark paid</button>
-          <button className="button button--ghost" type="button" onClick={() => quickUpdate("address_check", "completed")}>Address check</button>
-          <button className="button button--ghost" type="button" onClick={() => quickUpdate("preparing", "completed")}>Start preparing</button>
-          <button className="button button--ghost" type="button" onClick={() => quickUpdate("packed", "completed")}>Mark packed</button>
-          <button className="button button--ghost" type="button" onClick={() => quickUpdate("shipped", "completed")}>Mark shipped</button>
-          <button className="button button--ghost" type="button" onClick={() => quickUpdate("delivered", "completed")}>Mark delivered</button>
-          <button className="button button--danger" type="button" onClick={() => quickUpdate("cancelled", "cancelled")}>Cancel order</button>
-          <button className="button button--danger" type="button" onClick={() => quickUpdate("refunded", "refunded")}>Mark refunded</button>
-          <button className="button button--danger" type="button" onClick={refundPayPal}>Refund in PayPal</button>
+          {canFulfill && (
+            <>
+              <button className="button button--ghost" type="button" onClick={() => quickUpdate("address_check", "completed")}>Address check</button>
+              <button className="button button--ghost" type="button" onClick={() => quickUpdate("preparing", "completed")}>Start preparing</button>
+              <button className="button button--ghost" type="button" onClick={() => quickUpdate("packed", "completed")}>Mark packed</button>
+              <button className="button button--ghost" type="button" onClick={() => quickUpdate("shipped", "completed")}>Mark shipped</button>
+              <button className="button button--ghost" type="button" onClick={() => quickUpdate("delivered", "completed")}>Mark delivered</button>
+            </>
+          )}
+          {canCancelUnpaid && (
+            <button className="button button--danger" type="button" onClick={() => quickUpdate("cancelled", "cancelled")}>Cancel unpaid attempt</button>
+          )}
+          {canRefundInPayPal && <button className="button button--danger" type="button" onClick={refundPayPal}>Refund in PayPal</button>}
         </div>
+        {!canFulfill && !canCancelUnpaid && !canRefundInPayPal && (
+          <p className="admin-muted">No direct action is available for this closed or unpaid record.</p>
+        )}
         {actionError && <p className="form-error">{actionError}</p>}
       </section>
       <div className="admin-detail-grid">
@@ -240,10 +281,21 @@ export function AdminOrderDetailPage() {
 
       <section className="admin-panel">
         <h2>Payment events</h2>
-        {paymentEvents.map((event) => <p key={String(event.id)}>{event.event_type} · {event.paypal_capture_id} · verified: {String(event.verified)}</p>)}
+        {paymentEvents.length ? (
+          paymentEvents.map((event) => (
+            <p key={String(event.id)}>{event.event_type} / {event.paypal_capture_id || "-"} / verified: {String(event.verified)}</p>
+          ))
+        ) : (
+          <p>No payment events yet.</p>
+        )}
         <h2>Status history</h2>
-        {history.map((entry) => <p key={String(entry.id)}>{entry.created_at}: {entry.previous_status} → {entry.new_status} {entry.note}</p>)}
+        {history.length ? (
+          history.map((entry) => <p key={String(entry.id)}>{entry.created_at}: {entry.previous_status || "-"} -&gt; {entry.new_status} {entry.note}</p>)
+        ) : (
+          <p>No status changes yet.</p>
+        )}
       </section>
     </>
   );
 }
+
