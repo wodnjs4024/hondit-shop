@@ -22,6 +22,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const dark = location.pathname === "/jeju";
+  const bulk = location.pathname.startsWith("/bulk-orders") || location.pathname === "/cart" || location.pathname === "/checkout";
 
   useEffect(() => {
     setOpen(false);
@@ -48,6 +49,7 @@ export function SiteHeader() {
           <NavLink
             key={item.label}
             to={item.to}
+            className={({ isActive }) => `${item.to === "/bulk-orders" ? "nav-link--bulk" : ""} ${isActive ? "is-active" : ""}`.trim()}
             onClick={() => item.to === "/jeju" && trackJejuClick("header")}
           >
             {item.label}
@@ -65,7 +67,7 @@ export function SiteHeader() {
   );
 
   return (
-    <header className={`site-header ${dark ? "site-header--dark" : ""}`}>
+    <header className={`site-header ${dark ? "site-header--dark" : ""} ${bulk ? "site-header--bulk" : ""}`}>
       <div className="site-header__inner">
         <Link className="site-header__logo" to="/" aria-label="Go to hondit home">
           <BrandLogo />

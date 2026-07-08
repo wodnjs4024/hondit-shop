@@ -26,12 +26,17 @@ export default async function handler(req, res) {
       const body = await readBody(req);
       const payload = {
         order_status: body.order_status,
+        payment_status: body.payment_status || undefined,
         tracking_carrier: body.tracking_carrier || null,
         tracking_number: body.tracking_number || null,
         shipped_at: body.shipped_at || null,
         internal_note: body.internal_note || null,
         updated_at: new Date().toISOString(),
       };
+
+      if (payload.order_status === "cancelled" && !body.payment_status) payload.payment_status = "cancelled";
+      if (payload.order_status === "refunded" && !body.payment_status) payload.payment_status = "refunded";
+      if (payload.order_status === "delivered" && !payload.shipped_at) payload.shipped_at = new Date().toISOString();
 
       const saved = await supabase(`/orders?id=eq.${encodeURIComponent(orderId)}`, {
         method: "PATCH",

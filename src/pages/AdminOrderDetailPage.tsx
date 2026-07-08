@@ -18,7 +18,7 @@ export function AdminOrderDetailPage() {
   const { orderId = "" } = useParams();
   const [detail, setDetail] = useState<AdminOrderDetail | null>(null);
   const [error, setError] = useState("");
-  const [form, setForm] = useState({ order_status: "paid", tracking_carrier: "", tracking_number: "", shipped_at: "", internal_note: "" });
+  const [form, setForm] = useState({ order_status: "paid", payment_status: "pending", tracking_carrier: "", tracking_number: "", shipped_at: "", internal_note: "" });
 
   const load = () => {
     adminFetch<AdminOrderDetail>(`/api/admin/orders/${orderId}`)
@@ -26,6 +26,7 @@ export function AdminOrderDetailPage() {
         setDetail(data);
         setForm({
           order_status: String(data.order.order_status || "paid"),
+          payment_status: String(data.order.payment_status || "pending"),
           tracking_carrier: String(data.order.tracking_carrier || ""),
           tracking_number: String(data.order.tracking_number || ""),
           shipped_at: String(data.order.shipped_at || "").slice(0, 10),
@@ -69,6 +70,19 @@ export function AdminOrderDetailPage() {
     load();
   };
 
+  const quickUpdate = async (order_status: string, payment_status = form.payment_status) => {
+    await adminFetch(`/api/admin/orders/${orderId}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        ...form,
+        order_status,
+        payment_status,
+        internal_note: form.internal_note || `Admin quick action: ${order_status}`,
+      }),
+    });
+    load();
+  };
+
   if (error) return <AdminNotice message={error} />;
   if (!detail) return <AdminNotice message="Loading order..." />;
 
@@ -84,6 +98,22 @@ export function AdminOrderDetailPage() {
         <p className="eyebrow">ORDER DETAIL</p>
         <h1>{order.order_number}</h1>
       </div>
+      <section className="admin-panel admin-action-panel">
+        <div>
+          <p className="eyebrow">OPERATIONS</p>
+          <h2>Order control center</h2>
+          <p className="admin-muted">Use these buttons for common shop operations. PayPal refunds still need to be issued in PayPal, then marked here for records.</p>
+        </div>
+        <div className="admin-action-grid">
+          <button className="button button--ghost" type="button" onClick={() => quickUpdate("paid", "completed")}>Mark paid</button>
+          <button className="button button--ghost" type="button" onClick={() => quickUpdate("preparing", "completed")}>Start preparing</button>
+          <button className="button button--ghost" type="button" onClick={() => quickUpdate("packed", "completed")}>Mark packed</button>
+          <button className="button button--ghost" type="button" onClick={() => quickUpdate("shipped", "completed")}>Mark shipped</button>
+          <button className="button button--ghost" type="button" onClick={() => quickUpdate("delivered", "completed")}>Mark delivered</button>
+          <button className="button button--danger" type="button" onClick={() => quickUpdate("cancelled", "cancelled")}>Cancel order</button>
+          <button className="button button--danger" type="button" onClick={() => quickUpdate("refunded", "refunded")}>Mark refunded</button>
+        </div>
+      </section>
       <div className="admin-detail-grid">
         <section className="admin-panel">
           <h2>Customer and shipping</h2>
@@ -138,6 +168,9 @@ export function AdminOrderDetailPage() {
       <form className="admin-panel admin-form" onSubmit={submit}>
         <h2>Shipping and status</h2>
         <label>Order status<select value={form.order_status} onChange={(event) => setForm({ ...form, order_status: event.target.value })}>{orderStatuses.map((status) => <option key={status}>{status}</option>)}</select></label>
+        <label>Payment status<select value={form.payment_status} onChange={(event) => setForm({ ...form, payment_status: event.target.value })}>
+          {["pending", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"].map((status) => <option key={status}>{status}</option>)}
+        </select></label>
         <label>Tracking carrier<input value={form.tracking_carrier} onChange={(event) => setForm({ ...form, tracking_carrier: event.target.value })} /></label>
         <label>Tracking number<input value={form.tracking_number} onChange={(event) => setForm({ ...form, tracking_number: event.target.value })} /></label>
         <label>Shipped date<input type="date" value={form.shipped_at} onChange={(event) => setForm({ ...form, shipped_at: event.target.value })} /></label>
