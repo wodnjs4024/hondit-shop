@@ -3,22 +3,25 @@ import { Link } from "react-router-dom";
 import { adminFetch } from "../lib/bulkApi";
 import { formatSgd } from "../data/bulkProducts";
 
+type DashboardOrder = {
+  id: string;
+  order_number: string;
+  customer_name: string;
+  order_type: string;
+  total_units: number;
+  total_sgd: number;
+  payment_status: string;
+  order_status: string;
+  created_at: string;
+};
+
 type Summary = {
   totals: Record<string, number>;
   popularProducts?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
   countries?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
   sources?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
-  recentOrders: Array<{
-    id: string;
-    order_number: string;
-    customer_name: string;
-    order_type: string;
-    total_units: number;
-    total_sgd: number;
-    payment_status: string;
-    order_status: string;
-    created_at: string;
-  }>;
+  recentOrders: DashboardOrder[];
+  checkoutAttempts?: DashboardOrder[];
 };
 
 export function AdminDashboardPage() {
@@ -45,8 +48,8 @@ export function AdminDashboardPage() {
 
   const totals = summary?.totals || {};
   const cards = [
-    ["Total orders", totals.totalOrders || 0],
-    ["Pending payment", totals.pendingPayment || 0],
+    ["Paid orders", totals.totalOrders || 0],
+    ["Unpaid checkout attempts", totals.checkoutAttempts || 0],
     ["Paid", totals.paid || 0],
     ["Preparing", totals.preparing || 0],
     ["Packed", totals.packed || 0],
@@ -76,8 +79,16 @@ export function AdminDashboardPage() {
         ))}
       </div>
       <section className="admin-panel">
-        <h2>Recent orders</h2>
+        <h2>Recent paid orders</h2>
+        <p className="admin-muted">Only completed PayPal payments appear here and count toward sales.</p>
         <AdminOrderTable orders={summary?.recentOrders || []} />
+      </section>
+      <section className="admin-panel">
+        <h2>Unpaid checkout attempts</h2>
+        <p className="admin-muted">
+          These customers opened PayPal checkout but did not complete payment. Do not prepare or ship these orders.
+        </p>
+        <AdminOrderTable orders={summary?.checkoutAttempts || []} />
       </section>
       <div className="admin-detail-grid">
         <AdminInsightTable title="Popular products" rows={summary?.popularProducts || []} valueLabel="Units" />
@@ -97,7 +108,7 @@ export function AdminNotice({ message }: { message: string }) {
   );
 }
 
-export function AdminOrderTable({ orders }: { orders: Summary["recentOrders"] }) {
+export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
   if (!orders.length) return <p>No orders yet.</p>;
 
   return (

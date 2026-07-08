@@ -78,14 +78,18 @@ async function summary(req, res) {
   if (req.method !== "GET") return json(res, 405, { error: "Method not allowed" });
   await verifyAdmin(req);
   const orders = await supabase("/orders?select=*&order=created_at.desc&limit=200");
-  const items = await supabase("/order_items?select=product_slug,product_name_snapshot,total_units,line_total_sgd&order=created_at.desc&limit=500");
+  const items = await supabase("/order_items?select=order_id,product_slug,product_name_snapshot,total_units,line_total_sgd&order=created_at.desc&limit=500");
   const paidOrders = orders.filter((order) => order.payment_status === "completed");
+  const checkoutAttempts = orders.filter((order) => order.payment_status !== "completed");
+  const paidOrderIds = new Set(paidOrders.map((order) => order.id));
+  const paidItems = items.filter((item) => paidOrderIds.has(item.order_id));
   const revenueSgd = paidOrders.reduce((sum, order) => sum + Number(order.total_sgd || 0), 0);
 
   return json(res, 200, {
     totals: {
-      totalOrders: orders.length,
-      pendingPayment: countWhere(orders, "payment_status", "pending"),
+      totalOrders: paidOrders.length,
+      checkoutAttempts: checkoutAttempts.length,
+      pendingPayment: countWhere(checkoutAttempts, "payment_status", "pending"),
       paid: paidOrders.length,
       preparing: countWhere(orders, "order_status", "preparing"),
       packed: countWhere(orders, "order_status", "packed"),
@@ -94,10 +98,11 @@ async function summary(req, res) {
       closed: orders.filter((order) => ["cancelled", "refunded"].includes(order.order_status)).length,
       totalPaidSgd: Number(revenueSgd.toFixed(2)),
     },
-    recentOrders: orders.slice(0, 8),
-    popularProducts: topCounts(items, "product_slug", "product_name_snapshot"),
-    countries: topCounts(orders, "country_code"),
-    sources: topCounts(orders.map((order) => ({
+    recentOrders: paidOrders.slice(0, 8),
+    checkoutAttempts: checkoutAttempts.slice(0, 5),
+    popularProducts: topCounts(paidItems, "product_slug", "product_name_snapshot"),
+    countries: topCounts(paidOrders, "country_code"),
+    sources: topCounts(paidOrders.map((order) => ({
       ...order,
       traffic_source: [order.utm_source, order.utm_medium, order.utm_campaign].filter(Boolean).join(" / ") || order.referrer || "Direct / unknown",
     })), "traffic_source"),
