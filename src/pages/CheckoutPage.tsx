@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { bulkProducts, formatSgd, type BulkProduct } from "../data/bulkProducts";
 import { capturePayPalOrder, createPayPalOrder, fetchBulkProducts, type CheckoutPayload } from "../lib/bulkApi";
 import { clearCart, getCartLines, getCartSummary, readCart } from "../lib/cart";
+import { trackEvent } from "../lib/analytics";
 
 declare global {
   interface Window {
@@ -36,6 +37,8 @@ type FormState = {
   city: string;
   postalCode: string;
   customerNote: string;
+  gstRequired: boolean;
+  gstNumber: string;
   reviewed: boolean;
 };
 
@@ -50,6 +53,8 @@ const initialForm: FormState = {
   city: "",
   postalCode: "",
   customerNote: "",
+  gstRequired: false,
+  gstNumber: "",
   reviewed: false,
 };
 
@@ -87,7 +92,10 @@ export function CheckoutPage() {
     addressLine2: form.addressLine2.trim() || undefined,
     city: form.city.trim(),
     postalCode: form.postalCode.trim(),
-    customerNote: form.customerNote.trim() || undefined,
+    customerNote: [
+      form.customerNote.trim(),
+      form.gstRequired ? `GST/tax invoice requested. GST/business number: ${form.gstNumber.trim() || "not provided"}` : "",
+    ].filter(Boolean).join("\n") || undefined,
     attribution: readAttribution(),
     cart: readCart(),
   });
@@ -128,6 +136,7 @@ export function CheckoutPage() {
           throw new Error(validationError);
         }
         setError("");
+        trackEvent("begin_checkout", { value: summary.totalSgd, currency: "SGD" });
         const response = await createPayPalOrder(payload());
         createdOrderNumber.current = response.orderNumber;
         return response.paypalOrderId;
@@ -178,6 +187,11 @@ export function CheckoutPage() {
                 <label>Address line 2<input value={form.addressLine2} onChange={(event) => update("addressLine2", event.target.value)} /></label>
                 <label>City / District *<input value={form.city} onChange={(event) => update("city", event.target.value)} /></label>
                 <label>Postal code *<input value={form.postalCode} onChange={(event) => update("postalCode", event.target.value)} /></label>
+                <label className="checkout-confirm checkout-form__wide">
+                  <input type="checkbox" checked={form.gstRequired} onChange={(event) => update("gstRequired", event.target.checked)} />
+                  I need a GST / tax invoice.
+                </label>
+                {form.gstRequired && <label className="checkout-form__wide">GST / business registration number<input value={form.gstNumber} onChange={(event) => update("gstNumber", event.target.value)} /></label>}
                 <label className="checkout-form__wide">Order note<textarea value={form.customerNote} onChange={(event) => update("customerNote", event.target.value)} /></label>
                 <label className="checkout-confirm checkout-form__wide">
                   <input type="checkbox" checked={form.reviewed} onChange={(event) => update("reviewed", event.target.checked)} />

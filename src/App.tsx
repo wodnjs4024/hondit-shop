@@ -5,7 +5,7 @@ import { SectionRail } from "./components/SectionRail";
 import { SiteHeader } from "./components/SiteHeader";
 import { AdminLayout } from "./components/AdminLayout";
 import { sections, type SectionId } from "./data/siteData";
-import { trackPageView } from "./lib/analytics";
+import { trackEvent, trackPageView } from "./lib/analytics";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 import { AdminLoginPage } from "./pages/AdminLoginPage";
 import { AdminOrderDetailPage } from "./pages/AdminOrderDetailPage";
@@ -22,10 +22,59 @@ import { HomePage } from "./pages/HomePage";
 import { JejuPage } from "./pages/JejuPage";
 import { OrderCompletePage } from "./pages/OrderCompletePage";
 import { PolicyPage } from "./pages/PolicyPage";
+import { ShippingPage } from "./pages/ShippingPage";
 
 function getScrollProgress() {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
   return scrollable <= 0 ? 0 : Math.min(1, Math.max(0, window.scrollY / scrollable));
+}
+
+function routeMeta(pathname: string) {
+  if (pathname === "/bulk-orders") {
+    return {
+      title: "Bulk Orders | hondit Singapore",
+      description: "Order hondit cleansing and diffuser products by bulk quantity with PayPal checkout and free Singapore EMS shipping included.",
+    };
+  }
+  if (pathname.startsWith("/bulk-orders/")) {
+    return {
+      title: "Bulk Product | hondit Singapore",
+      description: "Review hondit bulk product details, MOQ, unit price and free Singapore EMS shipping before PayPal checkout.",
+    };
+  }
+  if (pathname === "/shipping") {
+    return {
+      title: "Shipping | hondit Singapore",
+      description: "Compare hondit retail Shopee shipping and bulk PayPal order shipping for Singapore buyers.",
+    };
+  }
+  if (pathname === "/contact") {
+    return {
+      title: "Contact hondit | Bulk quote and custom quantity",
+      description: "Contact hondit for custom quantity, bulk quote and product questions.",
+    };
+  }
+  if (pathname === "/jeju") {
+    return {
+      title: "Our Jeju | hondit",
+      description: "Explore the Jeju sea, wind and volcanic stone textures that inspire hondit.",
+    };
+  }
+  return {
+    title: "hondit | Jeju-inspired care and scent in Singapore",
+    description: "Shop Jeju-inspired Korean cleansing care and volcanic stone diffusers through Shopee Singapore or direct bulk PayPal orders.",
+  };
+}
+
+function upsertMeta(selector: string, attrs: Record<string, string>, value: string) {
+  let element = document.head.querySelector(selector) as HTMLMetaElement | HTMLLinkElement | null;
+  if (!element) {
+    element = attrs.rel ? document.createElement("link") : document.createElement("meta");
+    Object.entries(attrs).forEach(([key, attrValue]) => element?.setAttribute(key, attrValue));
+    document.head.appendChild(element);
+  }
+  if (element instanceof HTMLLinkElement) element.href = value;
+  else element.content = value;
 }
 
 export default function App() {
@@ -126,7 +175,19 @@ export default function App() {
   }, [sectionIds, isHome]);
 
   useEffect(() => {
-    trackPageView(`${location.pathname}${location.search}${location.hash}`);
+    const path = `${location.pathname}${location.search}${location.hash}`;
+    const meta = routeMeta(location.pathname);
+    const canonical = `https://hondit-shop.vercel.app${location.pathname}`;
+    document.title = meta.title;
+    upsertMeta('meta[name="description"]', { name: "description" }, meta.description);
+    upsertMeta('meta[property="og:title"]', { property: "og:title" }, meta.title);
+    upsertMeta('meta[property="og:description"]', { property: "og:description" }, meta.description);
+    upsertMeta('meta[property="og:url"]', { property: "og:url" }, canonical);
+    upsertMeta('link[rel="canonical"]', { rel: "canonical" }, canonical);
+    trackPageView(path);
+    if (location.pathname === "/") trackEvent("view_home");
+    if (location.pathname === "/bulk-orders") trackEvent("view_bulk_list");
+    if (location.pathname.startsWith("/bulk-orders/")) trackEvent("view_product", { page_path: location.pathname });
     const params = new URLSearchParams(location.search);
     const attribution = {
       utm_source: params.get("utm_source") || "",
@@ -153,6 +214,8 @@ export default function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/shipping" element={<ShippingPage />} />
+        <Route path="/policy/:policy" element={<PolicyPage />} />
         <Route path="/order-complete/:orderNumber" element={<OrderCompletePage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminLayout />}>

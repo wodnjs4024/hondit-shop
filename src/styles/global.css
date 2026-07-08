@@ -2149,6 +2149,40 @@ body::before {
   line-height: 0.96;
 }
 
+.shipping-table-wrap {
+  margin: 30px 0;
+  overflow-x: auto;
+  border: 1px solid rgba(23, 52, 91, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: var(--shadow-card);
+}
+
+.shipping-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+.shipping-table th,
+.shipping-table td {
+  padding: 15px;
+  border-bottom: 1px solid rgba(23, 52, 91, 0.08);
+  color: var(--ink-soft);
+  line-height: 1.45;
+  text-align: left;
+  vertical-align: top;
+}
+
+.shipping-table th {
+  color: var(--deep-navy);
+  background: rgba(248, 245, 239, 0.8);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .bulk-hero p,
 .bulk-page-title p,
 .bulk-teaser p,

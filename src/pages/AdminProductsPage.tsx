@@ -166,9 +166,9 @@ export function AdminProductsPage() {
                 <label>Product detail description<textarea value={product.description} onChange={(event) => update(product.slug, "description", event.target.value)} /></label>
                 <div className="admin-inline-grid">
                   <label>Unit price<input type="number" step="0.01" value={product.unitPriceSgd} onChange={(event) => update(product.slug, "unitPriceSgd", Number(event.target.value))} /></label>
-                  <label>Pack quantity<input type="number" value={product.packQuantity} onChange={(event) => update(product.slug, "packQuantity", Number(event.target.value))} /></label>
-                  <label>Pack price<input type="number" step="0.01" value={product.packPriceSgd} onChange={(event) => update(product.slug, "packPriceSgd", Number(event.target.value))} /></label>
-                  <label>Inventory packs<input type="number" value={product.inventoryPacks} onChange={(event) => update(product.slug, "inventoryPacks", Number(event.target.value))} /></label>
+                  <label>MOQ units<input type="number" value={product.packQuantity} onChange={(event) => update(product.slug, "packQuantity", Number(event.target.value))} /></label>
+                  <label>MOQ total price<input type="number" step="0.01" value={product.packPriceSgd} onChange={(event) => update(product.slug, "packPriceSgd", Number(event.target.value))} /></label>
+                  <label>Stock packs<input type="number" value={product.inventoryPacks} onChange={(event) => update(product.slug, "inventoryPacks", Number(event.target.value))} /></label>
                   <label>Sort order<input type="number" value={product.sortOrder} onChange={(event) => update(product.slug, "sortOrder", Number(event.target.value))} /></label>
                 </div>
                 <div className="admin-inline-grid admin-inline-grid--textarea">

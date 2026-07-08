@@ -54,10 +54,10 @@ export function Footer({ minimal = false }: FooterProps) {
         </div>
         <nav className="footer__policy" aria-label="Business policy links">
           <Link to="/bulk-orders">Bulk Orders</Link>
-          <Link to="/shipping-policy">Shipping policy</Link>
-          <Link to="/refund-policy">Refund policy</Link>
-          <Link to="/privacy">Privacy policy</Link>
-          <Link to="/terms">Terms</Link>
+          <Link to="/shipping">Shipping</Link>
+          <Link to="/policy/refund">Refund policy</Link>
+          <Link to="/policy/privacy">Privacy policy</Link>
+          <Link to="/policy/terms">Terms</Link>
         </nav>
       </div>
     </footer>

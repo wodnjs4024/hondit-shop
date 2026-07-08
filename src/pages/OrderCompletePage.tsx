@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { formatSgd } from "../data/bulkProducts";
 import { fetchPublicOrder, type PublicOrder } from "../lib/bulkApi";
+import { trackEvent } from "../lib/analytics";
 
 export function OrderCompletePage() {
   const { orderNumber = "" } = useParams();
@@ -11,7 +12,14 @@ export function OrderCompletePage() {
   useEffect(() => {
     if (!orderNumber) return;
     fetchPublicOrder(orderNumber)
-      .then((data) => setOrder(data.order))
+      .then((data) => {
+        setOrder(data.order);
+        trackEvent("purchase", {
+          transaction_id: data.order.order_number,
+          value: data.order.total_sgd,
+          currency: data.order.currency || "SGD",
+        });
+      })
       .catch((orderError) => setError(orderError.message));
   }, [orderNumber]);
 
@@ -40,7 +48,7 @@ export function OrderCompletePage() {
                 <div className="order-items-compact">
                   {order.items.map((item) => (
                     <p key={`${item.product_name_snapshot}-${item.volume_snapshot}`}>
-                      {item.product_name_snapshot} {item.volume_snapshot} · {item.pack_count} packs · {item.total_units} units
+                      {item.product_name_snapshot} {item.volume_snapshot} · {item.total_units} units
                     </p>
                   ))}
                 </div>
