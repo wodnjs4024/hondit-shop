@@ -1,4 +1,4 @@
-import { getPayPalAccessToken, json, readBody, supabase } from "../_utils.js";
+import { getPayPalAccessToken, json, notifyTelegramNewOrder, readBody, supabase } from "../_utils.js";
 
 async function verifyWebhook(req, event) {
   if (!process.env.PAYPAL_WEBHOOK_ID) return false;
@@ -67,6 +67,21 @@ export default async function handler(req, res) {
           updated_at: new Date().toISOString(),
         }),
       });
+
+      if (order.payment_status !== "completed") {
+        const items = await supabase(`/order_items?order_id=eq.${encodeURIComponent(order.id)}&select=product_name_snapshot,volume_snapshot,total_units,line_total_sgd`).catch(() => []);
+        await notifyTelegramNewOrder(
+          {
+            ...order,
+            payment_status: "completed",
+            order_status: order.order_status === "pending_payment" ? "paid" : order.order_status,
+            paypal_capture_id: captureId,
+          },
+          items,
+        ).catch((notificationError) => {
+          console.error("Telegram notification failed", notificationError);
+        });
+      }
     }
 
     return json(res, 200, { received: true });

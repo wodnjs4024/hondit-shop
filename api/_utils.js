@@ -169,6 +169,54 @@ export async function paypal(path, options = {}) {
   return data;
 }
 
+function escapeTelegramText(value) {
+  return String(value ?? "").replace(/[<>&]/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[char]);
+}
+
+function orderAdminUrl(order) {
+  const siteUrl = process.env.SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || "";
+  const baseUrl = siteUrl ? (siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`) : "";
+  return baseUrl && order?.id ? `${baseUrl}/admin/orders/${order.id}` : "";
+}
+
+export async function notifyTelegramNewOrder(order, items = []) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId || !order) return { skipped: true };
+
+  const productLines = items.length
+    ? items.map((item) => `- ${escapeTelegramText(item.product_name_snapshot)} ${escapeTelegramText(item.volume_snapshot || "")} x ${escapeTelegramText(item.total_units)}`).join("\n")
+    : "- Product details are available in admin";
+  const adminUrl = orderAdminUrl(order);
+  const message = [
+    "<b>New hondit bulk order</b>",
+    "",
+    `<b>Order</b>: ${escapeTelegramText(order.order_number)}`,
+    `<b>Customer</b>: ${escapeTelegramText(order.customer_name)}`,
+    `<b>Total</b>: S$${Number(order.total_sgd || 0).toFixed(2)}`,
+    `<b>Units</b>: ${escapeTelegramText(order.total_units || "-")}`,
+    `<b>Email</b>: ${escapeTelegramText(order.customer_email || "-")}`,
+    `<b>Phone</b>: ${escapeTelegramText(order.customer_phone || "-")}`,
+    "",
+    productLines,
+    adminUrl ? `\n<a href="${escapeTelegramText(adminUrl)}">Open order in admin</a>` : "",
+  ].filter(Boolean).join("\n");
+
+  const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message,
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data?.description || "Telegram notification failed");
+  return data;
+}
+
 export async function verifyAdmin(req) {
   requireEnv(["SUPABASE_URL", "VITE_SUPABASE_ANON_KEY"]);
   const header = req.headers.authorization || req.headers.Authorization || "";

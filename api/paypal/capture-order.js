@@ -1,4 +1,4 @@
-import { json, paypal, readBody, supabase } from "../_utils.js";
+import { json, notifyTelegramNewOrder, paypal, readBody, supabase } from "../_utils.js";
 
 function findCapture(captureResponse) {
   return captureResponse?.purchase_units?.[0]?.payments?.captures?.[0] || null;
@@ -66,6 +66,20 @@ export default async function handler(req, res) {
         new_status: "paid",
         note: "PayPal Sandbox payment captured",
       }),
+    });
+
+    const items = await supabase(`/order_items?order_id=eq.${encodeURIComponent(order.id)}&select=product_name_snapshot,volume_snapshot,total_units,line_total_sgd`).catch(() => []);
+    await notifyTelegramNewOrder(
+      {
+        ...order,
+        paypal_capture_id: capture.id,
+        payment_status: "completed",
+        order_status: "paid",
+        paid_at: now,
+      },
+      items,
+    ).catch((notificationError) => {
+      console.error("Telegram notification failed", notificationError);
     });
 
     return json(res, 200, { orderNumber });
