@@ -1,28 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { BULK_QTY_STEP, bulkProducts, formatSgd, normalizeBulkQuantity, type BulkProduct } from "../data/bulkProducts";
-import { fetchBulkProducts } from "../lib/bulkApi";
-import { getCartLines, getCartSummary, readCart, removeCartItem, setCartItem, type CartItem } from "../lib/cart";
+import { BULK_QTY_STEP, formatSgd, normalizeBulkQuantity } from "../data/bulkProducts";
+import { useCart } from "../context/CartContext";
 
 export function CartPage() {
-  const [items, setItems] = useState<CartItem[]>(readCart());
-  const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
-
-  const sync = () => setItems(readCart());
-
-  useEffect(() => {
-    fetchBulkProducts().then(setProducts);
-    window.addEventListener("hondit-cart-change", sync);
-    return () => window.removeEventListener("hondit-cart-change", sync);
-  }, []);
-
-  const lines = useMemo(() => getCartLines(items, products), [items, products]);
-  const summary = getCartSummary(lines);
-
-  const updatePackCount = (slug: string, next: number) => {
-    setCartItem(slug, next);
-    sync();
-  };
+  const { hasBlockingIssue, lines, removeItem, setQuantity, summary, warnings } = useCart();
 
   return (
     <main className="bulk-page">
@@ -36,7 +17,9 @@ export function CartPage() {
           {lines.length === 0 ? (
             <div className="empty-state">
               <h2>Your cart is empty.</h2>
-              <Link className="button button--primary" to="/bulk-orders">View Bulk Orders</Link>
+              <Link className="button button--primary" to="/bulk-orders">
+                View Bulk Orders
+              </Link>
             </div>
           ) : (
             <div className="cart-layout">
@@ -46,35 +29,81 @@ export function CartPage() {
                     <img src={line.product.imageUrl} alt={line.product.name} />
                     <div>
                       <h2>{line.product.name}</h2>
-                      <p>{line.product.volumeLabel} · minimum {line.product.packQuantity} units · +{BULK_QTY_STEP} units</p>
-                      <p>{formatSgd(line.product.unitPriceSgd)} per unit · Singapore EMS included</p>
+                      <p>
+                        {line.product.volumeLabel} / minimum {line.product.packQuantity} units / +{BULK_QTY_STEP} units
+                      </p>
+                      <p>{formatSgd(line.product.unitPriceSgd)} per unit / Singapore EMS included</p>
                     </div>
                     <div className="pack-stepper">
                       <span>Units</span>
                       <div>
-                        <button type="button" onClick={() => updatePackCount(line.product.slug, normalizeBulkQuantity(line.product, line.packCount - BULK_QTY_STEP))}>-</button>
+                        <button
+                          type="button"
+                          onClick={() => setQuantity(line.product, normalizeBulkQuantity(line.product, line.packCount - BULK_QTY_STEP))}
+                        >
+                          -
+                        </button>
                         <strong>{line.packCount}</strong>
-                        <button type="button" onClick={() => updatePackCount(line.product.slug, normalizeBulkQuantity(line.product, line.packCount + BULK_QTY_STEP))}>+</button>
+                        <button
+                          type="button"
+                          onClick={() => setQuantity(line.product, normalizeBulkQuantity(line.product, line.packCount + BULK_QTY_STEP))}
+                        >
+                          +
+                        </button>
                       </div>
                       <em>Total units</em>
                     </div>
                     <strong>{formatSgd(line.lineTotalSgd)}</strong>
-                    <button type="button" onClick={() => { removeCartItem(line.product.slug); sync(); }}>Remove</button>
+                    <button type="button" onClick={() => removeItem(line.product.slug)}>
+                      Remove
+                    </button>
                   </article>
                 ))}
               </div>
 
               <aside className="order-summary">
                 <h2>Order Summary</h2>
+                {warnings.length > 0 && (
+                  <div className="cart-warning-list">
+                    {warnings.map((warning) => (
+                      <p key={`${warning.slug}-${warning.message}`}>{warning.message}</p>
+                    ))}
+                  </div>
+                )}
                 <dl>
-                  <div><dt>Order lines</dt><dd>{lines.length}</dd></div>
-                  <div><dt>Total units</dt><dd>{summary.totalUnits}</dd></div>
-                  <div><dt>Subtotal</dt><dd>{formatSgd(summary.subtotalSgd)}</dd></div>
-                  <div><dt>Shipping</dt><dd>Free Singapore EMS included</dd></div>
-                  <div><dt>Total in SGD</dt><dd>{formatSgd(summary.totalSgd)}</dd></div>
+                  <div>
+                    <dt>Order lines</dt>
+                    <dd>{lines.length}</dd>
+                  </div>
+                  <div>
+                    <dt>Total units</dt>
+                    <dd>{summary.totalUnits}</dd>
+                  </div>
+                  <div>
+                    <dt>Subtotal</dt>
+                    <dd>{formatSgd(summary.subtotalSgd)}</dd>
+                  </div>
+                  <div>
+                    <dt>Shipping</dt>
+                    <dd>Free Singapore EMS included</dd>
+                  </div>
+                  <div>
+                    <dt>Total in SGD</dt>
+                    <dd>{formatSgd(summary.totalSgd)}</dd>
+                  </div>
                 </dl>
-                <Link className="button button--primary" to="/checkout">Proceed to Checkout</Link>
-                <Link className="text-link" to="/bulk-orders">Continue shopping</Link>
+                {hasBlockingIssue ? (
+                  <button className="button button--primary" type="button" disabled>
+                    Proceed to Checkout
+                  </button>
+                ) : (
+                  <Link className="button button--primary" to="/checkout">
+                    Proceed to Checkout
+                  </Link>
+                )}
+                <Link className="text-link" to="/bulk-orders">
+                  Continue shopping
+                </Link>
               </aside>
             </div>
           )}

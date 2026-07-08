@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { BULK_QTY_STEP, bulkProducts, formatSgd, getBulkMaxUnits, getBulkMoq, getBulkProduct, getBulkTotal, getStockStatus, normalizeBulkQuantity, type BulkProduct } from "../data/bulkProducts";
+import { useCart } from "../context/CartContext";
 import { fetchBulkProducts } from "../lib/bulkApi";
-import { addToCart } from "../lib/cart";
 import { ProductReviews } from "../components/ProductReviews";
 
 export function BulkProductPage() {
@@ -10,6 +10,8 @@ export function BulkProductPage() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
   const [packCount, setPackCount] = useState(0);
+  const [adding, setAdding] = useState(false);
+  const { addItem } = useCart();
 
   useEffect(() => {
     fetchBulkProducts().then(setProducts);
@@ -26,9 +28,13 @@ export function BulkProductPage() {
   const stockStatus = getStockStatus(product);
   const soldOut = stockStatus === "Sold out";
 
-  const add = () => addToCart(product.slug, quantity);
+  const add = () => {
+    setAdding(true);
+    addItem(product, quantity);
+    window.setTimeout(() => setAdding(false), 650);
+  };
   const buyNow = () => {
-    add();
+    addItem(product, quantity);
     navigate("/cart");
   };
 
@@ -84,7 +90,9 @@ export function BulkProductPage() {
             </div>
 
             <div className="bulk-card__actions">
-              <button className="button button--primary" type="button" onClick={add} disabled={soldOut}>Add to Cart</button>
+              <button className="button button--primary" type="button" onClick={add} disabled={soldOut || adding}>
+                {adding ? "Added" : "Add to Cart"}
+              </button>
               <button className="button button--ghost" type="button" onClick={buyNow} disabled={soldOut}>Buy Now</button>
             </div>
             {soldOut && <a className="text-link" href={`/contact?type=restock&product=${product.slug}`}>Notify me when restocked</a>}

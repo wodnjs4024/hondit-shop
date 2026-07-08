@@ -4,6 +4,8 @@ import { MobileShopCTA } from "./components/MobileShopCTA";
 import { SectionRail } from "./components/SectionRail";
 import { SiteHeader } from "./components/SiteHeader";
 import { AdminLayout } from "./components/AdminLayout";
+import { CartDrawer } from "./components/CartDrawer";
+import { CartProvider } from "./context/CartContext";
 import { sections, type SectionId } from "./data/siteData";
 import { trackEvent, trackPageView } from "./lib/analytics";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
@@ -204,7 +206,7 @@ export default function App() {
   }, [location.pathname, location.search, location.hash]);
 
   return (
-    <>
+    <CartProvider>
       <SiteHeader />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -230,6 +232,7 @@ export default function App() {
       </Routes>
       {isHome && <SectionRail activeSection={activeSection} progress={progress} />}
       <MobileShopCTA visible={mobileCtaVisible} dark={activeSection === "diffuser"} />
-    </>
+      <CartDrawer />
+    </CartProvider>
   );
 }
