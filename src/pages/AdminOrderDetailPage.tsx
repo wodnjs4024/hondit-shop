@@ -18,7 +18,18 @@ export function AdminOrderDetailPage() {
   const { orderId = "" } = useParams();
   const [detail, setDetail] = useState<AdminOrderDetail | null>(null);
   const [error, setError] = useState("");
-  const [form, setForm] = useState({ order_status: "paid", payment_status: "pending", tracking_carrier: "", tracking_number: "", shipped_at: "", internal_note: "" });
+  const [form, setForm] = useState({
+    order_status: "paid",
+    payment_status: "pending",
+    tracking_carrier: "",
+    tracking_number: "",
+    shipped_at: "",
+    shipping_note: "",
+    cancellation_reason: "",
+    refund_reason: "",
+    internal_note: "",
+  });
+  const [actionError, setActionError] = useState("");
 
   const load = () => {
     adminFetch<AdminOrderDetail>(`/api/admin/orders/${orderId}`)
@@ -30,6 +41,9 @@ export function AdminOrderDetailPage() {
           tracking_carrier: String(data.order.tracking_carrier || ""),
           tracking_number: String(data.order.tracking_number || ""),
           shipped_at: String(data.order.shipped_at || "").slice(0, 10),
+          shipping_note: String(data.order.shipping_note || ""),
+          cancellation_reason: String(data.order.cancellation_reason || ""),
+          refund_reason: String(data.order.refund_reason || ""),
           internal_note: "",
         });
       })
@@ -68,6 +82,21 @@ export function AdminOrderDetailPage() {
       body: JSON.stringify(form),
     });
     load();
+  };
+
+  const refundPayPal = async () => {
+    setActionError("");
+    if (!window.confirm("Refund this order in PayPal? This should only be used when you really want to return the payment.")) return;
+    const reason = form.refund_reason || form.internal_note || "Admin full refund";
+    try {
+      await adminFetch(`/api/admin/orders/${orderId}/refund`, {
+        method: "POST",
+        body: JSON.stringify({ reason }),
+      });
+      load();
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Could not refund order.");
+    }
   };
 
   const quickUpdate = async (order_status: string, payment_status = form.payment_status) => {
@@ -112,7 +141,9 @@ export function AdminOrderDetailPage() {
           <button className="button button--ghost" type="button" onClick={() => quickUpdate("delivered", "completed")}>Mark delivered</button>
           <button className="button button--danger" type="button" onClick={() => quickUpdate("cancelled", "cancelled")}>Cancel order</button>
           <button className="button button--danger" type="button" onClick={() => quickUpdate("refunded", "refunded")}>Mark refunded</button>
+          <button className="button button--danger" type="button" onClick={refundPayPal}>Refund in PayPal</button>
         </div>
+        {actionError && <p className="form-error">{actionError}</p>}
       </section>
       <div className="admin-detail-grid">
         <section className="admin-panel">
@@ -131,6 +162,7 @@ export function AdminOrderDetailPage() {
             <div><dt>PayPal order ID</dt><dd>{order.paypal_order_id}</dd></div>
             <div><dt>PayPal capture ID</dt><dd>{order.paypal_capture_id}</dd></div>
             <div><dt>Payment status</dt><dd>{order.payment_status}</dd></div>
+            <div><dt>Refunded at</dt><dd>{order.refunded_at || "-"}</dd></div>
           </dl>
         </section>
       </div>
@@ -174,6 +206,9 @@ export function AdminOrderDetailPage() {
         <label>Tracking carrier<input value={form.tracking_carrier} onChange={(event) => setForm({ ...form, tracking_carrier: event.target.value })} /></label>
         <label>Tracking number<input value={form.tracking_number} onChange={(event) => setForm({ ...form, tracking_number: event.target.value })} /></label>
         <label>Shipped date<input type="date" value={form.shipped_at} onChange={(event) => setForm({ ...form, shipped_at: event.target.value })} /></label>
+        <label>Shipping note<textarea value={form.shipping_note} onChange={(event) => setForm({ ...form, shipping_note: event.target.value })} /></label>
+        <label>Cancellation reason<textarea value={form.cancellation_reason} onChange={(event) => setForm({ ...form, cancellation_reason: event.target.value })} /></label>
+        <label>Refund reason<textarea value={form.refund_reason} onChange={(event) => setForm({ ...form, refund_reason: event.target.value })} /></label>
         <label>Internal note<textarea value={form.internal_note} onChange={(event) => setForm({ ...form, internal_note: event.target.value })} /></label>
         <button className="button button--primary" type="submit">Save order status</button>
       </form>

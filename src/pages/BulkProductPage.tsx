@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { bulkProducts, formatSgd, getBulkProduct, type BulkProduct } from "../data/bulkProducts";
 import { fetchBulkProducts } from "../lib/bulkApi";
 import { addToCart } from "../lib/cart";
+import { ProductReviews } from "../components/ProductReviews";
 
 export function BulkProductPage() {
   const { slug = "" } = useParams();
@@ -83,6 +84,9 @@ export function BulkProductPage() {
               </ul>
             </section>
           </div>
+        </div>
+        <div className="section-inner section-inner--wide">
+          <ProductReviews product={product} />
         </div>
       </section>
     </main>

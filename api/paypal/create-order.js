@@ -18,6 +18,7 @@ export default async function handler(req, res) {
     const products = await getProducts();
     const summary = calculateCart(body.cart, products);
     const orderNumber = createOrderNumber();
+    const attribution = body.attribution || {};
 
     const orderRows = await supabase("/orders", {
       method: "POST",
@@ -34,6 +35,11 @@ export default async function handler(req, res) {
         city: body.city.trim(),
         postal_code: body.postalCode.trim(),
         customer_note: body.customerNote || null,
+        utm_source: attribution.utm_source || null,
+        utm_medium: attribution.utm_medium || null,
+        utm_campaign: attribution.utm_campaign || null,
+        landing_page: attribution.landing_page || null,
+        referrer: attribution.referrer || req.headers.referer || null,
         currency: "SGD",
         total_packs: summary.totalPacks,
         total_units: summary.totalUnits,

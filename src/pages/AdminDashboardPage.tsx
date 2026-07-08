@@ -5,6 +5,9 @@ import { formatSgd } from "../data/bulkProducts";
 
 type Summary = {
   totals: Record<string, number>;
+  popularProducts?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
+  countries?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
+  sources?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
   recentOrders: Array<{
     id: string;
     order_number: string;
@@ -76,6 +79,11 @@ export function AdminDashboardPage() {
         <h2>Recent orders</h2>
         <AdminOrderTable orders={summary?.recentOrders || []} />
       </section>
+      <div className="admin-detail-grid">
+        <AdminInsightTable title="Popular products" rows={summary?.popularProducts || []} valueLabel="Units" />
+        <AdminInsightTable title="Customer countries" rows={summary?.countries || []} valueLabel="Orders" />
+      </div>
+      <AdminInsightTable title="Traffic sources" rows={summary?.sources || []} valueLabel="Orders" />
     </>
   );
 }
@@ -123,5 +131,27 @@ export function AdminOrderTable({ orders }: { orders: Summary["recentOrders"] })
         </tbody>
       </table>
     </div>
+  );
+}
+
+function AdminInsightTable({ title, rows, valueLabel }: { title: string; rows: Array<{ label: string; count: number; units: number; revenueSgd: number }>; valueLabel: string }) {
+  return (
+    <section className="admin-panel admin-insight">
+      <h2>{title}</h2>
+      {rows.length ? (
+        <table className="admin-table admin-table--compact">
+          <thead><tr><th>Name</th><th>{valueLabel}</th><th>Revenue</th></tr></thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.label}>
+                <td>{row.label}</td>
+                <td>{valueLabel === "Units" ? row.units : row.count}</td>
+                <td>{formatSgd(row.revenueSgd)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : <p>No data yet.</p>}
+    </section>
   );
 }

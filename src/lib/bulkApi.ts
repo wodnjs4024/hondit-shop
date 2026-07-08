@@ -13,6 +13,13 @@ export type CheckoutPayload = {
   city: string;
   postalCode: string;
   customerNote?: string;
+  attribution?: {
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    landing_page?: string;
+    referrer?: string;
+  };
   cart: CartItem[];
 };
 

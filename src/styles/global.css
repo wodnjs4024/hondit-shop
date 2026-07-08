@@ -1817,6 +1817,127 @@ body::before {
   box-shadow: 0 16px 34px rgba(159, 45, 32, 0.2);
 }
 
+.review-section {
+  margin-top: clamp(42px, 7vw, 82px);
+  padding: clamp(22px, 4vw, 36px);
+  border: 1px solid rgba(23, 52, 91, 0.1);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(232, 74, 40, 0.08), transparent 30%),
+    rgba(255, 255, 255, 0.62);
+  box-shadow: 0 24px 60px rgba(23, 52, 91, 0.08);
+}
+
+.review-section__intro h2,
+.review-form h3,
+.review-card h3,
+.admin-review-card h2 {
+  margin: 0;
+  color: var(--deep-navy);
+  font-family: var(--font-display);
+}
+
+.review-section__intro p {
+  max-width: 620px;
+  color: var(--ink-soft);
+}
+
+.review-grid {
+  display: grid;
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.review-list {
+  display: grid;
+  gap: 14px;
+}
+
+.review-card,
+.review-form {
+  padding: 18px;
+  border: 1px solid rgba(23, 52, 91, 0.09);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.review-card div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--hondit-orange);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.review-card p,
+.review-card em {
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.review-form {
+  display: grid;
+  gap: 12px;
+}
+
+.review-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.review-form input,
+.review-form select,
+.review-form textarea {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid rgba(23, 52, 91, 0.13);
+  border-radius: 12px;
+  padding: 0 13px;
+  color: var(--charcoal);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.review-form textarea {
+  min-height: 120px;
+  padding-top: 12px;
+  resize: vertical;
+}
+
+.form-success {
+  color: #236b45;
+  font-weight: 800;
+}
+
+.empty-state--compact {
+  min-height: auto;
+  padding: 22px;
+}
+
+.admin-review-list {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-review-card {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-table--compact {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .review-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.46fr);
+    align-items: start;
+  }
+}
+
 /* Bulk order and admin experience */
 .bulk-page {
   min-height: 100vh;

@@ -30,6 +30,9 @@ export default async function handler(req, res) {
         tracking_carrier: body.tracking_carrier || null,
         tracking_number: body.tracking_number || null,
         shipped_at: body.shipped_at || null,
+        shipping_note: body.shipping_note || null,
+        cancellation_reason: body.cancellation_reason || null,
+        refund_reason: body.refund_reason || null,
         internal_note: body.internal_note || null,
         updated_at: new Date().toISOString(),
       };

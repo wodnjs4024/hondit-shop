@@ -53,6 +53,14 @@ const initialForm: FormState = {
   reviewed: false,
 };
 
+function readAttribution() {
+  try {
+    return JSON.parse(window.localStorage.getItem("hondit_attribution") || "{}");
+  } catch {
+    return {};
+  }
+}
+
 export function CheckoutPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState(initialForm);
@@ -75,6 +83,7 @@ export function CheckoutPage() {
     city: form.city.trim(),
     postalCode: form.postalCode.trim(),
     customerNote: form.customerNote.trim() || undefined,
+    attribution: readAttribution(),
     cart: readCart(),
   });
 

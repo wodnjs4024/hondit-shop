@@ -20,6 +20,7 @@ export function AdminLayout() {
           <NavLink end to="/admin">Dashboard</NavLink>
           <NavLink to="/admin/orders">Orders</NavLink>
           <NavLink to="/admin/products">Products</NavLink>
+          <NavLink to="/admin/reviews">Reviews</NavLink>
           <NavLink to="/admin/settings">Settings</NavLink>
         </nav>
         <button type="button" onClick={logout}>Sign out</button>

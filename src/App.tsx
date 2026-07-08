@@ -11,6 +11,7 @@ import { AdminLoginPage } from "./pages/AdminLoginPage";
 import { AdminOrderDetailPage } from "./pages/AdminOrderDetailPage";
 import { AdminOrdersPage } from "./pages/AdminOrdersPage";
 import { AdminProductsPage } from "./pages/AdminProductsPage";
+import { AdminReviewsPage } from "./pages/AdminReviewsPage";
 import { AdminSettingsPage } from "./pages/AdminSettingsPage";
 import { BulkOrdersPage } from "./pages/BulkOrdersPage";
 import { BulkProductPage } from "./pages/BulkProductPage";
@@ -125,6 +126,18 @@ export default function App() {
 
   useEffect(() => {
     trackPageView(`${location.pathname}${location.search}${location.hash}`);
+    const params = new URLSearchParams(location.search);
+    const attribution = {
+      utm_source: params.get("utm_source") || "",
+      utm_medium: params.get("utm_medium") || "",
+      utm_campaign: params.get("utm_campaign") || "",
+      landing_page: `${location.pathname}${location.search}${location.hash}`,
+      referrer: document.referrer || "",
+      captured_at: new Date().toISOString(),
+    };
+    if (attribution.utm_source || attribution.utm_medium || attribution.utm_campaign || attribution.referrer) {
+      window.localStorage.setItem("hondit_attribution", JSON.stringify(attribution));
+    }
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname, location.search, location.hash]);
 
@@ -145,6 +158,7 @@ export default function App() {
           <Route path="orders" element={<AdminOrdersPage />} />
           <Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
           <Route path="products" element={<AdminProductsPage />} />
+          <Route path="reviews" element={<AdminReviewsPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
         <Route path="/:policy" element={<PolicyPage />} />
