@@ -2939,6 +2939,58 @@ body.is-cart-open {
   font-size: clamp(1.7rem, 5vw, 2.6rem);
 }
 
+.bulk-total-box p {
+  margin: 10px 0 0;
+  color: #367258;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.direct-order-box {
+  display: grid;
+  gap: 18px;
+  padding: clamp(18px, 4vw, 28px);
+  border: 1px solid rgba(23, 52, 91, 0.12);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(232, 74, 40, 0.08), transparent 26%),
+    rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow-soft);
+}
+
+.direct-order-form {
+  padding-top: 4px;
+}
+
+.direct-payment-summary {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(23, 52, 91, 0.07);
+}
+
+.direct-payment-summary h2,
+.direct-payment-summary p {
+  margin: 0;
+}
+
+.direct-payment-summary h2 {
+  color: var(--deep-navy);
+  font-size: 1rem;
+}
+
+.direct-payment-summary p,
+.direct-payment-summary span {
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.direct-payment-summary strong {
+  color: var(--deep-navy);
+  font-size: clamp(1.2rem, 3vw, 1.55rem);
+}
+
 .bulk-product-info {
   display: grid;
   gap: 12px;
@@ -3141,6 +3193,27 @@ body.is-cart-open {
   color: #a63820;
   font-weight: 800;
   line-height: 1.5;
+}
+
+.contact-direct-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.contact-direct-links a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(23, 52, 91, 0.12);
+  border-radius: 999px;
+  padding: 0 14px;
+  color: var(--deep-navy);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 0.86rem;
+  font-weight: 850;
+  text-decoration: none;
 }
 
 .order-complete {

@@ -1,5 +1,9 @@
 import { bulkProducts, type BulkProduct } from "../data/bulkProducts";
-import type { CartItem } from "./cart";
+
+export type CheckoutItem = {
+  slug: string;
+  packCount: number;
+};
 
 export type CheckoutPayload = {
   orderType: string;
@@ -20,7 +24,7 @@ export type CheckoutPayload = {
     landing_page?: string;
     referrer?: string;
   };
-  cart: CartItem[];
+  cart: CheckoutItem[];
 };
 
 export type PublicOrder = {

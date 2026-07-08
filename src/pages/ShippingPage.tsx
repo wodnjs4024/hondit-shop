@@ -30,7 +30,7 @@ export function ShippingPage() {
           <div className="section-inner section-inner--wide">
             <p className="eyebrow">SHIPPING</p>
             <h1>Retail and bulk shipping routes.</h1>
-            <p>Final shipping dates, tracking process and customs notes should be confirmed by the operator before launch.</p>
+            <p>Retail orders follow Shopee Singapore delivery rules. Bulk orders are prepared for Singapore EMS delivery after PayPal payment verification.</p>
             <div className="shipping-table-wrap">
               <table className="shipping-table">
                 <thead>
@@ -59,7 +59,6 @@ export function ShippingPage() {
                 </tbody>
               </table>
             </div>
-            <p className="setup-warning">Placeholder note: replace these operational estimates after shipping rules are finalized.</p>
             <Link className="button button--primary" to="/bulk-orders">View Bulk Orders</Link>
           </div>
         </section>

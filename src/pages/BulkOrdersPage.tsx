@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { BULK_QTY_STEP, bulkProducts, formatSgd, getBulkMoq, getBulkTotal, getStockStatus, type BulkCategory, type BulkProduct } from "../data/bulkProducts";
-import { useCart } from "../context/CartContext";
 import { fetchBulkProducts } from "../lib/bulkApi";
 
 const filters: Array<{ label: string; value: "all" | BulkCategory }> = [
@@ -13,8 +12,6 @@ const filters: Array<{ label: string; value: "all" | BulkCategory }> = [
 export function BulkOrdersPage() {
   const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
   const [category, setCategory] = useState<"all" | BulkCategory>("all");
-  const [addingSlug, setAddingSlug] = useState("");
-  const { addItem } = useCart();
 
   useEffect(() => {
     fetchBulkProducts().then(setProducts);
@@ -94,20 +91,8 @@ export function BulkOrdersPage() {
                   </dl>
                   <p className="shipping-pill">Minimum {getBulkMoq(product)} units. Increase in steps of {BULK_QTY_STEP}. Free Singapore EMS shipping included.</p>
                   <div className="bulk-card__actions">
-                    <button
-                      className="button button--primary"
-                      type="button"
-                      onClick={() => {
-                        setAddingSlug(product.slug);
-                        addItem(product, getBulkMoq(product));
-                        window.setTimeout(() => setAddingSlug(""), 650);
-                      }}
-                      disabled={getStockStatus(product) === "Sold out" || addingSlug === product.slug}
-                    >
-                      {addingSlug === product.slug ? "Added" : "Add MOQ to cart"}
-                    </button>
-                    <Link className="button button--ghost" to={`/bulk-orders/${product.slug}`}>
-                      View details
+                    <Link className="button button--primary" to={`/bulk-orders/${product.slug}`} aria-disabled={getStockStatus(product) === "Sold out"}>
+                      {getStockStatus(product) === "Sold out" ? "Notify me" : "Order this item"}
                     </Link>
                   </div>
                 </div>

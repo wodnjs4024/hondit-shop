@@ -4,8 +4,6 @@ import { MobileShopCTA } from "./components/MobileShopCTA";
 import { SectionRail } from "./components/SectionRail";
 import { SiteHeader } from "./components/SiteHeader";
 import { AdminLayout } from "./components/AdminLayout";
-import { CartDrawer } from "./components/CartDrawer";
-import { CartProvider } from "./context/CartContext";
 import { sections, type SectionId } from "./data/siteData";
 import { trackEvent, trackPageView } from "./lib/analytics";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
@@ -17,8 +15,6 @@ import { AdminReviewsPage } from "./pages/AdminReviewsPage";
 import { AdminSettingsPage } from "./pages/AdminSettingsPage";
 import { BulkOrdersPage } from "./pages/BulkOrdersPage";
 import { BulkProductPage } from "./pages/BulkProductPage";
-import { CartPage } from "./pages/CartPage";
-import { CheckoutPage } from "./pages/CheckoutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
 import { JejuPage } from "./pages/JejuPage";
@@ -206,15 +202,13 @@ export default function App() {
   }, [location.pathname, location.search, location.hash]);
 
   return (
-    <CartProvider>
+    <>
       <SiteHeader />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
         <Route path="/bulk-orders" element={<BulkOrdersPage />} />
         <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/shipping" element={<ShippingPage />} />
         <Route path="/policy/:policy" element={<PolicyPage />} />
@@ -232,7 +226,6 @@ export default function App() {
       </Routes>
       {isHome && <SectionRail activeSection={activeSection} progress={progress} />}
       <MobileShopCTA visible={mobileCtaVisible} dark={activeSection === "diffuser"} />
-      <CartDrawer />
-    </CartProvider>
+    </>
   );
 }

@@ -21,8 +21,13 @@ export function ContactPage() {
             <p className="eyebrow">CONTACT HONDIt</p>
             <h1>Need a custom quantity or a bulk quote?</h1>
             <p>
-              Tell us what you need. This first version prepares the inquiry flow; email delivery and database storage will be connected in the backend step.
+              Tell us what you need. You can also reach us through Instagram or Shopee Chat for product questions and custom quantities.
             </p>
+            <div className="contact-direct-links">
+              <a href="mailto:hondit.official@gmail.com">hondit.official@gmail.com</a>
+              <a href="https://www.instagram.com/hondit.office/">Instagram</a>
+              <a href="https://shopee.sg/hondit.office.sg">Shopee Chat</a>
+            </div>
           </div>
         </section>
 
@@ -40,7 +45,7 @@ export function ContactPage() {
               <label className="contact-form__wide">Message<textarea name="message" required placeholder="Product, quantity, delivery timeline or question." /></label>
               <input className="contact-form__trap" name="website" tabIndex={-1} autoComplete="off" />
               <button className="button button--primary" type="submit">Request a quote</button>
-              {submitted && <p className="setup-warning">Inquiry noted on this screen. Backend email/database connection will be added in the next phase.</p>}
+              {submitted && <p className="setup-warning">Thank you. Please also contact us through email, Instagram or Shopee Chat for the fastest reply.</p>}
             </form>
           </div>
         </section>

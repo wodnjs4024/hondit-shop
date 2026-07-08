@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { links } from "../data/siteData";
-import { useCart } from "../context/CartContext";
 import { trackJejuClick, trackStoreClick } from "../lib/analytics";
 import { BrandLogo } from "./BrandLogo";
 import { ExternalLink } from "./ExternalLink";
@@ -19,10 +18,9 @@ const navItems: HeaderNavItem[] = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const { openDrawer, totalQuantity } = useCart();
   const location = useLocation();
   const dark = location.pathname === "/jeju";
-  const bulk = location.pathname.startsWith("/bulk-orders") || location.pathname === "/cart" || location.pathname === "/checkout";
+  const bulk = location.pathname.startsWith("/bulk-orders");
 
   useEffect(() => {
     setOpen(false);
@@ -75,20 +73,6 @@ export function SiteHeader() {
         <nav className="site-header__nav" aria-label="Primary navigation">
           {menu}
         </nav>
-        <button
-          className={`site-header__cart ${totalQuantity > 0 ? "has-items" : ""}`}
-          type="button"
-          aria-label={`Cart, ${totalQuantity} items`}
-          onClick={openDrawer}
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M7.2 8.3h13.1l-1.4 7.2a2 2 0 0 1-2 1.6H9.3a2 2 0 0 1-2-1.6L5.9 5.7H3.4" />
-            <circle cx="9.8" cy="20" r="1.2" />
-            <circle cx="17.2" cy="20" r="1.2" />
-          </svg>
-          <span>Cart</span>
-          {totalQuantity > 0 && <strong>{totalQuantity}</strong>}
-        </button>
         <button
           className="site-header__menu"
           type="button"
