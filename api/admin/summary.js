@@ -14,12 +14,17 @@ export default async function handler(req, res) {
     const revenueSgd = paidOrders.reduce((sum, order) => sum + Number(order.total_sgd || 0), 0);
 
     return json(res, 200, {
-      totalOrders: orders.length,
-      pendingPayment: countWhere(orders, "payment_status", "pending"),
-      paidOrders: paidOrders.length,
-      preparingOrders: countWhere(orders, "order_status", "preparing"),
-      shippedOrders: countWhere(orders, "order_status", "shipped"),
-      revenueSgd: Number(revenueSgd.toFixed(2)),
+      totals: {
+        totalOrders: orders.length,
+        pendingPayment: countWhere(orders, "payment_status", "pending"),
+        paid: paidOrders.length,
+        preparing: countWhere(orders, "order_status", "preparing"),
+        packed: countWhere(orders, "order_status", "packed"),
+        shipped: countWhere(orders, "order_status", "shipped"),
+        delivered: countWhere(orders, "order_status", "delivered"),
+        closed: orders.filter((order) => ["cancelled", "refunded"].includes(order.order_status)).length,
+        totalPaidSgd: Number(revenueSgd.toFixed(2)),
+      },
       recentOrders: orders.slice(0, 8),
     });
   } catch (error) {

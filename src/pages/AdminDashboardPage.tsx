@@ -21,9 +21,21 @@ type Summary = {
 export function AdminDashboardPage() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [error, setError] = useState("");
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  const load = () => {
+    adminFetch<Summary>("/api/admin/summary")
+      .then((data) => {
+        setSummary(data);
+        setLastUpdated(new Date());
+      })
+      .catch((err) => setError(err.message));
+  };
 
   useEffect(() => {
-    adminFetch<Summary>("/api/admin/summary").then(setSummary).catch((err) => setError(err.message));
+    load();
+    const timer = window.setInterval(load, 30000);
+    return () => window.clearInterval(timer);
   }, []);
 
   if (error) return <AdminNotice message={error} />;
@@ -46,6 +58,11 @@ export function AdminDashboardPage() {
       <div className="admin-heading">
         <p className="eyebrow">ADMIN DASHBOARD</p>
         <h1>Bulk order operations</h1>
+        <p className="admin-muted">
+          Auto-refreshes every 30 seconds.
+          {lastUpdated ? ` Last updated ${lastUpdated.toLocaleTimeString("en-SG")}.` : ""}
+        </p>
+        <button className="button button--ghost" type="button" onClick={load}>Refresh now</button>
       </div>
       <div className="admin-stat-grid">
         {cards.map(([label, value]) => (

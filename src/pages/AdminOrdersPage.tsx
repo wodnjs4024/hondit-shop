@@ -7,11 +7,26 @@ type OrderRow = {
   order_number: string;
   customer_name: string;
   customer_email: string;
+  customer_phone?: string;
+  company_name?: string | null;
+  country_code?: string;
+  address_line_1?: string;
+  address_line_2?: string | null;
+  city?: string;
+  postal_code?: string;
+  total_packs?: number;
   order_type: string;
   total_units: number;
   total_sgd: number;
+  currency?: string;
   payment_status: string;
   order_status: string;
+  paypal_order_id?: string | null;
+  paypal_capture_id?: string | null;
+  tracking_carrier?: string | null;
+  tracking_number?: string | null;
+  paid_at?: string | null;
+  shipped_at?: string | null;
   created_at: string;
 };
 
@@ -21,16 +36,24 @@ const orderStatuses = ["", "pending_payment", "paid", "preparing", "packed", "sh
 export function AdminOrdersPage() {
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [error, setError] = useState("");
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [filters, setFilters] = useState({ q: "", paymentStatus: "", orderStatus: "", orderType: "", from: "", to: "" });
 
   const load = () => {
     const params = new URLSearchParams(Object.entries(filters).filter(([, value]) => value));
     adminFetch<{ orders: OrderRow[] }>(`/api/admin/orders?${params.toString()}`)
-      .then((data) => setOrders(data.orders))
+      .then((data) => {
+        setOrders(data.orders);
+        setLastUpdated(new Date());
+      })
       .catch((err) => setError(err.message));
   };
 
-  useEffect(load, []);
+  useEffect(() => {
+    load();
+    const timer = window.setInterval(load, 30000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
@@ -38,8 +61,33 @@ export function AdminOrdersPage() {
   };
 
   const exportCsv = () => {
-    const header = ["order_number", "created_at", "customer_name", "customer_email", "order_type", "total_units", "total_sgd", "payment_status", "order_status"];
-    const rows = orders.map((order) => header.map((key) => JSON.stringify(String(order[key as keyof OrderRow] ?? ""))).join(","));
+    const header = [
+      "order_number",
+      "created_at",
+      "paid_at",
+      "customer_name",
+      "customer_email",
+      "customer_phone",
+      "company_name",
+      "country_code",
+      "address_line_1",
+      "address_line_2",
+      "city",
+      "postal_code",
+      "order_type",
+      "total_packs",
+      "total_units",
+      "total_sgd",
+      "currency",
+      "payment_status",
+      "order_status",
+      "paypal_order_id",
+      "paypal_capture_id",
+      "tracking_carrier",
+      "tracking_number",
+      "shipped_at",
+    ];
+    const rows = orders.map((order) => header.map((key) => csvCell(order[key as keyof OrderRow])).join(","));
     downloadCsv(`hondit-orders-${Date.now()}.csv`, [header.join(","), ...rows].join("\n"));
   };
 
@@ -50,6 +98,10 @@ export function AdminOrdersPage() {
       <div className="admin-heading">
         <p className="eyebrow">ORDERS</p>
         <h1>Order management</h1>
+        <p className="admin-muted">
+          {orders.length} orders shown. Auto-refreshes every 30 seconds.
+          {lastUpdated ? ` Last updated ${lastUpdated.toLocaleTimeString("en-SG")}.` : ""}
+        </p>
       </div>
       <form className="admin-filters" onSubmit={submit}>
         <input placeholder="Search order, customer or email" value={filters.q} onChange={(event) => setFilters({ ...filters, q: event.target.value })} />
@@ -63,6 +115,7 @@ export function AdminOrdersPage() {
         </select>
         <input placeholder="Order type" value={filters.orderType} onChange={(event) => setFilters({ ...filters, orderType: event.target.value })} />
         <button className="button button--primary" type="submit">Apply</button>
+        <button className="button button--ghost" type="button" onClick={load}>Refresh now</button>
         <button className="button button--ghost" type="button" onClick={exportCsv}>Export Filtered Orders CSV</button>
       </form>
       <section className="admin-panel">
@@ -73,11 +126,15 @@ export function AdminOrdersPage() {
 }
 
 export function downloadCsv(filename: string, content: string) {
-  const blob = new Blob([content], { type: "text/csv;charset=utf-8" });
+  const blob = new Blob([`\uFEFF${content}`], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
   link.download = filename;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+function csvCell(value: unknown) {
+  return JSON.stringify(String(value ?? ""));
 }
