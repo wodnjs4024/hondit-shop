@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { DISCOUNT_LABEL, type Product } from "../data/siteData";
 import { formatSgd } from "../data/bulkProducts";
-import { trackProductClick } from "../lib/analytics";
+import { trackEvent, trackProductClick } from "../lib/analytics";
 import { ExternalLink } from "./ExternalLink";
 
 type ProductCardProps = {
@@ -11,8 +12,17 @@ type ProductCardProps = {
   location: string;
 };
 
+const bulkSlugByProductId: Record<string, string> = {
+  "foam-oil": "foam-oil",
+  "foaming-cleanser": "foaming-cleanser",
+  "cleansing-water": "cleansing-water",
+  "diffuser-350": "diffuser-350g",
+  "diffuser-500": "diffuser-500g",
+};
+
 export function ProductCard({ product, index, tone = "water", location }: ProductCardProps) {
   const savings = Math.max(0, product.listPrice - product.salePrice);
+  const bulkSlug = bulkSlugByProductId[product.id];
   const track = (clickTarget: "image" | "button") => {
     trackProductClick({
       eventName: product.eventName,
@@ -71,9 +81,20 @@ export function ProductCard({ product, index, tone = "water", location }: Produc
             <span key={chip}>{chip}</span>
           ))}
         </div>
-        <ExternalLink className="button button--quiet" href={product.href} onClick={() => track("button")}>
-          {product.ctaLabel || "Buy on Shopee"}
-        </ExternalLink>
+        <div className="product-card__actions" aria-label={`${product.name} purchase options`}>
+          <ExternalLink className="button button--quiet" href={product.href} onClick={() => track("button")}>
+            Shopee
+          </ExternalLink>
+          {bulkSlug && (
+            <Link
+              className="button button--bulk"
+              to={`/bulk-orders/${bulkSlug}`}
+              onClick={() => trackEvent("click_bulk_product", { product_id: bulkSlug, button_location: `${location}_bulk_button` })}
+            >
+              Bulk
+            </Link>
+          )}
+        </div>
       </div>
     </motion.article>
   );
