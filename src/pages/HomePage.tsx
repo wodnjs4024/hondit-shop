@@ -201,12 +201,12 @@ export function HomePage() {
 
         <section className="how-to section-shell">
           <div className="section-inner section-inner--wide how-to__grid">
-            <div>
+            <div className="how-to__intro">
               <p className="eyebrow">HOW TO USE</p>
               <h2>No flame. No electricity. Scent when you choose.</h2>
             </div>
-            {["Place the volcanic stones in the pot.", "Add 10–12 drops of citrus oil onto the stones.", "Allow the oil to absorb naturally.", "Add a few more drops whenever you want to refresh the scent."].map((text, index) => (
-              <p key={text}><span>{String(index + 1).padStart(2, "0")}</span>{text}</p>
+            {["Place the volcanic stones in the pot.", "Add 10-12 drops of citrus oil onto the stones.", "Allow the oil to absorb naturally.", "Add a few more drops whenever you want to refresh the scent."].map((text, index) => (
+              <p className="how-to__step" key={text}><span>{String(index + 1).padStart(2, "0")}</span>{text}</p>
             ))}
           </div>
         </section>
