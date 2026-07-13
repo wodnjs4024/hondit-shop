@@ -18,6 +18,7 @@ import { JejuPage } from "./pages/JejuPage";
 import { OrderCompletePage } from "./pages/OrderCompletePage";
 import { PaymentFailedPage } from "./pages/PaymentFailedPage";
 import { PolicyPage } from "./pages/PolicyPage";
+import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { ProductsPage } from "./pages/ProductsPage";
 import { ShippingPage } from "./pages/ShippingPage";
 
@@ -50,6 +51,12 @@ function routeMeta(pathname: string) {
     return {
       title: "Products | hondit Singapore",
       description: "Explore hondit Jeju-inspired diffuser and vegan cleansing products with Shopee and direct bulk order options.",
+    };
+  }
+  if (pathname.startsWith("/products/")) {
+    return {
+      title: "Product Detail | hondit Singapore",
+      description: "Compare hondit product details, use cases, volume, Shopee purchase route and bulk inquiry options.",
     };
   }
   if (pathname.startsWith("/payment-failed/")) {
@@ -98,6 +105,7 @@ export default function App() {
     if (location.pathname === "/") trackEvent("view_home");
     if (location.pathname === "/bulk-orders") trackEvent("view_bulk_list");
     if (location.pathname.startsWith("/bulk-orders/")) trackEvent("view_product", { page_path: location.pathname });
+    if (location.pathname.startsWith("/products/")) trackEvent("view_product", { page_path: location.pathname });
     const params = new URLSearchParams(location.search);
     const attribution = {
       utm_source: params.get("utm_source") || "",
@@ -120,6 +128,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/bulk-orders" element={<BulkOrdersPage />} />
         <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
         <Route path="/contact" element={<ContactPage />} />

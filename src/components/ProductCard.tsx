@@ -23,6 +23,7 @@ const bulkSlugByProductId: Record<string, string> = {
 export function ProductCard({ product, index, tone = "water", location }: ProductCardProps) {
   const savings = Math.max(0, product.listPrice - product.salePrice);
   const bulkSlug = bulkSlugByProductId[product.id];
+  const detailPath = `/products/${product.id}`;
   const track = (clickTarget: "image" | "button") => {
     trackProductClick({
       eventName: product.eventName,
@@ -42,10 +43,10 @@ export function ProductCard({ product, index, tone = "water", location }: Produc
       viewport={{ once: true, amount: 0.24 }}
       transition={{ duration: 0.7, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
     >
-      <ExternalLink
+      <Link
         className="product-card__image-link"
-        href={product.href}
-        aria-label={`View ${product.name} on Shopee Singapore`}
+        to={detailPath}
+        aria-label={`View details for ${product.name}`}
         onClick={() => track("image")}
       >
         <span className="discount-badge">{DISCOUNT_LABEL}</span>
@@ -57,7 +58,7 @@ export function ProductCard({ product, index, tone = "water", location }: Produc
           loading="lazy"
           decoding="async"
         />
-      </ExternalLink>
+      </Link>
       <div className="product-card__meta">
         {product.category && <p className="product-card__category">{product.category}</p>}
         <div className="product-card__title-row">
@@ -82,8 +83,11 @@ export function ProductCard({ product, index, tone = "water", location }: Produc
           ))}
         </div>
         <div className="product-card__actions" aria-label={`${product.name} purchase options`}>
+          <Link className="button button--detail" to={detailPath}>
+            View Details
+          </Link>
           <ExternalLink className="button button--quiet" href={product.href} onClick={() => track("button")}>
-            Shopee
+            Buy on Shopee
           </ExternalLink>
           {bulkSlug && (
             <Link
@@ -91,7 +95,7 @@ export function ProductCard({ product, index, tone = "water", location }: Produc
               to={`/bulk-orders/${bulkSlug}`}
               onClick={() => trackEvent("click_bulk_product", { product_id: bulkSlug, button_location: `${location}_bulk_button` })}
             >
-              Bulk
+              Bulk Inquiry
             </Link>
           )}
         </div>
