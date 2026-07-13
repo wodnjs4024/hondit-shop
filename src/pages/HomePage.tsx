@@ -1,264 +1,96 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { FAQAccordion } from "../components/FAQAccordion";
 import { ProductCard } from "../components/ProductCard";
-import { cleansingProducts, diffuserProducts, links, retailProducts, ritualCards, trustItems } from "../data/siteData";
-import { trackEvent, trackJejuPreview, trackRitualSelect, trackStoreClick } from "../lib/analytics";
-import { About } from "../sections/About";
+import { links, retailProducts } from "../data/siteData";
+import { trackEvent, trackStoreClick } from "../lib/analytics";
 import { Footer } from "../sections/Footer";
 
-function scrollToProduct(id: string, label: string) {
-  trackRitualSelect(label);
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center" });
-}
+const homeBenefits = [
+  ["Mindful Ingredients", "Vegan-friendly, clean and gentle formulas."],
+  ["Inspired by Jeju Nature", "Volcanic rock, sea minerals and botanical extracts."],
+  ["Made for Everyday Rituals", "Simple, sensory essentials that fit your life."],
+];
 
 export function HomePage() {
   return (
     <>
-      <main>
-        <section className="commerce-hero section-shell" id="home">
-          <div className="commerce-hero__content">
-            <p className="eyebrow">KOREAN CARE & SCENT · CURATED IN JEJU</p>
+      <main className="editorial-home">
+        <section className="home-hero" id="home">
+          <div className="home-hero__shade" />
+          <div className="home-hero__content">
+            <p className="eyebrow">JEJU-INSPIRED CARE AND SCENT</p>
             <h1>
-              Care for your skin.
-              <span>Scent for your space.</span>
+              Pieces of Jeju Island,
+              <span>arriving in Singapore.</span>
             </h1>
             <p>
-              A considered collection of Korean cleansing and home fragrance, selected for calm everyday moments in Singapore.
+              Curated Korean cleansing and home fragrance - rooted in nature, made for quiet everyday rituals.
             </p>
-            <div className="commerce-hero__actions">
-              <a className="button button--primary" href="#retail-shop">
-                Shop the collection
+            <div className="home-route-cards" aria-label="Choose a purchase route">
+              <a href={links.shopeeStore} target="_blank" rel="noreferrer" onClick={() => trackStoreClick("home_route_card")}>
+                <span className="route-icon" aria-hidden="true">Bag</span>
+                <em>For individuals</em>
+                <strong>Buy on Shopee</strong>
+                <small>Shop our products easily on Shopee Singapore.</small>
               </a>
-              <Link className="button button--ghost" to="/bulk-orders">
-                Order by pack
+              <Link to="/bulk-orders" onClick={() => trackEvent("view_bulk_list", { button_location: "home_route_card" })}>
+                <span className="route-icon" aria-hidden="true">Box</span>
+                <em>For businesses</em>
+                <strong>Bulk Order</strong>
+                <small>Wholesale and corporate enquiries for larger orders.</small>
               </Link>
-            </div>
-            <div className="hero-purchase-routes" aria-label="Choose shopping route">
-              <a href={links.shopeeStore} target="_blank" rel="noreferrer" onClick={() => trackStoreClick("hero_personal")}>
-                <span>For personal use</span>
-                <strong>Shop on Shopee</strong>
-                <em>Single items, ships from Korea</em>
-              </a>
-              <Link to="/bulk-orders" onClick={() => trackEvent("view_bulk_list", { button_location: "hero_bulk_card" })}>
-                <span>For bulk / resellers</span>
-                <strong>Order by pack</strong>
-                <em>Bulk quantities, free Singapore EMS, delivered within Singapore</em>
-              </Link>
-            </div>
-            <Link className="hero-quote-link" to="/contact">Need a custom quantity? Request a quote</Link>
-            <div className="hero-categories" aria-label="Product categories">
-              <a href="#cleansing">
-                <span>SKIN</span>
-                Vegan cleansing rituals
-              </a>
-              <a href="#diffuser">
-                <span>SPACE</span>
-                Volcanic stone scent
-              </a>
             </div>
           </div>
         </section>
 
-        <section className="retail-shop section-shell" id="retail-shop">
-          <div className="section-inner section-inner--wide">
-            <div className="section-heading">
-              <p>SHOP ON SHOPEE SG</p>
-              <h2>
-                Retail prices made
-                <span>easy to compare.</span>
-              </h2>
-              <p className="section-copy">
-                Every retail product shows the normal price, sale price and current Shopee discount clearly before you leave the site.
-              </p>
+        <section className="editorial-section featured-products">
+          <div className="editorial-container">
+            <div className="center-heading">
+              <p className="eyebrow">FEATURED PRODUCTS</p>
+              <h2>Inspired by Jeju. Made for you.</h2>
             </div>
-            <div className="product-grid product-grid--three">
+            <div className="featured-strip">
               {retailProducts.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} tone={product.category?.includes("DIFFUSER") ? "sand" : "water"} location="retail_shop" />
+                <ProductCard key={product.id} product={product} index={index} tone={product.id.includes("diffuser") ? "sand" : "water"} location="home_featured" />
+              ))}
+            </div>
+            <div className="center-action">
+              <Link className="button button--outline-dark" to="/products">View All Products</Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="why-hondit">
+          <div className="why-hondit__copy">
+            <p className="eyebrow">WHY HONDIT</p>
+            <h2>Jeju's quiet power, for everyday well-being.</h2>
+            <p>
+              Jeju Island is shaped by wind, ocean and volcanic earth. At hondit, we translate that purity into simple care and scent rituals for daily life.
+            </p>
+            <div className="why-hondit__benefits">
+              {homeBenefits.map(([title, body]) => (
+                <article key={title}>
+                  <span aria-hidden="true" />
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </article>
               ))}
             </div>
           </div>
-        </section>
-
-        <section className="collection-nav section-shell">
-          <div className="section-inner section-inner--wide collection-nav__grid">
-            <a className="collection-panel collection-panel--skin" href="#cleansing">
-              <span>FOR YOUR SKIN</span>
-              <strong>Clear, gentle cleansing for everyday routines.</strong>
-              <em>Explore cleansing</em>
-            </a>
-            <a className="collection-panel collection-panel--space" href="#diffuser">
-              <span>FOR YOUR SPACE</span>
-              <strong>Quiet citrus scent carried by volcanic stone.</strong>
-              <em>Explore scent</em>
-            </a>
+          <div className="why-hondit__mosaic" aria-label="Jeju and hondit mood images">
+            <img src="/images/jeju-canola-sea-stonewall.png" alt="Jeju canola flowers, sea and stone walls." loading="lazy" decoding="async" />
+            <img src="/images/jeju-tangerine-stonewall.png" alt="Jeju green citrus leaves and stone wall." loading="lazy" decoding="async" />
+            <img src="/images/jeju-sea-stone.png" alt="Jeju ocean and dark volcanic stone." loading="lazy" decoding="async" />
+            <img src="/images/singapore-bedroom-desk.png" alt="A calm room styled for hondit rituals." loading="lazy" decoding="async" />
           </div>
         </section>
 
-        <section className="singapore-days section-shell" id="singapore">
-          <div className="section-inner section-inner--wide singapore-days__grid">
-            <div className="section-heading">
-              <p>MADE FOR SINGAPORE DAYS</p>
-              <h2>
-                Small rituals for warm,
-                <span>fast-moving days.</span>
-              </h2>
-              <p className="section-copy">
-                From a clear morning cleanse to a quiet scent at the end of the day, hondit brings Korean care and fragrance into familiar Singapore spaces.
-              </p>
-            </div>
-            <figure className="editorial-photo editorial-photo--large">
-              <img src="/images/singapore-bathroom.png" alt="A calm Singapore bathroom setting for a morning reset." width="1200" height="900" loading="lazy" decoding="async" />
-              <figcaption><span>MORNING RESET</span>A clean start after sunscreen, humidity and city days.</figcaption>
-            </figure>
-            <figure className="editorial-photo">
-              <img src="/images/singapore-bedroom-desk.png" alt="A quiet bedroom and desk corner for evening scent rituals." width="1200" height="900" loading="lazy" decoding="async" />
-              <figcaption><span>QUIET EVENING</span>A light citrus scent for bedrooms, desks and personal corners.</figcaption>
-            </figure>
+        <section className="soft-cta">
+          <div>
+            <h2>From Jeju to you.</h2>
+            <p>Thoughtful products. Honest ingredients. Quiet luxury in every detail.</p>
           </div>
+          <Link className="button button--dark" to="/products">Explore Products</Link>
         </section>
-
-        <section className="ritual section-shell" id="ritual">
-          <div className="section-inner section-inner--wide">
-            <div className="section-heading section-heading--center">
-              <p>FIND YOUR RITUAL</p>
-              <h2>Which ritual fits your day?</h2>
-            </div>
-            <div className="ritual-grid">
-              {ritualCards.map((card) => (
-                <button key={card.number} type="button" onClick={() => scrollToProduct(card.targetId, card.title)}>
-                  <span>{card.number}</span>
-                  <em>{card.eyebrow}</em>
-                  <strong>{card.title}</strong>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="cleansing section-shell" id="cleansing">
-          <div className="section-inner section-inner--wide">
-            <div className="section-heading">
-              <p>01 · CLEANSING</p>
-              <h2>
-                A clearer way
-                <span>to close the day.</span>
-              </h2>
-              <p className="section-copy">
-                Three fragrance-free vegan cleansing options designed for different routines, from makeup removal to a simple daily wash.
-              </p>
-            </div>
-            <div className="product-grid product-grid--three">
-              {cleansingProducts.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} tone="water" location="cleansing" />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="texture-editorial section-shell">
-          <div className="section-inner section-inner--wide texture-editorial__grid">
-            {[
-              ["/images/foam-oil-texture.png", "OIL TO MILK", "A silky oil texture meets water and transforms into a soft milky emulsion."],
-              ["/images/cleansing-foam-texture.png", "SOFT FOAM", "Airy micro-bubbles for a gentle everyday cleanse."],
-              ["/images/cleansing-water-use.png", "QUICK RESET", "Clear cleansing water for light, effortless routines."],
-            ].map(([src, title, body], index) => (
-              <figure className={index === 0 ? "texture-card texture-card--large" : "texture-card"} key={title}>
-                <img src={src} alt={`${title.toLowerCase()} editorial texture.`} width="900" height="760" loading="lazy" decoding="async" />
-                <figcaption><span>{title}</span>{body}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-
-        <section className="bridge section-shell" aria-label="Skin to space transition">
-          <motion.div className="bridge__content" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.45 }}>
-            <p>FROM SKIN TO SPACE</p>
-            <h2>
-              The day begins with water
-              <span>and settles into stone.</span>
-            </h2>
-          </motion.div>
-        </section>
-
-        <section className="diffuser section-shell" id="diffuser">
-          <div className="section-inner section-inner--wide">
-            <div className="section-heading">
-              <p>02 · SCENT</p>
-              <h2>
-                A quieter way
-                <span>to scent a room.</span>
-              </h2>
-              <p className="section-copy">Jeju volcanic stone slowly carries a light citrus scent, without flame or electricity.</p>
-            </div>
-            <div className="product-grid product-grid--two">
-              {diffuserProducts.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} tone="sand" location="diffuser" />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="how-to section-shell">
-          <div className="section-inner section-inner--wide how-to__grid">
-            <div className="how-to__intro">
-              <p className="eyebrow">HOW TO USE</p>
-              <h2>No flame. No electricity. Scent when you choose.</h2>
-            </div>
-            {["Place the volcanic stones in the pot.", "Add 10-12 drops of citrus oil onto the stones.", "Allow the oil to absorb naturally.", "Add a few more drops whenever you want to refresh the scent."].map((text, index) => (
-              <p className="how-to__step" key={text}><span>{String(index + 1).padStart(2, "0")}</span>{text}</p>
-            ))}
-          </div>
-        </section>
-
-        <section className="jeju-preview section-shell" id="explore">
-          <div className="section-inner section-inner--wide jeju-preview__grid">
-            <figure><img src="/images/jeju-sea-stone.png" alt="Jeju sea and volcanic stone." width="1200" height="900" loading="lazy" decoding="async" /></figure>
-            <div className="section-heading">
-              <p>OUR JEJU</p>
-              <h2>Sea, wind and stone.</h2>
-              <p className="section-copy">hondit began with the textures and quiet contrasts of Jeju: clear water, dark volcanic rock and landscapes shaped by wind.</p>
-              <Link className="button button--primary" to="/jeju" onClick={() => trackJejuPreview("home_preview")}>Discover Our Jeju</Link>
-            </div>
-            <figure><img src="/images/jeju-canola-sea-stonewall.png" alt="Jeju canola flowers, sea and stone wall." width="1200" height="900" loading="lazy" decoding="async" /></figure>
-          </div>
-        </section>
-
-        <section className="trust section-shell">
-          <div className="section-inner section-inner--wide">
-            <div className="trust-grid">
-              {trustItems.map(([title, body]) => (
-                <div key={title}><span /> <strong>{title}</strong><p>{body}</p></div>
-              ))}
-            </div>
-            <p className="trust-note">Estimated delivery times may vary depending on order date and logistics.</p>
-          </div>
-        </section>
-
-        <section className="faq section-shell" id="faq">
-          <div className="section-inner section-inner--narrow">
-            <div className="section-heading">
-              <p>FAQ</p>
-              <h2>Before you shop.</h2>
-            </div>
-            <FAQAccordion />
-          </div>
-        </section>
-
-        <section className="bulk-teaser section-shell">
-          <div className="section-inner section-inner--wide bulk-teaser__grid">
-            <div>
-              <p className="eyebrow">BULK ORDERS</p>
-              <h2>Ordering 20 or more units?</h2>
-              <p>
-                Selected hondit products are available for direct bulk purchase with Singapore EMS shipping included in the listed price.
-              </p>
-            </div>
-            <Link className="button button--primary" to="/bulk-orders">View Bulk Orders</Link>
-          </div>
-        </section>
-
-        <About />
       </main>
       <Footer />
     </>

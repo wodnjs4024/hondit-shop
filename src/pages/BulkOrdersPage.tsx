@@ -1,17 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { BULK_QTY_STEP, bulkProducts, formatSgd, getBulkMoq, getBulkTotal, getStockStatus, type BulkCategory, type BulkProduct } from "../data/bulkProducts";
+import { BULK_QTY_STEP, bulkProducts, formatSgd, getBulkMoq, getBulkTotal, type BulkProduct } from "../data/bulkProducts";
 import { fetchBulkProducts } from "../lib/bulkApi";
+import { Footer } from "../sections/Footer";
 
-const filters: Array<{ label: string; value: "all" | BulkCategory }> = [
-  { label: "All", value: "all" },
-  { label: "Cleansing", value: "cleansing" },
-  { label: "Diffuser", value: "diffuser" },
+const businessUses = [
+  ["Hotel Amenities", "Elevate your guest experience with premium, Jeju-inspired care and scent."],
+  ["Spa & Wellness", "Calming formulas for relaxation and rejuvenation experiences."],
+  ["Retail", "Curated products that customers love and return for."],
+  ["Corporate Gifts", "Meaningful gifts for teams, clients and special occasions."],
 ];
 
 export function BulkOrdersPage() {
   const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
-  const [category, setCategory] = useState<"all" | BulkCategory>("all");
 
   useEffect(() => {
     fetchBulkProducts().then(setProducts);
@@ -21,86 +22,105 @@ export function BulkOrdersPage() {
     () =>
       products
         .filter((product) => product.active && product.purchaseEnabled)
-        .filter((product) => category === "all" || product.category === category)
         .sort((a, b) => a.sortOrder - b.sortOrder),
-    [category, products],
+    [products],
   );
 
+  const totalUnits = visibleProducts.reduce((sum, product) => sum + getBulkMoq(product), 0);
+
   return (
-    <main className="bulk-page">
-      <section className="bulk-hero section-shell">
-        <div className="section-inner section-inner--wide bulk-hero__grid">
-          <div>
+    <>
+      <main className="editorial-page bulk-page bulk-page-v2">
+        <section className="editorial-hero editorial-hero--bulk">
+          <div className="editorial-hero__copy">
             <p className="eyebrow">BULK ORDERS</p>
-            <h1>Direct orders for selected hondit products.</h1>
-            <p>
-              Bulk prices are lower because they exclude the marketplace fees applied on Shopee. Ordering directly here passes those savings on to you.
-            </p>
+            <h1>Bulk Orders for Business</h1>
+            <p>For hotels, spas, retail, events and corporate gifting. This page is for larger quantities and business enquiries.</p>
+            <div className="bulk-hero-icons">
+              {["Jeju-inspired Formulations", "Premium Ingredients", "Sustainable Packaging", "Made for Businesses"].map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
           </div>
-          <aside className="bulk-note">
-            <span>Singapore delivery only</span>
-            <strong>Free Singapore EMS shipping</strong>
-            <p>Shipping is included in the displayed bulk price. No separate shipping fee is added at checkout.</p>
-          </aside>
-        </div>
-      </section>
+        </section>
 
-      <section className="bulk-catalog section-shell">
-        <div className="section-inner section-inner--wide">
-          <div className="bulk-filter" aria-label="Bulk product category filter">
-            {filters.map((filter) => (
-              <button
-                className={category === filter.value ? "is-active" : ""}
-                key={filter.value}
-                type="button"
-                onClick={() => setCategory(filter.value)}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="bulk-grid">
-            {visibleProducts.map((product) => (
-              <article className="bulk-card" key={product.slug}>
-                <Link className="bulk-card__image" to={`/bulk-orders/${product.slug}`}>
-                  <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" />
-                </Link>
-                <div className="bulk-card__body">
-                  <p className="bulk-card__category">{product.category}</p>
-                  <h2>{product.name}</h2>
-                  <p>{product.shortDescription}</p>
-                  <p className={`stock-pill stock-pill--${getStockStatus(product).toLowerCase().replaceAll(" ", "-")}`}>{getStockStatus(product)}</p>
-                  <dl className="bulk-price-list">
-                    <div>
-                      <dt>Volume</dt>
-                      <dd>{product.volumeLabel}</dd>
-                    </div>
-                    <div>
-                      <dt>Unit price</dt>
-                      <dd>{formatSgd(product.unitPriceSgd)}</dd>
-                    </div>
-                    <div>
-                      <dt>Minimum</dt>
-                      <dd>{getBulkMoq(product)} units</dd>
-                    </div>
-                    <div>
-                      <dt>MOQ total</dt>
-                      <dd>{formatSgd(getBulkTotal(product, getBulkMoq(product)))}</dd>
-                    </div>
-                  </dl>
-                  <p className="shipping-pill">Minimum {getBulkMoq(product)} units. Increase in steps of {BULK_QTY_STEP}. Free Singapore EMS shipping included.</p>
-                  <div className="bulk-card__actions">
-                    <Link className="button button--primary" to={`/bulk-orders/${product.slug}`} aria-disabled={getStockStatus(product) === "Sold out"}>
-                      {getStockStatus(product) === "Sold out" ? "Notify me" : "Order this item"}
-                    </Link>
-                  </div>
+        <section className="editorial-section bulk-guide">
+          <div className="editorial-container bulk-guide__grid">
+            <article className="bulk-price-table">
+              <h2>MOQ & Pricing Guide</h2>
+              <p>Wholesale pricing for bulk orders. Free Singapore EMS shipping is included in the listed price.</p>
+              <div className="bulk-table" role="table" aria-label="Bulk order price guide">
+                <div role="row">
+                  <strong>Product</strong>
+                  <strong>MOQ</strong>
+                  <strong>Unit Price</strong>
+                  <strong>MOQ Total</strong>
                 </div>
-              </article>
-            ))}
+                {visibleProducts.map((product) => (
+                  <Link role="row" to={`/bulk-orders/${product.slug}`} key={product.slug}>
+                    <span>
+                      <img src={product.imageUrl} alt="" loading="lazy" decoding="async" />
+                      {product.name}
+                    </span>
+                    <span>{getBulkMoq(product)}</span>
+                    <span>{formatSgd(product.unitPriceSgd)}</span>
+                    <span>{formatSgd(getBulkTotal(product, getBulkMoq(product)))}</span>
+                  </Link>
+                ))}
+              </div>
+              <small>Prices are in SGD. Ordering directly here excludes Shopee marketplace fees.</small>
+            </article>
+
+            <aside className="quick-quote">
+              <h2>Quick Quote</h2>
+              <p>Select a product to choose quantity and checkout by PayPal or credit/debit card.</p>
+              {visibleProducts.map((product) => (
+                <Link to={`/bulk-orders/${product.slug}`} key={product.slug}>
+                  <img src={product.imageUrl} alt="" loading="lazy" decoding="async" />
+                  <span>{product.name}</span>
+                  <strong>{getBulkMoq(product)}+</strong>
+                </Link>
+              ))}
+              <div>
+                <span>Total MOQ quantity</span>
+                <strong>{totalUnits} units</strong>
+              </div>
+              <Link className="button button--dark" to="/contact">Request a Quote</Link>
+            </aside>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+
+        <section className="business-cards editorial-container">
+          {businessUses.map(([title, body], index) => (
+            <article key={title}>
+              <img
+                src={index === 0 ? "/images/singapore-bedroom-desk.png" : index === 1 ? "/images/jeju-volcanic-rock.png" : index === 2 ? "/images/foam-oil.png" : "/images/diffuser-350g.png"}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
+        </section>
+
+        <section className="how-it-works">
+          {[
+            ["1", "Inquiry", "Share your requirements or choose a product."],
+            ["2", "Quantity", "Select MOQ or increase in steps of 10."],
+            ["3", "Payment", "Complete payment via PayPal or card."],
+            ["4", "Delivery", "We prepare and deliver your order safely."],
+          ].map(([number, title, body]) => (
+            <article key={number}>
+              <strong>{number}</strong>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -1,8 +1,17 @@
 import { FormEvent, useState } from "react";
-import { Footer } from "../sections/Footer";
+import { FAQAccordion } from "../components/FAQAccordion";
+import { links } from "../data/siteData";
 import { trackEvent } from "../lib/analytics";
+import { Footer } from "../sections/Footer";
 
-const inquiryTypes = ["General", "Bulk quote", "Custom quantity"];
+const inquiryTypes = ["General", "Payment issue", "Shipping / address issue", "Bulk inquiry", "Product question"];
+
+const helpCards = [
+  ["Payment Issue", "Questions about payments, charges or failed transactions."],
+  ["Shipping / Address Issue", "Delivery status, shipping times or address changes."],
+  ["Bulk Inquiry", "Interested in bulk orders or corporate gifting?"],
+  ["Product Question", "Ingredients, usage or product recommendations."],
+];
 
 export function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -15,39 +24,69 @@ export function ContactPage() {
 
   return (
     <>
-      <main className="contact-page">
-        <section className="contact-hero section-shell">
-          <div className="section-inner section-inner--narrow">
-            <p className="eyebrow">CONTACT HONDIt</p>
-            <h1>Need a custom quantity or a bulk quote?</h1>
-            <p>
-              Tell us what you need. You can also reach us through Instagram or Shopee Chat for product questions and custom quantities.
-            </p>
-            <div className="contact-direct-links">
-              <a href="mailto:hondit.official@gmail.com">hondit.official@gmail.com</a>
-              <a href="https://www.instagram.com/hondit.office/">Instagram</a>
-              <a href="https://shopee.sg/hondit.office.sg">Shopee Chat</a>
-            </div>
+      <main className="editorial-page contact-page-v2">
+        <section className="editorial-hero editorial-hero--contact">
+          <div className="editorial-hero__copy">
+            <p className="eyebrow">CONTACT</p>
+            <h1>Contact</h1>
+            <p>We are here to help. Whether you have a product question, need support with an order, or are interested in partnering with us.</p>
+            <strong>We typically respond within 1-2 business days.</strong>
           </div>
         </section>
 
-        <section className="section-shell">
-          <div className="section-inner section-inner--narrow">
-            <form className="contact-form" onSubmit={submit}>
-              <label>Name<input name="name" required /></label>
-              <label>Email<input name="email" type="email" required /></label>
-              <label>Inquiry type
+        <section className="editorial-section">
+          <div className="editorial-container contact-grid">
+            <form className="contact-form contact-form-v2" onSubmit={submit}>
+              <h2>Send us a message</h2>
+              <div className="form-two">
+                <label>Name *<input name="name" required placeholder="Your name" /></label>
+                <label>Email *<input name="email" type="email" required placeholder="you@example.com" /></label>
+              </div>
+              <div className="form-two">
+                <label>Company (optional)<input name="company" placeholder="Your company" /></label>
+                <label>Order Number (optional)<input name="orderNumber" placeholder="#12345" /></label>
+              </div>
+              <label>Inquiry Type *
                 <select name="type">
                   {inquiryTypes.map((type) => <option key={type}>{type}</option>)}
                 </select>
               </label>
-              <label>Desired quantity<input name="quantity" inputMode="numeric" placeholder="e.g. 50 units" /></label>
-              <label className="contact-form__wide">Message<textarea name="message" required placeholder="Product, quantity, delivery timeline or question." /></label>
+              <label>Message *<textarea name="message" required placeholder="How can we help you?" /></label>
               <input className="contact-form__trap" name="website" tabIndex={-1} autoComplete="off" />
-              <button className="button button--primary" type="submit">Request a quote</button>
-              {submitted && <p className="setup-warning">Thank you. Please also contact us through email, Instagram or Shopee Chat for the fastest reply.</p>}
+              <button className="button button--dark" type="submit">Send Message</button>
+              <p className="contact-safe">Your information is safe with us and will only be used to respond to your inquiry.</p>
+              {submitted && <p className="setup-warning">Thank you. For the fastest reply, you can also contact us by email, Instagram or Shopee Chat.</p>}
             </form>
+
+            <aside className="quick-help">
+              <h2>Quick help</h2>
+              <div>
+                {helpCards.map(([title, body]) => (
+                  <a href="#contact-links" key={title}>
+                    <span aria-hidden="true" />
+                    <h3>{title}</h3>
+                    <p>{body}</p>
+                    <strong>Get help</strong>
+                  </a>
+                ))}
+              </div>
+            </aside>
           </div>
+        </section>
+
+        <section className="editorial-container contact-lower" id="contact-links">
+          <article>
+            <h2>Frequently asked questions</h2>
+            <FAQAccordion />
+          </article>
+          <article className="contact-methods">
+            <h2>Other ways to reach us</h2>
+            <p><strong>Email</strong><a href="mailto:hondit.official@gmail.com">hondit.official@gmail.com</a></p>
+            <p><strong>Instagram</strong><a href={links.instagram}>@hondit.office</a></p>
+            <p><strong>Shopee Chat</strong><a href={links.shopeeStore}>hondit Shopee SG</a></p>
+            <p><strong>Location</strong>Jeju Island, Republic of Korea</p>
+            <img src="/images/diffuser-350g.png" alt="hondit volcanic stone diffuser." loading="lazy" decoding="async" />
+          </article>
         </section>
       </main>
       <Footer />

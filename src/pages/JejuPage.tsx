@@ -1,97 +1,92 @@
 import { Link } from "react-router-dom";
 import { Footer } from "../sections/Footer";
 
-const jejuSections = [
-  {
-    eyebrow: "01 / THE ISLAND",
-    title: "An island shaped slowly by water, wind and fire.",
-    body: "Jeju carries contrasts within one landscape: clear coastlines, dark volcanic ground, open fields and stone walls built from the island itself.",
-    images: ["/images/jeju-sea-stone.png"],
-  },
-  {
-    eyebrow: "02 / THE SEA",
-    title: "Clear at the edge, deeper beyond.",
-    body: "Along Jeju's coast, pale sand, clear shallows and dark volcanic rock meet under changing light. The same shoreline can appear quiet, bright or deep, depending on the wind and tide.",
-    images: ["/images/jeju-sea-detail.png", "/images/jeju-clear-water.png"],
-  },
-  {
-    eyebrow: "03 / THE WIND",
-    title: "Seen in the grass, heard along the stone walls.",
-    body: "Wind is not a backdrop in Jeju. It draws lines through silver grass, opens the sky above the fields and carries the coast into the island's quieter paths.",
-    images: ["/images/jeju-wind-mountain.png", "/images/jeju-wind-field.png", "/images/jeju-wind-coast.png"],
-    layout: "wind",
-  },
-  {
-    eyebrow: "04 / THE STONE",
-    title: "Dark, porous and shaped by time.",
-    body: "Volcanic rock remains across Jeju's coast, fields and villages. Its rough surface holds the history of an island formed through fire and water.",
-    images: ["/images/jeju-volcanic-landscape.png", "/images/jeju-volcanic-rock.png"],
-    dark: true,
-  },
-  {
-    eyebrow: "05 / STONE WALLS",
-    title: "Built from what the island gave.",
-    body: "Jeju's stone walls were formed from local volcanic rock, stacked to endure strong winds while leaving space for air to pass. They remain part of the island's fields, coastlines and everyday landscapes.",
-    images: ["/images/jeju-canola-sea-stonewall.png", "/images/jeju-stone-detail.png"],
-  },
-  {
-    eyebrow: "06 / CITRUS ORCHARDS",
-    title: "Green leaves, dark stone, and fruit under island light.",
-    body: "Across Jeju, citrus orchards grow beside volcanic stone walls, bringing warmer colour into the island's quiet landscape.",
-    images: ["/images/jeju-tangerine-stonewall.png"],
-  },
+const jejuElements = [
+  ["/images/jeju-sea-stone.png", "Sea", "Pure and vast. The origin of life and clarity in every breath."],
+  ["/images/jeju-wind-field.png", "Breeze", "Soft and constant. Carrying the scent of Jeju across the island."],
+  ["/images/jeju-volcanic-rock.png", "Stone", "Ancient and enduring. Shaped by time, grounding and strong."],
+  ["/images/jeju-tangerine-stonewall.png", "Plants", "Resilient and generous. Nourishing, healing and full of quiet power."],
+  ["/images/singapore-bedroom-desk.png", "Quiet Living", "Slow and intentional. The beauty of less, and living with meaning."],
+];
+
+const scentCare = [
+  ["Scents from Jeju", "/images/jeju-tangerine-stonewall.png", "Citrus & Green", "Bright, refreshing notes inspired by Jeju's sunlight and green forests."],
+  ["Scents from Jeju", "/images/jeju-sea-detail.png", "Sea & Mineral", "Clean mineral accords echoing the vast Jeju ocean."],
+  ["Scents from Jeju", "/images/jeju-wind-mountain.png", "Herbal & Woody", "Earthy, calming aromas rooted in Jeju's native herbs and woods."],
+  ["Care from Jeju", "/images/jeju-volcanic-rock.png", "Jeju Volcanic Stone", "Rich in minerals, known for purifying and balancing."],
+  ["Care from Jeju", "/images/jeju-tangerine-stonewall.png", "Jeju Plants", "Harvested with care, full of antioxidants and gentle energy."],
+  ["Care from Jeju", "/images/jeju-clear-water.png", "Deep Sea Water", "Clean mineral water that nourishes and revitalizes the skin."],
 ];
 
 export function JejuPage() {
   return (
-    <main className="jeju-page">
-      <section className="jeju-hero">
-        <Link className="jeju-hero__back" to="/">Back to hondit</Link>
-        <div className="jeju-hero__content">
-          <p className="eyebrow">JEJU ISLAND</p>
-          <h1>
-            Where the sea,
-            <span>wind and stone meet.</span>
-          </h1>
-          <p>An island shaped slowly by water, weather and time.</p>
-          <span className="jeju-hero__scroll">Scroll to discover</span>
-        </div>
-      </section>
-
-      {jejuSections.map((section, index) => (
-        <section
-          className={`jeju-story ${section.dark ? "jeju-story--dark" : ""} ${section.layout ? `jeju-story--${section.layout}` : ""}`}
-          key={section.eyebrow}
-        >
-          <div className="jeju-story__copy">
-            <p className="eyebrow">{section.eyebrow}</p>
-            <h2>{section.title}</h2>
-            <p>{section.body}</p>
-          </div>
-          <div className={`jeju-story__images jeju-story__images--${section.images.length}`}>
-            {section.images.map((src, imageIndex) => (
-              <figure key={src} className="jeju-story__frame">
-                <img
-                  src={src}
-                  alt={`${section.eyebrow.split("/").at(-1)?.trim() ?? "Jeju"} ${imageIndex + 1}`}
-                  width="1200"
-                  height="900"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                />
-              </figure>
-            ))}
+    <>
+      <main className="editorial-page jeju-page-v2">
+        <section className="editorial-hero editorial-hero--jeju">
+          <div className="editorial-hero__copy">
+            <p className="eyebrow">OUR JEJU</p>
+            <h1>Our Jeju</h1>
+            <p>
+              From the sea, wind, stone and plants of Jeju, hondit brings the island's quiet energy into your everyday rituals.
+            </p>
           </div>
         </section>
-      ))}
 
-      <section className="jeju-closing">
-        <div>
-          <h2>From this island, hondit begins.</h2>
-          <Link className="button button--primary" to="/">Return to hondit</Link>
-        </div>
-      </section>
-      <Footer minimal />
-    </main>
+        <section className="editorial-section jeju-elements">
+          <div className="editorial-container">
+            <div className="center-heading">
+              <h2>Five elements that shape our everyday.</h2>
+            </div>
+            <div className="jeju-elements__grid">
+              {jejuElements.map(([src, title, body]) => (
+                <article key={title}>
+                  <img src={src} alt={`${title} from Jeju island.`} loading="lazy" decoding="async" />
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="jeju-belief">
+          <div className="jeju-belief__copy">
+            <h2>Why hondit. exists</h2>
+            <p>Jeju is not loud. It is the feeling of wind on your skin, the scent of the sea, the warmth of sunlight on stone.</p>
+            <p>We believe that feeling can live in everyday moments.</p>
+            <p>hondit. curates Jeju's raw materials and stories, transforming them into scent and care products that bring balance, comfort and calm to your life.</p>
+          </div>
+          <figure>
+            <img src="/images/singapore-bathroom.png" alt="hondit care product in a quiet lifestyle setting." loading="lazy" decoding="async" />
+          </figure>
+        </section>
+
+        <section className="editorial-section jeju-sources">
+          <div className="editorial-container">
+            <div className="center-heading">
+              <h2>Inspired by Jeju. Created for everyday care.</h2>
+            </div>
+            <div className="jeju-sources__grid">
+              {scentCare.map(([group, src, title, body]) => (
+                <article key={`${group}-${title}`}>
+                  <p>{group}</p>
+                  <img src={src} alt={title} loading="lazy" decoding="async" />
+                  <h3>{title}</h3>
+                  <span>{body}</span>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="soft-cta soft-cta--image">
+          <div>
+            <h2>Bring the feeling of Jeju into your everyday rituals.</h2>
+          </div>
+          <Link className="button button--dark" to="/products">Explore Products</Link>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

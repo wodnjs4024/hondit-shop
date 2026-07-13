@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { links } from "../data/siteData";
-import { trackJejuClick, trackStoreClick } from "../lib/analytics";
+import { trackJejuClick } from "../lib/analytics";
 import { BrandLogo } from "./BrandLogo";
-import { ExternalLink } from "./ExternalLink";
 
 type HeaderNavItem =
   | { label: string; href: string; to?: never }
   | { label: string; to: string; href?: never };
 
 const navItems: HeaderNavItem[] = [
-  { label: "Shop", href: "/#retail-shop" },
-  { label: "Bulk", to: "/bulk-orders" },
-  { label: "About", href: "/#about" },
+  { label: "Home", to: "/" },
+  { label: "Our Jeju", to: "/jeju" },
+  { label: "Products", to: "/products" },
+  { label: "Bulk Orders", to: "/bulk-orders" },
   { label: "Contact", to: "/contact" },
 ];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const dark = location.pathname === "/jeju";
+  const dark = false;
   const bulk = location.pathname.startsWith("/bulk-orders");
 
   useEffect(() => {
@@ -58,9 +57,9 @@ export function SiteHeader() {
           </a>
         ),
       )}
-      <ExternalLink className="header__shop" href={links.shopeeStore} onClick={() => trackStoreClick("header")}>
-        Shop on Shopee SG
-      </ExternalLink>
+      <Link className="header__shop header__shop--bulk" to="/bulk-orders">
+        Bulk Order
+      </Link>
     </>
   );
 
