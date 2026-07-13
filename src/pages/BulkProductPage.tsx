@@ -13,7 +13,7 @@ import {
   type BulkProduct,
 } from "../data/bulkProducts";
 import { ProductReviews } from "../components/ProductReviews";
-import { capturePayPalOrder, createPayPalOrder, fetchBulkProducts, type CheckoutPayload } from "../lib/bulkApi";
+import { capturePayPalOrder, createPayPalOrder, fetchBulkProducts, updatePaymentAttempt, type CheckoutPayload } from "../lib/bulkApi";
 import { trackEvent } from "../lib/analytics";
 
 declare global {
@@ -22,6 +22,7 @@ declare global {
       Buttons: (config: {
         createOrder: () => Promise<string>;
         onApprove: (data: { orderID: string }) => Promise<void>;
+        onCancel?: (data: { orderID: string }) => Promise<void>;
         onError?: (error: unknown) => void;
       }) => { render: (selector: string) => Promise<void> };
     };
@@ -177,12 +178,42 @@ export function BulkProductPage() {
           return response.paypalOrderId;
         },
         onApprove: async (data) => {
-          const response = await capturePayPalOrder(data.orderID, createdOrderNumber.current);
-          navigate(`/order-complete/${response.orderNumber}`);
+          try {
+            const response = await capturePayPalOrder(data.orderID, createdOrderNumber.current);
+            navigate(`/order-complete/${response.orderNumber}`);
+          } catch (captureError) {
+            const reason = captureError instanceof Error ? captureError.message : "Payment could not be completed.";
+            await updatePaymentAttempt({
+              orderNumber: createdOrderNumber.current,
+              paypalOrderId: data.orderID,
+              status: "payment_failed",
+              reason,
+            }).catch(() => {});
+            navigate(`/payment-failed/${createdOrderNumber.current}`);
+          }
+        },
+        onCancel: async (data) => {
+          await updatePaymentAttempt({
+            orderNumber: createdOrderNumber.current,
+            paypalOrderId: data.orderID,
+            status: "payment_cancelled",
+            reason: "Customer cancelled PayPal checkout",
+          }).catch(() => {});
+          navigate(`/payment-failed/${createdOrderNumber.current}?status=cancelled`);
         },
         onError: (paypalError) => {
           console.error(paypalError);
-          setError("PayPal payment could not be completed. Please try again or contact hondit.");
+          const reason = paypalError instanceof Error ? paypalError.message : "PayPal payment could not be completed.";
+          if (createdOrderNumber.current) {
+            updatePaymentAttempt({
+              orderNumber: createdOrderNumber.current,
+              status: "payment_failed",
+              reason,
+            }).catch(() => {});
+            navigate(`/payment-failed/${createdOrderNumber.current}`);
+            return;
+          }
+          setError("Payment could not be completed. Please try another card, contact hondit, or purchase through Shopee SG.");
         },
       })
       .render("#direct-paypal-buttons");
@@ -313,22 +344,31 @@ export function BulkProductPage() {
               </form>
 
               <div className="direct-payment-summary">
-                <h2>Final payment check</h2>
-                <p>{product.name}</p>
-                <strong>
-                  {quantity} units / {formatSgd(totalSgd)}
-                </strong>
-                <dl>
-                  <div><dt>Name</dt><dd>{form.customerName || "-"}</dd></div>
-                  <div><dt>Email</dt><dd>{form.customerEmail || "-"}</dd></div>
-                  <div><dt>Phone</dt><dd>{form.customerPhone || "-"}</dd></div>
+                <div className="direct-payment-summary__header">
+                  <span>Review before payment</span>
+                  <h2>Final payment check</h2>
+                  <p>Please confirm these details before opening PayPal or card checkout.</p>
+                </div>
+                <div className="direct-payment-summary__total">
+                  <span>{product.name}</span>
+                  <strong>{quantity} units / {formatSgd(totalSgd)}</strong>
+                </div>
+                <dl className="direct-payment-summary__details">
+                  <div><dt>Full name</dt><dd>{form.customerName || "Not entered"}</dd></div>
+                  <div><dt>Email</dt><dd>{form.customerEmail || "Not entered"}</dd></div>
+                  <div><dt>Phone / WhatsApp</dt><dd>{form.customerPhone || "Not entered"}</dd></div>
                   <div>
                     <dt>Shipping address</dt>
-                    <dd>{[form.addressLine1, form.addressLine2, form.city, form.postalCode].filter(Boolean).join(", ") || "-"}</dd>
+                    <dd>{[form.addressLine1, form.addressLine2, form.city, "Singapore", form.postalCode].filter(Boolean).join(", ") || "Not entered"}</dd>
                   </div>
+                  <div><dt>Order note</dt><dd>{form.customerNote || "No note"}</dd></div>
                 </dl>
-                <span>PayPal {paypalMode === "sandbox" ? "Sandbox " : ""}payment. Currency: SGD.</span>
-                <span>If any shipping information is incorrect after payment, contact hondit immediately with your order number before shipment.</span>
+                <div className="direct-payment-summary__notice">
+                  <strong>Pay with PayPal or credit/debit card.</strong>
+                  <span>For direct checkout, please use PayPal or an international card.</span>
+                  <span>If your payment does not go through, please try another card, contact hondit, or purchase through Shopee SG.</span>
+                  {paypalMode === "sandbox" && <span>PayPal Sandbox payment. Currency: SGD.</span>}
+                </div>
               </div>
 
               {error && <p className="form-error">{error}</p>}

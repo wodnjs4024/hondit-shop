@@ -11,8 +11,12 @@ type DashboardOrder = {
   total_units: number;
   total_sgd: number;
   payment_status: string;
+  payment_failure_reason?: string | null;
+  internal_note?: string | null;
+  paypal_order_id?: string | null;
   order_status: string;
   created_at: string;
+  updated_at?: string | null;
 };
 
 type Summary = {
@@ -123,7 +127,10 @@ export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
             <th>Units</th>
             <th>Total</th>
             <th>Payment</th>
+            <th>Failure reason</th>
+            <th>PayPal order ID</th>
             <th>Status</th>
+            <th>Updated</th>
           </tr>
         </thead>
         <tbody>
@@ -136,7 +143,10 @@ export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
               <td>{order.total_units}</td>
               <td>{formatSgd(order.total_sgd)}</td>
               <td>{order.payment_status}</td>
+              <td>{order.payment_failure_reason || order.internal_note || "-"}</td>
+              <td>{order.paypal_order_id || "-"}</td>
               <td>{order.order_status}</td>
+              <td>{order.updated_at ? new Date(order.updated_at).toLocaleString("en-SG") : "-"}</td>
             </tr>
           ))}
         </tbody>

@@ -7,13 +7,17 @@ function findCapture(captureResponse) {
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
+  let order = null;
+  let paypalOrderId = "";
   try {
-    const { paypalOrderId, orderNumber } = await readBody(req);
+    const body = await readBody(req);
+    paypalOrderId = body.paypalOrderId;
+    const { orderNumber } = body;
     if (!paypalOrderId || !orderNumber) return json(res, 400, { error: "PayPal order ID and order number are required" });
 
     const orderRows = await supabase(`/orders?order_number=eq.${encodeURIComponent(orderNumber)}&select=*`);
     if (!orderRows.length) return json(res, 404, { error: "Order not found" });
-    const order = orderRows[0];
+    order = orderRows[0];
     if (order.paypal_order_id !== paypalOrderId) return json(res, 409, { error: "PayPal order ID does not match hondit order" });
 
     const captureResponse = await paypal(`/v2/checkout/orders/${encodeURIComponent(paypalOrderId)}/capture`, {
@@ -56,7 +60,7 @@ export default async function handler(req, res) {
         verified: true,
         raw_payload: captureResponse,
       }),
-    });
+    }).catch(() => {});
 
     await supabase("/order_status_history", {
       method: "POST",
@@ -64,9 +68,9 @@ export default async function handler(req, res) {
         order_id: order.id,
         previous_status: order.order_status,
         new_status: "paid",
-        note: "PayPal Sandbox payment captured",
+        note: "PayPal payment captured and verified",
       }),
-    });
+    }).catch(() => {});
 
     const items = await supabase(`/order_items?order_id=eq.${encodeURIComponent(order.id)}&select=product_name_snapshot,volume_snapshot,total_units,line_total_sgd`).catch(() => []);
     await notifyTelegramNewOrder(
@@ -84,6 +88,44 @@ export default async function handler(req, res) {
 
     return json(res, 200, { orderNumber });
   } catch (error) {
+    if (order?.id) {
+      const now = new Date().toISOString();
+      const failureReason = error.message || "Could not capture PayPal order";
+      await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          payment_status: "payment_failed",
+          order_status: order.order_status === "paid" ? "paid" : "pending_payment",
+          payment_failure_reason: failureReason,
+          updated_at: now,
+        }),
+      }).catch(() =>
+        supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
+          method: "PATCH",
+          body: JSON.stringify({
+            payment_status: "payment_failed",
+            order_status: order.order_status === "paid" ? "paid" : "pending_payment",
+            internal_note: `PayPal capture failed: ${failureReason}`,
+            updated_at: now,
+          }),
+        }),
+      );
+
+      await supabase("/payment_events", {
+        method: "POST",
+        body: JSON.stringify({
+          order_id: order.id,
+          provider: "paypal",
+          provider_event_id: paypalOrderId || null,
+          event_type: "CHECKOUT.ORDER.CAPTURE_FAILED",
+          paypal_order_id: paypalOrderId || order.paypal_order_id,
+          amount_sgd: Number(order.total_sgd || 0),
+          currency: order.currency || "SGD",
+          verified: false,
+          raw_payload: { error: failureReason },
+        }),
+      }).catch(() => {});
+    }
     return json(res, 400, { error: error.message || "Could not capture PayPal order" });
   }
 }

@@ -8,8 +8,37 @@ function validateCheckout(body) {
   if (!Array.isArray(body.cart) || !body.cart.length) throw new Error("Cart is empty");
 }
 
+async function markFailed(order, reason) {
+  if (!order?.id) return;
+  const now = new Date().toISOString();
+  const payload = {
+    payment_status: "payment_failed",
+    order_status: "pending_payment",
+    payment_failure_reason: reason,
+    internal_note: `PayPal order creation failed: ${reason}`,
+    updated_at: now,
+  };
+
+  await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  }).catch(() =>
+    supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        payment_status: "payment_failed",
+        order_status: "pending_payment",
+        internal_note: payload.internal_note,
+        updated_at: now,
+      }),
+    }),
+  );
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
+
+  let order = null;
 
   try {
     const body = await readBody(req);
@@ -35,7 +64,7 @@ export default async function handler(req, res) {
         city: body.city.trim(),
         postal_code: body.postalCode.trim(),
         customer_note: body.customerNote || null,
-        internal_note: "배송비 단가 내재화: Free Singapore EMS shipping is included in the displayed bulk unit price.",
+        internal_note: "Free Singapore EMS shipping is included in the displayed bulk unit price.",
         utm_source: attribution.utm_source || null,
         utm_medium: attribution.utm_medium || null,
         utm_campaign: attribution.utm_campaign || null,
@@ -47,11 +76,11 @@ export default async function handler(req, res) {
         total_sgd: summary.totalSgd,
         shipping_included: true,
         payment_provider: "paypal",
-        payment_status: "pending",
+        payment_status: "pending_payment",
         order_status: "pending_payment",
       }),
     });
-    const order = orderRows[0];
+    order = orderRows[0];
 
     await supabase("/order_items", {
       method: "POST",
@@ -97,6 +126,7 @@ export default async function handler(req, res) {
 
     return json(res, 200, { paypalOrderId: paypalOrder.id, orderNumber });
   } catch (error) {
+    await markFailed(order, error.message || "Could not create PayPal order");
     return json(res, 400, { error: error.message || "Could not create PayPal order" });
   }
 }

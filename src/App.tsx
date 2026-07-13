@@ -19,6 +19,7 @@ import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
 import { JejuPage } from "./pages/JejuPage";
 import { OrderCompletePage } from "./pages/OrderCompletePage";
+import { PaymentFailedPage } from "./pages/PaymentFailedPage";
 import { PolicyPage } from "./pages/PolicyPage";
 import { ShippingPage } from "./pages/ShippingPage";
 
@@ -50,6 +51,12 @@ function routeMeta(pathname: string) {
     return {
       title: "Contact hondit | Bulk quote and custom quantity",
       description: "Contact hondit for custom quantity, bulk quote and product questions.",
+    };
+  }
+  if (pathname.startsWith("/payment-failed/")) {
+    return {
+      title: "Payment Not Completed | hondit Singapore",
+      description: "Retry payment, contact hondit or purchase through Shopee Singapore after an incomplete PayPal checkout.",
     };
   }
   if (pathname === "/jeju") {
@@ -213,6 +220,7 @@ export default function App() {
         <Route path="/shipping" element={<ShippingPage />} />
         <Route path="/policy/:policy" element={<PolicyPage />} />
         <Route path="/order-complete/:orderNumber" element={<OrderCompletePage />} />
+        <Route path="/payment-failed/:orderNumber" element={<PaymentFailedPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />

@@ -31,6 +31,10 @@ export type PublicOrder = {
   order_number: string;
   payment_status: string;
   order_status: string;
+  payment_failure_reason?: string | null;
+  paypal_order_id?: string | null;
+  created_at?: string;
+  updated_at?: string | null;
   total_units: number;
   total_packs: number;
   total_sgd: number;
@@ -45,6 +49,7 @@ export type PublicOrder = {
   postal_code?: string;
   items: Array<{
     product_name_snapshot: string;
+    product_slug?: string;
     volume_snapshot: string;
     pack_count: number;
     total_units: number;
@@ -86,6 +91,20 @@ export async function capturePayPalOrder(paypalOrderId: string, orderNumber: str
     body: JSON.stringify({ paypalOrderId, orderNumber }),
   });
   return parseJson<{ orderNumber: string }>(response);
+}
+
+export async function updatePaymentAttempt(payload: {
+  orderNumber: string;
+  paypalOrderId?: string;
+  status: "payment_failed" | "payment_cancelled";
+  reason?: string;
+}) {
+  const response = await fetch("/api/paypal/update-attempt", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return parseJson<{ orderNumber: string; status: string }>(response);
 }
 
 export async function fetchPublicOrder(orderNumber: string) {

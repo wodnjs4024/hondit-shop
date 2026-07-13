@@ -89,7 +89,7 @@ async function summary(req, res) {
     totals: {
       totalOrders: paidOrders.length,
       checkoutAttempts: checkoutAttempts.length,
-      pendingPayment: countWhere(checkoutAttempts, "payment_status", "pending"),
+      pendingPayment: countWhere(checkoutAttempts, "payment_status", "pending_payment"),
       paid: paidOrders.length,
       preparing: countWhere(orders, "order_status", "preparing"),
       packed: countWhere(orders, "order_status", "packed"),
@@ -166,15 +166,25 @@ async function orderDetail(req, res, orderId) {
       shipping_note: body.shipping_note || null,
       cancellation_reason: body.cancellation_reason || null,
       refund_reason: body.refund_reason || null,
+      payment_failure_reason: body.payment_failure_reason || null,
       internal_note: body.internal_note || null,
       updated_at: new Date().toISOString(),
     };
     if (payload.order_status === "cancelled" && !body.payment_status) payload.payment_status = "cancelled";
     if (payload.order_status === "refunded" && !body.payment_status) payload.payment_status = "refunded";
     if (payload.order_status === "delivered" && !payload.shipped_at) payload.shipped_at = new Date().toISOString();
-    const saved = await supabase(`/orders?id=eq.${encodeURIComponent(orderId)}`, {
+    let saved = await supabase(`/orders?id=eq.${encodeURIComponent(orderId)}`, {
       method: "PATCH",
       body: JSON.stringify(payload),
+    }).catch(() => {
+      const { payment_failure_reason, ...fallbackPayload } = payload;
+      if (payment_failure_reason && !fallbackPayload.internal_note) {
+        fallbackPayload.internal_note = `Payment failure reason: ${payment_failure_reason}`;
+      }
+      return supabase(`/orders?id=eq.${encodeURIComponent(orderId)}`, {
+        method: "PATCH",
+        body: JSON.stringify(fallbackPayload),
+      });
     });
     if (body.order_status && body.order_status !== currentRows[0].order_status) {
       await supabase("/order_status_history", {

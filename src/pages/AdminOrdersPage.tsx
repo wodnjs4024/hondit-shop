@@ -20,6 +20,8 @@ type OrderRow = {
   total_sgd: number;
   currency?: string;
   payment_status: string;
+  payment_failure_reason?: string | null;
+  internal_note?: string | null;
   order_status: string;
   paypal_order_id?: string | null;
   paypal_capture_id?: string | null;
@@ -28,9 +30,10 @@ type OrderRow = {
   paid_at?: string | null;
   shipped_at?: string | null;
   created_at: string;
+  updated_at?: string | null;
 };
 
-const paymentStatuses = ["", "pending", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"];
+const paymentStatuses = ["", "pending_payment", "payment_failed", "payment_cancelled", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"];
 const orderStatuses = ["", "pending_payment", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
 
 export function AdminOrdersPage() {
@@ -111,12 +114,15 @@ export function AdminOrdersPage() {
       "total_sgd",
       "currency",
       "payment_status",
+      "payment_failure_reason",
+      "internal_note",
       "order_status",
       "paypal_order_id",
       "paypal_capture_id",
       "tracking_carrier",
       "tracking_number",
       "shipped_at",
+      "updated_at",
     ];
     const rows = orders.map((order) => header.map((key) => csvCell(order[key as keyof OrderRow])).join(","));
     downloadCsv(`hondit-orders-${Date.now()}.csv`, [header.join(","), ...rows].join("\n"));

@@ -13,6 +13,7 @@ type AdminOrderDetail = {
 };
 
 const orderStatuses = ["pending_payment", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
+const paymentStatuses = ["pending_payment", "payment_failed", "payment_cancelled", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"];
 
 export function AdminOrderDetailPage() {
   const { orderId = "" } = useParams();
@@ -35,6 +36,7 @@ export function AdminOrderDetailPage() {
     shipping_note: "",
     cancellation_reason: "",
     refund_reason: "",
+    payment_failure_reason: "",
     internal_note: "",
   });
   const [actionError, setActionError] = useState("");
@@ -60,6 +62,7 @@ export function AdminOrderDetailPage() {
           shipping_note: String(data.order.shipping_note || ""),
           cancellation_reason: String(data.order.cancellation_reason || ""),
           refund_reason: String(data.order.refund_reason || ""),
+          payment_failure_reason: String(data.order.payment_failure_reason || ""),
           internal_note: "",
         });
       })
@@ -82,7 +85,9 @@ export function AdminOrderDetailPage() {
       `PayPal order ID: ${order.paypal_order_id || ""}`,
       `PayPal capture ID: ${order.paypal_capture_id || ""}`,
       `Payment status: ${order.payment_status}`,
+      `Payment failure reason: ${order.payment_failure_reason || order.internal_note || ""}`,
       `Order status: ${order.order_status}`,
+      `Updated at: ${order.updated_at || ""}`,
       `Tracking carrier: ${order.tracking_carrier || ""}`,
       `Tracking number: ${order.tracking_number || ""}`,
       "",
@@ -151,9 +156,9 @@ export function AdminOrderDetailPage() {
   const paymentStatus = String(order.payment_status || "");
   const orderStatus = String(order.order_status || "");
   const isPaid = paymentStatus === "completed";
-  const isPending = paymentStatus === "pending";
+  const isPending = ["pending_payment", "payment_failed", "payment_cancelled", "pending", "failed", "cancelled"].includes(paymentStatus);
   const isRefunded = paymentStatus === "refunded" || orderStatus === "refunded";
-  const isCancelled = paymentStatus === "cancelled" || orderStatus === "cancelled";
+  const isCancelled = ["cancelled", "payment_cancelled"].includes(paymentStatus) || orderStatus === "cancelled";
   const hasPayPalCapture = Boolean(order.paypal_capture_id);
   const canFulfill = isPaid && !isRefunded && !isCancelled;
   const canCancelUnpaid = isPending && !isCancelled;
@@ -178,7 +183,7 @@ export function AdminOrderDetailPage() {
           <p className="eyebrow">OPERATIONS</p>
           <h2>Order control center</h2>
           {isPending ? (
-            <p className="admin-muted">This customer opened PayPal checkout but did not complete payment. Do not prepare or ship this order.</p>
+            <p className="admin-muted">This customer opened PayPal checkout but did not complete payment. Keep the record for follow-up, but do not prepare or ship it.</p>
           ) : (
             <p className="admin-muted">Use these buttons only after PayPal payment is completed. Refunds require a PayPal capture ID.</p>
           )}
@@ -220,6 +225,9 @@ export function AdminOrderDetailPage() {
             <div><dt>PayPal order ID</dt><dd>{order.paypal_order_id}</dd></div>
             <div><dt>PayPal capture ID</dt><dd>{order.paypal_capture_id}</dd></div>
             <div><dt>Payment status</dt><dd>{order.payment_status}</dd></div>
+            <div><dt>Payment failure reason</dt><dd>{order.payment_failure_reason || order.internal_note || "-"}</dd></div>
+            <div><dt>Created at</dt><dd>{order.created_at || "-"}</dd></div>
+            <div><dt>Updated at</dt><dd>{order.updated_at || "-"}</dd></div>
             <div><dt>Refunded at</dt><dd>{order.refunded_at || "-"}</dd></div>
           </dl>
         </section>
@@ -267,7 +275,7 @@ export function AdminOrderDetailPage() {
         <label>Postal code<input value={form.postal_code} onChange={(event) => setForm({ ...form, postal_code: event.target.value })} /></label>
         <label>Order status<select value={form.order_status} onChange={(event) => setForm({ ...form, order_status: event.target.value })}>{orderStatuses.map((status) => <option key={status}>{status}</option>)}</select></label>
         <label>Payment status<select value={form.payment_status} onChange={(event) => setForm({ ...form, payment_status: event.target.value })}>
-          {["pending", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"].map((status) => <option key={status}>{status}</option>)}
+          {paymentStatuses.map((status) => <option key={status}>{status}</option>)}
         </select></label>
         <label>Tracking carrier<input value={form.tracking_carrier} onChange={(event) => setForm({ ...form, tracking_carrier: event.target.value })} /></label>
         <label>Tracking number<input value={form.tracking_number} onChange={(event) => setForm({ ...form, tracking_number: event.target.value })} /></label>
@@ -275,6 +283,7 @@ export function AdminOrderDetailPage() {
         <label>Shipping note<textarea value={form.shipping_note} onChange={(event) => setForm({ ...form, shipping_note: event.target.value })} /></label>
         <label>Cancellation reason<textarea value={form.cancellation_reason} onChange={(event) => setForm({ ...form, cancellation_reason: event.target.value })} /></label>
         <label>Refund reason<textarea value={form.refund_reason} onChange={(event) => setForm({ ...form, refund_reason: event.target.value })} /></label>
+        <label>Payment failure reason<textarea value={form.payment_failure_reason} onChange={(event) => setForm({ ...form, payment_failure_reason: event.target.value })} /></label>
         <label>Internal note<textarea value={form.internal_note} onChange={(event) => setForm({ ...form, internal_note: event.target.value })} /></label>
         <button className="button button--primary" type="submit">Save order status</button>
       </form>
