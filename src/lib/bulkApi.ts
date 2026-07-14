@@ -65,11 +65,62 @@ async function parseJson<T>(response: Response): Promise<T> {
   return data;
 }
 
+const legacyMediaBySlug: Record<string, Pick<BulkProduct, "imageUrl" | "galleryImages" | "detailImages">> = {
+  "foam-oil": {
+    imageUrl: "/images/foam-oil.png",
+    galleryImages: ["/images/foam-oil.png", "/images/foam-oil-texture.png", "/images/jeju-clear-water.png", "/images/cleansing-water-use.png"],
+    detailImages: ["/images/foam-oil-texture.png", "/images/cleansing-water-use.png", "/images/jeju-clear-water.png"],
+  },
+  "foaming-cleanser": {
+    imageUrl: "/images/foaming-cleanser.png",
+    galleryImages: ["/images/foaming-cleanser.png", "/images/cleansing-foam-texture.png", "/images/jeju-sea-detail.png", "/images/foam-oil-texture.png"],
+    detailImages: ["/images/cleansing-foam-texture.png", "/images/jeju-sea-detail.png", "/images/jeju-clear-water.png"],
+  },
+  "cleansing-water": {
+    imageUrl: "/images/cleansing-water.png",
+    galleryImages: ["/images/cleansing-water.png", "/images/cleansing-water-use.png", "/images/jeju-clear-water.png", "/images/jeju-sea-detail.png"],
+    detailImages: ["/images/cleansing-water-use.png", "/images/jeju-clear-water.png", "/images/jeju-sea-detail.png"],
+  },
+  "diffuser-350g": {
+    imageUrl: "/images/diffuser-350g.png",
+    galleryImages: ["/images/diffuser-350g.png", "/images/jeju-volcanic-rock.png", "/images/jeju-stone-detail.png", "/images/jeju-sea-stone.png"],
+    detailImages: ["/images/jeju-volcanic-rock.png", "/images/jeju-stone-detail.png", "/images/jeju-sea-stone.png"],
+  },
+  "diffuser-500g": {
+    imageUrl: "/images/diffuser-500g.png",
+    galleryImages: ["/images/diffuser-500g.png", "/images/jeju-volcanic-rock.png", "/images/jeju-stone-detail.png", "/images/jeju-sea-stone.png"],
+    detailImages: ["/images/jeju-volcanic-rock.png", "/images/jeju-stone-detail.png", "/images/jeju-sea-stone.png"],
+  },
+};
+
+function sameList(a: string[] = [], b: string[] = []) {
+  return a.length === b.length && a.every((item, index) => item === b[index]);
+}
+
+function withUpdatedDefaultMedia(product: BulkProduct) {
+  const currentDefault = bulkProducts.find((item) => item.slug === product.slug);
+  const legacy = legacyMediaBySlug[product.slug];
+  if (!currentDefault || !legacy) return product;
+
+  return {
+    ...product,
+    imageUrl: !product.imageUrl || product.imageUrl === legacy.imageUrl ? currentDefault.imageUrl : product.imageUrl,
+    galleryImages:
+      !product.galleryImages?.length || sameList(product.galleryImages, legacy.galleryImages)
+        ? currentDefault.galleryImages
+        : product.galleryImages,
+    detailImages:
+      !product.detailImages?.length || sameList(product.detailImages, legacy.detailImages)
+        ? currentDefault.detailImages
+        : product.detailImages,
+  };
+}
+
 export async function fetchBulkProducts(): Promise<BulkProduct[]> {
   try {
     const response = await fetch("/api/products");
     const data = await parseJson<{ products: BulkProduct[] }>(response);
-    return Array.isArray(data.products) ? data.products : bulkProducts;
+    return Array.isArray(data.products) ? data.products.map(withUpdatedDefaultMedia) : bulkProducts;
   } catch {
     return bulkProducts;
   }

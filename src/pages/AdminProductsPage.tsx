@@ -8,6 +8,14 @@ const editableListFields = ["features", "usage", "galleryImages", "detailImages"
 type EditableListField = (typeof editableListFields)[number];
 
 const imagePresets = [
+  "/images/hondit-collection-hero.png",
+  "/images/hondit-collection-studio.png",
+  "/images/hondit-cleansing-trio.png",
+  "/images/hondit-diffuser-scent.png",
+  "/images/hondit-diffuser-detail.png",
+  "/images/hondit-foam-oil-detail.png",
+  "/images/hondit-foaming-cleanser-pack.png",
+  "/images/hondit-cleansing-water-detail.png",
   "/images/diffuser-350g.png",
   "/images/diffuser-500g.png",
   "/images/foam-oil.png",
@@ -43,7 +51,7 @@ function createProductDraft(products: BulkProduct[]): BulkProduct {
     volumeLabel: "100ml",
     shortDescription: "Short product summary for the catalog card.",
     description: "Detailed product description for the product page.",
-    imageUrl: "/images/foam-oil.png",
+    imageUrl: "/images/hondit-foam-oil-detail.png",
     unitPriceSgd: 0,
     packQuantity: 1,
     packPriceSgd: 0,
@@ -54,7 +62,7 @@ function createProductDraft(products: BulkProduct[]): BulkProduct {
     sortOrder: nextOrder,
     features: ["Feature"],
     usage: ["Order note"],
-    galleryImages: ["/images/foam-oil.png"],
+    galleryImages: ["/images/hondit-foam-oil-detail.png"],
     detailImages: [],
     detailHighlights: ["Detail highlight"],
     detailHowToUse: ["Use step"],

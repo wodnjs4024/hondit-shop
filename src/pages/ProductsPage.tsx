@@ -68,10 +68,10 @@ export function ProductsPage() {
               <strong>Made for you. Made for Jeju.</strong>
             </div>
             {[
-              ["Mindful Ingredients", "Vegan-friendly, clean and gentle formulas."],
-              ["Inspired by Jeju Nature", "Volcanic rock, sea minerals and botanical extracts."],
-              ["Made for Everyday Rituals", "Simple, sensory essentials that fit your life."],
-              ["Sustainable Choices", "Eco-conscious packaging and responsible sourcing."],
+              ["Vegan Cleansing", "Three gentle daily cleansing choices for different routines."],
+              ["Jeju Volcanic Stone", "A scent object built around porous volcanic stone texture."],
+              ["No Fire or Electricity", "The diffuser refreshes with oil drops, without flame or plugs."],
+              ["Two Purchase Routes", "Shop single items on Shopee SG or order business quantities directly."],
             ].map(([title, body]) => (
               <article key={title}>
                 <span aria-hidden="true" />

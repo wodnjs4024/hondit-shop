@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { adminFetch } from "../lib/bulkApi";
-import { AdminNotice, AdminOrderTable } from "./AdminDashboardPage";
+import { AdminNotice, AdminOrderTable, adminStatusLabel } from "./AdminDashboardPage";
 
 type OrderRow = {
   id: string;
@@ -36,6 +36,30 @@ type OrderRow = {
 const paymentStatuses = ["", "pending_payment", "payment_failed", "payment_cancelled", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"];
 const orderStatuses = ["", "pending_payment", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
 
+const paymentStatusLabels: Record<string, string> = {
+  pending_payment: "결제 대기",
+  payment_failed: "결제 실패",
+  payment_cancelled: "고객 결제 취소",
+  completed: "PayPal 결제 완료",
+  pending_review: "결제 검토 중",
+  failed: "실패",
+  cancelled: "취소됨",
+  refunded: "환불됨",
+  reversed: "취소/반전됨",
+};
+
+const orderStatusLabels: Record<string, string> = {
+  pending_payment: "결제 대기",
+  paid: "결제 완료",
+  address_check: "주소 확인 중",
+  preparing: "상품 준비 중",
+  packed: "포장 완료",
+  shipped: "배송 시작",
+  delivered: "배송 완료",
+  cancelled: "취소됨",
+  refunded: "환불됨",
+};
+
 export function AdminOrdersPage() {
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [error, setError] = useState("");
@@ -65,7 +89,7 @@ export function AdminOrdersPage() {
 
         if (notificationStatusRef.current === "granted") {
           newPaidOrders.forEach((order) => {
-            new Notification("New hondit order", {
+            new Notification("hondit 새 결제 완료 주문", {
               body: `${order.order_number} / ${order.customer_name} / S$${Number(order.total_sgd || 0).toFixed(2)}`,
             });
           });
@@ -133,30 +157,30 @@ export function AdminOrdersPage() {
   return (
     <>
       <div className="admin-heading">
-        <p className="eyebrow">ORDERS</p>
-        <h1>Order management</h1>
+        <p className="eyebrow">주문 관리</p>
+        <h1>대량 주문 목록</h1>
         <p className="admin-muted">
-          {orders.length} orders shown. Auto-refreshes every 30 seconds.
-          {lastUpdated ? ` Last updated ${lastUpdated.toLocaleTimeString("en-SG")}.` : ""}
+          현재 {orders.length}건이 표시됩니다. 30초마다 자동 새로고침됩니다.
+          {lastUpdated ? ` 마지막 업데이트 ${lastUpdated.toLocaleTimeString("ko-KR")}.` : ""}
         </p>
       </div>
       <form className="admin-filters" onSubmit={submit}>
-        <input placeholder="Search order, customer or email" value={filters.q} onChange={(event) => setFilters({ ...filters, q: event.target.value })} />
+        <input placeholder="주문번호, 고객명, 이메일 검색" value={filters.q} onChange={(event) => setFilters({ ...filters, q: event.target.value })} />
         <input type="date" value={filters.from} onChange={(event) => setFilters({ ...filters, from: event.target.value })} />
         <input type="date" value={filters.to} onChange={(event) => setFilters({ ...filters, to: event.target.value })} />
         <select value={filters.paymentStatus} onChange={(event) => setFilters({ ...filters, paymentStatus: event.target.value })}>
-          {paymentStatuses.map((status) => <option key={status} value={status}>{status || "All payment statuses"}</option>)}
+          {paymentStatuses.map((status) => <option key={status} value={status}>{status ? adminStatusLabel(status, paymentStatusLabels) : "모든 결제 상태"}</option>)}
         </select>
         <select value={filters.orderStatus} onChange={(event) => setFilters({ ...filters, orderStatus: event.target.value })}>
-          {orderStatuses.map((status) => <option key={status} value={status}>{status || "All order statuses"}</option>)}
+          {orderStatuses.map((status) => <option key={status} value={status}>{status ? adminStatusLabel(status, orderStatusLabels) : "모든 주문 상태"}</option>)}
         </select>
-        <input placeholder="Order type" value={filters.orderType} onChange={(event) => setFilters({ ...filters, orderType: event.target.value })} />
-        <button className="button button--primary" type="submit">Apply</button>
-        <button className="button button--ghost" type="button" onClick={load}>Refresh now</button>
+        <input placeholder="주문 유형" value={filters.orderType} onChange={(event) => setFilters({ ...filters, orderType: event.target.value })} />
+        <button className="button button--primary" type="submit">필터 적용</button>
+        <button className="button button--ghost" type="button" onClick={load}>지금 새로고침</button>
         <button className="button button--ghost" type="button" onClick={enableNotifications}>
-          {notificationStatus === "granted" ? "Browser alerts on" : "Enable browser alerts"}
+          {notificationStatus === "granted" ? "브라우저 알림 켜짐" : "브라우저 알림 켜기"}
         </button>
-        <button className="button button--ghost" type="button" onClick={exportCsv}>Export Filtered Orders CSV</button>
+        <button className="button button--ghost" type="button" onClick={exportCsv}>필터 결과 CSV 다운로드</button>
       </form>
       <section className="admin-panel">
         <AdminOrderTable orders={orders} />

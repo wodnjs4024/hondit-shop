@@ -79,10 +79,15 @@ export function HomePage() {
         </section>
 
         <section className="editorial-container cleanser-choice">
-          <div className="choice-heading">
-            <p className="eyebrow">CLEANSING GUIDE</p>
-            <h2>Not sure which one to choose?</h2>
-            <p>Compare all three cleansers before you move to Shopee.</p>
+          <div className="choice-intro">
+            <div className="choice-heading">
+              <p className="eyebrow">CLEANSING GUIDE</p>
+              <h2>Not sure which one to choose?</h2>
+              <p>Compare all three cleansers before you move to Shopee.</p>
+            </div>
+            <figure className="cleanser-choice__visual">
+              <img src="/images/hondit-cleansing-trio.png" alt="Three J'essence vegan cleansing products styled with soft foam and water." loading="lazy" decoding="async" />
+            </figure>
           </div>
           <div className="choice-grid">
             {cleanserGuide.map(([name, role, body], index) => (
@@ -137,10 +142,10 @@ export function HomePage() {
             </div>
           </div>
           <div className="why-hondit__mosaic" aria-label="Jeju and hondit mood images">
-            <img src="/images/jeju-canola-sea-stonewall.png" alt="Jeju canola flowers, sea and stone walls." loading="lazy" decoding="async" />
-            <img src="/images/jeju-tangerine-stonewall.png" alt="Jeju green citrus leaves and stone wall." loading="lazy" decoding="async" />
+            <img src="/images/hondit-collection-studio.png" alt="hondit cleansing and volcanic diffuser products styled together with stone textures." loading="lazy" decoding="async" />
+            <img src="/images/hondit-diffuser-detail.png" alt="Volcanic diffuser, fragrance oil and Jeju volcanic stones on warm stone." loading="lazy" decoding="async" />
             <img src="/images/jeju-sea-stone.png" alt="Jeju ocean and dark volcanic stone." loading="lazy" decoding="async" />
-            <img src="/images/singapore-bedroom-desk.png" alt="A calm room styled for hondit rituals." loading="lazy" decoding="async" />
+            <img src="/images/hondit-cleansing-trio.png" alt="J'essence cleansing products arranged with soft blue water textures." loading="lazy" decoding="async" />
           </div>
         </section>
 

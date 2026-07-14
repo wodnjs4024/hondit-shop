@@ -31,7 +31,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use in the evening or whenever you need a deeper cleanse.",
     howToUse: ["Apply to dry hands and face.", "Massage gently over makeup and sunscreen.", "Add water to emulsify, then rinse clean."],
     keyFacts: ["Vegan formula", "pH 5.5", "Fragrance-free", "Sensitive-skin friendly", "150ml"],
-    images: ["/images/foam-oil.png", "/images/foam-oil-texture.png", "/images/jeju-clear-water.png"],
+    images: ["/images/hondit-foam-oil-detail.png", "/images/hondit-cleansing-trio.png", "/images/foam-oil-texture.png", "/images/jeju-clear-water.png"],
   },
   "foaming-cleanser": {
     headline: "For a soft daily face wash with a comfortable finish.",
@@ -39,7 +39,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use morning and evening after makeup removal, or as your daily cleanser.",
     howToUse: ["Dispense a small amount onto wet hands.", "Lather into a soft foam.", "Massage over face and rinse thoroughly."],
     keyFacts: ["Vegan formula", "pH 5.5", "Fragrance-free", "Daily face wash", "200ml"],
-    images: ["/images/foaming-cleanser.png", "/images/cleansing-foam-texture.png", "/images/jeju-sea-detail.png"],
+    images: ["/images/hondit-foaming-cleanser-pack.png", "/images/hondit-cleansing-trio.png", "/images/cleansing-foam-texture.png", "/images/jeju-sea-detail.png"],
   },
   "cleansing-water": {
     headline: "For a quick, gentle cleanse when your skin needs a light reset.",
@@ -47,7 +47,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use on busy days, before a second cleanse or for light makeup removal.",
     howToUse: ["Soak a cotton pad with cleansing water.", "Swipe gently across face and neck.", "Repeat as needed and follow with cleanser if desired."],
     keyFacts: ["Vegan formula", "pH 5.5", "Fragrance-free", "Quick cleanse", "300ml"],
-    images: ["/images/cleansing-water.png", "/images/cleansing-water-use.png", "/images/jeju-clear-water.png"],
+    images: ["/images/hondit-cleansing-water-detail.png", "/images/hondit-cleansing-trio.png", "/images/cleansing-water-use.png", "/images/jeju-clear-water.png"],
   },
   "diffuser-350": {
     headline: "A compact Jeju volcanic stone diffuser for desks, shelves and smaller corners.",
@@ -55,7 +55,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use when you want to refresh a small area without flame, electricity or reeds.",
     howToUse: ["Place the Jeju volcanic scoria stones in the pot.", "Add 10-12 drops of citrus oil directly onto the stones.", "Let the stone absorb, then refresh whenever needed."],
     keyFacts: ["Jeju volcanic scoria", "No flame", "No electricity", "No reed sticks", "Citrus oil 10ml included", "350g"],
-    images: ["/images/diffuser-350g.png", "/images/jeju-volcanic-rock.png", "/images/jeju-stone-detail.png"],
+    images: ["/images/hondit-diffuser-scent.png", "/images/hondit-diffuser-detail.png", "/images/hondit-collection-studio.png", "/images/jeju-volcanic-rock.png"],
   },
   "diffuser-500": {
     headline: "A fuller Jeju volcanic stone diffuser for bedrooms, bathrooms and shared spaces.",
@@ -63,7 +63,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use when you want a calm scent object that can be refreshed only when you choose.",
     howToUse: ["Place the Jeju volcanic scoria stones in the pot.", "Add 10-12 drops of citrus oil directly onto the stones.", "Let the stone absorb, then refresh whenever needed."],
     keyFacts: ["Jeju volcanic scoria", "No flame", "No electricity", "No reed sticks", "Citrus oil 10ml included", "500g"],
-    images: ["/images/diffuser-500g.png", "/images/jeju-volcanic-rock.png", "/images/jeju-stone-detail.png"],
+    images: ["/images/hondit-diffuser-detail.png", "/images/hondit-diffuser-scent.png", "/images/hondit-collection-studio.png", "/images/jeju-stone-detail.png"],
   },
 };
 

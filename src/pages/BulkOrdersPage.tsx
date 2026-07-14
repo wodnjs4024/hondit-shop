@@ -5,10 +5,10 @@ import { fetchBulkProducts } from "../lib/bulkApi";
 import { Footer } from "../sections/Footer";
 
 const businessUses = [
-  ["Hotel Amenities", "Elevate your guest experience with premium, Jeju-inspired care and scent."],
-  ["Spa & Wellness", "Calming formulas for relaxation and rejuvenation experiences."],
-  ["Retail", "Curated products that customers love and return for."],
-  ["Corporate Gifts", "Meaningful gifts for teams, clients and special occasions."],
+  ["Product Selection", "Five eligible bulk products only: two diffusers and three cleansing products."],
+  ["Careful Packing", "Orders are prepared from Korea with product labels and quantities checked before shipment."],
+  ["Direct Checkout", "Pay by PayPal or international card after confirming quantity and shipping details."],
+  ["Singapore Delivery", "Free Singapore EMS shipping is included in the listed bulk price."],
 ];
 
 export function BulkOrdersPage() {
@@ -35,9 +35,9 @@ export function BulkOrdersPage() {
           <div className="editorial-hero__copy">
             <p className="eyebrow">BULK ORDERS</p>
             <h1>Bulk Orders for Business</h1>
-            <p>For hotels, spas, retail, events and corporate gifting. This page is for larger quantities and business enquiries.</p>
+            <p>For larger quantities, retail testing, events and business enquiries. Select one of five eligible products and confirm the order directly.</p>
             <div className="bulk-hero-icons">
-              {["Jeju-inspired Formulations", "Premium Ingredients", "Sustainable Packaging", "Made for Businesses"].map((item) => (
+              {["5 eligible products", "SGD pricing", "Free Singapore EMS", "PayPal or card"].map((item) => (
                 <span key={item}>{item}</span>
               ))}
             </div>
@@ -94,7 +94,7 @@ export function BulkOrdersPage() {
           {businessUses.map(([title, body], index) => (
             <article key={title}>
               <img
-                src={index === 0 ? "/images/singapore-bedroom-desk.png" : index === 1 ? "/images/jeju-volcanic-rock.png" : index === 2 ? "/images/foam-oil.png" : "/images/diffuser-350g.png"}
+                src={index === 0 ? "/images/hondit-collection-studio.png" : index === 1 ? "/images/hondit-collection-hero.png" : index === 2 ? "/images/hondit-cleansing-trio.png" : "/images/hondit-diffuser-detail.png"}
                 alt=""
                 loading="lazy"
                 decoding="async"

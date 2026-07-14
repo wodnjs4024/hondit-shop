@@ -28,6 +28,35 @@ type Summary = {
   checkoutAttempts?: DashboardOrder[];
 };
 
+const orderStatusLabels: Record<string, string> = {
+  pending_payment: "결제 대기",
+  paid: "결제 완료",
+  address_check: "주소 확인 중",
+  preparing: "상품 준비 중",
+  packed: "포장 완료",
+  shipped: "배송 시작",
+  delivered: "배송 완료",
+  cancelled: "취소됨",
+  refunded: "환불됨",
+};
+
+const paymentStatusLabels: Record<string, string> = {
+  pending_payment: "결제 대기",
+  payment_failed: "결제 실패",
+  payment_cancelled: "고객 결제 취소",
+  completed: "PayPal 결제 완료",
+  pending_review: "결제 검토 중",
+  failed: "실패",
+  cancelled: "취소됨",
+  refunded: "환불됨",
+  reversed: "취소/반전됨",
+};
+
+export function adminStatusLabel(value: unknown, labels: Record<string, string>) {
+  const key = String(value || "");
+  return labels[key] ? `${labels[key]} (${key})` : key || "-";
+}
+
 export function AdminDashboardPage() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [error, setError] = useState("");
@@ -52,27 +81,27 @@ export function AdminDashboardPage() {
 
   const totals = summary?.totals || {};
   const cards = [
-    ["Paid orders", totals.totalOrders || 0],
-    ["Unpaid checkout attempts", totals.checkoutAttempts || 0],
-    ["Paid", totals.paid || 0],
-    ["Preparing", totals.preparing || 0],
-    ["Packed", totals.packed || 0],
-    ["Shipped", totals.shipped || 0],
-    ["Delivered", totals.delivered || 0],
-    ["Cancelled / refunded", totals.closed || 0],
-    ["Total paid SGD", formatSgd(totals.totalPaidSgd || 0)],
+    ["결제 완료 주문", totals.totalOrders || 0],
+    ["미결제 시도", totals.checkoutAttempts || 0],
+    ["결제 완료", totals.paid || 0],
+    ["상품 준비 중", totals.preparing || 0],
+    ["포장 완료", totals.packed || 0],
+    ["배송 시작", totals.shipped || 0],
+    ["배송 완료", totals.delivered || 0],
+    ["취소 / 환불", totals.closed || 0],
+    ["결제 완료 매출 SGD", formatSgd(totals.totalPaidSgd || 0)],
   ];
 
   return (
     <>
       <div className="admin-heading">
-        <p className="eyebrow">ADMIN DASHBOARD</p>
-        <h1>Bulk order operations</h1>
+        <p className="eyebrow">관리자 대시보드</p>
+        <h1>대량 주문 운영 현황</h1>
         <p className="admin-muted">
-          Auto-refreshes every 30 seconds.
-          {lastUpdated ? ` Last updated ${lastUpdated.toLocaleTimeString("en-SG")}.` : ""}
+          30초마다 자동 새로고침됩니다.
+          {lastUpdated ? ` 마지막 업데이트 ${lastUpdated.toLocaleTimeString("ko-KR")}.` : ""}
         </p>
-        <button className="button button--ghost" type="button" onClick={load}>Refresh now</button>
+        <button className="button button--ghost" type="button" onClick={load}>지금 새로고침</button>
       </div>
       <div className="admin-stat-grid">
         {cards.map(([label, value]) => (
@@ -83,22 +112,22 @@ export function AdminDashboardPage() {
         ))}
       </div>
       <section className="admin-panel">
-        <h2>Recent paid orders</h2>
-        <p className="admin-muted">Only completed PayPal payments appear here and count toward sales.</p>
+        <h2>최근 결제 완료 주문</h2>
+        <p className="admin-muted">PayPal 결제가 완료된 주문만 이곳에 표시되며, 매출로 집계됩니다.</p>
         <AdminOrderTable orders={summary?.recentOrders || []} />
       </section>
       <section className="admin-panel">
-        <h2>Unpaid checkout attempts</h2>
+        <h2>미결제 체크아웃 시도</h2>
         <p className="admin-muted">
-          These customers opened PayPal checkout but did not complete payment. Do not prepare or ship these orders.
+          고객이 PayPal 결제창까지 열었지만 결제를 끝내지 않은 기록입니다. 이 주문은 상품 준비나 배송을 하지 마세요.
         </p>
         <AdminOrderTable orders={summary?.checkoutAttempts || []} />
       </section>
       <div className="admin-detail-grid">
-        <AdminInsightTable title="Popular products" rows={summary?.popularProducts || []} valueLabel="Units" />
-        <AdminInsightTable title="Customer countries" rows={summary?.countries || []} valueLabel="Orders" />
+        <AdminInsightTable title="인기 상품" rows={summary?.popularProducts || []} valueLabel="개수" />
+        <AdminInsightTable title="고객 국가" rows={summary?.countries || []} valueLabel="주문" />
       </div>
-      <AdminInsightTable title="Traffic sources" rows={summary?.sources || []} valueLabel="Orders" />
+      <AdminInsightTable title="유입 경로" rows={summary?.sources || []} valueLabel="주문" />
     </>
   );
 }
@@ -106,47 +135,47 @@ export function AdminDashboardPage() {
 export function AdminNotice({ message }: { message: string }) {
   return (
     <div className="admin-panel">
-      <h1>Setup required</h1>
+      <h1>확인이 필요합니다</h1>
       <p>{message}</p>
     </div>
   );
 }
 
 export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
-  if (!orders.length) return <p>No orders yet.</p>;
+  if (!orders.length) return <p>아직 표시할 주문이 없습니다.</p>;
 
   return (
     <div className="admin-table-wrap">
       <table className="admin-table">
         <thead>
           <tr>
-            <th>Order number</th>
-            <th>Date</th>
-            <th>Customer</th>
-            <th>Type</th>
-            <th>Units</th>
-            <th>Total</th>
-            <th>Payment</th>
-            <th>Failure reason</th>
+            <th>주문번호</th>
+            <th>주문일</th>
+            <th>고객</th>
+            <th>유형</th>
+            <th>개수</th>
+            <th>총액</th>
+            <th>결제 상태</th>
+            <th>실패/취소 사유</th>
             <th>PayPal order ID</th>
-            <th>Status</th>
-            <th>Updated</th>
+            <th>주문 상태</th>
+            <th>수정일</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
             <tr key={order.id}>
               <td><Link to={`/admin/orders/${order.id}`}>{order.order_number}</Link></td>
-              <td>{new Date(order.created_at).toLocaleDateString("en-SG")}</td>
+              <td>{new Date(order.created_at).toLocaleDateString("ko-KR")}</td>
               <td>{order.customer_name}</td>
               <td>{order.order_type}</td>
               <td>{order.total_units}</td>
               <td>{formatSgd(order.total_sgd)}</td>
-              <td>{order.payment_status}</td>
+              <td>{adminStatusLabel(order.payment_status, paymentStatusLabels)}</td>
               <td>{order.payment_failure_reason || order.internal_note || "-"}</td>
               <td>{order.paypal_order_id || "-"}</td>
-              <td>{order.order_status}</td>
-              <td>{order.updated_at ? new Date(order.updated_at).toLocaleString("en-SG") : "-"}</td>
+              <td>{adminStatusLabel(order.order_status, orderStatusLabels)}</td>
+              <td>{order.updated_at ? new Date(order.updated_at).toLocaleString("ko-KR") : "-"}</td>
             </tr>
           ))}
         </tbody>
@@ -161,18 +190,18 @@ function AdminInsightTable({ title, rows, valueLabel }: { title: string; rows: A
       <h2>{title}</h2>
       {rows.length ? (
         <table className="admin-table admin-table--compact">
-          <thead><tr><th>Name</th><th>{valueLabel}</th><th>Revenue</th></tr></thead>
+          <thead><tr><th>이름</th><th>{valueLabel}</th><th>매출</th></tr></thead>
           <tbody>
             {rows.map((row) => (
               <tr key={row.label}>
                 <td>{row.label}</td>
-                <td>{valueLabel === "Units" ? row.units : row.count}</td>
+                <td>{valueLabel === "개수" ? row.units : row.count}</td>
                 <td>{formatSgd(row.revenueSgd)}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      ) : <p>No data yet.</p>}
+      ) : <p>아직 데이터가 없습니다.</p>}
     </section>
   );
 }
