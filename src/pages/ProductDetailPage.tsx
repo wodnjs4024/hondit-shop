@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ExternalLink } from "../components/ExternalLink";
 import { DISCOUNT_LABEL, links, retailProducts, type Product } from "../data/siteData";
-import { formatSgd } from "../data/bulkProducts";
+import { formatSgd, type BulkProduct } from "../data/bulkProducts";
 import { trackEvent, trackProductClick, trackStoreClick } from "../lib/analytics";
+import { fetchBulkProducts } from "../lib/bulkApi";
 import { Footer } from "../sections/Footer";
 
 type DetailCopy = {
@@ -12,6 +14,14 @@ type DetailCopy = {
   howToUse: string[];
   keyFacts: string[];
   images: string[];
+};
+
+const bulkSlugByRetailId: Record<string, string> = {
+  "foam-oil": "foam-oil",
+  "foaming-cleanser": "foaming-cleanser",
+  "cleansing-water": "cleansing-water",
+  "diffuser-350": "diffuser-350g",
+  "diffuser-500": "diffuser-500g",
 };
 
 const detailCopy: Record<string, DetailCopy> = {
@@ -68,6 +78,10 @@ const diffuserComparison = [
   ["500g", "Bedroom, bathroom, shared space", "Fuller presence and longer visual impact."],
 ];
 
+function cleanImages(images: Array<string | undefined>) {
+  return Array.from(new Set(images.map((image) => String(image || "").trim()).filter(Boolean)));
+}
+
 function ProductDetailActions({ product }: { product: Product }) {
   const isDiffuser = product.id.includes("diffuser");
   const bulkSlug = product.id === "diffuser-350" ? "diffuser-350g" : product.id === "diffuser-500" ? "diffuser-500g" : product.id;
@@ -104,6 +118,16 @@ function ProductDetailActions({ product }: { product: Product }) {
 export function ProductDetailPage() {
   const { productId } = useParams();
   const product = retailProducts.find((item) => item.id === productId);
+  const [managedProducts, setManagedProducts] = useState<BulkProduct[]>([]);
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    fetchBulkProducts().then(setManagedProducts).catch(() => setManagedProducts([]));
+  }, []);
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [productId]);
 
   if (!product || !productId) {
     return (
@@ -122,16 +146,49 @@ export function ProductDetailPage() {
 
   const copy = detailCopy[productId];
   const isDiffuser = product.id.includes("diffuser");
+  const managedProduct = managedProducts.find((item) => item.slug === bulkSlugByRetailId[productId]);
+  const galleryImages = cleanImages([...(managedProduct?.galleryImages || []), product.image, ...(copy.images || [])]).slice(0, 6);
+  const detailImages = cleanImages([...(managedProduct?.detailImages || []), ...(copy.images || [])]).slice(0, 8);
+  const detailHighlights = managedProduct?.detailHighlights?.length ? managedProduct.detailHighlights : copy.keyFacts;
+  const howToUse = managedProduct?.detailHowToUse?.length ? managedProduct.detailHowToUse : copy.howToUse;
+  const selectedImage = galleryImages[activeImage] || product.image;
 
   return (
     <>
       <main className="editorial-page product-detail-page">
         <section className="editorial-container product-detail-hero">
-          <div className="product-detail-gallery" aria-label={`${product.name} product images`}>
-            <img className="product-detail-gallery__main" src={copy.images[0]} alt={product.alt} loading="eager" decoding="async" />
-            <div>
-              {copy.images.slice(1).map((image) => (
-                <img src={image} alt="" key={image} loading="lazy" decoding="async" />
+          <div className="product-detail-gallery product-detail-gallery--carousel" aria-label={`${product.name} product image gallery`}>
+            <div className="product-detail-gallery__stage">
+              <button
+                className="product-detail-gallery__nav product-detail-gallery__nav--prev"
+                type="button"
+                aria-label="Previous product image"
+                onClick={() => setActiveImage((current) => (current - 1 + galleryImages.length) % galleryImages.length)}
+              >
+                ‹
+              </button>
+              <img className="product-detail-gallery__main" src={selectedImage} alt={product.alt} loading="eager" decoding="async" />
+              <button
+                className="product-detail-gallery__nav product-detail-gallery__nav--next"
+                type="button"
+                aria-label="Next product image"
+                onClick={() => setActiveImage((current) => (current + 1) % galleryImages.length)}
+              >
+                ›
+              </button>
+            </div>
+            <div className="product-detail-gallery__thumbs">
+              {galleryImages.map((image, index) => (
+                <button
+                  className={index === activeImage ? "is-active" : ""}
+                  type="button"
+                  key={image}
+                  aria-label={`View product image ${index + 1}`}
+                  aria-pressed={index === activeImage}
+                  onClick={() => setActiveImage(index)}
+                >
+                  <img src={image} alt="" loading="lazy" decoding="async" />
+                </button>
               ))}
             </div>
           </div>
@@ -177,7 +234,7 @@ export function ProductDetailPage() {
             <h2>{isDiffuser ? "No flame. No electricity. Scent when you choose." : "Simple steps before you buy."}</h2>
           </div>
           <div className="product-steps">
-            {copy.howToUse.map((step, index) => (
+            {howToUse.map((step, index) => (
               <article key={step}>
                 <strong>{String(index + 1).padStart(2, "0")}</strong>
                 <p>{step}</p>
@@ -198,6 +255,26 @@ export function ProductDetailPage() {
                 <span>{role}</span>
                 <p>{note}</p>
               </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="editorial-container product-long-detail">
+          <div className="product-long-detail__intro">
+            <p className="eyebrow">PRODUCT DETAILS</p>
+            <h2>See the texture, use and mood before you buy.</h2>
+            <p>
+              A closer look at the product surface, use moments and Jeju-inspired material mood, gathered so the choice feels clear before checkout.
+            </p>
+            <div className="product-long-detail__points">
+              {detailHighlights.slice(0, 6).map((fact) => <span key={fact}>{fact}</span>)}
+            </div>
+          </div>
+          <div className="product-long-detail__images">
+            {detailImages.map((image, index) => (
+              <figure key={`${image}-${index}`}>
+                <img src={image} alt={`${product.displayName || product.name} detail ${index + 1}`} loading="lazy" decoding="async" />
+              </figure>
             ))}
           </div>
         </section>

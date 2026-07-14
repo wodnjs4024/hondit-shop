@@ -66,6 +66,10 @@ export function toClientProduct(product) {
     sortOrder: Number(product.sort_order ?? product.sortOrder ?? 0),
     features: product.features || [],
     usage: product.usage || [],
+    galleryImages: product.gallery_images ?? product.galleryImages ?? [],
+    detailImages: product.detail_images ?? product.detailImages ?? [],
+    detailHighlights: product.detail_highlights ?? product.detailHighlights ?? [],
+    detailHowToUse: product.detail_how_to_use ?? product.detailHowToUse ?? [],
   };
 }
 
@@ -89,6 +93,10 @@ export function toDbProduct(product) {
     sort_order: product.sortOrder,
     features: Array.isArray(product.features) ? product.features : [],
     usage: Array.isArray(product.usage) ? product.usage : [],
+    gallery_images: Array.isArray(product.galleryImages) ? product.galleryImages : [],
+    detail_images: Array.isArray(product.detailImages) ? product.detailImages : [],
+    detail_highlights: Array.isArray(product.detailHighlights) ? product.detailHighlights : [],
+    detail_how_to_use: Array.isArray(product.detailHowToUse) ? product.detailHowToUse : [],
     updated_at: new Date().toISOString(),
   };
 }

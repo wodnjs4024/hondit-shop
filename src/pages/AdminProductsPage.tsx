@@ -4,6 +4,24 @@ import { adminFetch } from "../lib/bulkApi";
 import { AdminNotice } from "./AdminDashboardPage";
 
 const categoryOptions: BulkCategory[] = ["cleansing", "diffuser"];
+const editableListFields = ["features", "usage", "galleryImages", "detailImages", "detailHighlights", "detailHowToUse"] as const;
+type EditableListField = (typeof editableListFields)[number];
+
+const imagePresets = [
+  "/images/diffuser-350g.png",
+  "/images/diffuser-500g.png",
+  "/images/foam-oil.png",
+  "/images/foaming-cleanser.png",
+  "/images/cleansing-water.png",
+  "/images/foam-oil-texture.png",
+  "/images/cleansing-foam-texture.png",
+  "/images/cleansing-water-use.png",
+  "/images/jeju-volcanic-rock.png",
+  "/images/jeju-stone-detail.png",
+  "/images/jeju-sea-stone.png",
+  "/images/jeju-clear-water.png",
+  "/images/jeju-sea-detail.png",
+];
 
 function slugify(value: string) {
   return value
@@ -36,6 +54,10 @@ function createProductDraft(products: BulkProduct[]): BulkProduct {
     sortOrder: nextOrder,
     features: ["Feature"],
     usage: ["Order note"],
+    galleryImages: ["/images/foam-oil.png"],
+    detailImages: [],
+    detailHighlights: ["Detail highlight"],
+    detailHowToUse: ["Use step"],
   };
 }
 
@@ -48,6 +70,64 @@ function textToList(value: string) {
     .split("\n")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function productList(product: BulkProduct, key: EditableListField) {
+  const value = product[key];
+  return Array.isArray(value) ? value : [];
+}
+
+function AdminMediaEditor({
+  product,
+  title,
+  help,
+  field,
+  onAdd,
+  onRemove,
+  onMove,
+  onUpdate,
+}: {
+  product: BulkProduct;
+  title: string;
+  help: string;
+  field: "galleryImages" | "detailImages";
+  onAdd: (slug: string, field: EditableListField, value?: string) => void;
+  onRemove: (slug: string, field: EditableListField, index: number) => void;
+  onMove: (slug: string, field: EditableListField, index: number, direction: -1 | 1) => void;
+  onUpdate: (slug: string, field: EditableListField, index: number, value: string) => void;
+}) {
+  const images = productList(product, field);
+  return (
+    <section className="admin-media-editor">
+      <div className="admin-media-editor__head">
+        <div>
+          <h3>{title}</h3>
+          <p>{help}</p>
+        </div>
+        <button className="button button--ghost" type="button" onClick={() => onAdd(product.slug, field)}>Add image URL</button>
+      </div>
+      <div className="admin-media-presets" aria-label="Quick add existing product images">
+        {imagePresets.map((image) => (
+          <button type="button" key={image} onClick={() => onAdd(product.slug, field, image)}>
+            <img src={image} alt="" loading="lazy" decoding="async" />
+            <span>Add</span>
+          </button>
+        ))}
+      </div>
+      <div className="admin-media-list">
+        {images.length === 0 && <p className="admin-muted">No images yet. Add existing images above or paste a hosted image URL.</p>}
+        {images.map((image, index) => (
+          <div className="admin-media-row" key={`${field}-${index}`}>
+            <img src={image || "/images/foam-oil.png"} alt="" loading="lazy" decoding="async" />
+            <input value={image} onChange={(event) => onUpdate(product.slug, field, index, event.target.value)} placeholder="/images/example.png or https://..." />
+            <button type="button" onClick={() => onMove(product.slug, field, index, -1)} disabled={index === 0}>Up</button>
+            <button type="button" onClick={() => onMove(product.slug, field, index, 1)} disabled={index === images.length - 1}>Down</button>
+            <button type="button" className="is-danger" onClick={() => onRemove(product.slug, field, index)}>Remove</button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export function AdminProductsPage() {
@@ -63,6 +143,42 @@ export function AdminProductsPage() {
 
   const update = (slug: string, key: keyof BulkProduct, value: string | number | boolean | string[]) => {
     setProducts((current) => current.map((product) => (product.slug === slug ? { ...product, [key]: value } : product)));
+  };
+
+  const updateListItem = (slug: string, field: EditableListField, index: number, value: string) => {
+    setProducts((current) => current.map((product) => {
+      if (product.slug !== slug) return product;
+      const next = [...productList(product, field)];
+      next[index] = value;
+      return { ...product, [field]: next };
+    }));
+  };
+
+  const addListItem = (slug: string, field: EditableListField, value = "") => {
+    setProducts((current) => current.map((product) => {
+      if (product.slug !== slug) return product;
+      const next = [...productList(product, field), value];
+      return { ...product, [field]: next };
+    }));
+  };
+
+  const removeListItem = (slug: string, field: EditableListField, index: number) => {
+    setProducts((current) => current.map((product) => {
+      if (product.slug !== slug) return product;
+      const next = productList(product, field).filter((_, itemIndex) => itemIndex !== index);
+      return { ...product, [field]: next };
+    }));
+  };
+
+  const moveListItem = (slug: string, field: EditableListField, index: number, direction: -1 | 1) => {
+    setProducts((current) => current.map((product) => {
+      if (product.slug !== slug) return product;
+      const next = [...productList(product, field)];
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= next.length) return product;
+      [next[index], next[targetIndex]] = [next[targetIndex], next[index]];
+      return { ...product, [field]: next };
+    }));
   };
 
   const addProduct = () => {
@@ -107,6 +223,10 @@ export function AdminProductsPage() {
         unitWeightKg: Number(product.unitWeightKg) || 0,
         inventoryPacks: Math.max(0, Math.floor(Number(product.inventoryPacks) || 0)),
         sortOrder: Math.floor(Number(product.sortOrder) || 100),
+        galleryImages: textToList(listToText(product.galleryImages || [])),
+        detailImages: textToList(listToText(product.detailImages || [])),
+        detailHighlights: textToList(listToText(product.detailHighlights || [])),
+        detailHowToUse: textToList(listToText(product.detailHowToUse || [])),
       };
     });
     await adminFetch("/api/admin/products", {
@@ -123,8 +243,8 @@ export function AdminProductsPage() {
     <>
       <div className="admin-heading">
         <p className="eyebrow">PRODUCTS</p>
-        <h1>Upload and manage products</h1>
-        <p>Add products here to show them on the bulk order page. Keep new drafts inactive until the information is ready.</p>
+        <h1>Manage products and detail media</h1>
+        <p>Manage product information, stock, product-page galleries and vertical detail images from one place.</p>
       </div>
       <div className="admin-toolbar">
         <button className="button button--primary" type="button" onClick={addProduct}>Add new product</button>
@@ -175,6 +295,36 @@ export function AdminProductsPage() {
                   <label>Feature chips, one per line<textarea value={listToText(product.features)} onChange={(event) => update(product.slug, "features", textToList(event.target.value))} /></label>
                   <label>Use and order notes, one per line<textarea value={listToText(product.usage)} onChange={(event) => update(product.slug, "usage", textToList(event.target.value))} /></label>
                 </div>
+                <details className="admin-product-media" open>
+                  <summary>Product detail media and content</summary>
+                  <p className="admin-muted">
+                    The top gallery appears first on the product detail page. Vertical detail images appear lower on the page like a long product-detail scroll.
+                  </p>
+                  <AdminMediaEditor
+                    product={product}
+                    field="galleryImages"
+                    title="Top product gallery"
+                    help="Use 4-6 images: front, texture, size/use context, package or mood."
+                    onAdd={addListItem}
+                    onRemove={removeListItem}
+                    onMove={moveListItem}
+                    onUpdate={updateListItem}
+                  />
+                  <AdminMediaEditor
+                    product={product}
+                    field="detailImages"
+                    title="Vertical detail images"
+                    help="Use product texture, how-to, comparison, package and Jeju mood images for the lower detail section."
+                    onAdd={addListItem}
+                    onRemove={removeListItem}
+                    onMove={moveListItem}
+                    onUpdate={updateListItem}
+                  />
+                  <div className="admin-inline-grid admin-inline-grid--textarea">
+                    <label>Detail highlights, one per line<textarea value={listToText(product.detailHighlights || [])} onChange={(event) => update(product.slug, "detailHighlights", textToList(event.target.value))} /></label>
+                    <label>Detail how-to steps, one per line<textarea value={listToText(product.detailHowToUse || [])} onChange={(event) => update(product.slug, "detailHowToUse", textToList(event.target.value))} /></label>
+                  </div>
+                </details>
                 {mismatch && <p className="setup-warning">Check price: {formatSgd(product.unitPriceSgd)} x {product.packQuantity} = {formatSgd(expected)}, but pack price is {formatSgd(product.packPriceSgd)}.</p>}
                 <div className="admin-switches">
                   <label><input type="checkbox" checked={product.purchaseEnabled} onChange={(event) => update(product.slug, "purchaseEnabled", event.target.checked)} /> Purchase enabled</label>
