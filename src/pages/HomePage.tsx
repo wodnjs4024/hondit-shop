@@ -46,13 +46,13 @@ export function HomePage() {
             </p>
             <div className="home-route-cards" aria-label="Choose a purchase route">
               <a href={links.shopeeStore} target="_blank" rel="noreferrer" onClick={() => trackStoreClick("home_route_card")}>
-                <span className="route-icon" aria-hidden="true">Bag</span>
+                <span className="route-icon" aria-hidden="true">Retail</span>
                 <em>For individuals</em>
                 <strong>Buy on Shopee</strong>
                 <small>Shop our products easily on Shopee Singapore.</small>
               </a>
               <Link to="/bulk-orders" onClick={() => trackEvent("view_bulk_list", { button_location: "home_route_card" })}>
-                <span className="route-icon" aria-hidden="true">Box</span>
+                <span className="route-icon" aria-hidden="true">Bulk</span>
                 <em>For businesses</em>
                 <strong>Bulk Order</strong>
                 <small>Wholesale and corporate enquiries for larger orders.</small>
