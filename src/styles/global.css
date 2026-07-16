@@ -358,6 +358,254 @@ body::before {
   min-width: min(100%, 190px);
 }
 
+/* Accurate coordinate map journey */
+.journey-map-stage {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.34fr) minmax(0, 0.66fr);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: stretch;
+  padding: clamp(18px, 3vw, 34px);
+}
+
+.map-canvas--region,
+.map-canvas--korea,
+.jeju-map {
+  min-height: auto;
+  aspect-ratio: 1200 / 760;
+  background: #dfeef0;
+}
+
+.map-canvas--korea {
+  aspect-ratio: 900 / 760;
+}
+
+.jeju-map {
+  aspect-ratio: 1000 / 690;
+  background: #dfeef0;
+}
+
+.map-canvas--region img,
+.map-canvas--korea img,
+.jeju-map img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.region-dot {
+  position: absolute;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  border: 3px solid #fffaf2;
+  border-radius: 999px;
+  background: #cf5639;
+  box-shadow: 0 8px 20px rgba(144, 59, 36, 0.28);
+}
+
+.region-connector {
+  position: absolute;
+  z-index: 1;
+  height: 0;
+  transform-origin: left center;
+  border-top: 2px dashed rgba(207, 86, 57, 0.72);
+}
+
+.journey-pin--external {
+  z-index: 3;
+  min-width: 118px;
+  min-height: 42px;
+  padding: 0 16px;
+  background: #fffaf2;
+  color: #17254a;
+  border: 1px solid rgba(207, 86, 57, 0.22);
+  box-shadow: 0 14px 34px rgba(41, 32, 20, 0.16);
+}
+
+.jeju-field-heading {
+  margin: 0 0 18px;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid rgba(24, 24, 24, 0.08);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 250, 242, 0.95), rgba(246, 238, 223, 0.8));
+}
+
+.jeju-field-heading p,
+.jeju-field-heading span {
+  margin: 0;
+  color: #cf5639;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.jeju-field-heading h3 {
+  margin: 8px 0 10px;
+  color: #17254a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.2rem, 5vw, 4.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.jeju-field-heading span {
+  display: block;
+  color: rgba(23, 37, 74, 0.58);
+}
+
+.marker-connectors {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.marker-connectors line {
+  stroke: rgba(207, 86, 57, 0.62);
+  stroke-width: 0.18;
+  stroke-dasharray: 0.8 1.1;
+  vector-effect: non-scaling-stroke;
+}
+
+.marker-origin {
+  position: absolute;
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fffaf2;
+  border-radius: 999px;
+  background: #17254a;
+  box-shadow: 0 4px 12px rgba(23, 37, 74, 0.22);
+}
+
+.marker-origin--featured {
+  width: 10px;
+  height: 10px;
+  background: #cf5639;
+}
+
+.marker {
+  display: inline-flex;
+  width: auto;
+  min-width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 9px;
+  white-space: nowrap;
+}
+
+.marker span {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+}
+
+.marker small {
+  color: inherit;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.marker--featured {
+  width: auto;
+  min-width: 44px;
+  height: 38px;
+  background: #cf5639;
+}
+
+.place-meta {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+.place-meta div {
+  padding-top: 10px;
+  border-top: 1px solid rgba(23, 37, 74, 0.1);
+}
+
+.place-meta dt {
+  color: rgba(23, 37, 74, 0.48);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.place-meta dd {
+  margin: 4px 0 0;
+  color: #17254a;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .journey-map-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .map-canvas--region,
+  .map-canvas--korea {
+    aspect-ratio: 1.18 / 1;
+  }
+
+  .jeju-map {
+    aspect-ratio: 1.08 / 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .journey-map-stage {
+    padding: 14px;
+  }
+
+  .journey-pin--external {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 0.72rem;
+  }
+
+  .jeju-field-heading {
+    padding: 16px;
+  }
+
+  .jeju-field-heading p,
+  .jeju-field-heading span {
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+  }
+
+  .marker {
+    min-width: 28px;
+    height: 28px;
+    gap: 0;
+    padding: 0 7px;
+    font-size: 0.68rem;
+  }
+
+  .marker small {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .marker--featured {
+    min-width: 34px;
+    height: 34px;
+  }
+}
+
 .hero-purchase-routes {
   display: grid;
   grid-template-columns: 1fr;
@@ -9346,5 +9594,253 @@ body::before {
 
   .jeju-origin-banner {
     width: min(100% - 36px, 1200px);
+  }
+}
+
+/* Final map overrides: projected coordinate field guide */
+.journey-map-stage {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.34fr) minmax(0, 0.66fr);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: stretch;
+  padding: clamp(18px, 3vw, 34px);
+}
+
+.map-canvas--region,
+.map-canvas--korea,
+.jeju-map {
+  min-height: auto;
+  aspect-ratio: 1200 / 760;
+  background: #dfeef0;
+}
+
+.map-canvas--korea {
+  aspect-ratio: 900 / 760;
+}
+
+.jeju-map {
+  aspect-ratio: 1000 / 690;
+  background: #dfeef0;
+}
+
+.map-canvas--region img,
+.map-canvas--korea img,
+.jeju-map img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.region-dot {
+  position: absolute;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  border: 3px solid #fffaf2;
+  border-radius: 999px;
+  background: #cf5639;
+  box-shadow: 0 8px 20px rgba(144, 59, 36, 0.28);
+}
+
+.region-connector {
+  position: absolute;
+  z-index: 1;
+  height: 0;
+  transform-origin: left center;
+  border-top: 2px dashed rgba(207, 86, 57, 0.72);
+}
+
+.journey-pin--external {
+  z-index: 3;
+  min-width: 118px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(207, 86, 57, 0.22);
+  background: #fffaf2;
+  color: #17254a;
+  box-shadow: 0 14px 34px rgba(41, 32, 20, 0.16);
+}
+
+.jeju-field-heading {
+  margin: 0 0 18px;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid rgba(24, 24, 24, 0.08);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 250, 242, 0.95), rgba(246, 238, 223, 0.8));
+}
+
+.jeju-field-heading p,
+.jeju-field-heading span {
+  margin: 0;
+  color: #cf5639;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.jeju-field-heading h3 {
+  margin: 8px 0 10px;
+  color: #17254a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.2rem, 5vw, 4.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.jeju-field-heading span {
+  display: block;
+  color: rgba(23, 37, 74, 0.58);
+}
+
+.marker-connectors {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.marker-connectors line {
+  stroke: rgba(207, 86, 57, 0.62);
+  stroke-width: 0.18;
+  stroke-dasharray: 0.8 1.1;
+  vector-effect: non-scaling-stroke;
+}
+
+.marker-origin {
+  position: absolute;
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fffaf2;
+  border-radius: 999px;
+  background: #17254a;
+  box-shadow: 0 4px 12px rgba(23, 37, 74, 0.22);
+}
+
+.marker-origin--featured {
+  width: 10px;
+  height: 10px;
+  background: #cf5639;
+}
+
+.marker {
+  display: inline-flex;
+  width: auto;
+  min-width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 9px;
+  white-space: nowrap;
+}
+
+.marker span {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+}
+
+.marker small {
+  color: inherit;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.marker--featured {
+  width: auto;
+  min-width: 44px;
+  height: 38px;
+  background: #cf5639;
+}
+
+.place-meta {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+.place-meta div {
+  padding-top: 10px;
+  border-top: 1px solid rgba(23, 37, 74, 0.1);
+}
+
+.place-meta dt {
+  color: rgba(23, 37, 74, 0.48);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.place-meta dd {
+  margin: 4px 0 0;
+  color: #17254a;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .journey-map-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .map-canvas--region,
+  .map-canvas--korea {
+    aspect-ratio: 1.18 / 1;
+  }
+
+  .jeju-map {
+    aspect-ratio: 1.08 / 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .journey-map-stage {
+    padding: 14px;
+  }
+
+  .journey-pin--external {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 0.72rem;
+  }
+
+  .jeju-field-heading {
+    padding: 16px;
+  }
+
+  .jeju-field-heading p,
+  .jeju-field-heading span {
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+  }
+
+  .marker {
+    min-width: 28px;
+    height: 28px;
+    gap: 0;
+    padding: 0 7px;
+    font-size: 0.68rem;
+  }
+
+  .marker small {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .marker--featured {
+    min-width: 34px;
+    height: 34px;
   }
 }

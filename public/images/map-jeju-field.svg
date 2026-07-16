@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 690" role="img" aria-label="Pastel field guide map of Jeju Island">
+  <defs>
+    <radialGradient id="waterGlow" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#f7fbfa"/>
+      <stop offset="60%" stop-color="#dfeef0"/>
+      <stop offset="100%" stop-color="#cfe3e7"/>
+    </radialGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#5f6b5f" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1000" height="690" rx="32" fill="url(#waterGlow)"/>
+  <g filter="url(#softShadow)">
+<path d="M43.01,396.11 L86.02,293.89 L182.8,191.67 L322.58,115 L473.12,76.67 L655.91,89.44 L827.96,166.11 L956.99,319.44 L924.73,472.78 L763.44,575 L569.89,626.11 L333.33,613.33 L139.78,536.67 L43.01,396.11 Z" fill="#f6eedf" stroke="#c7baa4" stroke-width="2" vector-effect="non-scaling-stroke"/>
+    <path d="M43.01,396.11 L86.02,293.89 L182.8,191.67 L322.58,115 L473.12,76.67 L655.91,89.44 L827.96,166.11 L956.99,319.44 L924.73,472.78 L763.44,575 L569.89,626.11 L333.33,613.33 L139.78,536.67 L43.01,396.11 Z" fill="none" stroke="#fffaf2" stroke-width="7" opacity="0.55" vector-effect="non-scaling-stroke"/>
+    <path d="M220 455 C340 398 430 402 522 344 C632 274 736 284 858 220" fill="none" stroke="#dacdb7" stroke-width="2" stroke-dasharray="8 12" opacity="0.55"/>
+    <circle cx="444" cy="342" r="76" fill="#e7d9c1" opacity="0.42"/>
+    <text x="502" y="356" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="42" fill="#1d2745" opacity="0.82">Hallasan</text>
+    <text x="80" y="94" font-family="Cormorant Garamond, Georgia, serif" font-size="48" fill="#1d2745">Jeju Island</text>
+    <text x="82" y="130" font-family="Inter, Arial, sans-serif" font-size="15" fill="#6d756f">Coordinates are projected from real latitude and longitude.</text>
+  </g>
+</svg>

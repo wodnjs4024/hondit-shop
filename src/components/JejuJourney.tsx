@@ -1,14 +1,49 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { trackEvent } from "../lib/analytics";
-import { allJejuPoints, asiaCountryLabels, university, type JejuPlace } from "../data/jejuJourneyData";
+import { allJejuPoints, jejuMapBounds, university, type JejuPlace } from "../data/jejuJourneyData";
 
 type MapStage = "asia" | "korea" | "jeju";
+
+const stageOrder: MapStage[] = ["asia", "korea", "jeju"];
+
+const stageCopy: Record<MapStage, { eyebrow: string; title: string; body: string }> = {
+  asia: {
+    eyebrow: "01 ASIA",
+    title: "Start with the wider region.",
+    body: "A soft travel map shows Korea in Asia without adding extra markers to Singapore, Japan or other countries.",
+  },
+  korea: {
+    eyebrow: "02 SOUTH KOREA",
+    title: "Move down to Jeju.",
+    body: "Jeju is marked from its real position south of the Korean peninsula, with the label kept outside the island.",
+  },
+  jeju: {
+    eyebrow: "03 JEJU ISLAND",
+    title: "Meet Jeju, one landscape at a time.",
+    body: "Each point is projected from latitude and longitude, so the field guide stays aligned on desktop and mobile.",
+  },
+};
 
 function stageLabel(stage: MapStage) {
   if (stage === "asia") return "Asia";
   if (stage === "korea") return "South Korea";
   return "Jeju Island";
+}
+
+function projectJeju(place: JejuPlace) {
+  const x = ((place.lon - jejuMapBounds.west) / (jejuMapBounds.east - jejuMapBounds.west)) * 100;
+  const y = ((jejuMapBounds.north - place.lat) / (jejuMapBounds.north - jejuMapBounds.south)) * 100;
+  return {
+    pointX: Number(x.toFixed(2)),
+    pointY: Number(y.toFixed(2)),
+    markerX: Number((x + (place.labelOffsetX || 0)).toFixed(2)),
+    markerY: Number((y + (place.labelOffsetY || 0)).toFixed(2)),
+  };
+}
+
+function coords(place: JejuPlace) {
+  return `${place.lat.toFixed(4)} N, ${place.lon.toFixed(4)} E`;
 }
 
 export function JejuJourney() {
@@ -33,13 +68,19 @@ export function JejuJourney() {
 
   const copyAddress = async () => {
     try {
-      await navigator.clipboard.writeText(selected.address);
+      await navigator.clipboard.writeText(`${selected.address} (${coords(selected)})`);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
       setCopied(false);
     }
   };
+
+  const mapPoints = allJejuPoints.map((point, index) => ({
+    point,
+    index,
+    position: projectJeju(point),
+  }));
 
   return (
     <section className="journey-section" aria-labelledby="jeju-journey-title">
@@ -48,12 +89,12 @@ export function JejuJourney() {
           <p className="eyebrow">FROM ASIA TO JEJU</p>
           <h2 id="jeju-journey-title">Find Korea in Asia. Follow hondit to Jeju.</h2>
           <p>
-            This map journey connects the market we serve with the island and university where hondit's project began.
+            A softer field-guide map connects the market we serve with the island and university where hondit's project began.
           </p>
         </div>
 
         <div className="map-breadcrumbs" aria-label="Map journey steps">
-          {(["asia", "korea", "jeju"] as MapStage[]).map((item, index) => (
+          {stageOrder.map((item, index) => (
             <button
               key={item}
               type="button"
@@ -72,56 +113,55 @@ export function JejuJourney() {
               moveStage("jeju", "university_breadcrumb");
             }}
           >
-            <span>04</span>
-            Jeju National University
+            <span>H</span>
+            hondit home
           </button>
         </div>
 
         <div className="map-shell" data-stage={stage}>
           {stage === "asia" && (
-            <div className="map-stage asia-canvas">
+            <div className="map-stage journey-map-stage">
               <div className="map-side-copy">
-                <span>01 Asia</span>
-                <strong>Start from the wider region.</strong>
-                <p>hondit is built for Singapore buyers, but its origin sits northeast in Korea.</p>
+                <span>{stageCopy.asia.eyebrow}</span>
+                <strong>{stageCopy.asia.title}</strong>
+                <p>{stageCopy.asia.body}</p>
               </div>
-              <div className="map-canvas">
-                <img src="/images/map-asia.webp" alt="Illustrated map of Asia highlighting Korea." loading="lazy" decoding="async" />
-                {asiaCountryLabels.map((label) => (
-                  <span key={label.name} className="country-label" style={{ left: `${label.x}%`, top: `${label.y}%` }}>
-                    {label.name}
-                  </span>
-                ))}
+              <div className="map-canvas map-canvas--region">
+                <img src="/images/map-asia-pastel.svg" alt="Pastel travel map of Asia with South Korea marked." loading="lazy" decoding="async" />
+                <span className="region-dot" style={{ left: "75.3%", top: "28.5%" }} aria-hidden="true" />
+                <span className="region-connector" style={{ left: "75.3%", top: "28.5%", width: "10.4%", transform: "rotate(-18deg)" }} aria-hidden="true" />
                 <button
                   type="button"
-                  className="journey-pin journey-pin--korea"
-                  style={{ left: "68%", top: "32%" }}
+                  className="journey-pin journey-pin--external"
+                  style={{ left: "82.6%", top: "23.8%" }}
                   onClick={() => moveStage("korea", "asia_pin")}
                   aria-label="Open South Korea map"
                 >
-                  Korea
+                  South Korea
                 </button>
               </div>
             </div>
           )}
 
           {stage === "korea" && (
-            <div className="map-stage korea-canvas">
+            <div className="map-stage journey-map-stage">
               <div className="map-side-copy">
-                <span>02 South Korea</span>
-                <strong>Move down to Jeju.</strong>
-                <p>Jeju sits south of the Korean peninsula, where sea air and volcanic stone shape the island's identity.</p>
+                <span>{stageCopy.korea.eyebrow}</span>
+                <strong>{stageCopy.korea.title}</strong>
+                <p>{stageCopy.korea.body}</p>
               </div>
-              <div className="map-canvas">
-                <img src="/images/map-korea-friendly.webp" alt="Illustrated map of Korea with Jeju Island highlighted." loading="lazy" decoding="async" />
+              <div className="map-canvas map-canvas--korea">
+                <img src="/images/map-korea-pastel.svg" alt="Pastel map of Korea with Jeju Island marked." loading="lazy" decoding="async" />
+                <span className="region-dot" style={{ left: "31.9%", top: "82.2%" }} aria-hidden="true" />
+                <span className="region-connector" style={{ left: "31.9%", top: "82.2%", width: "12.5%", transform: "rotate(28deg)" }} aria-hidden="true" />
                 <button
                   type="button"
-                  className="journey-pin journey-pin--jeju"
-                  style={{ left: "31%", top: "78%" }}
+                  className="journey-pin journey-pin--external"
+                  style={{ left: "43.2%", top: "84.8%" }}
                   onClick={() => moveStage("jeju", "korea_pin")}
-                  aria-label="Open Jeju Island map"
+                  aria-label="Open Jeju Island field guide"
                 >
-                  Jeju
+                  Jeju Island
                 </button>
               </div>
             </div>
@@ -133,22 +173,49 @@ export function JejuJourney() {
                 <button type="button" onClick={() => moveStage("korea", "jeju_back")}>
                   Back to Korea
                 </button>
-                <span>{allJejuPoints.length} Jeju references</span>
+                <span>{allJejuPoints.length} verified Jeju references</span>
+              </div>
+
+              <div className="jeju-field-heading">
+                <p>JEJU ISLAND FIELD GUIDE</p>
+                <h3>Meet Jeju, one landscape at a time.</h3>
+                <span>VOLCANIC HEART · FOREST TRAILS · COAST & ISLANDS · HONDIT HOME</span>
               </div>
 
               <div className="jeju-layout">
-                <div className="jeju-map" aria-label="Jeju reference map">
-                  <img src="/images/map-jeju.webp" alt="Illustrated map of Jeju with hondit reference points." loading="lazy" decoding="async" />
-                  {allJejuPoints.map((point, index) => (
+                <div className="jeju-map" aria-label="Jeju field guide map">
+                  <img src="/images/map-jeju-field.svg" alt="Pastel field guide map of Jeju Island." loading="lazy" decoding="async" />
+                  <svg className="marker-connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                    {mapPoints.map(({ point, position }) => (
+                      <line
+                        key={point.id}
+                        x1={position.pointX}
+                        y1={position.pointY}
+                        x2={position.markerX}
+                        y2={position.markerY}
+                      />
+                    ))}
+                  </svg>
+                  {mapPoints.map(({ point, index, position }) => (
+                    <span
+                      key={`${point.id}-origin`}
+                      className={`marker-origin ${point.featured ? "marker-origin--featured" : ""}`}
+                      style={{ left: `${position.pointX}%`, top: `${position.pointY}%` }}
+                      aria-hidden="true"
+                    />
+                  ))}
+                  {mapPoints.map(({ point, index, position }) => (
                     <button
                       key={point.id}
                       type="button"
                       className={`marker ${point.featured ? "marker--featured" : ""} ${selected.id === point.id ? "is-active" : ""}`}
-                      style={{ left: `${point.x}%`, top: `${point.y}%` }}
+                      style={{ left: `${position.markerX}%`, top: `${position.markerY}%` }}
                       onClick={() => choosePlace(point)}
                       aria-label={`Show ${point.name}`}
+                      data-place-id={point.id}
                     >
-                      {point.featured ? "H" : index}
+                      <span>{point.featured ? "H" : index}</span>
+                      <small>{point.mapLabel}</small>
                     </button>
                   ))}
                 </div>
@@ -159,7 +226,16 @@ export function JejuJourney() {
                     <span>{selected.tag}</span>
                     <h3>{selected.name}</h3>
                     <p>{selected.note}</p>
-                    <address>{selected.address}</address>
+                    <dl className="place-meta">
+                      <div>
+                        <dt>Address</dt>
+                        <dd>{selected.address}</dd>
+                      </div>
+                      <div>
+                        <dt>Coordinates</dt>
+                        <dd>{coords(selected)}</dd>
+                      </div>
+                    </dl>
                     <div className="place-card__actions">
                       <button type="button" onClick={copyAddress}>{copied ? "Copied" : "Copy address"}</button>
                       <a href="https://www.jejunu.ac.kr/eng/" target="_blank" rel="noreferrer">JNU website</a>
