@@ -15,15 +15,16 @@ export function AdminLayout() {
   return (
     <main className="admin-shell">
       <aside className="admin-sidebar">
-        <strong>hondit admin</strong>
+        <strong>hondit 관리자</strong>
         <nav>
-          <NavLink end to="/admin">Dashboard</NavLink>
-          <NavLink to="/admin/orders">Orders</NavLink>
-          <NavLink to="/admin/products">Products</NavLink>
-          <NavLink to="/admin/reviews">Reviews</NavLink>
-          <NavLink to="/admin/settings">Settings</NavLink>
+          <NavLink end to="/admin">대시보드</NavLink>
+          <NavLink to="/admin/orders">주문 관리</NavLink>
+          <NavLink to="/admin/products">상품/이미지</NavLink>
+          <NavLink to="/admin/reviews">리뷰 관리</NavLink>
+          <NavLink to="/admin/settings">설정</NavLink>
+          <NavLink to="/">사이트 보기</NavLink>
         </nav>
-        <button type="button" onClick={logout}>Sign out</button>
+        <button type="button" onClick={logout}>로그아웃</button>
       </aside>
       <section className="admin-content">
         <Outlet />

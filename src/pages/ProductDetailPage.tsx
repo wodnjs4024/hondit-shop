@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ExternalLink } from "../components/ExternalLink";
-import { DISCOUNT_LABEL, links, retailProducts, type Product } from "../data/siteData";
+import { DISCOUNT_LABEL, honditImages, links, retailProducts, type Product } from "../data/siteData";
 import { formatSgd, type BulkProduct } from "../data/bulkProducts";
 import { trackEvent, trackProductClick, trackStoreClick } from "../lib/analytics";
 import { fetchBulkProducts } from "../lib/bulkApi";
@@ -31,7 +31,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use in the evening or whenever you need a deeper cleanse.",
     howToUse: ["Apply to dry hands and face.", "Massage gently over makeup and sunscreen.", "Add water to emulsify, then rinse clean."],
     keyFacts: ["Vegan formula", "pH 5.5", "Fragrance-free", "Sensitive-skin friendly", "150ml"],
-    images: ["/images/hondit-foam-oil-detail.png", "/images/hondit-cleansing-trio.png", "/images/foam-oil-texture.png", "/images/jeju-clear-water.png"],
+    images: [honditImages.foamOil, honditImages.cleansingTrio, honditImages.fullLineReal, honditImages.jejuSea],
   },
   "foaming-cleanser": {
     headline: "For a soft daily face wash with a comfortable finish.",
@@ -39,7 +39,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use morning and evening after makeup removal, or as your daily cleanser.",
     howToUse: ["Dispense a small amount onto wet hands.", "Lather into a soft foam.", "Massage over face and rinse thoroughly."],
     keyFacts: ["Vegan formula", "pH 5.5", "Fragrance-free", "Daily face wash", "200ml"],
-    images: ["/images/hondit-foaming-cleanser-pack.png", "/images/hondit-cleansing-trio.png", "/images/cleansing-foam-texture.png", "/images/jeju-sea-detail.png"],
+    images: [honditImages.foamingPack, honditImages.foamingCutout, honditImages.foamingLifestyle, honditImages.cleansingTrio],
   },
   "cleansing-water": {
     headline: "For a quick, gentle cleanse when your skin needs a light reset.",
@@ -47,7 +47,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use on busy days, before a second cleanse or for light makeup removal.",
     howToUse: ["Soak a cotton pad with cleansing water.", "Swipe gently across face and neck.", "Repeat as needed and follow with cleanser if desired."],
     keyFacts: ["Vegan formula", "pH 5.5", "Fragrance-free", "Quick cleanse", "300ml"],
-    images: ["/images/hondit-cleansing-water-detail.png", "/images/hondit-cleansing-trio.png", "/images/cleansing-water-use.png", "/images/jeju-clear-water.png"],
+    images: [honditImages.cleansingWaterPack, honditImages.cleansingWaterCutout, honditImages.cleansingTrio, honditImages.jejuSea],
   },
   "diffuser-350": {
     headline: "A compact Jeju volcanic stone diffuser for desks, shelves and smaller corners.",
@@ -55,7 +55,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use when you want to refresh a small area without flame, electricity or reeds.",
     howToUse: ["Place the Jeju volcanic scoria stones in the pot.", "Add 10-12 drops of citrus oil directly onto the stones.", "Let the stone absorb, then refresh whenever needed."],
     keyFacts: ["Jeju volcanic scoria", "No flame", "No electricity", "No reed sticks", "Citrus oil 10ml included", "350g"],
-    images: ["/images/hondit-diffuser-scent.png", "/images/hondit-diffuser-detail.png", "/images/hondit-collection-studio.png", "/images/jeju-volcanic-rock.png"],
+    images: [honditImages.diffuser350Studio, honditImages.diffuser350Window, honditImages.diffuser350Stone, honditImages.diffuser350Shelf, honditImages.diffuserPair],
   },
   "diffuser-500": {
     headline: "A fuller Jeju volcanic stone diffuser for bedrooms, bathrooms and shared spaces.",
@@ -63,7 +63,7 @@ const detailCopy: Record<string, DetailCopy> = {
     whenToUse: "Use when you want a calm scent object that can be refreshed only when you choose.",
     howToUse: ["Place the Jeju volcanic scoria stones in the pot.", "Add 10-12 drops of citrus oil directly onto the stones.", "Let the stone absorb, then refresh whenever needed."],
     keyFacts: ["Jeju volcanic scoria", "No flame", "No electricity", "No reed sticks", "Citrus oil 10ml included", "500g"],
-    images: ["/images/hondit-diffuser-detail.png", "/images/hondit-diffuser-scent.png", "/images/hondit-collection-studio.png", "/images/jeju-stone-detail.png"],
+    images: [honditImages.diffuser500Studio, honditImages.diffuser500Window, honditImages.diffuser500Wood, honditImages.diffuserPair, honditImages.jejuStone],
   },
 };
 
@@ -165,7 +165,7 @@ export function ProductDetailPage() {
                 aria-label="Previous product image"
                 onClick={() => setActiveImage((current) => (current - 1 + galleryImages.length) % galleryImages.length)}
               >
-                ‹
+                {"<"}
               </button>
               <img className="product-detail-gallery__main" src={selectedImage} alt={product.alt} loading="eager" decoding="async" />
               <button
@@ -174,7 +174,7 @@ export function ProductDetailPage() {
                 aria-label="Next product image"
                 onClick={() => setActiveImage((current) => (current + 1) % galleryImages.length)}
               >
-                ›
+                {">"}
               </button>
             </div>
             <div className="product-detail-gallery__thumbs">

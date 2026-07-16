@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductCard } from "../components/ProductCard";
-import { retailProducts } from "../data/siteData";
+import { honditImages, retailProducts } from "../data/siteData";
 import { Footer } from "../sections/Footer";
 
 type ProductFilter = "all" | "scent" | "care";
@@ -27,6 +27,7 @@ export function ProductsPage() {
     <>
       <main className="editorial-page products-page">
         <section className="editorial-hero editorial-hero--products">
+          <img className="editorial-hero__image" src={honditImages.homeStoneHero} alt="" width="1920" height="1080" loading="eager" decoding="async" />
           <div className="editorial-hero__copy">
             <p className="eyebrow">PRODUCTS</p>
             <h1>Products</h1>

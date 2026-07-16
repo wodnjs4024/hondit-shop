@@ -7,18 +7,18 @@ const shippingRows = [
     payment: "Shopee Singapore",
     origin: "Ships from Korea",
     area: "Shopee-supported destinations",
-    estimate: "Operator to confirm exact delivery range",
+    estimate: "5-10 days after Shopee order processing",
     tracking: "Shopee order tracking",
-    duties: "Operator to confirm customs/import tax responsibility",
+    duties: "Handled under Shopee Singapore order rules",
   },
   {
     route: "Bulk via PayPal",
     payment: "PayPal checkout on hondit",
     origin: "Prepared for Singapore EMS",
     area: "Singapore only",
-    estimate: "Operator to confirm exact delivery range",
+    estimate: "Dispatched delivery 3-5 days after payment verification",
     tracking: "EMS tracking number entered by admin after shipment",
-    duties: "Operator to confirm if any additional import handling applies",
+    duties: "Singapore EMS shipping is included in the listed bulk price",
   },
 ];
 

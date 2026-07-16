@@ -7,6 +7,37 @@ export const links = {
 
 export const DISCOUNT_LABEL = "30% OFF";
 
+const imagePackRoot = "/images/hondit-pack/hondit_codex_image_pack";
+
+export const honditImages = {
+  homeHero: `${imagePackRoot}/02_brand_lifestyle/01_home_hero_full_line_coast.webp`,
+  homeStoneHero: `${imagePackRoot}/02_brand_lifestyle/02_home_hero_full_line_stone.webp`,
+  fullLineReal: `${imagePackRoot}/01_product_originals/15_full_product_line_real.webp`,
+  fullLineShipping: `${imagePackRoot}/02_brand_lifestyle/09_full_line_shipping.webp`,
+  cleansingTrio: `${imagePackRoot}/02_brand_lifestyle/03_cleansing_trio_ice.webp`,
+  diffuserPair: `${imagePackRoot}/02_brand_lifestyle/05_diffuser_350_editorial.webp`,
+  diffuser350Studio: `${imagePackRoot}/01_product_originals/02_diffuser_350_studio.webp`,
+  diffuser350Window: `${imagePackRoot}/01_product_originals/03_diffuser_350_window.webp`,
+  diffuser350Stone: `${imagePackRoot}/01_product_originals/04_diffuser_350_stone.webp`,
+  diffuser350Shelf: `${imagePackRoot}/01_product_originals/05_diffuser_350_shelf.webp`,
+  diffuser500Studio: `${imagePackRoot}/01_product_originals/06_diffuser_500_studio.webp`,
+  diffuser500Window: `${imagePackRoot}/01_product_originals/07_diffuser_500_window.webp`,
+  diffuser500Wood: `${imagePackRoot}/01_product_originals/08_diffuser_500_wood.webp`,
+  foamingCutout: `${imagePackRoot}/01_product_originals/09_foaming_cleanser_cutout.webp`,
+  foamingPack: `${imagePackRoot}/01_product_originals/10_foaming_cleanser_pack.webp`,
+  foamingLifestyle: `${imagePackRoot}/01_product_originals/11_foaming_cleanser_lifestyle.webp`,
+  foamOil: `${imagePackRoot}/01_product_originals/12_foam_oil_cleanser.webp`,
+  cleansingWaterPack: `${imagePackRoot}/01_product_originals/13_cleansing_water_pack.webp`,
+  cleansingWaterCutout: `${imagePackRoot}/01_product_originals/14_cleansing_water_cutout.webp`,
+  jejuHero: `${imagePackRoot}/03_jeju_real_photos/02_seongsan_ilchulbong.webp`,
+  jejuSea: `${imagePackRoot}/03_jeju_real_photos/08_hamdeok_beach.webp`,
+  jejuWind: `${imagePackRoot}/03_jeju_real_photos/04_saryeoni_forest_user_01.webp`,
+  jejuStone: `${imagePackRoot}/03_jeju_real_photos/11_jusangjeolli_cliff.webp`,
+  jejuForest: `${imagePackRoot}/03_jeju_real_photos/13_bijarim_forest.webp`,
+  jejuWall: `${imagePackRoot}/03_jeju_real_photos/14_jeju_stone_wall.webp`,
+  jejuUniversity: `${imagePackRoot}/03_jeju_real_photos/01_jeju_national_university.webp`,
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -36,7 +67,7 @@ export const cleansingProducts: Product[] = [
     bestFor: "Makeup / Sunscreen / One-step cleansing",
     ctaLabel: "View on Shopee",
     chips: ["Vegan", "pH 5.5", "Fragrance-Free"],
-    image: "/images/hondit-foam-oil-detail.png",
+    image: honditImages.foamOil,
     alt: "J'essence Vegan Foam Oil cleanser shown with soft foam and a blue water-inspired background.",
     href: "https://shopee.sg/-Jessence-Vegan-Foam-Oil-150ml-pH-5.5-Fragrance-Free-Triple-Cleanser-for-Sensitive-Skin-hondit-i.1777500029.46061061091?extraParams=%7B%22display_model_id%22%3A340962094822%2C%22model_selection_logic%22%3A3%7D",
     listPrice: 27.36,
@@ -53,7 +84,7 @@ export const cleansingProducts: Product[] = [
     bestFor: "Morning wash / Daily cleansing / Sensitive skin",
     ctaLabel: "View on Shopee",
     chips: ["Vegan", "pH 5.5", "Sensitive Skin"],
-    image: "/images/hondit-foaming-cleanser-pack.png",
+    image: honditImages.foamingPack,
     alt: "J'essence Vegan Foaming Cleanser bottle with its blue product box in a clean studio setting.",
     href: "https://shopee.sg/-Jessence-Vegan-Foaming-Cleanser-200ml-pH-5.5-Fragrance-Free-Face-Wash-for-Sensitive-Skin-hondit-i.1777500029.48211055800?extraParams=%7B%22display_model_id%22%3A370962042962%2C%22model_selection_logic%22%3A3%7D",
     listPrice: 29.45,
@@ -70,7 +101,7 @@ export const cleansingProducts: Product[] = [
     bestFor: "Light makeup / Quick reset / No-rinse moments",
     ctaLabel: "View on Shopee",
     chips: ["Vegan", "pH 5.5", "Fragrance-Free"],
-    image: "/images/hondit-cleansing-water-detail.png",
+    image: honditImages.cleansingWaterPack,
     alt: "J'essence Vegan Cleansing Water bottle and box in a bright blue water-inspired product image.",
     href: "https://shopee.sg/-Jessence-Vegan-Cleansing-Water-300ml-pH-5.5-Fragrance-Free-Makeup-Remover-for-Sensitive-Skin-hondit-i.1777500029.49661058384?extraParams=%7B%22display_model_id%22%3A435962061879%2C%22model_selection_logic%22%3A3%7D",
     listPrice: 28.89,
@@ -90,7 +121,7 @@ export const diffuserProducts: Product[] = [
     bestFor: "Bedroom / Bathroom / Shared space",
     ctaLabel: "View 500g on Shopee",
     chips: ["Jeju volcanic stone", "Citrus oil 10ml included", "No flame", "No electricity", "Reusable stone"],
-    image: "/images/hondit-diffuser-detail.png",
+    image: honditImages.diffuser500Studio,
     alt: "Volcanic diffuser with black vessel, citrus fragrance oil and Jeju volcanic stones on warm stone.",
     href: "https://shopee.sg/Diffuser-Home-Fragrance-Air-Freshener-Room-Scent-Aroma-Diffuser-with-Citrus-Essential-Oil-10ml-500g-i.1777500029.56058301270?extraParams=%7B%22display_model_id%22%3A420908704644%2C%22model_selection_logic%22%3A3%7D",
     listPrice: 91.79,
@@ -107,7 +138,7 @@ export const diffuserProducts: Product[] = [
     bestFor: "Desk / Shelf / Personal corner",
     ctaLabel: "View 350g on Shopee",
     chips: ["Jeju volcanic stone", "Citrus oil 10ml included", "No flame", "No electricity", "Reusable stone"],
-    image: "/images/hondit-diffuser-scent.png",
+    image: honditImages.diffuser350Studio,
     alt: "Volcanic diffuser products and Jeju volcanic stones styled with warm natural light.",
     href: "https://shopee.sg/Aroma-Diffuser-Stone-Diffuser-with-Citrus-Essential-Oil-10ml-Home-Fragrance-Air-Freshener-Room-Scent-350g-i.1777500029.47159645745?extraParams=%7B%22display_model_id%22%3A445946326744%2C%22model_selection_logic%22%3A3%7D",
     listPrice: 47.66,

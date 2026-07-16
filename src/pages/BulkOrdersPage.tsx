@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { BULK_QTY_STEP, bulkProducts, formatSgd, getBulkMoq, getBulkTotal, type BulkProduct } from "../data/bulkProducts";
+import { honditImages } from "../data/siteData";
 import { fetchBulkProducts } from "../lib/bulkApi";
 import { Footer } from "../sections/Footer";
 
@@ -32,6 +33,7 @@ export function BulkOrdersPage() {
     <>
       <main className="editorial-page bulk-page bulk-page-v2">
         <section className="editorial-hero editorial-hero--bulk">
+          <img className="editorial-hero__image" src={honditImages.fullLineShipping} alt="" width="1920" height="1080" loading="eager" decoding="async" />
           <div className="editorial-hero__copy">
             <p className="eyebrow">BULK ORDERS</p>
             <h1>Bulk Orders for Business</h1>
@@ -94,7 +96,7 @@ export function BulkOrdersPage() {
           {businessUses.map(([title, body], index) => (
             <article key={title}>
               <img
-                src={index === 0 ? "/images/hondit-collection-studio.png" : index === 1 ? "/images/hondit-collection-hero.png" : index === 2 ? "/images/hondit-cleansing-trio.png" : "/images/hondit-diffuser-detail.png"}
+                src={index === 0 ? honditImages.fullLineReal : index === 1 ? honditImages.fullLineShipping : index === 2 ? honditImages.cleansingTrio : honditImages.diffuser350Stone}
                 alt=""
                 loading="lazy"
                 decoding="async"

@@ -1,19 +1,20 @@
 import { Link, useParams } from "react-router-dom";
+import { Footer } from "../sections/Footer";
 
 const policyContent: Record<string, { title: string; body: string[] }> = {
   shipping: {
     title: "Shipping Policy",
     body: [
       "Bulk orders are currently available for delivery within Singapore only.",
-      "Listed bulk order prices include Singapore EMS shipping. Delivery timing may vary depending on order date, customs handling and logistics conditions.",
-      "Retail purchases are completed on Shopee Singapore and follow Shopee order tracking and delivery rules. Operator to confirm exact delivery estimates before launch.",
+      "Listed bulk order prices include Singapore EMS shipping. Bulk orders are dispatched for delivery within 3-5 days after payment verification.",
+      "Retail purchases are completed on Shopee Singapore and usually follow a 5-10 day delivery window under Shopee order tracking and delivery rules.",
     ],
   },
   refund: {
     title: "Refund Policy",
     body: [
       "Please review product, pack quantity and shipping details before payment.",
-      "Refund requests are reviewed manually. PayPal refunds, when approved, are processed through PayPal admin tools and reflected in the order record.",
+      "Refund requests are reviewed manually. PayPal refunds, when approved, are processed through PayPal and then reflected in the hondit admin order record.",
       "For refund, exchange or dispute questions, contact hondit with your order number and payment email.",
     ],
   },
@@ -45,15 +46,18 @@ export function PolicyPage() {
   const content = policyContent[policy] || policyContent.terms;
 
   return (
-    <main className="bulk-page">
-      <section className="policy-page section-shell">
-        <div className="section-inner section-inner--narrow">
-          <p className="eyebrow">HONDIT</p>
-          <h1>{content.title}</h1>
-          {content.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <Link className="button button--primary" to="/bulk-orders">Return to Bulk Orders</Link>
-        </div>
-      </section>
-    </main>
+    <>
+      <main className="bulk-page">
+        <section className="policy-page section-shell">
+          <div className="section-inner section-inner--narrow">
+            <p className="eyebrow">HONDIT</p>
+            <h1>{content.title}</h1>
+            {content.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            <Link className="button button--primary" to="/bulk-orders">Return to Bulk Orders</Link>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ProductCard } from "../components/ProductCard";
-import { links, cleansingProducts, diffuserProducts, retailProducts } from "../data/siteData";
+import { honditImages, links, cleansingProducts, diffuserProducts, retailProducts } from "../data/siteData";
 import { trackEvent, trackStoreClick } from "../lib/analytics";
 import { Footer } from "../sections/Footer";
 
@@ -34,6 +34,7 @@ export function HomePage() {
     <>
       <main className="editorial-home">
         <section className="home-hero" id="home">
+          <img className="home-hero__image" src={honditImages.homeHero} alt="" width="1920" height="1080" loading="eager" decoding="async" />
           <div className="home-hero__shade" />
           <div className="home-hero__content">
             <p className="eyebrow">JEJU-INSPIRED CARE AND SCENT</p>
@@ -86,7 +87,7 @@ export function HomePage() {
               <p>Compare all three cleansers before you move to Shopee.</p>
             </div>
             <figure className="cleanser-choice__visual">
-              <img src="/images/hondit-cleansing-trio.png" alt="Three J'essence vegan cleansing products styled with soft foam and water." loading="lazy" decoding="async" />
+              <img src={honditImages.cleansingTrio} alt="Three J'essence vegan cleansing products styled with soft foam and water." loading="lazy" decoding="async" />
             </figure>
           </div>
           <div className="choice-grid">
@@ -142,10 +143,10 @@ export function HomePage() {
             </div>
           </div>
           <div className="why-hondit__mosaic" aria-label="Jeju and hondit mood images">
-            <img src="/images/hondit-collection-studio.png" alt="hondit cleansing and volcanic diffuser products styled together with stone textures." loading="lazy" decoding="async" />
-            <img src="/images/hondit-diffuser-detail.png" alt="Volcanic diffuser, fragrance oil and Jeju volcanic stones on warm stone." loading="lazy" decoding="async" />
-            <img src="/images/jeju-sea-stone.png" alt="Jeju ocean and dark volcanic stone." loading="lazy" decoding="async" />
-            <img src="/images/hondit-cleansing-trio.png" alt="J'essence cleansing products arranged with soft blue water textures." loading="lazy" decoding="async" />
+            <img src={honditImages.fullLineReal} alt="hondit cleansing and volcanic diffuser products styled together with stone textures." loading="lazy" decoding="async" />
+            <img src={honditImages.diffuser350Stone} alt="Volcanic diffuser, fragrance oil and Jeju volcanic stones on warm stone." loading="lazy" decoding="async" />
+            <img src={honditImages.jejuSea} alt="Jeju ocean and dark volcanic stone." loading="lazy" decoding="async" />
+            <img src={honditImages.cleansingTrio} alt="J'essence cleansing products arranged with soft blue water textures." loading="lazy" decoding="async" />
           </div>
         </section>
 

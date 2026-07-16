@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { adminFetch } from "../lib/bulkApi";
 import { formatSgd } from "../data/bulkProducts";
+import { adminFetch } from "../lib/bulkApi";
 
 type DashboardOrder = {
   id: string;
@@ -19,11 +19,18 @@ type DashboardOrder = {
   updated_at?: string | null;
 };
 
+type InsightRow = {
+  label: string;
+  count: number;
+  units: number;
+  revenueSgd: number;
+};
+
 type Summary = {
   totals: Record<string, number>;
-  popularProducts?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
-  countries?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
-  sources?: Array<{ label: string; count: number; units: number; revenueSgd: number }>;
+  popularProducts?: InsightRow[];
+  countries?: InsightRow[];
+  sources?: InsightRow[];
   recentOrders: DashboardOrder[];
   checkoutAttempts?: DashboardOrder[];
 };
@@ -67,6 +74,7 @@ export function AdminDashboardPage() {
       .then((data) => {
         setSummary(data);
         setLastUpdated(new Date());
+        setError("");
       })
       .catch((err) => setError(err.message));
   };
@@ -96,13 +104,14 @@ export function AdminDashboardPage() {
     <>
       <div className="admin-heading">
         <p className="eyebrow">관리자 대시보드</p>
-        <h1>대량 주문 운영 현황</h1>
+        <h1>전체 주문 운영 현황</h1>
         <p className="admin-muted">
           30초마다 자동 새로고침됩니다.
           {lastUpdated ? ` 마지막 업데이트 ${lastUpdated.toLocaleTimeString("ko-KR")}.` : ""}
         </p>
         <button className="button button--ghost" type="button" onClick={load}>지금 새로고침</button>
       </div>
+
       <div className="admin-stat-grid">
         {cards.map(([label, value]) => (
           <article key={label}>
@@ -111,23 +120,26 @@ export function AdminDashboardPage() {
           </article>
         ))}
       </div>
+
       <section className="admin-panel">
         <h2>최근 결제 완료 주문</h2>
-        <p className="admin-muted">PayPal 결제가 완료된 주문만 이곳에 표시되며, 매출로 집계됩니다.</p>
+        <p className="admin-muted">PayPal 결제가 완료된 주문만 매출과 실제 처리 대상 주문으로 봅니다.</p>
         <AdminOrderTable orders={summary?.recentOrders || []} />
       </section>
-      <section className="admin-panel">
+
+      <section className="admin-panel admin-panel--warning">
         <h2>미결제 체크아웃 시도</h2>
         <p className="admin-muted">
-          고객이 PayPal 결제창까지 열었지만 결제를 끝내지 않은 기록입니다. 이 주문은 상품 준비나 배송을 하지 마세요.
+          고객이 PayPal 결제창까지 열었지만 결제를 완료하지 않은 기록입니다. 이 주문은 상품 준비나 배송을 하지 마세요.
         </p>
         <AdminOrderTable orders={summary?.checkoutAttempts || []} />
       </section>
+
       <div className="admin-detail-grid">
-        <AdminInsightTable title="인기 상품" rows={summary?.popularProducts || []} valueLabel="개수" />
-        <AdminInsightTable title="고객 국가" rows={summary?.countries || []} valueLabel="주문" />
+        <AdminInsightTable title="인기 상품" rows={summary?.popularProducts || []} valueLabel="판매 개수" />
+        <AdminInsightTable title="고객 국가" rows={summary?.countries || []} valueLabel="주문 수" />
       </div>
-      <AdminInsightTable title="유입 경로" rows={summary?.sources || []} valueLabel="주문" />
+      <AdminInsightTable title="유입 경로" rows={summary?.sources || []} valueLabel="주문 수" />
     </>
   );
 }
@@ -184,18 +196,24 @@ export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
   );
 }
 
-function AdminInsightTable({ title, rows, valueLabel }: { title: string; rows: Array<{ label: string; count: number; units: number; revenueSgd: number }>; valueLabel: string }) {
+function AdminInsightTable({ title, rows, valueLabel }: { title: string; rows: InsightRow[]; valueLabel: string }) {
   return (
     <section className="admin-panel admin-insight">
       <h2>{title}</h2>
       {rows.length ? (
         <table className="admin-table admin-table--compact">
-          <thead><tr><th>이름</th><th>{valueLabel}</th><th>매출</th></tr></thead>
+          <thead>
+            <tr>
+              <th>이름</th>
+              <th>{valueLabel}</th>
+              <th>매출</th>
+            </tr>
+          </thead>
           <tbody>
             {rows.map((row) => (
               <tr key={row.label}>
                 <td>{row.label}</td>
-                <td>{valueLabel === "개수" ? row.units : row.count}</td>
+                <td>{valueLabel === "판매 개수" ? row.units : row.count}</td>
                 <td>{formatSgd(row.revenueSgd)}</td>
               </tr>
             ))}

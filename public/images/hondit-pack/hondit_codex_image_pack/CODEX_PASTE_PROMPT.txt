@@ -1,0 +1,15 @@
+첨부한 hondit_codex_image_pack.zip을 압축 해제하고 README_FOR_CODEX.md의 배정 기준대로 기존 hondit-shop.vercel.app 프로젝트에 이미지를 적용해라.
+
+중요 조건:
+- 제품·라이프스타일·제주 실사진을 섞어 임의 합성하지 말 것
+- 제주대학교는 01_jeju_national_university.webp 실사진 위에 CSS로 H · HONDIT HOME 주황색 배지만 겹칠 것
+- 학교 공식 보증처럼 보이지 않도록 Student-led project based at Jeju National University / Independent student commerce project를 함께 표기할 것
+- 지도는 사진으로 교체하지 말고 실제 지리 데이터 기반 SVG를 유지할 것
+- 아시아 지도에는 영문 국가명, 대한민국에는 작은 주황색 위치점과 점선 리더, 외부 라벨을 사용할 것
+- 제품 카드에는 01_product_originals 폴더의 파일을 사용하고 제품 단독 컷은 contain, 장소·히어로 컷은 cover를 적용할 것
+- Home hero만 eager/preload, 나머지는 lazy loading 및 width/height 지정
+- PHOTO_CREDITS.csv에 Yes인 외부 사진은 Photo Credits 영역에 저작자·라이선스·원문 링크를 표시할 것
+- Shopee 배송 5–10 days, Bulk Order 발송 후 3–5 days 문구를 유지할 것
+- Bulk Order는 상품 선택 → MOQ·SGD 금액 확인 → 주문정보 → 기존 PayPal 서버 주문 생성·캡처 흐름으로 유지할 것
+- 기존 /api/paypal/create-order 및 /api/paypal/capture-order의 비밀키를 클라이언트에 노출하지 말 것
+- 데스크톱과 모바일에서 이미지 잘림·가로 넘침·레이아웃 이동을 검수할 것
