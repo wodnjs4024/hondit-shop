@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { CampusVisual } from "../components/CampusVisual";
+import { JejuJourney } from "../components/JejuJourney";
 import { honditImages } from "../data/siteData";
 import { Footer } from "../sections/Footer";
 
@@ -22,6 +24,19 @@ export function JejuPage() {
               From Jeju's sea, volcanic stone and quiet rhythm, hondit brings selected Korean care and scent into everyday rituals.
             </p>
           </div>
+        </section>
+
+        <JejuJourney />
+
+        <section className="jeju-origin-banner">
+          <div>
+            <p className="eyebrow">PROJECT ORIGIN</p>
+            <h2>Created from Jeju, built for Singapore.</h2>
+            <p>
+              hondit is connected to Jeju National University through a student-led global trade project. The site keeps that origin visible while guiding buyers to Shopee retail and direct bulk ordering.
+            </p>
+          </div>
+          <CampusVisual />
         </section>
 
         <section className="editorial-section jeju-elements">

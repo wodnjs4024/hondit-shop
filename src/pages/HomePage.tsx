@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { JejuJourney } from "../components/JejuJourney";
 import { ProductCard } from "../components/ProductCard";
 import { honditImages, links, cleansingProducts, diffuserProducts, retailProducts } from "../data/siteData";
 import { trackEvent, trackStoreClick } from "../lib/analytics";
@@ -61,6 +62,8 @@ export function HomePage() {
             </div>
           </div>
         </section>
+
+        <JejuJourney />
 
         <section className="editorial-section featured-products">
           <div className="editorial-container">

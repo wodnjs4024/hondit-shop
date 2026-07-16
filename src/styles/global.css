@@ -8876,3 +8876,475 @@ body::before {
     justify-content: flex-start;
   }
 }
+
+.journey-section {
+  position: relative;
+  padding: clamp(64px, 8vw, 118px) 0;
+  background:
+    radial-gradient(circle at 12% 14%, rgba(213, 194, 157, 0.22), transparent 30%),
+    linear-gradient(135deg, #fffaf2 0%, #f0e7da 54%, #efe4d4 100%);
+  overflow: hidden;
+}
+
+.journey-section__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.journey-heading {
+  max-width: 780px;
+  margin-bottom: 28px;
+}
+
+.journey-heading h2 {
+  margin: 0;
+  color: #17254a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.8rem, 6vw, 6.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+}
+
+.journey-heading p {
+  max-width: 620px;
+  color: rgba(28, 31, 38, 0.68);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.map-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.map-breadcrumbs button,
+.map-toolbar button,
+.place-card__actions button,
+.place-card__actions a {
+  border: 1px solid rgba(24, 24, 24, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #17254a;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.map-breadcrumbs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+}
+
+.map-breadcrumbs button span {
+  color: #cf5639;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.map-breadcrumbs button.is-active {
+  background: #171510;
+  border-color: #171510;
+  color: #fffaf2;
+}
+
+.map-shell {
+  overflow: hidden;
+  border: 1px solid rgba(24, 24, 24, 0.1);
+  border-radius: 22px;
+  background: rgba(255, 253, 248, 0.76);
+  box-shadow: 0 28px 80px rgba(41, 32, 20, 0.14);
+  backdrop-filter: blur(16px);
+}
+
+.map-stage {
+  min-height: 620px;
+}
+
+.asia-canvas,
+.korea-canvas {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.36fr) minmax(0, 0.64fr);
+  gap: 22px;
+  align-items: stretch;
+  padding: clamp(20px, 3vw, 32px);
+}
+
+.map-side-copy {
+  align-self: end;
+  max-width: 380px;
+  padding: clamp(18px, 3vw, 34px);
+}
+
+.map-side-copy span,
+.place-card__body span {
+  display: block;
+  color: #cf5639;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.map-side-copy strong {
+  display: block;
+  margin-top: 12px;
+  color: #17254a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.1rem, 4vw, 4.2rem);
+  line-height: 0.96;
+}
+
+.map-side-copy p,
+.place-card__body p,
+.place-card__body address {
+  color: rgba(28, 31, 38, 0.67);
+  line-height: 1.65;
+}
+
+.map-canvas {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #e8dccb;
+}
+
+.map-canvas img,
+.jeju-map img,
+.campus-visual img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.country-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: rgba(23, 37, 74, 0.68);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.journey-pin {
+  position: absolute;
+  min-width: 74px;
+  min-height: 38px;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 999px;
+  background: #cf5639;
+  color: #fff;
+  font-weight: 900;
+  box-shadow: 0 16px 34px rgba(142, 52, 29, 0.35);
+  cursor: pointer;
+}
+
+.journey-pin::after,
+.marker::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  border: 1px solid rgba(207, 86, 57, 0.32);
+  animation: hondit-pulse 2.2s ease-out infinite;
+}
+
+@keyframes hondit-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.86);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+.jeju-stage {
+  padding: clamp(18px, 3vw, 32px);
+}
+
+.map-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.map-toolbar button {
+  min-height: 42px;
+  padding: 0 16px;
+}
+
+.map-toolbar span {
+  color: rgba(23, 37, 74, 0.62);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.jeju-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.55fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.jeju-map {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #dfe9df;
+}
+
+.marker {
+  position: absolute;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #17254a;
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  box-shadow: 0 8px 20px rgba(23, 37, 74, 0.24);
+  cursor: pointer;
+}
+
+.marker--featured {
+  width: 42px;
+  height: 42px;
+  background: #cf5639;
+}
+
+.marker.is-active {
+  outline: 3px solid rgba(207, 86, 57, 0.26);
+  outline-offset: 4px;
+}
+
+.place-card {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid rgba(24, 24, 24, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.92);
+  box-shadow: 0 18px 46px rgba(41, 32, 20, 0.12);
+}
+
+.place-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.place-card__body {
+  padding: 22px;
+}
+
+.place-card__body h3 {
+  margin: 10px 0 8px;
+  color: #17254a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 0.95;
+}
+
+.place-card__body address {
+  margin-top: 14px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.place-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.place-card__actions button,
+.place-card__actions a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 0 13px;
+  text-decoration: none;
+}
+
+.campus-visual {
+  position: relative;
+  min-height: 360px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #e9dfd1;
+  box-shadow: 0 28px 70px rgba(41, 32, 20, 0.14);
+}
+
+.campus-visual figcaption {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 16px;
+  background: rgba(255, 250, 242, 0.76);
+  backdrop-filter: blur(14px);
+}
+
+.campus-visual figcaption span {
+  display: block;
+  color: #cf5639;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.campus-visual figcaption strong {
+  display: block;
+  margin-top: 6px;
+  color: #17254a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1;
+}
+
+.campus-visual__mark {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  color: #cf5639;
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+
+.jeju-origin-banner {
+  width: min(100% - 48px, 1200px);
+  margin: clamp(56px, 7vw, 96px) auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1fr);
+  gap: clamp(22px, 4vw, 52px);
+  align-items: center;
+}
+
+.jeju-origin-banner h2 {
+  margin: 0;
+  color: #17254a;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.7rem, 5vw, 5rem);
+  line-height: 0.98;
+}
+
+.jeju-origin-banner p:not(.eyebrow) {
+  max-width: 540px;
+  color: rgba(28, 31, 38, 0.68);
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .asia-canvas,
+  .korea-canvas,
+  .jeju-layout,
+  .jeju-origin-banner {
+    grid-template-columns: 1fr;
+  }
+
+  .map-stage {
+    min-height: auto;
+  }
+
+  .map-side-copy {
+    max-width: none;
+    padding: 8px 4px 14px;
+  }
+
+  .map-canvas,
+  .jeju-map {
+    min-height: auto;
+    aspect-ratio: 1 / 0.78;
+  }
+}
+
+@media (max-width: 560px) {
+  .journey-section {
+    padding: 48px 0;
+  }
+
+  .map-breadcrumbs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .map-breadcrumbs button {
+    justify-content: center;
+    padding: 0 10px;
+    font-size: 0.82rem;
+  }
+
+  .map-shell {
+    border-radius: 16px;
+  }
+
+  .asia-canvas,
+  .korea-canvas,
+  .jeju-stage {
+    padding: 14px;
+  }
+
+  .map-canvas,
+  .jeju-map {
+    aspect-ratio: 1 / 0.96;
+  }
+
+  .country-label {
+    font-size: 0.6rem;
+  }
+
+  .journey-pin {
+    min-width: 62px;
+    min-height: 34px;
+    font-size: 0.78rem;
+  }
+
+  .marker {
+    width: 28px;
+    height: 28px;
+  }
+
+  .marker--featured {
+    width: 36px;
+    height: 36px;
+  }
+
+  .place-card__body {
+    padding: 18px;
+  }
+
+  .place-card__actions {
+    display: grid;
+  }
+
+  .place-card__actions button,
+  .place-card__actions a {
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .jeju-origin-banner {
+    width: min(100% - 36px, 1200px);
+  }
+}
