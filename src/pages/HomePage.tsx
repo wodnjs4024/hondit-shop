@@ -24,10 +24,10 @@ const diffuserSteps = [
 ];
 
 const trustItems = [
+  ["Built from Jeju National University", "A student-led GTEP project grounded in Jeju."],
   ["Official Shopee Singapore Store", "Retail purchases are completed through Shopee SG."],
-  ["Ships from Korea", "hondit products are prepared and shipped from Korea."],
-  ["Shopee purchase protection", "Retail payment, tracking and support are handled on Shopee."],
-  ["Bulk orders available", "For business quantities, choose Bulk Order or Contact."],
+  ["Shipping made clear", "Shopee: 5-10 days. Bulk: 3-5 days after dispatch."],
+  ["Secure payment path", "Bulk orders continue to PayPal or card checkout."],
 ];
 
 export function HomePage() {
@@ -35,32 +35,42 @@ export function HomePage() {
     <>
       <main className="editorial-home">
         <section className="home-hero" id="home">
-          <img className="home-hero__image" src={honditImages.homeHero} alt="" width="1920" height="1080" loading="eager" decoding="async" />
+          <img className="home-hero__image" src={honditImages.fullLineReal} alt="hondit cleansing and volcanic diffuser products arranged with Jeju-inspired stone textures." width="1920" height="1080" loading="eager" decoding="async" />
           <div className="home-hero__shade" />
           <div className="home-hero__content">
             <p className="eyebrow">JEJU-INSPIRED CARE AND SCENT</p>
             <h1>
-              Pieces of Jeju Island,
-              <span>arriving in Singapore.</span>
+              A quiet piece of Jeju,
+              {" "}
+              <span>for you.</span>
             </h1>
             <p>
-              Jeju-inspired cleansing and scent, curated by hondit for everyday rituals in Singapore.
+              Curated Korean cleansing and volcanic stone scent, made for calm everyday rituals in Singapore.
             </p>
             <div className="home-route-cards" aria-label="Choose a purchase route">
               <a href={links.shopeeStore} target="_blank" rel="noreferrer" onClick={() => trackStoreClick("home_route_card")}>
-                <span className="route-icon" aria-hidden="true">Retail</span>
+                <span className="route-icon" aria-hidden="true">01</span>
                 <em>For individuals</em>
                 <strong>Buy on Shopee</strong>
-                <small>Shop our products easily on Shopee Singapore.</small>
+                <small>Single items with Shopee Singapore checkout and buyer protection.</small>
               </a>
               <Link to="/bulk-orders" onClick={() => trackEvent("view_bulk_list", { button_location: "home_route_card" })}>
-                <span className="route-icon" aria-hidden="true">Bulk</span>
+                <span className="route-icon" aria-hidden="true">02</span>
                 <em>For businesses</em>
                 <strong>Bulk Order</strong>
-                <small>Wholesale and corporate enquiries for larger orders.</small>
+                <small>MOQ quantities with EMS included and PayPal or card checkout.</small>
               </Link>
             </div>
           </div>
+        </section>
+
+        <section className="editorial-container retail-trust">
+          {trustItems.map(([title, body]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <p>{body}</p>
+            </article>
+          ))}
         </section>
 
         <JejuJourney />
@@ -130,10 +140,10 @@ export function HomePage() {
 
         <section className="why-hondit">
           <div className="why-hondit__copy">
-            <p className="eyebrow">WHY HONDIT</p>
-            <h2>Jeju's quiet power, for everyday well-being.</h2>
+            <p className="eyebrow">ORIGIN</p>
+            <h2>Built by students. Grounded in Jeju.</h2>
             <p>
-              Jeju Island is shaped by wind, ocean and volcanic earth. At hondit, we translate that purity into simple care and scent rituals for daily life.
+              hondit is developed by a Jeju National University GTEP team, connecting local Korean products with Singapore customers through clear purchase paths and careful product curation.
             </p>
             <div className="why-hondit__benefits">
               {homeBenefits.map(([title, body]) => (
@@ -146,7 +156,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="why-hondit__mosaic" aria-label="Jeju and hondit mood images">
-            <img src={honditImages.fullLineReal} alt="hondit cleansing and volcanic diffuser products styled together with stone textures." loading="lazy" decoding="async" />
+            <img src={honditImages.jejuUniversity} alt="Jeju National University campus, where the hondit project began." loading="lazy" decoding="async" />
             <img src={honditImages.diffuser350Stone} alt="Volcanic diffuser, fragrance oil and Jeju volcanic stones on warm stone." loading="lazy" decoding="async" />
             <img src={honditImages.jejuSea} alt="Jeju ocean and dark volcanic stone." loading="lazy" decoding="async" />
             <img src={honditImages.cleansingTrio} alt="J'essence cleansing products arranged with soft blue water textures." loading="lazy" decoding="async" />
@@ -161,13 +171,21 @@ export function HomePage() {
           <Link className="button button--dark" to="/products">Explore Products</Link>
         </section>
 
-        <section className="editorial-container retail-trust">
-          {trustItems.map(([title, body]) => (
-            <article key={title}>
-              <strong>{title}</strong>
-              <p>{body}</p>
-            </article>
-          ))}
+        <section className="editorial-container order-ways">
+          <div>
+            <p className="eyebrow">TWO WAYS TO ORDER</p>
+            <h2>Shopee for personal use. Direct checkout for bulk.</h2>
+          </div>
+          <article>
+            <strong>Shop on Shopee SG</strong>
+            <p>Best for single items, retail delivery and Shopee checkout support.</p>
+            <a href={links.shopeeStore} target="_blank" rel="noreferrer" onClick={() => trackStoreClick("two_ways")}>Open Shopee Singapore</a>
+          </article>
+          <article>
+            <strong>Bulk Orders</strong>
+            <p>Best for business quantities, MOQ pricing and Singapore EMS included in the price.</p>
+            <Link to="/bulk-orders">Start a bulk order</Link>
+          </article>
         </section>
       </main>
       <Footer />

@@ -43,7 +43,7 @@ export const jejuPlaces: JejuPlace[] = [
     tag: "FOREST TRAILS",
     address: "Saryeoni Forest Path, Jeju-si, Jeju, Republic of Korea",
     note: "A quiet cedar forest route that reflects the calm rhythm behind hondit's daily rituals.",
-    image: "/images/hondit-hero.webp",
+    image: "/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/04_saryeoni_forest_user_01.webp",
     lat: 33.4206,
     lon: 126.6195,
     labelOffsetX: 5,

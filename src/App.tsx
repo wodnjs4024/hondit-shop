@@ -90,6 +90,7 @@ function upsertMeta(selector: string, attrs: Record<string, string>, value: stri
 
 export default function App() {
   const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
 
   useEffect(() => {
     const path = `${location.pathname}${location.search}${location.hash}`;
@@ -123,7 +124,7 @@ export default function App() {
 
   return (
     <>
-      <SiteHeader />
+      {!isAdmin && <SiteHeader />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />

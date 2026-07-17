@@ -1,12 +1,15 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { adminFetch } from "../lib/bulkApi";
-import { AdminNotice, AdminOrderTable, adminStatusLabel } from "./AdminDashboardPage";
+import {
+  AdminNotice,
+  AdminOrderTable,
+  adminStatusLabel,
+  orderStatusLabels,
+  paymentStatusLabels,
+  type DashboardOrder,
+} from "./AdminDashboardPage";
 
-type OrderRow = {
-  id: string;
-  order_number: string;
-  customer_name: string;
-  customer_email: string;
+type OrderRow = DashboardOrder & {
   customer_phone?: string;
   company_name?: string | null;
   country_code?: string;
@@ -15,50 +18,28 @@ type OrderRow = {
   city?: string;
   postal_code?: string;
   total_packs?: number;
-  order_type: string;
-  total_units: number;
-  total_sgd: number;
   currency?: string;
-  payment_status: string;
-  payment_failure_reason?: string | null;
-  internal_note?: string | null;
-  order_status: string;
-  paypal_order_id?: string | null;
   paypal_capture_id?: string | null;
   tracking_carrier?: string | null;
   tracking_number?: string | null;
   paid_at?: string | null;
   shipped_at?: string | null;
-  created_at: string;
-  updated_at?: string | null;
 };
 
-const paymentStatuses = ["", "pending_payment", "payment_failed", "payment_cancelled", "completed", "pending_review", "failed", "cancelled", "refunded", "reversed"];
+const paymentStatuses = [
+  "",
+  "pending_payment",
+  "payment_failed",
+  "payment_cancelled",
+  "completed",
+  "pending_review",
+  "failed",
+  "cancelled",
+  "refunded",
+  "reversed",
+];
+
 const orderStatuses = ["", "pending_payment", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
-
-const paymentStatusLabels: Record<string, string> = {
-  pending_payment: "결제 대기",
-  payment_failed: "결제 실패",
-  payment_cancelled: "고객 결제 취소",
-  completed: "PayPal 결제 완료",
-  pending_review: "결제 검토 중",
-  failed: "실패",
-  cancelled: "취소됨",
-  refunded: "환불됨",
-  reversed: "취소/반전됨",
-};
-
-const orderStatusLabels: Record<string, string> = {
-  pending_payment: "결제 대기",
-  paid: "결제 완료",
-  address_check: "주소 확인 중",
-  preparing: "상품 준비 중",
-  packed: "포장 완료",
-  shipped: "배송 시작",
-  delivered: "배송 완료",
-  cancelled: "취소됨",
-  refunded: "환불됨",
-};
 
 export function AdminOrdersPage() {
   const [orders, setOrders] = useState<OrderRow[]>([]);
@@ -86,6 +67,7 @@ export function AdminOrdersPage() {
         setLastUpdated(new Date());
         knownOrderIds.current = nextIds;
         hasLoadedOnce.current = true;
+        setError("");
 
         if (notificationStatusRef.current === "granted") {
           newPaidOrders.forEach((order) => {
@@ -122,6 +104,7 @@ export function AdminOrdersPage() {
     const header = [
       "order_number",
       "created_at",
+      "updated_at",
       "paid_at",
       "customer_name",
       "customer_email",
@@ -146,7 +129,6 @@ export function AdminOrdersPage() {
       "tracking_carrier",
       "tracking_number",
       "shipped_at",
-      "updated_at",
     ];
     const rows = orders.map((order) => header.map((key) => csvCell(order[key as keyof OrderRow])).join(","));
     downloadCsv(`hondit-orders-${Date.now()}.csv`, [header.join(","), ...rows].join("\n"));
@@ -158,21 +140,39 @@ export function AdminOrdersPage() {
     <>
       <div className="admin-heading">
         <p className="eyebrow">주문 관리</p>
-        <h1>대량 주문 목록</h1>
+        <h1>주문 / 배송 / 환불</h1>
         <p className="admin-muted">
           현재 {orders.length}건이 표시됩니다. 30초마다 자동 새로고침됩니다.
-          {lastUpdated ? ` 마지막 업데이트 ${lastUpdated.toLocaleTimeString("ko-KR")}.` : ""}
+          {lastUpdated ? ` 마지막 업데이트: ${lastUpdated.toLocaleTimeString("ko-KR")}` : ""}
         </p>
       </div>
+
+      <section className="admin-panel admin-panel--warning">
+        <h2>운영 기준</h2>
+        <ul className="admin-warning-list">
+          <li>PayPal 결제 상태가 completed인 주문만 상품 준비와 배송을 진행하세요.</li>
+          <li>pending_payment, payment_failed, payment_cancelled는 고객의 결제 시도 기록입니다.</li>
+          <li>실제 환불은 주문 상세의 PayPal 실제 환불 버튼 또는 PayPal 관리자 화면에서 처리합니다.</li>
+        </ul>
+      </section>
+
       <form className="admin-filters" onSubmit={submit}>
         <input placeholder="주문번호, 고객명, 이메일 검색" value={filters.q} onChange={(event) => setFilters({ ...filters, q: event.target.value })} />
         <input type="date" value={filters.from} onChange={(event) => setFilters({ ...filters, from: event.target.value })} />
         <input type="date" value={filters.to} onChange={(event) => setFilters({ ...filters, to: event.target.value })} />
         <select value={filters.paymentStatus} onChange={(event) => setFilters({ ...filters, paymentStatus: event.target.value })}>
-          {paymentStatuses.map((status) => <option key={status} value={status}>{status ? adminStatusLabel(status, paymentStatusLabels) : "모든 결제 상태"}</option>)}
+          {paymentStatuses.map((status) => (
+            <option key={status} value={status}>
+              {status ? adminStatusLabel(status, paymentStatusLabels) : "모든 결제 상태"}
+            </option>
+          ))}
         </select>
         <select value={filters.orderStatus} onChange={(event) => setFilters({ ...filters, orderStatus: event.target.value })}>
-          {orderStatuses.map((status) => <option key={status} value={status}>{status ? adminStatusLabel(status, orderStatusLabels) : "모든 주문 상태"}</option>)}
+          {orderStatuses.map((status) => (
+            <option key={status} value={status}>
+              {status ? adminStatusLabel(status, orderStatusLabels) : "모든 주문 상태"}
+            </option>
+          ))}
         </select>
         <input placeholder="주문 유형" value={filters.orderType} onChange={(event) => setFilters({ ...filters, orderType: event.target.value })} />
         <button className="button button--primary" type="submit">필터 적용</button>
@@ -180,8 +180,9 @@ export function AdminOrdersPage() {
         <button className="button button--ghost" type="button" onClick={enableNotifications}>
           {notificationStatus === "granted" ? "브라우저 알림 켜짐" : "브라우저 알림 켜기"}
         </button>
-        <button className="button button--ghost" type="button" onClick={exportCsv}>필터 결과 CSV 다운로드</button>
+        <button className="button button--ghost" type="button" onClick={exportCsv}>CSV 다운로드</button>
       </form>
+
       <section className="admin-panel">
         <AdminOrderTable orders={orders} />
       </section>

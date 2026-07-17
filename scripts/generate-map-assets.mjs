@@ -167,11 +167,7 @@ if (southKorea?.geometry?.type === "MultiPolygon") {
     .filter((ring) => intersects(bboxOfCoords(ring), jejuBounds));
 }
 if (!jejuRings.length) {
-  jejuRings = [[
-    [126.16, 33.31], [126.2, 33.39], [126.29, 33.47], [126.42, 33.53], [126.56, 33.56],
-    [126.73, 33.55], [126.89, 33.49], [127.01, 33.37], [126.98, 33.25], [126.83, 33.17],
-    [126.65, 33.13], [126.43, 33.14], [126.25, 33.2], [126.16, 33.31],
-  ]];
+  throw new Error("Jeju outline was not found in the Natural Earth source. Do not generate a hand-drawn fallback map.");
 }
 
 const jejuPath = jejuRings.map((ring) => ringToPath(ring, jejuBounds, 1000, 690)).join(" ");

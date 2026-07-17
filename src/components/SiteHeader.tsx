@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { trackJejuClick } from "../lib/analytics";
+import { links } from "../data/siteData";
+import { trackJejuClick, trackStoreClick } from "../lib/analytics";
 import { BrandLogo } from "./BrandLogo";
+import { ExternalLink } from "./ExternalLink";
 
-type HeaderNavItem =
-  | { label: string; href: string; to?: never }
-  | { label: string; to: string; href?: never };
+type HeaderNavItem = {
+  label: string;
+  to: string;
+};
 
 const navItems: HeaderNavItem[] = [
   { label: "Home", to: "/" },
-  { label: "Our Jeju", to: "/jeju" },
+  { label: "Explore Jeju", to: "/jeju" },
   { label: "Products", to: "/products" },
   { label: "Bulk Orders", to: "/bulk-orders" },
+  { label: "Shipping", to: "/shipping" },
   { label: "Contact", to: "/contact" },
 ];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const dark = false;
   const bulk = location.pathname.startsWith("/bulk-orders");
 
   useEffect(() => {
@@ -41,53 +44,56 @@ export function SiteHeader() {
 
   const menu = (
     <>
-      {navItems.map((item) =>
-        item.to ? (
-          <NavLink
-            key={item.label}
-            to={item.to}
-            className={({ isActive }) => `${item.to === "/bulk-orders" ? "nav-link--bulk" : ""} ${isActive ? "is-active" : ""}`.trim()}
-            onClick={() => item.to === "/jeju" && trackJejuClick("header")}
-          >
-            {item.label}
-          </NavLink>
-        ) : (
-          <a key={item.label} href={item.href}>
-            {item.label}
-          </a>
-        ),
-      )}
-      <Link className="header__shop header__shop--bulk" to="/bulk-orders">
-        Bulk Order
-      </Link>
+      {navItems.map((item) => (
+        <NavLink
+          key={item.label}
+          to={item.to}
+          className={({ isActive }) => `${item.to === "/bulk-orders" ? "nav-link--bulk" : ""} ${isActive ? "is-active" : ""}`.trim()}
+          onClick={() => item.to === "/jeju" && trackJejuClick("header")}
+        >
+          {item.label}
+        </NavLink>
+      ))}
     </>
   );
 
   return (
-    <header className={`site-header ${dark ? "site-header--dark" : ""} ${bulk ? "site-header--bulk" : ""}`}>
-      <div className="site-header__inner">
-        <Link className="site-header__logo" to="/" aria-label="Go to hondit home">
-          <BrandLogo />
-        </Link>
-        <nav className="site-header__nav" aria-label="Primary navigation">
-          {menu}
-        </nav>
-        <button
-          className="site-header__menu"
-          type="button"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((value) => !value)}
-        >
-          Menu
-        </button>
+    <>
+      <div className="shipping-bar" role="note">
+        <span>Shopee delivery: 5-10 days</span>
+        <span>Bulk dispatch: 3-5 days after dispatch</span>
       </div>
-      <div className={`mobile-drawer ${open ? "is-open" : ""}`} id="mobile-menu">
-        <button className="mobile-drawer__backdrop" type="button" aria-label="Close menu" onClick={() => setOpen(false)} />
-        <nav className="mobile-drawer__panel" aria-label="Mobile navigation">
-          {menu}
-        </nav>
-      </div>
-    </header>
+      <header className={`site-header ${bulk ? "site-header--bulk" : ""}`}>
+        <div className="site-header__inner">
+          <Link className="site-header__logo" to="/" aria-label="Go to hondit home">
+            <BrandLogo />
+          </Link>
+          <nav className="site-header__nav" aria-label="Primary navigation">
+            {menu}
+          </nav>
+          <ExternalLink className="header__shop" href={links.shopeeStore} onClick={() => trackStoreClick("header_cta")}>
+            Shopee Singapore
+          </ExternalLink>
+          <button
+            className="site-header__menu"
+            type="button"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((value) => !value)}
+          >
+            Menu
+          </button>
+        </div>
+        <div className={`mobile-drawer ${open ? "is-open" : ""}`} id="mobile-menu">
+          <button className="mobile-drawer__backdrop" type="button" aria-label="Close menu" onClick={() => setOpen(false)} />
+          <nav className="mobile-drawer__panel" aria-label="Mobile navigation">
+            {menu}
+            <ExternalLink className="header__shop" href={links.shopeeStore} onClick={() => trackStoreClick("mobile_header_cta")}>
+              Shopee Singapore
+            </ExternalLink>
+          </nav>
+        </div>
+      </header>
+    </>
   );
 }
