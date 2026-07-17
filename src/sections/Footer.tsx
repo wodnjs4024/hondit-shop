@@ -1,8 +1,8 @@
-import { links } from "../data/siteData";
-import { trackInstagramClick, trackStoreClick } from "../lib/analytics";
+import { Link } from "react-router-dom";
 import { BrandLogo } from "../components/BrandLogo";
 import { ExternalLink } from "../components/ExternalLink";
-import { Link } from "react-router-dom";
+import { links } from "../data/siteData";
+import { trackInstagramClick, trackStoreClick } from "../lib/analytics";
 
 type FooterProps = {
   minimal?: boolean;
@@ -18,7 +18,7 @@ export function Footer({ minimal = false }: FooterProps) {
           <p>Ships from Jeju, Korea</p>
           <p>&copy; 2026 hondit. All rights reserved.</p>
         </div>
-      <div className="footer__links footer__links--minimal" aria-label="Jeju page links">
+        <div className="footer__links footer__links--minimal" aria-label="Jeju page links">
           <ExternalLink href={links.shopeeStore} onClick={() => trackStoreClick("jeju_footer")}>
             Shop on Shopee SG
           </ExternalLink>
@@ -32,29 +32,43 @@ export function Footer({ minimal = false }: FooterProps) {
   }
 
   return (
-    <footer className="footer" id="footer">
-      <div className="footer__brand">
-        <BrandLogo className="footer__logo" />
-        <p>From Jeju to you.</p>
-        <p>Thoughtful products. Honest ingredients.</p>
-        <p>&copy; 2026 hondit. All rights reserved.</p>
-      </div>
-      <div className="footer__links">
-        <div className="footer__utility">
-          <ExternalLink href={links.shopeeStore} onClick={() => trackStoreClick("footer")}>
-            Shopee SG
-          </ExternalLink>
+    <footer className="footer footer--approved" id="footer">
+      <div className="footer__main">
+        <div className="footer__brand">
+          <BrandLogo className="footer__logo" />
+          <p>Pieces of Jeju Island, arriving in Singapore.</p>
+          <p>A student-led brand based at Jeju National University.</p>
         </div>
-        <div className="footer__utility">
-          <ExternalLink href={links.instagram} onClick={() => trackInstagramClick("footer")}>
-            Instagram
-          </ExternalLink>
-        </div>
-        <nav className="footer__policy" aria-label="Business policy links">
+        <nav className="footer__column" aria-label="Explore hondit">
+          <span>EXPLORE</span>
+          <Link to="/jeju">Asia to Jeju</Link>
+          <Link to="/products">Products</Link>
           <Link to="/bulk-orders">Bulk Orders</Link>
           <Link to="/shipping">Shipping</Link>
-          <Link to="/policy/refund">Refund policy</Link>
-          <Link to="/policy/privacy">Privacy policy</Link>
+        </nav>
+        <nav className="footer__column" aria-label="Connect with hondit">
+          <span>CONNECT</span>
+          <ExternalLink href={links.shopeeStore} onClick={() => trackStoreClick("footer")}>
+            Shopee Singapore ↗
+          </ExternalLink>
+          <ExternalLink href={links.instagram} onClick={() => trackInstagramClick("footer")}>
+            Instagram ↗
+          </ExternalLink>
+          <a href="mailto:hondit.office@gmail.com">Email</a>
+          <Link to="/contact">Contact</Link>
+        </nav>
+        <nav className="footer__column" aria-label="Trust and support">
+          <span>TRUST & SUPPORT</span>
+          <Link to="/shipping">Delivery guide</Link>
+          <Link to="/policy/refund">Refund support</Link>
+          <ExternalLink href="https://www.jejunu.ac.kr/">JNU official site ↗</ExternalLink>
+        </nav>
+      </div>
+      <div className="footer__bottom">
+        <span>&copy; 2026 hondit · Student-led project based at Jeju National University.</span>
+        <nav aria-label="Policy links">
+          <Link to="/policy/refund">Refund</Link>
+          <Link to="/policy/privacy">Privacy</Link>
           <Link to="/policy/terms">Terms</Link>
         </nav>
       </div>
