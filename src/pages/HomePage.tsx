@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ExternalLink } from "../components/ExternalLink";
 import { JejuJourney } from "../components/JejuJourney";
-import { cleansingProducts, diffuserProducts, honditImages, links, retailProducts, type Product } from "../data/siteData";
+import { diffuserProducts, honditImages, links, retailProducts, type Product } from "../data/siteData";
 import { trackEvent, trackProductClick, trackStoreClick } from "../lib/analytics";
 import { Footer } from "../sections/Footer";
 
@@ -22,7 +22,7 @@ const bulkSlugByProductId: Record<string, string> = {
   "cleansing-water": "cleansing-water",
 };
 
-const homeProductMeta: Record<string, { label: string; title: string; subtitle: string }> = {
+const productMeta: Record<string, { label: string; title: string; subtitle: string }> = {
   "diffuser-350": {
     label: "HOME SCENT",
     title: "Volcanic Diffuser 350g",
@@ -36,7 +36,7 @@ const homeProductMeta: Record<string, { label: string; title: string; subtitle: 
   "foam-oil": {
     label: "EVENING CARE",
     title: "Vegan Foam Oil 150ml",
-    subtitle: "Makeup & sunscreen cleanse",
+    subtitle: "Makeup and sunscreen cleanse",
   },
   "foaming-cleanser": {
     label: "DAILY CARE",
@@ -46,14 +46,14 @@ const homeProductMeta: Record<string, { label: string; title: string; subtitle: 
   "cleansing-water": {
     label: "LIGHT CARE",
     title: "Vegan Cleansing Water 300ml",
-    subtitle: "Quick & gentle cleanse",
+    subtitle: "Quick and gentle cleanse",
   },
 };
 
 const cleanserGuide = [
   {
     productId: "foam-oil",
-    role: "MAKEUP & SUNSCREEN",
+    role: "MAKEUP AND SUNSCREEN",
     title: "Vegan Foam Oil",
     body: "For sunscreen, base makeup and a complete evening cleanse.",
   },
@@ -65,7 +65,7 @@ const cleanserGuide = [
   },
   {
     productId: "cleansing-water",
-    role: "QUICK & GENTLE",
+    role: "QUICK AND GENTLE",
     title: "Vegan Cleansing Water",
     body: "For light makeup, quick resets and low-effort cleansing.",
   },
@@ -74,7 +74,7 @@ const cleanserGuide = [
 const confidenceItems = [
   ["ORIGIN", "Jeju National University", "Student-led and based in Jeju City."],
   ["RETAIL", "Official Shopee SG", "Live price, vouchers and protected checkout."],
-  ["DELIVERY", "Clear windows", "Shopee 5-10 days · Bulk 3-5 days after dispatch."],
+  ["DELIVERY", "Clear windows", "Shopee 5-10 days. Bulk 3-5 days after dispatch."],
   ["PAYMENT", "Two secure routes", "Shopee retail or server-verified PayPal checkout."],
 ];
 
@@ -132,8 +132,9 @@ export function HomePage() {
                 decoding="async"
               />
             </figure>
+
             <div className="approved-hero__copy">
-              <p className="approved-kicker"><span />JEJU NATIONAL UNIVERSITY · STUDENT-LED</p>
+              <p className="approved-kicker"><span />JEJU NATIONAL UNIVERSITY - STUDENT-LED</p>
               <h1 id="home-heading">
                 A quiet piece
                 <br />
@@ -142,22 +143,24 @@ export function HomePage() {
               <p className="approved-hero__lead">
                 Korean vegan cleansing care and natural volcanic stone scent, thoughtfully selected in Jeju for calm everyday rituals in Singapore.
               </p>
+
               <div className="approved-route-grid" aria-label="Choose how to order">
                 <ExternalLink className="approved-route-card" href={links.shopeeStore} onClick={() => trackStoreClick("home_route_card")}>
                   <span>FOR INDIVIDUALS</span>
                   <strong>Buy on Shopee</strong>
-                  <small>Live prices, vouchers and secure Singapore checkout. ↗</small>
+                  <small>Live prices, vouchers and secure Singapore checkout.</small>
                 </ExternalLink>
                 <Link
                   className="approved-route-card"
                   to="/bulk-orders"
                   onClick={() => trackEvent("view_bulk_list", { button_location: "home_route_card" })}
                 >
-                  <span>FOR BUSINESSES & GROUPS</span>
+                  <span>FOR BUSINESSES AND GROUPS</span>
                   <strong>Bulk Checkout</strong>
-                  <small>Review MOQ, then pay securely through PayPal. →</small>
+                  <small>Review MOQ, then pay securely through PayPal.</small>
                 </Link>
               </div>
+
               <ul className="approved-proof-row" aria-label="hondit purchase confidence notes">
                 <li>Based at Jeju National University</li>
                 <li>Official Shopee SG</li>
@@ -206,7 +209,7 @@ export function HomePage() {
 
           <div className="approved-product-grid">
             {visibleProducts.map((product) => {
-              const meta = homeProductMeta[product.id];
+              const meta = productMeta[product.id];
               const bulkSlug = bulkSlugByProductId[product.id];
               return (
                 <article className="approved-product-card" key={product.id}>
@@ -217,7 +220,7 @@ export function HomePage() {
                   <div className="approved-product-card__body">
                     <h3>{meta.title}</h3>
                     <p>{meta.subtitle}</p>
-                    <small>DISPLAY PRICE · CHECK LIVE ON SHOPEE</small>
+                    <small>DISPLAY PRICE - CHECK LIVE ON SHOPEE</small>
                     <strong>{formatDisplaySgd(product.salePrice)}</strong>
                   </div>
                   <div className="approved-product-actions">
@@ -235,7 +238,7 @@ export function HomePage() {
           <div className="approved-products__note">
             <p>Prices, vouchers and stock are always updated on our official Shopee Singapore store.</p>
             <ExternalLink className="approved-dark-button" href={links.shopeeStore} onClick={() => trackStoreClick("home_products_all")}>
-              View all on Shopee SG ↗
+              View all on Shopee SG
             </ExternalLink>
           </div>
         </section>
@@ -287,14 +290,14 @@ export function HomePage() {
 
         <section className="approved-origin" aria-labelledby="origin-heading">
           <div className="approved-origin__copy">
-            <p className="approved-kicker"><span />OUR ORIGIN · JEJU NATIONAL UNIVERSITY</p>
+            <p className="approved-kicker"><span />OUR ORIGIN - JEJU NATIONAL UNIVERSITY</p>
             <h2 id="origin-heading">Built by students. Grounded in Jeju.</h2>
             <p>
               hondit is an independent student-led commerce project based at Jeju National University. From our campus in Jeju City, we curate Korean care and scent products and make the cross-border buying journey clearer for customers in Singapore.
             </p>
             <div className="approved-origin__address">
               <strong>JEJU NATIONAL UNIVERSITY-BASED</strong>
-              <span>102 Jejudaehak-ro, Jeju-si · Independent student project; university location does not imply product endorsement.</span>
+              <span>102 Jejudaehak-ro, Jeju-si - Independent student project; university location does not imply product endorsement.</span>
             </div>
             <div className="approved-origin__pillars">
               <article>
@@ -311,7 +314,7 @@ export function HomePage() {
               </article>
             </div>
             <ExternalLink href="https://www.jejunu.ac.kr/" className="approved-text-link">
-              Visit the official JNU website ↗
+              Visit the official JNU website
             </ExternalLink>
           </div>
           <figure className="approved-origin__image">
@@ -330,9 +333,9 @@ export function HomePage() {
             <p>Buy individual products on Shopee Singapore, or review MOQ and complete a larger direct order through PayPal checkout.</p>
             <div>
               <ExternalLink className="approved-light-button" href={links.shopeeStore} onClick={() => trackStoreClick("home_order_flow")}>
-                Shop on Shopee ↗
+                Shop on Shopee
               </ExternalLink>
-              <Link className="approved-outline-button" to="/bulk-orders">Open bulk checkout →</Link>
+              <Link className="approved-outline-button" to="/bulk-orders">Open bulk checkout</Link>
             </div>
           </div>
           <div className="approved-order-flow__steps">

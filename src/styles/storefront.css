@@ -2275,7 +2275,10 @@
 }
 
 .approved-proof-row li::before {
-  content: "✓ ";
+  display: inline-block;
+  margin-right: 0.45rem;
+  color: #6b7e72;
+  content: "✓";
 }
 
 .approved-confidence {
@@ -2314,6 +2317,15 @@
   padding: clamp(5.5rem, 8vw, 8.5rem) 0 4.8rem;
 }
 
+.approved-products-page {
+  background: #fbfaf5;
+  color: var(--ink);
+}
+
+.approved-products--catalog {
+  padding-top: clamp(5.5rem, 7vw, 7.5rem);
+}
+
 .approved-section-head {
   display: flex;
   align-items: flex-end;
@@ -2328,6 +2340,22 @@
   font-size: clamp(3.6rem, 4.7vw, 6.2rem);
   font-weight: 700;
   line-height: 0.92;
+}
+
+.approved-section-head h1 {
+  margin: 0;
+  color: var(--pine);
+  font-family: var(--serif);
+  font-size: clamp(3.6rem, 4.7vw, 6.2rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+}
+
+.approved-section-head h1 em {
+  color: #d1734b;
+  font-style: italic;
+  font-weight: 700;
 }
 
 .approved-filters {
@@ -3077,6 +3105,7 @@
     flex-direction: column;
   }
 
+  .approved-section-head h1,
   .approved-section-head h2,
   .approved-cleansing h2,
   .approved-diffuser h2,
