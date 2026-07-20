@@ -233,7 +233,7 @@ export function ProductDetailPage() {
             <p className="eyebrow">{isDiffuser ? "HOW TO USE" : "CLEANSING ROUTINE"}</p>
             <h2>{isDiffuser ? "No flame. No electricity. Scent when you choose." : "Simple steps before you buy."}</h2>
           </div>
-          <div className="product-steps">
+          <div className="product-steps product-steps--balanced">
             {howToUse.map((step, index) => (
               <article key={step}>
                 <strong>{String(index + 1).padStart(2, "0")}</strong>

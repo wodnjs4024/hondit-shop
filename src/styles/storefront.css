@@ -603,7 +603,7 @@
   padding: clamp(2rem, 5vw, 4rem);
   background:
     linear-gradient(120deg, rgba(25, 26, 22, 0.92), rgba(50, 48, 40, 0.9)),
-    url("/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/04_diffuser_pair_editorial_text.webp") center/cover;
+    url("/images/hondit-diffuser-detail.webp") center/cover;
   color: #f8f2e6;
 }
 

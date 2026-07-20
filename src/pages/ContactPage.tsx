@@ -85,7 +85,7 @@ export function ContactPage() {
             <p><strong>Instagram</strong><a href={links.instagram}>@hondit.office</a></p>
             <p><strong>Shopee Chat</strong><a href={links.shopeeStore}>hondit Shopee SG</a></p>
             <p><strong>Location</strong>Jeju Island, Republic of Korea</p>
-            <img src="/images/hondit-diffuser-detail.png" alt="hondit volcanic stone diffuser and fragrance oil arranged with Jeju volcanic stones." loading="lazy" decoding="async" />
+            <img src="/images/hondit-diffuser-detail.webp" alt="hondit volcanic stone diffuser and fragrance oil arranged with Jeju volcanic stones." loading="lazy" decoding="async" />
           </article>
         </section>
       </main>
