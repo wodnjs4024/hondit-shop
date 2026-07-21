@@ -127,7 +127,7 @@ export function JejuJourney() {
                 <p>{stageCopy.asia.body}</p>
               </div>
               <div className="map-canvas map-canvas--region">
-                <img src="/images/map-asia-pastel.svg" alt="Pastel travel map of Asia with South Korea marked." loading="lazy" decoding="async" />
+                <img src="/images/map-asia.webp" alt="Pastel travel map of Asia with South Korea marked." loading="lazy" decoding="async" />
                 <span className="region-dot" style={{ left: "75.3%", top: "28.5%" }} aria-hidden="true" />
                 <span className="region-connector" style={{ left: "75.3%", top: "28.5%", width: "10.4%", transform: "rotate(-18deg)" }} aria-hidden="true" />
                 <button
@@ -151,7 +151,7 @@ export function JejuJourney() {
                 <p>{stageCopy.korea.body}</p>
               </div>
               <div className="map-canvas map-canvas--korea">
-                <img src="/images/map-korea-pastel.svg" alt="Pastel map of Korea with Jeju Island marked." loading="lazy" decoding="async" />
+                <img src="/images/map-korea-friendly.webp" alt="Pastel map of Korea with Jeju Island marked." loading="lazy" decoding="async" />
                 <span className="region-dot" style={{ left: "31.9%", top: "82.2%" }} aria-hidden="true" />
                 <span className="region-connector" style={{ left: "31.9%", top: "82.2%", width: "12.5%", transform: "rotate(28deg)" }} aria-hidden="true" />
                 <button
@@ -184,7 +184,7 @@ export function JejuJourney() {
 
               <div className="jeju-layout">
                 <div className="jeju-map" aria-label="Jeju field guide map">
-                  <img src="/images/map-jeju-field.svg" alt="Pastel field guide map of Jeju Island." loading="lazy" decoding="async" />
+                  <img src="/images/map-jeju-editorial.svg" alt="Pastel field guide map of Jeju Island." loading="lazy" decoding="async" />
                   <svg className="marker-connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
                     {mapPoints.map(({ point, position }) => (
                       <line

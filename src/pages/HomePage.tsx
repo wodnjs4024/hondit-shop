@@ -124,7 +124,7 @@ export function HomePage() {
           <div className="approved-hero__inner">
             <figure className="approved-hero__media">
               <img
-                src={honditImages.fullLineReal}
+                src={honditImages.homeHero}
                 alt="hondit volcanic diffusers and J'essence vegan cleansing products arranged with Jeju-inspired stone textures."
                 width="1920"
                 height="1080"
@@ -207,7 +207,7 @@ export function HomePage() {
             </div>
           </div>
 
-          <div className="approved-product-grid">
+          <div className="approved-product-grid approved-product-grid--catalog">
             {visibleProducts.map((product) => {
               const meta = productMeta[product.id];
               const bulkSlug = bulkSlugByProductId[product.id];
@@ -276,7 +276,7 @@ export function HomePage() {
                 ))}
               </div>
             </div>
-            <div className="approved-diffuser__steps">
+            <div className="approved-diffuser__steps approved-diffuser__steps--equal">
               {diffuserSteps.map(([number, title, body]) => (
                 <article key={number}>
                   <span>{number}</span>

@@ -60,11 +60,11 @@ export function SiteHeader() {
   return (
     <>
       <div className="shipping-bar" role="note">
-        <span>Shopee delivery 5-10 days</span>
+        <span>SHOPEE DELIVERY 5-10 DAYS</span>
         <span aria-hidden="true">&middot;</span>
-        <span>Bulk delivery 3-5 days after dispatch</span>
+        <span>BULK DELIVERY 3-5 DAYS AFTER DISPATCH</span>
         <span aria-hidden="true">&middot;</span>
-        <span>Ships from Korea</span>
+        <span>SHIPS FROM KOREA</span>
       </div>
       <header className={`site-header ${bulk ? "site-header--bulk" : ""}`}>
         <div className="site-header__inner">
@@ -75,7 +75,7 @@ export function SiteHeader() {
             {menu}
           </nav>
           <ExternalLink className="header__shop" href={links.shopeeStore} onClick={() => trackStoreClick("header_cta")}>
-            Shop on Shopee
+            Shop on Shopee ↗
           </ExternalLink>
           <button
             className="site-header__menu"
@@ -92,7 +92,7 @@ export function SiteHeader() {
           <nav className="mobile-drawer__panel" aria-label="Mobile navigation">
             {menu}
             <ExternalLink className="header__shop" href={links.shopeeStore} onClick={() => trackStoreClick("mobile_header_cta")}>
-              Shop on Shopee
+              Shop on Shopee ↗
             </ExternalLink>
           </nav>
         </div>

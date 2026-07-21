@@ -124,7 +124,7 @@ export function ProductsPage() {
             </div>
           </div>
 
-          <div className="approved-product-grid">
+          <div className="approved-product-grid approved-product-grid--catalog">
             {products.map((product) => {
               const meta = productMeta[product.id];
               const bulkSlug = bulkSlugByProductId[product.id];

@@ -15,6 +15,7 @@ import {
 import { ProductReviews } from "../components/ProductReviews";
 import { capturePayPalOrder, createPayPalOrder, fetchBulkProducts, updatePaymentAttempt, type CheckoutPayload } from "../lib/bulkApi";
 import { trackEvent } from "../lib/analytics";
+import { Footer } from "../sections/Footer";
 
 declare global {
   interface Window {
@@ -219,55 +220,55 @@ export function BulkProductPage() {
       .render("#direct-paypal-buttons");
   }, [navigate, paypalClientId, ready, soldOut]);
 
+  const shippingAddress = [form.addressLine1, form.addressLine2, form.city, "Singapore", form.postalCode].filter(Boolean).join(", ");
+
   return (
-    <main className="bulk-page">
-      <section className="bulk-detail section-shell">
-        <div className="section-inner section-inner--wide bulk-detail__grid">
-          <figure className="bulk-detail__image">
-            <img src={product.imageUrl} alt={product.name} />
-          </figure>
+    <>
+      <main className="approved-bulk-product-page">
+        <section className="approved-checkout-hero">
+          <div className="section-inner section-inner--wide approved-checkout-hero__grid">
+            <div className="approved-checkout-hero__copy">
+              <Link className="approved-back-link" to="/bulk-orders">
+                Back to Bulk Orders
+              </Link>
+              <p className="approved-kicker"><span>{product.category} bulk checkout</span></p>
+              <h1>{product.name}</h1>
+              <p>
+                Review the minimum quantity, Singapore delivery details and payment amount before opening the secure PayPal checkout.
+              </p>
+            </div>
+            <figure className="approved-checkout-hero__image">
+              <img src={product.imageUrl} alt={product.name} />
+            </figure>
+          </div>
+        </section>
 
-          <div className="bulk-detail__content">
-            <Link className="text-link" to="/bulk-orders">
-              Back to Bulk Orders
-            </Link>
-            <p className="eyebrow">{product.category.toUpperCase()} BULK ORDER</p>
-            <h1>{product.name}</h1>
-            <p className="bulk-detail__volume">{product.volumeLabel}</p>
-            <p>{product.description}</p>
-            <p className="bulk-price-explainer">
-              Bulk prices are lower because they exclude the marketplace fees applied on Shopee. Ordering directly here passes those
-              savings on to you.
-            </p>
+        <section className="approved-checkout-workspace">
+          <div className="section-inner section-inner--wide approved-checkout-grid">
+            <aside className="approved-checkout-summary" aria-label="Bulk order summary">
+              <img src={product.imageUrl} alt="" />
+              <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{stockStatus}</p>
+              <h2>{product.name}</h2>
+              <p>{product.description}</p>
+              <dl>
+                <div><dt>Unit price</dt><dd>{formatSgd(product.unitPriceSgd)}</dd></div>
+                <div><dt>Minimum</dt><dd>{moq} units</dd></div>
+                <div><dt>Quantity step</dt><dd>{BULK_QTY_STEP} units</dd></div>
+                <div><dt>Shipping</dt><dd>Singapore EMS included</dd></div>
+              </dl>
+              <p className="approved-checkout-summary__note">
+                Bulk prices exclude marketplace fees applied on Shopee. Direct checkout passes those savings on to you.
+              </p>
+            </aside>
 
-            <dl className="bulk-price-list bulk-price-list--detail">
-              <div>
-                <dt>Unit price</dt>
-                <dd>{formatSgd(product.unitPriceSgd)}</dd>
-              </div>
-              <div>
-                <dt>Minimum</dt>
-                <dd>{moq} units</dd>
-              </div>
-              <div>
-                <dt>Step</dt>
-                <dd>{BULK_QTY_STEP} units</dd>
-              </div>
-              <div>
-                <dt>Shipping</dt>
-                <dd>Free Singapore EMS included</dd>
-              </div>
-            </dl>
-
-            <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{stockStatus}</p>
-            <p className="shipping-pill">
-              Order from {moq} units, in steps of {BULK_QTY_STEP}.{maxUnits ? ` Available up to ${maxUnits} units.` : ""}
-            </p>
-
-            <section className="direct-order-box" aria-label="Direct bulk order">
-              <div className="pack-stepper" aria-label="Order quantity">
-                <span>Order quantity</span>
+            <section className="approved-checkout-main" aria-label="Direct checkout form">
+              <div className="approved-checkout-card approved-quantity-card">
                 <div>
+                  <p className="approved-kicker"><span>01 quantity</span></p>
+                  <h2>Choose approved units.</h2>
+                  <p>Minimum {moq} units. Increase in steps of {BULK_QTY_STEP}.{maxUnits ? ` Available up to ${maxUnits} units.` : ""}</p>
+                </div>
+                <div className="approved-quantity-control" aria-label="Order quantity">
                   <button
                     type="button"
                     disabled={soldOut}
@@ -290,62 +291,64 @@ export function BulkProductPage() {
                     +
                   </button>
                 </div>
-                <em>Minimum {moq}. Increase in steps of {BULK_QTY_STEP}.</em>
+                <div className="approved-total-panel">
+                  <span>Total units</span>
+                  <strong>{quantity}</strong>
+                  <span>Total payment</span>
+                  <strong>{formatSgd(totalSgd)}</strong>
+                  <em>Free Singapore EMS shipping</em>
+                </div>
               </div>
 
-              <div className="bulk-total-box">
-                <span>Total units</span>
-                <strong>{quantity}</strong>
-                <span>Total payment</span>
-                <strong>{formatSgd(totalSgd)}</strong>
-                <p>Free Singapore EMS shipping</p>
+              <div className="approved-checkout-card">
+                <p className="approved-kicker"><span>02 delivery details</span></p>
+                <h2>Confirm the recipient.</h2>
+                <form className="approved-checkout-form">
+                  <label>
+                    Full name *<input value={form.customerName} onChange={(event) => update("customerName", event.target.value)} />
+                  </label>
+                  <label>
+                    Email *<input type="email" value={form.customerEmail} onChange={(event) => update("customerEmail", event.target.value)} />
+                  </label>
+                  <label>
+                    Phone / WhatsApp *<input value={form.customerPhone} onChange={(event) => update("customerPhone", event.target.value)} />
+                  </label>
+                  <label>
+                    Company name<input value={form.companyName} onChange={(event) => update("companyName", event.target.value)} />
+                  </label>
+                  <label>
+                    Country<input value="Singapore" readOnly />
+                  </label>
+                  <label>
+                    Address line 1 *<input value={form.addressLine1} onChange={(event) => update("addressLine1", event.target.value)} />
+                  </label>
+                  <label>
+                    Address line 2<input value={form.addressLine2} onChange={(event) => update("addressLine2", event.target.value)} />
+                  </label>
+                  <label>
+                    City / District *<input value={form.city} onChange={(event) => update("city", event.target.value)} />
+                  </label>
+                  <label>
+                    Postal code *<input value={form.postalCode} onChange={(event) => update("postalCode", event.target.value)} />
+                  </label>
+                  <label className="approved-field-wide">
+                    Order note
+                    <textarea
+                      value={form.customerNote}
+                      onChange={(event) => update("customerNote", event.target.value)}
+                      placeholder="For receipt, company delivery name or special handling requests, write here."
+                    />
+                  </label>
+                  <label className="approved-checkout-confirm approved-field-wide">
+                    <input type="checkbox" checked={form.reviewed} onChange={(event) => update("reviewed", event.target.checked)} />
+                    I confirm that my email, phone number, shipping address, product quantity and final payment amount are correct.
+                  </label>
+                </form>
               </div>
-
-              <form className="checkout-form direct-order-form">
-                <label>
-                  Full name *<input value={form.customerName} onChange={(event) => update("customerName", event.target.value)} />
-                </label>
-                <label>
-                  Email *<input type="email" value={form.customerEmail} onChange={(event) => update("customerEmail", event.target.value)} />
-                </label>
-                <label>
-                  Phone / WhatsApp *<input value={form.customerPhone} onChange={(event) => update("customerPhone", event.target.value)} />
-                </label>
-                <label>
-                  Company name<input value={form.companyName} onChange={(event) => update("companyName", event.target.value)} />
-                </label>
-                <label>
-                  Country<input value="Singapore" readOnly />
-                </label>
-                <label>
-                  Address line 1 *<input value={form.addressLine1} onChange={(event) => update("addressLine1", event.target.value)} />
-                </label>
-                <label>
-                  Address line 2<input value={form.addressLine2} onChange={(event) => update("addressLine2", event.target.value)} />
-                </label>
-                <label>
-                  City / District *<input value={form.city} onChange={(event) => update("city", event.target.value)} />
-                </label>
-                <label>
-                  Postal code *<input value={form.postalCode} onChange={(event) => update("postalCode", event.target.value)} />
-                </label>
-                <label className="checkout-form__wide">
-                  Order note
-                  <textarea
-                    value={form.customerNote}
-                    onChange={(event) => update("customerNote", event.target.value)}
-                    placeholder="For receipt, company delivery name or special handling requests, write here."
-                  />
-                </label>
-                <label className="checkout-confirm checkout-form__wide">
-                  <input type="checkbox" checked={form.reviewed} onChange={(event) => update("reviewed", event.target.checked)} />
-                  I confirm that my email, phone number, shipping address, product quantity and final payment amount are correct.
-                </label>
-              </form>
 
               <div className="direct-payment-summary">
                 <div className="direct-payment-summary__header">
-                  <span>Review before payment</span>
+                  <span>03 final review</span>
                   <h2>Final payment check</h2>
                   <p>Please confirm these details before opening PayPal or card checkout.</p>
                 </div>
@@ -357,10 +360,7 @@ export function BulkProductPage() {
                   <div><dt>Full name</dt><dd>{form.customerName || "Not entered"}</dd></div>
                   <div><dt>Email</dt><dd>{form.customerEmail || "Not entered"}</dd></div>
                   <div><dt>Phone / WhatsApp</dt><dd>{form.customerPhone || "Not entered"}</dd></div>
-                  <div>
-                    <dt>Shipping address</dt>
-                    <dd>{[form.addressLine1, form.addressLine2, form.city, "Singapore", form.postalCode].filter(Boolean).join(", ") || "Not entered"}</dd>
-                  </div>
+                  <div><dt>Shipping address</dt><dd>{shippingAddress || "Not entered"}</dd></div>
                   <div><dt>Order note</dt><dd>{form.customerNote || "No note"}</dd></div>
                 </dl>
                 <div className="direct-payment-summary__notice">
@@ -371,26 +371,38 @@ export function BulkProductPage() {
                 </div>
               </div>
 
-              {error && <p className="form-error">{error}</p>}
-              {soldOut ? (
-                <a className="button button--primary" href={`/contact?type=restock&product=${product.slug}`}>
-                  Notify me
-                </a>
-              ) : !paypalClientId ? (
-                <p className="setup-warning">Add VITE_PAYPAL_CLIENT_ID in Vercel to enable PayPal buttons.</p>
-              ) : (
-                <div id="direct-paypal-buttons" className="paypal-buttons" />
-              )}
+              <div className="approved-checkout-card approved-payment-card">
+                <p className="approved-kicker"><span>04 payment</span></p>
+                <h2>Pay securely.</h2>
+                <p>PayPal handles wallet or eligible card details. hondit does not store card data.</p>
+                {error && <p className="form-error">{error}</p>}
+                {soldOut ? (
+                  <a className="button button--primary" href={`/contact?type=restock&product=${product.slug}`}>
+                    Notify me
+                  </a>
+                ) : !paypalClientId ? (
+                  <p className="setup-warning">Add VITE_PAYPAL_CLIENT_ID in Vercel to enable PayPal buttons.</p>
+                ) : (
+                  <div id="direct-paypal-buttons" className="paypal-buttons" />
+                )}
+              </div>
             </section>
+          </div>
+        </section>
 
-            <section className="bulk-product-info">
-              <h2>Product composition</h2>
+        <section className="approved-product-support">
+          <div className="section-inner section-inner--wide approved-product-support__grid">
+            <div>
+              <p className="approved-kicker"><span>Product composition</span></p>
+              <h2>What is included.</h2>
               <div className="product-card__chips">
                 {product.features.map((feature) => (
                   <span key={feature}>{feature}</span>
                 ))}
               </div>
-              <h2>Use and order notes</h2>
+            </div>
+            <div>
+              <p className="approved-kicker"><span>Use and order notes</span></p>
               <ul>
                 {product.usage.map((item) => (
                   <li key={item}>{item}</li>
@@ -398,13 +410,15 @@ export function BulkProductPage() {
                 <li>Orders are currently available for delivery within Singapore only.</li>
                 <li>All listed prices include Singapore EMS shipping.</li>
               </ul>
-            </section>
+            </div>
           </div>
-        </div>
+        </section>
+
         <div className="section-inner section-inner--wide">
           <ProductReviews product={product} />
         </div>
-      </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

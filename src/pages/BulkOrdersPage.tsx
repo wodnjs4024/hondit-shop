@@ -72,6 +72,12 @@ export function BulkOrdersPage() {
     [products],
   );
 
+  useEffect(() => {
+    if (!selectedSlug && visibleProducts.length > 0) {
+      setSelectedSlug(visibleProducts[0].slug);
+    }
+  }, [selectedSlug, visibleProducts]);
+
   const selectedProduct = visibleProducts.find((product) => product.slug === selectedSlug);
 
   return (
@@ -123,8 +129,9 @@ export function BulkOrdersPage() {
                 const moq = getBulkMoq(product);
                 return (
                   <article
-                    className="approved-bulk-row"
+                    className={`approved-bulk-row ${selectedSlug === product.slug ? "is-selected" : ""}`}
                     key={product.slug}
+                    onClick={() => setSelectedSlug(product.slug)}
                     onMouseEnter={() => setSelectedSlug(product.slug)}
                     onFocus={() => setSelectedSlug(product.slug)}
                   >

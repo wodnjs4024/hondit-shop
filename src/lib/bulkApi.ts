@@ -97,6 +97,14 @@ function sameList(a: string[] = [], b: string[] = []) {
   return a.length === b.length && a.every((item, index) => item === b[index]);
 }
 
+function hasOldPackMedia(value?: string) {
+  return Boolean(value?.includes("/images/hondit-pack/"));
+}
+
+function listHasOldPackMedia(values: string[] = []) {
+  return values.some(hasOldPackMedia);
+}
+
 function withUpdatedDefaultMedia(product: BulkProduct) {
   const currentDefault = bulkProducts.find((item) => item.slug === product.slug);
   const legacy = legacyMediaBySlug[product.slug];
@@ -104,13 +112,20 @@ function withUpdatedDefaultMedia(product: BulkProduct) {
 
   return {
     ...product,
-    imageUrl: !product.imageUrl || product.imageUrl === legacy.imageUrl ? currentDefault.imageUrl : product.imageUrl,
+    imageUrl:
+      !product.imageUrl || product.imageUrl === legacy.imageUrl || hasOldPackMedia(product.imageUrl)
+        ? currentDefault.imageUrl
+        : product.imageUrl,
     galleryImages:
-      !product.galleryImages?.length || sameList(product.galleryImages, legacy.galleryImages)
+      !product.galleryImages?.length ||
+      sameList(product.galleryImages, legacy.galleryImages) ||
+      listHasOldPackMedia(product.galleryImages)
         ? currentDefault.galleryImages
         : product.galleryImages,
     detailImages:
-      !product.detailImages?.length || sameList(product.detailImages, legacy.detailImages)
+      !product.detailImages?.length ||
+      sameList(product.detailImages, legacy.detailImages) ||
+      listHasOldPackMedia(product.detailImages)
         ? currentDefault.detailImages
         : product.detailImages,
   };
