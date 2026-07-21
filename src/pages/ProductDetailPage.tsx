@@ -87,9 +87,9 @@ function ProductDetailActions({ product }: { product: Product }) {
   const bulkSlug = product.id === "diffuser-350" ? "diffuser-350g" : product.id === "diffuser-500" ? "diffuser-500g" : product.id;
 
   return (
-    <div className="product-detail-actions">
+    <div className="approved-detail-actions">
       <ExternalLink
-        className="button button--dark"
+        className="approved-button approved-button--dark"
         href={product.href}
         onClick={() => {
           trackStoreClick("product_detail");
@@ -102,14 +102,14 @@ function ProductDetailActions({ product }: { product: Product }) {
           });
         }}
       >
-        Buy on Shopee
+        Buy on Shopee -&gt;
       </ExternalLink>
       <Link
-        className="button button--outline-dark"
+        className="approved-button approved-button--light"
         to={`/bulk-orders/${bulkSlug}`}
         onClick={() => trackEvent("click_bulk_product", { product_id: bulkSlug, button_location: "product_detail" })}
       >
-        {isDiffuser ? "Bulk Order" : "Bulk Inquiry"}
+        {isDiffuser ? "Bulk checkout" : "Bulk checkout"} -&gt;
       </Link>
     </div>
   );
@@ -132,11 +132,11 @@ export function ProductDetailPage() {
   if (!product || !productId) {
     return (
       <>
-        <main className="editorial-page product-detail-page">
-          <section className="editorial-container product-not-found">
-            <p className="eyebrow">PRODUCTS</p>
+        <main className="approved-product-detail-page">
+          <section className="approved-detail-empty approved-shell">
+            <p className="approved-kicker">PRODUCTS</p>
             <h1>Product not found.</h1>
-            <Link className="button button--dark" to="/products">Back to Products</Link>
+            <Link className="approved-button approved-button--dark" to="/products">Back to Products</Link>
           </section>
         </main>
         <Footer />
@@ -148,70 +148,89 @@ export function ProductDetailPage() {
   const isDiffuser = product.id.includes("diffuser");
   const managedProduct = managedProducts.find((item) => item.slug === bulkSlugByRetailId[productId]);
   const galleryImages = cleanImages([...(managedProduct?.galleryImages || []), product.image, ...(copy.images || [])]).slice(0, 6);
+  const safeGalleryImages = galleryImages.length ? galleryImages : [product.image];
   const detailImages = cleanImages([...(managedProduct?.detailImages || []), ...(copy.images || [])]).slice(0, 8);
+  const safeDetailImages = detailImages.length ? detailImages : safeGalleryImages;
   const detailHighlights = managedProduct?.detailHighlights?.length ? managedProduct.detailHighlights : copy.keyFacts;
   const howToUse = managedProduct?.detailHowToUse?.length ? managedProduct.detailHowToUse : copy.howToUse;
-  const selectedImage = galleryImages[activeImage] || product.image;
+  const selectedImage = safeGalleryImages[Math.min(activeImage, safeGalleryImages.length - 1)] || product.image;
+  const retailSave = Math.max(0, product.listPrice - product.salePrice);
 
   return (
     <>
-      <main className="editorial-page product-detail-page">
-        <section className="editorial-container product-detail-hero">
-          <div className="product-detail-gallery product-detail-gallery--carousel" aria-label={`${product.name} product image gallery`}>
-            <div className="product-detail-gallery__stage">
-              <button
-                className="product-detail-gallery__nav product-detail-gallery__nav--prev"
-                type="button"
-                aria-label="Previous product image"
-                onClick={() => setActiveImage((current) => (current - 1 + galleryImages.length) % galleryImages.length)}
-              >
-                {"<"}
-              </button>
-              <img className="product-detail-gallery__main" src={selectedImage} alt={product.alt} loading="eager" decoding="async" />
-              <button
-                className="product-detail-gallery__nav product-detail-gallery__nav--next"
-                type="button"
-                aria-label="Next product image"
-                onClick={() => setActiveImage((current) => (current + 1) % galleryImages.length)}
-              >
-                {">"}
-              </button>
+      <main className="approved-product-detail-page">
+        <section className="approved-detail-hero approved-shell">
+          <nav className="approved-breadcrumb" aria-label="Breadcrumb">
+            <Link to="/">Home</Link>
+            <span>/</span>
+            <Link to="/products">Products</Link>
+            <span>/</span>
+            <span>{product.displayName || product.name}</span>
+          </nav>
+
+          <div className="approved-detail-layout">
+            <div className="approved-detail-gallery" aria-label={`${product.name} product image gallery`}>
+              <div className="approved-detail-gallery__stage">
+                {safeGalleryImages.length > 1 && (
+                  <button
+                    className="approved-detail-gallery__nav approved-detail-gallery__nav--prev"
+                    type="button"
+                    aria-label="Previous product image"
+                    onClick={() => setActiveImage((current) => (current - 1 + safeGalleryImages.length) % safeGalleryImages.length)}
+                  >
+                    {"<"}
+                  </button>
+                )}
+                <img className="approved-detail-gallery__main" src={selectedImage} alt={product.alt} loading="eager" decoding="async" />
+                {safeGalleryImages.length > 1 && (
+                  <button
+                    className="approved-detail-gallery__nav approved-detail-gallery__nav--next"
+                    type="button"
+                    aria-label="Next product image"
+                    onClick={() => setActiveImage((current) => (current + 1) % safeGalleryImages.length)}
+                  >
+                    {">"}
+                  </button>
+                )}
+              </div>
+              <div className="approved-detail-gallery__thumbs">
+                {safeGalleryImages.map((image, index) => (
+                  <button
+                    className={index === activeImage ? "is-active" : ""}
+                    type="button"
+                    key={image}
+                    aria-label={`View product image ${index + 1}`}
+                    aria-pressed={index === activeImage}
+                    onClick={() => setActiveImage(index)}
+                  >
+                    <img src={image} alt="" loading="lazy" decoding="async" />
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="product-detail-gallery__thumbs">
-              {galleryImages.map((image, index) => (
-                <button
-                  className={index === activeImage ? "is-active" : ""}
-                  type="button"
-                  key={image}
-                  aria-label={`View product image ${index + 1}`}
-                  aria-pressed={index === activeImage}
-                  onClick={() => setActiveImage(index)}
-                >
-                  <img src={image} alt="" loading="lazy" decoding="async" />
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="product-detail-summary">
-            <p className="eyebrow">{product.category}</p>
-            <h1>{product.displayName || product.name}</h1>
-            <p>{copy.headline}</p>
-            <div className="retail-price retail-price--detail">
-              <span className="discount-badge">{DISCOUNT_LABEL}</span>
-              <span className="retail-price__list">{formatSgd(product.listPrice)}</span>
-              <strong>{formatSgd(product.salePrice)}</strong>
-              <em>Official Shopee Singapore Store</em>
-            </div>
-            <dl className="product-detail-quick">
-              <div><dt>Volume</dt><dd>{product.size}</dd></div>
-              <div><dt>Ships</dt><dd>From Korea</dd></div>
-              <div><dt>Retail</dt><dd>Shopee SG purchase protection</dd></div>
-            </dl>
-            <ProductDetailActions product={product} />
+
+            <aside className="approved-detail-summary">
+              <p className="approved-kicker">{product.category}</p>
+              <h1>{product.displayName || product.name}</h1>
+              <p>{copy.headline}</p>
+              <div className="approved-detail-price">
+                <span className="approved-detail-badge">{DISCOUNT_LABEL}</span>
+                <span className="approved-detail-list">{formatSgd(product.listPrice)}</span>
+                <strong>{formatSgd(product.salePrice)}</strong>
+                <em>{retailSave > 0 ? `You save ${formatSgd(retailSave)}` : "Official Shopee Singapore Store"}</em>
+              </div>
+              <dl className="approved-detail-quick">
+                <div><dt>Volume</dt><dd>{product.size}</dd></div>
+                <div><dt>Retail route</dt><dd>Shopee SG</dd></div>
+                <div><dt>Bulk route</dt><dd>PayPal direct checkout</dd></div>
+                <div><dt>Ships</dt><dd>From Korea</dd></div>
+              </dl>
+              <ProductDetailActions product={product} />
+            </aside>
           </div>
         </section>
 
-        <section className="editorial-container product-detail-info">
+        <section className="approved-detail-info approved-shell">
           <article>
             <h2>Who it is for</h2>
             <p>{copy.forWho}</p>
@@ -222,18 +241,18 @@ export function ProductDetailPage() {
           </article>
           <article>
             <h2>Key facts</h2>
-            <div className="product-detail-chips">
-              {copy.keyFacts.map((fact) => <span key={fact}>{fact}</span>)}
+            <div className="approved-detail-chips">
+              {detailHighlights.slice(0, 6).map((fact) => <span key={fact}>{fact}</span>)}
             </div>
           </article>
         </section>
 
-        <section className={`editorial-container ${isDiffuser ? "diffuser-use-panel" : "cleanser-use-panel"}`}>
+        <section className={`approved-detail-use approved-shell ${isDiffuser ? "is-scent" : "is-care"}`}>
           <div>
-            <p className="eyebrow">{isDiffuser ? "HOW TO USE" : "CLEANSING ROUTINE"}</p>
+            <p className="approved-kicker">{isDiffuser ? "HOW TO USE" : "CLEANSING ROUTINE"}</p>
             <h2>{isDiffuser ? "No flame. No electricity. Scent when you choose." : "Simple steps before you buy."}</h2>
           </div>
-          <div className="product-steps product-steps--balanced">
+          <div className="approved-detail-steps">
             {howToUse.map((step, index) => (
               <article key={step}>
                 <strong>{String(index + 1).padStart(2, "0")}</strong>
@@ -243,12 +262,12 @@ export function ProductDetailPage() {
           </div>
         </section>
 
-        <section className="editorial-container product-comparison">
+        <section className="approved-detail-compare approved-shell">
           <div>
-            <p className="eyebrow">{isDiffuser ? "SIZE GUIDE" : "NOT SURE WHICH ONE TO CHOOSE?"}</p>
+            <p className="approved-kicker">{isDiffuser ? "SIZE GUIDE" : "NOT SURE WHICH ONE TO CHOOSE?"}</p>
             <h2>{isDiffuser ? "Compare 350g and 500g." : "Compare all three cleansers."}</h2>
           </div>
-          <div className="comparison-table">
+          <div className="approved-comparison-table">
             {(isDiffuser ? diffuserComparison : cleanserComparison).map(([name, role, note]) => (
               <article key={name}>
                 <strong>{name}</strong>
@@ -259,19 +278,19 @@ export function ProductDetailPage() {
           </div>
         </section>
 
-        <section className="editorial-container product-long-detail">
-          <div className="product-long-detail__intro">
-            <p className="eyebrow">PRODUCT DETAILS</p>
+        <section className="approved-detail-editorial approved-shell">
+          <div className="approved-detail-editorial__intro">
+            <p className="approved-kicker">PRODUCT DETAILS</p>
             <h2>See the texture, use and mood before you buy.</h2>
             <p>
               A closer look at the product surface, use moments and Jeju-inspired material mood, gathered so the choice feels clear before checkout.
             </p>
-            <div className="product-long-detail__points">
+            <div className="approved-detail-points">
               {detailHighlights.slice(0, 6).map((fact) => <span key={fact}>{fact}</span>)}
             </div>
           </div>
-          <div className="product-long-detail__images">
-            {detailImages.map((image, index) => (
+          <div className="approved-detail-editorial__images">
+            {safeDetailImages.map((image, index) => (
               <figure key={`${image}-${index}`}>
                 <img src={image} alt={`${product.displayName || product.name} detail ${index + 1}`} loading="lazy" decoding="async" />
               </figure>
@@ -279,7 +298,7 @@ export function ProductDetailPage() {
           </div>
         </section>
 
-        <section className="editorial-container product-detail-trust">
+        <section className="approved-detail-route approved-shell">
           <div>
             <strong>Official Shopee Singapore Store</strong>
             <p>Retail payment, shipping updates and purchase protection are handled through Shopee SG.</p>
@@ -288,8 +307,8 @@ export function ProductDetailPage() {
             <strong>Bulk and business orders</strong>
             <p>For larger quantities, choose Bulk Inquiry so hondit can confirm quantity, destination and schedule.</p>
           </div>
-          <ExternalLink className="button button--dark" href={links.shopeeStore} onClick={() => trackStoreClick("product_detail_store")}>
-            Visit Shopee Store
+          <ExternalLink className="approved-button approved-button--dark" href={links.shopeeStore} onClick={() => trackStoreClick("product_detail_store")}>
+            Visit Shopee Store -&gt;
           </ExternalLink>
         </section>
       </main>
