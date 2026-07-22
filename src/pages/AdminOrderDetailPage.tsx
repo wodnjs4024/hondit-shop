@@ -108,7 +108,12 @@ export function AdminOrderDetailPage() {
       `Order number: ${order.order_number}`,
       `Order date: ${order.created_at}`,
       `Paid at: ${order.paid_at || ""}`,
+      `Customer name: ${order.customer_name || ""}`,
+      `Customer email: ${order.customer_email || ""}`,
+      `Customer phone: ${order.customer_phone || ""}`,
+      `Company name: ${order.company_name || ""}`,
       `Customer country: ${order.country_code}`,
+      `Shipping address: ${[order.address_line_1, order.address_line_2, order.city, order.postal_code].filter(Boolean).join(", ")}`,
       `Payment amount: ${formatSgd(Number(order.total_sgd || 0))}`,
       `Currency: ${order.currency}`,
       `PayPal order ID: ${order.paypal_order_id || ""}`,
@@ -244,7 +249,9 @@ export function AdminOrderDetailPage() {
             <div><dt>이름</dt><dd>{order.customer_name}</dd></div>
             <div><dt>이메일</dt><dd>{order.customer_email}</dd></div>
             <div><dt>전화번호</dt><dd>{order.customer_phone}</dd></div>
-            <div><dt>주소</dt><dd>{order.address_line_1} {order.address_line_2} {order.city} {order.postal_code}</dd></div>
+            <div><dt>회사명</dt><dd>{order.company_name || "-"}</dd></div>
+            <div><dt>국가</dt><dd>{order.country_code || "SG"}</dd></div>
+            <div><dt>주소</dt><dd>{[order.address_line_1, order.address_line_2, order.city, order.postal_code].filter(Boolean).join(", ")}</dd></div>
           </dl>
         </section>
         <section className="admin-panel">

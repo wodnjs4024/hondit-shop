@@ -205,6 +205,31 @@ export const bulkProducts: BulkProduct[] = [
   },
 ];
 
+export const livePaymentTestProduct: BulkProduct = {
+  id: "live-payment-test",
+  slug: "live-payment-test",
+  name: "hondit Live Payment Test",
+  category: "diffuser",
+  volumeLabel: "S$1 verification",
+  shortDescription: "Hidden one-dollar checkout used only to verify Live PayPal operation.",
+  description: "A hidden operational test item for confirming that Live PayPal payment, order saving and refund flow work correctly.",
+  imageUrl: packImages.diffuser350Studio,
+  unitPriceSgd: 1,
+  packQuantity: 1,
+  packPriceSgd: 1,
+  unitWeightKg: 0,
+  inventoryPacks: 1,
+  active: true,
+  purchaseEnabled: true,
+  sortOrder: 9999,
+  features: ["Hidden test item", "Live PayPal check", "Refund after verification"],
+  usage: ["Use only for one operational Live PayPal test", "Refund immediately from the admin order detail page"],
+  galleryImages: [packImages.diffuser350Studio],
+  detailImages: [packImages.diffuser350Studio],
+  detailHighlights: ["Hidden from public product lists.", "Creates a normal PayPal order for S$1.", "Use to verify admin order and refund flow."],
+  detailHowToUse: ["Open the direct test URL.", "Pay S$1 through PayPal Live.", "Confirm the order appears in admin, then refund it."],
+};
+
 export function formatSgd(value: number) {
   return new Intl.NumberFormat("en-SG", {
     style: "currency",
@@ -214,5 +239,6 @@ export function formatSgd(value: number) {
 }
 
 export function getBulkProduct(slug: string) {
+  if (slug === livePaymentTestProduct.slug) return livePaymentTestProduct;
   return bulkProducts.find((product) => product.slug === slug && product.active);
 }

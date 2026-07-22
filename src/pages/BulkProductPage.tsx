@@ -118,6 +118,7 @@ export function BulkProductPage() {
   const product = products.find((entry) => entry.slug === slug && entry.active) || getBulkProduct(slug);
   if (!product) return <Navigate to="/bulk-orders" replace />;
 
+  const isLivePaymentTest = product.slug === "live-payment-test";
   const moq = getBulkMoq(product);
   const maxUnits = getBulkMaxUnits(product);
   const quantity = normalizeBulkQuantity(product, packCount || moq);
@@ -271,6 +272,11 @@ export function BulkProductPage() {
             <p className="eyebrow">{product.category.toUpperCase()} BULK ORDER</p>
             <h1>{product.name}</h1>
             <p className="bulk-detail__volume">{product.volumeLabel}</p>
+            {isLivePaymentTest && (
+              <p className="setup-warning">
+                Hidden Live PayPal verification URL. Do not share this page with customers. Refund this S$1 order after the admin check.
+              </p>
+            )}
             <p>{product.description}</p>
             <p className="bulk-price-explainer">
               Bulk prices are lower because they exclude the marketplace fees applied on Shopee. Ordering directly here passes those
@@ -394,6 +400,7 @@ export function BulkProductPage() {
                   <div><dt>Full name</dt><dd>{form.customerName || "Not entered"}</dd></div>
                   <div><dt>Email</dt><dd>{form.customerEmail || "Not entered"}</dd></div>
                   <div><dt>Phone / WhatsApp</dt><dd>{form.customerPhone || "Not entered"}</dd></div>
+                  <div><dt>Company</dt><dd>{form.companyName || "Not entered"}</dd></div>
                   <div>
                     <dt>Shipping address</dt>
                     <dd>{[form.addressLine1, form.addressLine2, form.city, "Singapore", form.postalCode].filter(Boolean).join(", ") || "Not entered"}</dd>

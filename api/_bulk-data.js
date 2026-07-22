@@ -120,3 +120,28 @@ export const defaultProducts = [
     detailHowToUse: ["Place the Jeju volcanic stones in the pot.", "Add 10-12 drops of citrus oil onto the stones.", "Refresh with a few more drops whenever needed."],
   },
 ];
+
+export const livePaymentTestProduct = {
+  id: "live-payment-test",
+  slug: "live-payment-test",
+  name: "hondit Live Payment Test",
+  category: "diffuser",
+  volumeLabel: "S$1 verification",
+  shortDescription: "Hidden one-dollar checkout used only to verify Live PayPal operation.",
+  description: "A hidden operational test item for confirming that Live PayPal payment, order saving and refund flow work correctly.",
+  imageUrl: "/images/hondit-pack/hondit_codex_image_pack/01_product_originals/02_diffuser_350_studio.webp",
+  unitPriceSgd: 1,
+  packQuantity: 1,
+  packPriceSgd: 1,
+  unitWeightKg: 0,
+  inventoryPacks: 1,
+  active: true,
+  purchaseEnabled: true,
+  sortOrder: 9999,
+  features: ["Hidden test item", "Live PayPal check", "Refund after verification"],
+  usage: ["Use only for one operational Live PayPal test", "Refund immediately from the admin order detail page"],
+  galleryImages: ["/images/hondit-pack/hondit_codex_image_pack/01_product_originals/02_diffuser_350_studio.webp"],
+  detailImages: ["/images/hondit-pack/hondit_codex_image_pack/01_product_originals/02_diffuser_350_studio.webp"],
+  detailHighlights: ["Hidden from public product lists.", "Creates a normal PayPal order for S$1.", "Use to verify admin order and refund flow."],
+  detailHowToUse: ["Open the direct test URL.", "Pay S$1 through PayPal Live.", "Confirm the order appears in admin, then refund it."],
+};

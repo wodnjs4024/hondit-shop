@@ -1,3 +1,4 @@
+import { livePaymentTestProduct } from "../_bulk-data.js";
 import { calculateCart, createOrderNumber, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
 
 function validateCheckout(body) {
@@ -74,7 +75,10 @@ export default async function handler(req, res) {
     await ensureCheckoutEnabled();
 
     const products = await getProducts();
-    const summary = calculateCart(body.cart, products);
+    const checkoutProducts = body.cart.some((item) => item.slug === livePaymentTestProduct.slug)
+      ? [...products, livePaymentTestProduct]
+      : products;
+    const summary = calculateCart(body.cart, checkoutProducts);
     const orderNumber = createOrderNumber();
     const attribution = body.attribution || {};
 
