@@ -33,7 +33,6 @@ type Summary = {
   countries?: InsightRow[];
   sources?: InsightRow[];
   recentOrders: DashboardOrder[];
-  checkoutAttempts?: DashboardOrder[];
 };
 
 export const orderStatusLabels: Record<string, string> = {
@@ -90,9 +89,7 @@ export function AdminDashboardPage() {
 
   const totals = summary?.totals || {};
   const cards = [
-    ["전체 주문", totals.totalOrders || 0],
-    ["미결제 시도", totals.checkoutAttempts || 0],
-    ["결제 완료", totals.paid || 0],
+    ["결제 완료 주문", totals.totalOrders || 0],
     ["상품 준비", totals.preparing || 0],
     ["포장 완료", totals.packed || 0],
     ["배송 시작", totals.shipped || 0],
@@ -108,7 +105,7 @@ export function AdminDashboardPage() {
           <p className="eyebrow">운영 대시보드</p>
           <h1>hondit 운영 콘솔</h1>
           <p className="admin-muted">
-            주문, 결제, 배송, 상품, 리뷰, 분석을 한 곳에서 확인합니다.
+            실제 PayPal 결제가 완료된 주문만 운영 대상으로 표시합니다.
             {lastUpdated ? ` 마지막 업데이트: ${lastUpdated.toLocaleTimeString("ko-KR")}` : ""}
           </p>
         </div>
@@ -121,7 +118,7 @@ export function AdminDashboardPage() {
         <Link to="/admin/orders">
           <span>01</span>
           <strong>주문 / 배송 / 환불</strong>
-          <p>결제 상태, 주소 확인, 운송장, 환불 처리를 관리합니다.</p>
+          <p>결제 완료 주문의 주소 확인, 배송 처리, 취소와 PayPal 환불을 관리합니다.</p>
         </Link>
         <Link to="/admin/products">
           <span>02</span>
@@ -152,43 +149,31 @@ export function AdminDashboardPage() {
       <section className="admin-panel admin-panel--analytics">
         <div>
           <p className="eyebrow">Analytics</p>
-          <h2>방문자와 클릭 데이터</h2>
+          <h2>방문과 클릭 데이터</h2>
           <p className="admin-muted">
-            Google Analytics 원본 화면은 보안 로그인 때문에 그대로 삽입할 수 없습니다. 대신 바로 열 수 있는 링크와
-            확인 항목을 관리자 안에 모아두었습니다.
+            GA4에서는 campaign_landing과 함께 landing_facebook_community, landing_instagram_bio처럼 출처가 보이는 이벤트를 확인할 수 있습니다.
           </p>
         </div>
         <div className="admin-analytics-grid">
           <a href="https://analytics.google.com/analytics/web/" target="_blank" rel="noreferrer">
             <strong>GA4 열기</strong>
-            <span>국가, 유입 채널, 페이지, 이벤트 확인</span>
+            <span>실시간, 유입 채널, 페이지, 이벤트 확인</span>
           </a>
           <a href="https://vercel.com/hondit/hondit-shop/analytics" target="_blank" rel="noreferrer">
             <strong>Vercel Analytics</strong>
             <span>실시간 방문과 성능 확인</span>
           </a>
-          <a href="https://hondit-shop.vercel.app/?utm_source=instagram&utm_medium=bio&utm_campaign=instagram_bio_launch" target="_blank" rel="noreferrer">
-            <strong>Instagram Bio 테스트 URL</strong>
-            <span>UTM 유입 확인용 주소</span>
-          </a>
+          <Link to="/admin/campaign-links">
+            <strong>홍보 링크 만들기</strong>
+            <span>인스타, 페이스북, 커뮤니티 UTM 복사</span>
+          </Link>
         </div>
-        <ul className="admin-warning-list">
-          <li>국가별 방문자는 GA4의 국가 보고서에서 확인합니다.</li>
-          <li>상품 클릭은 GA4 이벤트에서 shopee, bulk, product 관련 이벤트로 확인합니다.</li>
-          <li>완전한 숫자 카드를 관리자에 직접 넣으려면 GA Data API 권한과 서비스 계정 연결이 추가로 필요합니다.</li>
-        </ul>
       </section>
 
       <section className="admin-panel">
         <h2>최근 결제 완료 주문</h2>
         <p className="admin-muted">실제로 결제가 완료된 주문만 상품 준비와 배송 대상으로 봅니다.</p>
         <AdminOrderTable orders={summary?.recentOrders || []} />
-      </section>
-
-      <section className="admin-panel admin-panel--warning">
-        <h2>미결제 또는 실패한 결제 시도</h2>
-        <p className="admin-muted">고객이 결제창까지 갔지만 결제를 완료하지 않은 기록입니다. 상품 준비나 배송은 하지 않습니다.</p>
-        <AdminOrderTable orders={summary?.checkoutAttempts || []} />
       </section>
 
       <div className="admin-detail-grid">

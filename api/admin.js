@@ -96,27 +96,27 @@ async function summary(req, res) {
   await verifyAdmin(req);
   const orders = await supabase("/orders?select=*&order=created_at.desc&limit=200");
   const items = await supabase("/order_items?select=order_id,product_slug,product_name_snapshot,total_units,line_total_sgd&order=created_at.desc&limit=500");
-  const paidOrders = orders.filter((order) => order.payment_status === "completed");
-  const checkoutAttempts = orders.filter((order) => order.payment_status !== "completed");
-  const paidOrderIds = new Set(paidOrders.map((order) => order.id));
+  const settledOrders = orders.filter((order) => order.payment_status === "completed" || order.paypal_capture_id);
+  const paidOrders = settledOrders.filter((order) => order.payment_status === "completed");
+  const paidOrderIds = new Set(settledOrders.map((order) => order.id));
   const paidItems = items.filter((item) => paidOrderIds.has(item.order_id));
   const revenueSgd = paidOrders.reduce((sum, order) => sum + Number(order.total_sgd || 0), 0);
 
   return json(res, 200, {
     totals: {
       totalOrders: paidOrders.length,
-      checkoutAttempts: checkoutAttempts.length,
-      pendingPayment: countWhere(checkoutAttempts, "payment_status", "pending_payment"),
+      checkoutAttempts: 0,
+      pendingPayment: 0,
       paid: paidOrders.length,
-      preparing: countWhere(orders, "order_status", "preparing"),
-      packed: countWhere(orders, "order_status", "packed"),
-      shipped: countWhere(orders, "order_status", "shipped"),
-      delivered: countWhere(orders, "order_status", "delivered"),
-      closed: orders.filter((order) => ["cancelled", "refunded"].includes(order.order_status)).length,
+      preparing: countWhere(settledOrders, "order_status", "preparing"),
+      packed: countWhere(settledOrders, "order_status", "packed"),
+      shipped: countWhere(settledOrders, "order_status", "shipped"),
+      delivered: countWhere(settledOrders, "order_status", "delivered"),
+      closed: settledOrders.filter((order) => ["cancelled", "refunded"].includes(order.order_status) || ["cancelled", "refunded"].includes(order.payment_status)).length,
       totalPaidSgd: Number(revenueSgd.toFixed(2)),
     },
     recentOrders: paidOrders.slice(0, 8),
-    checkoutAttempts: checkoutAttempts.slice(0, 5),
+    checkoutAttempts: [],
     popularProducts: topCounts(paidItems, "product_slug", "product_name_snapshot"),
     countries: topCounts(paidOrders, "country_code"),
     sources: topCounts(paidOrders.map((order) => ({
@@ -133,7 +133,7 @@ async function ordersIndex(req, res) {
   if (req.method !== "GET") return json(res, 405, { error: "Method not allowed" });
   await verifyAdmin(req);
   const status = req.query?.status ? String(req.query.status) : "";
-  const paymentStatus = req.query?.paymentStatus ? String(req.query.paymentStatus) : "";
+  const paymentStatus = req.query?.paymentStatus ? String(req.query.paymentStatus) : "completed";
   const orderStatus = req.query?.orderStatus ? String(req.query.orderStatus) : status;
   const orderType = req.query?.orderType ? escapeLike(req.query.orderType) : "";
   const from = req.query?.from ? String(req.query.from) : "";

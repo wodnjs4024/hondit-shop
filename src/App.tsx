@@ -89,6 +89,14 @@ function upsertMeta(selector: string, attrs: Record<string, string>, value: stri
   else element.content = value;
 }
 
+function analyticsToken(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 18);
+}
+
 export default function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
@@ -130,14 +138,21 @@ export default function App() {
       window.localStorage.setItem("hondit_attribution", JSON.stringify(attribution));
     }
     if (attribution.utm_source || attribution.utm_campaign) {
-      trackEvent("campaign_landing", {
+      const campaignPayload = {
         campaign_source: attribution.utm_source || "direct",
         campaign_medium: attribution.utm_medium || "none",
         campaign_name: attribution.utm_campaign || "none",
         campaign_content: attribution.utm_content || "none",
         campaign_term: attribution.utm_term || "none",
         landing_page: attribution.landing_page,
-      });
+      };
+      trackEvent("campaign_landing", campaignPayload);
+
+      const sourceToken = analyticsToken(attribution.utm_source || "direct");
+      const mediumToken = analyticsToken(attribution.utm_medium || "none");
+      if (sourceToken) {
+        trackEvent(`landing_${sourceToken}_${mediumToken || "none"}`.slice(0, 40), campaignPayload);
+      }
     }
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname, location.search, location.hash]);

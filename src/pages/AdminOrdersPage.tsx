@@ -26,26 +26,14 @@ type OrderRow = DashboardOrder & {
   shipped_at?: string | null;
 };
 
-const paymentStatuses = [
-  "",
-  "pending_payment",
-  "payment_failed",
-  "payment_cancelled",
-  "completed",
-  "pending_review",
-  "failed",
-  "cancelled",
-  "refunded",
-  "reversed",
-];
-
-const orderStatuses = ["", "pending_payment", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
+const paymentStatuses = ["completed", "refunded", "cancelled"];
+const orderStatuses = ["", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
 
 export function AdminOrdersPage() {
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [error, setError] = useState("");
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-  const [filters, setFilters] = useState({ q: "", paymentStatus: "", orderStatus: "", orderType: "", from: "", to: "" });
+  const [filters, setFilters] = useState({ q: "", paymentStatus: "completed", orderStatus: "", orderType: "", from: "", to: "" });
   const [notificationStatus, setNotificationStatus] = useState(typeof Notification === "undefined" ? "unsupported" : Notification.permission);
   const knownOrderIds = useRef<Set<string>>(new Set());
   const hasLoadedOnce = useRef(false);
@@ -140,9 +128,9 @@ export function AdminOrdersPage() {
     <>
       <div className="admin-heading">
         <p className="eyebrow">주문 관리</p>
-        <h1>주문 / 배송 / 환불</h1>
+        <h1>결제 완료 주문 / 배송 / 환불</h1>
         <p className="admin-muted">
-          현재 {orders.length}건이 표시됩니다. 30초마다 자동 새로고침됩니다.
+          기본 화면은 PayPal 결제가 최종 완료된 주문만 표시합니다. 취소나 환불 완료 주문은 결제 상태 필터에서 따로 확인할 수 있습니다.
           {lastUpdated ? ` 마지막 업데이트: ${lastUpdated.toLocaleTimeString("ko-KR")}` : ""}
         </p>
       </div>
@@ -150,9 +138,9 @@ export function AdminOrdersPage() {
       <section className="admin-panel admin-panel--warning">
         <h2>운영 기준</h2>
         <ul className="admin-warning-list">
-          <li>PayPal 결제 상태가 completed인 주문만 상품 준비와 배송을 진행하세요.</li>
-          <li>pending_payment, payment_failed, payment_cancelled는 고객의 결제 시도 기록입니다.</li>
-          <li>실제 환불은 주문 상세의 PayPal 실제 환불 버튼 또는 PayPal 관리자 화면에서 처리합니다.</li>
+          <li>결제 시도, 결제 실패, 고객 결제 취소 기록은 운영 주문 목록에서 숨깁니다.</li>
+          <li>상품이 없거나 발송 전 취소가 필요하면 주문 상세에서 PayPal 실제 환불을 실행하세요.</li>
+          <li>환불 처리 후 주문은 환불됨 상태로 남아 추후 확인할 수 있습니다.</li>
         </ul>
       </section>
 
@@ -163,7 +151,7 @@ export function AdminOrdersPage() {
         <select value={filters.paymentStatus} onChange={(event) => setFilters({ ...filters, paymentStatus: event.target.value })}>
           {paymentStatuses.map((status) => (
             <option key={status} value={status}>
-              {status ? adminStatusLabel(status, paymentStatusLabels) : "모든 결제 상태"}
+              {adminStatusLabel(status, paymentStatusLabels)}
             </option>
           ))}
         </select>
