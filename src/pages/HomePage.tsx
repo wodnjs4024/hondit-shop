@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { V23CatalogGrid } from "../components/v23/CatalogGrid";
 import { V23GeoJourney } from "../components/v23/GeoJourney";
@@ -5,6 +6,32 @@ import { V23Page } from "../components/v23/SiteChrome";
 import { SHOPEE } from "../data/v23SiteData";
 
 export function HomePage() {
+  const diffuserVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = diffuserVideoRef.current;
+    if (!video) return;
+
+    const keepPlaying = () => {
+      video.muted = true;
+      const playRequest = video.play();
+      if (playRequest) {
+        playRequest.catch(() => undefined);
+      }
+    };
+
+    keepPlaying();
+    document.addEventListener("visibilitychange", keepPlaying);
+    window.addEventListener("focus", keepPlaying);
+    window.addEventListener("pageshow", keepPlaying);
+
+    return () => {
+      document.removeEventListener("visibilitychange", keepPlaying);
+      window.removeEventListener("focus", keepPlaying);
+      window.removeEventListener("pageshow", keepPlaying);
+    };
+  }, []);
+
   return (
     <V23Page>
       <main className="v23-home">
@@ -65,17 +92,55 @@ export function HomePage() {
           <V23CatalogGrid featuredOnly />
         </section>
 
-        <section className="v23-diffuser-guide">
-          <img src="/images/hondit-diffuser-detail.webp" alt="Volcanic diffuser set with Jeju scoria and citrus oil." />
-          <div>
-            <p className="v23-eyebrow is-light"><span /> VOLCANIC DIFFUSER</p>
-            <h2>No flame. No electricity. Scent when you choose.</h2>
-            <p>Drop citrus oil directly onto Jeju volcanic scoria and refresh the scent only when you want it.</p>
-            <div className="v23-mini-steps">
-              <article><span>01</span><b>Add 10-12 drops</b><p>Drop citrus oil directly onto the Jeju volcanic scoria.</p></article>
-              <article><span>02</span><b>Let the stone absorb</b><p>No reed sticks, flame or electricity are required.</p></article>
-              <article><span>03</span><b>Refresh when needed</b><p>Add a few more drops whenever you want the scent to return.</p></article>
+        <section className="v23-diffuser-guide" aria-labelledby="v23-diffuser-title">
+          <div className="v23-diffuser-guide__inner">
+            <div className="v23-diffuser-guide__copy">
+              <p className="v23-eyebrow is-light"><span /> VOLCANIC DIFFUSER</p>
+              <h2 id="v23-diffuser-title">No flame. No electricity.<br />Refresh the scent whenever you choose.</h2>
+              <p>Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.</p>
             </div>
+
+            <figure className="v23-diffuser-guide__video">
+              <video
+                ref={diffuserVideoRef}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                poster="/images/stonejeju-diffuser-product.png"
+                aria-label="Fragrance oil being applied directly to volcanic stone"
+              >
+                <source src="/videos/stonejeju-use-loop.mp4" type="video/mp4" />
+              </video>
+            </figure>
+
+            <figure className="v23-diffuser-guide__product">
+              <img src="/images/stonejeju-diffuser-product.png" alt="Jeju Volcanic Stone Diffuser with citrus fragrance oil, ceramic bowl and volcanic stones." />
+              <figcaption>
+                <strong>Jeju Volcanic Stone Diffuser</strong>
+                <span>Volcanic stone / Citrus fragrance oil / Ceramic bowl</span>
+                <span>Flameless / No electricity / Refreshable scent</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div className="v23-diffuser-guide__steps" aria-label="How to use the volcanic diffuser">
+            <article>
+              <span>01</span>
+              <b>ADD 10-12 DROPS</b>
+              <p>Apply the fragrance oil directly onto the volcanic stone.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <b>LET IT ABSORB</b>
+              <p>Allow the porous stone to absorb the oil naturally.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <b>REFRESH AS NEEDED</b>
+              <p>Add a few more drops when the scent becomes lighter.</p>
+            </article>
           </div>
         </section>
       </main>
