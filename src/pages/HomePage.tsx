@@ -14,6 +14,8 @@ export function HomePage() {
 
     const keepPlaying = () => {
       video.muted = true;
+      video.defaultMuted = true;
+      if (document.visibilityState === "hidden") return;
       const playRequest = video.play();
       if (playRequest) {
         playRequest.catch(() => undefined);
@@ -109,6 +111,8 @@ export function HomePage() {
                 playsInline
                 preload="auto"
                 poster="/images/stonejeju-diffuser-product.png"
+                disablePictureInPicture
+                controlsList="nodownload noplaybackrate noremoteplayback"
                 aria-label="Fragrance oil being applied directly to volcanic stone"
               >
                 <source src="/videos/stonejeju-use-loop.mp4" type="video/mp4" />
