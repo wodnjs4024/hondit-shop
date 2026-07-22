@@ -35,6 +35,13 @@ async function markFailed(order, reason) {
   );
 }
 
+async function ensureCheckoutEnabled() {
+  const rows = await supabase("/site_settings?id=eq.1&select=checkout_enabled");
+  if (rows?.[0]?.checkout_enabled === false) {
+    throw new Error("Direct PayPal checkout is temporarily closed. Please contact hondit.");
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
@@ -43,6 +50,7 @@ export default async function handler(req, res) {
   try {
     const body = await readBody(req);
     validateCheckout(body);
+    await ensureCheckoutEnabled();
 
     const products = await getProducts();
     const summary = calculateCart(body.cart, products);

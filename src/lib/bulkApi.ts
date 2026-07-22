@@ -57,6 +57,12 @@ export type PublicOrder = {
   }>;
 };
 
+export type PayPalPublicConfig = {
+  checkoutEnabled: boolean;
+  clientId: string;
+  mode: string;
+};
+
 async function parseJson<T>(response: Response): Promise<T> {
   const data = (await response.json().catch(() => ({}))) as T & { error?: string };
   if (!response.ok) {
@@ -124,6 +130,11 @@ export async function fetchBulkProducts(): Promise<BulkProduct[]> {
   } catch {
     return bulkProducts;
   }
+}
+
+export async function fetchPayPalConfig(): Promise<PayPalPublicConfig> {
+  const response = await fetch("/api/paypal/config");
+  return parseJson<PayPalPublicConfig>(response);
 }
 
 export async function createPayPalOrder(payload: CheckoutPayload) {

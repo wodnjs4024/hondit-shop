@@ -13,7 +13,14 @@ import {
   type BulkProduct,
 } from "../data/bulkProducts";
 import { ProductReviews } from "../components/ProductReviews";
-import { capturePayPalOrder, createPayPalOrder, fetchBulkProducts, updatePaymentAttempt, type CheckoutPayload } from "../lib/bulkApi";
+import {
+  capturePayPalOrder,
+  createPayPalOrder,
+  fetchBulkProducts,
+  fetchPayPalConfig,
+  updatePaymentAttempt,
+  type CheckoutPayload,
+} from "../lib/bulkApi";
 import { trackEvent } from "../lib/analytics";
 import { V23Page } from "../components/v23/SiteChrome";
 
@@ -43,8 +50,8 @@ type OrderForm = {
   reviewed: boolean;
 };
 
-const paypalClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined;
-const paypalMode = ((import.meta.env.VITE_PAYPAL_MODE || import.meta.env.VITE_PAYPAL_ENV || "sandbox") as string).toLowerCase();
+const fallbackPayPalClientId = (import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined) || "";
+const fallbackPayPalMode = ((import.meta.env.VITE_PAYPAL_MODE || import.meta.env.VITE_PAYPAL_ENV || "sandbox") as string).toLowerCase();
 
 const initialForm: OrderForm = {
   customerName: "",
@@ -75,6 +82,11 @@ export function BulkProductPage() {
   const [form, setForm] = useState<OrderForm>(initialForm);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
+  const [payPalConfig, setPayPalConfig] = useState({
+    checkoutEnabled: true,
+    clientId: fallbackPayPalClientId,
+    mode: fallbackPayPalMode,
+  });
   const formRef = useRef(initialForm);
   const quantityRef = useRef(0);
   const productRef = useRef<BulkProduct | null>(null);
@@ -82,6 +94,15 @@ export function BulkProductPage() {
 
   useEffect(() => {
     fetchBulkProducts().then(setProducts);
+    fetchPayPalConfig()
+      .then((config) =>
+        setPayPalConfig({
+          checkoutEnabled: config.checkoutEnabled !== false,
+          clientId: config.clientId || fallbackPayPalClientId,
+          mode: (config.mode || fallbackPayPalMode).toLowerCase(),
+        }),
+      )
+      .catch(() => {});
   }, []);
 
   const product = products.find((entry) => entry.slug === slug && entry.active) || getBulkProduct(slug);
@@ -93,6 +114,9 @@ export function BulkProductPage() {
   const totalSgd = getBulkTotal(product, quantity);
   const stockStatus = getStockStatus(product);
   const soldOut = stockStatus === "Sold out";
+  const paypalClientId = payPalConfig.clientId;
+  const paypalMode = payPalConfig.mode;
+  const checkoutDisabled = !payPalConfig.checkoutEnabled;
 
   useEffect(() => {
     formRef.current = form;
@@ -101,7 +125,7 @@ export function BulkProductPage() {
   }, [form, product, quantity]);
 
   useEffect(() => {
-    if (!paypalClientId || soldOut) return;
+    if (!paypalClientId || soldOut || checkoutDisabled) return;
     const scriptId = "paypal-sdk";
     if (!document.getElementById(scriptId)) {
       const script = document.createElement("script");
@@ -112,12 +136,13 @@ export function BulkProductPage() {
     } else {
       setReady(true);
     }
-  }, [soldOut]);
+  }, [checkoutDisabled, paypalClientId, soldOut]);
 
   const update = (key: keyof OrderForm, value: string | boolean) => setForm((current) => ({ ...current, [key]: value }));
 
   const validate = (currentForm: OrderForm) => {
     if (soldOut) return "This product is currently sold out.";
+    if (checkoutDisabled) return "Direct PayPal checkout is temporarily closed. Please contact hondit.";
     if (
       !currentForm.customerName ||
       !currentForm.customerEmail ||
@@ -150,7 +175,7 @@ export function BulkProductPage() {
 
   useEffect(() => {
     const container = document.getElementById("direct-paypal-buttons");
-    if (!ready || !window.paypal || !paypalClientId || !container || container.childElementCount > 0 || soldOut) return;
+    if (!ready || !window.paypal || !paypalClientId || !container || container.childElementCount > 0 || soldOut || checkoutDisabled) return;
 
     window.paypal
       .Buttons({
@@ -218,7 +243,7 @@ export function BulkProductPage() {
         },
       })
       .render("#direct-paypal-buttons");
-  }, [navigate, paypalClientId, ready, soldOut]);
+  }, [checkoutDisabled, navigate, paypalClientId, ready, soldOut]);
 
   return (
     <V23Page>
@@ -378,8 +403,10 @@ export function BulkProductPage() {
                 <a className="button button--primary" href={`/contact?type=restock&product=${product.slug}`}>
                   Notify me
                 </a>
+              ) : checkoutDisabled ? (
+                <p className="setup-warning">Direct PayPal checkout is temporarily closed. Please contact hondit for this order.</p>
               ) : !paypalClientId ? (
-                <p className="setup-warning">Add VITE_PAYPAL_CLIENT_ID in Vercel to enable PayPal buttons.</p>
+                <p className="setup-warning">Add PAYPAL_CLIENT_ID in Vercel to enable PayPal buttons.</p>
               ) : (
                 <div id="direct-paypal-buttons" className="paypal-buttons" />
               )}
