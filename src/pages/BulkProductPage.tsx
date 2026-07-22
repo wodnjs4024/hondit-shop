@@ -15,6 +15,7 @@ import {
 import { ProductReviews } from "../components/ProductReviews";
 import { capturePayPalOrder, createPayPalOrder, fetchBulkProducts, updatePaymentAttempt, type CheckoutPayload } from "../lib/bulkApi";
 import { trackEvent } from "../lib/analytics";
+import { V23Page } from "../components/v23/SiteChrome";
 
 declare global {
   interface Window {
@@ -220,7 +221,8 @@ export function BulkProductPage() {
   }, [navigate, paypalClientId, ready, soldOut]);
 
   return (
-    <main className="bulk-page">
+    <V23Page>
+    <main className="bulk-page v23-operational-page">
       <section className="bulk-detail section-shell">
         <div className="section-inner section-inner--wide bulk-detail__grid">
           <figure className="bulk-detail__image">
@@ -406,5 +408,6 @@ export function BulkProductPage() {
         </div>
       </section>
     </main>
+    </V23Page>
   );
 }

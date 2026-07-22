@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { formatSgd } from "../data/bulkProducts";
 import { fetchPublicOrder, type PublicOrder } from "../lib/bulkApi";
 import { trackEvent } from "../lib/analytics";
+import { V23Page } from "../components/v23/SiteChrome";
 
 export function OrderCompletePage() {
   const { orderNumber = "" } = useParams();
@@ -24,7 +25,8 @@ export function OrderCompletePage() {
   }, [orderNumber]);
 
   return (
-    <main className="bulk-page">
+    <V23Page>
+    <main className="bulk-page v23-operational-page">
       <section className="order-complete section-shell">
         <div className="section-inner section-inner--narrow">
           <p className="eyebrow">ORDER COMPLETE</p>
@@ -71,5 +73,6 @@ export function OrderCompletePage() {
         </div>
       </section>
     </main>
+    </V23Page>
   );
 }

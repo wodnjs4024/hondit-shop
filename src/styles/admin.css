@@ -551,6 +551,152 @@
   gap: 1rem;
 }
 
+.admin-inquiry-layout {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.admin-inquiry-list {
+  align-self: start;
+}
+
+.admin-inquiry-list h2 {
+  font-size: 2rem;
+}
+
+.admin-inquiry-list button {
+  display: grid;
+  gap: 0.28rem;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  margin-bottom: 0.65rem;
+  padding: 0.85rem;
+  background: #fffdf8;
+  color: var(--ink);
+  text-align: left;
+}
+
+.admin-inquiry-list button.is-active,
+.admin-inquiry-list button:hover {
+  border-color: rgba(207,82,47,0.42);
+  background: #fff4eb;
+}
+
+.admin-inquiry-list button span,
+.admin-inquiry-list button em {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-style: normal;
+}
+
+.admin-inquiry-list button strong {
+  color: var(--navy);
+}
+
+.admin-inquiry-list button small {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.admin-inquiry-detail {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-inquiry-detail__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.admin-inquiry-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0;
+}
+
+.admin-inquiry-meta div {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem;
+  background: #fffdf8;
+}
+
+.admin-inquiry-meta dt {
+  color: var(--orange-dark);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-inquiry-meta dd {
+  margin: 0.35rem 0 0;
+  color: var(--navy);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.admin-inquiry-message {
+  margin: 0;
+  border-left: 4px solid var(--orange);
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fffdf8;
+  color: var(--ink);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.admin-reply-form,
+.admin-reply-history {
+  display: grid;
+  gap: 0.85rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+}
+
+.admin-reply-form label {
+  display: grid;
+  gap: 0.45rem;
+  color: #575d58;
+  font-weight: 800;
+}
+
+.admin-reply-form input,
+.admin-reply-form textarea {
+  width: 100%;
+  border: 1px solid #d9d6ce;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  background: rgba(255,255,255,0.92);
+  color: var(--ink);
+}
+
+.admin-reply-history article {
+  display: grid;
+  gap: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem;
+  background: #fffdf8;
+}
+
+.admin-reply-history span,
+.admin-reply-history small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.admin-reply-history p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
 .button--danger,
 .button--refund {
   background: #a74731;
@@ -579,6 +725,8 @@
   .admin-ops-grid,
   .admin-analytics-grid,
   .admin-detail-grid,
+  .admin-inquiry-layout,
+  .admin-inquiry-meta,
   .admin-filters,
   .admin-inline-grid,
   .admin-inline-grid--product-main,

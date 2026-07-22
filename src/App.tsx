@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { SiteHeader } from "./components/SiteHeader";
 import { AdminLayout } from "./components/AdminLayout";
 import { trackEvent, trackPageView } from "./lib/analytics";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
+import { AdminInquiriesPage } from "./pages/AdminInquiriesPage";
 import { AdminLoginPage } from "./pages/AdminLoginPage";
 import { AdminOrderDetailPage } from "./pages/AdminOrderDetailPage";
 import { AdminOrdersPage } from "./pages/AdminOrdersPage";
@@ -124,7 +124,6 @@ export default function App() {
 
   return (
     <>
-      {!isAdmin && <SiteHeader />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
@@ -142,6 +141,7 @@ export default function App() {
           <Route index element={<AdminDashboardPage />} />
           <Route path="orders" element={<AdminOrdersPage />} />
           <Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
+          <Route path="inquiries" element={<AdminInquiriesPage />} />
           <Route path="products" element={<AdminProductsPage />} />
           <Route path="reviews" element={<AdminReviewsPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />

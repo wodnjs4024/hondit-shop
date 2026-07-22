@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { links } from "../data/siteData";
 import { formatSgd } from "../data/bulkProducts";
 import { fetchPublicOrder, type PublicOrder } from "../lib/bulkApi";
+import { V23Page } from "../components/v23/SiteChrome";
 
 export function PaymentFailedPage() {
   const { orderNumber = "" } = useParams();
@@ -22,7 +23,8 @@ export function PaymentFailedPage() {
   }, [order]);
 
   return (
-    <main className="bulk-page">
+    <V23Page>
+    <main className="bulk-page v23-operational-page">
       <section className="payment-failed section-shell">
         <div className="section-inner section-inner--narrow">
           <p className="eyebrow">PAYMENT NOT COMPLETED</p>
@@ -57,5 +59,6 @@ export function PaymentFailedPage() {
         </div>
       </section>
     </main>
+    </V23Page>
   );
 }

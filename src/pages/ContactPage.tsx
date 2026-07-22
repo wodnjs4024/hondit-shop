@@ -1,95 +1,87 @@
 import { FormEvent, useState } from "react";
-import { FAQAccordion } from "../components/FAQAccordion";
-import { links } from "../data/siteData";
+import { V23Page } from "../components/v23/SiteChrome";
+import { EMAIL, INSTAGRAM, SHOPEE } from "../data/v23SiteData";
 import { trackEvent } from "../lib/analytics";
-import { Footer } from "../sections/Footer";
 
-const inquiryTypes = ["General", "Payment issue", "Shipping / address issue", "Bulk inquiry", "Product question"];
-
-const helpCards = [
-  ["Payment Issue", "Questions about payments, charges or failed transactions."],
-  ["Shipping / Address Issue", "Delivery status, shipping times or address changes."],
-  ["Bulk Inquiry", "Interested in bulk orders or corporate gifting?"],
-  ["Product Question", "Ingredients, usage or product recommendations."],
-];
+const inquiryTypes = ["General", "Product question", "Order support", "Bulk order", "Partnership"];
 
 export function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
-    trackEvent("submit_inquiry", { inquiry_channel: "contact_page_preview" });
-  };
+    const form = new FormData(event.currentTarget);
+    if (String(form.get("website") || "")) return;
+    setStatus("sending");
+    setMessage("");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.get("name"),
+          email: form.get("email"),
+          company: form.get("company"),
+          orderNumber: form.get("orderNumber"),
+          inquiryType: form.get("inquiryType"),
+          message: form.get("message"),
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Message could not be saved.");
+      setStatus("success");
+      setMessage(data.referenceNumber ? `Your message has been saved. Reference: ${data.referenceNumber}` : "Your message has been saved. hondit will reply by email.");
+      trackEvent("submit_inquiry", { inquiry_channel: "contact_page" });
+      event.currentTarget.reset();
+    } catch (error) {
+      setStatus("error");
+      setMessage(error instanceof Error ? error.message : "Message could not be sent. Please try again or email hondit.");
+    }
+  }
 
   return (
-    <>
-      <main className="editorial-page contact-page-v2">
-        <section className="editorial-hero editorial-hero--contact">
-          <div className="editorial-hero__copy">
-            <p className="eyebrow">CONTACT</p>
-            <h1>Contact</h1>
-            <p>We are here to help. Whether you have a product question, need support with an order, or are interested in partnering with us.</p>
-            <strong>We typically respond within 1-2 business days.</strong>
+    <V23Page>
+      <main className="v23-contact-page">
+        <section className="v23-contact-hero">
+          <div>
+            <p className="v23-eyebrow"><span /> CONTACT HONDIT</p>
+            <h1>A real inbox,<br />with a clear route for every question.</h1>
+            <p>Send a message directly to the hondit admin inbox or choose the fastest external channel for an existing Shopee order.</p>
           </div>
+          <img src="/images/jeju-field-university.webp" alt="Jeju National University Ara Campus." />
         </section>
-
-        <section className="editorial-section">
-          <div className="editorial-container contact-grid">
-            <form className="contact-form contact-form-v2" onSubmit={submit}>
-              <h2>Send us a message</h2>
-              <div className="form-two">
-                <label>Name *<input name="name" required placeholder="Your name" /></label>
-                <label>Email *<input name="email" type="email" required placeholder="you@example.com" /></label>
-              </div>
-              <div className="form-two">
-                <label>Company (optional)<input name="company" placeholder="Your company" /></label>
-                <label>Order Number (optional)<input name="orderNumber" placeholder="#12345" /></label>
-              </div>
-              <label>Inquiry Type *
-                <select name="type">
-                  {inquiryTypes.map((type) => <option key={type}>{type}</option>)}
-                </select>
-              </label>
-              <label>Message *<textarea name="message" required placeholder="How can we help you?" /></label>
-              <input className="contact-form__trap" name="website" tabIndex={-1} autoComplete="off" />
-              <button className="button button--dark" type="submit">Send Message</button>
-              <p className="contact-safe">Your information is safe with us and will only be used to respond to your inquiry.</p>
-              {submitted && <p className="setup-warning">Thank you. For the fastest reply, you can also contact us by email, Instagram or Shopee Chat.</p>}
-            </form>
-
-            <aside className="quick-help">
-              <h2>Quick help</h2>
-              <div>
-                {helpCards.map(([title, body]) => (
-                  <a href="#contact-links" key={title}>
-                    <span aria-hidden="true" />
-                    <h3>{title}</h3>
-                    <p>{body}</p>
-                    <strong>Get help</strong>
-                  </a>
-                ))}
-              </div>
-            </aside>
-          </div>
-        </section>
-
-        <section className="editorial-container contact-lower" id="contact-links">
-          <article>
-            <h2>Frequently asked questions</h2>
-            <FAQAccordion />
-          </article>
-          <article className="contact-methods">
-            <h2>Other ways to reach us</h2>
-            <p><strong>Email</strong><a href="mailto:hondit.official@gmail.com">hondit.official@gmail.com</a></p>
-            <p><strong>Instagram</strong><a href={links.instagram}>@hondit.office</a></p>
-            <p><strong>Shopee Chat</strong><a href={links.shopeeStore}>hondit Shopee SG</a></p>
-            <p><strong>Location</strong>Jeju Island, Republic of Korea</p>
-            <img src="/images/hondit-diffuser-detail.png" alt="hondit volcanic stone diffuser and fragrance oil arranged with Jeju volcanic stones." loading="lazy" decoding="async" />
-          </article>
+        <section className="v23-contact-grid">
+          <form onSubmit={submit}>
+            <p className="v23-eyebrow"><span /> SEND A MESSAGE</p>
+            <h2>Tell us what you need.</h2>
+            <p>This form sends your enquiry to hondit's protected admin inbox.</p>
+            <div className="v23-form-two">
+              <label>Name *<input name="name" required placeholder="Your name" /></label>
+              <label>Email *<input name="email" type="email" required placeholder="you@example.com" /></label>
+            </div>
+            <div className="v23-form-two">
+              <label>Company<input name="company" placeholder="Optional" /></label>
+              <label>Order number<input name="orderNumber" placeholder="Shopee or HON reference" /></label>
+            </div>
+            <label>Enquiry type *
+              <select name="inquiryType" required>{inquiryTypes.map((type) => <option key={type}>{type}</option>)}</select>
+            </label>
+            <label>Message *<textarea name="message" required placeholder="Include the product, order reference or question so we can help quickly." /></label>
+            <input className="v23-honeypot" name="website" tabIndex={-1} autoComplete="off" />
+            <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending..." : "Send to hondit"}</button>
+            {message && <p className={`v23-form-status is-${status}`}>{message}</p>}
+          </form>
+          <aside>
+            <p className="v23-eyebrow is-light"><span /> QUICK ROUTES</p>
+            <h2>Use the right channel.</h2>
+            <a href={SHOPEE} target="_blank" rel="noreferrer"><small>EXISTING SHOPEE ORDER</small><b>Shopee Chat</b><span>Payment, voucher, delivery tracking or address changes for Shopee orders. ↗</span></a>
+            <a href={INSTAGRAM} target="_blank" rel="noreferrer"><small>PRODUCT AND SOCIAL</small><b>Instagram</b><span>Short product questions, social content and informal collaborations. ↗</span></a>
+            <a href={`mailto:${EMAIL}`}><small>FORMAL DOCUMENTS</small><b>Email</b><span>Attachments and formal records can still be sent by email.</span></a>
+            <a href="/bulk-orders"><small>DIRECT BULK ORDER</small><b>PayPal checkout</b><span>Choose an MOQ quantity and create a tracked order. →</span></a>
+          </aside>
         </section>
       </main>
-      <Footer />
-    </>
+    </V23Page>
   );
 }

@@ -1,0 +1,2265 @@
+:root {
+  --v23-green: #173d35;
+  --v23-green-2: #234940;
+  --v23-ink: #17342e;
+  --v23-cream: #f6f2e9;
+  --v23-paper: #fffdf7;
+  --v23-sand: #ebe5d8;
+  --v23-blue: #dfeeed;
+  --v23-orange: #c46d45;
+  --v23-line: rgba(23, 52, 46, 0.16);
+  --v23-serif: "Cormorant Garamond", Georgia, serif;
+  --v23-sans: "Inter", Arial, sans-serif;
+}
+
+body {
+  background: var(--v23-paper);
+  color: var(--v23-ink);
+  font-family: var(--v23-sans);
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+.v23-shipping-bar {
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: var(--v23-green);
+  color: var(--v23-cream);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.v23-nav {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 42px;
+  border-bottom: 1px solid var(--v23-line);
+  background: var(--v23-paper);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.v23-brand,
+.v23-footer-brand b {
+  font-family: var(--v23-serif);
+  font-size: 2.1rem;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--v23-ink);
+  text-decoration: none;
+}
+
+.v23-brand span,
+.v23-footer-brand span {
+  color: var(--v23-orange);
+}
+
+.v23-nav-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.v23-nav-links a,
+.v23-footer a {
+  color: var(--v23-ink);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.v23-shop-button,
+.v23-menu-button,
+.v23-actions a,
+.v23-actions a:visited,
+.v23-bulk-summary a,
+.v23-route-banner a,
+.v23-soft-cta a,
+.v23-route-guide a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: var(--v23-green);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  border: 1px solid transparent;
+}
+
+.v23-menu-button {
+  display: none;
+}
+
+.v23-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 18px;
+  color: var(--v23-orange);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.v23-eyebrow span {
+  width: 34px;
+  height: 1px;
+  background: currentColor;
+}
+
+.v23-eyebrow.is-light {
+  color: #e8c3a6;
+}
+
+.v23-home-hero,
+.v23-page-hero,
+.v23-our-jeju-hero,
+.v23-our-jeju-origin,
+.v23-product-detail-hero,
+.v23-bulk-checkout,
+.v23-contact-hero,
+.v23-contact-grid {
+  width: min(1420px, calc(100% - 48px));
+  margin: 32px auto;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.v23-home-hero,
+.v23-page-hero,
+.v23-our-jeju-hero,
+.v23-product-detail-hero,
+.v23-contact-hero {
+  display: grid;
+  grid-template-columns: 0.95fr 1.4fr;
+  min-height: 460px;
+  background: var(--v23-cream);
+  box-shadow: 0 22px 70px rgba(23, 52, 46, 0.12);
+}
+
+.v23-home-hero-copy,
+.v23-page-hero-copy,
+.v23-our-jeju-hero > div,
+.v23-product-detail-hero > div,
+.v23-contact-hero > div {
+  padding: 34px 42px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.v23-home h1,
+.v23-page-hero h1,
+.v23-our-jeju-hero h1,
+.v23-product-detail h1,
+.v23-contact-hero h1,
+.v23-policy-page h1 {
+  font-family: var(--v23-serif);
+  font-size: 3.65rem;
+  line-height: 0.9;
+  margin: 0 0 18px;
+  letter-spacing: 0;
+}
+
+.v23-home h1 em,
+.v23-page-hero h1 em,
+.v23-our-jeju-hero h1 em,
+.v23-our-jeju-origin h2 em,
+.v23-jeju-notes h2 em,
+.v23-soft-cta h2 em,
+.v23-products-section h2 em {
+  color: var(--v23-orange);
+  font-style: italic;
+}
+
+.v23-home-hero-copy > p,
+.v23-page-hero-copy > p,
+.v23-our-jeju-hero > div > p,
+.v23-contact-hero p,
+.v23-product-detail-hero p {
+  max-width: 620px;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(23, 52, 46, 0.74);
+}
+
+.v23-home-hero-media img,
+.v23-page-hero-media img,
+.v23-our-jeju-hero video,
+.v23-contact-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v23-page-hero-media,
+.v23-home-hero-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.v23-page-hero-media figcaption {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 36px);
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(23, 52, 46, 0.76);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.v23-page-hero-media figcaption i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5a77e;
+}
+
+.v23-route-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.v23-route-cards a {
+  min-height: 90px;
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--v23-ink);
+  text-decoration: none;
+  box-shadow: 0 16px 34px rgba(23, 52, 46, 0.08);
+}
+
+.v23-route-cards a:nth-child(2) {
+  background: var(--v23-orange);
+  color: #fff;
+}
+
+.v23-route-cards small,
+.v23-confidence small,
+.v23-product-meta small,
+.v23-bulk-summary dt,
+.v23-contact-grid small,
+.v23-place-card span,
+.v23-korea-cards small {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: var(--v23-orange);
+}
+
+.v23-route-cards b {
+  display: block;
+  margin: 8px 0 6px;
+  font-family: var(--v23-serif);
+  font-size: 1.55rem;
+}
+
+.v23-trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--v23-line);
+  font-weight: 800;
+  color: rgba(23, 52, 46, 0.66);
+}
+
+.v23-confidence {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--v23-line);
+  border-bottom: 1px solid var(--v23-line);
+  background: var(--v23-cream);
+}
+
+.v23-confidence article {
+  min-height: 88px;
+  padding: 18px 34px;
+  border-right: 1px solid var(--v23-line);
+}
+
+.v23-confidence b {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--v23-serif);
+  font-size: 1.55rem;
+}
+
+.v23-editorial-breeze,
+.v23-diffuser-guide {
+  position: relative;
+  min-height: 460px;
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  background: var(--v23-green);
+}
+
+.v23-editorial-breeze img,
+.v23-diffuser-guide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.62;
+}
+
+.v23-editorial-breeze > div,
+.v23-diffuser-guide > div {
+  position: relative;
+  z-index: 1;
+  width: min(1240px, calc(100% - 56px));
+  margin: 0 auto;
+  padding: 42px 0;
+  color: #fff;
+}
+
+.v23-editorial-breeze h2,
+.v23-diffuser-guide h2,
+.v23-section-heading h2,
+.v23-our-jeju-origin h2,
+.v23-jeju-notes h2,
+.v23-soft-cta h2,
+.v23-route-guide h2,
+.v23-timing-notes h2 {
+  font-family: var(--v23-serif);
+  font-size: 2.95rem;
+  line-height: 0.95;
+  margin: 0 0 22px;
+}
+
+.v23-editorial-breeze p,
+.v23-diffuser-guide p {
+  max-width: 620px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.v23-editorial-breeze a {
+  display: inline-flex;
+  margin-top: 22px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.35);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.v23-section-heading {
+  width: min(1420px, calc(100% - 48px));
+  margin: 0 auto 22px;
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  gap: 48px;
+  align-items: end;
+}
+
+.v23-section-heading > p {
+  color: rgba(255,255,255,0.86);
+  line-height: 1.6;
+}
+
+.v23-section-heading.is-cream {
+  display: block;
+  margin-bottom: 28px;
+}
+
+.v23-journey {
+  background: var(--v23-green);
+  color: #fff;
+  padding: 34px 0 40px;
+}
+
+.v23-journey.is-compact {
+  padding: 22px 0 34px;
+}
+
+.v23-journey.is-compact .v23-map-shell {
+  width: min(1280px, calc(100% - 48px));
+  border-radius: 22px;
+}
+
+.v23-map-tabs {
+  width: min(980px, calc(100% - 56px));
+  margin: 0 auto 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.v23-map-tabs button {
+  height: 56px;
+  padding: 0 22px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 18px;
+  text-align: left;
+  border: 0;
+  border-right: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+}
+
+.v23-map-tabs button.is-active {
+  background: #e6f1ee;
+  color: var(--v23-ink);
+}
+
+.v23-map-tabs span {
+  grid-row: span 2;
+  color: var(--v23-orange);
+  font-family: var(--v23-serif);
+  font-size: 1.3rem;
+}
+
+.v23-map-tabs b,
+.v23-map-tabs small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v23-map-shell {
+  width: min(1500px, calc(100% - 56px));
+  margin: 0 auto;
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--v23-paper);
+  color: var(--v23-ink);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.18);
+}
+
+.v23-map-stage {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  min-height: 440px;
+}
+
+.v23-map-stage.is-korea {
+  grid-template-columns: 270px 1fr;
+}
+
+.v23-map-copy {
+  padding: 32px 30px;
+  background: var(--v23-cream);
+}
+
+.v23-map-copy > span {
+  font-family: var(--v23-serif);
+  font-size: 2.65rem;
+  color: rgba(23, 52, 46, 0.32);
+}
+
+.v23-map-copy h3 {
+  font-family: var(--v23-serif);
+  font-size: 2rem;
+  line-height: 1;
+  margin: 20px 0 14px;
+}
+
+.v23-map-copy p {
+  line-height: 1.6;
+}
+
+.v23-map-copy button {
+  margin-top: 24px;
+  border: 0;
+  background: transparent;
+  color: var(--v23-ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.v23-map-canvas,
+.v23-korea-map,
+.v23-jeju-map {
+  position: relative;
+  min-height: 410px;
+  background: #dcebea;
+}
+
+.v23-map-canvas svg,
+.v23-korea-map svg,
+.v23-jeju-map svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.v23-map-water {
+  fill: #dcebea;
+}
+
+.v23-map-canvas path,
+.v23-korea-map path {
+  fill: #fbf7ec;
+  stroke: #91a6a1;
+  stroke-width: 0.7;
+  cursor: default;
+}
+
+.v23-map-canvas path.is-korea {
+  fill: var(--v23-orange);
+  stroke: var(--v23-orange);
+  cursor: pointer;
+}
+
+.v23-map-canvas text,
+.v23-korea-map text {
+  fill: rgba(23, 52, 46, 0.82);
+  font-family: var(--v23-sans);
+  font-size: 7px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.v23-korea-panel {
+  display: grid;
+  grid-template-columns: minmax(380px, 1fr) minmax(360px, 0.82fr);
+  min-height: 410px;
+}
+
+.v23-korea-map path.is-jeju {
+  fill: var(--v23-orange);
+  stroke: var(--v23-orange);
+  cursor: pointer;
+}
+
+.v23-korea-cards {
+  padding: 20px;
+  background: var(--v23-cream);
+}
+
+.v23-korea-cards header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: end;
+  border-bottom: 1px solid var(--v23-line);
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+}
+
+.v23-korea-cards h3 {
+  font-family: var(--v23-serif);
+  font-size: 1.65rem;
+  line-height: 0.95;
+  margin: 8px 0 0;
+}
+
+.v23-korea-cards > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.v23-korea-cards article {
+  position: relative;
+  min-height: 150px;
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  color: #fff;
+}
+
+.v23-korea-cards article::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(10,30,26,0.82));
+}
+
+.v23-korea-cards img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v23-korea-cards span,
+.v23-korea-cards h4,
+.v23-korea-cards p {
+  position: relative;
+  z-index: 1;
+}
+
+.v23-korea-cards h4 {
+  font-family: var(--v23-serif);
+  font-size: 1.45rem;
+  margin: 5px 0;
+}
+
+.v23-korea-cards p {
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
+.v23-jeju-stage {
+  padding: 18px;
+  background: #e6f1ee;
+}
+
+.v23-jeju-toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--v23-line);
+}
+
+.v23-jeju-toolbar button {
+  border: 0;
+  background: transparent;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v23-jeju-toolbar div {
+  text-align: center;
+}
+
+.v23-jeju-toolbar small {
+  color: var(--v23-orange);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.v23-jeju-toolbar b {
+  display: block;
+  font-family: var(--v23-serif);
+  color: var(--v23-orange);
+  font-size: 1.55rem;
+}
+
+.v23-jeju-toolbar > span {
+  justify-self: end;
+  font-weight: 900;
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+}
+
+.v23-jeju-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.v23-jeju-map {
+  border-radius: 18px;
+  overflow: hidden;
+  min-height: 330px;
+  border: 1px solid rgba(23, 52, 46, 0.12);
+}
+
+.v23-jeju-map svg {
+  position: absolute;
+  inset: 0;
+}
+
+.v23-jeju-shape {
+  fill: #fbf7ec;
+  stroke: #78938d;
+  stroke-width: 0.36;
+}
+
+.v23-hallasan-label {
+  font-family: var(--v23-serif);
+  fill: rgba(23, 52, 46, 0.28);
+  font-size: 2.5px;
+  pointer-events: none;
+}
+
+.v23-jeju-marker {
+  cursor: pointer;
+  outline: none;
+}
+
+.v23-jeju-marker circle {
+  fill: var(--v23-green);
+  stroke: #fff;
+  stroke-width: 0.72;
+  filter: drop-shadow(0 1.4px 2.2px rgba(23, 52, 46, 0.34));
+}
+
+.v23-jeju-marker text {
+  fill: #fff;
+  font-family: var(--v23-sans);
+  font-size: 1.38px;
+  font-weight: 900;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+.v23-jeju-marker.is-active circle {
+  fill: var(--v23-orange);
+}
+
+.v23-jeju-marker.is-active text {
+  fill: #fff;
+}
+
+.v23-place-card {
+  display: grid;
+  grid-template-rows: 130px 1fr;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--v23-paper);
+  color: var(--v23-ink);
+}
+
+.v23-place-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v23-place-card div {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.v23-place-card h3 {
+  font-family: var(--v23-serif);
+  font-size: 1.65rem;
+  line-height: 0.92;
+  margin: 0;
+}
+
+.v23-place-card p {
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+
+.v23-place-card a {
+  color: var(--v23-orange);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.v23-jeju-tabs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.v23-jeju-tabs button {
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(23, 52, 46, 0.22);
+  background: rgba(23, 52, 46, 0.08);
+  color: var(--v23-ink);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.v23-jeju-tabs button.is-active {
+  background: var(--v23-orange);
+  color: #fff;
+}
+
+.v23-products-section,
+.v23-jeju-notes,
+.v23-soft-cta {
+  background: var(--v23-paper);
+  padding: 48px 0;
+}
+
+.v23-product-grid {
+  width: min(1420px, calc(100% - 48px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.v23-filters {
+  width: min(1420px, calc(100% - 48px));
+  margin: 0 auto 0;
+  display: flex;
+  border: 1px solid var(--v23-line);
+}
+
+.v23-filters button {
+  height: 56px;
+  min-width: 96px;
+  border: 0;
+  border-right: 1px solid var(--v23-line);
+  background: transparent;
+  color: var(--v23-ink);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.v23-filters button.is-active {
+  background: var(--v23-green);
+  color: #fff;
+}
+
+.v23-product-card {
+  display: grid;
+  grid-template-rows: 220px 190px 54px;
+  min-width: 0;
+}
+
+.v23-product-image {
+  position: relative;
+  background: #edf3f1;
+  overflow: hidden;
+}
+
+.v23-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.v23-product-image span {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  z-index: 1;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.9);
+  color: var(--v23-ink);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+}
+
+.v23-product-meta {
+  padding: 18px 0 0;
+  display: grid;
+  grid-template-rows: 58px 34px 30px 1fr;
+  border-bottom: 1px solid var(--v23-line);
+}
+
+.v23-product-meta h3 {
+  margin: 0;
+  font-family: var(--v23-serif);
+  font-size: 1.6rem;
+  line-height: 0.95;
+}
+
+.v23-product-meta p {
+  margin: 0;
+  color: rgba(23, 52, 46, 0.7);
+}
+
+.v23-product-meta strong {
+  font-family: var(--v23-serif);
+  font-size: 1.8rem;
+}
+
+.v23-product-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.v23-product-links a,
+.v23-product-links span {
+  display: grid;
+  place-items: center;
+  border-right: 1px solid var(--v23-line);
+  color: var(--v23-ink);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 900;
+  text-align: center;
+}
+
+.v23-product-links .is-dark {
+  background: var(--v23-green);
+  color: #fff;
+}
+
+.v23-route-guide {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+  padding: 54px max(28px, calc((100vw - 1500px) / 2));
+  background: var(--v23-green);
+  color: #fff;
+}
+
+.v23-route-guide > div,
+.v23-route-guide article {
+  min-width: 0;
+}
+
+.v23-route-guide .v23-eyebrow {
+  margin-bottom: 18px;
+}
+
+.v23-route-guide article {
+  display: grid;
+  align-content: center;
+  gap: 14px;
+  min-height: 220px;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.v23-route-guide small {
+  display: block;
+  color: var(--v23-sand);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.v23-route-guide b {
+  display: block;
+  font-family: var(--v23-serif);
+  font-size: 2rem;
+  line-height: 1.05;
+}
+
+.v23-route-guide p {
+  margin: 0;
+  max-width: 34rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.55;
+}
+
+.v23-route-guide a {
+  width: max-content;
+  max-width: 100%;
+  margin-top: 8px;
+}
+
+.v23-route-guide article:nth-of-type(2) a {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.v23-mini-steps,
+.v23-bulk-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 36px;
+}
+
+.v23-mini-steps article,
+.v23-bulk-steps article {
+  min-height: 130px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.26);
+  border-radius: 16px;
+}
+
+.v23-bulk-steps {
+  background: var(--v23-green);
+  color: #fff;
+  padding: 46px max(28px, calc((100vw - 1500px) / 2));
+}
+
+.v23-bulk-checkout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 26px;
+  background: var(--v23-cream);
+  padding: 34px;
+}
+
+.v23-bulk-list {
+  display: grid;
+  gap: 12px;
+}
+
+.v23-bulk-list h2,
+.v23-bulk-summary h2 {
+  font-family: var(--v23-serif);
+  font-size: 3rem;
+  margin: 0 0 12px;
+}
+
+.v23-bulk-list button {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 18px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--v23-line);
+  background: rgba(255,255,255,0.6);
+  text-align: left;
+  cursor: pointer;
+}
+
+.v23-bulk-list button.is-selected {
+  background: #fff;
+  border-color: var(--v23-orange);
+}
+
+.v23-bulk-list img,
+.v23-bulk-summary img {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+}
+
+.v23-bulk-list b,
+.v23-bulk-summary b {
+  display: block;
+  font-family: var(--v23-serif);
+  font-size: 1.6rem;
+}
+
+.v23-bulk-summary {
+  padding: 28px;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.v23-bulk-summary img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  background: #edf3f1;
+}
+
+.v23-bulk-summary dl,
+.v23-product-detail-hero dl {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.v23-bulk-summary div,
+.v23-product-detail-hero dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--v23-line);
+  padding-bottom: 10px;
+}
+
+.v23-route-banner {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 34px max(28px, calc((100vw - 1500px) / 2));
+  background: var(--v23-orange);
+  color: #fff;
+}
+
+.v23-route-banner h2 {
+  font-family: var(--v23-serif);
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.v23-route-banner a {
+  background: #dcebea;
+  color: var(--v23-ink);
+}
+
+.v23-shipping-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.v23-shipping-compare article {
+  min-height: 390px;
+  padding: 66px max(38px, calc((100vw - 1500px) / 2));
+}
+
+.v23-shipping-compare article:first-child {
+  background: #edf3f1;
+}
+
+.v23-shipping-compare article:nth-child(2) {
+  background: var(--v23-sand);
+}
+
+.v23-shipping-compare h2 {
+  font-family: var(--v23-serif);
+  font-size: 3rem;
+}
+
+.v23-shipping-compare li {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--v23-line);
+}
+
+.v23-timing-notes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  background: var(--v23-green);
+  color: #fff;
+  padding: 66px max(28px, calc((100vw - 1500px) / 2));
+}
+
+.v23-timing-notes > div {
+  grid-row: span 2;
+}
+
+.v23-timing-notes article {
+  border-top: 1px solid rgba(255,255,255,0.18);
+  padding-top: 20px;
+}
+
+.v23-our-jeju-hero figure,
+.v23-our-jeju-origin figure {
+  position: relative;
+}
+
+.v23-our-jeju-hero figcaption {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  font-family: var(--v23-serif);
+  font-size: 1.9rem;
+}
+
+.v23-our-jeju-origin {
+  display: grid;
+  grid-template-columns: 0.9fr 1fr;
+  background: var(--v23-cream);
+}
+
+.v23-our-jeju-origin > div {
+  padding: 38px 48px;
+}
+
+.v23-our-jeju-origin h2 {
+  color: var(--v23-ink);
+  font-size: 2.45rem;
+}
+
+.v23-our-jeju-origin p {
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+.v23-our-jeju-origin address {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-left: 2px solid var(--v23-orange);
+  font-style: normal;
+}
+
+.v23-our-jeju-origin address span {
+  display: block;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.v23-our-jeju-origin img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v23-our-jeju-origin figcaption {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255, 253, 247, 0.88);
+}
+
+.v23-our-jeju-origin figcaption b {
+  font-family: var(--v23-serif);
+  color: var(--v23-orange);
+  font-size: 1.65rem;
+}
+
+.v23-jeju-notes {
+  background: var(--v23-sand);
+}
+
+.v23-jeju-notes header,
+.v23-jeju-notes > div,
+.v23-soft-cta {
+  width: min(1280px, calc(100% - 56px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.v23-jeju-notes > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.v23-jeju-notes article {
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--v23-paper);
+  box-shadow: 0 20px 60px rgba(23, 52, 46, 0.12);
+}
+
+.v23-jeju-notes img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.v23-jeju-notes article div {
+  padding: 18px;
+}
+
+.v23-jeju-notes h3 {
+  font-family: var(--v23-serif);
+  font-size: 2rem;
+  margin: 10px 0;
+}
+
+.v23-soft-cta {
+  display: grid;
+  grid-template-columns: 1fr 0.7fr;
+  gap: 44px;
+  align-items: center;
+}
+
+.v23-contact-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 22px;
+  background: var(--v23-cream);
+  padding: 26px;
+}
+
+.v23-contact-grid form,
+.v23-contact-grid aside {
+  padding: 46px;
+  background: var(--v23-paper);
+}
+
+.v23-contact-grid aside {
+  background: var(--v23-green);
+  color: #fff;
+}
+
+.v23-contact-grid h2 {
+  font-family: var(--v23-serif);
+  font-size: 3.4rem;
+  margin: 0 0 12px;
+}
+
+.v23-form-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.v23-contact-grid label {
+  display: grid;
+  gap: 7px;
+  margin-top: 14px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.v23-contact-grid input,
+.v23-contact-grid select,
+.v23-contact-grid textarea {
+  width: 100%;
+  border: 1px solid var(--v23-line);
+  background: #fff;
+  padding: 14px;
+  font: inherit;
+}
+
+.v23-contact-grid textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.v23-contact-grid button {
+  margin-top: 18px;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--v23-green);
+  color: #fff;
+  font-weight: 900;
+}
+
+.v23-contact-grid aside a {
+  display: block;
+  padding: 18px 0;
+  border-top: 1px solid rgba(255,255,255,0.14);
+  color: #fff;
+  text-decoration: none;
+}
+
+.v23-contact-grid aside b {
+  display: block;
+  font-family: var(--v23-serif);
+  font-size: 1.8rem;
+}
+
+.v23-contact-grid input.v23-honeypot,
+.v23-honeypot {
+  position: absolute;
+  width: 1px !important;
+  height: 1px !important;
+  min-width: 0;
+  min-height: 0;
+  padding: 0 !important;
+  border: 0 !important;
+  margin: 0 !important;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.v23-form-status.is-success {
+  color: #236a43;
+}
+
+.v23-form-status.is-error {
+  color: #a13d25;
+}
+
+.v23-product-detail-hero {
+  background: var(--v23-cream);
+}
+
+.v23-product-detail-hero figure {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: #edf3f1;
+  padding: 44px;
+}
+
+.v23-product-detail-hero figure img {
+  width: 100%;
+  height: 620px;
+  object-fit: contain;
+}
+
+.v23-product-detail-hero strong {
+  font-family: var(--v23-serif);
+  font-size: 2.6rem;
+}
+
+.v23-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.v23-actions a:nth-child(2) {
+  background: transparent;
+  color: var(--v23-ink);
+  border-color: var(--v23-line);
+}
+
+.v23-product-detail-grid {
+  width: min(1280px, calc(100% - 56px));
+  margin: 0 auto 70px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.v23-product-detail-grid article,
+.v23-policy-page section,
+.v23-not-found {
+  padding: 38px;
+  background: var(--v23-cream);
+  border: 1px solid var(--v23-line);
+}
+
+.v23-product-detail-grid h2 {
+  font-family: var(--v23-serif);
+  font-size: 2.5rem;
+}
+
+.v23-policy-page,
+.v23-not-found {
+  min-height: 62vh;
+  display: grid;
+  place-items: center;
+  padding: 56px;
+}
+
+.v23-policy-page section {
+  width: min(760px, 100%);
+}
+
+.v23-policy-page a,
+.v23-not-found a {
+  color: var(--v23-orange);
+  font-weight: 900;
+}
+
+.v23-footer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.4fr 0.7fr 0.7fr 0.7fr;
+  gap: 42px;
+  padding: 70px 56px 54px;
+  background: var(--v23-sand);
+}
+
+.v23-footer p {
+  color: rgba(23, 52, 46, 0.65);
+}
+
+.v23-footer > div:not(.v23-footer-brand) {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.v23-footer > div > p:first-child {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.v23-footer small {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--v23-line);
+  padding-top: 24px;
+  color: rgba(23, 52, 46, 0.58);
+}
+
+.v23-footer-admin {
+  position: absolute;
+  right: 56px;
+  bottom: 54px;
+  color: rgba(23, 52, 46, 0.46) !important;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 1180px) {
+  .v23-nav {
+    padding: 0 22px;
+  }
+
+  .v23-nav-links {
+    display: none;
+  }
+
+  .v23-nav-links.is-open {
+    position: absolute;
+    display: grid;
+    left: 16px;
+    right: 16px;
+    top: 76px;
+    padding: 20px;
+    background: var(--v23-paper);
+    border: 1px solid var(--v23-line);
+  }
+
+  .v23-menu-button {
+    display: inline-flex;
+    background: transparent;
+    color: var(--v23-ink);
+    border-color: var(--v23-line);
+  }
+
+  .v23-home-hero,
+  .v23-page-hero,
+  .v23-our-jeju-hero,
+  .v23-product-detail-hero,
+  .v23-contact-hero,
+  .v23-our-jeju-origin,
+  .v23-bulk-checkout,
+  .v23-contact-grid,
+  .v23-korea-panel,
+  .v23-jeju-layout,
+  .v23-soft-cta {
+    grid-template-columns: 1fr;
+  }
+
+  .v23-home h1,
+  .v23-page-hero h1,
+  .v23-our-jeju-hero h1,
+  .v23-product-detail h1,
+  .v23-contact-hero h1 {
+    font-size: 3.45rem;
+  }
+
+  .v23-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .v23-map-stage,
+  .v23-map-stage.is-korea {
+    grid-template-columns: 1fr;
+  }
+
+  .v23-map-copy {
+    padding: 28px;
+  }
+
+  .v23-jeju-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .v23-shipping-bar {
+    height: auto;
+    min-height: 30px;
+    padding: 7px 12px;
+    text-align: center;
+    font-size: 0.64rem;
+  }
+
+  .v23-shop-button {
+    display: none;
+  }
+
+  .v23-home-hero,
+  .v23-page-hero,
+  .v23-our-jeju-hero,
+  .v23-our-jeju-origin,
+  .v23-product-detail-hero,
+  .v23-bulk-checkout,
+  .v23-contact-hero,
+  .v23-contact-grid,
+  .v23-map-shell {
+    width: calc(100% - 24px);
+    margin: 22px auto;
+    border-radius: 18px;
+  }
+
+  .v23-home-hero-copy,
+  .v23-page-hero-copy,
+  .v23-our-jeju-hero > div,
+  .v23-product-detail-hero > div,
+  .v23-contact-hero > div,
+  .v23-contact-grid form,
+  .v23-contact-grid aside {
+    padding: 34px 24px;
+  }
+
+  .v23-home h1,
+  .v23-page-hero h1,
+  .v23-our-jeju-hero h1,
+  .v23-product-detail h1,
+  .v23-contact-hero h1 {
+    font-size: 2.85rem;
+  }
+
+  .v23-editorial-breeze h2,
+  .v23-diffuser-guide h2,
+  .v23-section-heading h2,
+  .v23-our-jeju-origin h2,
+  .v23-jeju-notes h2,
+  .v23-soft-cta h2,
+  .v23-route-guide h2,
+  .v23-timing-notes h2 {
+    font-size: 2.35rem;
+  }
+
+  .v23-route-cards,
+  .v23-confidence,
+  .v23-mini-steps,
+  .v23-bulk-steps,
+  .v23-shipping-compare,
+  .v23-timing-notes,
+  .v23-product-detail-grid,
+  .v23-jeju-notes > div,
+  .v23-form-two,
+  .v23-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .v23-product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .v23-route-guide {
+    grid-template-columns: 1fr;
+    padding: 36px 24px;
+  }
+
+  .v23-route-guide article {
+    min-height: 0;
+  }
+
+  .v23-product-card {
+    grid-template-rows: 230px auto 54px;
+  }
+
+  .v23-product-meta {
+    grid-template-rows: auto;
+    gap: 8px;
+    min-height: 178px;
+  }
+
+  .v23-map-tabs {
+    width: calc(100% - 24px);
+    grid-template-columns: 1fr;
+  }
+
+  .v23-map-tabs button {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .v23-map-canvas,
+  .v23-korea-map,
+  .v23-jeju-map,
+  .v23-map-canvas svg,
+  .v23-korea-map svg {
+    min-height: 320px;
+  }
+
+  .v23-korea-cards > div {
+    grid-template-columns: 1fr;
+  }
+
+  .v23-jeju-stage {
+    padding: 16px;
+  }
+
+  .v23-jeju-toolbar {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .v23-jeju-toolbar div {
+    text-align: left;
+  }
+
+  .v23-jeju-toolbar > span {
+    justify-self: start;
+  }
+
+  .v23-place-card {
+    grid-template-rows: 160px auto;
+  }
+
+  .v23-jeju-tabs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* v23 density pass: keep the v23 composition, but make each section usable at 100% browser zoom. */
+.v23-home-hero,
+.v23-page-hero,
+.v23-our-jeju-hero,
+.v23-product-detail-hero,
+.v23-contact-hero {
+  min-height: 410px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.v23-home-hero-copy,
+.v23-page-hero-copy,
+.v23-our-jeju-hero > div,
+.v23-product-detail-hero > div,
+.v23-contact-hero > div {
+  padding: 28px 36px;
+}
+
+.v23-home h1,
+.v23-page-hero h1,
+.v23-our-jeju-hero h1,
+.v23-product-detail h1,
+.v23-contact-hero h1,
+.v23-policy-page h1 {
+  font-size: 3.2rem;
+  line-height: 0.94;
+  margin-bottom: 14px;
+}
+
+.v23-home-hero-copy > p,
+.v23-page-hero-copy > p,
+.v23-our-jeju-hero > div > p,
+.v23-contact-hero p,
+.v23-product-detail-hero p {
+  font-size: 0.96rem;
+  line-height: 1.48;
+}
+
+.v23-route-cards {
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.v23-route-cards a {
+  min-height: 78px;
+  padding: 15px;
+}
+
+.v23-route-cards b {
+  font-size: 1.38rem;
+}
+
+.v23-confidence article {
+  min-height: 76px;
+  padding: 15px 28px;
+}
+
+.v23-confidence b {
+  font-size: 1.34rem;
+}
+
+.v23-editorial-breeze,
+.v23-diffuser-guide {
+  min-height: 390px;
+}
+
+.v23-editorial-breeze > div,
+.v23-diffuser-guide > div {
+  padding: 34px 0;
+}
+
+.v23-editorial-breeze h2,
+.v23-diffuser-guide h2,
+.v23-section-heading h2,
+.v23-our-jeju-origin h2,
+.v23-jeju-notes h2,
+.v23-soft-cta h2,
+.v23-route-guide h2,
+.v23-timing-notes h2 {
+  font-size: 2.55rem;
+  line-height: 0.98;
+  margin-bottom: 16px;
+}
+
+.v23-mini-steps,
+.v23-bulk-steps {
+  margin-top: 26px;
+  gap: 14px;
+}
+
+.v23-mini-steps article,
+.v23-bulk-steps article {
+  min-height: 112px;
+  padding: 16px;
+}
+
+.v23-journey {
+  padding: 28px 0 32px;
+}
+
+.v23-journey.is-compact {
+  padding: 22px 0 28px;
+}
+
+.v23-section-heading {
+  margin-bottom: 18px;
+}
+
+.v23-map-tabs {
+  margin-bottom: 18px;
+}
+
+.v23-map-tabs button {
+  height: 50px;
+}
+
+.v23-map-stage {
+  grid-template-columns: 300px 1fr;
+  min-height: 380px;
+}
+
+.v23-map-stage.is-korea {
+  grid-template-columns: 240px 1fr;
+}
+
+.v23-map-copy {
+  padding: 26px 26px;
+}
+
+.v23-map-copy > span {
+  font-size: 2.25rem;
+}
+
+.v23-map-copy h3 {
+  font-size: 1.7rem;
+  margin: 14px 0 10px;
+}
+
+.v23-map-copy p {
+  line-height: 1.48;
+}
+
+.v23-map-canvas,
+.v23-korea-map,
+.v23-jeju-map {
+  min-height: 360px;
+}
+
+.v23-korea-panel {
+  grid-template-columns: minmax(360px, 1fr) minmax(330px, 0.78fr);
+  min-height: 360px;
+}
+
+.v23-korea-cards {
+  padding: 16px;
+}
+
+.v23-korea-cards header {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.v23-korea-cards h3 {
+  font-size: 1.42rem;
+}
+
+.v23-korea-cards article {
+  min-height: 128px;
+  padding: 12px;
+}
+
+.v23-korea-cards h4 {
+  font-size: 1.24rem;
+}
+
+.v23-korea-cards p {
+  font-size: 0.7rem;
+}
+
+.v23-jeju-stage {
+  padding: 16px;
+}
+
+.v23-jeju-layout {
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 14px;
+}
+
+.v23-jeju-map {
+  min-height: 295px;
+}
+
+.v23-place-card {
+  grid-template-rows: 112px 1fr;
+}
+
+.v23-place-card div {
+  gap: 6px;
+  padding: 14px;
+}
+
+.v23-place-card h3 {
+  font-size: 1.45rem;
+}
+
+.v23-place-card p {
+  font-size: 0.84rem;
+}
+
+.v23-jeju-tabs {
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.v23-products-section,
+.v23-jeju-notes,
+.v23-soft-cta {
+  padding: 38px 0;
+}
+
+.v23-product-grid {
+  gap: 18px;
+}
+
+.v23-product-card {
+  grid-template-rows: 205px 180px 52px;
+}
+
+.v23-product-meta {
+  grid-template-rows: 50px 32px 28px 1fr;
+  padding-top: 14px;
+}
+
+.v23-product-meta h3 {
+  font-size: 1.42rem;
+}
+
+.v23-product-meta strong {
+  font-size: 1.58rem;
+}
+
+.v23-bulk-steps {
+  padding: 36px max(24px, calc((100vw - 1500px) / 2));
+}
+
+.v23-bulk-checkout {
+  padding: 28px;
+}
+
+.v23-bulk-list h2,
+.v23-bulk-summary h2 {
+  font-size: 2.35rem;
+}
+
+.v23-bulk-summary img {
+  height: 180px;
+}
+
+.v23-route-banner {
+  min-height: 120px;
+  padding-top: 26px;
+  padding-bottom: 26px;
+}
+
+.v23-shipping-compare article {
+  min-height: 310px;
+  padding-top: 46px;
+  padding-bottom: 46px;
+}
+
+.v23-shipping-compare h2 {
+  font-size: 2.45rem;
+}
+
+.v23-timing-notes {
+  padding-top: 46px;
+  padding-bottom: 46px;
+}
+
+.v23-our-jeju-origin > div {
+  padding: 30px 40px;
+}
+
+.v23-our-jeju-origin h2 {
+  font-size: 2.25rem;
+}
+
+.v23-our-jeju-origin p {
+  line-height: 1.5;
+}
+
+.v23-jeju-notes img {
+  height: 160px;
+}
+
+.v23-jeju-notes article div {
+  padding: 16px;
+}
+
+.v23-jeju-notes h3 {
+  font-size: 1.7rem;
+}
+
+.v23-contact-grid form,
+.v23-contact-grid aside {
+  padding: 36px;
+}
+
+.v23-contact-grid h2 {
+  font-size: 2.8rem;
+}
+
+.v23-product-detail-hero figure {
+  padding: 32px;
+}
+
+.v23-product-detail-hero figure img {
+  height: 420px;
+}
+
+.v23-product-detail-grid {
+  margin-bottom: 52px;
+}
+
+.v23-footer {
+  padding: 52px 48px 42px;
+}
+
+.v23-footer-admin {
+  right: 48px;
+  bottom: 42px;
+}
+
+@media (max-width: 1180px) {
+  .v23-home-hero,
+  .v23-page-hero,
+  .v23-our-jeju-hero,
+  .v23-product-detail-hero,
+  .v23-contact-hero,
+  .v23-our-jeju-origin {
+    min-height: 0;
+  }
+
+  .v23-home h1,
+  .v23-page-hero h1,
+  .v23-our-jeju-hero h1,
+  .v23-product-detail h1,
+  .v23-contact-hero h1 {
+    font-size: 3rem;
+  }
+
+  .v23-home-hero-media,
+  .v23-page-hero-media,
+  .v23-our-jeju-hero figure,
+  .v23-contact-hero figure,
+  .v23-our-jeju-origin figure {
+    min-height: 280px;
+    max-height: 360px;
+  }
+
+  .v23-home-hero-media img,
+  .v23-page-hero-media img,
+  .v23-our-jeju-hero video,
+  .v23-contact-hero img,
+  .v23-our-jeju-origin img {
+    height: 100%;
+  }
+
+  .v23-section-heading {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .v23-map-stage,
+  .v23-map-stage.is-korea {
+    min-height: 0;
+  }
+
+  .v23-map-canvas,
+  .v23-korea-map,
+  .v23-jeju-map {
+    min-height: 300px;
+  }
+
+  .v23-korea-cards > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .v23-jeju-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .v23-place-card {
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .v23-product-detail-hero figure img {
+    height: 340px;
+  }
+
+  .v23-shipping-compare article {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .v23-nav {
+    height: 64px;
+  }
+
+  .v23-nav-links.is-open {
+    top: 64px;
+  }
+
+  .v23-brand,
+  .v23-footer-brand b {
+    font-size: 1.8rem;
+  }
+
+  .v23-home-hero,
+  .v23-page-hero,
+  .v23-our-jeju-hero,
+  .v23-our-jeju-origin,
+  .v23-product-detail-hero,
+  .v23-bulk-checkout,
+  .v23-contact-hero,
+  .v23-contact-grid,
+  .v23-map-shell {
+    margin: 16px auto;
+  }
+
+  .v23-home-hero-copy,
+  .v23-page-hero-copy,
+  .v23-our-jeju-hero > div,
+  .v23-product-detail-hero > div,
+  .v23-contact-hero > div,
+  .v23-contact-grid form,
+  .v23-contact-grid aside {
+    padding: 26px 20px;
+  }
+
+  .v23-home h1,
+  .v23-page-hero h1,
+  .v23-our-jeju-hero h1,
+  .v23-product-detail h1,
+  .v23-contact-hero h1 {
+    font-size: 2.35rem;
+    line-height: 0.96;
+  }
+
+  .v23-home-hero-media,
+  .v23-page-hero-media,
+  .v23-our-jeju-hero figure,
+  .v23-contact-hero figure,
+  .v23-our-jeju-origin figure {
+    min-height: 230px;
+    max-height: 280px;
+  }
+
+  .v23-editorial-breeze,
+  .v23-diffuser-guide {
+    min-height: 330px;
+  }
+
+  .v23-editorial-breeze h2,
+  .v23-diffuser-guide h2,
+  .v23-section-heading h2,
+  .v23-our-jeju-origin h2,
+  .v23-jeju-notes h2,
+  .v23-soft-cta h2,
+  .v23-route-guide h2,
+  .v23-timing-notes h2 {
+    font-size: 2.05rem;
+  }
+
+  .v23-products-section,
+  .v23-jeju-notes,
+  .v23-soft-cta {
+    padding: 30px 0;
+  }
+
+  .v23-map-copy {
+    padding: 20px;
+  }
+
+  .v23-map-copy h3 {
+    font-size: 1.48rem;
+  }
+
+  .v23-map-canvas,
+  .v23-korea-map,
+  .v23-jeju-map,
+  .v23-map-canvas svg,
+  .v23-korea-map svg,
+  .v23-jeju-map svg {
+    min-height: 245px;
+  }
+
+  .v23-korea-cards {
+    padding: 14px;
+  }
+
+  .v23-korea-cards > div {
+    grid-template-columns: 1fr;
+  }
+
+  .v23-korea-cards article {
+    min-height: 112px;
+  }
+
+  .v23-place-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: 118px auto;
+  }
+
+  .v23-jeju-tabs button {
+    min-height: 36px;
+    font-size: 0.78rem;
+  }
+
+  .v23-product-card {
+    grid-template-rows: 220px 172px 52px;
+  }
+
+  .v23-product-meta {
+    min-height: 0;
+  }
+
+  .v23-product-detail-hero figure img {
+    height: 280px;
+  }
+
+  .v23-product-detail-grid article,
+  .v23-policy-page section,
+  .v23-not-found {
+    padding: 26px;
+  }
+
+  .v23-bulk-steps,
+  .v23-shipping-compare article,
+  .v23-timing-notes {
+    padding: 30px 20px;
+  }
+
+  .v23-bulk-list h2,
+  .v23-bulk-summary h2,
+  .v23-contact-grid h2 {
+    font-size: 2.15rem;
+  }
+
+  .v23-route-banner {
+    display: grid;
+    min-height: 0;
+    padding: 28px 20px;
+  }
+
+  .v23-footer {
+    padding: 38px 24px;
+    gap: 22px;
+  }
+
+  .v23-footer-admin {
+    position: static;
+  }
+}
