@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { SiteHeader } from "./components/SiteHeader";
 import { AdminLayout } from "./components/AdminLayout";
 import { trackEvent, trackPageView } from "./lib/analytics";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
+import { AdminInquiriesPage } from "./pages/AdminInquiriesPage";
 import { AdminLoginPage } from "./pages/AdminLoginPage";
 import { AdminOrderDetailPage } from "./pages/AdminOrderDetailPage";
 import { AdminOrdersPage } from "./pages/AdminOrdersPage";
@@ -112,11 +112,20 @@ export default function App() {
       utm_source: params.get("utm_source") || "",
       utm_medium: params.get("utm_medium") || "",
       utm_campaign: params.get("utm_campaign") || "",
+      utm_content: params.get("utm_content") || "",
+      utm_term: params.get("utm_term") || "",
       landing_page: `${location.pathname}${location.search}${location.hash}`,
       referrer: document.referrer || "",
       captured_at: new Date().toISOString(),
     };
-    if (attribution.utm_source || attribution.utm_medium || attribution.utm_campaign || attribution.referrer) {
+    if (
+      attribution.utm_source ||
+      attribution.utm_medium ||
+      attribution.utm_campaign ||
+      attribution.utm_content ||
+      attribution.utm_term ||
+      attribution.referrer
+    ) {
       window.localStorage.setItem("hondit_attribution", JSON.stringify(attribution));
     }
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -124,7 +133,6 @@ export default function App() {
 
   return (
     <>
-      {!isAdmin && <SiteHeader />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
@@ -142,6 +150,7 @@ export default function App() {
           <Route index element={<AdminDashboardPage />} />
           <Route path="orders" element={<AdminOrdersPage />} />
           <Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
+          <Route path="inquiries" element={<AdminInquiriesPage />} />
           <Route path="products" element={<AdminProductsPage />} />
           <Route path="reviews" element={<AdminReviewsPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />

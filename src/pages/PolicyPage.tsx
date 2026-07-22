@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { Footer } from "../sections/Footer";
+import { V23Page } from "../components/v23/SiteChrome";
 
 const policyContent: Record<string, { title: string; body: string[] }> = {
   shipping: {
@@ -23,8 +23,7 @@ const policyContent: Record<string, { title: string; body: string[] }> = {
     body: [
       "Checkout information is used to process bulk orders, PayPal payment records and Singapore delivery.",
       "Customer order data is not shown publicly. Admin access is protected through Supabase Auth.",
-      "Collected data may include name, email, phone, address, order details, inquiry messages and payment references. PayPal and delivery partners may receive the information needed to complete payment and fulfillment.",
-      "For privacy questions, contact hondit through the official email, Instagram or Shopee Chat.",
+      "Collected data may include name, email, phone, address, order details, inquiry messages and payment references.",
     ],
   },
   terms: {
@@ -33,7 +32,6 @@ const policyContent: Record<string, { title: string; body: string[] }> = {
       "Bulk order prices are listed in SGD and include Singapore EMS shipping.",
       "Orders are confirmed only after PayPal payment has been captured and verified.",
       "Retail purchases are completed through Shopee Singapore. Bulk purchases are completed through PayPal checkout on this site.",
-      "Bulk orders are prepared for Singapore delivery after payment verification.",
     ],
   },
 };
@@ -46,18 +44,15 @@ export function PolicyPage() {
   const content = policyContent[policy] || policyContent.terms;
 
   return (
-    <>
-      <main className="bulk-page">
-        <section className="policy-page section-shell">
-          <div className="section-inner section-inner--narrow">
-            <p className="eyebrow">HONDIT</p>
-            <h1>{content.title}</h1>
-            {content.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            <Link className="button button--primary" to="/bulk-orders">Return to Bulk Orders</Link>
-          </div>
+    <V23Page>
+      <main className="v23-policy-page">
+        <section>
+          <p className="v23-eyebrow"><span /> HONDIT</p>
+          <h1>{content.title}</h1>
+          {content.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          <Link to="/bulk-orders">Return to Bulk Orders</Link>
         </section>
       </main>
-      <Footer />
-    </>
+    </V23Page>
   );
 }

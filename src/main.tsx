@@ -7,7 +7,7 @@ import "@fontsource/inter/600.css";
 import "@fontsource/cormorant-garamond/500.css";
 import "@fontsource/cormorant-garamond/600.css";
 import "./styles/global.css";
-import "./styles/storefront.css";
+import "./styles/v23.css";
 import "./styles/admin.css";
 import App from "./App";
 import { initAnalytics } from "./lib/analytics";

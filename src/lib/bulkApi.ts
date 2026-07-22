@@ -21,6 +21,13 @@ export type CheckoutPayload = {
     utm_source?: string;
     utm_medium?: string;
     utm_campaign?: string;
+    utm_content?: string;
+    utm_term?: string;
+    traffic_source?: string;
+    traffic_medium?: string;
+    traffic_campaign?: string;
+    traffic_content?: string;
+    traffic_term?: string;
     landing_page?: string;
     referrer?: string;
   };
@@ -55,6 +62,12 @@ export type PublicOrder = {
     total_units: number;
     line_total_sgd: number;
   }>;
+};
+
+export type PayPalPublicConfig = {
+  checkoutEnabled: boolean;
+  clientId: string;
+  mode: string;
 };
 
 async function parseJson<T>(response: Response): Promise<T> {
@@ -124,6 +137,11 @@ export async function fetchBulkProducts(): Promise<BulkProduct[]> {
   } catch {
     return bulkProducts;
   }
+}
+
+export async function fetchPayPalConfig(): Promise<PayPalPublicConfig> {
+  const response = await fetch("/api/paypal/config");
+  return parseJson<PayPalPublicConfig>(response);
 }
 
 export async function createPayPalOrder(payload: CheckoutPayload) {

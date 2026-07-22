@@ -1,69 +1,54 @@
 import { Link } from "react-router-dom";
-import { Footer } from "../sections/Footer";
-
-const shippingRows = [
-  {
-    route: "Retail via Shopee",
-    payment: "Shopee Singapore",
-    origin: "Ships from Korea",
-    area: "Shopee-supported destinations",
-    estimate: "5-10 days after Shopee order processing",
-    tracking: "Shopee order tracking",
-    duties: "Handled under Shopee Singapore order rules",
-  },
-  {
-    route: "Bulk via PayPal",
-    payment: "PayPal checkout on hondit",
-    origin: "Prepared for Singapore EMS",
-    area: "Singapore only",
-    estimate: "Dispatched delivery 3-5 days after payment verification",
-    tracking: "EMS tracking number entered by admin after shipment",
-    duties: "Singapore EMS shipping is included in the listed bulk price",
-  },
-];
+import { V23Page, V23PageHero } from "../components/v23/SiteChrome";
 
 export function ShippingPage() {
   return (
-    <>
-      <main className="bulk-page">
-        <section className="policy-page section-shell">
-          <div className="section-inner section-inner--wide">
-            <p className="eyebrow">SHIPPING</p>
-            <h1>Retail and bulk shipping routes.</h1>
-            <p>Retail orders follow Shopee Singapore delivery rules. Bulk orders are prepared for Singapore EMS delivery after PayPal payment verification.</p>
-            <div className="shipping-table-wrap">
-              <table className="shipping-table">
-                <thead>
-                  <tr>
-                    <th>Route</th>
-                    <th>Payment</th>
-                    <th>Origin</th>
-                    <th>Delivery area</th>
-                    <th>Estimated time</th>
-                    <th>Tracking</th>
-                    <th>Duties / import tax</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {shippingRows.map((row) => (
-                    <tr key={row.route}>
-                      <td>{row.route}</td>
-                      <td>{row.payment}</td>
-                      <td>{row.origin}</td>
-                      <td>{row.area}</td>
-                      <td>{row.estimate}</td>
-                      <td>{row.tracking}</td>
-                      <td>{row.duties}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <Link className="button button--primary" to="/bulk-orders">View Bulk Orders</Link>
-          </div>
+    <V23Page>
+      <main className="v23-shipping-page">
+        <V23PageHero
+          eyebrow="SHIPPING TO SINGAPORE"
+          title="Two order routes. Two clear delivery windows."
+          description="Shopee orders typically take 5-10 days. Confirmed bulk shipments typically take 3-5 days after dispatch."
+          image="/images/jeju-wind-coast-v2.webp"
+          imageAlt="Wind moving through grasses on a Jeju coast."
+        />
+        <section className="v23-shipping-compare">
+          <article>
+            <p className="v23-eyebrow"><span /> INDIVIDUAL PURCHASE</p>
+            <h2>Shop through Shopee SG</h2>
+            <ul>
+              <li>Typical delivery: 5-10 days</li>
+              <li>Familiar Singapore checkout and payment methods</li>
+              <li>Live vouchers and product availability</li>
+              <li>Order tracking inside Shopee</li>
+            </ul>
+            <Link to="/products">Choose a product →</Link>
+          </article>
+          <article>
+            <p className="v23-eyebrow"><span /> LARGER PURCHASE</p>
+            <h2>Pay through PayPal</h2>
+            <ul>
+              <li>Typical delivery after dispatch: 3-5 days</li>
+              <li>Product-specific MOQ and quantity steps</li>
+              <li>Singapore EMS included in listed bulk prices</li>
+              <li>Server-verified capture when merchant credentials are connected</li>
+            </ul>
+            <Link to="/bulk-orders">Open bulk checkout →</Link>
+          </article>
+        </section>
+        <section className="v23-timing-notes">
+          <div><p className="v23-eyebrow is-light"><span /> TIMING NOTES</p><h2>What can change the delivery date?</h2></div>
+          <article><b>Dispatch day</b><p>Orders placed close to weekends or holidays may begin moving on the next working day.</p></article>
+          <article><b>Customs and carrier handover</b><p>Inspection, flight capacity and local handover can add time.</p></article>
+          <article><b>Bulk size and stock</b><p>Larger paid orders may require additional preparation before dispatch.</p></article>
+          <article><b>Tracking</b><p>For Shopee purchases, use the order page. For a paid bulk order, use the EMS tracking details supplied after dispatch.</p></article>
+        </section>
+        <section className="v23-route-banner">
+          <h2>Need help with an order?</h2>
+          <p>Use Shopee chat for a Shopee transaction, or prepare a message for the hondit team.</p>
+          <Link to="/contact">Go to contact →</Link>
         </section>
       </main>
-      <Footer />
-    </>
+    </V23Page>
   );
 }

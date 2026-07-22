@@ -2,5 +2,7 @@ node_modules
 dist
 .env
 .npm-cache
+.vercel-data
+.vercel-local
 .DS_Store
 tsconfig.tsbuildinfo
