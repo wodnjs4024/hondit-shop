@@ -1,9 +1,9 @@
-import { json, supabase } from "../_utils.js";
+import { getPayPalMode, json, supabase } from "../_utils.js";
 
 async function getCheckoutConfig() {
   const fallback = {
     checkoutEnabled: true,
-    mode: process.env.PAYPAL_ENV || process.env.VITE_PAYPAL_MODE || process.env.VITE_PAYPAL_ENV || "sandbox",
+    mode: getPayPalMode(),
   };
 
   try {
@@ -11,7 +11,7 @@ async function getCheckoutConfig() {
     const settings = rows?.[0] || {};
     return {
       checkoutEnabled: settings.checkout_enabled !== false,
-      mode: settings.paypal_mode || fallback.mode,
+      mode: fallback.mode,
     };
   } catch (error) {
     if (String(error?.message || "").includes("Missing environment")) return fallback;

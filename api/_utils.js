@@ -21,6 +21,13 @@ export function requireEnv(keys) {
   }
 }
 
+export function getPayPalMode() {
+  const mode = String(process.env.PAYPAL_ENV || process.env.VITE_PAYPAL_MODE || process.env.VITE_PAYPAL_ENV || "sandbox")
+    .trim()
+    .toLowerCase();
+  return mode === "live" ? "live" : "sandbox";
+}
+
 function supabaseHeaders(service = true) {
   const key = service ? process.env.SUPABASE_SERVICE_ROLE_KEY : process.env.VITE_SUPABASE_ANON_KEY;
   return {
@@ -147,7 +154,7 @@ export function createOrderNumber() {
 
 export async function getPayPalAccessToken() {
   requireEnv(["PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET"]);
-  const base = process.env.PAYPAL_ENV === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
+  const base = getPayPalMode() === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
   const credentials = Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`).toString("base64");
   const response = await fetch(`${base}/v1/oauth2/token`, {
     method: "POST",
