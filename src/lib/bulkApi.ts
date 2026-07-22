@@ -21,6 +21,13 @@ export type CheckoutPayload = {
     utm_source?: string;
     utm_medium?: string;
     utm_campaign?: string;
+    utm_content?: string;
+    utm_term?: string;
+    traffic_source?: string;
+    traffic_medium?: string;
+    traffic_campaign?: string;
+    traffic_content?: string;
+    traffic_term?: string;
     landing_page?: string;
     referrer?: string;
   };

@@ -68,7 +68,17 @@ const initialForm: OrderForm = {
 
 function readAttribution() {
   try {
-    return JSON.parse(window.localStorage.getItem("hondit_attribution") || "{}");
+    const stored = JSON.parse(window.localStorage.getItem("hondit_attribution") || "{}");
+    const analyticsStored = JSON.parse(window.sessionStorage.getItem("hondit_attribution_v1") || "{}");
+    return {
+      utm_source: stored.utm_source || analyticsStored.traffic_source || "",
+      utm_medium: stored.utm_medium || analyticsStored.traffic_medium || "",
+      utm_campaign: stored.utm_campaign || analyticsStored.traffic_campaign || "",
+      utm_content: stored.utm_content || analyticsStored.traffic_content || "",
+      utm_term: stored.utm_term || analyticsStored.traffic_term || "",
+      landing_page: stored.landing_page || analyticsStored.landing_page || "",
+      referrer: stored.referrer || analyticsStored.referrer || "",
+    };
   } catch {
     return {};
   }

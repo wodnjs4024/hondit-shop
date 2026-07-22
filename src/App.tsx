@@ -112,11 +112,20 @@ export default function App() {
       utm_source: params.get("utm_source") || "",
       utm_medium: params.get("utm_medium") || "",
       utm_campaign: params.get("utm_campaign") || "",
+      utm_content: params.get("utm_content") || "",
+      utm_term: params.get("utm_term") || "",
       landing_page: `${location.pathname}${location.search}${location.hash}`,
       referrer: document.referrer || "",
       captured_at: new Date().toISOString(),
     };
-    if (attribution.utm_source || attribution.utm_medium || attribution.utm_campaign || attribution.referrer) {
+    if (
+      attribution.utm_source ||
+      attribution.utm_medium ||
+      attribution.utm_campaign ||
+      attribution.utm_content ||
+      attribution.utm_term ||
+      attribution.referrer
+    ) {
       window.localStorage.setItem("hondit_attribution", JSON.stringify(attribution));
     }
     window.scrollTo({ top: 0, behavior: "auto" });

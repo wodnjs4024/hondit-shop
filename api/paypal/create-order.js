@@ -42,6 +42,27 @@ async function ensureCheckoutEnabled() {
   }
 }
 
+async function createOrderRow(orderPayload) {
+  try {
+    return await supabase("/orders", {
+      method: "POST",
+      body: JSON.stringify(orderPayload),
+    });
+  } catch (error) {
+    const message = String(error?.message || "").toLowerCase();
+    const isUtmColumnMismatch = message.includes("utm_content") || message.includes("utm_term") || message.includes("column");
+    if (!isUtmColumnMismatch) throw error;
+
+    const fallbackPayload = { ...orderPayload };
+    delete fallbackPayload.utm_content;
+    delete fallbackPayload.utm_term;
+    return supabase("/orders", {
+      method: "POST",
+      body: JSON.stringify(fallbackPayload),
+    });
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
@@ -57,37 +78,38 @@ export default async function handler(req, res) {
     const orderNumber = createOrderNumber();
     const attribution = body.attribution || {};
 
-    const orderRows = await supabase("/orders", {
-      method: "POST",
-      body: JSON.stringify({
-        order_number: orderNumber,
-        order_type: body.orderType,
-        customer_name: body.customerName.trim(),
-        customer_email: body.customerEmail.trim(),
-        customer_phone: body.customerPhone.trim(),
-        company_name: body.companyName || null,
-        country_code: "SG",
-        address_line_1: body.addressLine1.trim(),
-        address_line_2: body.addressLine2 || null,
-        city: body.city.trim(),
-        postal_code: body.postalCode.trim(),
-        customer_note: body.customerNote || null,
-        internal_note: "Free Singapore EMS shipping is included in the displayed bulk unit price.",
-        utm_source: attribution.utm_source || null,
-        utm_medium: attribution.utm_medium || null,
-        utm_campaign: attribution.utm_campaign || null,
-        landing_page: attribution.landing_page || null,
-        referrer: attribution.referrer || req.headers.referer || null,
-        currency: "SGD",
-        total_packs: summary.totalPacks,
-        total_units: summary.totalUnits,
-        total_sgd: summary.totalSgd,
-        shipping_included: true,
-        payment_provider: "paypal",
-        payment_status: "pending_payment",
-        order_status: "pending_payment",
-      }),
-    });
+    const orderPayload = {
+      order_number: orderNumber,
+      order_type: body.orderType,
+      customer_name: body.customerName.trim(),
+      customer_email: body.customerEmail.trim(),
+      customer_phone: body.customerPhone.trim(),
+      company_name: body.companyName || null,
+      country_code: "SG",
+      address_line_1: body.addressLine1.trim(),
+      address_line_2: body.addressLine2 || null,
+      city: body.city.trim(),
+      postal_code: body.postalCode.trim(),
+      customer_note: body.customerNote || null,
+      internal_note: "Free Singapore EMS shipping is included in the displayed bulk unit price.",
+      utm_source: attribution.utm_source || attribution.traffic_source || null,
+      utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
+      utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,
+      utm_content: attribution.utm_content || attribution.traffic_content || null,
+      utm_term: attribution.utm_term || attribution.traffic_term || null,
+      landing_page: attribution.landing_page || null,
+      referrer: attribution.referrer || req.headers.referer || null,
+      currency: "SGD",
+      total_packs: summary.totalPacks,
+      total_units: summary.totalUnits,
+      total_sgd: summary.totalSgd,
+      shipping_included: true,
+      payment_provider: "paypal",
+      payment_status: "pending_payment",
+      order_status: "pending_payment",
+    };
+
+    const orderRows = await createOrderRow(orderPayload);
     order = orderRows[0];
 
     await supabase("/order_items", {

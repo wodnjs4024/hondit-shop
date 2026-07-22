@@ -121,7 +121,10 @@ async function summary(req, res) {
     countries: topCounts(paidOrders, "country_code"),
     sources: topCounts(paidOrders.map((order) => ({
       ...order,
-      traffic_source: [order.utm_source, order.utm_medium, order.utm_campaign].filter(Boolean).join(" / ") || order.referrer || "Direct / unknown",
+      traffic_source:
+        [order.utm_source, order.utm_medium, order.utm_campaign, order.utm_content, order.utm_term].filter(Boolean).join(" / ") ||
+        order.referrer ||
+        "Direct / unknown",
     })), "traffic_source"),
   });
 }
