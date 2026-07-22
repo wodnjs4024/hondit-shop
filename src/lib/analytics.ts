@@ -25,6 +25,8 @@ let initialized = false;
 const hasMeasurementId = Boolean(measurementId);
 const attributionKey = "hondit_attribution_v1";
 
+export type CampaignAttribution = Attribution;
+
 function getDefaultAttribution(): Attribution {
   if (typeof window === "undefined") {
     return {
@@ -89,6 +91,10 @@ export function captureAttribution() {
 
 function getAttributionPayload() {
   return readStoredAttribution() || getDefaultAttribution();
+}
+
+export function getCurrentAttribution() {
+  return getAttributionPayload();
 }
 
 export function initAnalytics() {

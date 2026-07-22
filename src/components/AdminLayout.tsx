@@ -7,6 +7,7 @@ const navItems = [
   { to: "/admin/inquiries", label: "문의 · 답장" },
   { to: "/admin/products", label: "상품 등록 · 수정 · 재고" },
   { to: "/admin/reviews", label: "리뷰 관리" },
+  { to: "/admin/campaign-links", label: "홍보 링크 · UTM" },
   { to: "/admin/settings", label: "결제 설정 · GA4 · 공지" },
 ];
 
@@ -40,7 +41,7 @@ export function AdminLayout() {
         </nav>
         <div className="admin-sidebar__help">
           <span>운영 기준</span>
-          <p>결제 완료 주문만 준비와 배송 대상으로 처리하세요. 미결제 시도는 기록 확인용으로만 보관합니다.</p>
+          <p>결제 완료 주문만 준비 및 배송 대상으로 처리하세요. 미결제 시도는 기록 확인용으로만 보관됩니다.</p>
         </div>
         <button type="button" onClick={logout}>
           로그아웃

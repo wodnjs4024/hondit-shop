@@ -262,6 +262,56 @@
   line-height: 1.65;
 }
 
+.admin-campaign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.admin-campaign-grid article,
+.admin-campaign-result {
+  display: grid;
+  gap: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1rem;
+  background: #fffdf8;
+}
+
+.admin-campaign-grid strong {
+  color: var(--navy);
+  font-size: 1.05rem;
+}
+
+.admin-campaign-grid span {
+  color: var(--orange-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-campaign-grid code,
+.admin-campaign-result code {
+  overflow-wrap: anywhere;
+  border-radius: 12px;
+  padding: 0.8rem;
+  background: #f3eee4;
+  color: #2b3c36;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.admin-campaign-result {
+  margin-top: 1rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.admin-form--campaign {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .setup-warning {
   background: #fff8ed;
   border-color: rgba(207,82,47,0.2);
@@ -724,6 +774,7 @@
   .admin-stat-grid,
   .admin-ops-grid,
   .admin-analytics-grid,
+  .admin-campaign-result,
   .admin-detail-grid,
   .admin-inquiry-layout,
   .admin-inquiry-meta,
@@ -732,6 +783,7 @@
   .admin-inline-grid--product-main,
   .admin-inline-grid--textarea,
   .admin-form,
+  .admin-form--campaign,
   .admin-product-row {
     grid-template-columns: 1fr;
   }

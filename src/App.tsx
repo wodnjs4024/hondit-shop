@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AdminLayout } from "./components/AdminLayout";
 import { trackEvent, trackPageView } from "./lib/analytics";
+import { AdminCampaignLinksPage } from "./pages/AdminCampaignLinksPage";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 import { AdminInquiriesPage } from "./pages/AdminInquiriesPage";
 import { AdminLoginPage } from "./pages/AdminLoginPage";
@@ -128,6 +129,16 @@ export default function App() {
     ) {
       window.localStorage.setItem("hondit_attribution", JSON.stringify(attribution));
     }
+    if (attribution.utm_source || attribution.utm_campaign) {
+      trackEvent("campaign_landing", {
+        campaign_source: attribution.utm_source || "direct",
+        campaign_medium: attribution.utm_medium || "none",
+        campaign_name: attribution.utm_campaign || "none",
+        campaign_content: attribution.utm_content || "none",
+        campaign_term: attribution.utm_term || "none",
+        landing_page: attribution.landing_page,
+      });
+    }
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname, location.search, location.hash]);
 
@@ -153,6 +164,7 @@ export default function App() {
           <Route path="inquiries" element={<AdminInquiriesPage />} />
           <Route path="products" element={<AdminProductsPage />} />
           <Route path="reviews" element={<AdminReviewsPage />} />
+          <Route path="campaign-links" element={<AdminCampaignLinksPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
         <Route path="/:policy" element={<PolicyPage />} />
