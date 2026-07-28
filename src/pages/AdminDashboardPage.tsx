@@ -52,7 +52,7 @@ export const paymentStatusLabels: Record<string, string> = {
   payment_failed: "결제 실패",
   payment_cancelled: "고객 결제 취소",
   completed: "PayPal 결제 완료",
-  pending_review: "결제 검토 중",
+  pending_review: "결제 확인 중",
   failed: "실패",
   cancelled: "취소됨",
   refunded: "환불됨",
@@ -133,7 +133,7 @@ export function AdminDashboardPage() {
         <Link to="/admin/settings">
           <span>04</span>
           <strong>운영 설정</strong>
-          <p>사업자 정보, 결제 사용 여부, 고객 응대 정보를 관리합니다.</p>
+          <p>사업자 정보, 결제 사용 여부, 고객 안내 정보를 관리합니다.</p>
         </Link>
       </section>
 
@@ -151,7 +151,8 @@ export function AdminDashboardPage() {
           <p className="eyebrow">Analytics</p>
           <h2>방문과 클릭 데이터</h2>
           <p className="admin-muted">
-            GA4에서는 campaign_landing과 함께 landing_facebook_community, landing_instagram_bio처럼 출처가 보이는 이벤트를 확인할 수 있습니다.
+            GA4에서 campaign_landing, landing_facebook_community, landing_instagram_bio 같은
+            이벤트와 UTM 출처를 확인할 수 있습니다.
           </p>
         </div>
         <div className="admin-analytics-grid">
