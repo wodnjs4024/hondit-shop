@@ -3361,3 +3361,1000 @@ video {
     border-top: 0;
   }
 }
+
+/* Mobile composition pass: keep each map and story card readable at phone width. */
+@media (max-width: 720px) {
+  .v23-journey {
+    overflow: hidden;
+    padding: 24px 0 32px;
+  }
+
+  .v23-section-heading {
+    width: min(100% - 24px, 520px);
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .v23-section-heading h2 {
+    font-size: clamp(2rem, 12vw, 2.75rem);
+    line-height: 0.96;
+  }
+
+  .v23-section-heading > p {
+    max-width: 100%;
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  .v23-map-tabs {
+    width: min(100% - 24px, 520px);
+    margin-bottom: 14px;
+    grid-template-columns: 1fr;
+  }
+
+  .v23-map-tabs button {
+    min-height: 50px;
+    padding: 10px 14px;
+  }
+
+  .v23-map-shell {
+    width: min(100% - 24px, 520px);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .v23-map-stage,
+  .v23-map-stage.is-korea {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    min-height: 0;
+  }
+
+  .v23-map-copy {
+    padding: 18px 18px 16px;
+  }
+
+  .v23-map-copy > span {
+    font-size: 1.8rem;
+  }
+
+  .v23-map-copy h3 {
+    max-width: 22rem;
+    margin: 8px 0;
+    font-size: 1.38rem;
+    line-height: 1.08;
+  }
+
+  .v23-map-copy p {
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .v23-map-canvas,
+  .v23-korea-map,
+  .v23-jeju-map {
+    position: relative;
+    width: 100%;
+    min-height: 0 !important;
+    height: auto;
+    border-radius: 0;
+    overflow: hidden;
+  }
+
+  .v23-map-canvas {
+    aspect-ratio: 1.06 / 1;
+  }
+
+  .v23-korea-map {
+    aspect-ratio: 0.88 / 1;
+  }
+
+  .v23-jeju-map {
+    aspect-ratio: 1.18 / 1;
+    border-radius: 14px;
+  }
+
+  .v23-map-canvas svg,
+  .v23-korea-map svg,
+  .v23-jeju-map svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0 !important;
+  }
+
+  .v23-map-canvas text,
+  .v23-korea-map text {
+    font-size: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  .v23-korea-panel {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 0;
+  }
+
+  .v23-korea-cards {
+    padding: 14px;
+    background: #fffdf7;
+  }
+
+  .v23-korea-cards header {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--v23-line);
+  }
+
+  .v23-korea-cards h3 {
+    max-width: none;
+    font-size: 1.28rem;
+    line-height: 1.06;
+  }
+
+  .v23-korea-cards > div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .v23-korea-cards article {
+    display: grid;
+    grid-template-columns: 82px 1fr;
+    grid-template-rows: auto auto auto;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--v23-ink);
+    background: #fbf7ee;
+    border: 1px solid var(--v23-line);
+    border-radius: 12px;
+  }
+
+  .v23-korea-cards article::after {
+    display: none;
+  }
+
+  .v23-korea-cards img {
+    position: static;
+    grid-row: 1 / span 3;
+    width: 82px;
+    height: 92px;
+    object-fit: cover;
+    opacity: 1;
+  }
+
+  .v23-korea-cards span,
+  .v23-korea-cards h4,
+  .v23-korea-cards p {
+    position: static;
+    z-index: auto;
+    color: inherit;
+  }
+
+  .v23-korea-cards span {
+    align-self: end;
+    padding: 9px 10px 0;
+    color: var(--v23-copper);
+    font-size: 0.58rem;
+    line-height: 1;
+  }
+
+  .v23-korea-cards h4 {
+    padding: 1px 10px 0;
+    font-size: 1.02rem;
+    line-height: 1;
+  }
+
+  .v23-korea-cards p {
+    padding: 2px 10px 9px;
+    color: rgba(33, 55, 49, 0.72);
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .v23-jeju-stage {
+    padding: 14px;
+  }
+
+  .v23-jeju-toolbar {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    align-items: start;
+    text-align: left;
+  }
+
+  .v23-jeju-toolbar div b {
+    font-size: 1.38rem;
+    line-height: 1.05;
+  }
+
+  .v23-jeju-toolbar > span {
+    justify-self: start;
+  }
+
+  .v23-jeju-layout {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .v23-place-card {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto;
+    overflow: hidden;
+    border-radius: 14px;
+    background: var(--v23-paper);
+  }
+
+  .v23-place-card img {
+    width: 100%;
+    height: 174px;
+    object-fit: cover;
+  }
+
+  .v23-place-card div {
+    display: grid;
+    gap: 7px;
+    min-height: 0;
+    padding: 14px;
+    background: var(--v23-paper);
+  }
+
+  .v23-place-card span,
+  .v23-place-card small,
+  .v23-place-card h3,
+  .v23-place-card p,
+  .v23-place-card address,
+  .v23-place-card a {
+    position: static;
+    color: inherit;
+  }
+
+  .v23-place-card h3 {
+    font-size: 1.55rem;
+    line-height: 0.98;
+  }
+
+  .v23-place-card p,
+  .v23-place-card address {
+    font-size: 0.86rem;
+    line-height: 1.38;
+  }
+
+  .v23-place-card small {
+    font-size: 0.66rem;
+    line-height: 1.2;
+  }
+
+  .v23-place-card a {
+    width: fit-content;
+    margin-top: 2px;
+  }
+
+  .v23-jeju-tabs {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .v23-jeju-tabs button {
+    display: flex;
+    min-height: 38px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 8px;
+    font-size: 0.74rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .v23-jeju-tabs button span {
+    flex: 0 0 auto;
+  }
+
+  .v23-our-jeju-origin {
+    grid-template-columns: 1fr;
+    width: min(100% - 24px, 520px);
+    margin: 24px auto;
+    overflow: hidden;
+    border-radius: 18px;
+  }
+
+  .v23-our-jeju-origin > div {
+    padding: 24px 20px 18px;
+  }
+
+  .v23-our-jeju-origin h2 {
+    font-size: 2.15rem;
+    line-height: 0.98;
+  }
+
+  .v23-our-jeju-origin p {
+    font-size: 0.94rem;
+    line-height: 1.5;
+  }
+
+  .v23-our-jeju-origin address {
+    margin: 14px 0;
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .v23-our-jeju-origin figure {
+    min-height: 0;
+    max-height: none;
+  }
+
+  .v23-our-jeju-origin img {
+    display: block;
+    height: auto;
+    max-height: 260px;
+    object-fit: cover;
+  }
+
+  .v23-our-jeju-origin figcaption {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .v23-our-jeju-origin figcaption b {
+    font-size: 1.2rem;
+  }
+
+  .v23-our-jeju-origin figcaption span {
+    font-size: 0.62rem;
+    line-height: 1.25;
+  }
+
+  .v23-products-section .v23-section-heading {
+    padding-bottom: 14px;
+  }
+
+  .v23-product-card {
+    grid-template-rows: 220px auto 58px;
+  }
+
+  .v23-product-image img {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 430px) {
+  .v23-section-heading h2 {
+    font-size: clamp(1.9rem, 11vw, 2.35rem);
+  }
+
+  .v23-map-copy h3 {
+    font-size: 1.28rem;
+  }
+
+  .v23-map-copy p {
+    font-size: 0.88rem;
+  }
+
+  .v23-map-canvas {
+    aspect-ratio: 1 / 0.9;
+  }
+
+  .v23-korea-map {
+    aspect-ratio: 0.92 / 1;
+  }
+
+  .v23-jeju-map {
+    aspect-ratio: 1.12 / 1;
+  }
+
+  .v23-korea-cards img {
+    width: 76px;
+    height: 88px;
+  }
+
+  .v23-korea-cards article {
+    grid-template-columns: 76px 1fr;
+  }
+
+  .v23-place-card img {
+    height: 158px;
+  }
+
+  .v23-place-card h3 {
+    font-size: 1.42rem;
+  }
+
+  .v23-jeju-tabs button {
+    font-size: 0.68rem;
+    gap: 5px;
+  }
+}
+
+/* Final mobile guardrails: separate image and text zones so nothing covers critical content. */
+@media (max-width: 720px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .v23-page,
+  .v23-journey,
+  .v23-products-section,
+  .v23-jeju-notes,
+  .v23-soft-cta {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .v23-journey {
+    padding: 24px 0 28px;
+  }
+
+  .v23-journey.is-compact {
+    padding-top: 18px;
+  }
+
+  .v23-section-heading,
+  .v23-map-shell,
+  .v23-filters,
+  .v23-product-grid,
+  .v23-jeju-notes header,
+  .v23-jeju-notes > div,
+  .v23-soft-cta {
+    width: min(100% - 24px, 520px);
+  }
+
+  .v23-section-heading {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 0 0 18px;
+  }
+
+  .v23-section-heading h2 {
+    max-width: 100%;
+    font-size: clamp(2.1rem, 12vw, 3.15rem);
+    line-height: 0.98;
+  }
+
+  .v23-section-heading p {
+    max-width: 32rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .v23-map-tabs {
+    grid-template-columns: 1fr;
+    margin-bottom: 12px;
+  }
+
+  .v23-map-tabs button {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    row-gap: 2px;
+    min-height: 58px;
+    align-items: center;
+    justify-items: start;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .v23-map-tabs button span {
+    grid-row: 1 / span 2;
+    align-self: center;
+    line-height: 1;
+  }
+
+  .v23-map-tabs button b,
+  .v23-map-tabs button small {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    line-height: 1.15;
+    white-space: normal;
+  }
+
+  .v23-map-tabs button b {
+    align-self: end;
+  }
+
+  .v23-map-tabs button small {
+    align-self: start;
+  }
+
+  .v23-map-stage,
+  .v23-map-stage.is-korea,
+  .v23-korea-panel,
+  .v23-jeju-layout {
+    grid-template-columns: 1fr !important;
+    min-height: 0;
+  }
+
+  .v23-map-copy {
+    min-height: 0;
+    padding: 22px 20px;
+  }
+
+  .v23-map-copy strong {
+    font-size: 0.72rem;
+  }
+
+  .v23-map-copy h3 {
+    max-width: 12ch;
+    font-size: clamp(1.8rem, 10vw, 2.55rem);
+    line-height: 0.98;
+  }
+
+  .v23-map-copy p {
+    max-width: 22rem;
+    font-size: 0.94rem;
+    line-height: 1.45;
+  }
+
+  .v23-map-meta {
+    display: none;
+  }
+
+  .v23-map-canvas,
+  .v23-korea-map,
+  .v23-jeju-map {
+    width: 100%;
+    min-height: 0;
+    max-height: none;
+    overflow: hidden;
+    border-radius: 0;
+  }
+
+  .v23-map-canvas {
+    aspect-ratio: 1.1 / 0.78;
+  }
+
+  .v23-korea-map {
+    aspect-ratio: 1 / 1.1;
+  }
+
+  .v23-jeju-map {
+    aspect-ratio: 1.25 / 0.85;
+  }
+
+  .v23-map-canvas svg,
+  .v23-korea-map svg,
+  .v23-jeju-map svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .v23-map-label {
+    font-size: 9px;
+  }
+
+  .v23-map-label.is-major {
+    font-size: 13px;
+  }
+
+  .v23-korea-pin-label,
+  .v23-korea-callout {
+    transform-box: fill-box;
+  }
+
+  .v23-korea-cards {
+    padding: 14px;
+    background: var(--v23-paper);
+    border-top: 1px solid var(--v23-line);
+  }
+
+  .v23-korea-cards header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    align-items: start;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .v23-korea-cards h3 {
+    font-size: 1.28rem;
+    line-height: 1.05;
+    margin: 0;
+  }
+
+  .v23-korea-cards header span {
+    font-size: 0.62rem;
+  }
+
+  .v23-korea-cards > div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .v23-korea-cards article {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--v23-ink);
+    background: #fffdf7;
+    border: 1px solid var(--v23-line);
+    border-radius: 12px;
+  }
+
+  .v23-korea-cards article::after {
+    content: none;
+  }
+
+  .v23-korea-cards img {
+    position: static;
+    grid-row: 1 / span 3;
+    width: 88px;
+    height: 94px;
+    object-fit: cover;
+    opacity: 1;
+    filter: none;
+  }
+
+  .v23-korea-cards span,
+  .v23-korea-cards h4,
+  .v23-korea-cards p {
+    position: static;
+    z-index: auto;
+    color: inherit;
+    text-shadow: none !important;
+  }
+
+  .v23-korea-cards span {
+    padding: 10px 10px 0;
+    color: var(--v23-copper);
+    font-size: 0.58rem;
+    line-height: 1;
+  }
+
+  .v23-korea-cards h4 {
+    padding: 0 10px;
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  .v23-korea-cards p {
+    padding: 0 10px 10px;
+    color: rgba(33, 55, 49, 0.72);
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .v23-jeju-stage {
+    padding: 14px;
+  }
+
+  .v23-jeju-toolbar {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .v23-jeju-toolbar > a,
+  .v23-jeju-toolbar > span {
+    justify-self: start;
+  }
+
+  .v23-jeju-toolbar div b {
+    font-size: 1.35rem;
+    line-height: 1.05;
+  }
+
+  .v23-place-card {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid var(--v23-line);
+    border-radius: 14px;
+    background: var(--v23-paper);
+    color: var(--v23-ink);
+    box-shadow: none;
+  }
+
+  .v23-place-card img {
+    display: block;
+    width: 100%;
+    height: 152px;
+    object-fit: cover;
+    filter: none;
+  }
+
+  .v23-place-card div {
+    display: grid;
+    gap: 7px;
+    min-height: 0;
+    padding: 14px;
+    background: var(--v23-paper);
+  }
+
+  .v23-place-card span,
+  .v23-place-card small,
+  .v23-place-card h3,
+  .v23-place-card p,
+  .v23-place-card address,
+  .v23-place-card a {
+    position: static !important;
+    z-index: auto;
+    color: inherit;
+    text-shadow: none !important;
+  }
+
+  .v23-place-card span {
+    color: var(--v23-copper);
+    font-size: 0.62rem;
+  }
+
+  .v23-place-card small {
+    font-size: 0.66rem;
+    line-height: 1.25;
+  }
+
+  .v23-place-card h3 {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .v23-place-card p,
+  .v23-place-card address {
+    font-size: 0.86rem;
+    line-height: 1.38;
+  }
+
+  .v23-jeju-tabs {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .v23-jeju-tabs button {
+    min-height: 38px;
+    padding: 0 8px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+  .v23-our-jeju-origin {
+    grid-template-columns: 1fr;
+    width: min(100% - 24px, 520px);
+    margin: 24px auto;
+    overflow: hidden;
+    border-radius: 18px;
+  }
+
+  .v23-our-jeju-origin > div {
+    padding: 24px 20px 18px;
+  }
+
+  .v23-our-jeju-origin h2 {
+    font-size: clamp(2rem, 11vw, 2.6rem);
+    line-height: 0.98;
+  }
+
+  .v23-our-jeju-origin p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .v23-our-jeju-origin address {
+    margin: 14px 0;
+    padding: 12px 14px;
+    font-size: 0.86rem;
+    line-height: 1.42;
+  }
+
+  .v23-our-jeju-origin figure {
+    min-height: 0;
+    max-height: none;
+  }
+
+  .v23-our-jeju-origin img {
+    display: block;
+    height: 220px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .v23-our-jeju-origin figcaption {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    margin: 0;
+    padding: 12px 14px;
+    border-top: 1px solid var(--v23-line);
+    border-radius: 0;
+    background: #fffdf7;
+  }
+
+  .v23-our-jeju-origin figcaption b {
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .v23-our-jeju-origin figcaption span {
+    color: rgba(33, 55, 49, 0.72);
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+
+  .v23-jeju-notes {
+    padding: 34px 0;
+  }
+
+  .v23-jeju-notes header {
+    margin-bottom: 18px;
+  }
+
+  .v23-jeju-notes header h2 {
+    font-size: clamp(2rem, 11vw, 2.55rem);
+    line-height: 0.98;
+  }
+
+  .v23-jeju-notes > div {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .v23-jeju-notes article {
+    overflow: hidden;
+    border-radius: 14px;
+  }
+
+  .v23-jeju-notes article img {
+    height: 170px;
+    object-fit: cover;
+  }
+
+  .v23-jeju-notes article div {
+    padding: 16px;
+  }
+
+  .v23-jeju-notes article h3 {
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+
+  .v23-product-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 10px;
+    border: 1px solid var(--v23-line);
+    background: #f7faf8;
+  }
+
+  .v23-product-card {
+    grid-template-rows: auto auto auto;
+    overflow: hidden;
+    border: 1px solid var(--v23-line);
+    border-radius: 12px;
+    background: var(--v23-paper);
+  }
+
+  .v23-product-image {
+    min-height: 0;
+    height: 210px;
+    border-bottom: 1px solid var(--v23-line);
+  }
+
+  .v23-product-image img {
+    padding: 16px;
+    object-fit: contain;
+  }
+
+  .v23-product-meta {
+    grid-template-rows: auto auto auto auto;
+    gap: 8px;
+    min-height: 0;
+    padding: 16px;
+    border-bottom: 1px solid var(--v23-line);
+  }
+
+  .v23-product-meta h3 {
+    min-height: 0;
+    font-size: 1.45rem;
+    line-height: 1;
+  }
+
+  .v23-product-meta p {
+    min-height: 0;
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .v23-product-meta strong {
+    font-size: 1.65rem;
+    line-height: 1;
+  }
+
+  .v23-product-links {
+    min-height: 52px;
+  }
+
+  .v23-product-links a,
+  .v23-product-links span {
+    min-height: 52px;
+    padding: 8px 6px;
+    font-size: 0.74rem;
+    line-height: 1.15;
+  }
+}
+
+@media (max-width: 430px) {
+  .v23-map-shell,
+  .v23-section-heading,
+  .v23-filters,
+  .v23-product-grid,
+  .v23-jeju-notes header,
+  .v23-jeju-notes > div,
+  .v23-soft-cta {
+    width: min(100% - 20px, 410px);
+  }
+
+  .v23-map-copy {
+    padding: 20px 18px;
+  }
+
+  .v23-map-copy h3 {
+    font-size: clamp(1.6rem, 9vw, 2.2rem);
+  }
+
+  .v23-map-canvas {
+    aspect-ratio: 1 / 0.82;
+  }
+
+  .v23-korea-map {
+    aspect-ratio: 0.96 / 1.05;
+  }
+
+  .v23-jeju-map {
+    aspect-ratio: 1.16 / 0.82;
+  }
+
+  .v23-korea-cards article {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .v23-korea-cards img {
+    width: 82px;
+    height: 88px;
+  }
+
+  .v23-korea-cards h4 {
+    font-size: 0.98rem;
+  }
+
+  .v23-korea-cards p {
+    font-size: 0.68rem;
+  }
+
+  .v23-place-card img {
+    height: 140px;
+  }
+
+  .v23-place-card h3 {
+    font-size: 1.36rem;
+  }
+
+  .v23-our-jeju-origin img {
+    height: 200px;
+  }
+
+  .v23-jeju-tabs button {
+    font-size: 0.66rem;
+  }
+}
