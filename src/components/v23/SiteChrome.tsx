@@ -34,54 +34,80 @@ export function V23Header() {
 
   return (
     <>
-      <div className="v23-shipping-bar">{announcement || marketText(language, market.announcement, market.announcementKo)}</div>
+      <div className="v23-shipping-bar">
+        {announcement || marketText(language, market.announcement, market.announcementKo)}
+      </div>
       <header className="v23-nav">
-        <Link className="v23-brand" to="/" aria-label="hondit home">
-          hondit<span>.</span>
-        </Link>
-        <nav className={open ? "v23-nav-links is-open" : "v23-nav-links"} aria-label="Main navigation">
-          <NavLink to="/" onClick={() => setOpen(false)}>{marketText(language, "Home", "홈")}</NavLink>
-          <NavLink to="/jeju" onClick={() => setOpen(false)}>{marketText(language, "Explore Jeju", "제주 보기")}</NavLink>
-          <NavLink to="/products" onClick={() => setOpen(false)}>{marketText(language, "Products", "상품")}</NavLink>
-          <NavLink to="/bulk-orders" onClick={() => setOpen(false)}>{marketText(language, "Bulk Orders", "대량주문")}</NavLink>
-          <NavLink to="/shipping" onClick={() => setOpen(false)}>{marketText(language, "Shipping", "배송")}</NavLink>
-          <NavLink to="/contact" onClick={() => setOpen(false)}>{marketText(language, "Contact", "문의")}</NavLink>
-        </nav>
-        {market.hasShopee ? (
-          <a className="v23-shop-button" href={SHOPEE} target="_blank" rel="noreferrer">
-            {marketText(language, "Shop on Shopee ->", "Shopee 구매 ->")}
-          </a>
-        ) : (
-          <Link className="v23-shop-button" to="/bulk-orders">
-            {marketText(language, "Bulk checkout ->", "대량주문 ->")}
+        <div className="v23-nav-main">
+          <Link className="v23-brand" to="/" aria-label="hondit home">
+            hondit<span>.</span>
           </Link>
-        )}
-        <label className="v23-market-switch" aria-label="Market">
-          <span>{marketText(language, "Market", "판매 지역")}</span>
-          <select value={market.code} onChange={(event) => setMarket(event.target.value as MarketCode)}>
-            {Object.values(markets).map((option) => (
-              <option key={option.code} value={option.code}>
-                {marketText(language, option.label, option.koreanLabel)} / {option.currency}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="v23-market-switch v23-language-switch" aria-label="Language">
-          <span>{marketText(language, "Language", "언어")}</span>
-          <select value={language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
-            {displayLanguages.map((option) => (
-              <option key={option.code} value={option.code}>
-                {option.shortLabel}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button className="v23-market-button" type="button" onClick={openMarketDialog}>
-          {marketText(language, "Change market", "지역 변경")}
-        </button>
-        <button className="v23-menu-button" type="button" aria-label="Toggle menu" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
-          {marketText(language, "Menu", "메뉴")}
-        </button>
+          <nav className={open ? "v23-nav-links is-open" : "v23-nav-links"} aria-label="Main navigation">
+            <NavLink to="/" onClick={() => setOpen(false)}>
+              {marketText(language, "Home", "홈")}
+            </NavLink>
+            <NavLink to="/jeju" onClick={() => setOpen(false)}>
+              {marketText(language, "Explore Jeju", "제주 보기")}
+            </NavLink>
+            <NavLink to="/products" onClick={() => setOpen(false)}>
+              {marketText(language, "Products", "상품")}
+            </NavLink>
+            <NavLink to="/bulk-orders" onClick={() => setOpen(false)}>
+              {marketText(language, "Bulk Orders", "대량 주문")}
+            </NavLink>
+            <NavLink to="/shipping" onClick={() => setOpen(false)}>
+              {marketText(language, "Shipping", "배송")}
+            </NavLink>
+            <NavLink to="/contact" onClick={() => setOpen(false)}>
+              {marketText(language, "Contact", "문의")}
+            </NavLink>
+          </nav>
+          <div className="v23-nav-actions">
+            {market.hasShopee ? (
+              <a className="v23-shop-button" href={SHOPEE} target="_blank" rel="noreferrer">
+                {marketText(language, "Shop on Shopee ->", "Shopee 구매 ->")}
+              </a>
+            ) : (
+              <Link className="v23-shop-button" to="/bulk-orders">
+                {marketText(language, "Bulk checkout ->", "대량 주문 ->")}
+              </Link>
+            )}
+            <button
+              className="v23-menu-button"
+              type="button"
+              aria-label="Toggle menu"
+              aria-expanded={open}
+              onClick={() => setOpen((value) => !value)}
+            >
+              {marketText(language, "Menu", "메뉴")}
+            </button>
+          </div>
+        </div>
+        <div className="v23-nav-tools" aria-label="Market and language settings">
+          <label className="v23-market-switch" aria-label="Market">
+            <span>{marketText(language, "Market", "판매 지역")}</span>
+            <select value={market.code} onChange={(event) => setMarket(event.target.value as MarketCode)}>
+              {Object.values(markets).map((option) => (
+                <option key={option.code} value={option.code}>
+                  {marketText(language, option.label, option.koreanLabel)} / {option.currency}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="v23-market-switch v23-language-switch" aria-label="Language">
+            <span>{marketText(language, "Language", "언어")}</span>
+            <select value={language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
+              {displayLanguages.map((option) => (
+                <option key={option.code} value={option.code}>
+                  {option.shortLabel}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button className="v23-market-button" type="button" onClick={openMarketDialog}>
+            {marketText(language, "Change market", "지역 변경")}
+          </button>
+        </div>
       </header>
     </>
   );
@@ -94,25 +120,39 @@ export function V23Footer() {
   return (
     <footer className="v23-footer">
       <div className="v23-footer-brand">
-        <b>hondit<span>.</span></b>
-        <p>{footerLines[0]}<br />{footerLines[1]}</p>
-        <p>{marketText(language, "A student-led brand based at", "제주를 기반으로 한 학생 운영 브랜드")}<br />Jeju National University.</p>
+        <b>
+          hondit<span>.</span>
+        </b>
+        <p>
+          {footerLines[0]}
+          <br />
+          {footerLines[1]}
+        </p>
+        <p>
+          {marketText(language, "A student-led brand based at", "제주를 기반으로 한 학생 운영 브랜드")}
+          <br />
+          Jeju National University.
+        </p>
       </div>
       <div>
         <p>{marketText(language, "EXPLORE", "둘러보기")}</p>
         <Link to="/jeju">{marketText(language, "Asia to Jeju", "아시아에서 제주까지")}</Link>
         <Link to="/products">{marketText(language, "Products", "상품")}</Link>
-        <Link to="/bulk-orders">{marketText(language, "Bulk Orders", "대량주문")}</Link>
+        <Link to="/bulk-orders">{marketText(language, "Bulk Orders", "대량 주문")}</Link>
         <Link to="/shipping">{marketText(language, "Shipping", "배송")}</Link>
       </div>
       <div>
         <p>{marketText(language, "CONNECT", "연결")}</p>
         {market.hasShopee ? (
-          <a href={SHOPEE} target="_blank" rel="noreferrer">Shopee -&gt;</a>
+          <a href={SHOPEE} target="_blank" rel="noreferrer">
+            Shopee -&gt;
+          </a>
         ) : (
-          <Link to="/bulk-orders">{marketText(language, "Bulk checkout ->", "대량주문 ->")}</Link>
+          <Link to="/bulk-orders">{marketText(language, "Bulk checkout ->", "대량 주문 ->")}</Link>
         )}
-        <a href={INSTAGRAM} target="_blank" rel="noreferrer">Instagram -&gt;</a>
+        <a href={INSTAGRAM} target="_blank" rel="noreferrer">
+          Instagram -&gt;
+        </a>
         <a href={`mailto:${EMAIL}`}>Email</a>
         <Link to="/contact">{marketText(language, "Contact", "문의")}</Link>
       </div>
@@ -120,13 +160,17 @@ export function V23Footer() {
         <p>{marketText(language, "TRUST & SUPPORT", "안내")}</p>
         <Link to="/shipping">{marketText(language, "Delivery guide", "배송 안내")}</Link>
         <Link to="/policy/refund">{marketText(language, "Refund support", "환불 안내")}</Link>
-        <a href="https://www.jejunu.ac.kr/eng/" target="_blank" rel="noreferrer">JNU official site -&gt;</a>
+        <a href="https://www.jejunu.ac.kr/eng/" target="_blank" rel="noreferrer">
+          JNU official site -&gt;
+        </a>
       </div>
       <small>
         (c) 2026 hondit - Student-led project based at Jeju National University. <Link to="/policy/refund">Refund</Link> -{" "}
         <Link to="/policy/privacy">Privacy</Link> - <Link to="/policy/terms">Terms</Link>
       </small>
-      <Link className="v23-footer-admin" to="/admin">Admin sign-in</Link>
+      <Link className="v23-footer-admin" to="/admin">
+        Admin sign-in
+      </Link>
     </footer>
   );
 }
@@ -161,14 +205,18 @@ export function V23PageHero({
   return (
     <section className="v23-page-hero">
       <div className="v23-page-hero-copy">
-        <p className="v23-eyebrow"><span /> {eyebrow}</p>
+        <p className="v23-eyebrow">
+          <span /> {eyebrow}
+        </p>
         <h1>{title}</h1>
         <p>{description}</p>
         {children}
       </div>
       <figure className="v23-page-hero-media">
         <img src={image} alt={imageAlt} width={1600} height={1100} />
-        <figcaption><i /> FROM JEJU - TO {marketCountryName(market, language).toUpperCase()}</figcaption>
+        <figcaption>
+          <i /> FROM JEJU - TO {marketCountryName(market, language).toUpperCase()}
+        </figcaption>
       </figure>
     </section>
   );
@@ -188,7 +236,7 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
       <div className="v23-product-meta">
         <h3>{product.name}</h3>
         <p>{product.detail}</p>
-        <small>{marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} 대량주문 단가`)}</small>
+        <small>{marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} 대량 주문 단가`)}</small>
         <strong>{displayPrice}</strong>
       </div>
       <div className="v23-product-links">
@@ -199,13 +247,13 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
           </a>
         ) : (
           <Link className="is-dark" to={`/bulk-orders?product=${product.slug}`}>
-            {marketText(language, "Bulk checkout", "대량주문")}
+            {marketText(language, "Bulk checkout", "대량 주문")}
           </Link>
         )}
         {outOfStock ? (
-          <span>{marketText(language, "Bulk unavailable", "대량주문 불가")}</span>
+          <span>{marketText(language, "Bulk unavailable", "대량 주문 불가")}</span>
         ) : market.hasShopee ? (
-          <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout", "대량주문")}</Link>
+          <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout", "대량 주문")}</Link>
         ) : (
           <Link to={`/contact?product=${product.slug}`}>{marketText(language, "Ask hondit", "문의하기")}</Link>
         )}
