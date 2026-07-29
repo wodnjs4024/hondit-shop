@@ -40,7 +40,7 @@ function routeMeta(pathname: string) {
   if (pathname === "/shipping") {
     return {
       title: "Shipping | hondit",
-      description: "Compare hondit retail Shopee shipping and direct bulk PayPal order shipping by market.",
+      description: "Compare hondit market-specific delivery windows and direct bulk PayPal order shipping.",
     };
   }
   if (pathname === "/contact") {
@@ -52,19 +52,19 @@ function routeMeta(pathname: string) {
   if (pathname === "/products") {
     return {
       title: "Products | hondit",
-      description: "Explore hondit Jeju-inspired diffuser and vegan cleansing products with Shopee and direct bulk order options.",
+      description: "Explore hondit Jeju-inspired diffuser and vegan cleansing products with market-specific bulk order options.",
     };
   }
   if (pathname.startsWith("/products/")) {
     return {
       title: "Product Detail | hondit",
-      description: "Compare hondit product details, use cases, volume, Shopee purchase route and bulk inquiry options.",
+      description: "Compare hondit product details, use cases, volume and direct bulk checkout options.",
     };
   }
   if (pathname.startsWith("/payment-failed/")) {
     return {
       title: "Payment Not Completed | hondit",
-      description: "Retry payment, contact hondit or purchase through Shopee after an incomplete PayPal checkout.",
+      description: "Retry payment or contact hondit after an incomplete PayPal checkout.",
     };
   }
   if (pathname === "/jeju") {
@@ -75,7 +75,7 @@ function routeMeta(pathname: string) {
   }
   return {
     title: "hondit | Jeju-inspired care and scent",
-    description: "Shop Jeju-inspired Korean cleansing care and volcanic stone diffusers through Shopee or direct bulk PayPal orders.",
+    description: "Shop Jeju-inspired Korean cleansing care and volcanic stone diffusers through market-specific direct bulk PayPal orders.",
   };
 }
 

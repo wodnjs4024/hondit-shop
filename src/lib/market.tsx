@@ -16,12 +16,19 @@ export type MarketConfig = {
   currency: CurrencyCode;
   locale: string;
   sgdRate: number;
+  hasShopee: boolean;
   checkoutNote: string;
   checkoutNoteKo: string;
   footerLine: string;
   footerLineKo: string;
   announcement: string;
   announcementKo: string;
+};
+
+export type MarketPricedItem = {
+  bulkUnitPrice?: number;
+  unitPriceSgd?: number;
+  marketUnitPrices?: Partial<Record<MarketCode, number>>;
 };
 
 export const markets: Record<MarketCode, MarketConfig> = {
@@ -36,12 +43,13 @@ export const markets: Record<MarketCode, MarketConfig> = {
     currency: "SGD",
     locale: "en-SG",
     sgdRate: 1,
-    checkoutNote: "Singapore EMS shipping included",
-    checkoutNoteKo: "싱가포르 EMS 배송 포함",
+    hasShopee: true,
+    checkoutNote: "Singapore EMS shipping is included in the displayed bulk unit price.",
+    checkoutNoteKo: "표시된 대량주문 단가에는 싱가포르 EMS 배송비가 포함되어 있습니다.",
     footerLine: "Pieces of Jeju Island,\narriving in Singapore.",
-    footerLineKo: "제주의 조각을\n싱가포르로 보냅니다.",
-    announcement: "SINGAPORE BULK ORDER - PAYPAL SGD - SHIPS FROM KOREA",
-    announcementKo: "싱가포르 주문 - PayPal SGD 결제 - 한국에서 발송",
+    footerLineKo: "제주의 조각이\n싱가포르로 도착합니다.",
+    announcement: "SINGAPORE BULK ORDER - PAYPAL SGD - SHOPEE RETAIL AVAILABLE",
+    announcementKo: "싱가포르 대량주문 - PayPal SGD 결제 - Shopee 개별구매 가능",
   },
   HK: {
     code: "HK",
@@ -54,12 +62,13 @@ export const markets: Record<MarketCode, MarketConfig> = {
     currency: "HKD",
     locale: "en-HK",
     sgdRate: 5.8,
-    checkoutNote: "Hong Kong delivery included in the listed bulk price",
-    checkoutNoteKo: "홍콩 배송비는 표시된 대량주문 가격에 포함",
+    hasShopee: false,
+    checkoutNote: "Hong Kong delivery is included in the displayed bulk unit price.",
+    checkoutNoteKo: "표시된 대량주문 단가에는 홍콩 배송비가 포함되어 있습니다.",
     footerLine: "Pieces of Jeju Island,\narriving in Hong Kong.",
-    footerLineKo: "제주의 조각을\n홍콩으로 보냅니다.",
-    announcement: "HONG KONG BULK ORDER - PAYPAL HKD - SHIPS FROM KOREA",
-    announcementKo: "홍콩 주문 - PayPal HKD 결제 - 한국에서 발송",
+    footerLineKo: "제주의 조각이\n홍콩으로 도착합니다.",
+    announcement: "HONG KONG BULK ORDER ONLY - PAYPAL HKD - SHIPS FROM KOREA",
+    announcementKo: "홍콩 대량주문 전용 - PayPal HKD 결제 - 한국에서 발송",
   },
 };
 
@@ -84,6 +93,17 @@ export function convertSgdToMarketAmount(value: number, market: MarketConfig) {
   return Number((Number(value || 0) * market.sgdRate).toFixed(2));
 }
 
+export function getMarketUnitPrice(item: MarketPricedItem, market: MarketConfig) {
+  const fixed = item.marketUnitPrices?.[market.code];
+  if (Number.isFinite(Number(fixed))) return Number(fixed);
+  const base = item.bulkUnitPrice ?? item.unitPriceSgd ?? 0;
+  return convertSgdToMarketAmount(base, market);
+}
+
+export function getMarketLineTotal(item: MarketPricedItem, units: number, market: MarketConfig) {
+  return Number((getMarketUnitPrice(item, market) * Number(units || 0)).toFixed(2));
+}
+
 export function formatCurrency(value: number, currency: CurrencyCode | string = "SGD", locale = "en-SG") {
   return new Intl.NumberFormat(locale, {
     style: "currency",
@@ -96,6 +116,14 @@ export function formatCurrency(value: number, currency: CurrencyCode | string = 
 
 export function formatMarketMoney(valueInSgd: number, market: MarketConfig) {
   return formatCurrency(convertSgdToMarketAmount(valueInSgd, market), market.currency, market.locale);
+}
+
+export function formatMarketUnitMoney(item: MarketPricedItem, market: MarketConfig) {
+  return formatCurrency(getMarketUnitPrice(item, market), market.currency, market.locale);
+}
+
+export function formatMarketLineMoney(item: MarketPricedItem, units: number, market: MarketConfig) {
+  return formatCurrency(getMarketLineTotal(item, units, market), market.currency, market.locale);
 }
 
 export function marketText(language: DisplayLanguage, english: string, korean: string) {
@@ -111,8 +139,9 @@ type MarketContextValue = {
   setMarket: (code: MarketCode) => void;
   language: DisplayLanguage;
   setLanguage: (language: DisplayLanguage) => void;
-  needsSelection: boolean;
-  dismissSelection: () => void;
+  showMarketDialog: boolean;
+  closeMarketDialog: () => void;
+  openMarketDialog: () => void;
 };
 
 const MarketContext = createContext<MarketContextValue | null>(null);
@@ -127,102 +156,106 @@ function readStoredLanguage() {
   return normalizeLanguage(window.localStorage.getItem(languageStorageKey));
 }
 
-function readQueryMarket(search: string) {
-  const params = new URLSearchParams(search);
-  return normalizeMarketCode(params.get("market") || params.get("country"));
-}
-
-function readQueryLanguage(search: string) {
-  const params = new URLSearchParams(search);
-  return normalizeLanguage(params.get("lang") || params.get("language"));
-}
-
 export function MarketProvider({ children }: { children: ReactNode }) {
   const location = useLocation();
-  const initialQueryMarket = useMemo(() => readQueryMarket(location.search), [location.search]);
-  const initialQueryLanguage = useMemo(() => readQueryLanguage(location.search), [location.search]);
-  const [marketCode, setMarketCode] = useState<MarketCode>(() => initialQueryMarket || readStoredMarket() || "SG");
-  const [language, setLanguageState] = useState<DisplayLanguage>(() => initialQueryLanguage || readStoredLanguage() || "en");
-  const [needsSelection, setNeedsSelection] = useState(() => !initialQueryMarket && !readStoredMarket());
+  const query = new URLSearchParams(location.search);
+  const queryMarket = normalizeMarketCode(query.get("market") || query.get("country"));
+  const queryLanguage = normalizeLanguage(query.get("lang"));
+
+  const [marketCode, setMarketCode] = useState<MarketCode>(() => queryMarket || readStoredMarket() || "SG");
+  const [language, setLanguageState] = useState<DisplayLanguage>(() => queryLanguage || readStoredLanguage() || "en");
+  const [showMarketDialog, setShowMarketDialog] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !window.localStorage.getItem(marketStorageKey);
+  });
 
   useEffect(() => {
-    const nextMarket = readQueryMarket(location.search);
-    const nextLanguage = readQueryLanguage(location.search);
-    if (nextMarket) {
-      setMarketCode(nextMarket);
-      setNeedsSelection(false);
-      window.localStorage.setItem(marketStorageKey, nextMarket);
-    }
-    if (nextLanguage) {
-      setLanguageState(nextLanguage);
-      window.localStorage.setItem(languageStorageKey, nextLanguage);
-    }
-  }, [location.search]);
+    if (queryMarket) setMarketCode(queryMarket);
+  }, [queryMarket]);
+
+  useEffect(() => {
+    if (queryLanguage) setLanguageState(queryLanguage);
+  }, [queryLanguage]);
+
+  useEffect(() => {
+    window.localStorage.setItem(marketStorageKey, marketCode);
+  }, [marketCode]);
+
+  useEffect(() => {
+    window.localStorage.setItem(languageStorageKey, language);
+  }, [language]);
 
   const value = useMemo<MarketContextValue>(
     () => ({
       market: markets[marketCode],
       setMarket: (code) => {
         setMarketCode(code);
-        setNeedsSelection(false);
-        window.localStorage.setItem(marketStorageKey, code);
+        setShowMarketDialog(false);
       },
       language,
-      setLanguage: (nextLanguage) => {
-        setLanguageState(nextLanguage);
-        window.localStorage.setItem(languageStorageKey, nextLanguage);
-      },
-      needsSelection,
-      dismissSelection: () => {
-        setNeedsSelection(false);
-        window.localStorage.setItem(marketStorageKey, marketCode);
-        window.localStorage.setItem(languageStorageKey, language);
-      },
+      setLanguage: setLanguageState,
+      showMarketDialog,
+      closeMarketDialog: () => setShowMarketDialog(false),
+      openMarketDialog: () => setShowMarketDialog(true),
     }),
-    [language, marketCode, needsSelection],
+    [language, marketCode, showMarketDialog],
   );
 
   return <MarketContext.Provider value={value}>{children}</MarketContext.Provider>;
 }
 
 export function useMarket() {
-  const value = useContext(MarketContext);
-  if (!value) throw new Error("useMarket must be used inside MarketProvider");
-  return value;
+  const context = useContext(MarketContext);
+  if (!context) throw new Error("useMarket must be used inside MarketProvider");
+  return context;
 }
 
 export function MarketSelectionDialog({ disabled = false }: { disabled?: boolean }) {
-  const { market, setMarket, language, setLanguage, needsSelection, dismissSelection } = useMarket();
-  if (disabled || !needsSelection) return null;
+  const { market, setMarket, language, setLanguage, showMarketDialog, closeMarketDialog } = useMarket();
+  if (disabled || !showMarketDialog) return null;
 
   return (
-    <div className="market-gate" role="dialog" aria-modal="true" aria-labelledby="market-gate-title">
-      <div className="market-gate__panel">
-        <p className="v23-eyebrow"><span /> {marketText(language, "Market", "판매국가")}</p>
-        <h2 id="market-gate-title">
-          {marketText(language, "Choose where you are ordering from.", "주문할 국가를 선택하세요.")}
-        </h2>
+    <div className="market-dialog" role="dialog" aria-modal="true" aria-label="Choose market">
+      <div className="market-dialog__panel">
+        <p className="v23-eyebrow">
+          <span /> {marketText(language, "CHOOSE YOUR MARKET", "판매 지역 선택")}
+        </p>
+        <h2>{marketText(language, "Where should hondit ship?", "어느 지역으로 배송할까요?")}</h2>
         <p>
           {marketText(
             language,
-            "Prices, PayPal currency and delivery fields will match your selected market.",
-            "가격, PayPal 결제 통화, 배송 입력 항목이 선택한 판매국가에 맞춰집니다.",
+            "Prices, payment currency and available buying routes are fixed by market.",
+            "가격, 결제 통화, 구매 경로는 선택한 판매 지역 기준으로 고정됩니다.",
           )}
         </p>
-        <div className="market-gate__options">
+        <div className="market-dialog__options">
           {Object.values(markets).map((option) => (
-            <button key={option.code} type="button" className={market.code === option.code ? "is-active" : ""} onClick={() => setMarket(option.code)}>
+            <button
+              key={option.code}
+              type="button"
+              className={option.code === market.code ? "is-active" : ""}
+              onClick={() => setMarket(option.code)}
+            >
               <strong>{marketText(language, option.label, option.koreanLabel)}</strong>
-              <span>{option.currency} PayPal checkout</span>
+              <span>
+                {marketText(
+                  language,
+                  option.hasShopee ? `${option.currency} PayPal + Shopee retail` : `${option.currency} PayPal bulk only`,
+                  option.hasShopee ? `${option.currency} PayPal + Shopee 개별구매` : `${option.currency} PayPal 대량주문 전용`,
+                )}
+              </span>
             </button>
           ))}
         </div>
-        <div className="market-gate__language">
-          <button type="button" className={language === "en" ? "is-active" : ""} onClick={() => setLanguage("en")}>English</button>
-          <button type="button" className={language === "ko" ? "is-active" : ""} onClick={() => setLanguage("ko")}>한국어</button>
-        </div>
-        <button className="market-gate__quiet" type="button" onClick={dismissSelection}>
-          {marketText(language, `Continue with ${market.label}`, `${market.koreanLabel} 판매판으로 계속`)}
+        <label className="market-dialog__language">
+          {marketText(language, "Display language", "표시 언어")}
+          <select value={language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
+            <option value="en">English</option>
+            <option value="ko">한국어</option>
+          </select>
+        </label>
+        <button type="button" className="button button--primary" onClick={closeMarketDialog}>
+          {marketText(language, "Continue", "계속하기")}
         </button>
       </div>
     </div>

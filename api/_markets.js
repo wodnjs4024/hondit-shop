@@ -5,6 +5,7 @@ export const markets = {
     countryName: "Singapore",
     currency: "SGD",
     sgdRate: 1,
+    hasShopee: true,
     checkoutNote: "Singapore EMS shipping is included in the displayed bulk unit price.",
   },
   HK: {
@@ -13,6 +14,7 @@ export const markets = {
     countryName: "Hong Kong",
     currency: "HKD",
     sgdRate: 5.8,
+    hasShopee: false,
     checkoutNote: "Hong Kong delivery is included in the displayed bulk unit price.",
   },
 };
@@ -36,6 +38,17 @@ export function resolveMarket(body = {}) {
 
 export function convertSgdToMarketAmount(value, market) {
   return Number((Number(value || 0) * market.sgdRate).toFixed(2));
+}
+
+export function getMarketUnitPrice(product, market) {
+  const prices = product?.marketUnitPrices || product?.market_unit_prices || {};
+  const fixed = prices?.[market.code] ?? prices?.[market.currency];
+  if (Number.isFinite(Number(fixed))) return Number(fixed);
+  return convertSgdToMarketAmount(product?.unitPriceSgd ?? product?.bulkUnitPrice ?? 0, market);
+}
+
+export function getMarketLineTotal(product, units, market) {
+  return Number((getMarketUnitPrice(product, market) * Number(units || 0)).toFixed(2));
 }
 
 export function formatPayPalAmount(value) {

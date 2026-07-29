@@ -20,9 +20,7 @@ export function HomePage() {
       video.defaultMuted = true;
       if (document.visibilityState === "hidden") return;
       const playRequest = video.play();
-      if (playRequest) {
-        playRequest.catch(() => undefined);
-      }
+      if (playRequest) playRequest.catch(() => undefined);
     };
 
     keepPlaying();
@@ -44,35 +42,89 @@ export function HomePage() {
           <div className="v23-home-hero-copy">
             <p className="v23-eyebrow"><span /> JEJU NATIONAL UNIVERSITY - STUDENT-LED</p>
             <h1>Jeju, held in<br /><em>everyday ritual.</em></h1>
-            <p>{marketText(language, `Vegan Korean cleansing care and volcanic-stone scent, selected in Jeju and delivered to ${countryName} with a clear way to buy.`, `제주에서 고른 비건 클렌징 케어와 화산석 향 제품을 ${countryName}로 명확하게 주문할 수 있습니다.`)}</p>
+            <p>
+              {marketText(
+                language,
+                `Vegan Korean cleansing care and volcanic-stone scent, selected in Jeju and delivered to ${countryName} with a clear way to buy.`,
+                `제주에서 고른 비건 클렌징 케어와 화산석 향 제품을 ${countryName} 고객에게 명확한 구매 방식으로 제공합니다.`,
+              )}
+            </p>
+
             <div className="v23-route-cards">
-              <a href={SHOPEE} target="_blank" rel="noreferrer">
-                <small>{marketText(language, "FOR INDIVIDUALS", "개별 구매")}</small>
-                <b>{marketText(language, "Buy on Shopee", "Shopee에서 구매")}</b>
-                <span>{marketText(language, `Live prices, vouchers and secure ${countryName} checkout.`, `실시간 가격, 쿠폰, ${countryName} 결제 환경을 확인하세요.`)}</span>
-              </a>
+              {market.hasShopee ? (
+                <a href={SHOPEE} target="_blank" rel="noreferrer">
+                  <small>{marketText(language, "FOR INDIVIDUALS", "개별 구매")}</small>
+                  <b>{marketText(language, "Buy on Shopee", "Shopee에서 구매")}</b>
+                  <span>{marketText(language, `Live prices, vouchers and secure ${countryName} checkout.`, `실시간 가격, 쿠폰, ${countryName} 결제 환경을 확인하세요.`)}</span>
+                </a>
+              ) : (
+                <Link to="/bulk-orders">
+                  <small>{marketText(language, `FOR ${market.shortLabel}`, `${market.koreanLabel} 전용`)}</small>
+                  <b>{marketText(language, "Bulk only", "대량주문 전용")}</b>
+                  <span>{marketText(language, `Fixed ${market.currency} prices and direct PayPal checkout.`, `고정 ${market.currency} 가격과 PayPal 직접 결제로 운영합니다.`)}</span>
+                </Link>
+              )}
+
               <Link to="/bulk-orders">
-                <small>{marketText(language, "FOR BUSINESSES AND GROUPS", "사업자와 단체")}</small>
+                <small>{marketText(language, "FOR BUSINESSES AND GROUPS", "사업자 및 단체")}</small>
                 <b>{marketText(language, "Bulk Checkout", "대량주문")}</b>
                 <span>{marketText(language, `Review MOQ, then pay securely through PayPal in ${market.currency}.`, `최소 주문 수량을 확인하고 PayPal ${market.currency}로 결제합니다.`)}</span>
               </Link>
             </div>
+
             <div className="v23-trust-row">
               <span>{marketText(language, "Jeju-based student team", "제주 기반 학생 운영팀")}</span>
-              <span>{marketText(language, "Official Shopee route", "공식 Shopee 구매 경로")}</span>
-              <span>{marketText(language, `PayPal ${market.currency} direct checkout`, `PayPal ${market.currency} 직접 결제`)}</span>
+              <span>
+                {market.hasShopee
+                  ? marketText(language, "Official Shopee route", "공식 Shopee 구매 경로")
+                  : marketText(language, "Direct bulk checkout", "직접 대량주문")}
+              </span>
+              <span>{marketText(language, `PayPal ${market.currency} checkout`, `PayPal ${market.currency} 결제`)}</span>
             </div>
           </div>
+
           <figure className="v23-home-hero-media">
             <img src="/images/hondit-tidal-ritual-hero.webp" alt="hondit cleansing care and volcanic diffuser products on Jeju-inspired stone and water." />
           </figure>
         </section>
 
         <section className="v23-confidence">
-          <article><small>ORIGIN</small><b>Jeju National University</b><p>{marketText(language, "Student-led and based in Jeju City.", "제주시 기반 학생 운영 프로젝트입니다.")}</p></article>
-          <article><small>RETAIL</small><b>{marketText(language, "Official Shopee route", "공식 Shopee 경로")}</b><p>{marketText(language, "Live price, vouchers and protected checkout.", "실시간 가격, 쿠폰, 보호된 체크아웃을 이용합니다.")}</p></article>
-          <article><small>DELIVERY</small><b>{marketText(language, `${countryName} delivery`, `${countryName} 배송`)}</b><p>{marketText(language, "Direct bulk orders dispatch from Korea after PayPal capture.", "대량주문은 PayPal 결제 완료 후 한국에서 발송됩니다.")}</p></article>
-          <article><small>PAYMENT</small><b>{marketText(language, "Two clear routes", "두 가지 구매 경로")}</b><p>{marketText(language, `Shopee retail or secure PayPal ${market.currency} direct checkout.`, `Shopee 개별 구매 또는 PayPal ${market.currency} 직접 결제.`)}</p></article>
+          <article>
+            <small>ORIGIN</small>
+            <b>Jeju National University</b>
+            <p>{marketText(language, "Student-led and based in Jeju City.", "제주시에 기반을 둔 학생 운영 프로젝트입니다.")}</p>
+          </article>
+          <article>
+            <small>{market.hasShopee ? "RETAIL" : "ROUTE"}</small>
+            <b>
+              {market.hasShopee
+                ? marketText(language, "Official Shopee route", "공식 Shopee 경로")
+                : marketText(language, "Bulk only direct route", "대량주문 전용 경로")}
+            </b>
+            <p>
+              {market.hasShopee
+                ? marketText(language, "Live price, vouchers and protected checkout.", "실시간 가격, 쿠폰, 보호된 체크아웃을 이용합니다.")
+                : marketText(language, `No Shopee retail route is shown for ${countryName}. Orders go through hondit checkout only.`, `${countryName}에는 Shopee 개별 구매 경로를 표시하지 않습니다. 주문은 hondit 체크아웃으로만 진행합니다.`)}
+            </p>
+          </article>
+          <article>
+            <small>DELIVERY</small>
+            <b>{marketText(language, `${countryName} delivery`, `${countryName} 배송`)}</b>
+            <p>{marketText(language, "Direct bulk orders dispatch from Korea after PayPal capture.", "대량주문은 PayPal 결제 완료 후 한국에서 발송 준비합니다.")}</p>
+          </article>
+          <article>
+            <small>PAYMENT</small>
+            <b>
+              {market.hasShopee
+                ? marketText(language, "Two clear routes", "두 가지 구매 경로")
+                : marketText(language, `Fixed ${market.currency} bulk price`, `고정 ${market.currency} 대량주문가`)}
+            </b>
+            <p>
+              {market.hasShopee
+                ? marketText(language, `Shopee retail or secure PayPal ${market.currency} direct checkout.`, `Shopee 개별 구매 또는 PayPal ${market.currency} 직접 결제.`)
+                : marketText(language, `Bulk orders are priced and captured in ${market.currency}.`, `대량주문은 ${market.currency}로 가격 표시 및 결제됩니다.`)}
+            </p>
+          </article>
         </section>
 
         <section className="v23-editorial-breeze">

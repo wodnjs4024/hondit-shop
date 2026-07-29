@@ -55,6 +55,7 @@ export async function supabase(path, options = {}) {
 }
 
 export function toClientProduct(product) {
+  const defaultProduct = defaultProducts.find((entry) => entry.slug === product.slug);
   return {
     id: product.id,
     slug: product.slug,
@@ -78,6 +79,7 @@ export function toClientProduct(product) {
     detailImages: product.detail_images ?? product.detailImages ?? [],
     detailHighlights: product.detail_highlights ?? product.detailHighlights ?? [],
     detailHowToUse: product.detail_how_to_use ?? product.detailHowToUse ?? [],
+    marketUnitPrices: product.market_unit_prices ?? product.marketUnitPrices ?? defaultProduct?.marketUnitPrices,
   };
 }
 

@@ -46,6 +46,7 @@ export type BulkProduct = {
   detailImages?: string[];
   detailHighlights?: string[];
   detailHowToUse?: string[];
+  marketUnitPrices?: Partial<Record<"SG" | "HK", number>>;
 };
 
 export const BULK_QTY_STEP = 10;
@@ -93,6 +94,7 @@ export const bulkProducts: BulkProduct[] = [
     description: "A gentle vegan foam oil selected for daily cleansing routines in warm, humid city weather.",
     imageUrl: packImages.foamOil,
     unitPriceSgd: 8.99,
+    marketUnitPrices: { SG: 8.99, HK: 52 },
     packQuantity: 30,
     packPriceSgd: 269.7,
     unitWeightKg: 0.18,
@@ -117,6 +119,7 @@ export const bulkProducts: BulkProduct[] = [
     description: "A soft foaming cleanser for everyday wash routines, selected for simple and clear skin care.",
     imageUrl: packImages.foamingPack,
     unitPriceSgd: 8.99,
+    marketUnitPrices: { SG: 8.99, HK: 52 },
     packQuantity: 30,
     packPriceSgd: 269.7,
     unitWeightKg: 0.23,
@@ -141,6 +144,7 @@ export const bulkProducts: BulkProduct[] = [
     description: "A lightweight cleansing water for light makeup, sunscreen residue and quick daily cleansing.",
     imageUrl: packImages.cleansingWaterPack,
     unitPriceSgd: 8.99,
+    marketUnitPrices: { SG: 8.99, HK: 52 },
     packQuantity: 30,
     packPriceSgd: 269.7,
     unitWeightKg: 0.34,
@@ -165,6 +169,7 @@ export const bulkProducts: BulkProduct[] = [
     description: "A compact Jeju volcanic stone diffuser with citrus oil, suited for desks, shelves and personal spaces.",
     imageUrl: packImages.diffuser350Studio,
     unitPriceSgd: 21,
+    marketUnitPrices: { SG: 21, HK: 122 },
     packQuantity: 20,
     packPriceSgd: 420,
     unitWeightKg: 0.48,
@@ -189,6 +194,7 @@ export const bulkProducts: BulkProduct[] = [
     description: "A larger Jeju volcanic stone diffuser with citrus oil, suited for bedrooms, bathrooms and shared spaces.",
     imageUrl: packImages.diffuser500Studio,
     unitPriceSgd: 46,
+    marketUnitPrices: { SG: 46, HK: 267 },
     packQuantity: 20,
     packPriceSgd: 920,
     unitWeightKg: 0.68,
@@ -215,6 +221,7 @@ export const livePaymentTestProduct: BulkProduct = {
   description: "A hidden operational test item for confirming that Live PayPal payment, order saving and refund flow work correctly.",
   imageUrl: packImages.diffuser350Studio,
   unitPriceSgd: 1,
+  marketUnitPrices: { SG: 1, HK: 8 },
   packQuantity: 1,
   packPriceSgd: 1,
   unitWeightKg: 0,

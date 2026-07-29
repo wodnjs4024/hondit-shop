@@ -2,14 +2,16 @@ import { Link, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { marketCountryName, marketText, useMarket } from "../lib/market";
 
-function getPolicyContent(policy: string, countryName: string, currency: string, language: "en" | "ko") {
+function getPolicyContent(policy: string, countryName: string, currency: string, hasShopee: boolean, language: "en" | "ko") {
   const content: Record<string, { title: string; body: string[] }> = {
     shipping: {
       title: marketText(language, "Shipping Policy", "배송 정책"),
       body: [
-        marketText(language, `Bulk orders are currently available for delivery to ${countryName}.`, `현재 대량주문은 ${countryName} 배송 기준으로 운영됩니다.`),
+        marketText(language, `Bulk orders are currently available for delivery to ${countryName}.`, `현재 대량주문은 ${countryName} 배송 기준으로 운영합니다.`),
         marketText(language, `Listed bulk order prices include the selected ${countryName} delivery route and are charged in ${currency}.`, `표시된 대량주문 가격에는 선택한 ${countryName} 배송 경로가 포함되며 ${currency}로 결제됩니다.`),
-        marketText(language, "Retail purchases are completed on Shopee and follow Shopee order tracking and delivery rules.", "개별 구매는 Shopee에서 완료되며 Shopee의 주문 추적 및 배송 규칙을 따릅니다."),
+        hasShopee
+          ? marketText(language, "Retail purchases are completed on Shopee and follow Shopee order tracking and delivery rules.", "개별 구매는 Shopee에서 완료되며 Shopee의 주문 추적 및 배송 규칙을 따릅니다.")
+          : marketText(language, "This market does not use Shopee retail checkout. Orders are handled through hondit bulk checkout only.", "이 시장은 Shopee 개별 구매를 사용하지 않습니다. 주문은 hondit 대량주문으로만 처리됩니다."),
       ],
     },
     refund: {
@@ -25,7 +27,7 @@ function getPolicyContent(policy: string, countryName: string, currency: string,
       body: [
         marketText(language, "Checkout information is used to process bulk orders, PayPal payment records, delivery and customer support.", "체크아웃 정보는 대량주문 처리, PayPal 결제 기록, 배송, 고객 응대에 사용됩니다."),
         marketText(language, "Customer order data is not shown publicly. Admin access is protected through Supabase Auth.", "고객 주문 데이터는 공개되지 않으며 관리자 접근은 Supabase Auth로 보호됩니다."),
-        marketText(language, "Collected data may include name, email, phone, company, address, market, order details, inquiry messages and payment references.", "수집 정보에는 이름, 이메일, 전화번호, 회사명, 주소, 판매국가, 주문 상세, 문의 메시지, 결제 참조번호가 포함될 수 있습니다."),
+        marketText(language, "Collected data may include name, email, phone, company, address, market, order details, inquiry messages and payment references.", "수집 정보에는 이름, 이메일, 전화번호, 회사명, 주소, 판매 시장, 주문 상세, 문의 메시지, 결제 참조번호가 포함될 수 있습니다."),
       ],
     },
     terms: {
@@ -33,7 +35,9 @@ function getPolicyContent(policy: string, countryName: string, currency: string,
       body: [
         marketText(language, `Bulk order prices are charged in ${currency} for the selected ${countryName} sales edition.`, `대량주문 가격은 선택한 ${countryName} 판매판 기준으로 ${currency} 결제됩니다.`),
         marketText(language, "Orders are confirmed only after PayPal payment has been captured and verified by the server.", "주문은 PayPal 결제가 서버에서 캡처 및 검증된 뒤 확정됩니다."),
-        marketText(language, "Retail purchases are completed through Shopee. Bulk purchases are completed through PayPal checkout on this site.", "개별 구매는 Shopee에서, 대량 구매는 이 사이트의 PayPal 체크아웃에서 완료됩니다."),
+        hasShopee
+          ? marketText(language, "Retail purchases are completed through Shopee. Bulk purchases are completed through PayPal checkout on this site.", "개별 구매는 Shopee에서, 대량 구매는 이 사이트의 PayPal 체크아웃에서 완료됩니다.")
+          : marketText(language, "Retail Shopee checkout is not offered for this market. Purchases are completed through PayPal bulk checkout on this site.", "이 시장에는 Shopee 개별 구매를 제공하지 않습니다. 구매는 이 사이트의 PayPal 대량주문 체크아웃에서 완료됩니다."),
       ],
     },
   };
@@ -46,7 +50,7 @@ export function PolicyPage() {
   const { market, language } = useMarket();
   const { policy = "terms" } = useParams();
   const countryName = marketCountryName(market, language);
-  const content = getPolicyContent(policy, countryName, market.currency, language);
+  const content = getPolicyContent(policy, countryName, market.currency, market.hasShopee, language);
 
   return (
     <V23Page>

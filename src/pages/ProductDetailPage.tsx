@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
+import { formatMarketUnitMoney, marketText, useMarket } from "../lib/market";
 import { loadStorefrontProduct } from "../lib/storefrontApi";
-import { formatMarketMoney, marketText, useMarket } from "../lib/market";
 
 export function ProductDetailPage() {
   const { market, language } = useMarket();
@@ -41,15 +41,25 @@ export function ProductDetailPage() {
             <p className="v23-eyebrow"><span /> {product.category}</p>
             <h1>{product.name}</h1>
             <p>{product.description}</p>
-            <strong>{formatMarketMoney(product.bulkUnitPrice, market)}</strong>
+            <strong>{formatMarketUnitMoney(product, market)}</strong>
             <dl>
-              <div><dt>{marketText(language, "Bulk MOQ", "대량 주문 MOQ")}</dt><dd>{product.bulkMoq} {marketText(language, "units", "개")}</dd></div>
-              <div><dt>{marketText(language, "Bulk unit", "대량 주문 단가")}</dt><dd>{formatMarketMoney(product.bulkUnitPrice, market)}</dd></div>
-              <div><dt>{marketText(language, "Route", "구매 방식")}</dt><dd>{marketText(language, "Shopee or PayPal bulk checkout", "Shopee 구매 또는 PayPal 대량 주문")}</dd></div>
+              <div><dt>{marketText(language, "Bulk MOQ", "대량주문 MOQ")}</dt><dd>{product.bulkMoq} {marketText(language, "units", "개")}</dd></div>
+              <div><dt>{marketText(language, "Bulk unit", "대량주문 단가")}</dt><dd>{formatMarketUnitMoney(product, market)}</dd></div>
+              <div>
+                <dt>{marketText(language, "Route", "구매 방식")}</dt>
+                <dd>
+                  {market.hasShopee
+                    ? marketText(language, "Shopee retail or PayPal bulk checkout", "Shopee 개별구매 또는 PayPal 대량주문")
+                    : marketText(language, "PayPal bulk checkout only", "PayPal 대량주문 전용")}
+                </dd>
+              </div>
             </dl>
             <div className="v23-actions">
-              <a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee ->", "Shopee 구매 ->")}</a>
-              <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout ->", "대량 주문 ->")}</Link>
+              {market.hasShopee && (
+                <a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee ->", "Shopee 구매 ->")}</a>
+              )}
+              <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout ->", "대량주문 ->")}</Link>
+              {!market.hasShopee && <Link to={`/contact?product=${product.slug}`}>{marketText(language, "Ask hondit ->", "문의하기 ->")}</Link>}
             </div>
           </div>
         </section>

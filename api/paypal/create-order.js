@@ -1,6 +1,6 @@
 import { livePaymentTestProduct } from "../_bulk-data.js";
 import { calculateCart, createOrderNumber, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
-import { convertSgdToMarketAmount, formatPayPalAmount, resolveMarket } from "../_markets.js";
+import { formatPayPalAmount, getMarketLineTotal, getMarketUnitPrice, resolveMarket } from "../_markets.js";
 
 function validateCheckout(body) {
   const required = ["orderType", "customerName", "customerEmail", "customerPhone", "addressLine1", "city", "postalCode"];
@@ -80,7 +80,12 @@ export default async function handler(req, res) {
       ? [...products, livePaymentTestProduct]
       : products;
     const summary = calculateCart(body.cart, checkoutProducts);
-    const marketTotal = convertSgdToMarketAmount(summary.totalSgd, market);
+    const marketLines = summary.lines.map((line) => {
+      const marketUnitPrice = getMarketUnitPrice(line.product, market);
+      const marketLineTotal = getMarketLineTotal(line.product, line.totalUnits, market);
+      return { ...line, marketUnitPrice, marketLineTotal };
+    });
+    const marketTotal = Number(marketLines.reduce((sum, line) => sum + line.marketLineTotal, 0).toFixed(2));
     const orderNumber = createOrderNumber();
     const attribution = body.attribution || {};
 
@@ -97,7 +102,7 @@ export default async function handler(req, res) {
       city: body.city.trim(),
       postal_code: body.postalCode.trim(),
       customer_note: body.customerNote || null,
-      internal_note: `${market.checkoutNote} Source SGD total: ${summary.totalSgd.toFixed(2)}; checkout total: ${market.currency} ${marketTotal.toFixed(2)}.`,
+      internal_note: `${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotal.toFixed(2)}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
       utm_source: attribution.utm_source || attribution.traffic_source || null,
       utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,
@@ -121,18 +126,18 @@ export default async function handler(req, res) {
     await supabase("/order_items", {
       method: "POST",
       body: JSON.stringify(
-        summary.lines.map((line) => ({
+        marketLines.map((line) => ({
           order_id: order.id,
           product_id: line.product.id,
           product_slug: line.product.slug,
           product_name_snapshot: line.product.name,
           volume_snapshot: line.product.volumeLabel,
-          unit_price_sgd_snapshot: convertSgdToMarketAmount(line.product.unitPriceSgd, market),
+          unit_price_sgd_snapshot: line.marketUnitPrice,
           pack_quantity_snapshot: line.product.packQuantity,
-          pack_price_sgd_snapshot: convertSgdToMarketAmount(line.product.unitPriceSgd * line.product.packQuantity, market),
+          pack_price_sgd_snapshot: Number((line.marketUnitPrice * line.product.packQuantity).toFixed(2)),
           pack_count: line.packCount,
           total_units: line.totalUnits,
-          line_total_sgd: convertSgdToMarketAmount(line.lineTotalSgd, market),
+          line_total_sgd: line.marketLineTotal,
         })),
       ),
     });

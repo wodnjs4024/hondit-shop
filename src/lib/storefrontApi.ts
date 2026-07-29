@@ -9,6 +9,7 @@ function mergeProduct(staticProduct: StorefrontProduct, apiProduct?: BulkProduct
     active: apiProduct.active,
     stockQuantity: apiProduct.inventoryPacks * apiProduct.packQuantity,
     bulkUnitPrice: apiProduct.unitPriceSgd,
+    marketUnitPrices: apiProduct.marketUnitPrices ?? staticProduct.marketUnitPrices,
     bulkMoq: apiProduct.packQuantity,
     bulkStep: 10,
   };
