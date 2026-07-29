@@ -724,18 +724,6 @@ video {
   min-width: 170px;
 }
 
-.v23-market-button {
-  min-height: 38px;
-  padding: 0 18px;
-  border: 1px solid var(--v23-line);
-  border-radius: 999px;
-  background: #fffdf8;
-  color: rgba(23, 52, 46, 0.82);
-  font: 850 0.72rem/1 var(--v23-sans);
-  cursor: pointer;
-  white-space: nowrap;
-}
-
 .v23-market-switch {
   display: inline-flex;
   align-items: center;
@@ -819,10 +807,6 @@ video {
     padding-left: 12px;
   }
 
-  .v23-market-button {
-    min-height: 38px;
-    padding-inline: 16px;
-  }
 }
 
 .market-gate {

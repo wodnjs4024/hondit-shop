@@ -15,7 +15,7 @@ import {
 export function V23Header() {
   const [open, setOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
-  const { market, setMarket, language, setLanguage, openMarketDialog } = useMarket();
+  const { market, setMarket, language, setLanguage } = useMarket();
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false);
@@ -104,9 +104,6 @@ export function V23Header() {
               ))}
             </select>
           </label>
-          <button className="v23-market-button" type="button" onClick={openMarketDialog}>
-            {marketText(language, "Change market", "지역 변경")}
-          </button>
         </div>
       </header>
     </>
