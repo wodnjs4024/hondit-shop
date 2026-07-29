@@ -1,4 +1,5 @@
 import { defaultProducts } from "./_bulk-data.js";
+import { formatOrderAmount } from "./_markets.js";
 
 export function json(res, status, data) {
   res.status(status).setHeader("Content-Type", "application/json");
@@ -208,7 +209,7 @@ export async function notifyTelegramNewOrder(order, items = []) {
     "",
     `<b>Order</b>: ${escapeTelegramText(order.order_number)}`,
     `<b>Customer</b>: ${escapeTelegramText(order.customer_name)}`,
-    `<b>Total</b>: S$${Number(order.total_sgd || 0).toFixed(2)}`,
+    `<b>Total</b>: ${escapeTelegramText(formatOrderAmount(order.total_sgd || 0, order.currency || "SGD"))}`,
     `<b>Units</b>: ${escapeTelegramText(order.total_units || "-")}`,
     `<b>Email</b>: ${escapeTelegramText(order.customer_email || "-")}`,
     `<b>Phone</b>: ${escapeTelegramText(order.customer_phone || "-")}`,

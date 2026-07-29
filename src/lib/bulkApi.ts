@@ -1,4 +1,5 @@
 import { bulkProducts, type BulkProduct } from "../data/bulkProducts";
+import type { CurrencyCode, MarketCode } from "./market";
 
 export type CheckoutItem = {
   slug: string;
@@ -11,7 +12,8 @@ export type CheckoutPayload = {
   customerEmail: string;
   customerPhone: string;
   companyName?: string;
-  countryCode: "SG";
+  market: MarketCode;
+  countryCode: MarketCode;
   addressLine1: string;
   addressLine2?: string;
   city: string;
@@ -45,10 +47,11 @@ export type PublicOrder = {
   total_units: number;
   total_packs: number;
   total_sgd: number;
-  currency: "SGD";
+  currency: CurrencyCode | string;
   customer_name?: string;
   customer_email?: string;
   customer_phone?: string;
+  company_name?: string | null;
   country_code?: string;
   address_line_1?: string;
   address_line_2?: string | null;

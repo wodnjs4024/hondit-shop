@@ -101,6 +101,11 @@ async function summary(req, res) {
   const paidOrderIds = new Set(settledOrders.map((order) => order.id));
   const paidItems = items.filter((item) => paidOrderIds.has(item.order_id));
   const revenueSgd = paidOrders.reduce((sum, order) => sum + Number(order.total_sgd || 0), 0);
+  const revenueByCurrency = paidOrders.reduce((totals, order) => {
+    const currency = order.currency || "SGD";
+    totals[currency] = (totals[currency] || 0) + Number(order.total_sgd || 0);
+    return totals;
+  }, {});
 
   return json(res, 200, {
     totals: {
@@ -114,6 +119,7 @@ async function summary(req, res) {
       delivered: countWhere(settledOrders, "order_status", "delivered"),
       closed: settledOrders.filter((order) => ["cancelled", "refunded"].includes(order.order_status) || ["cancelled", "refunded"].includes(order.payment_status)).length,
       totalPaidSgd: Number(revenueSgd.toFixed(2)),
+      revenueByCurrency: Object.fromEntries(Object.entries(revenueByCurrency).map(([currency, value]) => [currency, Number(value.toFixed(2))])),
     },
     recentOrders: paidOrders.slice(0, 8),
     checkoutAttempts: [],

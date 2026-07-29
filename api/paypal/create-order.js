@@ -1,11 +1,11 @@
 import { livePaymentTestProduct } from "../_bulk-data.js";
 import { calculateCart, createOrderNumber, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
+import { convertSgdToMarketAmount, formatPayPalAmount, resolveMarket } from "../_markets.js";
 
 function validateCheckout(body) {
   const required = ["orderType", "customerName", "customerEmail", "customerPhone", "addressLine1", "city", "postalCode"];
   const missing = required.filter((key) => !String(body[key] || "").trim());
   if (missing.length) throw new Error(`Missing checkout fields: ${missing.join(", ")}`);
-  if (body.countryCode !== "SG") throw new Error("Bulk checkout is currently available for Singapore delivery only");
   if (!Array.isArray(body.cart) || !body.cart.length) throw new Error("Cart is empty");
 }
 
@@ -71,6 +71,7 @@ export default async function handler(req, res) {
 
   try {
     const body = await readBody(req);
+    const market = resolveMarket(body);
     validateCheckout(body);
     await ensureCheckoutEnabled();
 
@@ -79,6 +80,7 @@ export default async function handler(req, res) {
       ? [...products, livePaymentTestProduct]
       : products;
     const summary = calculateCart(body.cart, checkoutProducts);
+    const marketTotal = convertSgdToMarketAmount(summary.totalSgd, market);
     const orderNumber = createOrderNumber();
     const attribution = body.attribution || {};
 
@@ -89,13 +91,13 @@ export default async function handler(req, res) {
       customer_email: body.customerEmail.trim(),
       customer_phone: body.customerPhone.trim(),
       company_name: body.companyName || null,
-      country_code: "SG",
+      country_code: market.countryCode,
       address_line_1: body.addressLine1.trim(),
       address_line_2: body.addressLine2 || null,
       city: body.city.trim(),
       postal_code: body.postalCode.trim(),
       customer_note: body.customerNote || null,
-      internal_note: "Free Singapore EMS shipping is included in the displayed bulk unit price.",
+      internal_note: `${market.checkoutNote} Source SGD total: ${summary.totalSgd.toFixed(2)}; checkout total: ${market.currency} ${marketTotal.toFixed(2)}.`,
       utm_source: attribution.utm_source || attribution.traffic_source || null,
       utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,
@@ -103,10 +105,10 @@ export default async function handler(req, res) {
       utm_term: attribution.utm_term || attribution.traffic_term || null,
       landing_page: attribution.landing_page || null,
       referrer: attribution.referrer || req.headers.referer || null,
-      currency: "SGD",
+      currency: market.currency,
       total_packs: summary.totalPacks,
       total_units: summary.totalUnits,
-      total_sgd: summary.totalSgd,
+      total_sgd: marketTotal,
       shipping_included: true,
       payment_provider: "paypal",
       payment_status: "pending_payment",
@@ -125,12 +127,12 @@ export default async function handler(req, res) {
           product_slug: line.product.slug,
           product_name_snapshot: line.product.name,
           volume_snapshot: line.product.volumeLabel,
-          unit_price_sgd_snapshot: line.product.unitPriceSgd,
+          unit_price_sgd_snapshot: convertSgdToMarketAmount(line.product.unitPriceSgd, market),
           pack_quantity_snapshot: line.product.packQuantity,
-          pack_price_sgd_snapshot: Number((line.product.unitPriceSgd * line.product.packQuantity).toFixed(2)),
+          pack_price_sgd_snapshot: convertSgdToMarketAmount(line.product.unitPriceSgd * line.product.packQuantity, market),
           pack_count: line.packCount,
           total_units: line.totalUnits,
-          line_total_sgd: line.lineTotalSgd,
+          line_total_sgd: convertSgdToMarketAmount(line.lineTotalSgd, market),
         })),
       ),
     });
@@ -142,11 +144,11 @@ export default async function handler(req, res) {
         purchase_units: [
           {
             reference_id: orderNumber,
-            description: "hondit Singapore bulk order",
+            description: `hondit ${market.countryName} bulk order`,
             custom_id: order.id,
             amount: {
-              currency_code: "SGD",
-              value: summary.totalSgd.toFixed(2),
+              currency_code: market.currency,
+              value: formatPayPalAmount(marketTotal),
             },
           },
         ],

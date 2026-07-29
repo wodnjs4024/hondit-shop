@@ -4,6 +4,7 @@ import {
   AdminNotice,
   AdminOrderTable,
   adminStatusLabel,
+  formatAdminOrderMoney,
   orderStatusLabels,
   paymentStatusLabels,
   type DashboardOrder,
@@ -60,7 +61,7 @@ export function AdminOrdersPage() {
         if (notificationStatusRef.current === "granted") {
           newPaidOrders.forEach((order) => {
             new Notification("hondit 새 결제 완료 주문", {
-              body: `${order.order_number} / ${order.customer_name} / S$${Number(order.total_sgd || 0).toFixed(2)}`,
+              body: `${order.order_number} / ${order.customer_name} / ${formatAdminOrderMoney(order.total_sgd, order.currency)}`,
             });
           });
         }
@@ -145,7 +146,11 @@ export function AdminOrdersPage() {
       </section>
 
       <form className="admin-filters" onSubmit={submit}>
-        <input placeholder="주문번호, 고객명, 이메일 검색" value={filters.q} onChange={(event) => setFilters({ ...filters, q: event.target.value })} />
+        <input
+          placeholder="주문번호, 고객명, 이메일 검색"
+          value={filters.q}
+          onChange={(event) => setFilters({ ...filters, q: event.target.value })}
+        />
         <input type="date" value={filters.from} onChange={(event) => setFilters({ ...filters, from: event.target.value })} />
         <input type="date" value={filters.to} onChange={(event) => setFilters({ ...filters, to: event.target.value })} />
         <select value={filters.paymentStatus} onChange={(event) => setFilters({ ...filters, paymentStatus: event.target.value })}>
@@ -163,12 +168,18 @@ export function AdminOrdersPage() {
           ))}
         </select>
         <input placeholder="주문 유형" value={filters.orderType} onChange={(event) => setFilters({ ...filters, orderType: event.target.value })} />
-        <button className="button button--primary" type="submit">필터 적용</button>
-        <button className="button button--ghost" type="button" onClick={load}>지금 새로고침</button>
+        <button className="button button--primary" type="submit">
+          필터 적용
+        </button>
+        <button className="button button--ghost" type="button" onClick={load}>
+          지금 새로고침
+        </button>
         <button className="button button--ghost" type="button" onClick={enableNotifications}>
           {notificationStatus === "granted" ? "브라우저 알림 켜짐" : "브라우저 알림 켜기"}
         </button>
-        <button className="button button--ghost" type="button" onClick={exportCsv}>CSV 다운로드</button>
+        <button className="button button--ghost" type="button" onClick={exportCsv}>
+          CSV 다운로드
+        </button>
       </form>
 
       <section className="admin-panel">

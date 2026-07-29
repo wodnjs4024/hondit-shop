@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { json, readBody, supabase } from "./_utils.js";
+import { resolveMarket } from "./_markets.js";
 
 const inquiryTypes = new Set(["General", "Product question", "Order support", "Bulk order", "Partnership"]);
 
@@ -47,6 +48,8 @@ export default async function handler(req, res) {
     const orderNumber = cleanOptional(payload.orderNumber, 80);
     const inquiryType = normalizeInquiryType(payload.inquiryType || payload.type);
     const message = cleanRequired(payload.message, 4000);
+    const market = resolveMarket(payload);
+    const language = cleanOptional(payload.language, 20) || "en";
 
     if (!name || !isEmail(email) || !inquiryTypes.has(inquiryType) || message.length < 10) {
       return json(res, 422, { error: "Complete your name, email, enquiry type and a message of at least 10 characters." });
@@ -65,6 +68,7 @@ export default async function handler(req, res) {
         order_number: orderNumber,
         inquiry_type: inquiryType,
         message,
+        admin_note: `Market: ${market.code} / ${market.countryName} / ${market.currency}; Language: ${language}`,
         status: "new",
         created_at: now,
         updated_at: now,

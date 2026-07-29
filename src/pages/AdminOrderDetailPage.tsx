@@ -1,7 +1,7 @@
 ﻿import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { formatSgd } from "../data/bulkProducts";
 import { adminFetch } from "../lib/bulkApi";
+import { formatCurrency } from "../lib/market";
 import { AdminNotice } from "./AdminDashboardPage";
 import { downloadCsv } from "./AdminOrdersPage";
 
@@ -42,6 +42,10 @@ const paymentStatusLabels: Record<string, string> = {
 function statusLabel(value: unknown, labels: Record<string, string>) {
   const key = String(value || "");
   return labels[key] ? `${labels[key]} (${key})` : key || "-";
+}
+
+function formatOrderMoney(value: unknown, currency: unknown) {
+  return formatCurrency(Number(value || 0), String(currency || "SGD"));
 }
 
 export function AdminOrderDetailPage() {
@@ -114,7 +118,7 @@ export function AdminOrderDetailPage() {
       `Company name: ${order.company_name || ""}`,
       `Customer country: ${order.country_code}`,
       `Shipping address: ${[order.address_line_1, order.address_line_2, order.city, order.postal_code].filter(Boolean).join(", ")}`,
-      `Payment amount: ${formatSgd(Number(order.total_sgd || 0))}`,
+      `Payment amount: ${formatOrderMoney(order.total_sgd, order.currency)}`,
       `Currency: ${order.currency}`,
       `PayPal order ID: ${order.paypal_order_id || ""}`,
       `PayPal capture ID: ${order.paypal_capture_id || ""}`,
@@ -126,7 +130,7 @@ export function AdminOrderDetailPage() {
       `Tracking number: ${order.tracking_number || ""}`,
       "",
       "Items",
-      ...items.map((item) => `${item.product_name_snapshot} ${item.volume_snapshot} / ${item.pack_count} packs / ${item.total_units} units / ${formatSgd(Number(item.line_total_sgd || 0))}`),
+      ...items.map((item) => `${item.product_name_snapshot} ${item.volume_snapshot} / ${item.pack_count} packs / ${item.total_units} units / ${formatOrderMoney(item.line_total_sgd, order.currency)}`),
     ].join("\n");
   }, [detail]);
 
@@ -257,7 +261,7 @@ export function AdminOrderDetailPage() {
         <section className="admin-panel">
           <h2>결제 기록</h2>
           <dl className="evidence-list">
-            <div><dt>총액</dt><dd>{formatSgd(Number(order.total_sgd || 0))}</dd></div>
+            <div><dt>총액</dt><dd>{formatOrderMoney(order.total_sgd, order.currency)}</dd></div>
             <div><dt>PayPal order ID</dt><dd>{order.paypal_order_id}</dd></div>
             <div><dt>PayPal capture ID</dt><dd>{order.paypal_capture_id}</dd></div>
             <div><dt>주문 상태</dt><dd>{statusLabel(order.order_status, orderStatusLabels)}</dd></div>
@@ -281,7 +285,7 @@ export function AdminOrderDetailPage() {
                   <td>{item.product_name_snapshot} {item.volume_snapshot}</td>
                   <td>{item.pack_count}</td>
                   <td>{item.total_units}</td>
-                  <td>{formatSgd(Number(item.line_total_sgd || 0))}</td>
+                  <td>{formatOrderMoney(item.line_total_sgd, order.currency)}</td>
                 </tr>
               ))}
             </tbody>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatSgd } from "../data/bulkProducts";
+import { formatCurrency } from "../lib/market";
 import { adminFetch } from "../lib/bulkApi";
 
 export type DashboardOrder = {
@@ -8,9 +9,12 @@ export type DashboardOrder = {
   order_number: string;
   customer_name: string;
   customer_email?: string;
+  company_name?: string | null;
+  country_code?: string | null;
   order_type: string;
   total_units: number;
   total_sgd: number;
+  currency?: string | null;
   payment_status: string;
   payment_failure_reason?: string | null;
   internal_note?: string | null;
@@ -27,8 +31,23 @@ type InsightRow = {
   revenueSgd: number;
 };
 
+type SummaryTotals = {
+  totalOrders?: number;
+  checkoutAttempts?: number;
+  pendingPayment?: number;
+  paid?: number;
+  preparing?: number;
+  packed?: number;
+  shipped?: number;
+  delivered?: number;
+  closed?: number;
+  totalPaidSgd?: number;
+  revenueByCurrency?: Record<string, number>;
+  [key: string]: number | Record<string, number> | undefined;
+};
+
 type Summary = {
-  totals: Record<string, number>;
+  totals: SummaryTotals;
   popularProducts?: InsightRow[];
   countries?: InsightRow[];
   sources?: InsightRow[];
@@ -64,6 +83,25 @@ export function adminStatusLabel(value: unknown, labels: Record<string, string>)
   return labels[key] ? `${labels[key]} (${key})` : key || "-";
 }
 
+export function formatAdminOrderMoney(value: unknown, currency?: string | null) {
+  return formatCurrency(Number(value || 0), currency || "SGD");
+}
+
+function formatAdminRevenueTotals(totals: SummaryTotals) {
+  const entries = Object.entries(totals.revenueByCurrency || {});
+  if (entries.length) {
+    return entries.map(([currency, value]) => formatAdminOrderMoney(value, currency)).join(" / ");
+  }
+  return formatSgd(totals.totalPaidSgd || 0);
+}
+
+function countryLabel(code?: string | null) {
+  const normalized = String(code || "").toUpperCase();
+  if (normalized === "SG") return "싱가포르";
+  if (normalized === "HK") return "홍콩";
+  return normalized || "-";
+}
+
 export function AdminDashboardPage() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [error, setError] = useState("");
@@ -87,7 +125,7 @@ export function AdminDashboardPage() {
 
   if (error) return <AdminNotice message={error} />;
 
-  const totals = summary?.totals || {};
+  const totals = summary?.totals || ({} as Summary["totals"]);
   const cards = [
     ["결제 완료 주문", totals.totalOrders || 0],
     ["상품 준비", totals.preparing || 0],
@@ -95,7 +133,7 @@ export function AdminDashboardPage() {
     ["배송 시작", totals.shipped || 0],
     ["배송 완료", totals.delivered || 0],
     ["취소 / 환불", totals.closed || 0],
-    ["결제 완료 매출", formatSgd(totals.totalPaidSgd || 0)],
+    ["결제 완료 매출", formatAdminRevenueTotals(totals)],
   ];
 
   return (
@@ -105,7 +143,7 @@ export function AdminDashboardPage() {
           <p className="eyebrow">운영 대시보드</p>
           <h1>hondit 운영 콘솔</h1>
           <p className="admin-muted">
-            실제 PayPal 결제가 완료된 주문만 운영 대상으로 표시합니다.
+            실제 PayPal 결제가 완료된 주문을 중심으로 운영합니다.
             {lastUpdated ? ` 마지막 업데이트: ${lastUpdated.toLocaleTimeString("ko-KR")}` : ""}
           </p>
         </div>
@@ -149,16 +187,15 @@ export function AdminDashboardPage() {
       <section className="admin-panel admin-panel--analytics">
         <div>
           <p className="eyebrow">Analytics</p>
-          <h2>방문과 클릭 데이터</h2>
+          <h2>방문과 구매 경로</h2>
           <p className="admin-muted">
-            GA4에서 campaign_landing, landing_facebook_community, landing_instagram_bio 같은
-            이벤트와 UTM 출처를 확인할 수 있습니다.
+            GA4에서 campaign_landing, landing_facebook_community, landing_instagram_bio 같은 이벤트와 UTM 출처를 확인할 수 있습니다.
           </p>
         </div>
         <div className="admin-analytics-grid">
           <a href="https://analytics.google.com/analytics/web/" target="_blank" rel="noreferrer">
             <strong>GA4 열기</strong>
-            <span>실시간, 유입 채널, 페이지, 이벤트 확인</span>
+            <span>실시간 유입 채널, 페이지, 이벤트 확인</span>
           </a>
           <a href="https://vercel.com/hondit/hondit-shop/analytics" target="_blank" rel="noreferrer">
             <strong>Vercel Analytics</strong>
@@ -205,13 +242,14 @@ export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
           <tr>
             <th>주문번호</th>
             <th>생성일</th>
+            <th>국가 / 통화</th>
             <th>고객</th>
+            <th>회사</th>
             <th>이메일</th>
             <th>유형</th>
             <th>개수</th>
             <th>총액</th>
             <th>결제 상태</th>
-            <th>실패 / 취소 사유</th>
             <th>PayPal order ID</th>
             <th>주문 상태</th>
             <th>수정일</th>
@@ -224,13 +262,18 @@ export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
                 <Link to={`/admin/orders/${order.id}`}>{order.order_number}</Link>
               </td>
               <td>{new Date(order.created_at).toLocaleDateString("ko-KR")}</td>
+              <td>
+                {countryLabel(order.country_code)}
+                <br />
+                <small>{order.currency || "SGD"}</small>
+              </td>
               <td>{order.customer_name}</td>
+              <td>{order.company_name || "-"}</td>
               <td>{order.customer_email || "-"}</td>
               <td>{order.order_type}</td>
               <td>{order.total_units}</td>
-              <td>{formatSgd(order.total_sgd)}</td>
+              <td>{formatAdminOrderMoney(order.total_sgd, order.currency)}</td>
               <td>{adminStatusLabel(order.payment_status, paymentStatusLabels)}</td>
-              <td>{order.payment_failure_reason || order.internal_note || "-"}</td>
               <td>{order.paypal_order_id || "-"}</td>
               <td>{adminStatusLabel(order.order_status, orderStatusLabels)}</td>
               <td>{order.updated_at ? new Date(order.updated_at).toLocaleString("ko-KR") : "-"}</td>

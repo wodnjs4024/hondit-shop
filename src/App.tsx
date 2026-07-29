@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AdminLayout } from "./components/AdminLayout";
 import { trackEvent, trackPageView } from "./lib/analytics";
+import { MarketProvider, MarketSelectionDialog } from "./lib/market";
 import { AdminCampaignLinksPage } from "./pages/AdminCampaignLinksPage";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 import { AdminInquiriesPage } from "./pages/AdminInquiriesPage";
@@ -26,20 +27,20 @@ import { ShippingPage } from "./pages/ShippingPage";
 function routeMeta(pathname: string) {
   if (pathname === "/bulk-orders") {
     return {
-      title: "Bulk Orders | hondit Singapore",
-      description: "Order hondit cleansing and diffuser products by bulk quantity with PayPal checkout and free Singapore EMS shipping included.",
+      title: "Bulk Orders | hondit",
+      description: "Order hondit cleansing and diffuser products by bulk quantity with market-specific PayPal checkout.",
     };
   }
   if (pathname.startsWith("/bulk-orders/")) {
     return {
-      title: "Bulk Product | hondit Singapore",
-      description: "Review hondit bulk product details, MOQ, unit price and free Singapore EMS shipping before PayPal checkout.",
+      title: "Bulk Product | hondit",
+      description: "Review hondit bulk product details, MOQ, unit price and shipping details before PayPal checkout.",
     };
   }
   if (pathname === "/shipping") {
     return {
-      title: "Shipping | hondit Singapore",
-      description: "Compare hondit retail Shopee shipping and bulk PayPal order shipping for Singapore buyers.",
+      title: "Shipping | hondit",
+      description: "Compare hondit retail Shopee shipping and direct bulk PayPal order shipping by market.",
     };
   }
   if (pathname === "/contact") {
@@ -50,20 +51,20 @@ function routeMeta(pathname: string) {
   }
   if (pathname === "/products") {
     return {
-      title: "Products | hondit Singapore",
+      title: "Products | hondit",
       description: "Explore hondit Jeju-inspired diffuser and vegan cleansing products with Shopee and direct bulk order options.",
     };
   }
   if (pathname.startsWith("/products/")) {
     return {
-      title: "Product Detail | hondit Singapore",
+      title: "Product Detail | hondit",
       description: "Compare hondit product details, use cases, volume, Shopee purchase route and bulk inquiry options.",
     };
   }
   if (pathname.startsWith("/payment-failed/")) {
     return {
-      title: "Payment Not Completed | hondit Singapore",
-      description: "Retry payment, contact hondit or purchase through Shopee Singapore after an incomplete PayPal checkout.",
+      title: "Payment Not Completed | hondit",
+      description: "Retry payment, contact hondit or purchase through Shopee after an incomplete PayPal checkout.",
     };
   }
   if (pathname === "/jeju") {
@@ -73,8 +74,8 @@ function routeMeta(pathname: string) {
     };
   }
   return {
-    title: "hondit | Jeju-inspired care and scent in Singapore",
-    description: "Shop Jeju-inspired Korean cleansing care and volcanic stone diffusers through Shopee Singapore or direct bulk PayPal orders.",
+    title: "hondit | Jeju-inspired care and scent",
+    description: "Shop Jeju-inspired Korean cleansing care and volcanic stone diffusers through Shopee or direct bulk PayPal orders.",
   };
 }
 
@@ -158,7 +159,8 @@ export default function App() {
   }, [location.pathname, location.search, location.hash]);
 
   return (
-    <>
+    <MarketProvider>
+      <MarketSelectionDialog disabled={isAdmin} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
@@ -184,6 +186,6 @@ export default function App() {
         </Route>
         <Route path="/:policy" element={<PolicyPage />} />
       </Routes>
-    </>
+    </MarketProvider>
   );
 }

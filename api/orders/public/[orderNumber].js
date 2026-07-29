@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     if (!orderNumber) return json(res, 400, { error: "Order number is required" });
 
     const orderSelect =
-      "id,order_number,payment_status,order_status,payment_failure_reason,paypal_order_id,created_at,updated_at,total_units,total_packs,total_sgd,currency,customer_name,customer_email,customer_phone,country_code,address_line_1,address_line_2,city,postal_code";
+      "id,order_number,payment_status,order_status,payment_failure_reason,paypal_order_id,created_at,updated_at,total_units,total_packs,total_sgd,currency,customer_name,customer_email,customer_phone,company_name,country_code,address_line_1,address_line_2,city,postal_code";
     const fallbackSelect =
       "id,order_number,payment_status,order_status,paypal_order_id,created_at,updated_at,total_units,total_packs,total_sgd,currency,customer_name,customer_email,customer_phone,country_code,address_line_1,address_line_2,city,postal_code";
     const orders = await supabase(

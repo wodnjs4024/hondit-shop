@@ -29,7 +29,8 @@ export default async function handler(req, res) {
 
     const paidAmount = Number(capture.amount?.value || 0);
     const paidCurrency = capture.amount?.currency_code;
-    if (paidCurrency !== "SGD" || Math.abs(paidAmount - Number(order.total_sgd)) > 0.01) {
+    const expectedCurrency = order.currency || "SGD";
+    if (paidCurrency !== expectedCurrency || Math.abs(paidAmount - Number(order.total_sgd)) > 0.01) {
       throw new Error("PayPal paid amount does not match the hondit order total");
     }
 

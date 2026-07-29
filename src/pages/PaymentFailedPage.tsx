@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { links } from "../data/siteData";
-import { formatSgd } from "../data/bulkProducts";
 import { fetchPublicOrder, type PublicOrder } from "../lib/bulkApi";
 import { V23Page } from "../components/v23/SiteChrome";
+import { formatCurrency, marketText, useMarket } from "../lib/market";
 
 export function PaymentFailedPage() {
   const { orderNumber = "" } = useParams();
+  const { market, language } = useMarket();
   const [order, setOrder] = useState<PublicOrder | null>(null);
   const [error, setError] = useState("");
 
@@ -33,7 +34,7 @@ export function PaymentFailedPage() {
           <ol className="payment-failed__steps">
             <li>Try another PayPal account or card</li>
             <li>Contact hondit for assistance</li>
-            <li>Purchase through Shopee SG</li>
+            <li>{marketText(language, `Purchase through Shopee ${market.shortLabel}`, `${market.koreanLabel} Shopee 구매로 전환`)}</li>
           </ol>
 
           {error && <p className="form-error">{error}</p>}
@@ -45,7 +46,7 @@ export function PaymentFailedPage() {
               <dl>
                 <div><dt>Payment status</dt><dd>{order.payment_status}</dd></div>
                 <div><dt>Failure reason</dt><dd>{order.payment_failure_reason || "Payment was not completed."}</dd></div>
-                <div><dt>Total payment</dt><dd>{formatSgd(order.total_sgd)}</dd></div>
+                <div><dt>Total payment</dt><dd>{formatCurrency(order.total_sgd, order.currency || "SGD")}</dd></div>
                 <div><dt>Email</dt><dd>{order.customer_email || "-"}</dd></div>
               </dl>
             )}
@@ -54,7 +55,9 @@ export function PaymentFailedPage() {
           <div className="bulk-card__actions">
             <Link className="button button--primary" to={retryHref}>Try Payment Again</Link>
             <Link className="button button--ghost" to="/contact">Contact hondit</Link>
-            <a className="button button--quiet" href={links.shopeeStore} target="_blank" rel="noreferrer">Shop on Shopee SG</a>
+            <a className="button button--quiet" href={links.shopeeStore} target="_blank" rel="noreferrer">
+              {marketText(language, `Shop on Shopee ${market.shortLabel}`, `${market.koreanLabel} Shopee 구매`)}
+            </a>
           </div>
         </div>
       </section>

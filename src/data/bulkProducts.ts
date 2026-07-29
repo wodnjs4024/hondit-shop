@@ -90,7 +90,7 @@ export const bulkProducts: BulkProduct[] = [
     category: "cleansing",
     volumeLabel: "150ml",
     shortDescription: "One-step cleansing for makeup and sunscreen routines.",
-    description: "A gentle vegan foam oil selected for daily cleansing routines in warm Singapore weather.",
+    description: "A gentle vegan foam oil selected for daily cleansing routines in warm, humid city weather.",
     imageUrl: packImages.foamOil,
     unitPriceSgd: 8.99,
     packQuantity: 30,
@@ -210,7 +210,7 @@ export const livePaymentTestProduct: BulkProduct = {
   slug: "live-payment-test",
   name: "hondit Live Payment Test",
   category: "diffuser",
-  volumeLabel: "S$1 verification",
+  volumeLabel: "Live payment verification",
   shortDescription: "Hidden one-dollar checkout used only to verify Live PayPal operation.",
   description: "A hidden operational test item for confirming that Live PayPal payment, order saving and refund flow work correctly.",
   imageUrl: packImages.diffuser350Studio,
@@ -226,8 +226,8 @@ export const livePaymentTestProduct: BulkProduct = {
   usage: ["Use only for one operational Live PayPal test", "Refund immediately from the admin order detail page"],
   galleryImages: [packImages.diffuser350Studio],
   detailImages: [packImages.diffuser350Studio],
-  detailHighlights: ["Hidden from public product lists.", "Creates a normal PayPal order for S$1.", "Use to verify admin order and refund flow."],
-  detailHowToUse: ["Open the direct test URL.", "Pay S$1 through PayPal Live.", "Confirm the order appears in admin, then refund it."],
+  detailHighlights: ["Hidden from public product lists.", "Creates a normal low-value PayPal order.", "Use to verify admin order and refund flow."],
+  detailHowToUse: ["Open the direct test URL.", "Pay through PayPal Live.", "Confirm the order appears in admin, then refund it."],
 };
 
 export function formatSgd(value: number) {

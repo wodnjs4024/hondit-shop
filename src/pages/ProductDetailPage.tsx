@@ -3,8 +3,10 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
 import { loadStorefrontProduct } from "../lib/storefrontApi";
+import { formatMarketMoney, marketText, useMarket } from "../lib/market";
 
 export function ProductDetailPage() {
+  const { market, language } = useMarket();
   const { productId = "" } = useParams();
   const [product, setProduct] = useState<StorefrontProduct | undefined>(() => v23Products.find((item) => item.slug === productId));
 
@@ -18,12 +20,14 @@ export function ProductDetailPage() {
       <V23Page>
         <main className="v23-not-found">
           <p className="v23-eyebrow"><span /> PRODUCTS</p>
-          <h1>Product not found.</h1>
-          <Link to="/products">Back to products</Link>
+          <h1>{marketText(language, "Product not found.", "상품을 찾을 수 없습니다.")}</h1>
+          <Link to="/products">{marketText(language, "Back to products", "상품 목록으로")}</Link>
         </main>
       </V23Page>
     );
   }
+
+  const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
 
   return (
     <V23Page>
@@ -31,36 +35,36 @@ export function ProductDetailPage() {
         <section className="v23-product-detail-hero">
           <figure>
             <img src={product.image} alt={product.name} />
-            {typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq && <span>Out of stock</span>}
+            {outOfStock && <span>{marketText(language, "Out of stock", "품절")}</span>}
           </figure>
           <div>
             <p className="v23-eyebrow"><span /> {product.category}</p>
             <h1>{product.name}</h1>
             <p>{product.description}</p>
-            <strong>{product.price}</strong>
+            <strong>{formatMarketMoney(product.bulkUnitPrice, market)}</strong>
             <dl>
-              <div><dt>Bulk MOQ</dt><dd>{product.bulkMoq} units</dd></div>
-              <div><dt>Bulk unit</dt><dd>S${product.bulkUnitPrice.toFixed(2)}</dd></div>
-              <div><dt>Route</dt><dd>Shopee or PayPal bulk checkout</dd></div>
+              <div><dt>{marketText(language, "Bulk MOQ", "대량 주문 MOQ")}</dt><dd>{product.bulkMoq} {marketText(language, "units", "개")}</dd></div>
+              <div><dt>{marketText(language, "Bulk unit", "대량 주문 단가")}</dt><dd>{formatMarketMoney(product.bulkUnitPrice, market)}</dd></div>
+              <div><dt>{marketText(language, "Route", "구매 방식")}</dt><dd>{marketText(language, "Shopee or PayPal bulk checkout", "Shopee 구매 또는 PayPal 대량 주문")}</dd></div>
             </dl>
             <div className="v23-actions">
-              <a href={product.shopee} target="_blank" rel="noreferrer">Buy on Shopee ↗</a>
-              <Link to={`/bulk-orders?product=${product.slug}`}>Bulk checkout →</Link>
+              <a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee ->", "Shopee 구매 ->")}</a>
+              <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout ->", "대량 주문 ->")}</Link>
             </div>
           </div>
         </section>
 
         <section className="v23-product-detail-grid">
           <article>
-            <p className="v23-eyebrow"><span /> GOOD FOR</p>
+            <p className="v23-eyebrow"><span /> {marketText(language, "GOOD FOR", "추천 용도")}</p>
             <h2>{product.goodFor}</h2>
           </article>
           <article>
-            <p className="v23-eyebrow"><span /> HIGHLIGHTS</p>
+            <p className="v23-eyebrow"><span /> {marketText(language, "HIGHLIGHTS", "특징")}</p>
             <ul>{product.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
           </article>
           <article>
-            <p className="v23-eyebrow"><span /> HOW TO USE</p>
+            <p className="v23-eyebrow"><span /> {marketText(language, "HOW TO USE", "사용 방법")}</p>
             <ol>{product.howTo.map((item) => <li key={item}>{item}</li>)}</ol>
           </article>
         </section>

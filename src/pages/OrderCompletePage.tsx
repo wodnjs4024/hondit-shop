@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { formatSgd } from "../data/bulkProducts";
 import { fetchPublicOrder, type PublicOrder } from "../lib/bulkApi";
 import { trackEvent } from "../lib/analytics";
 import { V23Page } from "../components/v23/SiteChrome";
+import { formatCurrency, marketCountryName, markets } from "../lib/market";
 
 export function OrderCompletePage() {
   const { orderNumber = "" } = useParams();
@@ -45,10 +45,12 @@ export function OrderCompletePage() {
                   <div><dt>Payment status</dt><dd>{order.payment_status}</dd></div>
                   <div><dt>Order status</dt><dd>{order.order_status}</dd></div>
                   <div><dt>Total units</dt><dd>{order.total_units}</dd></div>
-                  <div><dt>Total payment</dt><dd>{formatSgd(order.total_sgd)}</dd></div>
+                  <div><dt>Total payment</dt><dd>{formatCurrency(order.total_sgd, order.currency || "SGD")}</dd></div>
                   <div><dt>Name</dt><dd>{order.customer_name || "-"}</dd></div>
+                  <div><dt>Company</dt><dd>{order.company_name || "-"}</dd></div>
                   <div><dt>Email</dt><dd>{order.customer_email || "-"}</dd></div>
                   <div><dt>Phone</dt><dd>{order.customer_phone || "-"}</dd></div>
+                  <div><dt>Market</dt><dd>{order.country_code && markets[order.country_code as keyof typeof markets] ? marketCountryName(markets[order.country_code as keyof typeof markets], "en") : order.country_code || "-"}</dd></div>
                   <div>
                     <dt>Shipping address</dt>
                     <dd>{[order.address_line_1, order.address_line_2, order.city, order.postal_code].filter(Boolean).join(", ")}</dd>
