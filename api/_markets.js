@@ -13,7 +13,7 @@ export const markets = {
     countryCode: "HK",
     countryName: "Hong Kong",
     currency: "HKD",
-    sgdRate: 5.8,
+    sgdRate: 6.08,
     hasShopee: false,
     checkoutNote: "Hong Kong delivery is included in the displayed bulk unit price.",
   },
