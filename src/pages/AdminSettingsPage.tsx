@@ -16,7 +16,7 @@ const emptySettings: Settings = {
   business_registration_number: "",
   business_address: "",
   customer_service_email: "",
-  paypal_mode: "sandbox",
+  paypal_mode: "",
   checkout_enabled: true,
 };
 

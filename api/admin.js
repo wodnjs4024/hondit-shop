@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import {
+  getPayPalMode,
   getProducts,
   json,
   paypal,
@@ -16,9 +17,13 @@ const defaultSettings = {
   business_registration_number: "",
   business_address: "",
   customer_service_email: "",
-  paypal_mode: process.env.PAYPAL_ENV || "sandbox",
+  paypal_mode: getPayPalMode(),
   checkout_enabled: true,
 };
+
+function withEffectivePaymentSettings(settings = {}) {
+  return { ...defaultSettings, ...settings, paypal_mode: getPayPalMode() };
+}
 
 function segments(req) {
   const url = new URL(req.url, "https://hondit.local");
@@ -295,17 +300,17 @@ async function settings(req, res) {
   await verifyAdmin(req);
   if (req.method === "GET") {
     const rows = await supabase("/site_settings?id=eq.1&select=*");
-    return json(res, 200, { settings: rows[0] || defaultSettings });
+    return json(res, 200, { settings: withEffectivePaymentSettings(rows[0]) });
   }
   if (req.method === "PATCH") {
     const { settings = {} } = await readBody(req);
-    const payload = { ...defaultSettings, ...settings, id: 1, updated_at: new Date().toISOString() };
+    const payload = { ...withEffectivePaymentSettings(settings), id: 1, updated_at: new Date().toISOString() };
     const rows = await supabase("/site_settings?on_conflict=id", {
       method: "POST",
       headers: { Prefer: "resolution=merge-duplicates,return=representation" },
       body: JSON.stringify(payload),
     });
-    return json(res, 200, { settings: rows[0] });
+    return json(res, 200, { settings: withEffectivePaymentSettings(rows[0]) });
   }
   return json(res, 405, { error: "Method not allowed" });
 }
