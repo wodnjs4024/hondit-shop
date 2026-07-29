@@ -61,7 +61,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     countryNameKo: "홍콩",
     currency: "HKD",
     locale: "en-HK",
-    sgdRate: 5.8,
+    sgdRate: 6.08,
     hasShopee: false,
     checkoutNote: "Hong Kong delivery is included in the displayed bulk unit price.",
     checkoutNoteKo: "표시된 대량주문 단가에는 홍콩 배송비가 포함되어 있습니다.",
