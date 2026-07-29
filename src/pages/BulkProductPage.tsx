@@ -12,6 +12,7 @@ import {
   normalizeBulkQuantity,
   type BulkProduct,
 } from "../data/bulkProducts";
+import { EMAIL } from "../data/v23SiteData";
 import { trackEvent } from "../lib/analytics";
 import {
   capturePayPalOrder,
@@ -83,6 +84,10 @@ function readAttribution() {
   }
 }
 
+function buildMailto(to: string, subject: string, lines: string[]) {
+  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+}
+
 export function BulkProductPage() {
   const { market, language } = useMarket();
   const countryName = marketCountryName(market, language);
@@ -128,6 +133,24 @@ export function BulkProductPage() {
   const paypalClientId = payPalConfig.clientId;
   const paypalMode = payPalConfig.mode;
   const checkoutDisabled = !payPalConfig.checkoutEnabled;
+  const manualPaymentHref = buildMailto(EMAIL, `[hondit] Manual PayPal link request - ${product.name}`, [
+    "Hello hondit,",
+    "",
+    "PayPal/card checkout did not complete. Please send me a direct PayPal payment link for this order.",
+    "",
+    `Market: ${market.label} / ${market.currency}`,
+    `Product: ${product.name} ${product.volumeLabel || ""}`,
+    `Quantity: ${quantity} units`,
+    `Total payment: ${formatCurrency(marketTotal, market.currency, market.locale)}`,
+    `Name: ${form.customerName || "-"}`,
+    `Email: ${form.customerEmail || "-"}`,
+    `Phone / WhatsApp: ${form.customerPhone || "-"}`,
+    `Company: ${form.companyName || "-"}`,
+    `Shipping address: ${[form.addressLine1, form.addressLine2, form.city, countryName, form.postalCode].filter(Boolean).join(", ") || "-"}`,
+    `Order note: ${form.customerNote || "-"}`,
+    "",
+    "Please reply with the PayPal payment link and next steps.",
+  ]);
 
   useEffect(() => {
     formRef.current = form;
@@ -257,14 +280,16 @@ export function BulkProductPage() {
             return;
           }
           setError(
-            market.hasShopee
-              ? "Payment could not be completed. Please try another card, contact hondit, or purchase through Shopee."
-              : "Payment could not be completed. Please try another card or contact hondit.",
+            marketText(
+              language,
+              "Payment could not be completed. Please email your purchase conditions to hondit so we can reply with a direct PayPal payment link.",
+              "결제가 완료되지 않았습니다. 구매 조건을 hondit에 메일로 보내주시면 직접 결제 가능한 PayPal 링크를 답장드리겠습니다.",
+            ),
           );
         },
       })
       .render("#direct-paypal-buttons");
-  }, [checkoutDisabled, market, navigate, paypalClientId, ready, soldOut]);
+  }, [checkoutDisabled, language, market, navigate, paypalClientId, ready, soldOut]);
 
   if (!matchedProduct) return <Navigate to="/bulk-orders" replace />;
 
@@ -484,21 +509,28 @@ export function BulkProductPage() {
                     <strong>{marketText(language, "Pay with PayPal or credit/debit card.", "PayPal 또는 신용/직불카드로 결제합니다.")}</strong>
                     <span>{marketText(language, "For direct checkout, please use PayPal or an international card.", "직접 결제는 PayPal 또는 해외 결제가 가능한 카드로 진행해주세요.")}</span>
                     <span>
-                      {market.hasShopee
-                        ? marketText(
-                            language,
-                            "If your payment does not go through, please try another card, contact hondit, or purchase through Shopee.",
-                            "결제가 되지 않으면 다른 카드로 시도하거나 hondit에 문의하거나 Shopee 구매를 이용해주세요.",
-                          )
-                        : marketText(
-                            language,
-                            "If your payment does not go through, please try another card or contact hondit.",
-                            "결제가 되지 않으면 다른 카드로 시도하거나 hondit에 문의해주세요.",
-                          )}
+                      {marketText(
+                        language,
+                        "If checkout does not complete, email these purchase conditions to hondit. We will reply with a direct PayPal payment link.",
+                        "결제가 완료되지 않으면 현재 구매 조건을 hondit 메일로 보내주세요. 확인 후 직접 결제 가능한 PayPal 링크를 답장드립니다.",
+                      )}
                     </span>
                     {paypalMode === "sandbox" && (
                       <span>{marketText(language, `PayPal Sandbox payment. Currency: ${market.currency}.`, `PayPal Sandbox 결제입니다. 통화: ${market.currency}.`)}</span>
                     )}
+                  </div>
+                  <div className="manual-payment-fallback">
+                    <strong>{marketText(language, "If PayPal/card checkout fails", "PayPal/카드 결제가 안 될 때")}</strong>
+                    <p>
+                      {marketText(
+                        language,
+                        "Send the product, quantity, payment total and delivery details by email. hondit will check the order and reply with a direct PayPal link.",
+                        "상품, 수량, 결제금액, 배송정보를 메일로 보내주세요. hondit이 주문 내용을 확인한 뒤 직접 결제 가능한 PayPal 링크를 답장드립니다.",
+                      )}
+                    </p>
+                    <a className="button button--ghost" href={manualPaymentHref}>
+                      {marketText(language, "Email purchase conditions", "구매조건 메일 보내기")}
+                    </a>
                   </div>
                 </div>
 

@@ -387,6 +387,33 @@
   background: #fffdf7;
 }
 
+.manual-payment-fallback {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid rgba(184, 92, 55, 0.28);
+  border-radius: 8px;
+  background: #fff8ed;
+}
+
+.manual-payment-fallback strong {
+  color: var(--v23-ink);
+  font-family: var(--v23-serif);
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.manual-payment-fallback p {
+  margin: 0;
+  color: var(--v23-muted);
+  line-height: 1.55;
+}
+
+.manual-payment-fallback .button {
+  width: fit-content;
+}
+
 .form-error,
 .setup-warning,
 .paypal-buttons,
@@ -516,6 +543,11 @@
   .checkout-form,
   .bulk-price-list {
     grid-template-columns: 1fr;
+  }
+
+  .manual-payment-fallback .button {
+    width: 100%;
+    justify-content: center;
   }
 
   .bulk-price-list div,
