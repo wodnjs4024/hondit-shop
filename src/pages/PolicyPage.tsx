@@ -1,8 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
-import { marketCountryName, marketText, useMarket } from "../lib/market";
+import { marketCountryName, marketText, useMarket, type DisplayLanguage } from "../lib/market";
 
-function getPolicyContent(policy: string, countryName: string, currency: string, hasShopee: boolean, language: "en" | "ko") {
+function getPolicyContent(policy: string, countryName: string, currency: string, hasShopee: boolean, language: DisplayLanguage) {
   const content: Record<string, { title: string; body: string[] }> = {
     shipping: {
       title: marketText(language, "Shipping Policy", "배송 정책"),

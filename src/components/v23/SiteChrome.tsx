@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { EMAIL, INSTAGRAM, SHOPEE, type StorefrontProduct } from "../../data/v23SiteData";
 import {
+  displayLanguages,
   formatMarketUnitMoney,
   marketCountryName,
   marketText,
@@ -68,8 +69,11 @@ export function V23Header() {
         <label className="v23-market-switch v23-language-switch" aria-label="Language">
           <span>{marketText(language, "Language", "언어")}</span>
           <select value={language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
-            <option value="en">English</option>
-            <option value="ko">한국어</option>
+            {displayLanguages.map((option) => (
+              <option key={option.code} value={option.code}>
+                {option.shortLabel}
+              </option>
+            ))}
           </select>
         </label>
         <button className="v23-market-button" type="button" onClick={openMarketDialog}>
