@@ -23,7 +23,13 @@ export function requireEnv(keys) {
 }
 
 export function getPayPalMode() {
-  const mode = String(process.env.PAYPAL_ENV || process.env.VITE_PAYPAL_MODE || process.env.VITE_PAYPAL_ENV || "sandbox")
+  const mode = String(
+    process.env.PAYPAL_MODE ||
+      process.env.PAYPAL_ENV ||
+      process.env.VITE_PAYPAL_MODE ||
+      process.env.VITE_PAYPAL_ENV ||
+      "sandbox",
+  )
     .trim()
     .toLowerCase();
   return mode === "live" ? "live" : "sandbox";

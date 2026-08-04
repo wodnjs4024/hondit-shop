@@ -25,7 +25,8 @@ export default async function handler(req, res) {
   const config = await getCheckoutConfig();
   return json(res, 200, {
     checkoutEnabled: config.checkoutEnabled,
-    clientId: process.env.PAYPAL_CLIENT_ID || process.env.VITE_PAYPAL_CLIENT_ID || "",
+    // PayPal client ID is public for the browser SDK; the secret stays server-only.
+    clientId: process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID || "",
     mode: String(config.mode || "sandbox").toLowerCase(),
   });
 }
