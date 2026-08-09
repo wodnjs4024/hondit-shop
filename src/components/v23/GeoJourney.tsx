@@ -3,6 +3,7 @@ import southKoreaMap from "@svg-maps/south-korea";
 import { KeyboardEvent, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatPlaceCoordinates, ourJejuBounds, ourJejuPlaces, type OurJejuPlace } from "../../data/v23JejuData";
+import { marketText, useMarket } from "../../lib/market";
 
 type MapStage = "asia" | "korea" | "jeju";
 type SvgLocation = { id: string; path: string; name?: string };
@@ -76,6 +77,8 @@ function onActivate(event: KeyboardEvent, action: () => void) {
 export function V23GeoJourney({ initialStage = "asia", compact = false }: { initialStage?: MapStage; compact?: boolean }) {
   const [stage, setStage] = useState<MapStage>(initialStage);
   const [selectedId, setSelectedId] = useState(ourJejuPlaces[0].id);
+  const { language } = useMarket();
+  const t = (text: string) => marketText(language, text);
   const active = useMemo(() => ourJejuPlaces.find((place) => place.id === selectedId) || ourJejuPlaces[0], [selectedId]);
   const activeIndex = ourJejuPlaces.findIndex((place) => place.id === active.id);
   const asiaLocations = (worldMap.locations as SvgLocation[]).filter((location) => asiaIds.has(location.id));
@@ -85,18 +88,18 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
       {!compact && (
         <div className="v23-section-heading">
           <div>
-            <p className="v23-eyebrow is-light"><span /> A REAL ROUTE TO OUR ORIGIN</p>
-            <h2>Asia to Korea.<br /><em>Korea to Jeju.</em></h2>
+            <p className="v23-eyebrow is-light"><span /> {t("A REAL ROUTE TO OUR ORIGIN")}</p>
+            <h2>{t("Asia to Korea.")}<br /><em>{t("Korea to Jeju.")}</em></h2>
           </div>
-          <p>Three clear geographic views locate hondit without covering the map: accurate country boundaries, South Korea as the only highlighted country, then real coordinates on Jeju.</p>
+          <p>{t("Three clear geographic views locate hondit without covering the map: accurate country boundaries, South Korea as the only highlighted country, then real coordinates on Jeju.")}</p>
         </div>
       )}
 
       {!compact && (
-        <div className="v23-map-tabs" aria-label="Map navigation">
-          <button data-stage="asia" className={stage === "asia" ? "is-active" : ""} type="button" onClick={() => setStage("asia")}><span>01</span><b>Asia</b><small>Regional context</small></button>
-          <button data-stage="korea" className={stage === "korea" ? "is-active" : ""} type="button" onClick={() => setStage("korea")}><span>02</span><b>South Korea</b><small>Find Jeju below</small></button>
-          <button data-stage="jeju" className={stage === "jeju" ? "is-active" : ""} type="button" onClick={() => setStage("jeju")}><span>03</span><b>Jeju Island</b><small>Explore six places</small></button>
+        <div className="v23-map-tabs" aria-label={t("Map navigation")}>
+          <button data-stage="asia" className={stage === "asia" ? "is-active" : ""} type="button" onClick={() => setStage("asia")}><span>01</span><b>{t("Asia")}</b><small>{t("Regional context")}</small></button>
+          <button data-stage="korea" className={stage === "korea" ? "is-active" : ""} type="button" onClick={() => setStage("korea")}><span>02</span><b>{t("South Korea")}</b><small>{t("Find Jeju below")}</small></button>
+          <button data-stage="jeju" className={stage === "jeju" ? "is-active" : ""} type="button" onClick={() => setStage("jeju")}><span>03</span><b>{t("Jeju Island")}</b><small>{t("Explore six places")}</small></button>
         </div>
       )}
 
@@ -105,9 +108,9 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
           <div className="v23-map-stage">
             <aside className="v23-map-copy">
               <span>01</span>
-              <p>REGIONAL CONTEXT</p>
-              <h3>Find South Korea without losing Asia.</h3>
-              <p>Country boundaries remain neutral. South Korea is the only highlighted country and is selectable.</p>
+              <p>{t("REGIONAL CONTEXT")}</p>
+              <h3>{t("Find South Korea without losing Asia.")}</h3>
+              <p>{t("Country boundaries remain neutral. South Korea is the only highlighted country and is selectable.")}</p>
             </aside>
             <div className="v23-map-canvas">
               <svg viewBox="650 245 290 285" role="img" aria-label="Map of Asia with South Korea highlighted">
@@ -123,7 +126,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                       tabIndex={isKorea ? 0 : undefined}
                       onClick={isKorea ? () => setStage("korea") : undefined}
                       onKeyDown={isKorea ? (event) => onActivate(event, () => setStage("korea")) : undefined}
-                      aria-label={isKorea ? "Open South Korea map" : undefined}
+                      aria-label={isKorea ? t("Open South Korea map") : undefined}
                     />
                   );
                 })}
@@ -137,14 +140,14 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
           <div className="v23-map-stage is-korea">
             <aside className="v23-map-copy">
               <span>02</span>
-              <p>A CLOSER VIEW</p>
-              <h3>Jeju sits below the peninsula.</h3>
-              <p>The province outline is real map data. Select the orange Jeju Island shape to continue.</p>
-              <button type="button" onClick={() => setStage("asia")}>Back to Asia</button>
+              <p>{t("A CLOSER VIEW")}</p>
+              <h3>{t("Jeju sits below the peninsula.")}</h3>
+              <p>{t("The province outline is real map data. Select the orange Jeju Island shape to continue.")}</p>
+              <button type="button" onClick={() => setStage("asia")}>{t("Back to Asia")}</button>
             </aside>
             <div className="v23-korea-panel">
               <div className="v23-korea-map">
-                <svg viewBox={southKoreaMap.viewBox} role="img" aria-label="Map of South Korea with Jeju highlighted">
+                <svg viewBox={southKoreaMap.viewBox} role="img" aria-label={t("Map of South Korea with Jeju highlighted")}>
                   <rect width="524" height="631" className="v23-map-water" />
                   {(southKoreaMap.locations as SvgLocation[]).map((location) => {
                     const isJeju = location.id === "jeju";
@@ -157,23 +160,23 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                         tabIndex={isJeju ? 0 : undefined}
                         onClick={isJeju ? () => setStage("jeju") : undefined}
                         onKeyDown={isJeju ? (event) => onActivate(event, () => setStage("jeju")) : undefined}
-                        aria-label={isJeju ? "Open Jeju Island map" : undefined}
+                        aria-label={isJeju ? t("Open Jeju Island map") : undefined}
                       />
                     );
                   })}
-                  <text x="260" y="95">SOUTH KOREA</text>
-                  <text x="118" y="579">JEJU STRAIT</text>
+                  <text x="260" y="95">{t("SOUTH KOREA")}</text>
+                  <text x="118" y="579">{t("JEJU STRAIT")}</text>
                 </svg>
               </div>
-              <aside className="v23-korea-cards" aria-label="What Korea is known for">
-                <header><small>BEYOND THE MAP</small><h3>What the world knows Korea for.</h3></header>
+              <aside className="v23-korea-cards" aria-label={t("What Korea is known for")}>
+                <header><small>{t("BEYOND THE MAP")}</small><h3>{t("What the world knows Korea for.")}</h3></header>
                 <div>
                   {koreaHighlights.map((item) => (
                     <article key={item.title}>
                       <img src={item.image} alt={item.alt} loading="lazy" />
-                      <span>{item.label}</span>
-                      <h4>{item.title}</h4>
-                      <p>{item.description}</p>
+                      <span>{t(item.label)}</span>
+                      <h4>{t(item.title)}</h4>
+                      <p>{t(item.description)}</p>
                     </article>
                   ))}
                 </div>
@@ -185,13 +188,13 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
         {stage === "jeju" && (
           <div className="v23-jeju-stage">
             <div className="v23-jeju-toolbar">
-              {compact ? <span /> : <button type="button" onClick={() => setStage("korea")}>Back to South Korea</button>}
-              <div><small>JEJU ISLAND FIELD GUIDE</small><b>Six places, one clear origin</b></div>
-              <span>REAL COORDINATES</span>
+              {compact ? <span /> : <button type="button" onClick={() => setStage("korea")}>{t("Back to South Korea")}</button>}
+              <div><small>{t("JEJU ISLAND FIELD GUIDE")}</small><b>{t("Six places, one clear origin")}</b></div>
+              <span>{t("REAL COORDINATES")}</span>
             </div>
             <div className="v23-jeju-layout">
-              <div className="v23-jeju-map" aria-label="Interactive map of Jeju Island">
-                <svg viewBox={`${jejuViewBox.x} ${jejuViewBox.y} ${jejuViewBox.width} ${jejuViewBox.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jeju Island outline">
+              <div className="v23-jeju-map" aria-label={t("Interactive map of Jeju Island")}>
+                <svg viewBox={`${jejuViewBox.x} ${jejuViewBox.y} ${jejuViewBox.width} ${jejuViewBox.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={t("Jeju Island outline")}>
                   <rect x={jejuViewBox.x} y={jejuViewBox.y} width={jejuViewBox.width} height={jejuViewBox.height} className="v23-map-water" />
                   {jejuShape && <path d={jejuShape.path} className="v23-jeju-shape" />}
                   {ourJejuPlaces.map((place, index) => {
@@ -207,7 +210,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                         tabIndex={0}
                         onClick={() => setSelectedId(place.id)}
                         onKeyDown={(event) => onActivate(event, () => setSelectedId(place.id))}
-                        aria-label={`View ${place.name}`}
+                        aria-label={`${t("View")} ${t(place.name)}`}
                       >
                         <circle r={activeMarker ? "2.9" : "2.35"} />
                         <text x="0" y="0.9">{markerLabel}</text>
@@ -219,20 +222,20 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
               <article className="v23-place-card" aria-live="polite">
                 <img src={active.image} alt={active.alt} loading="lazy" />
                 <div>
-                  <span>{active.category}</span>
+                  <span>{t(active.category)}</span>
                   <small>{formatPlaceCoordinates(active)} - {String(activeIndex + 1).padStart(2, "0")} / {String(ourJejuPlaces.length).padStart(2, "0")}</small>
-                  <h3>{active.name}</h3>
-                  <p>{active.description}</p>
-                  <address>{active.location}</address>
-                  <a href={active.officialUrl} target="_blank" rel="noreferrer">{active.officialLabel}</a>
-                  {active.featured && <Link to="/jeju">Our Jeju story</Link>}
+                  <h3>{t(active.name)}</h3>
+                  <p>{t(active.description)}</p>
+                  <address>{t(active.location)}</address>
+                  <a href={active.officialUrl} target="_blank" rel="noreferrer">{t(active.officialLabel)}</a>
+                  {active.featured && <Link to="/jeju">{t("Our Jeju story")}</Link>}
                 </div>
               </article>
             </div>
-            <nav className="v23-jeju-tabs" aria-label="Choose a Jeju place">
+            <nav className="v23-jeju-tabs" aria-label={t("Choose a Jeju place")}>
               {ourJejuPlaces.map((place, index) => (
                 <button key={place.id} type="button" className={active.id === place.id ? "is-active" : ""} onClick={() => setSelectedId(place.id)}>
-                  <span>{place.featured ? "H" : String(index).padStart(2, "0")}</span>{place.shortName}
+                  <span>{place.featured ? "H" : String(index).padStart(2, "0")}</span>{t(place.shortName)}
                 </button>
               ))}
             </nav>

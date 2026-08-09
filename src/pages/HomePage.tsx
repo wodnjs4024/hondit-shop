@@ -40,8 +40,8 @@ export function HomePage() {
       <main className="v23-home">
         <section className="v23-home-hero">
           <div className="v23-home-hero-copy">
-            <p className="v23-eyebrow"><span /> JEJU NATIONAL UNIVERSITY - STUDENT-LED</p>
-            <h1>Jeju, held in<br /><em>everyday ritual.</em></h1>
+            <p className="v23-eyebrow"><span /> {marketText(language, "JEJU NATIONAL UNIVERSITY - STUDENT-LED")}</p>
+            <h1>{marketText(language, "Jeju, held in")}<br /><em>{marketText(language, "everyday ritual.")}</em></h1>
             <p>
               {marketText(
                 language,
@@ -90,12 +90,12 @@ export function HomePage() {
 
         <section className="v23-confidence">
           <article>
-            <small>ORIGIN</small>
-            <b>Jeju National University</b>
+            <small>{marketText(language, "ORIGIN")}</small>
+            <b>{marketText(language, "Jeju National University")}</b>
             <p>{marketText(language, "Student-led and based in Jeju City.", "제주시에 기반을 둔 학생 운영 프로젝트입니다.")}</p>
           </article>
           <article>
-            <small>{market.hasShopee ? "RETAIL" : "ROUTE"}</small>
+            <small>{marketText(language, market.hasShopee ? "RETAIL" : "ROUTE")}</small>
             <b>
               {market.hasShopee
                 ? marketText(language, "Official Shopee route", "공식 Shopee 경로")
@@ -108,12 +108,12 @@ export function HomePage() {
             </p>
           </article>
           <article>
-            <small>DELIVERY</small>
+            <small>{marketText(language, "DELIVERY")}</small>
             <b>{marketText(language, `${countryName} delivery`, `${countryName} 배송`)}</b>
             <p>{marketText(language, "Direct bulk orders dispatch from Korea after PayPal capture.", "대량주문은 PayPal 결제 완료 후 한국에서 발송 준비합니다.")}</p>
           </article>
           <article>
-            <small>PAYMENT</small>
+            <small>{marketText(language, "PAYMENT")}</small>
             <b>
               {market.hasShopee
                 ? marketText(language, "Two clear routes", "두 가지 구매 경로")
@@ -130,10 +130,10 @@ export function HomePage() {
         <section className="v23-editorial-breeze">
           <img src="/images/hondit-jeju-dawn-hero-v2.webp" alt="Wind moving across a Jeju coastal field at dawn." />
           <div>
-            <p className="v23-eyebrow is-light"><span /> SEA - STONE - WIND</p>
-            <h2>A place you can feel,<br />before it becomes a ritual.</h2>
-            <p>Our edit begins with Jeju's quiet materials: moving water, porous volcanic stone and air that never quite stands still.</p>
-            <Link to="/jeju">Explore our Jeju -&gt;</Link>
+            <p className="v23-eyebrow is-light"><span /> {marketText(language, "SEA - STONE - WIND")}</p>
+            <h2>{marketText(language, "A place you can feel,")}<br />{marketText(language, "before it becomes a ritual.")}</h2>
+            <p>{marketText(language, "Our edit begins with Jeju's quiet materials: moving water, porous volcanic stone and air that never quite stands still.")}</p>
+            <Link to="/jeju">{marketText(language, "Explore our Jeju ->")}</Link>
           </div>
         </section>
 
@@ -142,8 +142,8 @@ export function HomePage() {
         <section className="v23-products-section">
           <div className="v23-section-heading is-cream">
             <div>
-              <p className="v23-eyebrow"><span /> SHOP BY RITUAL</p>
-              <h2>Find your<br /><em>everyday fit.</em></h2>
+              <p className="v23-eyebrow"><span /> {marketText(language, "SHOP BY RITUAL")}</p>
+              <h2>{marketText(language, "Find your")}<br /><em>{marketText(language, "everyday fit.")}</em></h2>
             </div>
           </div>
           <V23CatalogGrid featuredOnly />
@@ -152,9 +152,9 @@ export function HomePage() {
         <section className="v23-diffuser-guide" aria-labelledby="v23-diffuser-title">
           <div className="v23-diffuser-guide__inner">
             <div className="v23-diffuser-guide__copy">
-              <p className="v23-eyebrow is-light"><span /> VOLCANIC DIFFUSER</p>
-              <h2 id="v23-diffuser-title">No flame. No electricity.<br />Refresh the scent whenever you choose.</h2>
-              <p>Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.</p>
+              <p className="v23-eyebrow is-light"><span /> {marketText(language, "VOLCANIC DIFFUSER")}</p>
+              <h2 id="v23-diffuser-title">{marketText(language, "No flame. No electricity.")}<br />{marketText(language, "Refresh the scent whenever you choose.")}</h2>
+              <p>{marketText(language, "Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.")}</p>
             </div>
 
             <figure className="v23-diffuser-guide__video">
@@ -177,9 +177,9 @@ export function HomePage() {
             <figure className="v23-diffuser-guide__product">
               <img src="/images/stonejeju-diffuser-product.png" alt="Jeju Volcanic Stone Diffuser with citrus fragrance oil, ceramic bowl and volcanic stones." />
               <figcaption>
-                <strong>Jeju Volcanic Stone Diffuser</strong>
-                <span>Volcanic stone / Citrus fragrance oil / Ceramic bowl</span>
-                <span>Flameless / No electricity / Refreshable scent</span>
+                <strong>{marketText(language, "Jeju Volcanic Stone Diffuser")}</strong>
+                <span>{marketText(language, "Volcanic stone / Citrus fragrance oil / Ceramic bowl")}</span>
+                <span>{marketText(language, "Flameless / No electricity / Refreshable scent")}</span>
               </figcaption>
             </figure>
           </div>
@@ -187,18 +187,18 @@ export function HomePage() {
           <div className="v23-diffuser-guide__steps" aria-label="How to use the volcanic diffuser">
             <article>
               <span>01</span>
-              <b>ADD 10-12 DROPS</b>
-              <p>Apply the fragrance oil directly onto the volcanic stone.</p>
+              <b>{marketText(language, "ADD 10-12 DROPS")}</b>
+              <p>{marketText(language, "Apply the fragrance oil directly onto the volcanic stone.")}</p>
             </article>
             <article>
               <span>02</span>
-              <b>LET IT ABSORB</b>
-              <p>Allow the porous stone to absorb the oil naturally.</p>
+              <b>{marketText(language, "LET IT ABSORB")}</b>
+              <p>{marketText(language, "Allow the porous stone to absorb the oil naturally.")}</p>
             </article>
             <article>
               <span>03</span>
-              <b>REFRESH AS NEEDED</b>
-              <p>Add a few more drops when the scent becomes lighter.</p>
+              <b>{marketText(language, "REFRESH AS NEEDED")}</b>
+              <p>{marketText(language, "Add a few more drops when the scent becomes lighter.")}</p>
             </article>
           </div>
         </section>

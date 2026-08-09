@@ -86,17 +86,17 @@ export function V23Header() {
         </div>
         <div className="v23-nav-tools" aria-label="Market and language settings">
           <label className="v23-market-switch" aria-label="Market">
-            <span>{marketText(language, "Market", "판매 국가")}</span>
+            <span>Market</span>
             <select value={market.code} onChange={(event) => setMarket(event.target.value as MarketCode)}>
               {Object.values(markets).map((option) => (
                 <option key={option.code} value={option.code}>
-                  {marketText(language, option.label, option.koreanLabel)} / {option.currency}
+                  {option.label} / {option.currency}
                 </option>
               ))}
             </select>
           </label>
           <label className="v23-market-switch v23-language-switch" aria-label="Language">
-            <span>{marketText(language, "Language", "언어")}</span>
+            <span>Language</span>
             <select value={language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
               {displayLanguages.map((option) => (
                 <option key={option.code} value={option.code}>
@@ -129,7 +129,7 @@ export function V23Footer() {
         <p>
           {marketText(language, "A student-led brand based at", "제주를 기반으로 한 학생 운영 브랜드")}
           <br />
-          Jeju National University.
+          {marketText(language, "Jeju National University.", "제주대학교.")}
         </p>
       </div>
       <div>
@@ -163,11 +163,13 @@ export function V23Footer() {
         </a>
       </div>
       <small>
-        (c) 2026 hondit - Student-led project based at Jeju National University. <Link to="/policy/refund">Refund</Link> -{" "}
-        <Link to="/policy/privacy">Privacy</Link> - <Link to="/policy/terms">Terms</Link>
+        (c) 2026 hondit - {marketText(language, "Student-led project based at Jeju National University.", "제주대학교 기반 학생 운영 프로젝트.")}{" "}
+        <Link to="/policy/refund">{marketText(language, "Refund", "환불")}</Link> -{" "}
+        <Link to="/policy/privacy">{marketText(language, "Privacy", "개인정보")}</Link> -{" "}
+        <Link to="/policy/terms">{marketText(language, "Terms", "이용약관")}</Link>
       </small>
       <Link className="v23-footer-admin" to="/admin">
-        Admin sign-in
+        {marketText(language, "Admin sign-in", "관리자 로그인")}
       </Link>
     </footer>
   );
