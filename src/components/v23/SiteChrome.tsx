@@ -5,6 +5,7 @@ import {
   displayLanguages,
   formatMarketUnitMoney,
   marketCountryName,
+  marketProductText,
   marketText,
   markets,
   useMarket,
@@ -85,7 +86,7 @@ export function V23Header() {
         </div>
         <div className="v23-nav-tools" aria-label="Market and language settings">
           <label className="v23-market-switch" aria-label="Market">
-            <span>{marketText(language, "Market", "판매 지역")}</span>
+            <span>{marketText(language, "Market", "판매 국가")}</span>
             <select value={market.code} onChange={(event) => setMarket(event.target.value as MarketCode)}>
               {Object.values(markets).map((option) => (
                 <option key={option.code} value={option.code}>
@@ -123,7 +124,7 @@ export function V23Footer() {
         <p>
           {footerLines[0]}
           <br />
-          {footerLines[1]}
+          {footerLines[1] || ""}
         </p>
         <p>
           {marketText(language, "A student-led brand based at", "제주를 기반으로 한 학생 운영 브랜드")}
@@ -150,11 +151,11 @@ export function V23Footer() {
         <a href={INSTAGRAM} target="_blank" rel="noreferrer">
           Instagram -&gt;
         </a>
-        <a href={`mailto:${EMAIL}`}>Email</a>
+        <a href={`mailto:${EMAIL}`}>{marketText(language, "Email", "이메일")}</a>
         <Link to="/contact">{marketText(language, "Contact", "문의")}</Link>
       </div>
       <div>
-        <p>{marketText(language, "TRUST & SUPPORT", "안내")}</p>
+        <p>{marketText(language, "TRUST & SUPPORT", "신뢰와 지원")}</p>
         <Link to="/shipping">{marketText(language, "Delivery guide", "배송 안내")}</Link>
         <Link to="/policy/refund">{marketText(language, "Refund support", "환불 안내")}</Link>
         <a href="https://www.jejunu.ac.kr/eng/" target="_blank" rel="noreferrer">
@@ -223,16 +224,19 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
   const { market, language } = useMarket();
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
   const displayPrice = formatMarketUnitMoney(product, market);
+  const productBadge = marketProductText(language, product.badge);
+  const productName = marketProductText(language, product.name);
+  const productDetail = marketProductText(language, product.detail);
 
   return (
     <article className="v23-product-card">
       <Link className="v23-product-image" to={`/products/${product.slug}`}>
-        <span>{outOfStock ? marketText(language, "OUT OF STOCK", "품절") : product.badge}</span>
-        <img src={product.image} alt={product.name} width={880} height={1100} loading="lazy" />
+        <span>{outOfStock ? marketText(language, "OUT OF STOCK", "품절") : productBadge}</span>
+        <img src={product.image} alt={productName} width={880} height={1100} loading="lazy" />
       </Link>
       <div className="v23-product-meta">
-        <h3>{product.name}</h3>
-        <p>{product.detail}</p>
+        <h3>{productName}</h3>
+        <p>{productDetail}</p>
         <small>{marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} 대량 주문 단가`)}</small>
         <strong>{displayPrice}</strong>
       </div>

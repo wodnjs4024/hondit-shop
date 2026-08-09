@@ -22,7 +22,7 @@ import {
   updatePaymentAttempt,
   type CheckoutPayload,
 } from "../lib/bulkApi";
-import { formatCurrency, formatMarketUnitMoney, getMarketLineTotal, marketCountryName, marketText, useMarket } from "../lib/market";
+import { formatCurrency, formatMarketUnitMoney, getMarketLineTotal, marketCountryName, marketProductText, marketText, useMarket } from "../lib/market";
 
 declare global {
   interface Window {
@@ -130,6 +130,11 @@ export function BulkProductPage() {
   const marketTotal = getMarketLineTotal(product, quantity, market);
   const stockStatus = getStockStatus(product);
   const soldOut = stockStatus === "Sold out";
+  const productName = marketProductText(language, product.name);
+  const productCategory = marketProductText(language, product.category);
+  const productDescription = marketProductText(language, product.description);
+  const productVolume = product.volumeLabel ? marketProductText(language, product.volumeLabel) : "";
+  const localizedStockStatus = marketText(language, stockStatus);
   const paypalClientId = payPalConfig.clientId;
   const paypalMode = payPalConfig.mode;
   const checkoutDisabled = !payPalConfig.checkoutEnabled;
@@ -299,7 +304,7 @@ export function BulkProductPage() {
         <section className="bulk-detail section-shell">
           <div className="section-inner section-inner--wide bulk-detail__grid">
             <figure className="bulk-detail__image">
-              <img src={product.imageUrl} alt={product.name} />
+              <img src={product.imageUrl} alt={productName} />
             </figure>
 
             <div className="bulk-detail__content">
@@ -307,10 +312,10 @@ export function BulkProductPage() {
                 {marketText(language, "Back to Bulk Orders", "대량주문으로 돌아가기")}
               </Link>
               <p className="eyebrow">
-                {product.category.toUpperCase()} {marketText(language, "BULK ORDER", "대량주문")}
+                {productCategory.toUpperCase()} {marketText(language, "BULK ORDER", "대량주문")}
               </p>
-              <h1>{product.name}</h1>
-              <p className="bulk-detail__volume">{product.volumeLabel}</p>
+              <h1>{productName}</h1>
+              {productVolume && <p className="bulk-detail__volume">{productVolume}</p>}
 
               {isLivePaymentTest && (
                 <p className="setup-warning">
@@ -318,7 +323,7 @@ export function BulkProductPage() {
                 </p>
               )}
 
-              <p>{product.description}</p>
+              <p>{productDescription}</p>
               <p className="bulk-price-explainer">
                 {market.hasShopee
                   ? marketText(
@@ -356,7 +361,7 @@ export function BulkProductPage() {
                 </div>
               </dl>
 
-              <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{stockStatus}</p>
+              <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{localizedStockStatus}</p>
               <p className="shipping-pill">
                 {marketText(
                   language,
@@ -414,11 +419,11 @@ export function BulkProductPage() {
                     <input value={form.customerName} onChange={(event) => update("customerName", event.target.value)} />
                   </label>
                   <label>
-                    Email *
+                    {marketText(language, "Email", "이메일")} *
                     <input type="email" value={form.customerEmail} onChange={(event) => update("customerEmail", event.target.value)} />
                   </label>
                   <label>
-                    Phone / WhatsApp *
+                    {marketText(language, "Phone / WhatsApp", "전화 / WhatsApp")} *
                     <input value={form.customerPhone} onChange={(event) => update("customerPhone", event.target.value)} />
                   </label>
                   <label>
@@ -474,7 +479,7 @@ export function BulkProductPage() {
                     <p>{marketText(language, "Please confirm these details before opening PayPal or card checkout.", "PayPal 또는 카드 결제창을 열기 전에 아래 정보를 확인해주세요.")}</p>
                   </div>
                   <div className="direct-payment-summary__total">
-                    <span>{product.name}</span>
+                    <span>{productName}</span>
                     <strong>
                       {quantity} {marketText(language, "units", "개")} / {formatCurrency(marketTotal, market.currency, market.locale)}
                     </strong>
@@ -485,11 +490,11 @@ export function BulkProductPage() {
                       <dd>{form.customerName || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
-                      <dt>Email</dt>
+                      <dt>{marketText(language, "Email", "이메일")}</dt>
                       <dd>{form.customerEmail || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
-                      <dt>Phone / WhatsApp</dt>
+                      <dt>{marketText(language, "Phone / WhatsApp", "전화 / WhatsApp")}</dt>
                       <dd>{form.customerPhone || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
@@ -544,7 +549,9 @@ export function BulkProductPage() {
                     {marketText(language, "Direct PayPal checkout is temporarily closed. Please contact hondit for this order.", "PayPal 직접 결제가 잠시 닫혀 있습니다. 이 주문은 hondit에 문의해주세요.")}
                   </p>
                 ) : !paypalClientId ? (
-                  <p className="setup-warning">Add PAYPAL_CLIENT_ID in Vercel to enable PayPal buttons.</p>
+                  <p className="setup-warning">
+                    {marketText(language, "Add PAYPAL_CLIENT_ID in Vercel to enable PayPal buttons.", "Vercel에 PAYPAL_CLIENT_ID를 추가하면 PayPal 버튼이 활성화됩니다.")}
+                  </p>
                 ) : (
                   <div id="direct-paypal-buttons" className="paypal-buttons" />
                 )}
@@ -554,13 +561,13 @@ export function BulkProductPage() {
                 <h2>{marketText(language, "Product composition", "상품 구성")}</h2>
                 <div className="product-card__chips">
                   {product.features.map((feature) => (
-                    <span key={feature}>{feature}</span>
+                    <span key={feature}>{marketProductText(language, feature)}</span>
                   ))}
                 </div>
                 <h2>{marketText(language, "Use and order notes", "사용 및 주문 안내")}</h2>
                 <ul>
                   {product.usage.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item}>{marketProductText(language, item)}</li>
                   ))}
                   <li>{marketText(language, `Orders are currently available for delivery within ${countryName}.`, `현재 ${countryName} 배송 주문만 가능합니다.`)}</li>
                   <li>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</li>

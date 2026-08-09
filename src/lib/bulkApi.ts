@@ -13,7 +13,7 @@ export type CheckoutPayload = {
   customerPhone: string;
   companyName?: string;
   market: MarketCode;
-  countryCode: MarketCode;
+  countryCode: string;
   addressLine1: string;
   addressLine2?: string;
   city: string;

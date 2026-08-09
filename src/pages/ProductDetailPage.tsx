@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
-import { formatMarketUnitMoney, marketText, useMarket } from "../lib/market";
+import { formatMarketUnitMoney, marketProductText, marketText, useMarket } from "../lib/market";
 import { loadStorefrontProduct } from "../lib/storefrontApi";
 
 export function ProductDetailPage() {
@@ -28,19 +28,23 @@ export function ProductDetailPage() {
   }
 
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
+  const productName = marketProductText(language, product.name);
+  const productCategory = marketProductText(language, product.category);
+  const productDescription = marketProductText(language, product.description);
+  const productGoodFor = marketProductText(language, product.goodFor);
 
   return (
     <V23Page>
       <main className="v23-product-detail">
         <section className="v23-product-detail-hero">
           <figure>
-            <img src={product.image} alt={product.name} />
+            <img src={product.image} alt={productName} />
             {outOfStock && <span>{marketText(language, "Out of stock", "품절")}</span>}
           </figure>
           <div>
-            <p className="v23-eyebrow"><span /> {product.category}</p>
-            <h1>{product.name}</h1>
-            <p>{product.description}</p>
+            <p className="v23-eyebrow"><span /> {productCategory}</p>
+            <h1>{productName}</h1>
+            <p>{productDescription}</p>
             <strong>{formatMarketUnitMoney(product, market)}</strong>
             <dl>
               <div><dt>{marketText(language, "Bulk MOQ", "대량주문 MOQ")}</dt><dd>{product.bulkMoq} {marketText(language, "units", "개")}</dd></div>
@@ -67,15 +71,15 @@ export function ProductDetailPage() {
         <section className="v23-product-detail-grid">
           <article>
             <p className="v23-eyebrow"><span /> {marketText(language, "GOOD FOR", "추천 용도")}</p>
-            <h2>{product.goodFor}</h2>
+            <h2>{productGoodFor}</h2>
           </article>
           <article>
             <p className="v23-eyebrow"><span /> {marketText(language, "HIGHLIGHTS", "특징")}</p>
-            <ul>{product.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{product.highlights.map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ul>
           </article>
           <article>
             <p className="v23-eyebrow"><span /> {marketText(language, "HOW TO USE", "사용 방법")}</p>
-            <ol>{product.howTo.map((item) => <li key={item}>{item}</li>)}</ol>
+            <ol>{product.howTo.map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ol>
           </article>
         </section>
       </main>

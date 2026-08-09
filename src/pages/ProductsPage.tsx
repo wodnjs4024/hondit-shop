@@ -12,12 +12,12 @@ export function ProductsPage() {
     ? marketText(
         language,
         `Compare Korean vegan cleansing care and Jeju volcanic-stone scent for ${countryName}, then choose Shopee retail or secure direct PayPal bulk checkout.`,
-        `${countryName} 고객을 위한 한국 비건 클렌징 케어와 제주 화산석 향 제품을 비교하고, Shopee 개별 구매 또는 PayPal 대량주문을 선택하세요.`,
+        `${countryName} 고객을 위한 한국 비건 클렌징 케어와 제주 화산석 디퓨저를 비교하고, Shopee 개별 구매 또는 PayPal 대량주문을 선택하세요.`,
       )
     : marketText(
         language,
         `Compare Korean vegan cleansing care and Jeju volcanic-stone scent for ${countryName}. This market uses direct bulk checkout only, with fixed ${market.currency} prices.`,
-        `${countryName} 고객을 위한 한국 비건 클렌징 케어와 제주 화산석 향 제품을 비교하세요. 이 판매 지역은 고정 ${market.currency} 가격의 대량주문만 운영합니다.`,
+        `${countryName} 고객을 위한 한국 비건 클렌징 케어와 제주 화산석 디퓨저를 비교하세요. 이 판매 국가는 고정 ${market.currency} 가격의 대량주문만 운영합니다.`,
       );
 
   return (
@@ -28,7 +28,11 @@ export function ProductsPage() {
           title={marketText(language, "Care shaped by water. Scent grounded in stone.", "물에서 시작한 케어. 돌에 머무는 향.")}
           description={heroDescription}
           image="/images/jeju-water-basalt-v2.webp"
-          imageAlt="Clear Jeju water flowing across dark volcanic basalt."
+          imageAlt={marketText(
+            language,
+            "Clear Jeju water flowing across dark volcanic basalt.",
+            "검은 제주 현무암 위로 맑은 물이 흐르는 장면.",
+          )}
         />
 
         <section className="v23-confidence">
@@ -40,7 +44,7 @@ export function ProductsPage() {
             <small>
               {market.currency} {marketText(language, "PRICES", "가격")}
             </small>
-            <b>{marketText(language, "Fixed market bulk prices", "판매 지역별 고정 대량주문가")}</b>
+            <b>{marketText(language, "Fixed market bulk prices", "판매 국가별 고정 대량주문가")}</b>
           </article>
           <article>
             <small>
@@ -80,7 +84,7 @@ export function ProductsPage() {
             <h2>
               {market.hasShopee
                 ? marketText(language, "One item or a larger order?", "하나만 살까요, 대량으로 주문할까요?")
-                : marketText(language, "Bulk orders only for this market.", "이 판매 지역은 대량주문만 운영합니다.")}
+                : marketText(language, "Bulk orders only for this market.", "이 판매 국가는 대량주문만 운영합니다.")}
             </h2>
           </div>
 
@@ -101,7 +105,7 @@ export function ProductsPage() {
             </article>
           ) : (
             <article>
-              <small>{marketText(language, "DIRECT MARKET", "직접 판매 지역")}</small>
+              <small>{marketText(language, "DIRECT MARKET", "직접 판매 국가")}</small>
               <b>{marketText(language, "No Shopee route", "Shopee 경로 없음")}</b>
               <p>
                 {marketText(
