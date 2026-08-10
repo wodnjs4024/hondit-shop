@@ -1,6 +1,6 @@
 import { livePaymentTestProduct } from "../_bulk-data.js";
 import { calculateCart, createOrderNumber, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
-import { formatPayPalAmount, getMarketLineTotal, getMarketUnitPrice, resolveMarket } from "../_markets.js";
+import { formatPayPalAmount, getMarketLineTotal, getMarketUnitPrice, isBulkProductAllowedForMarket, resolveMarket } from "../_markets.js";
 
 function validateCheckout(body) {
   const required = ["orderType", "customerName", "customerEmail", "customerPhone", "addressLine1", "city", "postalCode"];
@@ -80,12 +80,17 @@ export default async function handler(req, res) {
       ? [...products, livePaymentTestProduct]
       : products;
     const summary = calculateCart(body.cart, checkoutProducts);
+    const blockedProduct = summary.lines.find((line) => !isBulkProductAllowedForMarket(line.product, market));
+    if (blockedProduct) {
+      throw new Error(`${blockedProduct.product.name} is not available for ${market.countryName}.`);
+    }
     const marketLines = summary.lines.map((line) => {
       const marketUnitPrice = getMarketUnitPrice(line.product, market);
       const marketLineTotal = getMarketLineTotal(line.product, line.totalUnits, market);
       return { ...line, marketUnitPrice, marketLineTotal };
     });
     const marketTotal = Number(marketLines.reduce((sum, line) => sum + line.marketLineTotal, 0).toFixed(2));
+    const marketTotalLabel = market.currency === "JPY" ? String(Math.round(marketTotal)) : marketTotal.toFixed(2);
     const orderNumber = createOrderNumber();
     const attribution = body.attribution || {};
 
@@ -102,7 +107,7 @@ export default async function handler(req, res) {
       city: body.city.trim(),
       postal_code: body.postalCode.trim(),
       customer_note: body.customerNote || null,
-      internal_note: `${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotal.toFixed(2)}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
+      internal_note: `${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
       utm_source: attribution.utm_source || attribution.traffic_source || null,
       utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,
@@ -153,7 +158,7 @@ export default async function handler(req, res) {
             custom_id: order.id,
             amount: {
               currency_code: market.currency,
-              value: formatPayPalAmount(marketTotal),
+              value: formatPayPalAmount(marketTotal, market.currency),
             },
           },
         ],

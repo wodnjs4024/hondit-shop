@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-export type MarketCode = "SG" | "HK";
+export type MarketCode = "SG" | "HK" | "TW" | "JP";
 export type DisplayLanguage = "en" | "ko" | "zh" | "zh-HK" | "zh-TW" | "ja";
-export type CurrencyCode = "SGD" | "HKD";
+export type CurrencyCode = "SGD" | "HKD" | "TWD" | "JPY";
+export type StorefrontMarketCategory = "CARE" | "SCENT";
+export type BulkMarketCategory = "cleansing" | "diffuser";
 
 export type MarketConfig = {
   code: MarketCode;
@@ -22,6 +24,8 @@ export type MarketConfig = {
   footerLineKo: string;
   checkoutNote: string;
   checkoutNoteKo: string;
+  allowedProductCategories: StorefrontMarketCategory[];
+  allowedBulkCategories: BulkMarketCategory[];
 };
 
 type PricedItem = {
@@ -60,6 +64,8 @@ export const markets: Record<MarketCode, MarketConfig> = {
     footerLine: "Pieces of Jeju Island,\narriving in Singapore.",
     footerLineKo: "제주의 조각이\n싱가포르에 도착합니다.",
     checkoutNote: "Free Singapore EMS shipping included",
+    allowedProductCategories: ["CARE", "SCENT"],
+    allowedBulkCategories: ["cleansing", "diffuser"],
     checkoutNoteKo: "싱가포르 EMS 배송비 포함",
   },
   HK: {
@@ -79,7 +85,51 @@ export const markets: Record<MarketCode, MarketConfig> = {
     footerLine: "Pieces of Jeju Island,\narriving in Hong Kong.",
     footerLineKo: "제주의 조각이\n홍콩에 도착합니다.",
     checkoutNote: "Hong Kong EMS shipping included",
+    allowedProductCategories: ["CARE", "SCENT"],
+    allowedBulkCategories: ["cleansing", "diffuser"],
     checkoutNoteKo: "홍콩 EMS 배송비 포함",
+  },
+  TW: {
+    code: "TW",
+    shortLabel: "TW",
+    label: "Taiwan",
+    koreanLabel: "대만",
+    countryCode: "TW",
+    countryName: "Taiwan",
+    countryNameKo: "대만",
+    currency: "TWD",
+    locale: "zh-TW",
+    rateFromSgd: 23.5,
+    hasShopee: false,
+    announcement: "TAIWAN DIFFUSER BULK ORDER ONLY - PAYPAL TWD - SHIPS FROM KOREA",
+    announcementKo: "대만 디퓨저 대량주문 전용 - PayPal TWD - 한국 발송",
+    footerLine: "Pieces of Jeju Island,\narriving in Taiwan.",
+    footerLineKo: "제주의 조각이\n대만에 도착합니다.",
+    checkoutNote: "Taiwan EMS shipping included",
+    checkoutNoteKo: "대만 EMS 배송비 포함",
+    allowedProductCategories: ["SCENT"],
+    allowedBulkCategories: ["diffuser"],
+  },
+  JP: {
+    code: "JP",
+    shortLabel: "JP",
+    label: "Japan",
+    koreanLabel: "일본",
+    countryCode: "JP",
+    countryName: "Japan",
+    countryNameKo: "일본",
+    currency: "JPY",
+    locale: "ja-JP",
+    rateFromSgd: 115,
+    hasShopee: false,
+    announcement: "JAPAN DIFFUSER BULK ORDER ONLY - PAYPAL JPY - SHIPS FROM KOREA",
+    announcementKo: "일본 디퓨저 대량주문 전용 - PayPal JPY - 한국 발송",
+    footerLine: "Pieces of Jeju Island,\narriving in Japan.",
+    footerLineKo: "제주의 조각이\n일본에 도착합니다.",
+    checkoutNote: "Japan EMS shipping included",
+    checkoutNoteKo: "일본 EMS 배송비 포함",
+    allowedProductCategories: ["SCENT"],
+    allowedBulkCategories: ["diffuser"],
   },
 };
 
@@ -95,7 +145,7 @@ export const displayLanguages: LanguageOption[] = [
 const MarketContext = createContext<MarketContextValue | null>(null);
 
 function isMarketCode(value: string | null): value is MarketCode {
-  return value === "SG" || value === "HK";
+  return value === "SG" || value === "HK" || value === "TW" || value === "JP";
 }
 
 function isDisplayLanguage(value: string | null): value is DisplayLanguage {
@@ -188,12 +238,20 @@ export function formatMarketLineMoney(product: PricedItem, quantity: number, mar
   return formatCurrency(getMarketLineTotal(product, quantity, market), market.currency, market.locale);
 }
 
+export function isStorefrontProductAllowedForMarket(product: { category?: string }, market: MarketConfig) {
+  return market.allowedProductCategories.includes(product.category as StorefrontMarketCategory);
+}
+
+export function isBulkProductAllowedForMarket(product: { category?: string }, market: MarketConfig) {
+  return market.allowedBulkCategories.includes(product.category as BulkMarketCategory);
+}
+
 const countryNames: Record<NonEnglishLanguage, Record<MarketCode, string>> = {
-  ko: { SG: "싱가포르", HK: "홍콩" },
-  zh: { SG: "新加坡", HK: "香港" },
-  "zh-HK": { SG: "新加坡", HK: "香港" },
-  "zh-TW": { SG: "新加坡", HK: "香港" },
-  ja: { SG: "シンガポール", HK: "香港" },
+  ko: { SG: "싱가포르", HK: "홍콩", TW: "대만", JP: "일본" },
+  zh: { SG: "新加坡", HK: "香港", TW: "台湾", JP: "日本" },
+  "zh-HK": { SG: "新加坡", HK: "香港", TW: "台灣", JP: "日本" },
+  "zh-TW": { SG: "新加坡", HK: "香港", TW: "台灣", JP: "日本" },
+  ja: { SG: "シンガポール", HK: "香港", TW: "台湾", JP: "日本" },
 };
 
 export function marketCountryName(market: MarketConfig, language: DisplayLanguage) {
@@ -1239,35 +1297,55 @@ productText.ja = {
 
 function dynamicText(language: DisplayLanguage, english: string) {
   if (language === "en") return undefined;
-  const country = (code: string) => countryNames[language][code === "HK" ? "HK" : "SG"];
+  const country = (code: MarketCode) => countryNames[language][code];
   const dict = commonText[language];
   const zh = (simplified: string, traditional: string) => (language === "zh" ? simplified : traditional);
 
-  const announcement = english.match(/^(SINGAPORE|HONG KONG) BULK ORDER(?: ONLY)? - PAYPAL (SGD|HKD)(?: - (SHOPEE RETAIL AVAILABLE|SHIPS FROM KOREA))$/);
+  const announcement = english.match(/^(SINGAPORE|HONG KONG|TAIWAN|JAPAN) (?:DIFFUSER )?BULK ORDER(?: ONLY)? - PAYPAL (SGD|HKD|TWD|JPY)(?: - (SHOPEE RETAIL AVAILABLE|SHIPS FROM KOREA))$/);
   if (announcement) {
-    const name = announcement[1] === "SINGAPORE" ? country("SG") : country("HK");
-    const only = announcement[1] === "HONG KONG";
+    const announcementMarkets: Record<string, MarketCode> = {
+      SINGAPORE: "SG",
+      "HONG KONG": "HK",
+      TAIWAN: "TW",
+      JAPAN: "JP",
+    };
+    const announcementMarket = announcementMarkets[announcement[1]];
+    const name = country(announcementMarket);
+    const only = announcementMarket !== "SG";
     if (language === "ko") return only ? `${name} 대량주문 전용 - PayPal ${announcement[2]} - 한국 발송` : `${name} 대량주문 - PayPal ${announcement[2]} - Shopee 개별 구매 가능`;
     if (language === "ja") return only ? `${name} 一括注文のみ - PayPal ${announcement[2]} - 韓国発送` : `${name} 一括注文 - PayPal ${announcement[2]} - Shopee 小売対応`;
     return only ? `${name}批量訂購專用 - PayPal ${announcement[2]} - 韓國發貨` : `${name}批量訂購 - PayPal ${announcement[2]} - 可使用 Shopee 零售`;
   }
 
-  const footer = english.match(/^Pieces of Jeju Island,\narriving in (Singapore|Hong Kong)\.$/);
+  const footer = english.match(/^Pieces of Jeju Island,\narriving in (Singapore|Hong Kong|Taiwan|Japan)\.$/);
   if (footer) {
-    if (language === "ko") return `제주의 조각이\n${country(footer[1] === "Hong Kong" ? "HK" : "SG")}에 도착합니다.`;
-    if (language === "ja") return `済州島のかけらを\n${country(footer[1] === "Hong Kong" ? "HK" : "SG")}へ。`;
-    return `濟州島的片段，\n送到${country(footer[1] === "Hong Kong" ? "HK" : "SG")}。`;
+    const footerMarkets: Record<string, MarketCode> = {
+      Singapore: "SG",
+      "Hong Kong": "HK",
+      Taiwan: "TW",
+      Japan: "JP",
+    };
+    const name = country(footerMarkets[footer[1]]);
+    if (language === "ko") return `제주의 조각이\n${name}에 도착합니다.`;
+    if (language === "ja") return `済州島のかけらを\n${name}へ。`;
+    return `濟州島的片段，\n送到${name}。`;
   }
 
-  const checkoutNote = english.match(/^(Free Singapore|Hong Kong) EMS shipping included$/);
+  const checkoutNote = english.match(/^(Free Singapore|Hong Kong|Taiwan|Japan) EMS shipping included$/);
   if (checkoutNote) {
-    const name = checkoutNote[1] === "Hong Kong" ? country("HK") : country("SG");
+    const checkoutMarkets: Record<string, MarketCode> = {
+      "Free Singapore": "SG",
+      "Hong Kong": "HK",
+      Taiwan: "TW",
+      Japan: "JP",
+    };
+    const name = country(checkoutMarkets[checkoutNote[1]]);
     if (language === "ko") return `${name} EMS 배송비 포함`;
     if (language === "ja") return `${name} EMS 配送料込み`;
     return `已包含${name} EMS 運費`;
   }
 
-  const currencyUnit = english.match(/^(SGD|HKD) BULK UNIT PRICE$/);
+  const currencyUnit = english.match(/^(SGD|HKD|TWD|JPY) BULK UNIT PRICE$/);
   if (currencyUnit) return `${currencyUnit[1]} ${dict["Bulk unit"] || "批量单价"}`;
 
   const orderFrom = english.match(/^Order from (\d+) units, in steps of (\d+)\.(?: Available up to (\d+) units\.)?$/);
@@ -1292,7 +1370,7 @@ function dynamicText(language: DisplayLanguage, english: string) {
     return `目前僅支援配送至${countryAvailable[1]}的訂單。`;
   }
 
-  const paypalCurrency = english.match(/^PayPal Sandbox payment\. Currency: (SGD|HKD)\.$/);
+  const paypalCurrency = english.match(/^PayPal Sandbox payment\. Currency: (SGD|HKD|TWD|JPY)\.$/);
   if (paypalCurrency) {
     if (language === "ko") return `PayPal Sandbox 결제입니다. 통화: ${paypalCurrency[1]}.`;
     if (language === "ja") return `PayPal Sandbox 決済です。通貨: ${paypalCurrency[1]}。`;
@@ -1313,7 +1391,7 @@ function dynamicText(language: DisplayLanguage, english: string) {
     return `配送至 ${shippingTo[1]}`;
   }
 
-  const payThrough = english.match(/^Pay through PayPal in (SGD|HKD)$/);
+  const payThrough = english.match(/^Pay through PayPal in (SGD|HKD|TWD|JPY)$/);
   if (payThrough) {
     if (language === "ko") return `PayPal ${payThrough[1]} 결제`;
     if (language === "ja") return `PayPal ${payThrough[1]} 決済`;
@@ -1332,7 +1410,7 @@ function dynamicText(language: DisplayLanguage, english: string) {
     );
   }
 
-  const fixedMarketPrice = english.match(/^This market uses direct bulk checkout only\. The displayed price is the fixed (SGD|HKD|USD|TWD) bulk unit price\.$/);
+  const fixedMarketPrice = english.match(/^This market uses direct bulk checkout only\. The displayed price is the fixed (SGD|HKD|USD|TWD|JPY) bulk unit price\.$/);
   if (fixedMarketPrice) {
     if (language === "ko") return `이 판매 지역은 직접 대량주문만 운영합니다. 표시 금액은 고정 ${fixedMarketPrice[1]} 대량주문 단가입니다.`;
     if (language === "ja") return `この販売地域は直接一括注文のみ対応します。表示価格は固定の${fixedMarketPrice[1]}一括注文単価です。`;
@@ -1892,28 +1970,28 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
     return `即時價格、優惠券與安全的 ${livePrices[1]} 結帳。`;
   }
 
-  const fixedPrices = english.match(/^Fixed (SGD|HKD|USD|TWD) prices and direct PayPal checkout\.$/);
+  const fixedPrices = english.match(/^Fixed (SGD|HKD|USD|TWD|JPY) prices and direct PayPal checkout\.$/);
   if (fixedPrices) {
     if (language === "ko") return `고정 ${fixedPrices[1]} 가격과 PayPal 직접 결제.`;
     if (language === "ja") return `固定${fixedPrices[1]}価格とPayPal直接決済。`;
     return `固定 ${fixedPrices[1]} 價格與 PayPal 直接結帳。`;
   }
 
-  const reviewMOQ = english.match(/^Review MOQ, then pay securely through PayPal in (SGD|HKD|USD|TWD)\.$/);
+  const reviewMOQ = english.match(/^Review MOQ, then pay securely through PayPal in (SGD|HKD|USD|TWD|JPY)\.$/);
   if (reviewMOQ) {
     if (language === "ko") return `MOQ를 확인한 뒤 PayPal ${reviewMOQ[1]}로 안전하게 결제합니다.`;
     if (language === "ja") return `MOQを確認し、PayPalで${reviewMOQ[1]}決済します。`;
     return `確認 MOQ 後，透過 PayPal 以 ${reviewMOQ[1]} 安全結帳。`;
   }
 
-  const paypal = english.match(/^PayPal (SGD|HKD|USD|TWD) checkout$/);
+  const paypal = english.match(/^PayPal (SGD|HKD|USD|TWD|JPY) checkout$/);
   if (paypal) {
     if (language === "ko") return `PayPal ${paypal[1]} 결제`;
     if (language === "ja") return `PayPal ${paypal[1]} 決済`;
     return `PayPal ${paypal[1]} 結帳`;
   }
 
-  const fixedBulkPrice = english.match(/^Fixed (SGD|HKD|USD|TWD) bulk price$/);
+  const fixedBulkPrice = english.match(/^Fixed (SGD|HKD|USD|TWD|JPY) bulk price$/);
   if (fixedBulkPrice) {
     if (language === "ko") return `고정 ${fixedBulkPrice[1]} 대량 주문가`;
     if (language === "ja") return `固定${fixedBulkPrice[1]}一括注文価格`;
@@ -1927,14 +2005,14 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
     return `${noShopee[1]} 不顯示 Shopee 零售渠道。訂單僅透過 hondit 結帳。`;
   }
 
-  const shopeeOrPaypal = english.match(/^Shopee retail or secure PayPal (SGD|HKD|USD|TWD) direct checkout\.$/);
+  const shopeeOrPaypal = english.match(/^Shopee retail or secure PayPal (SGD|HKD|USD|TWD|JPY) direct checkout\.$/);
   if (shopeeOrPaypal) {
     if (language === "ko") return `Shopee 소매 또는 안전한 PayPal ${shopeeOrPaypal[1]} 직접 결제.`;
     if (language === "ja") return `Shopee小売または安全なPayPal ${shopeeOrPaypal[1]}直接決済。`;
     return `Shopee 零售或安全 PayPal ${shopeeOrPaypal[1]} 直接結帳。`;
   }
 
-  const bulkPriced = english.match(/^Bulk orders are priced and captured in (SGD|HKD|USD|TWD)\.$/);
+  const bulkPriced = english.match(/^Bulk orders are priced and captured in (SGD|HKD|USD|TWD|JPY)\.$/);
   if (bulkPriced) {
     if (language === "ko") return `대량 주문은 ${bulkPriced[1]}로 가격이 책정되고 결제됩니다.`;
     if (language === "ja") return `一括注文は${bulkPriced[1]}で価格設定・決済されます。`;

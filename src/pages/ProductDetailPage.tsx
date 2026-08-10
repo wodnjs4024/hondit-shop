@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
-import { formatMarketUnitMoney, marketProductText, marketText, useMarket } from "../lib/market";
+import { formatMarketUnitMoney, isStorefrontProductAllowedForMarket, marketProductText, marketText, useMarket } from "../lib/market";
 import { loadStorefrontProduct } from "../lib/storefrontApi";
 
 export function ProductDetailPage() {
@@ -26,6 +26,7 @@ export function ProductDetailPage() {
       </V23Page>
     );
   }
+  if (!isStorefrontProductAllowedForMarket(product, market)) return <Navigate to="/products" replace />;
 
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
   const productName = marketProductText(language, product.name);

@@ -5,6 +5,7 @@ import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
 import {
   formatMarketLineMoney,
   formatMarketUnitMoney,
+  isStorefrontProductAllowedForMarket,
   marketCountryName,
   marketProductText,
   marketText,
@@ -17,25 +18,32 @@ export function BulkOrdersPage() {
   const countryName = marketCountryName(market, language);
   const [params] = useSearchParams();
   const [products, setProducts] = useState<StorefrontProduct[]>(v23Products);
-  const requested = params.get("product") || products[0]?.slug || "";
+  const marketProducts = useMemo(
+    () => products.filter((product) => isStorefrontProductAllowedForMarket(product, market)),
+    [products, market],
+  );
+  const requested = params.get("product") || marketProducts[0]?.slug || "";
   const [selectedSlug, setSelectedSlug] = useState(requested);
 
   useEffect(() => {
     loadStorefrontProducts()
-      .then((items) => {
-        setProducts(items);
-        if (!selectedSlug && items[0]) setSelectedSlug(items[0].slug);
-      })
+      .then(setProducts)
       .catch(() => undefined);
-  }, [selectedSlug]);
+  }, []);
 
   useEffect(() => {
-    if (requested) setSelectedSlug(requested);
-  }, [requested]);
+    if (requested && marketProducts.some((product) => product.slug === requested)) {
+      setSelectedSlug(requested);
+      return;
+    }
+    if (!marketProducts.some((product) => product.slug === selectedSlug)) {
+      setSelectedSlug(marketProducts[0]?.slug || "");
+    }
+  }, [marketProducts, requested, selectedSlug]);
 
   const selected = useMemo(
-    () => products.find((product) => product.slug === selectedSlug) || products[0],
-    [products, selectedSlug],
+    () => marketProducts.find((product) => product.slug === selectedSlug) || marketProducts[0],
+    [marketProducts, selectedSlug],
   );
 
   return (
@@ -98,7 +106,7 @@ export function BulkOrdersPage() {
               <span /> {marketText(language, "01 - PRODUCT", "01 - 상품")}
             </p>
             <h2>{marketText(language, "Choose a bulk product.", "대량주문 상품을 선택하세요.")}</h2>
-            {products.map((product) => {
+            {marketProducts.map((product) => {
               const productName = marketProductText(language, product.name);
               const shortName = marketProductText(language, product.shortName);
               const category = marketProductText(language, product.category);

@@ -7,6 +7,7 @@ export const markets = {
     sgdRate: 1,
     hasShopee: true,
     checkoutNote: "Singapore EMS shipping is included in the displayed bulk unit price.",
+    allowedBulkCategories: ["cleansing", "diffuser"],
   },
   HK: {
     code: "HK",
@@ -16,6 +17,27 @@ export const markets = {
     sgdRate: 6.08,
     hasShopee: false,
     checkoutNote: "Hong Kong delivery is included in the displayed bulk unit price.",
+    allowedBulkCategories: ["cleansing", "diffuser"],
+  },
+  TW: {
+    code: "TW",
+    countryCode: "TW",
+    countryName: "Taiwan",
+    currency: "TWD",
+    sgdRate: 23.5,
+    hasShopee: false,
+    checkoutNote: "Taiwan EMS shipping is included in the displayed bulk unit price.",
+    allowedBulkCategories: ["diffuser"],
+  },
+  JP: {
+    code: "JP",
+    countryCode: "JP",
+    countryName: "Japan",
+    currency: "JPY",
+    sgdRate: 115,
+    hasShopee: false,
+    checkoutNote: "Japan EMS shipping is included in the displayed bulk unit price.",
+    allowedBulkCategories: ["diffuser"],
   },
 };
 
@@ -23,6 +45,8 @@ export function normalizeMarketCode(value) {
   const normalized = String(value || "").trim().toUpperCase();
   if (normalized === "SG" || normalized === "SINGAPORE") return "SG";
   if (normalized === "HK" || normalized === "HONGKONG" || normalized === "HONG KONG") return "HK";
+  if (normalized === "TW" || normalized === "TAIWAN" || normalized === "台灣" || normalized === "台湾") return "TW";
+  if (normalized === "JP" || normalized === "JAPAN" || normalized === "日本") return "JP";
   return null;
 }
 
@@ -51,13 +75,21 @@ export function getMarketLineTotal(product, units, market) {
   return Number((getMarketUnitPrice(product, market) * Number(units || 0)).toFixed(2));
 }
 
-export function formatPayPalAmount(value) {
+export function isBulkProductAllowedForMarket(product, market) {
+  const allowed = market.allowedBulkCategories || ["cleansing", "diffuser"];
+  return allowed.includes(product?.category);
+}
+
+export function formatPayPalAmount(value, currency = "SGD") {
+  if (currency === "JPY") return String(Math.round(Number(value || 0)));
   return Number(value || 0).toFixed(2);
 }
 
 export function formatOrderAmount(value, currency = "SGD") {
+  if (currency === "JPY") return `¥${Math.round(Number(value || 0))}`;
   const amount = Number(value || 0).toFixed(2);
   if (currency === "HKD") return `HK$${amount}`;
+  if (currency === "TWD") return `NT$${amount}`;
   if (currency === "USD") return `$${amount}`;
   return `S$${amount}`;
 }

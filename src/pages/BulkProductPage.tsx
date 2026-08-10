@@ -22,7 +22,16 @@ import {
   updatePaymentAttempt,
   type CheckoutPayload,
 } from "../lib/bulkApi";
-import { formatCurrency, formatMarketUnitMoney, getMarketLineTotal, marketCountryName, marketProductText, marketText, useMarket } from "../lib/market";
+import {
+  formatCurrency,
+  formatMarketUnitMoney,
+  getMarketLineTotal,
+  isBulkProductAllowedForMarket,
+  marketCountryName,
+  marketProductText,
+  marketText,
+  useMarket,
+} from "../lib/market";
 
 declare global {
   interface Window {
@@ -121,8 +130,15 @@ export function BulkProductPage() {
       .catch(() => undefined);
   }, []);
 
-  const matchedProduct = products.find((entry) => entry.slug === slug && entry.active) || getBulkProduct(slug);
-  const product = matchedProduct || bulkProducts[0];
+  const apiMatch = products.find((entry) => entry.slug === slug && entry.active && isBulkProductAllowedForMarket(entry, market));
+  const fallbackProduct = getBulkProduct(slug);
+  const fallbackMatch = fallbackProduct?.active && isBulkProductAllowedForMarket(fallbackProduct, market) ? fallbackProduct : undefined;
+  const firstAllowedProduct =
+    products.find((entry) => entry.active && isBulkProductAllowedForMarket(entry, market)) ||
+    bulkProducts.find((entry) => entry.active && isBulkProductAllowedForMarket(entry, market)) ||
+    bulkProducts[0];
+  const matchedProduct = apiMatch || fallbackMatch;
+  const product = matchedProduct || firstAllowedProduct;
   const isLivePaymentTest = product.slug === "live-payment-test";
   const moq = getBulkMoq(product);
   const maxUnits = getBulkMaxUnits(product);
@@ -296,7 +312,9 @@ export function BulkProductPage() {
       .render("#direct-paypal-buttons");
   }, [checkoutDisabled, language, market, navigate, paypalClientId, ready, soldOut]);
 
-  if (!matchedProduct) return <Navigate to="/bulk-orders" replace />;
+  if (!matchedProduct && firstAllowedProduct?.slug && slug !== firstAllowedProduct.slug) {
+    return <Navigate to={`/bulk-orders/${firstAllowedProduct.slug}`} replace />;
+  }
 
   return (
     <V23Page>

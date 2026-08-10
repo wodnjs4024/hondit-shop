@@ -245,11 +245,14 @@ async function refundOrder(req, res, orderId) {
   if (!order) return json(res, 404, { error: "Order not found" });
   if (!order.paypal_capture_id) return json(res, 400, { error: "PayPal capture ID is missing" });
   if (order.payment_status === "refunded") return json(res, 409, { error: "Order is already marked as refunded" });
+  const refundCurrency = order.currency || "SGD";
+  const refundValue =
+    refundCurrency === "JPY" ? String(Math.round(Number(order.total_sgd || 0))) : Number(order.total_sgd || 0).toFixed(2);
 
   const refund = await paypal(`/v2/payments/captures/${encodeURIComponent(order.paypal_capture_id)}/refund`, {
     method: "POST",
     body: JSON.stringify({
-      amount: { value: Number(order.total_sgd).toFixed(2), currency_code: order.currency || "SGD" },
+      amount: { value: refundValue, currency_code: refundCurrency },
       note_to_payer: "hondit order refund",
     }),
   });
