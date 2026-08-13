@@ -11,7 +11,7 @@ type SvgMap = { viewBox: string; locations: SvgLocation[] };
 const marketRoutes = {
   SG: { mapId: "sg", x: 768, y: 457, curve: "M 768 457 C 790 430, 820 397, 842 357" },
   HK: { mapId: "hk", x: 795.3, y: 398.8, curve: "M 795.3 398.8 C 812 385, 829 368, 842 357" },
-  TW: { mapId: "tw", x: 839, y: 385, curve: "M 839 385 C 841 375, 842 366, 842 357" },
+  TW: { mapId: "tw", x: 813.8, y: 397.8, curve: "M 813.8 397.8 C 823 382, 834 367, 842 357" },
   JP: { mapId: "jp", x: 873, y: 344, curve: "M 873 344 C 862 345, 851 350, 842 357" },
 } as const;
 
@@ -29,7 +29,7 @@ const asiaLabels = [
   { name: "Malaysia", x: 777, y: 467 },
   { name: "Singapore", x: 768, y: 457 },
   { name: "Hong Kong", x: 786, y: 407 },
-  { name: "Taiwan", x: 842, y: 398 },
+  { name: "Taiwan", x: 817, y: 405 },
   { name: "Indonesia", x: 818, y: 502 },
   { name: "Philippines", x: 829, y: 420 },
   { name: "Japan", x: 873, y: 344 },
