@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/api/admin/summary", "destination": "/api/admin-summary" },
     { "source": "/api/admin/(.*)", "destination": "/api/admin-handler?path=$1" },
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/", "destination": "/index.html" },
