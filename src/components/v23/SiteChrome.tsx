@@ -233,6 +233,7 @@ export function V23PageHero({
 
 export function V23ProductCard({ product }: { product: StorefrontProduct }) {
   const { market, language } = useMarket();
+  const [imageLoaded, setImageLoaded] = useState(false);
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
   const displayPrice = formatMarketUnitMoney(product, market);
   const productBadge = marketProductText(language, product.badge);
@@ -241,7 +242,7 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
 
   return (
     <article className="v23-product-card">
-      <Link className="v23-product-image" to={`/products/${product.slug}`}>
+      <Link className={`v23-product-image${imageLoaded ? " is-loaded" : ""}`} to={`/products/${product.slug}`}>
         <span>{outOfStock ? marketText(language, "OUT OF STOCK", "OUT OF STOCK") : productBadge}</span>
         <img
           src={product.image}
@@ -251,14 +252,15 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
           loading="lazy"
           decoding="async"
           sizes="(max-width: 900px) 90vw, 20vw"
+          onLoad={() => setImageLoaded(true)}
         />
       </Link>
-      <div className="v23-product-meta">
+      <Link className="v23-product-meta" to={`/products/${product.slug}`} aria-label={`${productName} details`}>
         <h3>{productName}</h3>
         <p>{productDetail}</p>
         <small>{marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)}</small>
         <strong>{displayPrice}</strong>
-      </div>
+      </Link>
       <div className="v23-product-links">
         <Link to={`/products/${product.slug}`}>{marketText(language, "View details", "View details")}</Link>
         {market.hasShopee ? (

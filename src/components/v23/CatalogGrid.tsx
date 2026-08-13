@@ -47,7 +47,7 @@ export function V23CatalogGrid({ featuredOnly = false }: { featuredOnly?: boolea
           </button>
         ))}
       </div>
-      <div className="v23-product-grid">
+      <div className="v23-product-grid" key={`${filter}-${market.code}`} aria-live="polite">
         {visible.map((product) => <V23ProductCard product={product} key={product.slug} />)}
       </div>
     </>

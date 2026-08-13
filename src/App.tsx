@@ -1,29 +1,30 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { AdminLayout } from "./components/AdminLayout";
 import { trackEvent, trackPageView } from "./lib/analytics";
 import { MarketProvider, MarketSelectionDialog } from "./lib/market";
-import { AdminCampaignLinksPage } from "./pages/AdminCampaignLinksPage";
-import { AdminDashboardPage } from "./pages/AdminDashboardPage";
-import { AdminInquiriesPage } from "./pages/AdminInquiriesPage";
-import { AdminLoginPage } from "./pages/AdminLoginPage";
-import { AdminOrderDetailPage } from "./pages/AdminOrderDetailPage";
-import { AdminOrdersPage } from "./pages/AdminOrdersPage";
-import { AdminProductsPage } from "./pages/AdminProductsPage";
-import { AdminReviewsPage } from "./pages/AdminReviewsPage";
-import { AdminSettingsPage } from "./pages/AdminSettingsPage";
-import { BulkOrdersPage } from "./pages/BulkOrdersPage";
-import { BulkProductPage } from "./pages/BulkProductPage";
-import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
-import { JejuPage } from "./pages/JejuPage";
-import { OrderCompletePage } from "./pages/OrderCompletePage";
-import { PaymentFailedPage } from "./pages/PaymentFailedPage";
-import { PolicyPage } from "./pages/PolicyPage";
-import { ProductDetailPage } from "./pages/ProductDetailPage";
-import { ProductsPage } from "./pages/ProductsPage";
-import { ShippingPage } from "./pages/ShippingPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+
+const AdminLayout = lazy(() => import("./components/AdminLayout").then((module) => ({ default: module.AdminLayout })));
+const AdminCampaignLinksPage = lazy(() => import("./pages/AdminCampaignLinksPage").then((module) => ({ default: module.AdminCampaignLinksPage })));
+const AdminDashboardPage = lazy(() => import("./pages/AdminDashboardPage").then((module) => ({ default: module.AdminDashboardPage })));
+const AdminInquiriesPage = lazy(() => import("./pages/AdminInquiriesPage").then((module) => ({ default: module.AdminInquiriesPage })));
+const AdminLoginPage = lazy(() => import("./pages/AdminLoginPage").then((module) => ({ default: module.AdminLoginPage })));
+const AdminOrderDetailPage = lazy(() => import("./pages/AdminOrderDetailPage").then((module) => ({ default: module.AdminOrderDetailPage })));
+const AdminOrdersPage = lazy(() => import("./pages/AdminOrdersPage").then((module) => ({ default: module.AdminOrdersPage })));
+const AdminProductsPage = lazy(() => import("./pages/AdminProductsPage").then((module) => ({ default: module.AdminProductsPage })));
+const AdminReviewsPage = lazy(() => import("./pages/AdminReviewsPage").then((module) => ({ default: module.AdminReviewsPage })));
+const AdminSettingsPage = lazy(() => import("./pages/AdminSettingsPage").then((module) => ({ default: module.AdminSettingsPage })));
+const BulkOrdersPage = lazy(() => import("./pages/BulkOrdersPage").then((module) => ({ default: module.BulkOrdersPage })));
+const BulkProductPage = lazy(() => import("./pages/BulkProductPage").then((module) => ({ default: module.BulkProductPage })));
+const ContactPage = lazy(() => import("./pages/ContactPage").then((module) => ({ default: module.ContactPage })));
+const JejuPage = lazy(() => import("./pages/JejuPage").then((module) => ({ default: module.JejuPage })));
+const OrderCompletePage = lazy(() => import("./pages/OrderCompletePage").then((module) => ({ default: module.OrderCompletePage })));
+const PaymentFailedPage = lazy(() => import("./pages/PaymentFailedPage").then((module) => ({ default: module.PaymentFailedPage })));
+const PolicyPage = lazy(() => import("./pages/PolicyPage").then((module) => ({ default: module.PolicyPage })));
+const ProductDetailPage = lazy(() => import("./pages/ProductDetailPage").then((module) => ({ default: module.ProductDetailPage })));
+const ProductsPage = lazy(() => import("./pages/ProductsPage").then((module) => ({ default: module.ProductsPage })));
+const ShippingPage = lazy(() => import("./pages/ShippingPage").then((module) => ({ default: module.ShippingPage })));
 
 const siteUrl = "https://hondit-shop.vercel.app";
 const defaultOgImage = `${siteUrl}/images/hondit-collection-hero.webp`;
@@ -295,6 +296,7 @@ export default function App() {
   return (
     <MarketProvider>
       <MarketSelectionDialog disabled={isAdmin} />
+      <Suspense fallback={<main className="v23-route-loading" aria-label="Loading page"><span /></main>}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
@@ -320,6 +322,7 @@ export default function App() {
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      </Suspense>
     </MarketProvider>
   );
 }
