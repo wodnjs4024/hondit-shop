@@ -220,14 +220,6 @@ function upsertMeta(selector: string, attrs: Record<string, string>, value: stri
   else element.content = value;
 }
 
-function analyticsToken(value: string) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_+|_+$/g, "")
-    .slice(0, 18);
-}
-
 export default function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
@@ -248,10 +240,14 @@ export default function App() {
     upsertMeta('meta[name="robots"]', { name: "robots" }, meta.robots);
     upsertMeta('link[rel="canonical"]', { rel: "canonical" }, canonical);
     trackPageView(path);
-    if (location.pathname === "/") trackEvent("view_home");
-    if (location.pathname === "/bulk-orders") trackEvent("view_bulk_list");
-    if (location.pathname.startsWith("/bulk-orders/")) trackEvent("view_product", { page_path: location.pathname });
-    if (location.pathname.startsWith("/products/")) trackEvent("view_product", { page_path: location.pathname });
+    if (location.pathname.startsWith("/products/") || location.pathname.startsWith("/bulk-orders/")) {
+      const itemId = location.pathname.split("/").filter(Boolean).at(-1) || "unknown";
+      trackEvent("view_item", {
+        item_id: itemId,
+        interaction_context: location.pathname.startsWith("/bulk-orders/") ? "bulk_checkout_detail" : "product_detail",
+        items: [{ item_id: itemId }],
+      });
+    }
     const params = new URLSearchParams(location.search);
     const attribution = {
       utm_source: params.get("utm_source") || "",
@@ -284,11 +280,6 @@ export default function App() {
       };
       trackEvent("campaign_landing", campaignPayload);
 
-      const sourceToken = analyticsToken(attribution.utm_source || "direct");
-      const mediumToken = analyticsToken(attribution.utm_medium || "none");
-      if (sourceToken) {
-        trackEvent(`landing_${sourceToken}_${mediumToken || "none"}`.slice(0, 40), campaignPayload);
-      }
     }
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname, location.search, location.hash]);

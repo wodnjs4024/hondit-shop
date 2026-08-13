@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { EMAIL, INSTAGRAM, SHOPEE, type StorefrontProduct } from "../../data/v23SiteData";
+import { trackEvent, trackNavigationClick, trackOutboundClick } from "../../lib/analytics";
 import {
   displayLanguages,
   formatMarketUnitMoney,
@@ -201,6 +202,42 @@ export function V23Page({ children }: { children: ReactNode }) {
     return () => observer.disconnect();
   }, [location.pathname]);
 
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const link = target?.closest("a") as HTMLAnchorElement | null;
+      if (!link) return;
+      const href = link.getAttribute("href") || "";
+      const label = link.textContent?.trim().replace(/\s+/g, " ") || link.getAttribute("aria-label") || "unlabelled_link";
+      const area = link.closest("header") ? "header" : link.closest("footer") ? "footer" : link.closest(".v23-mobile-actions") ? "mobile_sticky" : "main_content";
+      const productCard = link.closest<HTMLElement>(".v23-product-card[data-item-id]");
+      if (productCard) {
+        trackEvent("select_item", {
+          item_list_name: location.pathname === "/" ? "home_featured_products" : "products_catalog",
+          interaction_target: href.includes("shopee") ? "shopee" : href.startsWith("/bulk-orders") ? "bulk_checkout" : "product_detail",
+          items: [{
+            item_id: productCard.dataset.itemId,
+            item_name: productCard.dataset.itemName,
+            item_category: productCard.dataset.itemCategory,
+            price: Number(productCard.dataset.itemPrice || 0),
+            currency: productCard.dataset.currency,
+          }],
+        });
+        return;
+      }
+      if (/^https?:/i.test(href) && !href.startsWith(window.location.origin)) {
+        const platform = href.includes("shopee") ? "shopee" : href.includes("instagram") ? "instagram" : "external_site";
+        trackOutboundClick({ destination: href, label, area, platform });
+        return;
+      }
+      if (href.startsWith("/") || href.startsWith("#")) {
+        trackNavigationClick({ destination: href, label, area });
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [location.pathname]);
+
   return (
     <>
       <V23Header />
@@ -274,7 +311,14 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
   const productDetail = marketProductText(language, product.detail);
 
   return (
-    <article className="v23-product-card">
+    <article
+      className="v23-product-card"
+      data-item-id={product.slug}
+      data-item-name={productName}
+      data-item-category={product.category}
+      data-item-price={product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice}
+      data-currency={market.currency}
+    >
       <Link className={`v23-product-image${imageLoaded ? " is-loaded" : ""}`} to={`/products/${product.slug}`}>
         <span>{outOfStock ? marketText(language, "OUT OF STOCK", "OUT OF STOCK") : productBadge}</span>
         <img

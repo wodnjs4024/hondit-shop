@@ -2,6 +2,7 @@ import { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatPlaceCoordinates, ourJejuBounds, ourJejuPlaces, type OurJejuPlace } from "../../data/v23JejuData";
 import { marketText, useMarket } from "../../lib/market";
+import { trackEvent } from "../../lib/analytics";
 
 type MapStage = "asia" | "korea" | "jeju";
 type SvgLocation = { id: string; path: string; name?: string };
@@ -81,6 +82,14 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
   const t = (text: string) => marketText(language, text);
   const active = useMemo(() => ourJejuPlaces.find((place) => place.id === selectedId) || ourJejuPlaces[0], [selectedId]);
   const activeIndex = ourJejuPlaces.findIndex((place) => place.id === active.id);
+  const selectStage = (nextStage: MapStage, source: string) => {
+    setStage(nextStage);
+    trackEvent("map_stage_select", { map_stage: nextStage, interaction_source: source });
+  };
+  const selectPlace = (place: OurJejuPlace, source: string) => {
+    setSelectedId(place.id);
+    trackEvent("map_place_select", { place_id: place.id, place_name: place.name, interaction_source: source });
+  };
   const asiaLocations = useMemo(
     () => (worldMap?.locations || []).filter((location) => asiaIds.has(location.id)),
     [worldMap],
@@ -114,9 +123,9 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
 
       {!compact && (
         <div className="v23-map-tabs" aria-label={t("Map navigation")}>
-          <button data-stage="asia" className={stage === "asia" ? "is-active" : ""} type="button" onClick={() => setStage("asia")}><span>01</span><b>{t("Asia")}</b><small>{t("Regional context")}</small></button>
-          <button data-stage="korea" className={stage === "korea" ? "is-active" : ""} type="button" onClick={() => setStage("korea")}><span>02</span><b>{t("South Korea")}</b><small>{t("Find Jeju below")}</small></button>
-          <button data-stage="jeju" className={stage === "jeju" ? "is-active" : ""} type="button" onClick={() => setStage("jeju")}><span>03</span><b>{t("Jeju Island")}</b><small>{t("Explore six places")}</small></button>
+          <button data-stage="asia" className={stage === "asia" ? "is-active" : ""} type="button" onClick={() => selectStage("asia", "map_tabs")}><span>01</span><b>{t("Asia")}</b><small>{t("Regional context")}</small></button>
+          <button data-stage="korea" className={stage === "korea" ? "is-active" : ""} type="button" onClick={() => selectStage("korea", "map_tabs")}><span>02</span><b>{t("South Korea")}</b><small>{t("Find Jeju below")}</small></button>
+          <button data-stage="jeju" className={stage === "jeju" ? "is-active" : ""} type="button" onClick={() => selectStage("jeju", "map_tabs")}><span>03</span><b>{t("Jeju Island")}</b><small>{t("Explore six places")}</small></button>
         </div>
       )}
 
@@ -143,8 +152,8 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                         className={isKorea ? "is-korea" : ""}
                         role={isKorea ? "button" : undefined}
                         tabIndex={isKorea ? 0 : undefined}
-                        onClick={isKorea ? () => setStage("korea") : undefined}
-                        onKeyDown={isKorea ? (event) => onActivate(event, () => setStage("korea")) : undefined}
+                        onClick={isKorea ? () => selectStage("korea", "asia_map") : undefined}
+                        onKeyDown={isKorea ? (event) => onActivate(event, () => selectStage("korea", "asia_map_keyboard")) : undefined}
                         aria-label={isKorea ? t("Open South Korea map") : undefined}
                       />
                     );
@@ -163,7 +172,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                   <li><span>02</span><div><b>{t("South Korea")}</b><small>{t("Country context")}</small></div></li>
                   <li><span>03</span><div><b>{t("Jeju Island")}</b><small>{t("hondit origin")}</small></div></li>
                 </ol>
-                <button type="button" onClick={() => setStage("korea")}>{t("Continue to South Korea")}</button>
+                <button type="button" onClick={() => selectStage("korea", "asia_continue_button")}>{t("Continue to South Korea")}</button>
               </aside>
             </div>
           </div>
@@ -176,7 +185,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
               <p>{t("A CLOSER VIEW")}</p>
               <h3>{t("Jeju sits below the peninsula.")}</h3>
               <p>{t("The province outline is real map data. Select the orange Jeju Island shape to continue.")}</p>
-              <button type="button" onClick={() => setStage("asia")}>{t("Back to Asia")}</button>
+              <button type="button" onClick={() => selectStage("asia", "korea_back_button")}>{t("Back to Asia")}</button>
             </aside>
             <div className="v23-korea-panel">
               <div className="v23-korea-map">
@@ -192,8 +201,8 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                         className={isJeju ? "is-jeju" : "is-province"}
                         role={isJeju ? "button" : undefined}
                         tabIndex={isJeju ? 0 : undefined}
-                        onClick={isJeju ? () => setStage("jeju") : undefined}
-                        onKeyDown={isJeju ? (event) => onActivate(event, () => setStage("jeju")) : undefined}
+                        onClick={isJeju ? () => selectStage("jeju", "korea_map") : undefined}
+                        onKeyDown={isJeju ? (event) => onActivate(event, () => selectStage("jeju", "korea_map_keyboard")) : undefined}
                         aria-label={isJeju ? t("Open Jeju Island map") : undefined}
                       />
                     );
@@ -222,7 +231,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
         {stage === "jeju" && (
           <div className="v23-jeju-stage">
             <div className="v23-jeju-toolbar">
-              {compact ? <span /> : <button type="button" onClick={() => setStage("korea")}>{t("Back to South Korea")}</button>}
+              {compact ? <span /> : <button type="button" onClick={() => selectStage("korea", "jeju_back_button")}>{t("Back to South Korea")}</button>}
               <div><small>{t("JEJU ISLAND FIELD GUIDE")}</small><b>{t("Six places, one clear origin")}</b></div>
               <span>{t("REAL COORDINATES")}</span>
             </div>
@@ -242,8 +251,8 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                         transform={`translate(${position.x} ${position.y})`}
                         role="button"
                         tabIndex={0}
-                        onClick={() => setSelectedId(place.id)}
-                        onKeyDown={(event) => onActivate(event, () => setSelectedId(place.id))}
+                        onClick={() => selectPlace(place, "map_marker")}
+                        onKeyDown={(event) => onActivate(event, () => selectPlace(place, "map_marker_keyboard"))}
                         aria-label={`${t("View")} ${t(place.name)}`}
                       >
                         <circle r={activeMarker ? "2.9" : "2.35"} />
@@ -268,7 +277,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
             </div>
             <nav className="v23-jeju-tabs" aria-label={t("Choose a Jeju place")}>
               {ourJejuPlaces.map((place, index) => (
-                <button key={place.id} type="button" className={active.id === place.id ? "is-active" : ""} onClick={() => setSelectedId(place.id)}>
+                <button key={place.id} type="button" className={active.id === place.id ? "is-active" : ""} onClick={() => selectPlace(place, "place_tabs")}>
                   <span aria-hidden="true">{place.featured ? "H" : String(index).padStart(2, "0")}</span>
                   <strong>{t(place.shortName)}</strong>
                 </button>

@@ -12,6 +12,7 @@ import {
   useMarket,
 } from "../lib/market";
 import { loadStorefrontProducts } from "../lib/storefrontApi";
+import { trackEvent } from "../lib/analytics";
 
 export function BulkOrdersPage() {
   const { market, language } = useMarket();
@@ -120,7 +121,14 @@ export function BulkOrdersPage() {
                   type="button"
                   className={selected?.slug === product.slug ? "is-selected" : ""}
                   aria-pressed={selected?.slug === product.slug}
-                  onClick={() => setSelectedSlug(product.slug)}
+                  onClick={() => {
+                    setSelectedSlug(product.slug);
+                    trackEvent("select_item", {
+                      item_list_name: "bulk_product_selector",
+                      interaction_target: "bulk_product_selection",
+                      items: [{ item_id: product.slug, item_name: productName, item_category: product.category, price: product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice, currency: market.currency }],
+                    });
+                  }}
                 >
                   <img src={product.image} alt={productName} />
                   <span>

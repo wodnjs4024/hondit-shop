@@ -24,6 +24,32 @@ let initialized = false;
 
 const hasMeasurementId = Boolean(measurementId);
 const attributionKey = "hondit_attribution_v1";
+type AnalyticsContext = {
+  market_code: string;
+  market_country: string;
+  currency: string;
+  display_language: string;
+};
+let analyticsContext: AnalyticsContext = {
+  market_code: "SG",
+  market_country: "Singapore",
+  currency: "SGD",
+  display_language: "en",
+};
+
+function getAnalyticsContext(): AnalyticsContext {
+  if (typeof window === "undefined") return analyticsContext;
+  const marketCode = new URLSearchParams(window.location.search).get("market") || window.localStorage.getItem("hondit-market") || analyticsContext.market_code;
+  const language = new URLSearchParams(window.location.search).get("lang") || window.localStorage.getItem("hondit-language") || analyticsContext.display_language;
+  const marketMap: Record<string, Pick<AnalyticsContext, "market_country" | "currency">> = {
+    SG: { market_country: "Singapore", currency: "SGD" },
+    HK: { market_country: "Hong Kong", currency: "HKD" },
+    TW: { market_country: "Taiwan", currency: "TWD" },
+    JP: { market_country: "Japan", currency: "JPY" },
+  };
+  const selected = marketMap[marketCode] || marketMap.SG;
+  return { market_code: marketCode, display_language: language, ...selected };
+}
 
 export type CampaignAttribution = Attribution;
 
@@ -97,6 +123,29 @@ export function getCurrentAttribution() {
   return getAttributionPayload();
 }
 
+export function setAnalyticsContext(context: AnalyticsContext) {
+  analyticsContext = context;
+  if (hasMeasurementId && typeof window !== "undefined" && window.gtag) {
+    window.gtag("config", measurementId, { ...context, send_page_view: false });
+  }
+}
+
+export function getPageType(pathname = typeof window !== "undefined" ? window.location.pathname : "/") {
+  if (pathname === "/") return "home";
+  if (pathname === "/products") return "product_list";
+  if (pathname.startsWith("/products/")) return "product_detail";
+  if (pathname === "/bulk-orders") return "bulk_product_list";
+  if (pathname.startsWith("/bulk-orders/")) return "checkout";
+  if (pathname === "/jeju") return "brand_story";
+  if (pathname === "/shipping") return "shipping_info";
+  if (pathname === "/contact") return "contact";
+  if (pathname.startsWith("/order-complete/")) return "order_complete";
+  if (pathname.startsWith("/payment-failed/")) return "payment_failed";
+  if (pathname.startsWith("/policy/")) return "policy";
+  if (pathname.startsWith("/admin")) return "admin";
+  return "other";
+}
+
 export function initAnalytics() {
   captureAttribution();
 
@@ -124,7 +173,12 @@ export function initAnalytics() {
 }
 
 export function trackEvent(eventName: string, params: Record<string, unknown> = {}) {
-  const payload = { ...getAttributionPayload(), ...params };
+  const payload = {
+    ...getAttributionPayload(),
+    ...getAnalyticsContext(),
+    page_type: getPageType(),
+    ...params,
+  };
 
   if (hasMeasurementId && typeof window !== "undefined" && window.gtag) {
     window.gtag("event", eventName, payload);
@@ -145,8 +199,27 @@ export function trackPageView(path: string) {
       page_location: window.location.href,
       page_title: document.title,
       ...attribution,
+      ...getAnalyticsContext(),
+      page_type: getPageType(window.location.pathname),
     });
   }
+}
+
+export function trackNavigationClick(params: { destination: string; label: string; area: string }) {
+  trackEvent("navigation_click", {
+    destination_url: params.destination,
+    link_text: params.label.slice(0, 100),
+    navigation_area: params.area,
+  });
+}
+
+export function trackOutboundClick(params: { destination: string; label: string; area: string; platform: string }) {
+  trackEvent("outbound_click", {
+    destination_url: params.destination,
+    link_text: params.label.slice(0, 100),
+    navigation_area: params.area,
+    outbound_platform: params.platform,
+  });
 }
 
 export function trackProductClick(params: {

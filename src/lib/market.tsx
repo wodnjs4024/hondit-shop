@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { setAnalyticsContext, trackEvent } from "./analytics";
 
 export type MarketCode = "SG" | "HK" | "TW" | "JP";
 export type DisplayLanguage = "en" | "ko" | "zh" | "zh-HK" | "zh-TW" | "ja";
@@ -182,6 +183,8 @@ function getInitialLanguage(): DisplayLanguage {
 export function MarketProvider({ children }: { children: ReactNode }) {
   const [marketCode, setMarketCode] = useState<MarketCode>(getInitialMarket);
   const [language, setLanguageState] = useState<DisplayLanguage>(getInitialLanguage);
+  const previousMarket = useRef(marketCode);
+  const previousLanguage = useRef(language);
 
   useEffect(() => {
     document.documentElement.lang = htmlLanguageByDisplayLanguage[language];
@@ -192,6 +195,24 @@ export function MarketProvider({ children }: { children: ReactNode }) {
     url.searchParams.set("lang", language);
     window.history.replaceState({}, "", url);
   }, [marketCode, language]);
+
+  useEffect(() => {
+    const currentMarket = markets[marketCode];
+    setAnalyticsContext({
+      market_code: currentMarket.code,
+      market_country: currentMarket.countryName,
+      currency: currentMarket.currency,
+      display_language: language,
+    });
+    if (previousMarket.current !== marketCode) {
+      trackEvent("market_change", { previous_market: previousMarket.current, selected_market: marketCode });
+      previousMarket.current = marketCode;
+    }
+    if (previousLanguage.current !== language) {
+      trackEvent("language_change", { previous_language: previousLanguage.current, selected_language: language });
+      previousLanguage.current = language;
+    }
+  }, [language, marketCode]);
 
   const value = useMemo<MarketContextValue>(
     () => ({

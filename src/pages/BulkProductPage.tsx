@@ -282,6 +282,11 @@ export function BulkProductPage() {
           }
         },
         onCancel: async (data) => {
+          trackEvent("checkout_cancel", {
+            checkout_step: "paypal_approval",
+            product_id: productRef.current?.slug || "unknown",
+            paypal_order_id: data.orderID || "",
+          });
           await updatePaymentAttempt({
             orderNumber: createdOrderNumber.current,
             paypalOrderId: data.orderID,
@@ -293,6 +298,11 @@ export function BulkProductPage() {
         onError: (paypalError) => {
           console.error(paypalError);
           const reason = paypalError instanceof Error ? paypalError.message : "PayPal payment could not be completed.";
+          trackEvent("checkout_error", {
+            checkout_step: "paypal_widget",
+            product_id: productRef.current?.slug || "unknown",
+            error_message: reason.slice(0, 120),
+          });
           if (createdOrderNumber.current) {
             updatePaymentAttempt({
               orderNumber: createdOrderNumber.current,
