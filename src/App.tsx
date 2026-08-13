@@ -305,9 +305,17 @@ export default function App() {
         <Route path="/jeju" element={<JejuPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/sg/ig" element={<ProductsPage />} />
+        <Route path="/sg/fb" element={<ProductsPage />} />
+        <Route path="/sg/c01" element={<ProductsPage />} />
         <Route path="/hk/ig" element={<ProductsPage />} />
+        <Route path="/hk/fb" element={<ProductsPage />} />
+        <Route path="/hk/c01" element={<ProductsPage />} />
         <Route path="/jp/ig" element={<ProductsPage />} />
+        <Route path="/jp/fb" element={<ProductsPage />} />
+        <Route path="/jp/c01" element={<ProductsPage />} />
         <Route path="/tw/ig" element={<ProductsPage />} />
+        <Route path="/tw/fb" element={<ProductsPage />} />
+        <Route path="/tw/c01" element={<ProductsPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/bulk-orders" element={<BulkOrdersPage />} />
         <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
