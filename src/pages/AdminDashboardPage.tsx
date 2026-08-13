@@ -35,6 +35,8 @@ type SummaryTotals = {
   totalOrders?: number;
   checkoutAttempts?: number;
   pendingPayment?: number;
+  paymentFailed?: number;
+  paymentCancelled?: number;
   paid?: number;
   preparing?: number;
   packed?: number;
