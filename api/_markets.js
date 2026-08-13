@@ -85,6 +85,16 @@ export function formatPayPalAmount(value, currency = "SGD") {
   return Number(value || 0).toFixed(2);
 }
 
+export function validateCapturedPayment(capture, expectedAmount, expectedCurrency) {
+  if (!capture || capture.status !== "COMPLETED") throw new Error("PayPal capture was not completed");
+  const paidAmount = Number(capture.amount?.value || 0);
+  const paidCurrency = capture.amount?.currency_code;
+  if (paidCurrency !== expectedCurrency || Math.abs(paidAmount - Number(expectedAmount)) > 0.01) {
+    throw new Error("PayPal paid amount does not match the hondit order total");
+  }
+  return { paidAmount, paidCurrency };
+}
+
 export function formatOrderAmount(value, currency = "SGD") {
   if (currency === "JPY") return `¥${Math.round(Number(value || 0))}`;
   const amount = Number(value || 0).toFixed(2);

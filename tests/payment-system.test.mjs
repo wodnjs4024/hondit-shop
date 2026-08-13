@@ -7,6 +7,7 @@ import {
   isBulkProductAllowedForMarket,
   markets,
   resolveMarket,
+  validateCapturedPayment,
 } from "../api/_markets.js";
 import { defaultProducts } from "../api/_bulk-data.js";
 
@@ -48,4 +49,25 @@ test("fixed market prices produce expected minimum totals", () => {
     assert.equal(getMarketUnitPrice(diffuser, markets[code]), total / 20);
     assert.equal(getMarketLineTotal(diffuser, 20, markets[code]), total);
   }
+});
+
+test("capture validation accepts exact completed payments", () => {
+  const result = validateCapturedPayment(
+    { status: "COMPLETED", amount: { value: "9600", currency_code: "TWD" } },
+    9600,
+    "TWD",
+  );
+  assert.deepEqual(result, { paidAmount: 9600, paidCurrency: "TWD" });
+});
+
+test("capture validation rejects incomplete, wrong-currency and wrong-amount payments", () => {
+  assert.throws(() => validateCapturedPayment({ status: "PENDING" }, 420, "SGD"), /not completed/);
+  assert.throws(
+    () => validateCapturedPayment({ status: "COMPLETED", amount: { value: "420", currency_code: "HKD" } }, 420, "SGD"),
+    /does not match/,
+  );
+  assert.throws(
+    () => validateCapturedPayment({ status: "COMPLETED", amount: { value: "419", currency_code: "SGD" } }, 420, "SGD"),
+    /does not match/,
+  );
 });

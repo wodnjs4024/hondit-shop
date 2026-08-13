@@ -133,7 +133,7 @@ export default async function handler(req, res) {
       body: JSON.stringify(
         marketLines.map((line) => ({
           order_id: order.id,
-          product_id: line.product.id,
+          product_id: line.product.slug === livePaymentTestProduct.slug ? null : line.product.id,
           product_slug: line.product.slug,
           product_name_snapshot: line.product.name,
           volume_snapshot: line.product.volumeLabel,

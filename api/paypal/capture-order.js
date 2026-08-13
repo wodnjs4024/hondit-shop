@@ -1,4 +1,5 @@
 import { json, notifyTelegramNewOrder, paypal, readBody, supabase } from "../_utils.js";
+import { validateCapturedPayment } from "../_markets.js";
 
 function findCapture(captureResponse) {
   return captureResponse?.purchase_units?.[0]?.payments?.captures?.[0] || null;
@@ -25,14 +26,8 @@ export default async function handler(req, res) {
       body: JSON.stringify({}),
     });
     const capture = findCapture(captureResponse);
-    if (!capture || capture.status !== "COMPLETED") throw new Error("PayPal capture was not completed");
-
-    const paidAmount = Number(capture.amount?.value || 0);
-    const paidCurrency = capture.amount?.currency_code;
     const expectedCurrency = order.currency || "SGD";
-    if (paidCurrency !== expectedCurrency || Math.abs(paidAmount - Number(order.total_sgd)) > 0.01) {
-      throw new Error("PayPal paid amount does not match the hondit order total");
-    }
+    const { paidAmount, paidCurrency } = validateCapturedPayment(capture, order.total_sgd, expectedCurrency);
 
     const now = new Date().toISOString();
     await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {

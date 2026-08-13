@@ -126,8 +126,12 @@ export function AdminDashboardPage() {
   if (error) return <AdminNotice message={error} />;
 
   const totals = summary?.totals || ({} as Summary["totals"]);
-  const cards = [
+  const cards: Array<[string, string | number]> = [
     ["결제 완료 주문", totals.totalOrders || 0],
+    ["결제 시도", totals.checkoutAttempts || 0],
+    ["결제 대기", totals.pendingPayment || 0],
+    ["결제 실패", totals.paymentFailed || 0],
+    ["고객 취소", totals.paymentCancelled || 0],
     ["상품 준비", totals.preparing || 0],
     ["포장 완료", totals.packed || 0],
     ["배송 시작", totals.shipped || 0],
