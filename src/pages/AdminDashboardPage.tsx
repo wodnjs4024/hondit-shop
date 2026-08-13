@@ -33,6 +33,8 @@ type InsightRow = {
 
 type SummaryTotals = {
   totalOrders?: number;
+  capturedPayments?: number;
+  refundedPayments?: number;
   checkoutAttempts?: number;
   pendingPayment?: number;
   paymentFailed?: number;
@@ -130,6 +132,8 @@ export function AdminDashboardPage() {
   const totals = summary?.totals || ({} as Summary["totals"]);
   const cards: Array<[string, string | number]> = [
     ["결제 완료 주문", totals.totalOrders || 0],
+    ["PayPal 승인 이력", totals.capturedPayments || 0],
+    ["환불 완료", totals.refundedPayments || 0],
     ["결제 시도", totals.checkoutAttempts || 0],
     ["결제 대기", totals.pendingPayment || 0],
     ["결제 실패", totals.paymentFailed || 0],

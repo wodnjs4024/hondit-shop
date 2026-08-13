@@ -27,7 +27,7 @@ type OrderRow = DashboardOrder & {
   shipped_at?: string | null;
 };
 
-const paymentStatuses = ["completed", "refunded", "cancelled"];
+const paymentStatuses = ["all", "completed", "pending_payment", "payment_failed", "payment_cancelled", "refunded", "cancelled"];
 const orderStatuses = ["", "paid", "address_check", "preparing", "packed", "shipped", "delivered", "cancelled", "refunded"];
 
 export function AdminOrdersPage() {
@@ -156,7 +156,7 @@ export function AdminOrdersPage() {
         <select value={filters.paymentStatus} onChange={(event) => setFilters({ ...filters, paymentStatus: event.target.value })}>
           {paymentStatuses.map((status) => (
             <option key={status} value={status}>
-              {adminStatusLabel(status, paymentStatusLabels)}
+              {status === "all" ? "전체 결제 기록 (all)" : adminStatusLabel(status, paymentStatusLabels)}
             </option>
           ))}
         </select>

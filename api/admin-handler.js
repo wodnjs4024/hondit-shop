@@ -15,31 +15,34 @@ async function paymentSummary(req, res) {
   try {
     await verifyAdmin(req);
     const orders = await supabase("/orders?select=*&order=created_at.desc&limit=500");
-    const paidOrders = orders.filter((order) => order.payment_status === "completed" || order.paypal_capture_id);
+    const capturedOrders = orders.filter((order) => order.payment_status === "completed" || order.paypal_capture_id);
+    const completedOrders = orders.filter((order) => order.payment_status === "completed");
     const attempts = orders.filter((order) => order.payment_status !== "completed" && !order.paypal_capture_id);
     const count = (status) => orders.filter((order) => order.payment_status === status).length;
-    const revenueByCurrency = paidOrders.reduce((totals, order) => {
+    const revenueByCurrency = completedOrders.reduce((totals, order) => {
       const currency = order.currency || "SGD";
       totals[currency] = Number(((totals[currency] || 0) + Number(order.total_sgd || 0)).toFixed(2));
       return totals;
     }, {});
     return json(res, 200, {
       totals: {
-        totalOrders: paidOrders.length,
+        totalOrders: completedOrders.length,
+        capturedPayments: capturedOrders.length,
+        refundedPayments: count("refunded"),
         checkoutAttempts: attempts.length,
         pendingPayment: count("pending_payment"),
         paymentFailed: count("payment_failed"),
         paymentCancelled: count("payment_cancelled"),
-        paid: paidOrders.length,
-        preparing: paidOrders.filter((order) => order.order_status === "preparing").length,
-        packed: paidOrders.filter((order) => order.order_status === "packed").length,
-        shipped: paidOrders.filter((order) => order.order_status === "shipped").length,
-        delivered: paidOrders.filter((order) => order.order_status === "delivered").length,
-        closed: paidOrders.filter((order) => ["cancelled", "refunded"].includes(order.order_status)).length,
-        totalPaidSgd: Number(paidOrders.reduce((sum, order) => sum + Number(order.total_sgd || 0), 0).toFixed(2)),
+        paid: completedOrders.length,
+        preparing: completedOrders.filter((order) => order.order_status === "preparing").length,
+        packed: completedOrders.filter((order) => order.order_status === "packed").length,
+        shipped: completedOrders.filter((order) => order.order_status === "shipped").length,
+        delivered: completedOrders.filter((order) => order.order_status === "delivered").length,
+        closed: capturedOrders.filter((order) => ["cancelled", "refunded"].includes(order.order_status) || ["cancelled", "refunded"].includes(order.payment_status)).length,
+        totalPaidSgd: Number(completedOrders.reduce((sum, order) => sum + Number(order.total_sgd || 0), 0).toFixed(2)),
         revenueByCurrency,
       },
-      recentOrders: paidOrders.slice(0, 8),
+      recentOrders: completedOrders.slice(0, 8),
       checkoutAttempts: attempts.slice(0, 20),
       popularProducts: [], countries: [], sources: [],
     });
