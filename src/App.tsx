@@ -101,6 +101,16 @@ function routeMeta(pathname: string): PageMeta {
       image: defaultOgImage,
     };
   }
+  const shortCampaign = getShortCampaign(pathname);
+  if (shortCampaign) {
+    const marketMeta = {
+      SG: { title: "hondit Singapore | Jeju-inspired care and scent", description: "Discover hondit volcanic diffusers and gentle vegan cleansing for Singapore." },
+      HK: { title: "hondit Hong Kong | 濟州香氣與純素潔膚", description: "探索來自韓國濟州的火山石擴香與純素溫和潔膚產品。" },
+      JP: { title: "hondit Japan | 済州発のボルカニックディフューザー", description: "韓国・済州の風景から着想を得た、火を使わないボルカニックディフューザー。" },
+      TW: { title: "hondit Taiwan | 來自濟州的火山石擴香", description: "探索來自韓國濟州、無火且免插電的火山石擴香。" },
+    }[shortCampaign.market];
+    return { ...marketMeta, robots: "index,follow", image: `${siteUrl}/images/hondit-collection-hero.webp` };
+  }
   if (pathname === "/") {
     return {
       title: "hondit | Jeju-inspired care and scent",
