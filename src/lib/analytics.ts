@@ -231,6 +231,8 @@ export function initAnalytics() {
 
 export function trackEvent(eventName: string, params: Record<string, unknown> = {}) {
   const attribution = getAttributionPayload();
+  const debugMode =
+    typeof window !== "undefined" && new URLSearchParams(window.location.search).get("ga_debug") === "1";
   const payload = {
     ...attribution,
     ...getAnalyticsContext(),
@@ -240,6 +242,7 @@ export function trackEvent(eventName: string, params: Record<string, unknown> = 
     campaign_channel: attribution.campaign_channel || `${attribution.traffic_source}_${attribution.traffic_medium}`,
     action_name: eventName,
     action_group: getActionGroup(eventName),
+    ...(debugMode ? { debug_mode: true } : {}),
     ...params,
   };
 
@@ -256,6 +259,7 @@ export function trackEvent(eventName: string, params: Record<string, unknown> = 
 export function trackPageView(path: string) {
   if (hasMeasurementId && typeof window !== "undefined" && window.gtag && measurementId) {
     const attribution = getAttributionPayload();
+    const debugMode = new URLSearchParams(window.location.search).get("ga_debug") === "1";
 
     window.gtag("event", "page_view", {
       page_path: path,
@@ -269,6 +273,7 @@ export function trackPageView(path: string) {
       campaign_channel: attribution.campaign_channel || `${attribution.traffic_source}_${attribution.traffic_medium}`,
       action_name: "page_view",
       action_group: "acquisition",
+      ...(debugMode ? { debug_mode: true } : {}),
     });
   }
 }
