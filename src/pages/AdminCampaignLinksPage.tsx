@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { getCampaignLandingEventName } from "../lib/analytics";
 
 const baseUrl = "https://hondit-shop.vercel.app";
 
@@ -44,17 +45,6 @@ function normalize(value: string) {
   return value.trim().toLowerCase().replace(/\s+/g, "_");
 }
 
-function analyticsToken(value: string) {
-  return normalize(value)
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_+|_+$/g, "")
-    .slice(0, 18);
-}
-
-function trackingEventName(source: string, medium: string) {
-  return `landing_${analyticsToken(source) || "direct"}_${analyticsToken(medium) || "none"}`.slice(0, 40);
-}
-
 function buildUrl(path: string, values: Record<string, string>) {
   const params = new URLSearchParams();
   Object.entries(values).forEach(([key, value]) => {
@@ -84,7 +74,7 @@ export function AdminCampaignLinksPage() {
     [campaign, content, medium, path, source, term],
   );
 
-  const generatedEvent = trackingEventName(source, medium);
+  const generatedEvent = getCampaignLandingEventName(source, medium);
 
   const copyUrl = async (value: string) => {
     await navigator.clipboard.writeText(value);
@@ -113,7 +103,7 @@ export function AdminCampaignLinksPage() {
               utm_campaign: preset.campaign,
               utm_content: preset.content,
             });
-            const eventName = trackingEventName(preset.source, preset.medium);
+            const eventName = getCampaignLandingEventName(preset.source, preset.medium);
             return (
               <article key={preset.label}>
                 <strong>{preset.label}</strong>

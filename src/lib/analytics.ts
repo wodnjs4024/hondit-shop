@@ -123,6 +123,19 @@ export function getCurrentAttribution() {
   return getAttributionPayload();
 }
 
+function analyticsToken(value: string) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 18);
+}
+
+export function getCampaignLandingEventName(source: string, medium: string) {
+  return `landing_${analyticsToken(source) || "direct"}_${analyticsToken(medium) || "none"}`.slice(0, 40);
+}
+
 export function setAnalyticsContext(context: AnalyticsContext) {
   analyticsContext = context;
   if (hasMeasurementId && typeof window !== "undefined" && window.gtag) {

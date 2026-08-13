@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { trackEvent, trackPageView } from "./lib/analytics";
+import { getCampaignLandingEventName, trackEvent, trackPageView } from "./lib/analytics";
 import { MarketProvider, MarketSelectionDialog } from "./lib/market";
 import { HomePage } from "./pages/HomePage";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -279,7 +279,7 @@ export default function App() {
         landing_page: attribution.landing_page,
       };
       trackEvent("campaign_landing", campaignPayload);
-
+      trackEvent(getCampaignLandingEventName(attribution.utm_source, attribution.utm_medium), campaignPayload);
     }
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname, location.search, location.hash]);
