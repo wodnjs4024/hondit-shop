@@ -2,8 +2,16 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
-import { formatMarketUnitMoney, isStorefrontProductAllowedForMarket, marketProductText, marketText, useMarket } from "../lib/market";
+import {
+  formatMarketUnitMoney,
+  getMarketUnitPrice,
+  isStorefrontProductAllowedForMarket,
+  marketProductText,
+  marketText,
+  useMarket,
+} from "../lib/market";
 import { loadStorefrontProduct } from "../lib/storefrontApi";
+import { NotFoundPage } from "./NotFoundPage";
 
 export function ProductDetailPage() {
   const { market, language } = useMarket();
@@ -15,17 +23,7 @@ export function ProductDetailPage() {
   }, [productId]);
 
   if (!productId) return <Navigate to="/products" replace />;
-  if (!product) {
-    return (
-      <V23Page>
-        <main className="v23-not-found">
-          <p className="v23-eyebrow"><span /> PRODUCTS</p>
-          <h1>{marketText(language, "Product not found.", "상품을 찾을 수 없습니다.")}</h1>
-          <Link to="/products">{marketText(language, "Back to products", "상품 목록으로")}</Link>
-        </main>
-      </V23Page>
-    );
-  }
+  if (!product) return <NotFoundPage />;
   if (!isStorefrontProductAllowedForMarket(product, market)) return <Navigate to="/products" replace />;
 
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
@@ -33,13 +31,41 @@ export function ProductDetailPage() {
   const productCategory = marketProductText(language, product.category);
   const productDescription = marketProductText(language, product.description);
   const productGoodFor = marketProductText(language, product.goodFor);
+  const productUrl = `https://hondit-shop.vercel.app/products/${product.slug}`;
+  const absoluteImage = product.image.startsWith("http") ? product.image : `https://hondit-shop.vercel.app${product.image}`;
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: productName,
+    image: [absoluteImage],
+    description: productDescription,
+    brand: { "@type": "Brand", name: "hondit" },
+    sku: product.apiSlug || product.slug,
+    offers: {
+      "@type": "Offer",
+      price: getMarketUnitPrice(product, market).toFixed(2),
+      priceCurrency: market.currency,
+      availability: outOfStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+      url: productUrl,
+    },
+  };
 
   return (
     <V23Page>
       <main className="v23-product-detail">
+        <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
         <section className="v23-product-detail-hero">
           <figure>
-            <img src={product.image} alt={productName} />
+            <img
+              src={product.image}
+              alt={productName}
+              width={900}
+              height={900}
+              sizes="(max-width: 900px) 100vw, 48vw"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
             {outOfStock && <span>{marketText(language, "Out of stock", "품절")}</span>}
           </figure>
           <div>
@@ -48,8 +74,14 @@ export function ProductDetailPage() {
             <p>{productDescription}</p>
             <strong>{formatMarketUnitMoney(product, market)}</strong>
             <dl>
-              <div><dt>{marketText(language, "Bulk MOQ", "대량주문 MOQ")}</dt><dd>{product.bulkMoq} {marketText(language, "units", "개")}</dd></div>
-              <div><dt>{marketText(language, "Bulk unit", "대량주문 단가")}</dt><dd>{formatMarketUnitMoney(product, market)}</dd></div>
+              <div>
+                <dt>{marketText(language, "Bulk MOQ", "대량주문 MOQ")}</dt>
+                <dd>{product.bulkMoq} {marketText(language, "units", "개")}</dd>
+              </div>
+              <div>
+                <dt>{marketText(language, "Bulk unit", "대량주문 단가")}</dt>
+                <dd>{formatMarketUnitMoney(product, market)}</dd>
+              </div>
               <div>
                 <dt>{marketText(language, "Route", "구매 방식")}</dt>
                 <dd>
@@ -61,7 +93,9 @@ export function ProductDetailPage() {
             </dl>
             <div className="v23-actions">
               {market.hasShopee && (
-                <a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee ->", "Shopee 구매 ->")}</a>
+                <a href={product.shopee} target="_blank" rel="noreferrer">
+                  {marketText(language, "Buy on Shopee ->", "Shopee 구매 ->")}
+                </a>
               )}
               <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout ->", "대량주문 ->")}</Link>
               {!market.hasShopee && <Link to={`/contact?product=${product.slug}`}>{marketText(language, "Ask hondit ->", "문의하기 ->")}</Link>}

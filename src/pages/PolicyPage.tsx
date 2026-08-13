@@ -1,137 +1,241 @@
 import { Link, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
-import { marketCountryName, marketText, useMarket, type DisplayLanguage } from "../lib/market";
+import { EMAIL } from "../data/v23SiteData";
+import { marketCountryName, useMarket } from "../lib/market";
 import { NotFoundPage } from "./NotFoundPage";
+
+const SHIPPING_NOTICE =
+  "Bulk orders are usually delivered within 3-5 business days after dispatch. Weekends, public holidays, customs inspections and carrier delays may affect the delivery date. Tracking information will be provided after dispatch.";
+
+type PolicySection = {
+  heading: string;
+  items: string[];
+};
 
 type PolicyContent = {
   title: string;
-  body: string[];
+  intro: string;
+  sections: PolicySection[];
 };
 
-function getPolicyContent(
-  policy: string,
-  countryName: string,
-  currency: string,
-  hasShopee: boolean,
-  language: DisplayLanguage,
-): PolicyContent | null {
+function getPolicyContent(policy: string, countryName: string, currency: string, hasShopee: boolean): PolicyContent | null {
   const content: Record<string, PolicyContent> = {
     shipping: {
-      title: marketText(language, "Shipping Policy", "배송 정책"),
-      body: [
-        marketText(
-          language,
-          `Bulk orders are currently available for delivery to ${countryName}.`,
-          `현재 대량 주문은 ${countryName} 배송 기준으로 운영됩니다.`,
-        ),
-        marketText(
-          language,
-          `Listed bulk order prices include the selected ${countryName} delivery route and are charged in ${currency}.`,
-          `표시된 대량 주문 가격에는 선택한 ${countryName} 배송 경로가 포함되며 ${currency}로 결제됩니다.`,
-        ),
-        hasShopee
-          ? marketText(
-              language,
-              "Retail purchases are completed on Shopee and follow Shopee order tracking and delivery rules.",
-              "개별 구매는 Shopee에서 완료되며 Shopee 주문 추적 및 배송 규정을 따릅니다.",
-            )
-          : marketText(
-              language,
-              "This market does not use Shopee retail checkout. Orders are handled through hondit bulk checkout only.",
-              "이 시장은 Shopee 개별 구매를 사용하지 않습니다. 주문은 hondit 대량 주문으로만 처리됩니다.",
-            ),
+      title: "Shipping Policy",
+      intro: `This policy explains how hondit prepares and ships bulk orders for the selected ${countryName} sales edition.`,
+      sections: [
+        {
+          heading: "Bulk Order Delivery",
+          items: [SHIPPING_NOTICE, `Bulk checkout prices are shown in ${currency} for the selected market.`],
+        },
+        {
+          heading: "Retail Orders",
+          items: [
+            hasShopee
+              ? "Retail purchases made through Shopee follow Shopee order tracking, delivery and support rules."
+              : "This market does not offer Shopee retail checkout. Orders are handled through hondit bulk checkout only.",
+          ],
+        },
+        {
+          heading: "Address and Tracking",
+          items: [
+            "Customers are responsible for entering a complete delivery name, phone number, company name where relevant, shipping address and postal code.",
+            "Tracking information will be sent after dispatch when it is available from the carrier.",
+          ],
+        },
+        {
+          heading: "Customs and Local Handling",
+          items: ["Customs checks, public holidays, carrier handover and local delivery schedules can affect the final delivery date."],
+        },
       ],
     },
     refund: {
-      title: marketText(language, "Refund Policy", "환불 정책"),
-      body: [
-        marketText(
-          language,
-          "Please review product, quantity, shipping address, company name and payment amount before payment.",
-          "결제 전 상품, 수량, 배송 주소, 회사명, 결제 금액을 확인해 주세요.",
-        ),
-        marketText(
-          language,
-          "Refund requests are reviewed manually. PayPal refunds, when approved, are processed through PayPal in the original payment currency and reflected in the hondit admin order record.",
-          "환불 요청은 수동으로 검토됩니다. 승인된 PayPal 환불은 최초 결제 통화로 PayPal에서 처리되며 hondit 관리자 주문 기록에 반영됩니다.",
-        ),
-        marketText(
-          language,
-          "For refund, exchange or dispute questions, contact hondit with your order number and payment email.",
-          "환불, 교환, 분쟁 문의는 주문번호와 결제 이메일을 포함해 hondit에 문의해 주세요.",
-        ),
+      title: "Refund Policy",
+      intro: "This policy applies to direct bulk orders paid through hondit's PayPal checkout. Shopee orders follow Shopee cancellation, return and refund procedures.",
+      sections: [
+        {
+          heading: "Scope",
+          items: [
+            "This policy covers direct bulk orders placed on hondit and paid through PayPal.",
+            "Shopee purchases must be managed through Shopee support and Shopee order pages.",
+          ],
+        },
+        {
+          heading: "Cancellation Before Dispatch",
+          items: ["A cancellation request can be reviewed before dispatch. Contact hondit as soon as possible with the order number and payment email."],
+        },
+        {
+          heading: "Damaged, Incorrect or Missing Items",
+          items: [
+            "Report damaged, incorrect or missing items within 7 days after receiving the parcel.",
+            "Include the order number, order email, a clear description of the issue and photos that show the parcel and product condition.",
+            "When hondit confirms that the issue is seller-side damage, incorrect shipment or missing items, hondit will arrange a suitable replacement, reshipment or refund route.",
+          ],
+        },
+        {
+          heading: "Change-of-Mind Returns",
+          items: ["Change-of-mind returns after dispatch are generally not accepted because bulk orders are prepared for a specific shipment and market."],
+        },
+        {
+          heading: "Refund Method and Timing",
+          items: [
+            "Approved refunds are processed through the original payment method and original payment currency.",
+            "After a refund is approved, the payment provider may take 5-10 business days to reflect the refund.",
+          ],
+        },
+        {
+          heading: "Contact",
+          items: [`Email ${EMAIL} with your order number, payment email and issue details.`],
+        },
       ],
     },
     privacy: {
-      title: marketText(language, "Privacy Policy", "개인정보 처리방침"),
-      body: [
-        marketText(
-          language,
-          "Checkout information is used to process bulk orders, PayPal payment records, delivery and customer support.",
-          "체크아웃 정보는 대량 주문 처리, PayPal 결제 기록, 배송, 고객 응대에 사용됩니다.",
-        ),
-        marketText(
-          language,
-          "Customer order data is not shown publicly. Admin access is protected through Supabase Auth.",
-          "고객 주문 데이터는 공개되지 않으며 관리자 접근은 Supabase Auth로 보호됩니다.",
-        ),
-        marketText(
-          language,
-          "Collected data may include name, email, phone, company, address, market, order details, inquiry messages and payment references.",
-          "수집 정보에는 이름, 이메일, 전화번호, 회사명, 주소, 판매 시장, 주문 상세, 문의 메시지, 결제 참조번호가 포함될 수 있습니다.",
-        ),
+      title: "Privacy Policy",
+      intro: "hondit collects only the information needed to process orders, payments, delivery, customer support and business enquiries.",
+      sections: [
+        {
+          heading: "Information We Collect",
+          items: [
+            "Name, email address, phone or WhatsApp number, company name, shipping address, selected market, selected language, products, quantities, order amount, order number, payment references, enquiry messages and support replies.",
+          ],
+        },
+        {
+          heading: "How We Use Information",
+          items: [
+            "To create and confirm orders, verify PayPal payment records, prepare products for shipment, provide tracking information, respond to customer support, handle cancellation or refund requests and prevent duplicate or fraudulent order activity.",
+          ],
+        },
+        {
+          heading: "Service Providers",
+          items: [
+            "Information may be processed by payment services such as PayPal, delivery carriers such as EMS or local carriers, hosting services, database and authentication services, email services, support tools and analytics services such as Google Analytics where enabled.",
+          ],
+        },
+        {
+          heading: "International Processing",
+          items: ["Because hondit handles cross-border orders, information may be processed in more than one country for payment, delivery, hosting and support purposes."],
+        },
+        {
+          heading: "Data Retention",
+          items: [
+            "Order and enquiry information is kept only for as long as needed for operations, customer support, accounting, tax, refund or dispute handling.",
+            "You may request access, correction or deletion of your personal information where applicable by contacting hondit.",
+          ],
+        },
+        {
+          heading: "Security",
+          items: ["hondit uses reasonable technical and organisational measures to protect order information, but no internet transmission can be guaranteed to be completely secure."],
+        },
+        {
+          heading: "Policy Updates",
+          items: ["This policy may be updated as hondit's sales markets, payment services or operating tools change."],
+        },
+        {
+          heading: "Contact",
+          items: [`Privacy enquiries can be sent to ${EMAIL}.`],
+        },
       ],
     },
     terms: {
-      title: marketText(language, "Terms", "이용 약관"),
-      body: [
-        marketText(
-          language,
-          `Bulk order prices are charged in ${currency} for the selected ${countryName} sales edition.`,
-          `대량 주문 가격은 선택한 ${countryName} 판매판 기준으로 ${currency} 결제됩니다.`,
-        ),
-        marketText(
-          language,
-          "Orders are confirmed only after PayPal payment has been captured and verified by the server.",
-          "주문은 PayPal 결제가 서버에서 캡처 및 검증된 후 확정됩니다.",
-        ),
-        hasShopee
-          ? marketText(
-              language,
-              "Retail purchases are completed through Shopee. Bulk purchases are completed through PayPal checkout on this site.",
-              "개별 구매는 Shopee에서, 대량 구매는 이 사이트의 PayPal 체크아웃에서 완료됩니다.",
-            )
-          : marketText(
-              language,
-              "Retail Shopee checkout is not offered for this market. Purchases are completed through PayPal bulk checkout on this site.",
-              "이 시장에서는 Shopee 개별 구매를 제공하지 않습니다. 구매는 이 사이트의 PayPal 대량 주문 체크아웃에서 완료됩니다.",
-            ),
+      title: "Terms",
+      intro: "These terms apply when you browse hondit or place a direct bulk order through hondit's checkout.",
+      sections: [
+        {
+          heading: "About These Terms",
+          items: ["By using hondit, you agree to use the site only for lawful product browsing, enquiries and orders."],
+        },
+        {
+          heading: "Markets and Currency",
+          items: [`The selected market controls the displayed delivery destination, currency and available order route. Bulk order prices for the current market are shown in ${currency}.`],
+        },
+        {
+          heading: "Product Prices and MOQ",
+          items: [
+            "Product prices, minimum order quantities and quantity increments are shown on the product and bulk checkout pages.",
+            "Do not rely on information that is not shown on the product page or policy pages as a confirmed product claim.",
+          ],
+        },
+        {
+          heading: "Order Confirmation",
+          items: ["A direct bulk order is confirmed only after payment is completed and hondit can match the payment to the submitted order information."],
+        },
+        {
+          heading: "Stock and Pricing Errors",
+          items: ["If stock is unavailable, the price is incorrect or payment cannot be matched to the order, hondit may cancel the order and arrange an appropriate refund route."],
+        },
+        {
+          heading: "Shipping and Delivery",
+          items: [SHIPPING_NOTICE, "Customers must provide accurate email, phone number, company name where relevant and shipping address."],
+        },
+        {
+          heading: "Customs and Taxes",
+          items: ["Any customs duties, import taxes or local charges are handled according to the rules of the selected market and delivery destination."],
+        },
+        {
+          heading: "Product Variations",
+          items: ["Natural volcanic-stone products may vary slightly in colour, shape, texture and size. Screen colours may also differ from the physical product."],
+        },
+        {
+          heading: "Cancellation and Refunds",
+          items: ["Cancellation and refund handling follows the Refund Policy."],
+        },
+        {
+          heading: "Limitation and Uncontrollable Events",
+          items: [
+            "hondit is not responsible for delays or failures caused by events outside reasonable control, including customs delays, carrier delays, public holidays, severe weather, payment provider outages or incorrect customer information.",
+          ],
+        },
+        {
+          heading: "Contact",
+          items: [`Questions about these terms can be sent to ${EMAIL}.`],
+        },
+        {
+          heading: "Effective Date",
+          items: ["Effective date: 2026-08-11."],
+        },
       ],
     },
   };
 
   content["shipping-policy"] = content.shipping;
   content["refund-policy"] = content.refund;
+  content["privacy-policy"] = content.privacy;
+  content["terms-of-service"] = content.terms;
   return content[policy] || null;
 }
 
 export function PolicyPage() {
-  const { market, language } = useMarket();
+  const { market } = useMarket();
   const { policy = "terms" } = useParams();
-  const countryName = marketCountryName(market, language);
-  const content = getPolicyContent(policy, countryName, market.currency, market.hasShopee, language);
+  const countryName = marketCountryName(market, "en");
+  const content = getPolicyContent(policy, countryName, market.currency, market.hasShopee);
 
   if (!content) return <NotFoundPage />;
 
   return (
     <V23Page>
       <main className="v23-policy-page">
-        <section>
-          <p className="v23-eyebrow"><span /> HONDIT</p>
+        <article className="v23-policy-shell">
+          <p className="v23-eyebrow">
+            <span /> HONDIT POLICY
+          </p>
           <h1>{content.title}</h1>
-          {content.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <Link to="/bulk-orders">{marketText(language, "Return to Bulk Orders", "대량 주문으로 돌아가기")}</Link>
-        </section>
+          <p className="v23-policy-intro">{content.intro}</p>
+          {content.sections.map((section) => (
+            <section className="v23-policy-section" key={section.heading}>
+              <h2>{section.heading}</h2>
+              <ul>
+                {section.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+          <div className="v23-policy-actions">
+            <Link to="/bulk-orders">Return to Bulk Orders</Link>
+            <Link to="/contact">Contact hondit</Link>
+          </div>
+        </article>
       </main>
     </V23Page>
   );

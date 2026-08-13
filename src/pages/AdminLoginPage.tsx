@@ -28,7 +28,7 @@ export function AdminLoginPage() {
       <form onSubmit={submit}>
         <p className="eyebrow">ADMIN</p>
         <h1>hondit order management</h1>
-        <p>Sign in with the Supabase Auth admin account created by the hondit team.</p>
+        <p>Sign in with your hondit admin account.</p>
         <label>Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
         <label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
         {error && <p className="form-error">{error}</p>}

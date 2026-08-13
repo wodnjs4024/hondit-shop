@@ -144,6 +144,15 @@ export const displayLanguages: LanguageOption[] = [
 
 const MarketContext = createContext<MarketContextValue | null>(null);
 
+const htmlLanguageByDisplayLanguage: Record<DisplayLanguage, string> = {
+  en: "en",
+  ko: "ko",
+  zh: "zh-CN",
+  "zh-HK": "zh-HK",
+  "zh-TW": "zh-TW",
+  ja: "ja",
+};
+
 function isMarketCode(value: string | null): value is MarketCode {
   return value === "SG" || value === "HK" || value === "TW" || value === "JP";
 }
@@ -175,6 +184,7 @@ export function MarketProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<DisplayLanguage>(getInitialLanguage);
 
   useEffect(() => {
+    document.documentElement.lang = htmlLanguageByDisplayLanguage[language];
     window.localStorage.setItem("hondit-market", marketCode);
     window.localStorage.setItem("hondit-language", language);
     const url = new URL(window.location.href);

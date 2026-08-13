@@ -153,6 +153,8 @@ export function BulkProductPage() {
   const localizedStockStatus = marketText(language, stockStatus);
   const paypalClientId = payPalConfig.clientId;
   const paypalMode = payPalConfig.mode;
+  const errorId = "bulk-checkout-error";
+  const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
   const checkoutDisabled = !payPalConfig.checkoutEnabled;
   const manualPaymentHref = buildMailto(EMAIL, `[hondit] Manual PayPal link request - ${product.name}`, [
     "Hello hondit,",
@@ -197,9 +199,9 @@ export function BulkProductPage() {
   const update = (key: keyof OrderForm, value: string | boolean) => setForm((current) => ({ ...current, [key]: value }));
 
   const validate = (currentForm: OrderForm) => {
-    if (soldOut) return marketText(language, "This product is currently sold out.", "현재 품절된 상품입니다.");
+    if (soldOut) return marketText(language, "This product is currently sold out.", "?꾩옱 ?덉젅???곹뭹?낅땲??");
     if (checkoutDisabled) {
-      return marketText(language, "Direct PayPal checkout is temporarily closed. Please contact hondit.", "PayPal 직접 결제가 잠시 닫혀 있습니다. hondit에 문의해주세요.");
+      return marketText(language, "Direct PayPal checkout is temporarily closed. Please contact hondit.", "PayPal 吏곸젒 寃곗젣媛 ?좎떆 ?ロ? ?덉뒿?덈떎. hondit??臾몄쓽?댁＜?몄슂.");
     }
     if (
       !currentForm.customerName ||
@@ -209,10 +211,10 @@ export function BulkProductPage() {
       !currentForm.city ||
       !currentForm.postalCode
     ) {
-      return marketText(language, "Please complete all required shipping fields before payment.", "결제 전 필수 배송 정보를 모두 입력해주세요.");
+      return marketText(language, "Please complete all required shipping fields before payment.", "寃곗젣 ???꾩닔 諛곗넚 ?뺣낫瑜?紐⑤몢 ?낅젰?댁＜?몄슂.");
     }
     if (!currentForm.reviewed) {
-      return marketText(language, "Please confirm the quantity, address and final payment amount.", "수량, 주소, 최종 결제 금액을 확인해주세요.");
+      return marketText(language, "Please confirm the quantity, address and final payment amount.", "?섎웾, 二쇱냼, 理쒖쥌 寃곗젣 湲덉븸???뺤씤?댁＜?몄슂.");
     }
     return "";
   };
@@ -304,7 +306,7 @@ export function BulkProductPage() {
             marketText(
               language,
               "Payment could not be completed. Please email your purchase conditions to hondit so we can reply with a direct PayPal payment link.",
-              "결제가 완료되지 않았습니다. 구매 조건을 hondit에 메일로 보내주시면 직접 결제 가능한 PayPal 링크를 답장드리겠습니다.",
+              "寃곗젣媛 ?꾨즺?섏? ?딆븯?듬땲?? 援щℓ 議곌굔??hondit??硫붿씪濡?蹂대궡二쇱떆硫?吏곸젒 寃곗젣 媛?ν븳 PayPal 留곹겕瑜??듭옣?쒕━寃좎뒿?덈떎.",
             ),
           );
         },
@@ -347,12 +349,12 @@ export function BulkProductPage() {
                   ? marketText(
                       language,
                       "Bulk prices are lower because they exclude marketplace fees applied on Shopee. Ordering directly here passes those savings on to you.",
-                      "대량주문가는 Shopee 마켓 수수료를 제외해 구성합니다. 직접 주문하면 그 차액을 고객 가격에 반영합니다.",
+                      "??됱＜臾멸???Shopee 留덉폆 ?섏닔猷뚮? ?쒖쇅??援ъ꽦?⑸땲?? 吏곸젒 二쇰Ц?섎㈃ 洹?李⑥븸??怨좉컼 媛寃⑹뿉 諛섏쁺?⑸땲??",
                     )
                   : marketText(
                       language,
                       `This market uses direct bulk checkout only. The displayed price is the fixed ${market.currency} bulk unit price.`,
-                      `이 판매 지역은 직접 대량주문만 운영합니다. 표시 금액은 고정 ${market.currency} 대량주문 단가입니다.`,
+                      `???먮ℓ 吏??? 吏곸젒 ??됱＜臾몃쭔 ?댁쁺?⑸땲?? ?쒖떆 湲덉븸? 怨좎젙 ${market.currency} ??됱＜臾??④??낅땲??`,
                     )}
               </p>
 
@@ -362,19 +364,19 @@ export function BulkProductPage() {
                   <dd>{formatMarketUnitMoney(product, market)}</dd>
                 </div>
                 <div>
-                  <dt>{marketText(language, "Minimum", "최소 수량")}</dt>
+                  <dt>{marketText(language, "Minimum", "理쒖냼 ?섎웾")}</dt>
                   <dd>
                     {moq} {marketText(language, "units", "개")}
                   </dd>
                 </div>
                 <div>
-                  <dt>{marketText(language, "Step", "주문 단위")}</dt>
+                  <dt>{marketText(language, "Step", "二쇰Ц ?⑥쐞")}</dt>
                   <dd>
                     {BULK_QTY_STEP} {marketText(language, "units", "개")}
                   </dd>
                 </div>
                 <div>
-                  <dt>{marketText(language, "Shipping", "배송")}</dt>
+                  <dt>{marketText(language, "Shipping", "諛곗넚")}</dt>
                   <dd>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</dd>
                 </div>
               </dl>
@@ -384,13 +386,13 @@ export function BulkProductPage() {
                 {marketText(
                   language,
                   `Order from ${moq} units, in steps of ${BULK_QTY_STEP}.${maxUnits ? ` Available up to ${maxUnits} units.` : ""}`,
-                  `최소 ${moq}개부터 ${BULK_QTY_STEP}개 단위로 주문합니다.${maxUnits ? ` 최대 ${maxUnits}개까지 가능합니다.` : ""}`,
+                  `理쒖냼 ${moq}媛쒕???${BULK_QTY_STEP}媛??⑥쐞濡?二쇰Ц?⑸땲??${maxUnits ? ` 理쒕? ${maxUnits}媛쒓퉴吏 媛?ν빀?덈떎.` : ""}`,
                 )}
               </p>
 
               <section className="direct-order-box" aria-label="Direct bulk order">
                 <div className="pack-stepper" aria-label="Order quantity">
-                  <span>{marketText(language, "Order quantity", "주문 수량")}</span>
+                  <span>{marketText(language, "Order quantity", "二쇰Ц ?섎웾")}</span>
                   <div>
                     <button
                       type="button"
@@ -418,70 +420,155 @@ export function BulkProductPage() {
                     {marketText(
                       language,
                       `Minimum ${moq}. Increase in steps of ${BULK_QTY_STEP}.`,
-                      `최소 ${moq}개. ${BULK_QTY_STEP}개 단위로 늘릴 수 있습니다.`,
+                      `理쒖냼 ${moq}媛? ${BULK_QTY_STEP}媛??⑥쐞濡??섎┫ ???덉뒿?덈떎.`,
                     )}
                   </em>
                 </div>
 
                 <div className="bulk-total-box">
-                  <span>{marketText(language, "Total units", "총 수량")}</span>
+                  <span>{marketText(language, "Total units", "珥??섎웾")}</span>
                   <strong>{quantity}</strong>
                   <span>{marketText(language, "Total payment", "총 결제액")}</span>
                   <strong>{formatCurrency(marketTotal, market.currency, market.locale)}</strong>
                   <p>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</p>
                 </div>
 
-                <form className="checkout-form direct-order-form">
-                  <label>
+                <form className="checkout-form direct-order-form" aria-describedby={error ? errorId : undefined}>
+                  <label htmlFor="bulk-customer-name">
                     {marketText(language, "Full name", "이름")} *
-                    <input value={form.customerName} onChange={(event) => update("customerName", event.target.value)} />
+                    <input
+                      id="bulk-customer-name"
+                      name="customerName"
+                      autoComplete="name"
+                      required
+                      aria-required="true"
+                      aria-invalid={requiredFieldInvalid(form.customerName)}
+                      aria-describedby={error ? errorId : undefined}
+                      value={form.customerName}
+                      onChange={(event) => update("customerName", event.target.value)}
+                    />
                   </label>
-                  <label>
+                  <label htmlFor="bulk-customer-email">
                     {marketText(language, "Email", "이메일")} *
-                    <input type="email" value={form.customerEmail} onChange={(event) => update("customerEmail", event.target.value)} />
+                    <input
+                      id="bulk-customer-email"
+                      name="customerEmail"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      aria-required="true"
+                      aria-invalid={requiredFieldInvalid(form.customerEmail)}
+                      aria-describedby={error ? errorId : undefined}
+                      value={form.customerEmail}
+                      onChange={(event) => update("customerEmail", event.target.value)}
+                    />
                   </label>
-                  <label>
+                  <label htmlFor="bulk-customer-phone">
                     {marketText(language, "Phone / WhatsApp", "전화 / WhatsApp")} *
-                    <input value={form.customerPhone} onChange={(event) => update("customerPhone", event.target.value)} />
+                    <input
+                      id="bulk-customer-phone"
+                      name="customerPhone"
+                      autoComplete="tel"
+                      required
+                      aria-required="true"
+                      aria-invalid={requiredFieldInvalid(form.customerPhone)}
+                      aria-describedby={error ? errorId : undefined}
+                      value={form.customerPhone}
+                      onChange={(event) => update("customerPhone", event.target.value)}
+                    />
                   </label>
-                  <label>
+                  <label htmlFor="bulk-company-name">
                     {marketText(language, "Company name", "회사명")}
-                    <input value={form.companyName} onChange={(event) => update("companyName", event.target.value)} />
+                    <input
+                      id="bulk-company-name"
+                      name="companyName"
+                      autoComplete="organization"
+                      value={form.companyName}
+                      onChange={(event) => update("companyName", event.target.value)}
+                    />
                   </label>
-                  <label>
-                    {marketText(language, "Country", "배송 지역")}
-                    <input value={countryName} readOnly />
+                  <label htmlFor="bulk-country">
+                    {marketText(language, "Country", "배송 국가")}
+                    <input id="bulk-country" name="country" autoComplete="country-name" value={countryName} readOnly />
                   </label>
-                  <label>
+                  <label htmlFor="bulk-address-line1">
                     {marketText(language, "Address line 1", "주소 1")} *
-                    <input value={form.addressLine1} onChange={(event) => update("addressLine1", event.target.value)} />
+                    <input
+                      id="bulk-address-line1"
+                      name="addressLine1"
+                      autoComplete="address-line1"
+                      required
+                      aria-required="true"
+                      aria-invalid={requiredFieldInvalid(form.addressLine1)}
+                      aria-describedby={error ? errorId : undefined}
+                      value={form.addressLine1}
+                      onChange={(event) => update("addressLine1", event.target.value)}
+                    />
                   </label>
-                  <label>
+                  <label htmlFor="bulk-address-line2">
                     {marketText(language, "Address line 2", "주소 2")}
-                    <input value={form.addressLine2} onChange={(event) => update("addressLine2", event.target.value)} />
+                    <input
+                      id="bulk-address-line2"
+                      name="addressLine2"
+                      autoComplete="address-line2"
+                      value={form.addressLine2}
+                      onChange={(event) => update("addressLine2", event.target.value)}
+                    />
                   </label>
-                  <label>
+                  <label htmlFor="bulk-city">
                     {marketText(language, "City / District", "도시 / 지역")} *
-                    <input value={form.city} onChange={(event) => update("city", event.target.value)} />
+                    <input
+                      id="bulk-city"
+                      name="city"
+                      autoComplete="address-level2"
+                      required
+                      aria-required="true"
+                      aria-invalid={requiredFieldInvalid(form.city)}
+                      aria-describedby={error ? errorId : undefined}
+                      value={form.city}
+                      onChange={(event) => update("city", event.target.value)}
+                    />
                   </label>
-                  <label>
+                  <label htmlFor="bulk-postal-code">
                     {marketText(language, "Postal code", "우편번호")} *
-                    <input value={form.postalCode} onChange={(event) => update("postalCode", event.target.value)} />
+                    <input
+                      id="bulk-postal-code"
+                      name="postalCode"
+                      autoComplete="postal-code"
+                      required
+                      aria-required="true"
+                      aria-invalid={requiredFieldInvalid(form.postalCode)}
+                      aria-describedby={error ? errorId : undefined}
+                      value={form.postalCode}
+                      onChange={(event) => update("postalCode", event.target.value)}
+                    />
                   </label>
-                  <label className="checkout-form__wide">
+                  <label className="checkout-form__wide" htmlFor="bulk-customer-note">
                     {marketText(language, "Order note", "주문 메모")}
                     <textarea
+                      id="bulk-customer-note"
+                      name="customerNote"
                       value={form.customerNote}
                       onChange={(event) => update("customerNote", event.target.value)}
                       placeholder={marketText(
                         language,
                         "For receipt, company delivery name or special handling requests, write here.",
-                        "영수증명, 회사 배송명, 별도 요청사항이 있으면 적어주세요.",
+                        "영수증, 회사 배송명, 별도 요청사항이 있으면 적어주세요.",
                       )}
                     />
                   </label>
-                  <label className="checkout-confirm checkout-form__wide">
-                    <input type="checkbox" checked={form.reviewed} onChange={(event) => update("reviewed", event.target.checked)} />
+                  <label className="checkout-confirm checkout-form__wide" htmlFor="bulk-reviewed">
+                    <input
+                      id="bulk-reviewed"
+                      name="reviewed"
+                      type="checkbox"
+                      required
+                      aria-required="true"
+                      aria-invalid={Boolean(error && !form.reviewed)}
+                      aria-describedby={error ? errorId : undefined}
+                      checked={form.reviewed}
+                      onChange={(event) => update("reviewed", event.target.checked)}
+                    />
                     {marketText(
                       language,
                       "I confirm that my email, phone number, shipping address, product quantity and final payment amount are correct.",
@@ -492,9 +579,9 @@ export function BulkProductPage() {
 
                 <div className="direct-payment-summary">
                   <div className="direct-payment-summary__header">
-                    <span>{marketText(language, "Review before payment", "결제 전 확인")}</span>
-                    <h2>{marketText(language, "Final payment check", "최종 결제 확인")}</h2>
-                    <p>{marketText(language, "Please confirm these details before opening PayPal or card checkout.", "PayPal 또는 카드 결제창을 열기 전에 아래 정보를 확인해주세요.")}</p>
+                    <span>{marketText(language, "Review before payment", "寃곗젣 ???뺤씤")}</span>
+                    <h2>{marketText(language, "Final payment check", "理쒖쥌 寃곗젣 ?뺤씤")}</h2>
+                    <p>{marketText(language, "Please confirm these details before opening PayPal or card checkout.", "PayPal ?먮뒗 移대뱶 寃곗젣李쎌쓣 ?닿린 ?꾩뿉 ?꾨옒 ?뺣낫瑜??뺤씤?댁＜?몄슂.")}</p>
                   </div>
                   <div className="direct-payment-summary__total">
                     <span>{productName}</span>
@@ -512,7 +599,7 @@ export function BulkProductPage() {
                       <dd>{form.customerEmail || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
-                      <dt>{marketText(language, "Phone / WhatsApp", "전화 / WhatsApp")}</dt>
+                      <dt>{marketText(language, "Phone / WhatsApp", "?꾪솕 / WhatsApp")}</dt>
                       <dd>{form.customerPhone || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
@@ -520,26 +607,26 @@ export function BulkProductPage() {
                       <dd>{form.companyName || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
-                      <dt>{marketText(language, "Shipping address", "배송 주소")}</dt>
+                      <dt>{marketText(language, "Shipping address", "諛곗넚 二쇱냼")}</dt>
                       <dd>{[form.addressLine1, form.addressLine2, form.city, countryName, form.postalCode].filter(Boolean).join(", ") || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
-                      <dt>{marketText(language, "Order note", "주문 메모")}</dt>
-                      <dd>{form.customerNote || marketText(language, "No note", "메모 없음")}</dd>
+                      <dt>{marketText(language, "Order note", "二쇰Ц 硫붾え")}</dt>
+                      <dd>{form.customerNote || marketText(language, "No note", "硫붾え ?놁쓬")}</dd>
                     </div>
                   </dl>
                   <div className="direct-payment-summary__notice">
-                    <strong>{marketText(language, "Pay with PayPal or credit/debit card.", "PayPal 또는 신용/직불카드로 결제합니다.")}</strong>
-                    <span>{marketText(language, "For direct checkout, please use PayPal or an international card.", "직접 결제는 PayPal 또는 해외 결제가 가능한 카드로 진행해주세요.")}</span>
+                    <strong>{marketText(language, "Pay with PayPal or credit/debit card.", "PayPal ?먮뒗 ?좎슜/吏곷텋移대뱶濡?寃곗젣?⑸땲??")}</strong>
+                    <span>{marketText(language, "For direct checkout, please use PayPal or an international card.", "吏곸젒 寃곗젣??PayPal ?먮뒗 ?댁쇅 寃곗젣媛 媛?ν븳 移대뱶濡?吏꾪뻾?댁＜?몄슂.")}</span>
                     <span>
                       {marketText(
                         language,
                         "If checkout does not complete, email these purchase conditions to hondit. We will reply with a direct PayPal payment link.",
-                        "결제가 완료되지 않으면 현재 구매 조건을 hondit 메일로 보내주세요. 확인 후 직접 결제 가능한 PayPal 링크를 답장드립니다.",
+                        "寃곗젣媛 ?꾨즺?섏? ?딆쑝硫??꾩옱 援щℓ 議곌굔??hondit 硫붿씪濡?蹂대궡二쇱꽭?? ?뺤씤 ??吏곸젒 寃곗젣 媛?ν븳 PayPal 留곹겕瑜??듭옣?쒕┰?덈떎.",
                       )}
                     </span>
                     {paypalMode === "sandbox" && (
-                      <span>{marketText(language, `PayPal Sandbox payment. Currency: ${market.currency}.`, `PayPal Sandbox 결제입니다. 통화: ${market.currency}.`)}</span>
+                      <span>{marketText(language, `PayPal Sandbox payment. Currency: ${market.currency}.`, `PayPal Sandbox 寃곗젣?낅땲?? ?듯솕: ${market.currency}.`)}</span>
                     )}
                   </div>
                   <div className="manual-payment-fallback">
@@ -548,7 +635,7 @@ export function BulkProductPage() {
                       {marketText(
                         language,
                         "Send the product, quantity, payment total and delivery details by email. hondit will check the order and reply with a direct PayPal link.",
-                        "상품, 수량, 결제금액, 배송정보를 메일로 보내주세요. hondit이 주문 내용을 확인한 뒤 직접 결제 가능한 PayPal 링크를 답장드립니다.",
+                        "?곹뭹, ?섎웾, 寃곗젣湲덉븸, 諛곗넚?뺣낫瑜?硫붿씪濡?蹂대궡二쇱꽭?? hondit??二쇰Ц ?댁슜???뺤씤????吏곸젒 寃곗젣 媛?ν븳 PayPal 留곹겕瑜??듭옣?쒕┰?덈떎.",
                       )}
                     </p>
                     <a className="button button--ghost" href={manualPaymentHref}>
@@ -557,18 +644,26 @@ export function BulkProductPage() {
                   </div>
                 </div>
 
-                {error && <p className="form-error">{error}</p>}
+                {error && (
+                  <p id={errorId} className="form-error" role="alert">
+                    {error}
+                  </p>
+                )}
                 {soldOut ? (
                   <a className="button button--primary" href={`/contact?type=restock&product=${product.slug}`}>
-                    {marketText(language, "Notify me", "입고 문의")}
+                    {marketText(language, "Notify me", "?낃퀬 臾몄쓽")}
                   </a>
                 ) : checkoutDisabled ? (
                   <p className="setup-warning">
-                    {marketText(language, "Direct PayPal checkout is temporarily closed. Please contact hondit for this order.", "PayPal 직접 결제가 잠시 닫혀 있습니다. 이 주문은 hondit에 문의해주세요.")}
+                    {marketText(language, "Direct PayPal checkout is temporarily closed. Please contact hondit for this order.", "PayPal 吏곸젒 寃곗젣媛 ?좎떆 ?ロ? ?덉뒿?덈떎. ??二쇰Ц? hondit??臾몄쓽?댁＜?몄슂.")}
                   </p>
                 ) : !paypalClientId ? (
                   <p className="setup-warning">
-                    {marketText(language, "Add PAYPAL_CLIENT_ID in Vercel to enable PayPal buttons.", "Vercel에 PAYPAL_CLIENT_ID를 추가하면 PayPal 버튼이 활성화됩니다.")}
+                    {marketText(
+                      language,
+                      "Direct PayPal checkout is temporarily unavailable. Please email your purchase conditions so hondit can reply with a payment link.",
+                      "PayPal 직접 결제를 일시적으로 사용할 수 없습니다. 구매 조건을 이메일로 보내주시면 결제 링크로 답장드리겠습니다.",
+                    )}
                   </p>
                 ) : (
                   <div id="direct-paypal-buttons" className="paypal-buttons" />
@@ -576,18 +671,18 @@ export function BulkProductPage() {
               </section>
 
               <section className="bulk-product-info">
-                <h2>{marketText(language, "Product composition", "상품 구성")}</h2>
+                <h2>{marketText(language, "Product composition", "?곹뭹 援ъ꽦")}</h2>
                 <div className="product-card__chips">
                   {product.features.map((feature) => (
                     <span key={feature}>{marketProductText(language, feature)}</span>
                   ))}
                 </div>
-                <h2>{marketText(language, "Use and order notes", "사용 및 주문 안내")}</h2>
+                <h2>{marketText(language, "Use and order notes", "?ъ슜 諛?二쇰Ц ?덈궡")}</h2>
                 <ul>
                   {product.usage.map((item) => (
                     <li key={item}>{marketProductText(language, item)}</li>
                   ))}
-                  <li>{marketText(language, `Orders are currently available for delivery within ${countryName}.`, `현재 ${countryName} 배송 주문만 가능합니다.`)}</li>
+                  <li>{marketText(language, `Orders are currently available for delivery within ${countryName}.`, `?꾩옱 ${countryName} 諛곗넚 二쇰Ц留?媛?ν빀?덈떎.`)}</li>
                   <li>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</li>
                 </ul>
               </section>

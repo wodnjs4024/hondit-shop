@@ -22,8 +22,10 @@ export function BulkOrdersPage() {
     () => products.filter((product) => isStorefrontProductAllowedForMarket(product, market)),
     [products, market],
   );
-  const requested = params.get("product") || marketProducts[0]?.slug || "";
-  const [selectedSlug, setSelectedSlug] = useState(requested);
+  const requested = params.get("product");
+  const [selectedSlug, setSelectedSlug] = useState(
+    () => requested || marketProducts[0]?.slug || "",
+  );
 
   useEffect(() => {
     loadStorefrontProducts()
@@ -32,14 +34,16 @@ export function BulkOrdersPage() {
   }, []);
 
   useEffect(() => {
-    if (requested && marketProducts.some((product) => product.slug === requested)) {
-      setSelectedSlug(requested);
-      return;
-    }
-    if (!marketProducts.some((product) => product.slug === selectedSlug)) {
-      setSelectedSlug(marketProducts[0]?.slug || "");
-    }
-  }, [marketProducts, requested, selectedSlug]);
+    setSelectedSlug((currentSlug) => {
+      if (requested && marketProducts.some((product) => product.slug === requested)) {
+        return requested;
+      }
+      if (marketProducts.some((product) => product.slug === currentSlug)) {
+        return currentSlug;
+      }
+      return marketProducts[0]?.slug || "";
+    });
+  }, [marketProducts, requested]);
 
   const selected = useMemo(
     () => marketProducts.find((product) => product.slug === selectedSlug) || marketProducts[0],
@@ -54,8 +58,8 @@ export function BulkOrdersPage() {
           title={marketText(language, "Build the order. Pay securely with PayPal.", "주문을 구성하고 PayPal로 결제하세요.")}
           description={marketText(
             language,
-            `Choose a product, review its MOQ and fixed ${market.currency} total, add ${countryName} delivery details and continue to PayPal. Secret keys stay on the server.`,
-            `상품과 MOQ, 고정 ${market.currency} 결제 금액을 확인한 뒤 ${countryName} 배송 정보를 입력하고 PayPal로 결제합니다. 비밀키는 서버에만 보관됩니다.`,
+            `Choose a product, review its MOQ and fixed ${market.currency} total, add ${countryName} delivery details and continue to PayPal. Pay securely through PayPal.`,
+            `상품과 MOQ, 고정 ${market.currency} 결제 금액을 확인한 뒤 ${countryName} 배송 정보를 입력하고 PayPal로 안전하게 결제합니다.`,
           )}
           image="/images/hondit-collection-hero.webp"
           imageAlt={marketText(
@@ -88,15 +92,15 @@ export function BulkOrdersPage() {
             <p>
               {marketText(
                 language,
-                `The server creates and captures ${market.currency} PayPal orders.`,
-                `서버가 ${market.currency} PayPal 주문을 생성하고 결제 완료를 기록합니다.`,
+                `PayPal checkout confirms the final ${market.currency} amount before the order is recorded.`,
+                `주문이 기록되기 전에 PayPal 결제에서 최종 ${market.currency} 금액을 확인합니다.`,
               )}
             </p>
           </article>
           <article>
             <span>04</span>
-            <b>{marketText(language, "Manage the order", "관리자 확인")}</b>
-            <p>{marketText(language, "Only completed paid orders appear in the protected admin console.", "결제 완료 주문만 관리자 페이지에 표시됩니다.")}</p>
+            <b>{marketText(language, "Order confirmed", "주문 확정")}</b>
+            <p>{marketText(language, "Your order is confirmed after payment is completed.", "결제가 완료된 주문만 배송 준비 단계로 넘어갑니다.")}</p>
           </article>
         </section>
 
@@ -115,6 +119,7 @@ export function BulkOrdersPage() {
                   key={product.slug}
                   type="button"
                   className={selected?.slug === product.slug ? "is-selected" : ""}
+                  aria-pressed={selected?.slug === product.slug}
                   onClick={() => setSelectedSlug(product.slug)}
                 >
                   <img src={product.image} alt="" />

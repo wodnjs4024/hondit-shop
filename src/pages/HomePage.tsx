@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { V23CatalogGrid } from "../components/v23/CatalogGrid";
-import { V23GeoJourney } from "../components/v23/GeoJourney";
 import { V23Page } from "../components/v23/SiteChrome";
 import { SHOPEE } from "../data/v23SiteData";
 import { marketCountryName, marketText, useMarket } from "../lib/market";
@@ -84,7 +83,16 @@ export function HomePage() {
           </div>
 
           <figure className="v23-home-hero-media">
-            <img src="/images/hondit-tidal-ritual-hero.webp" alt="hondit cleansing care and volcanic diffuser products on Jeju-inspired stone and water." />
+            <img
+              src="/images/hondit-tidal-ritual-hero.webp"
+              alt="hondit cleansing care and volcanic diffuser products on Jeju-inspired stone and water."
+              width={1600}
+              height={1100}
+              sizes="(max-width: 900px) 100vw, 58vw"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
           </figure>
         </section>
 
@@ -110,7 +118,7 @@ export function HomePage() {
           <article>
             <small>{marketText(language, "DELIVERY")}</small>
             <b>{marketText(language, `${countryName} delivery`, `${countryName} 배송`)}</b>
-            <p>{marketText(language, "Direct bulk orders dispatch from Korea after PayPal capture.", "대량주문은 PayPal 결제 완료 후 한국에서 발송 준비합니다.")}</p>
+            <p>{marketText(language, "Direct bulk orders are prepared after payment is confirmed and dispatched from Korea.", "대량주문은 결제 확인 후 한국에서 발송 준비합니다.")}</p>
           </article>
           <article>
             <small>{marketText(language, "PAYMENT")}</small>
@@ -128,7 +136,15 @@ export function HomePage() {
         </section>
 
         <section className="v23-editorial-breeze">
-          <img src="/images/hondit-jeju-dawn-hero-v2.webp" alt="Wind moving across a Jeju coastal field at dawn." />
+          <img
+            src="/images/hondit-jeju-dawn-hero-v2.webp"
+            alt="Wind moving across a Jeju coastal field at dawn."
+            width={1600}
+            height={900}
+            sizes="100vw"
+            loading="lazy"
+            decoding="async"
+          />
           <div>
             <p className="v23-eyebrow is-light"><span /> {marketText(language, "SEA - STONE - WIND")}</p>
             <h2>{marketText(language, "A place you can feel,")}<br />{marketText(language, "before it becomes a ritual.")}</h2>
@@ -136,8 +152,6 @@ export function HomePage() {
             <Link to="/jeju">{marketText(language, "Explore our Jeju ->")}</Link>
           </div>
         </section>
-
-        <V23GeoJourney />
 
         <section className="v23-products-section">
           <div className="v23-section-heading is-cream">
@@ -175,7 +189,15 @@ export function HomePage() {
             </figure>
 
             <figure className="v23-diffuser-guide__product">
-              <img src="/images/stonejeju-diffuser-product.png" alt="Jeju Volcanic Stone Diffuser with citrus fragrance oil, ceramic bowl and volcanic stones." />
+              <img
+                src="/images/stonejeju-diffuser-product.png"
+                alt="Jeju Volcanic Stone Diffuser with citrus fragrance oil, ceramic bowl and volcanic stones."
+                width={1200}
+                height={1200}
+                sizes="(max-width: 900px) 100vw, 30vw"
+                loading="lazy"
+                decoding="async"
+              />
               <figcaption>
                 <strong>{marketText(language, "Jeju Volcanic Stone Diffuser")}</strong>
                 <span>{marketText(language, "Volcanic stone / Citrus fragrance oil / Ceramic bowl")}</span>
