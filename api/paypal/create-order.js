@@ -9,14 +9,14 @@ function validateCheckout(body) {
   if (!Array.isArray(body.cart) || !body.cart.length) throw new Error("Cart is empty");
 }
 
-async function markFailed(order, reason) {
+async function markFailed(order, reason, reasonCode = "order_creation_failed", checkoutStep = "create_order") {
   if (!order?.id) return;
   const now = new Date().toISOString();
   const payload = {
     payment_status: "payment_failed",
     order_status: "pending_payment",
-    payment_failure_reason: reason,
-    internal_note: `PayPal order creation failed: ${reason}`,
+    payment_failure_reason: `[${reasonCode}] [${checkoutStep}] ${reason}`,
+    internal_note: `PayPal checkout failed (${reasonCode} / ${checkoutStep}): ${reason}`,
     updated_at: now,
   };
 
@@ -34,6 +34,21 @@ async function markFailed(order, reason) {
       }),
     }),
   );
+
+  await supabase("/payment_events", {
+    method: "POST",
+    body: JSON.stringify({
+      order_id: order.id,
+      provider: "paypal",
+      provider_event_id: `${order.order_number}-${reasonCode}`,
+      event_type: "CHECKOUT.ORDER.CREATE_FAILED",
+      paypal_order_id: order.paypal_order_id || null,
+      amount_sgd: Number(order.total_sgd || 0),
+      currency: order.currency || "SGD",
+      verified: false,
+      raw_payload: { reason_code: reasonCode, checkout_step: checkoutStep, error: String(reason).slice(0, 400) },
+    }),
+  }).catch(() => {});
 }
 
 async function ensureCheckoutEnabled() {
@@ -68,6 +83,7 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
   let order = null;
+  let checkoutStep = "validation";
 
   try {
     const body = await readBody(req);
@@ -125,9 +141,11 @@ export default async function handler(req, res) {
       order_status: "pending_payment",
     };
 
+    checkoutStep = "database_order";
     const orderRows = await createOrderRow(orderPayload);
     order = orderRows[0];
 
+    checkoutStep = "database_items";
     await supabase("/order_items", {
       method: "POST",
       body: JSON.stringify(
@@ -147,6 +165,7 @@ export default async function handler(req, res) {
       ),
     });
 
+    checkoutStep = "paypal_order_create";
     const paypalOrder = await paypal("/v2/checkout/orders", {
       method: "POST",
       body: JSON.stringify({
@@ -165,6 +184,7 @@ export default async function handler(req, res) {
       }),
     });
 
+    checkoutStep = "database_paypal_link";
     await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
       method: "PATCH",
       body: JSON.stringify({ paypal_order_id: paypalOrder.id, updated_at: new Date().toISOString() }),
@@ -172,7 +192,12 @@ export default async function handler(req, res) {
 
     return json(res, 200, { paypalOrderId: paypalOrder.id, orderNumber });
   } catch (error) {
-    await markFailed(order, error.message || "Could not create PayPal order");
+    const reasonCode = checkoutStep === "paypal_order_create"
+      ? "paypal_order_api_failed"
+      : checkoutStep.startsWith("database_")
+        ? "checkout_database_failed"
+        : "checkout_validation_failed";
+    await markFailed(order, error.message || "Could not create PayPal order", reasonCode, checkoutStep);
     return json(res, 400, { error: error.message || "Could not create PayPal order" });
   }
 }

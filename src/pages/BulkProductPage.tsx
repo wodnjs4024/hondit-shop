@@ -262,21 +262,64 @@ export function BulkProductPage() {
             currency: market.currency,
             market: market.code,
           });
-          const response = await createPayPalOrder(buildPayload(currentProduct, currentQuantity, currentForm));
-          createdOrderNumber.current = response.orderNumber;
-          return response.paypalOrderId;
+          try {
+            const response = await createPayPalOrder(buildPayload(currentProduct, currentQuantity, currentForm));
+            createdOrderNumber.current = response.orderNumber;
+            trackEvent("checkout_order_created", {
+              checkout_step: "paypal_order_created",
+              product_id: currentProduct.slug,
+              order_number: response.orderNumber,
+              paypal_order_id: response.paypalOrderId,
+              market: market.code,
+              currency: market.currency,
+            });
+            return response.paypalOrderId;
+          } catch (createError) {
+            const reason = createError instanceof Error ? createError.message : "PayPal order could not be created.";
+            trackEvent("checkout_failure", {
+              checkout_step: "create_order",
+              reason_code: "order_creation_failed",
+              product_id: currentProduct.slug,
+              market: market.code,
+              currency: market.currency,
+              error_message: reason.slice(0, 120),
+            });
+            throw createError;
+          }
         },
         onApprove: async (data) => {
+          trackEvent("checkout_approved", {
+            checkout_step: "paypal_approval_complete",
+            order_number: createdOrderNumber.current,
+            paypal_order_id: data.orderID,
+            product_id: productRef.current?.slug || "unknown",
+          });
           try {
             const response = await capturePayPalOrder(data.orderID, createdOrderNumber.current);
+            trackEvent("checkout_capture_success", {
+              checkout_step: "capture_complete",
+              order_number: response.orderNumber,
+              paypal_order_id: data.orderID,
+              market: market.code,
+              currency: market.currency,
+            });
             navigate(`/order-complete/${response.orderNumber}`);
           } catch (captureError) {
             const reason = captureError instanceof Error ? captureError.message : "Payment could not be completed.";
+            trackEvent("checkout_failure", {
+              checkout_step: "capture",
+              reason_code: "capture_failed",
+              order_number: createdOrderNumber.current,
+              paypal_order_id: data.orderID,
+              error_message: reason.slice(0, 120),
+            });
             await updatePaymentAttempt({
               orderNumber: createdOrderNumber.current,
               paypalOrderId: data.orderID,
               status: "payment_failed",
               reason,
+              reasonCode: "capture_failed",
+              checkoutStep: "capture",
             }).catch(() => undefined);
             navigate(`/payment-failed/${createdOrderNumber.current}`);
           }
@@ -284,6 +327,8 @@ export function BulkProductPage() {
         onCancel: async (data) => {
           trackEvent("checkout_cancel", {
             checkout_step: "paypal_approval",
+            reason_code: "buyer_closed_paypal",
+            order_number: createdOrderNumber.current,
             product_id: productRef.current?.slug || "unknown",
             paypal_order_id: data.orderID || "",
           });
@@ -291,7 +336,10 @@ export function BulkProductPage() {
             orderNumber: createdOrderNumber.current,
             paypalOrderId: data.orderID,
             status: "payment_cancelled",
-            reason: "Customer cancelled PayPal checkout",
+            reason: "Buyer closed or cancelled the PayPal approval window",
+            reasonCode: "buyer_closed_paypal",
+            checkoutStep: "paypal_approval",
+            clientContext: { page_visibility: document.visibilityState },
           }).catch(() => undefined);
           navigate(`/payment-failed/${createdOrderNumber.current}?status=cancelled`);
         },
@@ -300,6 +348,8 @@ export function BulkProductPage() {
           const reason = paypalError instanceof Error ? paypalError.message : "PayPal payment could not be completed.";
           trackEvent("checkout_error", {
             checkout_step: "paypal_widget",
+            reason_code: createdOrderNumber.current ? "paypal_sdk_error" : "paypal_sdk_init_error",
+            order_number: createdOrderNumber.current,
             product_id: productRef.current?.slug || "unknown",
             error_message: reason.slice(0, 120),
           });
@@ -308,6 +358,9 @@ export function BulkProductPage() {
               orderNumber: createdOrderNumber.current,
               status: "payment_failed",
               reason,
+              reasonCode: "paypal_sdk_error",
+              checkoutStep: "paypal_widget",
+              clientContext: { page_visibility: document.visibilityState },
             }).catch(() => undefined);
             navigate(`/payment-failed/${createdOrderNumber.current}`);
             return;

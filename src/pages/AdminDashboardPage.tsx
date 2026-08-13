@@ -260,6 +260,7 @@ export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
             <th>개수</th>
             <th>총액</th>
             <th>결제 상태</th>
+            <th>실패·취소 원인</th>
             <th>PayPal order ID</th>
             <th>주문 상태</th>
             <th>수정일</th>
@@ -284,6 +285,7 @@ export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
               <td>{order.total_units}</td>
               <td>{formatAdminOrderMoney(order.total_sgd, order.currency)}</td>
               <td>{adminStatusLabel(order.payment_status, paymentStatusLabels)}</td>
+              <td>{order.payment_failure_reason || "-"}</td>
               <td>{order.paypal_order_id || "-"}</td>
               <td>{adminStatusLabel(order.order_status, orderStatusLabels)}</td>
               <td>{order.updated_at ? new Date(order.updated_at).toLocaleString("ko-KR") : "-"}</td>

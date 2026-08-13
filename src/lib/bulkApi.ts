@@ -170,6 +170,9 @@ export async function updatePaymentAttempt(payload: {
   paypalOrderId?: string;
   status: "payment_failed" | "payment_cancelled";
   reason?: string;
+  reasonCode?: string;
+  checkoutStep?: string;
+  clientContext?: Record<string, unknown>;
 }) {
   const response = await fetch("/api/paypal/update-attempt", {
     method: "POST",

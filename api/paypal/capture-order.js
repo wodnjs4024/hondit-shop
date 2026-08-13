@@ -5,6 +5,15 @@ function findCapture(captureResponse) {
   return captureResponse?.purchase_units?.[0]?.payments?.captures?.[0] || null;
 }
 
+function captureFailureCode(message) {
+  const normalized = String(message || "").toLowerCase();
+  if (normalized.includes("was not completed")) return "capture_not_completed";
+  if (normalized.includes("amount does not match")) return "amount_or_currency_mismatch";
+  if (normalized.includes("does not match hondit order")) return "paypal_order_mismatch";
+  if (normalized.includes("fetch") || normalized.includes("network") || normalized.includes("timeout")) return "network_error";
+  return "capture_api_failed";
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
@@ -87,12 +96,13 @@ export default async function handler(req, res) {
     if (order?.id) {
       const now = new Date().toISOString();
       const failureReason = error.message || "Could not capture PayPal order";
+      const reasonCode = captureFailureCode(failureReason);
       await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
         method: "PATCH",
         body: JSON.stringify({
           payment_status: "payment_failed",
           order_status: order.order_status === "paid" ? "paid" : "pending_payment",
-          payment_failure_reason: failureReason,
+          payment_failure_reason: `[${reasonCode}] [capture] ${failureReason}`,
           updated_at: now,
         }),
       }).catch(() =>
@@ -101,7 +111,7 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             payment_status: "payment_failed",
             order_status: order.order_status === "paid" ? "paid" : "pending_payment",
-            internal_note: `PayPal capture failed: ${failureReason}`,
+            internal_note: `PayPal capture failed (${reasonCode}): ${failureReason}`,
             updated_at: now,
           }),
         }),
@@ -118,7 +128,7 @@ export default async function handler(req, res) {
           amount_sgd: Number(order.total_sgd || 0),
           currency: order.currency || "SGD",
           verified: false,
-          raw_payload: { error: failureReason },
+          raw_payload: { reason_code: reasonCode, checkout_step: "capture", error: failureReason },
         }),
       }).catch(() => {});
     }
