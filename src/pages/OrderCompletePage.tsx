@@ -19,6 +19,15 @@ export function OrderCompletePage() {
           transaction_id: data.order.order_number,
           value: data.order.total_sgd,
           currency: data.order.currency || "SGD",
+          checkout_stage: "purchase_complete",
+          order_status: data.order.order_status,
+          payment_status: data.order.payment_status,
+          items: data.order.items.map((item) => ({
+            item_id: item.product_slug || item.product_name_snapshot,
+            item_name: item.product_name_snapshot,
+            quantity: item.total_units,
+            price: item.total_units ? item.line_total_sgd / item.total_units : 0,
+          })),
         });
       })
       .catch((orderError) => setError(orderError.message));

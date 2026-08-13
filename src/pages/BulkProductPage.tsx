@@ -87,6 +87,8 @@ function readAttribution() {
       utm_term: stored.utm_term || analyticsStored.traffic_term || "",
       landing_page: stored.landing_page || analyticsStored.landing_page || "",
       referrer: stored.referrer || analyticsStored.referrer || "",
+      community_id: stored.community_id || analyticsStored.community_id || "",
+      campaign_channel: analyticsStored.campaign_channel || "",
     };
   } catch {
     return {};
@@ -257,16 +259,19 @@ export function BulkProductPage() {
           setError("");
           trackEvent("begin_checkout", {
             product_id: currentProduct.slug,
+            product_name: currentProduct.name,
             quantity: currentQuantity,
             value: getMarketLineTotal(currentProduct, currentQuantity, market),
             currency: market.currency,
-            market: market.code,
+            checkout_stage: "checkout_started",
+            items: [{ item_id: currentProduct.slug, item_name: currentProduct.name, quantity: currentQuantity, price: getMarketLineTotal(currentProduct, 1, market) }],
           });
           try {
             const response = await createPayPalOrder(buildPayload(currentProduct, currentQuantity, currentForm));
             createdOrderNumber.current = response.orderNumber;
             trackEvent("checkout_order_created", {
               checkout_step: "paypal_order_created",
+              checkout_stage: "paypal_order_created",
               product_id: currentProduct.slug,
               order_number: response.orderNumber,
               paypal_order_id: response.paypalOrderId,
@@ -278,7 +283,9 @@ export function BulkProductPage() {
             const reason = createError instanceof Error ? createError.message : "PayPal order could not be created.";
             trackEvent("checkout_failure", {
               checkout_step: "create_order",
+              checkout_stage: "create_order_failed",
               reason_code: "order_creation_failed",
+              failure_reason: "order_creation_failed",
               product_id: currentProduct.slug,
               market: market.code,
               currency: market.currency,
@@ -290,6 +297,7 @@ export function BulkProductPage() {
         onApprove: async (data) => {
           trackEvent("checkout_approved", {
             checkout_step: "paypal_approval_complete",
+            checkout_stage: "paypal_approval_complete",
             order_number: createdOrderNumber.current,
             paypal_order_id: data.orderID,
             product_id: productRef.current?.slug || "unknown",
@@ -298,6 +306,7 @@ export function BulkProductPage() {
             const response = await capturePayPalOrder(data.orderID, createdOrderNumber.current);
             trackEvent("checkout_capture_success", {
               checkout_step: "capture_complete",
+              checkout_stage: "capture_complete",
               order_number: response.orderNumber,
               paypal_order_id: data.orderID,
               market: market.code,
@@ -308,7 +317,9 @@ export function BulkProductPage() {
             const reason = captureError instanceof Error ? captureError.message : "Payment could not be completed.";
             trackEvent("checkout_failure", {
               checkout_step: "capture",
+              checkout_stage: "capture_failed",
               reason_code: "capture_failed",
+              failure_reason: "capture_failed",
               order_number: createdOrderNumber.current,
               paypal_order_id: data.orderID,
               error_message: reason.slice(0, 120),
@@ -327,7 +338,9 @@ export function BulkProductPage() {
         onCancel: async (data) => {
           trackEvent("checkout_cancel", {
             checkout_step: "paypal_approval",
+            checkout_stage: "buyer_cancelled",
             reason_code: "buyer_closed_paypal",
+            failure_reason: "buyer_closed_paypal",
             order_number: createdOrderNumber.current,
             product_id: productRef.current?.slug || "unknown",
             paypal_order_id: data.orderID || "",
@@ -348,7 +361,9 @@ export function BulkProductPage() {
           const reason = paypalError instanceof Error ? paypalError.message : "PayPal payment could not be completed.";
           trackEvent("checkout_error", {
             checkout_step: "paypal_widget",
+            checkout_stage: createdOrderNumber.current ? "paypal_sdk_failed" : "paypal_sdk_init_failed",
             reason_code: createdOrderNumber.current ? "paypal_sdk_error" : "paypal_sdk_init_error",
+            failure_reason: createdOrderNumber.current ? "paypal_sdk_error" : "paypal_sdk_init_error",
             order_number: createdOrderNumber.current,
             product_id: productRef.current?.slug || "unknown",
             error_message: reason.slice(0, 120),

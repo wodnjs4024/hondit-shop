@@ -8,6 +8,8 @@ type Attribution = {
   traffic_campaign: string;
   traffic_content?: string;
   traffic_term?: string;
+  community_id?: string;
+  campaign_channel?: string;
   landing_page: string;
   referrer: string;
 };
@@ -26,6 +28,7 @@ let initialized = false;
 
 const hasMeasurementId = Boolean(measurementId);
 const attributionKey = "hondit_attribution_v1";
+const analyticsSessionKey = "hondit_analytics_session_id";
 type AnalyticsContext = {
   market_code: string;
   market_country: string;
@@ -52,6 +55,28 @@ function getAnalyticsContext(): AnalyticsContext {
   };
   const selected = marketMap[marketCode] || marketMap.SG;
   return { market_code: marketCode, display_language: language, ...selected };
+}
+
+function cleanDimension(value: string | null | undefined, maxLength = 100) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, maxLength);
+}
+
+function getAnalyticsSessionId() {
+  if (typeof window === "undefined") return "server";
+  try {
+    const existing = window.sessionStorage.getItem(analyticsSessionKey);
+    if (existing) return existing;
+    const created = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+    window.sessionStorage.setItem(analyticsSessionKey, created);
+    return created;
+  } catch {
+    return "storage-unavailable";
+  }
 }
 
 export type CampaignAttribution = Attribution;
@@ -112,6 +137,10 @@ export function captureAttribution() {
     traffic_campaign: shortCampaign?.campaign || params.get("utm_campaign") || "none",
     traffic_content: shortCampaign?.content || params.get("utm_content") || undefined,
     traffic_term: params.get("utm_term") || undefined,
+    community_id: cleanDimension(params.get("community")) || undefined,
+    campaign_channel: shortCampaign
+      ? `${shortCampaign.source}_${shortCampaign.medium}`
+      : cleanDimension(`${params.get("utm_source") || "direct"}_${params.get("utm_medium") || "none"}`),
     landing_page: `${window.location.pathname}${window.location.search}`,
     referrer: document.referrer || "",
   };
@@ -134,6 +163,16 @@ function analyticsToken(value: string) {
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "")
     .slice(0, 18);
+}
+
+function getActionGroup(eventName: string) {
+  if (["page_view", "campaign_landing"].includes(eventName) || eventName.startsWith("landing_")) return "acquisition";
+  if (["view_item_list", "view_item", "select_item", "click_bulk_product", "product_filter_select"].includes(eventName)) return "product_discovery";
+  if (eventName.startsWith("checkout_") || eventName === "begin_checkout" || eventName === "purchase") return "checkout";
+  if (["submit_inquiry", "instagram_profile_click", "shopee_shop_all_click", "outbound_click"].includes(eventName)) return "lead_or_outbound";
+  if (eventName.includes("map_") || eventName.includes("jeju")) return "brand_story";
+  if (["navigation_click", "section_nav_click", "faq_open", "market_change", "language_change"].includes(eventName)) return "site_interaction";
+  return "other";
 }
 
 export function getCampaignLandingEventName(source: string, medium: string) {
@@ -191,10 +230,16 @@ export function initAnalytics() {
 }
 
 export function trackEvent(eventName: string, params: Record<string, unknown> = {}) {
+  const attribution = getAttributionPayload();
   const payload = {
-    ...getAttributionPayload(),
+    ...attribution,
     ...getAnalyticsContext(),
     page_type: getPageType(),
+    analytics_session_id: getAnalyticsSessionId(),
+    community_id: attribution.community_id || "none",
+    campaign_channel: attribution.campaign_channel || `${attribution.traffic_source}_${attribution.traffic_medium}`,
+    action_name: eventName,
+    action_group: getActionGroup(eventName),
     ...params,
   };
 
@@ -219,6 +264,11 @@ export function trackPageView(path: string) {
       ...attribution,
       ...getAnalyticsContext(),
       page_type: getPageType(window.location.pathname),
+      analytics_session_id: getAnalyticsSessionId(),
+      community_id: attribution.community_id || "none",
+      campaign_channel: attribution.campaign_channel || `${attribution.traffic_source}_${attribution.traffic_medium}`,
+      action_name: "page_view",
+      action_group: "acquisition",
     });
   }
 }

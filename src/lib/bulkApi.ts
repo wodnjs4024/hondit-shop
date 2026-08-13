@@ -30,6 +30,8 @@ export type CheckoutPayload = {
     traffic_campaign?: string;
     traffic_content?: string;
     traffic_term?: string;
+    community_id?: string;
+    campaign_channel?: string;
     landing_page?: string;
     referrer?: string;
   };

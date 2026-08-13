@@ -267,6 +267,7 @@ export default function App() {
       utm_campaign: shortCampaign?.campaign || params.get("utm_campaign") || "",
       utm_content: shortCampaign?.content || params.get("utm_content") || "",
       utm_term: params.get("utm_term") || "",
+      community_id: params.get("community") || "",
       landing_page: `${location.pathname}${location.search}${location.hash}`,
       referrer: document.referrer || "",
       captured_at: new Date().toISOString(),
@@ -288,6 +289,8 @@ export default function App() {
         campaign_name: attribution.utm_campaign || "none",
         campaign_content: attribution.utm_content || "none",
         campaign_term: attribution.utm_term || "none",
+        community_id: attribution.community_id || "none",
+        campaign_channel: `${attribution.utm_source || "direct"}_${attribution.utm_medium || "none"}`,
         landing_page: attribution.landing_page,
       };
       trackEvent("campaign_landing", campaignPayload);
