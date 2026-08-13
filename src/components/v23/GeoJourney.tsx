@@ -250,7 +250,8 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
             <nav className="v23-jeju-tabs" aria-label={t("Choose a Jeju place")}>
               {ourJejuPlaces.map((place, index) => (
                 <button key={place.id} type="button" className={active.id === place.id ? "is-active" : ""} onClick={() => setSelectedId(place.id)}>
-                  <span>{place.featured ? "H" : String(index).padStart(2, "0")}</span>{t(place.shortName)}
+                  <span aria-hidden="true">{place.featured ? "H" : String(index).padStart(2, "0")}</span>
+                  <strong>{t(place.shortName)}</strong>
                 </button>
               ))}
             </nav>

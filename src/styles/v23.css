@@ -1746,18 +1746,68 @@ video {
 }
 
 .v23-jeju-tabs button {
-  min-height: 40px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 48px;
+  align-items: center;
+  padding: 5px 14px 5px 7px;
   border-radius: 999px;
   border: 1px solid rgba(23, 52, 46, 0.22);
-  background: rgba(23, 52, 46, 0.08);
+  background: rgba(255, 255, 255, 0.56);
   color: var(--v23-ink);
-  font-weight: 900;
+  text-align: left;
   cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.v23-jeju-tabs button > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--v23-green);
+  color: #fff;
+  font-family: var(--v23-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.v23-jeju-tabs button > strong {
+  overflow: hidden;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v23-jeju-tabs button:hover {
+  border-color: var(--v23-orange);
+  background: #fffdf7;
+  transform: translateY(-1px);
 }
 
 .v23-jeju-tabs button.is-active {
   background: var(--v23-orange);
+  border-color: var(--v23-orange);
   color: #fff;
+}
+
+.v23-jeju-tabs button.is-active > span {
+  background: #fff;
+  color: var(--v23-orange);
+}
+
+.v23-jeju-tabs button.is-active > strong {
+  color: #fff;
+}
+
+.v23-jeju-tabs button:focus-visible {
+  outline: 3px solid rgba(185, 112, 72, 0.35);
+  outline-offset: 2px;
 }
 
 .v23-products-section,
