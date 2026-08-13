@@ -8,8 +8,15 @@ type MapStage = "asia" | "korea" | "jeju";
 type SvgLocation = { id: string; path: string; name?: string };
 type SvgMap = { viewBox: string; locations: SvgLocation[] };
 
+const marketRoutes = {
+  SG: { mapId: "sg", x: 768, y: 457, curve: "M 768 457 C 790 430, 820 397, 842 357" },
+  HK: { mapId: "hk", x: 817, y: 389, curve: "M 817 389 C 825 378, 834 366, 842 357" },
+  TW: { mapId: "tw", x: 839, y: 385, curve: "M 839 385 C 841 375, 842 366, 842 357" },
+  JP: { mapId: "jp", x: 873, y: 344, curve: "M 873 344 C 862 345, 851 350, 842 357" },
+} as const;
+
 const asiaIds = new Set([
-  "kr", "kp", "jp", "cn", "mn", "kz", "in", "bd", "mm", "th", "vn", "my", "sg", "id", "ph", "tw", "la", "kh", "np", "bt", "pk", "af", "lk",
+  "kr", "kp", "jp", "cn", "mn", "kz", "in", "bd", "mm", "th", "vn", "my", "sg", "hk", "id", "ph", "tw", "la", "kh", "np", "bt", "pk", "af", "lk",
 ]);
 
 const asiaLabels = [
@@ -21,6 +28,8 @@ const asiaLabels = [
   { name: "Vietnam", x: 798, y: 437 },
   { name: "Malaysia", x: 777, y: 467 },
   { name: "Singapore", x: 768, y: 457 },
+  { name: "Hong Kong", x: 811, y: 397 },
+  { name: "Taiwan", x: 842, y: 398 },
   { name: "Indonesia", x: 818, y: 502 },
   { name: "Philippines", x: 829, y: 420 },
   { name: "Japan", x: 873, y: 344 },
@@ -78,8 +87,9 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
   const [selectedId, setSelectedId] = useState(ourJejuPlaces[0].id);
   const [worldMap, setWorldMap] = useState<SvgMap | null>(null);
   const [southKoreaMap, setSouthKoreaMap] = useState<SvgMap | null>(null);
-  const { language } = useMarket();
+  const { language, market } = useMarket();
   const t = (text: string) => marketText(language, text);
+  const marketRoute = marketRoutes[market.code];
   const active = useMemo(() => ourJejuPlaces.find((place) => place.id === selectedId) || ourJejuPlaces[0], [selectedId]);
   const activeIndex = ourJejuPlaces.findIndex((place) => place.id === active.id);
   const selectStage = (nextStage: MapStage, source: string) => {
@@ -140,16 +150,17 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
             </aside>
             <div className="v23-asia-panel">
               <div className="v23-map-canvas">
-                <svg viewBox="675 270 235 250" role="img" aria-label="Map of East and Southeast Asia with the route from Singapore to South Korea highlighted">
+                <svg viewBox="675 270 235 250" role="img" aria-label={`Map of East and Southeast Asia with the route from ${market.countryName} to South Korea highlighted`}>
                   <rect x="675" y="270" width="235" height="250" className="v23-map-water" />
                   {!worldMap && <text className="v23-map-loading-label" x="792" y="392">{t("Loading map...")}</text>}
                   {asiaLocations.map((location) => {
                     const isKorea = location.id === "kr";
+                    const isMarket = location.id === marketRoute.mapId;
                     return (
                       <path
                         key={location.id}
                         d={location.path}
-                        className={isKorea ? "is-korea" : ""}
+                        className={isKorea ? "is-korea" : isMarket ? "is-market" : ""}
                         role={isKorea ? "button" : undefined}
                         tabIndex={isKorea ? 0 : undefined}
                         onClick={isKorea ? () => selectStage("korea", "asia_map") : undefined}
@@ -158,17 +169,17 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                       />
                     );
                   })}
-                  <path className="v23-asia-route" d="M 768 457 C 790 430, 820 397, 842 357" />
-                  <circle className="v23-route-origin" cx="768" cy="457" r="3.4" />
+                  <path className="v23-asia-route" d={marketRoute.curve} />
+                  <circle className="v23-route-origin" cx={marketRoute.x} cy={marketRoute.y} r="3.4" />
                   <circle className="v23-route-destination" cx="842" cy="357" r="4.2" />
                   {asiaLabels.map((label) => <text key={label.name} x={label.x} y={label.y}>{label.name}</text>)}
                 </svg>
               </div>
               <aside className="v23-asia-route-card">
                 <small>{t("ROUTE TO ORIGIN")}</small>
-                <h3>{t("Singapore to Jeju")}</h3>
+                <h3>{market.countryName} {t("to Jeju")}</h3>
                 <ol>
-                  <li><span>01</span><div><b>{t("Singapore")}</b><small>{t("Market connection")}</small></div></li>
+                  <li><span>01</span><div><b>{market.countryName}</b><small>{t("Market connection")}</small></div></li>
                   <li><span>02</span><div><b>{t("South Korea")}</b><small>{t("Country context")}</small></div></li>
                   <li><span>03</span><div><b>{t("Jeju Island")}</b><small>{t("hondit origin")}</small></div></li>
                 </ol>

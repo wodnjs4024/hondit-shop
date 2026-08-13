@@ -1392,6 +1392,11 @@ video {
   cursor: pointer;
 }
 
+.v23-map-canvas path.is-market {
+  fill: var(--v23-green);
+  stroke: var(--v23-green);
+}
+
 .v23-map-canvas path.v23-asia-route {
   fill: none;
   stroke: var(--v23-orange);
