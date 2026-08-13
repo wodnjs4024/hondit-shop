@@ -112,26 +112,41 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
               <h3>{t("Find South Korea without losing Asia.")}</h3>
               <p>{t("Country boundaries remain neutral. South Korea is the only highlighted country and is selectable.")}</p>
             </aside>
-            <div className="v23-map-canvas">
-              <svg viewBox="650 245 290 285" role="img" aria-label="Map of Asia with South Korea highlighted">
-                <rect x="650" y="245" width="290" height="285" className="v23-map-water" />
-                {asiaLocations.map((location) => {
-                  const isKorea = location.id === "kr";
-                  return (
-                    <path
-                      key={location.id}
-                      d={location.path}
-                      className={isKorea ? "is-korea" : ""}
-                      role={isKorea ? "button" : undefined}
-                      tabIndex={isKorea ? 0 : undefined}
-                      onClick={isKorea ? () => setStage("korea") : undefined}
-                      onKeyDown={isKorea ? (event) => onActivate(event, () => setStage("korea")) : undefined}
-                      aria-label={isKorea ? t("Open South Korea map") : undefined}
-                    />
-                  );
-                })}
-                {asiaLabels.map((label) => <text key={label.name} x={label.x} y={label.y}>{label.name}</text>)}
-              </svg>
+            <div className="v23-asia-panel">
+              <div className="v23-map-canvas">
+                <svg viewBox="675 270 235 250" role="img" aria-label="Map of East and Southeast Asia with the route from Singapore to South Korea highlighted">
+                  <rect x="675" y="270" width="235" height="250" className="v23-map-water" />
+                  {asiaLocations.map((location) => {
+                    const isKorea = location.id === "kr";
+                    return (
+                      <path
+                        key={location.id}
+                        d={location.path}
+                        className={isKorea ? "is-korea" : ""}
+                        role={isKorea ? "button" : undefined}
+                        tabIndex={isKorea ? 0 : undefined}
+                        onClick={isKorea ? () => setStage("korea") : undefined}
+                        onKeyDown={isKorea ? (event) => onActivate(event, () => setStage("korea")) : undefined}
+                        aria-label={isKorea ? t("Open South Korea map") : undefined}
+                      />
+                    );
+                  })}
+                  <path className="v23-asia-route" d="M 768 457 C 790 430, 820 397, 842 357" />
+                  <circle className="v23-route-origin" cx="768" cy="457" r="3.4" />
+                  <circle className="v23-route-destination" cx="842" cy="357" r="4.2" />
+                  {asiaLabels.map((label) => <text key={label.name} x={label.x} y={label.y}>{label.name}</text>)}
+                </svg>
+              </div>
+              <aside className="v23-asia-route-card">
+                <small>{t("ROUTE TO ORIGIN")}</small>
+                <h3>{t("Singapore to Jeju")}</h3>
+                <ol>
+                  <li><span>01</span><div><b>{t("Singapore")}</b><small>{t("Market connection")}</small></div></li>
+                  <li><span>02</span><div><b>{t("South Korea")}</b><small>{t("Country context")}</small></div></li>
+                  <li><span>03</span><div><b>{t("Jeju Island")}</b><small>{t("hondit origin")}</small></div></li>
+                </ol>
+                <button type="button" onClick={() => setStage("korea")}>{t("Continue to South Korea")}</button>
+              </aside>
             </div>
           </div>
         )}
