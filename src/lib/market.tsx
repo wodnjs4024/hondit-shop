@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { setAnalyticsContext, trackEvent } from "./analytics";
+import { getShortCampaign } from "./shortCampaign";
 
 export type MarketCode = "SG" | "HK" | "TW" | "JP";
 export type DisplayLanguage = "en" | "ko" | "zh" | "zh-HK" | "zh-TW" | "ja";
@@ -164,6 +165,8 @@ function isDisplayLanguage(value: string | null): value is DisplayLanguage {
 
 function getInitialMarket(): MarketCode {
   if (typeof window === "undefined") return "SG";
+  const shortCampaign = getShortCampaign(window.location.pathname);
+  if (shortCampaign) return shortCampaign.market;
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get("market");
   if (isMarketCode(fromUrl)) return fromUrl;
@@ -173,6 +176,8 @@ function getInitialMarket(): MarketCode {
 
 function getInitialLanguage(): DisplayLanguage {
   if (typeof window === "undefined") return "en";
+  const shortCampaign = getShortCampaign(window.location.pathname);
+  if (shortCampaign) return shortCampaign.language;
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get("lang");
   if (isDisplayLanguage(fromUrl)) return fromUrl;
@@ -190,10 +195,12 @@ export function MarketProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = htmlLanguageByDisplayLanguage[language];
     window.localStorage.setItem("hondit-market", marketCode);
     window.localStorage.setItem("hondit-language", language);
-    const url = new URL(window.location.href);
-    url.searchParams.set("market", marketCode);
-    url.searchParams.set("lang", language);
-    window.history.replaceState({}, "", url);
+    if (!getShortCampaign(window.location.pathname)) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("market", marketCode);
+      url.searchParams.set("lang", language);
+      window.history.replaceState({}, "", url);
+    }
   }, [marketCode, language]);
 
   useEffect(() => {

@@ -1,3 +1,5 @@
+import { getShortCampaign } from "./shortCampaign";
+
 type GtagCommand = "js" | "config" | "event";
 
 type Attribution = {
@@ -39,8 +41,9 @@ let analyticsContext: AnalyticsContext = {
 
 function getAnalyticsContext(): AnalyticsContext {
   if (typeof window === "undefined") return analyticsContext;
-  const marketCode = new URLSearchParams(window.location.search).get("market") || window.localStorage.getItem("hondit-market") || analyticsContext.market_code;
-  const language = new URLSearchParams(window.location.search).get("lang") || window.localStorage.getItem("hondit-language") || analyticsContext.display_language;
+  const shortCampaign = getShortCampaign(window.location.pathname);
+  const marketCode = shortCampaign?.market || new URLSearchParams(window.location.search).get("market") || window.localStorage.getItem("hondit-market") || analyticsContext.market_code;
+  const language = shortCampaign?.language || new URLSearchParams(window.location.search).get("lang") || window.localStorage.getItem("hondit-language") || analyticsContext.display_language;
   const marketMap: Record<string, Pick<AnalyticsContext, "market_country" | "currency">> = {
     SG: { market_country: "Singapore", currency: "SGD" },
     HK: { market_country: "Hong Kong", currency: "HKD" },
@@ -98,15 +101,16 @@ export function captureAttribution() {
   if (typeof window === "undefined") return;
 
   const params = new URLSearchParams(window.location.search);
-  const hasUtm = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].some((key) => params.has(key));
+  const shortCampaign = getShortCampaign(window.location.pathname);
+  const hasUtm = Boolean(shortCampaign) || ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].some((key) => params.has(key));
 
   if (!hasUtm && readStoredAttribution()) return;
 
   const attribution: Attribution = {
-    traffic_source: params.get("utm_source") || (document.referrer ? "referral" : "direct"),
-    traffic_medium: params.get("utm_medium") || (document.referrer ? "referral" : "none"),
-    traffic_campaign: params.get("utm_campaign") || "none",
-    traffic_content: params.get("utm_content") || undefined,
+    traffic_source: shortCampaign?.source || params.get("utm_source") || (document.referrer ? "referral" : "direct"),
+    traffic_medium: shortCampaign?.medium || params.get("utm_medium") || (document.referrer ? "referral" : "none"),
+    traffic_campaign: shortCampaign?.campaign || params.get("utm_campaign") || "none",
+    traffic_content: shortCampaign?.content || params.get("utm_content") || undefined,
     traffic_term: params.get("utm_term") || undefined,
     landing_page: `${window.location.pathname}${window.location.search}`,
     referrer: document.referrer || "",
@@ -144,6 +148,7 @@ export function setAnalyticsContext(context: AnalyticsContext) {
 }
 
 export function getPageType(pathname = typeof window !== "undefined" ? window.location.pathname : "/") {
+  if (getShortCampaign(pathname)) return "product_list";
   if (pathname === "/") return "home";
   if (pathname === "/products") return "product_list";
   if (pathname.startsWith("/products/")) return "product_detail";

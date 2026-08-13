@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { getCampaignLandingEventName, trackEvent, trackPageView } from "./lib/analytics";
 import { MarketProvider, MarketSelectionDialog } from "./lib/market";
+import { getShortCampaign } from "./lib/shortCampaign";
 import { HomePage } from "./pages/HomePage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
@@ -249,11 +250,12 @@ export default function App() {
       });
     }
     const params = new URLSearchParams(location.search);
+    const shortCampaign = getShortCampaign(location.pathname);
     const attribution = {
-      utm_source: params.get("utm_source") || "",
-      utm_medium: params.get("utm_medium") || "",
-      utm_campaign: params.get("utm_campaign") || "",
-      utm_content: params.get("utm_content") || "",
+      utm_source: shortCampaign?.source || params.get("utm_source") || "",
+      utm_medium: shortCampaign?.medium || params.get("utm_medium") || "",
+      utm_campaign: shortCampaign?.campaign || params.get("utm_campaign") || "",
+      utm_content: shortCampaign?.content || params.get("utm_content") || "",
       utm_term: params.get("utm_term") || "",
       landing_page: `${location.pathname}${location.search}${location.hash}`,
       referrer: document.referrer || "",
@@ -292,6 +294,10 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/sg/ig" element={<ProductsPage />} />
+        <Route path="/hk/ig" element={<ProductsPage />} />
+        <Route path="/jp/ig" element={<ProductsPage />} />
+        <Route path="/tw/ig" element={<ProductsPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/bulk-orders" element={<BulkOrdersPage />} />
         <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
