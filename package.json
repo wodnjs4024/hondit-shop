@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "npm run build && vite preview --host 0.0.0.0 --configLoader runner",
     "build": "tsc -b && vite build --configLoader runner",
+    "test:payments": "node --test tests/payment-system.test.mjs",
     "preview": "vite preview --host 0.0.0.0 --configLoader runner"
   },
   "dependencies": {

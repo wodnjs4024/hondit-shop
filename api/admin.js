@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import {
   getPayPalMode,
   getProducts,
@@ -50,6 +49,10 @@ function cleanRequired(value, maxLength) {
 function cleanOptional(value, maxLength) {
   const cleaned = cleanRequired(value, maxLength);
   return cleaned || null;
+}
+
+function createRecordId() {
+  return globalThis.crypto?.randomUUID?.() || `hondit-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
 function countWhere(orders, key, value) {
@@ -440,7 +443,7 @@ async function inquiryReplies(req, res) {
     const reply = await supabase("/inquiry_replies", {
       method: "POST",
       body: JSON.stringify({
-        id: randomUUID(),
+        id: createRecordId(),
         inquiry_id: inquiryId,
         sender_email: emailConfiguration().replyTo,
         recipient_email: inquiry.email,

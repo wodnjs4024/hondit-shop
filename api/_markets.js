@@ -81,7 +81,7 @@ export function isBulkProductAllowedForMarket(product, market) {
 }
 
 export function formatPayPalAmount(value, currency = "SGD") {
-  if (currency === "JPY") return String(Math.round(Number(value || 0)));
+  if (currency === "JPY" || currency === "TWD") return String(Math.round(Number(value || 0)));
   return Number(value || 0).toFixed(2);
 }
 
