@@ -29,7 +29,7 @@ Every custom and recommended event includes:
 | `map_stage_select` | Asia, Korea or Jeju map stage selected |
 | `map_place_select` | A Jeju place selected |
 | `campaign_landing` | UTM campaign landing recorded |
-| `generate_lead` | Contact form successfully saved |
+| `submit_inquiry` | Contact form successfully saved |
 | `begin_checkout` | Valid bulk order begins PayPal checkout |
 | `checkout_cancel` | PayPal approval cancelled |
 | `checkout_error` | PayPal widget or checkout error |
@@ -48,6 +48,6 @@ Key events:
 
 - `begin_checkout`
 - `purchase`
-- `generate_lead` after GA4 receives its first real event
+- `submit_inquiry`
 
 Do not mark navigation, filters, outbound clicks or map exploration as key events.

@@ -44,7 +44,7 @@ export function ContactPage() {
           ? marketText(language, `Your message has been saved. Reference: ${data.referenceNumber}`, `문의가 저장되었습니다. 접수번호: ${data.referenceNumber}`)
           : marketText(language, "Your message has been saved. hondit will reply by email.", "문의가 저장되었습니다. hondit이 이메일로 답변드립니다."),
       );
-      trackEvent("generate_lead", {
+      trackEvent("submit_inquiry", {
         lead_source: "contact_form",
         inquiry_type: String(form.get("inquiryType") || "General"),
         reference_number: data.referenceNumber || "",
