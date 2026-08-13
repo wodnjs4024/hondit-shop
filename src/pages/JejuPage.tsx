@@ -28,7 +28,7 @@ export function JejuPage() {
         </section>
 
         <div id="field-guide">
-          <V23GeoJourney initialStage="jeju" compact />
+          <V23GeoJourney />
         </div>
 
         <section className="v23-our-jeju-origin">
