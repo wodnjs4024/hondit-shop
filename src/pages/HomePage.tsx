@@ -160,7 +160,10 @@ export function HomePage() {
               <h2>{marketText(language, "Find your")}<br /><em>{marketText(language, "everyday fit.")}</em></h2>
             </div>
           </div>
-          <V23CatalogGrid featuredOnly />
+          <V23CatalogGrid featuredOnly limit={3} showFilters={false} />
+          <div className="v23-home-products-more">
+            <Link to="/products">{marketText(language, "View all products ->", "전체 상품 보기 ->")}</Link>
+          </div>
         </section>
 
         <section className="v23-diffuser-guide" aria-labelledby="v23-diffuser-title">

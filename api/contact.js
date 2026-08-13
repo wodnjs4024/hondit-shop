@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { json, readBody, supabase } from "./_utils.js";
+import { json, notifyTelegramNewInquiry, readBody, supabase } from "./_utils.js";
 import { resolveMarket } from "./_markets.js";
 
 const inquiryTypes = new Set(["General", "Product question", "Order support", "Bulk order", "Partnership"]);
@@ -31,6 +31,43 @@ function normalizeInquiryType(value) {
     "Bulk inquiry": "Bulk order",
   };
   return aliases[raw] || raw;
+}
+
+async function notifyInquiryByEmail(inquiry) {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const from = process.env.SUPPORT_FROM_EMAIL?.trim();
+  const to = process.env.ADMIN_NOTIFICATION_EMAIL?.trim() || process.env.CUSTOMER_SERVICE_EMAIL?.trim() || "hondit.official@gmail.com";
+  if (!apiKey || !from || !to) return { skipped: true };
+
+  const adminBase = process.env.SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || "";
+  const siteUrl = adminBase ? (adminBase.startsWith("http") ? adminBase : `https://${adminBase}`) : "";
+  const lines = [
+    `New enquiry: ${inquiry.reference_number}`,
+    "",
+    `Type: ${inquiry.inquiry_type}`,
+    `Name: ${inquiry.name}`,
+    `Email: ${inquiry.email}`,
+    `Company: ${inquiry.company || "-"}`,
+    `Order number: ${inquiry.order_number || "-"}`,
+    "",
+    inquiry.message,
+    siteUrl ? `\nOpen admin inbox: ${siteUrl}/admin/inquiries` : "",
+  ].filter(Boolean);
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      reply_to: inquiry.email,
+      subject: `[hondit enquiry] ${inquiry.inquiry_type} - ${inquiry.reference_number}`,
+      text: lines.join("\n"),
+    }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data?.message || "Inquiry notification email failed");
+  return { sent: true, providerId: data.id };
 }
 
 export default async function handler(req, res) {
@@ -75,7 +112,16 @@ export default async function handler(req, res) {
       }),
     });
 
-    return json(res, 201, { ok: true, referenceNumber, inquiry: saved[0] });
+    const inquiry = saved[0];
+    const notificationResults = await Promise.allSettled([
+      notifyInquiryByEmail(inquiry),
+      notifyTelegramNewInquiry(inquiry),
+    ]);
+    notificationResults.forEach((result) => {
+      if (result.status === "rejected") console.error("Inquiry notification failed", result.reason);
+    });
+
+    return json(res, 201, { ok: true, referenceNumber, inquiry });
   } catch (error) {
     return json(res, 400, { error: error.message || "Contact request failed" });
   }

@@ -4,7 +4,15 @@ import { loadStorefrontProducts } from "../../lib/storefrontApi";
 import { isStorefrontProductAllowedForMarket, marketText, useMarket } from "../../lib/market";
 import { V23ProductCard } from "./SiteChrome";
 
-export function V23CatalogGrid({ featuredOnly = false }: { featuredOnly?: boolean }) {
+export function V23CatalogGrid({
+  featuredOnly = false,
+  limit,
+  showFilters = true,
+}: {
+  featuredOnly?: boolean;
+  limit?: number;
+  showFilters?: boolean;
+}) {
   const { market, language } = useMarket();
   const [catalog, setCatalog] = useState<StorefrontProduct[]>(v23Products);
   const [filter, setFilter] = useState<"ALL" | "CARE" | "SCENT">("ALL");
@@ -27,26 +35,25 @@ export function V23CatalogGrid({ featuredOnly = false }: { featuredOnly?: boolea
     if (filter !== "ALL" && !market.allowedProductCategories.includes(filter)) setFilter("ALL");
   }, [filter, market]);
 
-  const visible = useMemo(
-    () =>
-      catalog.filter(
+  const visible = useMemo(() => {
+    const filtered = catalog.filter(
         (product) =>
           isStorefrontProductAllowedForMarket(product, market) &&
           (!featuredOnly || product.featured !== false) &&
           (filter === "ALL" || product.category === filter),
-      ),
-    [catalog, featuredOnly, filter, market],
-  );
+      );
+    return typeof limit === "number" ? filtered.slice(0, limit) : filtered;
+  }, [catalog, featuredOnly, filter, limit, market]);
 
   return (
     <>
-      <div className="v23-filters" role="group" aria-label="Filter products">
+      {showFilters && <div className="v23-filters" role="group" aria-label="Filter products">
         {filterOptions.map((item) => (
           <button key={item} type="button" className={filter === item ? "is-active" : ""} onClick={() => setFilter(item)}>
             {filterLabels[item]}
           </button>
         ))}
-      </div>
+      </div>}
       <div className="v23-product-grid" key={`${filter}-${market.code}`} aria-live="polite">
         {visible.map((product) => <V23ProductCard product={product} key={product.slug} />)}
       </div>

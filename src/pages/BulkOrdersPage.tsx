@@ -122,7 +122,7 @@ export function BulkOrdersPage() {
                   aria-pressed={selected?.slug === product.slug}
                   onClick={() => setSelectedSlug(product.slug)}
                 >
-                  <img src={product.image} alt="" />
+                  <img src={product.image} alt={productName} />
                   <span>
                     <small>{category}</small>
                     <b>{shortName || productName}</b>
@@ -133,6 +133,9 @@ export function BulkOrdersPage() {
                         `개당 ${formatMarketUnitMoney(product, market)} - MOQ ${product.bulkMoq}`,
                       )}
                     </em>
+                    {selected?.slug === product.slug && (
+                      <span className="v23-selection-status">✓ {marketText(language, "Selected", "선택됨")}</span>
+                    )}
                   </span>
                 </button>
               );

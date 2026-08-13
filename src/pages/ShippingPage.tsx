@@ -56,6 +56,31 @@ export function ShippingPage() {
           </article>
         </section>
 
+        <section className="v23-delivery-timeline" aria-labelledby="delivery-timeline-title">
+          <header>
+            <p className="v23-eyebrow"><span /> {marketText(language, "DELIVERY TIMELINE", "배송 단계")}</p>
+            <h2 id="delivery-timeline-title">{marketText(language, "From payment to arrival.", "결제부터 도착까지")}</h2>
+          </header>
+          <article>
+            <span>01</span>
+            <small>{marketText(language, "ORDER PREPARATION", "주문 준비")}</small>
+            <b>{marketText(language, "Usually 1-3 business days", "보통 영업일 기준 1~3일")}</b>
+            <p>{marketText(language, "Stock and delivery details are checked after payment confirmation.", "결제 확인 후 재고와 배송 정보를 확인합니다.")}</p>
+          </article>
+          <article>
+            <span>02</span>
+            <small>{marketText(language, "EMS DELIVERY", "EMS 배송")}</small>
+            <b>{marketText(language, "Usually 3-5 business days", "보통 영업일 기준 3~5일")}</b>
+            <p>{marketText(language, "The delivery estimate begins when the parcel is dispatched from Korea.", "한국에서 상품이 발송된 시점부터 계산되는 예상 기간입니다.")}</p>
+          </article>
+          <article>
+            <span>03</span>
+            <small>{marketText(language, "TOTAL ESTIMATE", "총 예상 기간")}</small>
+            <b>{marketText(language, "Usually 4-8 business days", "보통 영업일 기준 4~8일")}</b>
+            <p>{marketText(language, "Customs, holidays and unusually large orders can extend this estimate.", "통관, 공휴일 또는 큰 주문은 예상 기간보다 오래 걸릴 수 있습니다.")}</p>
+          </article>
+        </section>
+
         <section className="v23-timing-notes">
           <div>
             <p className="v23-eyebrow is-light"><span /> {marketText(language, "TIMING NOTES", "배송 참고")}</p>

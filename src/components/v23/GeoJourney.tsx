@@ -1,12 +1,11 @@
-import worldMap from "@svg-maps/world";
-import southKoreaMap from "@svg-maps/south-korea";
-import { KeyboardEvent, useMemo, useState } from "react";
+import { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatPlaceCoordinates, ourJejuBounds, ourJejuPlaces, type OurJejuPlace } from "../../data/v23JejuData";
 import { marketText, useMarket } from "../../lib/market";
 
 type MapStage = "asia" | "korea" | "jeju";
 type SvgLocation = { id: string; path: string; name?: string };
+type SvgMap = { viewBox: string; locations: SvgLocation[] };
 
 const asiaIds = new Set([
   "kr", "kp", "jp", "cn", "mn", "kz", "in", "bd", "mm", "th", "vn", "my", "sg", "id", "ph", "tw", "la", "kh", "np", "bt", "pk", "af", "lk",
@@ -57,7 +56,6 @@ const koreaHighlights = [
   },
 ] as const;
 
-const jejuShape = (southKoreaMap.locations as SvgLocation[]).find((location) => location.id === "jeju");
 const jejuViewBox = { x: 65, y: 584, width: 96, height: 52 };
 const jejuPathBox = { x: 73.744286, y: 588.55884, width: 76.780004, height: 41.73 };
 
@@ -77,11 +75,30 @@ function onActivate(event: KeyboardEvent, action: () => void) {
 export function V23GeoJourney({ initialStage = "asia", compact = false }: { initialStage?: MapStage; compact?: boolean }) {
   const [stage, setStage] = useState<MapStage>(initialStage);
   const [selectedId, setSelectedId] = useState(ourJejuPlaces[0].id);
+  const [worldMap, setWorldMap] = useState<SvgMap | null>(null);
+  const [southKoreaMap, setSouthKoreaMap] = useState<SvgMap | null>(null);
   const { language } = useMarket();
   const t = (text: string) => marketText(language, text);
   const active = useMemo(() => ourJejuPlaces.find((place) => place.id === selectedId) || ourJejuPlaces[0], [selectedId]);
   const activeIndex = ourJejuPlaces.findIndex((place) => place.id === active.id);
-  const asiaLocations = (worldMap.locations as SvgLocation[]).filter((location) => asiaIds.has(location.id));
+  const asiaLocations = useMemo(
+    () => (worldMap?.locations || []).filter((location) => asiaIds.has(location.id)),
+    [worldMap],
+  );
+  const jejuShape = useMemo(
+    () => southKoreaMap?.locations.find((location) => location.id === "jeju"),
+    [southKoreaMap],
+  );
+
+  useEffect(() => {
+    if (stage !== "asia" || worldMap) return;
+    import("@svg-maps/world").then((module) => setWorldMap(module.default as SvgMap)).catch(() => undefined);
+  }, [stage, worldMap]);
+
+  useEffect(() => {
+    if ((stage !== "korea" && stage !== "jeju") || southKoreaMap) return;
+    import("@svg-maps/south-korea").then((module) => setSouthKoreaMap(module.default as SvgMap)).catch(() => undefined);
+  }, [southKoreaMap, stage]);
 
   return (
     <section className={compact ? "v23-journey is-compact" : "v23-journey"} id="discover">
@@ -116,6 +133,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
               <div className="v23-map-canvas">
                 <svg viewBox="675 270 235 250" role="img" aria-label="Map of East and Southeast Asia with the route from Singapore to South Korea highlighted">
                   <rect x="675" y="270" width="235" height="250" className="v23-map-water" />
+                  {!worldMap && <text className="v23-map-loading-label" x="792" y="392">{t("Loading map...")}</text>}
                   {asiaLocations.map((location) => {
                     const isKorea = location.id === "kr";
                     return (
@@ -162,9 +180,10 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
             </aside>
             <div className="v23-korea-panel">
               <div className="v23-korea-map">
-                <svg viewBox={southKoreaMap.viewBox} role="img" aria-label={t("Map of South Korea with Jeju highlighted")}>
+                <svg viewBox={southKoreaMap?.viewBox || "0 0 524 631"} role="img" aria-label={t("Map of South Korea with Jeju highlighted")}>
                   <rect width="524" height="631" className="v23-map-water" />
-                  {(southKoreaMap.locations as SvgLocation[]).map((location) => {
+                  {!southKoreaMap && <text className="v23-map-loading-label" x="262" y="315">{t("Loading map...")}</text>}
+                  {(southKoreaMap?.locations || []).map((location) => {
                     const isJeju = location.id === "jeju";
                     return (
                       <path

@@ -203,6 +203,41 @@ function orderAdminUrl(order) {
   return baseUrl && order?.id ? `${baseUrl}/admin/orders/${order.id}` : "";
 }
 
+function adminBaseUrl() {
+  const siteUrl = process.env.SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || "";
+  return siteUrl ? (siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`) : "";
+}
+
+export async function notifyTelegramNewInquiry(inquiry) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId || !inquiry) return { skipped: true };
+
+  const adminUrl = `${adminBaseUrl()}/admin/inquiries`;
+  const message = [
+    "<b>New hondit enquiry</b>",
+    "",
+    `<b>Reference</b>: ${escapeTelegramText(inquiry.reference_number)}`,
+    `<b>Type</b>: ${escapeTelegramText(inquiry.inquiry_type)}`,
+    `<b>Name</b>: ${escapeTelegramText(inquiry.name)}`,
+    `<b>Email</b>: ${escapeTelegramText(inquiry.email)}`,
+    inquiry.company ? `<b>Company</b>: ${escapeTelegramText(inquiry.company)}` : "",
+    inquiry.order_number ? `<b>Order</b>: ${escapeTelegramText(inquiry.order_number)}` : "",
+    "",
+    escapeTelegramText(inquiry.message),
+    adminUrl ? `\n<a href="${escapeTelegramText(adminUrl)}">Open admin inbox</a>` : "",
+  ].filter(Boolean).join("\n");
+
+  const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "HTML", disable_web_page_preview: true }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data?.description || "Telegram notification failed");
+  return data;
+}
+
 export async function notifyTelegramNewOrder(order, items = []) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;

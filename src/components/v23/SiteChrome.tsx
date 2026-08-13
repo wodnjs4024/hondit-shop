@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { EMAIL, INSTAGRAM, SHOPEE, type StorefrontProduct } from "../../data/v23SiteData";
 import {
   displayLanguages,
@@ -176,11 +176,44 @@ export function V23Footer() {
 }
 
 export function V23Page({ children }: { children: ReactNode }) {
+  const { language } = useMarket();
+  const location = useLocation();
+
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("main > section"));
+    if (!sections.length) return;
+    sections.forEach((section) => section.classList.add("v23-reveal"));
+    sections[0].classList.add("is-visible");
+    if (!("IntersectionObserver" in window)) {
+      sections.forEach((section) => section.classList.add("is-visible"));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      }),
+      { rootMargin: "0px 0px -8%", threshold: 0.08 },
+    );
+    sections.slice(1).forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [location.pathname]);
+
   return (
     <>
       <V23Header />
       {children}
       <V23Footer />
+      <nav className="v23-mobile-actions" aria-label={marketText(language, "Quick purchase links", "빠른 구매 링크")}>
+        <Link to="/products" className={location.pathname === "/products" ? "is-current" : ""}>
+          {marketText(language, "Products", "상품")}
+        </Link>
+        <Link to="/bulk-orders" className={location.pathname.startsWith("/bulk-orders") ? "is-current" : ""}>
+          {marketText(language, "Bulk Checkout", "대량주문")}
+        </Link>
+      </nav>
     </>
   );
 }
