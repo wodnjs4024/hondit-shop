@@ -105,6 +105,7 @@ export function BulkProductPage() {
   const { market, language } = useMarket();
   const countryName = marketCountryName(market, language);
   const { slug = "" } = useParams();
+  const isCleansingMixRoute = slug === "cleansing-mix";
   const navigate = useNavigate();
   const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
   const [packCount, setPackCount] = useState(0);
@@ -142,13 +143,16 @@ export function BulkProductPage() {
     products.find((entry) => entry.active && isBulkProductAllowedForMarket(entry, market)) ||
     bulkProducts.find((entry) => entry.active && isBulkProductAllowedForMarket(entry, market)) ||
     bulkProducts[0];
-  const matchedProduct = apiMatch || fallbackMatch;
+  const cleansingFallback =
+    products.find((entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market)) ||
+    bulkProducts.find((entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market));
+  const matchedProduct = apiMatch || fallbackMatch || (isCleansingMixRoute ? cleansingFallback : undefined);
   const product = matchedProduct || firstAllowedProduct;
   const isLivePaymentTest = product.slug === "live-payment-test";
   const moq = getBulkMoq(product);
   const maxUnits = getBulkMaxUnits(product);
   const quantity = normalizeBulkQuantity(product, packCount || moq);
-  const isCleansingMix = product.category === "cleansing";
+  const isCleansingMix = isCleansingMixRoute;
   const cleansingProducts = products.filter(
     (entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market),
   );
@@ -163,9 +167,17 @@ export function BulkProductPage() {
   const soldOut = isCleansingMix
     ? orderLines.some((line) => getStockStatus(line.product) === "Sold out")
     : stockStatus === "Sold out";
-  const productName = marketProductText(language, product.name);
+  const productName = isCleansingMix
+    ? marketText(language, "Cleansing Mix Order", "클렌징 MIX 주문")
+    : marketProductText(language, product.name);
   const productCategory = marketProductText(language, product.category);
-  const productDescription = marketProductText(language, product.description);
+  const productDescription = isCleansingMix
+    ? marketText(
+        language,
+        "Choose any combination of the three cleansing products. Start from 30 units total and add more in 10-unit steps.",
+        "클렌징 3종을 원하는 구성으로 선택하세요. 합계 최소 30개부터 10개 단위로 추가할 수 있습니다.",
+      )
+    : marketProductText(language, product.description);
   const productVolume = product.volumeLabel ? marketProductText(language, product.volumeLabel) : "";
   const localizedStockStatus = marketText(language, stockStatus);
   const paypalClientId = payPalConfig.clientId;
@@ -198,8 +210,8 @@ export function BulkProductPage() {
     const available = products.filter(
       (entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market),
     );
-    setMixQuantities(Object.fromEntries(available.map((entry) => [entry.slug, entry.slug === product.slug ? getBulkMoq(entry) : 0])));
-  }, [market.code, product.slug]);
+    setMixQuantities(Object.fromEntries(available.map((entry) => [entry.slug, 0])));
+  }, [isCleansingMix, market.code]);
 
   useEffect(() => {
     formRef.current = form;
@@ -443,7 +455,10 @@ export function BulkProductPage() {
         <section className="bulk-detail section-shell">
           <div className="section-inner section-inner--wide bulk-detail__grid">
             <figure className="bulk-detail__image">
-              <img src={product.imageUrl} alt={productName} />
+              <img
+                src={isCleansingMix ? "/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp" : product.imageUrl}
+                alt={productName}
+              />
             </figure>
 
             <div className="bulk-detail__content">
@@ -454,7 +469,7 @@ export function BulkProductPage() {
                 {productCategory.toUpperCase()} {marketText(language, "BULK ORDER", "대량주문")}
               </p>
               <h1>{productName}</h1>
-              {productVolume && <p className="bulk-detail__volume">{productVolume}</p>}
+              {!isCleansingMix && productVolume && <p className="bulk-detail__volume">{productVolume}</p>}
 
               {isLivePaymentTest && (
                 <p className="setup-warning">
@@ -829,7 +844,7 @@ export function BulkProductPage() {
                 )}
               </section>
 
-              <section className="bulk-product-info">
+              {!isCleansingMix && <section className="bulk-product-info">
                 <h2>{marketText(language, "Product composition", "?곹뭹 援ъ꽦")}</h2>
                 <div className="product-card__chips">
                   {product.features.map((feature) => (
@@ -844,12 +859,12 @@ export function BulkProductPage() {
                   <li>{marketText(language, `Orders are currently available for delivery within ${countryName}.`, `?꾩옱 ${countryName} 諛곗넚 二쇰Ц留?媛?ν빀?덈떎.`)}</li>
                   <li>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</li>
                 </ul>
-              </section>
+              </section>}
             </div>
           </div>
-          <div className="section-inner section-inner--wide">
+          {!isCleansingMix && <div className="section-inner section-inner--wide">
             <ProductReviews product={product} />
-          </div>
+          </div>}
         </section>
       </main>
     </V23Page>

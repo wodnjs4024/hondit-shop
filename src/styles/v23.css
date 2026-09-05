@@ -2931,6 +2931,42 @@ video {
   min-height: 500px;
 }
 
+.v23-cleansing-mix-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  min-height: 104px;
+  margin-top: 12px;
+  padding: 18px 20px;
+  border: 1px solid var(--v23-copper);
+  border-radius: 8px;
+  background: #f2e8da;
+  color: var(--v23-ink);
+  box-shadow: inset 4px 0 0 var(--v23-copper);
+}
+
+.v23-cleansing-mix-card span {
+  display: grid;
+  gap: 5px;
+}
+
+.v23-cleansing-mix-card small,
+.v23-cleansing-mix-card em {
+  color: var(--v23-copper);
+  font-style: normal;
+  font-weight: 800;
+}
+
+.v23-cleansing-mix-card b {
+  font-family: var(--v23-serif);
+  font-size: 1.45rem;
+}
+
+.v23-cleansing-mix-card > strong {
+  white-space: nowrap;
+}
+
 .v23-map-stage.is-korea {
   grid-template-columns: 240px 1fr;
 }
@@ -3652,6 +3688,11 @@ video {
 }
 
 @media (max-width: 760px) {
+  .v23-cleansing-mix-card {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
   .v23-filters,
   .v23-product-grid {
     width: min(100% - 28px, 520px);

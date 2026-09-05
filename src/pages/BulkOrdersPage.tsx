@@ -111,6 +111,16 @@ export function BulkOrdersPage() {
               <span /> {marketText(language, "01 - PRODUCT", "01 - 상품")}
             </p>
             <h2>{marketText(language, "Choose a bulk product.", "대량주문 상품을 선택하세요.")}</h2>
+            {market.allowedBulkCategories.includes("cleansing") && (
+              <Link className="v23-cleansing-mix-card" to="/bulk-orders/cleansing-mix">
+                <span>
+                  <small>{marketText(language, "CLEANSING", "클렌징")}</small>
+                  <b>{marketText(language, "Cleansing Mix Order", "클렌징 MIX 주문")}</b>
+                  <em>{marketText(language, "Mix all three products - combined minimum 30 units", "3종 자유 조합 - 합계 최소 30개")}</em>
+                </span>
+                <strong>{marketText(language, "Build mix ->", "구성하기 ->")}</strong>
+              </Link>
+            )}
             {marketProducts.map((product) => {
               const productName = marketProductText(language, product.name);
               const shortName = marketProductText(language, product.shortName);
