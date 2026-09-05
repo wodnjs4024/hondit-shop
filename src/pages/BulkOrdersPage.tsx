@@ -111,19 +111,6 @@ export function BulkOrdersPage() {
               <span /> {marketText(language, "01 - PRODUCT", "01 - 상품")}
             </p>
             <h2>{marketText(language, "Choose a bulk product.", "대량주문 상품을 선택하세요.")}</h2>
-            {market.allowedBulkCategories.includes("cleansing") && (
-              <Link className="v23-cleansing-mix-card" to="/bulk-orders/cleansing-mix">
-                <img
-                  src="/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp"
-                  alt={marketText(language, "Three cleansing products", "클렌징 3종")}
-                />
-                <span>
-                  <small>{marketText(language, "CARE", "케어")}</small>
-                  <b>{marketText(language, "Cleansing Mix Order", "클렌징 MIX 주문")}</b>
-                  <em>{marketText(language, `${formatMarketUnitMoney(marketProducts.find((item) => item.apiSlug === "foam-oil") || marketProducts[0], market)} each - Minimum order 30 units`, `개당 ${formatMarketUnitMoney(marketProducts.find((item) => item.apiSlug === "foam-oil") || marketProducts[0], market)} - 최소 주문 30개`)}</em>
-                </span>
-              </Link>
-            )}
             {marketProducts.map((product) => {
               const productName = marketProductText(language, product.name);
               const shortName = marketProductText(language, product.shortName);
@@ -161,6 +148,19 @@ export function BulkOrdersPage() {
                 </button>
               );
             })}
+            {market.allowedBulkCategories.includes("cleansing") && (
+              <Link className="v23-cleansing-mix-card" to="/bulk-orders/cleansing-mix">
+                <img
+                  src="/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp"
+                  alt={marketText(language, "Three cleansing products", "클렌징 3종")}
+                />
+                <span>
+                  <small>{marketText(language, "CARE", "케어")}</small>
+                  <b>{marketText(language, "Cleansing Mix Order", "클렌징 MIX 주문")}</b>
+                  <em>{marketText(language, `${formatMarketUnitMoney(marketProducts.find((item) => item.apiSlug === "foam-oil") || marketProducts[0], market)} each - Minimum order 30 units`, `개당 ${formatMarketUnitMoney(marketProducts.find((item) => item.apiSlug === "foam-oil") || marketProducts[0], market)} - 최소 주문 30개`)}</em>
+                </span>
+              </Link>
+            )}
           </div>
 
           <aside className="v23-bulk-summary">
