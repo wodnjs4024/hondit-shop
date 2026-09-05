@@ -525,12 +525,7 @@ export function BulkProductPage() {
                       const entrySoldOut = getStockStatus(entry) === "Sold out";
                       return (
                         <div className="cleansing-mix__row" key={entry.slug}>
-                          <img src={entry.imageUrl} alt="" />
-                          <div className="cleansing-mix__product">
-                            <strong>{marketProductText(language, entry.name)}</strong>
-                            <span>{entry.volumeLabel ? marketProductText(language, entry.volumeLabel) : ""}</span>
-                            <small>{formatMarketUnitMoney(entry, market)} / {marketText(language, "unit", "개")}</small>
-                          </div>
+                          <strong className="cleansing-mix__product">{marketProductText(language, entry.name)}</strong>
                           <div className="cleansing-mix__stepper">
                             <button type="button" aria-label={`Decrease ${entry.name}`} disabled={entrySoldOut || entryQuantity === 0} onClick={() => updateMixQuantity(entry, entryQuantity - BULK_QTY_STEP)}>-</button>
                             <input aria-label={`${entry.name} units`} disabled={entrySoldOut} inputMode="numeric" value={entryQuantity} onChange={(event) => updateMixQuantity(entry, Number(event.target.value))} />
