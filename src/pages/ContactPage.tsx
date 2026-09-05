@@ -117,7 +117,7 @@ export function ContactPage() {
             <a href="/bulk-orders">
               <small>DIRECT BULK ORDER</small>
               <b>PayPal checkout</b>
-              <span>{marketText(language, `Choose an MOQ quantity and create a tracked ${market.currency} order. ->`, `최소 주문 수량을 선택하고 추적 가능한 ${market.currency} 주문을 생성합니다. ->`)}</span>
+              <span>{marketText(language, `Choose the minimum order quantity and create a tracked ${market.currency} order. ->`, `최소 주문 수량을 선택하고 추적 가능한 ${market.currency} 주문을 생성합니다. ->`)}</span>
             </a>
           </aside>
         </section>

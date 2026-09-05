@@ -75,7 +75,7 @@ export function ProductDetailPage() {
             <strong>{formatMarketUnitMoney(product, market)}</strong>
             <dl>
               <div>
-                <dt>{marketText(language, "Bulk MOQ", "대량주문 MOQ")}</dt>
+                <dt>{marketText(language, "Minimum bulk order", "대량주문 최소 수량")}</dt>
                 <dd>{product.bulkMoq} {marketText(language, "units", "개")}</dd>
               </div>
               <div>

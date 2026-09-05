@@ -67,7 +67,7 @@ export function HomePage() {
               <Link to="/bulk-orders">
                 <small>{marketText(language, "FOR BUSINESSES AND GROUPS", "사업자 및 단체")}</small>
                 <b>{marketText(language, "Bulk Checkout", "대량주문")}</b>
-                <span>{marketText(language, `Review MOQ, then pay securely through PayPal in ${market.currency}.`, `최소 주문 수량을 확인하고 PayPal ${market.currency}로 결제합니다.`)}</span>
+                <span>{marketText(language, `Review the minimum order, then pay securely through PayPal in ${market.currency}.`, `최소 주문 수량을 확인하고 PayPal ${market.currency}로 결제합니다.`)}</span>
               </Link>
             </div>
 

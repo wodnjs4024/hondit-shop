@@ -2933,17 +2933,16 @@ video {
 
 .v23-cleansing-mix-card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 86px minmax(0, 1fr);
   align-items: center;
-  gap: 20px;
-  min-height: 104px;
+  gap: 18px;
+  min-height: 116px;
   margin-top: 12px;
-  padding: 18px 20px;
-  border: 1px solid var(--v23-copper);
+  padding: 12px;
+  border: 1px solid var(--v23-line);
   border-radius: 8px;
-  background: #f2e8da;
+  background: #fbf7ee;
   color: var(--v23-ink);
-  box-shadow: inset 4px 0 0 var(--v23-copper);
 }
 
 .v23-cleansing-mix-card span {
@@ -2953,18 +2952,28 @@ video {
 
 .v23-cleansing-mix-card small,
 .v23-cleansing-mix-card em {
-  color: var(--v23-copper);
   font-style: normal;
-  font-weight: 800;
 }
 
 .v23-cleansing-mix-card b {
   font-family: var(--v23-serif);
-  font-size: 1.45rem;
+  font-size: 1.6rem;
 }
 
-.v23-cleansing-mix-card > strong {
-  white-space: nowrap;
+.v23-cleansing-mix-card em {
+  width: fit-content;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(222, 234, 228, 0.86);
+  color: var(--v23-ink);
+  font-weight: 700;
+}
+
+.v23-cleansing-mix-card img {
+  width: 92px;
+  height: 92px;
+  border-radius: 6px;
+  object-fit: contain;
 }
 
 .v23-map-stage.is-korea {
@@ -3689,8 +3698,8 @@ video {
 
 @media (max-width: 760px) {
   .v23-cleansing-mix-card {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    grid-template-columns: 86px minmax(0, 1fr);
+    gap: 14px;
   }
 
   .v23-filters,

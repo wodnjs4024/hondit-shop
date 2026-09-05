@@ -133,7 +133,7 @@ function routeMeta(pathname: string): PageMeta {
       return {
         ...productMeta[slug],
         title: `Bulk ${productMeta[slug].title}`,
-        description: `Review MOQ, unit price, shipping details and PayPal checkout for ${productMeta[slug].title.replace(" | hondit", "")}.`,
+        description: `Review the minimum order, unit price, shipping details and PayPal checkout for ${productMeta[slug].title.replace(" | hondit", "")}.`,
         robots: "index,follow",
       };
     }

@@ -149,7 +149,7 @@ function getPolicyContent(policy: string, countryName: string, currency: string,
           items: [`The selected market controls the displayed delivery destination, currency and available order route. Bulk order prices for the current market are shown in ${currency}.`],
         },
         {
-          heading: "Product Prices and MOQ",
+          heading: "Product Prices and Minimum Order Quantities",
           items: [
             "Product prices, minimum order quantities and quantity increments are shown on the product and bulk checkout pages.",
             "Do not rely on information that is not shown on the product page or policy pages as a confirmed product claim.",

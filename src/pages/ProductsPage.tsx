@@ -124,8 +124,8 @@ export function ProductsPage() {
             <p>
               {marketText(
                 language,
-                `Review MOQ, included delivery and pay in ${market.currency} through PayPal or an eligible card.`,
-                `MOQ와 배송 포함 금액을 확인한 뒤 ${market.currency}로 PayPal 또는 카드 결제합니다.`,
+                `Review the minimum order, included delivery and pay in ${market.currency} through PayPal or an eligible card.`,
+                `최소 주문 수량과 배송 포함 금액을 확인한 뒤 ${market.currency}로 PayPal 또는 카드 결제합니다.`,
               )}
             </p>
             <Link to="/bulk-orders">{marketText(language, "Open bulk checkout", "대량주문 열기")}</Link>
