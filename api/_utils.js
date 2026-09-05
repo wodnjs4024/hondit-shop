@@ -129,19 +129,22 @@ export async function getProducts({ includeInactive = false } = {}) {
 }
 
 export function calculateCart(cart, products) {
-  const lines = cart.map((item) => {
+  const requestedLines = cart.map((item) => {
     const product = products.find((entry) => entry.slug === item.slug && entry.active && entry.purchaseEnabled);
     if (!product) throw new Error(`Product is not available: ${item.slug}`);
     const moq = Number(product.packQuantity || 1);
     const step = 10;
     const maxUnits = Number(product.inventoryPacks || 0) > 0 ? Number(product.inventoryPacks) * moq : 0;
-    const requested = Math.max(moq, Math.floor(Number(item.packCount) || moq));
-    let quantity = moq + Math.floor((requested - moq) / step) * step;
-    if (maxUnits > 0 && quantity > maxUnits) {
-      quantity = moq + Math.floor((maxUnits - moq) / step) * step;
+    const requested = Math.floor(Number(item.packCount) || 0);
+    if (requested <= 0) throw new Error(`Quantity must be greater than zero: ${product.slug}`);
+    const isCleansing = product.category === "cleansing";
+    if (isCleansing && requested % step !== 0) throw new Error(`Cleansing quantities must be ordered in steps of ${step}`);
+    if (!isCleansing && (requested < moq || (requested - moq) % step !== 0)) {
+      throw new Error(`${product.name} requires at least ${moq} units in steps of ${step}`);
     }
+    const quantity = requested;
     if (maxUnits > 0 && maxUnits < moq) throw new Error(`Product is sold out: ${product.slug}`);
-    quantity = Math.max(moq, quantity);
+    if (maxUnits > 0 && quantity > maxUnits) throw new Error(`Requested quantity exceeds stock: ${product.slug}`);
     return {
       product,
       packCount: quantity,
@@ -149,7 +152,17 @@ export function calculateCart(cart, products) {
       lineTotalSgd: Number((product.unitPriceSgd * quantity).toFixed(2)),
     };
   });
-  const totalPacks = lines.reduce((sum, line) => sum + Math.ceil(line.totalUnits / Math.max(1, line.product.packQuantity)), 0);
+  const duplicateSlugs = requestedLines.filter((line, index) => requestedLines.findIndex((entry) => entry.product.slug === line.product.slug) !== index);
+  if (duplicateSlugs.length) throw new Error("Duplicate products are not allowed in one order");
+  const cleansingUnits = requestedLines
+    .filter((line) => line.product.category === "cleansing")
+    .reduce((sum, line) => sum + line.totalUnits, 0);
+  if (cleansingUnits > 0 && cleansingUnits < 30) throw new Error("Cleansing products require at least 30 units in total");
+  const lines = requestedLines;
+  const nonCleansingPacks = lines
+    .filter((line) => line.product.category !== "cleansing")
+    .reduce((sum, line) => sum + Math.ceil(line.totalUnits / Math.max(1, line.product.packQuantity)), 0);
+  const totalPacks = nonCleansingPacks + (cleansingUnits > 0 ? Math.ceil(cleansingUnits / 30) : 0);
   const totalUnits = lines.reduce((sum, line) => sum + line.totalUnits, 0);
   const totalSgd = Number(lines.reduce((sum, line) => sum + line.lineTotalSgd, 0).toFixed(2));
   return { lines, totalPacks, totalUnits, totalSgd };

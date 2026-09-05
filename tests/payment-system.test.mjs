@@ -10,6 +10,7 @@ import {
   validateCapturedPayment,
 } from "../api/_markets.js";
 import { defaultProducts } from "../api/_bulk-data.js";
+import { calculateCart } from "../api/_utils.js";
 
 const diffuser = defaultProducts.find((product) => product.slug === "diffuser-350g");
 const cleanser = defaultProducts.find((product) => product.category === "cleansing");
@@ -69,5 +70,40 @@ test("capture validation rejects incomplete, wrong-currency and wrong-amount pay
   assert.throws(
     () => validateCapturedPayment({ status: "COMPLETED", amount: { value: "419", currency_code: "SGD" } }, 420, "SGD"),
     /does not match/,
+  );
+});
+
+test("cleansing products can be mixed in 10-unit steps with a combined MOQ of 30", () => {
+  const summary = calculateCart(
+    [
+      { slug: "foam-oil", packCount: 10 },
+      { slug: "foaming-cleanser", packCount: 20 },
+    ],
+    defaultProducts,
+  );
+  assert.equal(summary.totalUnits, 30);
+  assert.equal(summary.totalPacks, 1);
+  assert.equal(summary.lines.length, 2);
+  assert.equal(summary.lines[0].totalUnits, 10);
+  assert.equal(summary.lines[1].totalUnits, 20);
+  assert.equal(summary.totalSgd, 269.7);
+});
+
+test("a single cleansing product still requires 30 units", () => {
+  assert.equal(calculateCart([{ slug: "foam-oil", packCount: 30 }], defaultProducts).totalUnits, 30);
+  assert.throws(
+    () => calculateCart([{ slug: "foam-oil", packCount: 20 }], defaultProducts),
+    /at least 30 units in total/,
+  );
+});
+
+test("cleansing mix rejects non-10-unit quantities and duplicate lines", () => {
+  assert.throws(
+    () => calculateCart([{ slug: "foam-oil", packCount: 15 }, { slug: "foaming-cleanser", packCount: 20 }], defaultProducts),
+    /steps of 10/,
+  );
+  assert.throws(
+    () => calculateCart([{ slug: "foam-oil", packCount: 10 }, { slug: "foam-oil", packCount: 20 }], defaultProducts),
+    /Duplicate products/,
   );
 });

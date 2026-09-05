@@ -59,6 +59,8 @@ type OrderForm = {
   reviewed: boolean;
 };
 
+type OrderLine = { product: BulkProduct; quantity: number };
+
 const fallbackPayPalClientId = (import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined) || "";
 const fallbackPayPalMode = ((import.meta.env.VITE_PAYPAL_MODE || import.meta.env.VITE_PAYPAL_ENV || "sandbox") as string).toLowerCase();
 
@@ -106,6 +108,7 @@ export function BulkProductPage() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
   const [packCount, setPackCount] = useState(0);
+  const [mixQuantities, setMixQuantities] = useState<Record<string, number>>({});
   const [form, setForm] = useState<OrderForm>(initialForm);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
@@ -115,7 +118,7 @@ export function BulkProductPage() {
     mode: fallbackPayPalMode,
   });
   const formRef = useRef(initialForm);
-  const quantityRef = useRef(0);
+  const orderLinesRef = useRef<OrderLine[]>([]);
   const productRef = useRef<BulkProduct | null>(null);
   const createdOrderNumber = useRef("");
 
@@ -145,9 +148,21 @@ export function BulkProductPage() {
   const moq = getBulkMoq(product);
   const maxUnits = getBulkMaxUnits(product);
   const quantity = normalizeBulkQuantity(product, packCount || moq);
-  const marketTotal = getMarketLineTotal(product, quantity, market);
+  const isCleansingMix = product.category === "cleansing";
+  const cleansingProducts = products.filter(
+    (entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market),
+  );
+  const orderLines: OrderLine[] = isCleansingMix
+    ? cleansingProducts
+        .map((entry) => ({ product: entry, quantity: mixQuantities[entry.slug] || 0 }))
+        .filter((entry) => entry.quantity > 0)
+    : [{ product, quantity }];
+  const totalUnits = orderLines.reduce((sum, line) => sum + line.quantity, 0);
+  const marketTotal = orderLines.reduce((sum, line) => sum + getMarketLineTotal(line.product, line.quantity, market), 0);
   const stockStatus = getStockStatus(product);
-  const soldOut = stockStatus === "Sold out";
+  const soldOut = isCleansingMix
+    ? orderLines.some((line) => getStockStatus(line.product) === "Sold out")
+    : stockStatus === "Sold out";
   const productName = marketProductText(language, product.name);
   const productCategory = marketProductText(language, product.category);
   const productDescription = marketProductText(language, product.description);
@@ -158,14 +173,15 @@ export function BulkProductPage() {
   const errorId = "bulk-checkout-error";
   const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
   const checkoutDisabled = !payPalConfig.checkoutEnabled;
+  const orderLineText = orderLines.map((line) => `${line.product.name} ${line.product.volumeLabel || ""}: ${line.quantity} units`);
   const manualPaymentHref = buildMailto(EMAIL, `[hondit] Manual PayPal link request - ${product.name}`, [
     "Hello hondit,",
     "",
     "PayPal/card checkout did not complete. Please send me a direct PayPal payment link for this order.",
     "",
     `Market: ${market.label} / ${market.currency}`,
-    `Product: ${product.name} ${product.volumeLabel || ""}`,
-    `Quantity: ${quantity} units`,
+    ...orderLineText,
+    `Total quantity: ${totalUnits} units`,
     `Total payment: ${formatCurrency(marketTotal, market.currency, market.locale)}`,
     `Name: ${form.customerName || "-"}`,
     `Email: ${form.customerEmail || "-"}`,
@@ -178,10 +194,18 @@ export function BulkProductPage() {
   ]);
 
   useEffect(() => {
+    if (product.category !== "cleansing") return;
+    const available = products.filter(
+      (entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market),
+    );
+    setMixQuantities(Object.fromEntries(available.map((entry) => [entry.slug, entry.slug === product.slug ? getBulkMoq(entry) : 0])));
+  }, [market.code, product.slug]);
+
+  useEffect(() => {
     formRef.current = form;
-    quantityRef.current = quantity;
+    orderLinesRef.current = orderLines;
     productRef.current = product;
-  }, [form, product, quantity]);
+  }, [form, orderLines, product]);
 
   useEffect(() => {
     if (!paypalClientId || soldOut || checkoutDisabled) return;
@@ -199,9 +223,21 @@ export function BulkProductPage() {
   }, [checkoutDisabled, market.currency, paypalClientId, soldOut]);
 
   const update = (key: keyof OrderForm, value: string | boolean) => setForm((current) => ({ ...current, [key]: value }));
+  const updateMixQuantity = (entry: BulkProduct, requested: number) => {
+    const availableUnits = getBulkMaxUnits(entry);
+    const stepped = Math.max(0, Math.floor((Number.isFinite(requested) ? requested : 0) / BULK_QTY_STEP) * BULK_QTY_STEP);
+    const nextQuantity = availableUnits ? Math.min(stepped, availableUnits) : stepped;
+    setMixQuantities((current) => ({ ...current, [entry.slug]: nextQuantity }));
+  };
 
-  const validate = (currentForm: OrderForm) => {
+  const validate = (currentForm: OrderForm, currentLines: OrderLine[]) => {
     if (soldOut) return marketText(language, "This product is currently sold out.", "?꾩옱 ?덉젅???곹뭹?낅땲??");
+    const cleansingUnits = currentLines
+      .filter((line) => line.product.category === "cleansing")
+      .reduce((sum, line) => sum + line.quantity, 0);
+    if (isCleansingMix && cleansingUnits < moq) {
+      return marketText(language, `Please select at least ${moq} cleansing units in total.`, `클렌징 제품을 합계 ${moq}개 이상 선택해 주세요.`);
+    }
     if (checkoutDisabled) {
       return marketText(language, "Direct PayPal checkout is temporarily closed. Please contact hondit.", "PayPal 吏곸젒 寃곗젣媛 ?좎떆 ?ロ? ?덉뒿?덈떎. hondit??臾몄쓽?댁＜?몄슂.");
     }
@@ -221,7 +257,7 @@ export function BulkProductPage() {
     return "";
   };
 
-  const buildPayload = (currentProduct: BulkProduct, currentQuantity: number, currentForm: OrderForm): CheckoutPayload => ({
+  const buildPayload = (currentLines: OrderLine[], currentForm: OrderForm): CheckoutPayload => ({
     orderType: "Direct bulk order",
     customerName: currentForm.customerName.trim(),
     customerEmail: currentForm.customerEmail.trim(),
@@ -235,7 +271,7 @@ export function BulkProductPage() {
     postalCode: currentForm.postalCode.trim(),
     customerNote: currentForm.customerNote.trim() || undefined,
     attribution: readAttribution(),
-    cart: [{ slug: currentProduct.slug, packCount: currentQuantity }],
+    cart: currentLines.map((line) => ({ slug: line.product.slug, packCount: line.quantity })),
   });
 
   useEffect(() => {
@@ -247,10 +283,10 @@ export function BulkProductPage() {
         createOrder: async () => {
           const currentForm = formRef.current;
           const currentProduct = productRef.current;
-          const currentQuantity = quantityRef.current;
+          const currentLines = orderLinesRef.current;
           if (!currentProduct) throw new Error("Product is not ready.");
 
-          const validationError = validate(currentForm);
+          const validationError = validate(currentForm, currentLines);
           if (validationError) {
             setError(validationError);
             throw new Error(validationError);
@@ -259,15 +295,20 @@ export function BulkProductPage() {
           setError("");
           trackEvent("begin_checkout", {
             product_id: currentProduct.slug,
-            product_name: currentProduct.name,
-            quantity: currentQuantity,
-            value: getMarketLineTotal(currentProduct, currentQuantity, market),
+            product_name: currentLines.length > 1 ? "Mixed cleansing order" : currentProduct.name,
+            quantity: currentLines.reduce((sum, line) => sum + line.quantity, 0),
+            value: currentLines.reduce((sum, line) => sum + getMarketLineTotal(line.product, line.quantity, market), 0),
             currency: market.currency,
             checkout_stage: "checkout_started",
-            items: [{ item_id: currentProduct.slug, item_name: currentProduct.name, quantity: currentQuantity, price: getMarketLineTotal(currentProduct, 1, market) }],
+            items: currentLines.map((line) => ({
+              item_id: line.product.slug,
+              item_name: line.product.name,
+              quantity: line.quantity,
+              price: getMarketLineTotal(line.product, 1, market),
+            })),
           });
           try {
-            const response = await createPayPalOrder(buildPayload(currentProduct, currentQuantity, currentForm));
+            const response = await createPayPalOrder(buildPayload(currentLines, currentForm));
             createdOrderNumber.current = response.orderNumber;
             trackEvent("checkout_order_created", {
               checkout_step: "paypal_order_created",
@@ -390,7 +431,7 @@ export function BulkProductPage() {
         },
       })
       .render("#direct-paypal-buttons");
-  }, [checkoutDisabled, language, market, navigate, paypalClientId, ready, soldOut]);
+  }, [checkoutDisabled, isCleansingMix, language, market, moq, navigate, paypalClientId, product.slug, ready, soldOut]);
 
   if (!matchedProduct && firstAllowedProduct?.slug && slug !== firstAllowedProduct.slug) {
     return <Navigate to={`/bulk-orders/${firstAllowedProduct.slug}`} replace />;
@@ -444,7 +485,7 @@ export function BulkProductPage() {
                 <div>
                   <dt>{marketText(language, "Minimum", "理쒖냼 ?섎웾")}</dt>
                   <dd>
-                    {moq} {marketText(language, "units", "개")}
+                    {moq} {marketText(language, isCleansingMix ? "cleansing units combined" : "units", isCleansingMix ? "클렌징 합계" : "개")}
                   </dd>
                 </div>
                 <div>
@@ -463,12 +504,46 @@ export function BulkProductPage() {
               <p className="shipping-pill">
                 {marketText(
                   language,
-                  `Order from ${moq} units, in steps of ${BULK_QTY_STEP}.${maxUnits ? ` Available up to ${maxUnits} units.` : ""}`,
-                  `理쒖냼 ${moq}媛쒕???${BULK_QTY_STEP}媛??⑥쐞濡?二쇰Ц?⑸땲??${maxUnits ? ` 理쒕? ${maxUnits}媛쒓퉴吏 媛?ν빀?덈떎.` : ""}`,
+                  isCleansingMix
+                    ? `Mix any cleansing products in steps of ${BULK_QTY_STEP}. Combined minimum: ${moq} units.`
+                    : `Order from ${moq} units, in steps of ${BULK_QTY_STEP}.${maxUnits ? ` Available up to ${maxUnits} units.` : ""}`,
+                  isCleansingMix
+                    ? `클렌징 3종을 ${BULK_QTY_STEP}개 단위로 자유롭게 섞을 수 있습니다. 합계 최소 ${moq}개입니다.`
+                    : `최소 ${moq}개부터 ${BULK_QTY_STEP}개 단위로 주문합니다.${maxUnits ? ` 최대 ${maxUnits}개까지 가능합니다.` : ""}`,
                 )}
               </p>
 
               <section className="direct-order-box" aria-label="Direct bulk order">
+                {isCleansingMix ? (
+                  <div className="cleansing-mix" aria-label="Cleansing product mix">
+                    <div className="cleansing-mix__intro">
+                      <strong>{marketText(language, "Build your cleansing mix", "클렌징 구성 선택")}</strong>
+                      <span>{marketText(language, "Choose each product in 10-unit steps. The combined order must be at least 30 units.", "제품별로 10개 단위로 선택하세요. 세 제품의 합계가 30개 이상이어야 합니다.")}</span>
+                    </div>
+                    {cleansingProducts.map((entry) => {
+                      const entryQuantity = mixQuantities[entry.slug] || 0;
+                      const entrySoldOut = getStockStatus(entry) === "Sold out";
+                      return (
+                        <div className="cleansing-mix__row" key={entry.slug}>
+                          <img src={entry.imageUrl} alt="" />
+                          <div className="cleansing-mix__product">
+                            <strong>{marketProductText(language, entry.name)}</strong>
+                            <span>{entry.volumeLabel ? marketProductText(language, entry.volumeLabel) : ""}</span>
+                            <small>{formatMarketUnitMoney(entry, market)} / {marketText(language, "unit", "개")}</small>
+                          </div>
+                          <div className="cleansing-mix__stepper">
+                            <button type="button" aria-label={`Decrease ${entry.name}`} disabled={entrySoldOut || entryQuantity === 0} onClick={() => updateMixQuantity(entry, entryQuantity - BULK_QTY_STEP)}>-</button>
+                            <input aria-label={`${entry.name} units`} disabled={entrySoldOut} inputMode="numeric" value={entryQuantity} onChange={(event) => updateMixQuantity(entry, Number(event.target.value))} />
+                            <button type="button" aria-label={`Increase ${entry.name}`} disabled={entrySoldOut} onClick={() => updateMixQuantity(entry, entryQuantity + BULK_QTY_STEP)}>+</button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    <p className={totalUnits < moq ? "cleansing-mix__minimum cleansing-mix__minimum--warning" : "cleansing-mix__minimum"}>
+                      {marketText(language, "Selected", "선택 수량")}: <strong>{totalUnits}</strong> / {marketText(language, "minimum", "최소")} {moq}
+                    </p>
+                  </div>
+                ) : (
                 <div className="pack-stepper" aria-label="Order quantity">
                   <span>{marketText(language, "Order quantity", "二쇰Ц ?섎웾")}</span>
                   <div>
@@ -502,10 +577,11 @@ export function BulkProductPage() {
                     )}
                   </em>
                 </div>
+                )}
 
                 <div className="bulk-total-box">
                   <span>{marketText(language, "Total units", "珥??섎웾")}</span>
-                  <strong>{quantity}</strong>
+                  <strong>{totalUnits}</strong>
                   <span>{marketText(language, "Total payment", "총 결제액")}</span>
                   <strong>{formatCurrency(marketTotal, market.currency, market.locale)}</strong>
                   <p>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</p>
@@ -662,11 +738,21 @@ export function BulkProductPage() {
                     <p>{marketText(language, "Please confirm these details before opening PayPal or card checkout.", "PayPal ?먮뒗 移대뱶 寃곗젣李쎌쓣 ?닿린 ?꾩뿉 ?꾨옒 ?뺣낫瑜??뺤씤?댁＜?몄슂.")}</p>
                   </div>
                   <div className="direct-payment-summary__total">
-                    <span>{productName}</span>
+                    <span>{marketText(language, isCleansingMix ? "Cleansing mix" : productName, isCleansingMix ? "클렌징 MIX" : productName)}</span>
                     <strong>
-                      {quantity} {marketText(language, "units", "개")} / {formatCurrency(marketTotal, market.currency, market.locale)}
+                      {totalUnits} {marketText(language, "units", "개")} / {formatCurrency(marketTotal, market.currency, market.locale)}
                     </strong>
                   </div>
+                  {isCleansingMix && (
+                    <ul className="direct-payment-summary__items">
+                      {orderLines.map((line) => (
+                        <li key={line.product.slug}>
+                          <span>{marketProductText(language, line.product.name)}</span>
+                          <strong>{line.quantity} {marketText(language, "units", "개")}</strong>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <dl className="direct-payment-summary__details">
                     <div>
                       <dt>{marketText(language, "Full name", "이름")}</dt>
