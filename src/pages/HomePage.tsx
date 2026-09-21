@@ -1,14 +1,77 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { V23CatalogGrid } from "../components/v23/CatalogGrid";
-import { V23Page } from "../components/v23/SiteChrome";
-import { SHOPEE } from "../data/v23SiteData";
-import { marketCountryName, marketText, useMarket } from "../lib/market";
+import { V23Page, V23ProductCard } from "../components/v23/SiteChrome";
+import { SHOPEE, v23Products, type StorefrontProduct } from "../data/v23SiteData";
+import { trackEvent } from "../lib/analytics";
+import { isStorefrontProductAllowedForMarket, marketCountryName, marketText, useMarket } from "../lib/market";
+import { loadStorefrontProducts } from "../lib/storefrontApi";
 
 export function HomePage() {
   const { market, language } = useMarket();
   const countryName = marketCountryName(market, language);
   const diffuserVideoRef = useRef<HTMLVideoElement | null>(null);
+  const productRailRef = useRef<HTMLDivElement | null>(null);
+  const railDirectionRef = useRef(1);
+  const railPausedRef = useRef(false);
+  const [catalog, setCatalog] = useState<StorefrontProduct[]>(v23Products);
+  const marketProducts = useMemo(
+    () => catalog.filter((product) => isStorefrontProductAllowedForMarket(product, market)),
+    [catalog, market],
+  );
+  const homeProductCopy = (() => {
+    if (language === "ko") return { eyebrow: "제주에서 고른 컬렉션", title: "당신의", description: `${countryName}에서 구매 가능한 제품을 확인하세요.` };
+    if (language === "ja") return { eyebrow: "済州から選んだコレクション", title: "あなたの", description: `${countryName}で購入できる商品をご覧ください。` };
+    if (language === "zh-HK") return { eyebrow: "濟州精選系列", title: "選擇你的", description: `查看可配送至${countryName}的產品。` };
+    if (language === "zh-TW" || language === "zh") return { eyebrow: "濟州精選系列", title: "選擇你的", description: `查看可配送至${countryName}的產品。` };
+    return { eyebrow: "JEJU-SELECTED COLLECTION", title: "Choose your", description: `Explore the products available for ${countryName}.` };
+  })();
+
+  useEffect(() => {
+    loadStorefrontProducts().then(setCatalog).catch(() => undefined);
+  }, []);
+
+  useEffect(() => {
+    if (!marketProducts.length) return;
+    trackEvent("view_item_list", {
+      item_list_name: "home_product_rail",
+      items: marketProducts.map((product, index) => ({
+        item_id: product.slug,
+        item_name: product.name,
+        item_category: product.category,
+        index,
+        price: product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice,
+        currency: market.currency,
+      })),
+    });
+  }, [market, marketProducts]);
+
+  useEffect(() => {
+    const rail = productRailRef.current;
+    if (!rail || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let animationFrame = 0;
+    let previousTime = 0;
+    const animate = (time: number) => {
+      if (!railPausedRef.current && time - previousTime >= 24) {
+        const maxScroll = rail.scrollWidth - rail.clientWidth;
+        if (maxScroll > 2) {
+          if (rail.scrollLeft >= maxScroll - 1) railDirectionRef.current = -1;
+          if (rail.scrollLeft <= 1) railDirectionRef.current = 1;
+          rail.scrollLeft += railDirectionRef.current * 0.6;
+        }
+        previousTime = time;
+      }
+      animationFrame = window.requestAnimationFrame(animate);
+    };
+    animationFrame = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [market.code, marketProducts.length]);
+
+  const moveProductRail = (direction: -1 | 1) => {
+    const rail = productRailRef.current;
+    if (!rail) return;
+    railDirectionRef.current = direction;
+    rail.scrollBy({ left: direction * Math.min(420, rail.clientWidth * 0.72), behavior: "smooth" });
+  };
 
   useEffect(() => {
     const video = diffuserVideoRef.current;
@@ -37,102 +100,44 @@ export function HomePage() {
   return (
     <V23Page>
       <main className="v23-home">
-        <section className="v23-home-hero">
-          <div className="v23-home-hero-copy">
-            <p className="v23-eyebrow"><span /> {marketText(language, "JEJU NATIONAL UNIVERSITY - STUDENT-LED")}</p>
-            <h1>{marketText(language, "Jeju, held in")}<br /><em>{marketText(language, "everyday ritual.")}</em></h1>
-            <p>
-              {marketText(
-                language,
-                `Vegan Korean cleansing care and volcanic-stone scent, selected in Jeju and delivered to ${countryName} with a clear way to buy.`,
-                `제주에서 고른 비건 클렌징 케어와 화산석 향 제품을 ${countryName} 고객에게 명확한 구매 방식으로 제공합니다.`,
-              )}
-            </p>
-
-            <div className="v23-route-cards">
-              {market.hasShopee ? (
-                <a href={SHOPEE} target="_blank" rel="noreferrer">
-                  <small>{marketText(language, "FOR INDIVIDUALS", "개별 구매")}</small>
-                  <b>{marketText(language, "Buy on Shopee", "Shopee에서 구매")}</b>
-                  <span>{marketText(language, `Live prices, vouchers and secure ${countryName} checkout.`, `실시간 가격, 쿠폰, ${countryName} 결제 환경을 확인하세요.`)}</span>
-                </a>
-              ) : (
-                <Link to="/bulk-orders">
-                  <small>{marketText(language, `FOR ${market.shortLabel}`, `${market.koreanLabel} 전용`)}</small>
-                  <b>{marketText(language, "Bulk only", "대량주문 전용")}</b>
-                  <span>{marketText(language, `Fixed ${market.currency} prices and direct PayPal checkout.`, `고정 ${market.currency} 가격과 PayPal 직접 결제로 운영합니다.`)}</span>
-                </Link>
-              )}
-
-              <Link to="/bulk-orders">
-                <small>{marketText(language, "FOR BUSINESSES AND GROUPS", "사업자 및 단체")}</small>
-                <b>{marketText(language, "Bulk Checkout", "대량주문")}</b>
-                <span>{marketText(language, `Review the minimum order, then pay securely through PayPal in ${market.currency}.`, `최소 주문 수량을 확인하고 PayPal ${market.currency}로 결제합니다.`)}</span>
-              </Link>
+        <section className="v23-home-commerce" aria-labelledby="home-products-title">
+          <header className="v23-home-commerce__header">
+            <div>
+              <p className="v23-eyebrow"><span /> {homeProductCopy.eyebrow}</p>
+              <h1 id="home-products-title">{homeProductCopy.title} <em>{marketText(language, "everyday ritual.")}</em></h1>
+              <p>{homeProductCopy.description}</p>
             </div>
-
-            <div className="v23-trust-row">
-              <span>{marketText(language, "Jeju-based student team", "제주 기반 학생 운영팀")}</span>
-              <span>
-                {market.hasShopee
-                  ? marketText(language, "Official Shopee route", "공식 Shopee 구매 경로")
-                  : marketText(language, "Direct bulk checkout", "직접 대량주문")}
-              </span>
-              <span>{marketText(language, `PayPal ${market.currency} checkout`, `PayPal ${market.currency} 결제`)}</span>
+            <div className="v23-home-commerce__actions">
+              {market.hasShopee && <a href={SHOPEE} target="_blank" rel="noreferrer">{marketText(language, "Shop on Shopee ->", "Shopee에서 구매 ->")}</a>}
+              <Link to="/bulk-orders">{marketText(language, "Bulk checkout", "대량주문")}</Link>
             </div>
+          </header>
+
+          <div className="v23-home-rail-controls" aria-label={marketText(language, "Product carousel controls", "상품 슬라이더 조작")}>
+            <button type="button" onClick={() => moveProductRail(-1)} aria-label={marketText(language, "Previous products", "이전 상품")}>←</button>
+            <button type="button" onClick={() => moveProductRail(1)} aria-label={marketText(language, "Next products", "다음 상품")}>→</button>
+          </div>
+          <div
+            ref={productRailRef}
+            className="v23-home-product-rail"
+            onMouseEnter={() => { railPausedRef.current = true; }}
+            onMouseLeave={() => { railPausedRef.current = false; }}
+            onFocus={() => { railPausedRef.current = true; }}
+            onBlur={() => { railPausedRef.current = false; }}
+          >
+            {marketProducts.map((product) => (
+              <div className="v23-home-product-rail__item" key={product.slug}>
+                <V23ProductCard product={product} />
+              </div>
+            ))}
           </div>
 
-          <figure className="v23-home-hero-media">
-            <img
-              src="/images/hondit-tidal-ritual-hero.webp"
-              alt="hondit cleansing care and volcanic diffuser products on Jeju-inspired stone and water."
-              width={1600}
-              height={1100}
-              sizes="(max-width: 900px) 100vw, 58vw"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
-          </figure>
-        </section>
-
-        <section className="v23-confidence">
-          <article>
-            <small>{marketText(language, "ORIGIN")}</small>
-            <b>{marketText(language, "Jeju National University")}</b>
-            <p>{marketText(language, "Student-led and based in Jeju City.", "제주시에 기반을 둔 학생 운영 프로젝트입니다.")}</p>
-          </article>
-          <article>
-            <small>{marketText(language, market.hasShopee ? "RETAIL" : "ROUTE")}</small>
-            <b>
-              {market.hasShopee
-                ? marketText(language, "Official Shopee route", "공식 Shopee 경로")
-                : marketText(language, "Bulk only direct route", "대량주문 전용 경로")}
-            </b>
-            <p>
-              {market.hasShopee
-                ? marketText(language, "Live price, vouchers and protected checkout.", "실시간 가격, 쿠폰, 보호된 체크아웃을 이용합니다.")
-                : marketText(language, `No Shopee retail route is shown for ${countryName}. Orders go through hondit checkout only.`, `${countryName}에는 Shopee 개별 구매 경로를 표시하지 않습니다. 주문은 hondit 체크아웃으로만 진행합니다.`)}
-            </p>
-          </article>
-          <article>
-            <small>{marketText(language, "DELIVERY")}</small>
-            <b>{marketText(language, `${countryName} delivery`, `${countryName} 배송`)}</b>
-            <p>{marketText(language, "Direct bulk orders are prepared after payment is confirmed and dispatched from Korea.", "대량주문은 결제 확인 후 한국에서 발송 준비합니다.")}</p>
-          </article>
-          <article>
-            <small>{marketText(language, "PAYMENT")}</small>
-            <b>
-              {market.hasShopee
-                ? marketText(language, "Two clear routes", "두 가지 구매 경로")
-                : marketText(language, `Fixed ${market.currency} bulk price`, `고정 ${market.currency} 대량주문가`)}
-            </b>
-            <p>
-              {market.hasShopee
-                ? marketText(language, `Shopee retail or secure PayPal ${market.currency} direct checkout.`, `Shopee 개별 구매 또는 PayPal ${market.currency} 직접 결제.`)
-                : marketText(language, `Bulk orders are priced and captured in ${market.currency}.`, `대량주문은 ${market.currency}로 가격 표시 및 결제됩니다.`)}
-            </p>
-          </article>
+          <footer className="v23-home-commerce__trust">
+            <span>{marketText(language, "Jeju-based student team", "제주 기반 학생 운영팀")}</span>
+            <span>{marketText(language, `${countryName} delivery`, `${countryName} 배송`)}</span>
+            <span>{marketText(language, `PayPal ${market.currency} checkout`, `PayPal ${market.currency} 결제`)}</span>
+            <Link to="/products">{marketText(language, "View all products ->", "전체 상품 보기 ->")}</Link>
+          </footer>
         </section>
 
         <section className="v23-editorial-breeze">
@@ -150,19 +155,6 @@ export function HomePage() {
             <h2>{marketText(language, "A place you can feel,")}<br />{marketText(language, "before it becomes a ritual.")}</h2>
             <p>{marketText(language, "Our edit begins with Jeju's quiet materials: moving water, porous volcanic stone and air that never quite stands still.")}</p>
             <Link to="/jeju">{marketText(language, "Explore our Jeju ->")}</Link>
-          </div>
-        </section>
-
-        <section className="v23-products-section">
-          <div className="v23-section-heading is-cream">
-            <div>
-              <p className="v23-eyebrow"><span /> {marketText(language, "SHOP BY RITUAL")}</p>
-              <h2>{marketText(language, "Find your")}<br /><em>{marketText(language, "everyday fit.")}</em></h2>
-            </div>
-          </div>
-          <V23CatalogGrid featuredOnly limit={3} showFilters={false} />
-          <div className="v23-home-products-more">
-            <Link to="/products">{marketText(language, "View all products ->", "전체 상품 보기 ->")}</Link>
           </div>
         </section>
 
