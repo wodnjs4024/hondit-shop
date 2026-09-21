@@ -1990,9 +1990,201 @@ const cleanTextOverrides: Record<NonEnglishLanguage, TextDictionary> = {
   ja: jaCleanOverrides,
 };
 
+const traditionalCustomerUi: TextDictionary = {
+  "Build your cleansing mix": "建立你的潔面產品組合",
+  "Choose each product in 10-unit steps. The combined order must be at least 30 units.": "每款產品以 10 件為單位選擇，合計最少訂購 30 件。",
+  "Cleansing Mix Order": "潔面產品混合訂購",
+  "Three cleansing products": "三款潔面產品",
+  "Selected": "已選數量",
+  "minimum": "最低",
+  "Minimum bulk order": "最低批量訂購數量",
+  "The minimum order and quantity increments are checked automatically.": "系統會自動檢查最低訂購數量及增購單位。",
+  "Product-specific minimum orders and quantity steps": "各產品的最低訂購數量及增購單位",
+  "Your order is confirmed after payment is completed.": "付款完成後，訂單才會正式確認。",
+  "ORDER PREPARATION": "訂單準備",
+  "Payment must be confirmed before a bulk order is prepared for dispatch.": "確認付款後，我們才會準備批量訂單出貨。",
+  "Usually 1-3 business days": "通常為 1–3 個工作天",
+  "EMS DELIVERY": "EMS 配送",
+  "The delivery estimate begins when the parcel is dispatched from Korea.": "預計配送時間由包裹從韓國寄出當日起計算。",
+  "Usually 3-5 business days": "通常為 3–5 個工作天",
+  "Customs, holidays and unusually large orders can extend this estimate.": "清關、假期或特大型訂單可能延長配送時間。",
+  "TOTAL ESTIMATE": "預計總時間",
+  "Usually 4-8 business days": "通常為 4–8 個工作天",
+  "Tracking information is shared after dispatch.": "寄出後將提供物流追蹤資訊。",
+  "Tracking": "物流追蹤",
+  "For paid bulk orders, use the tracking details supplied after dispatch.": "已付款的批量訂單請使用寄出後提供的物流追蹤資料。",
+  "For Shopee purchases, use the order page. For a paid bulk order, use the tracking details supplied after dispatch.": "Shopee 訂單請在訂單頁面查詢；已付款的批量訂單請使用寄出後提供的追蹤資料。",
+  "Stock and delivery details are checked after payment confirmation.": "確認付款後，我們會核對庫存及配送資料。",
+  "Complete payment from the PayPal link we send back.": "請使用我們回覆的 PayPal 連結完成付款。",
+  "Email the purchase conditions to hondit.": "請以電郵將購買條件傳送給 hondit。",
+  "Email the purchase conditions to hondit": "將購買條件電郵給 hondit",
+  "Quick purchase links": "快速購買連結",
+  "Review the product, quantity and total payment.": "請確認產品、數量及付款總額。",
+  "Pay through PayPal": "使用 PayPal 付款",
+  "Bulk checkout. Dispatch from Korea.": "批量結帳，由韓國寄出。",
+  "Shopee retail and bulk checkout.": "Shopee 零售及批量結帳。",
+  "Order confirmed": "訂單已確認",
+  "Order attempt": "訂購嘗試",
+  "Try Payment Again": "重新付款",
+  "PRICES": "價格",
+  "HIGHLIGHTS": "產品重點",
+  "DELIVERY TIMELINE": "配送時間",
+  "From payment to arrival.": "從付款到收貨。",
+  "Previous products": "上一組產品",
+  "Next products": "下一組產品",
+  "Product carousel controls": "產品輪播控制",
+  "View all products ->": "查看所有產品 ->",
+  "Shop on Shopee": "前往 Shopee 購買",
+};
+
+const japaneseCustomerUi: TextDictionary = {
+  "Build your cleansing mix": "クレンジングの組み合わせを作る",
+  "Choose each product in 10-unit steps. The combined order must be at least 30 units.": "各商品を10個単位で選択してください。合計の最低注文数は30個です。",
+  "Cleansing Mix Order": "クレンジング組み合わせ注文",
+  "Three cleansing products": "クレンジング3商品",
+  "Selected": "選択数",
+  "minimum": "最低",
+  "Minimum bulk order": "最低一括注文数",
+  "The minimum order and quantity increments are checked automatically.": "最低注文数と追加単位は自動で確認されます。",
+  "Product-specific minimum orders and quantity steps": "商品別の最低注文数と追加単位",
+  "Your order is confirmed after payment is completed.": "お支払い完了後に注文が確定します。",
+  "ORDER PREPARATION": "注文準備",
+  "Payment must be confirmed before a bulk order is prepared for dispatch.": "入金確認後に一括注文の発送準備を開始します。",
+  "Usually 1-3 business days": "通常1〜3営業日",
+  "EMS DELIVERY": "EMS配送",
+  "The delivery estimate begins when the parcel is dispatched from Korea.": "配送予定日数は韓国からの発送日を起点に計算します。",
+  "Usually 3-5 business days": "通常3〜5営業日",
+  "Customs, holidays and unusually large orders can extend this estimate.": "通関、祝日、特に大口の注文により予定より時間がかかる場合があります。",
+  "TOTAL ESTIMATE": "合計目安",
+  "Usually 4-8 business days": "通常4〜8営業日",
+  "Tracking information is shared after dispatch.": "発送後に追跡情報をご案内します。",
+  "Tracking": "配送追跡",
+  "For paid bulk orders, use the tracking details supplied after dispatch.": "お支払い済みの一括注文は、発送後にご案内する追跡情報をご利用ください。",
+  "For Shopee purchases, use the order page. For a paid bulk order, use the tracking details supplied after dispatch.": "Shopee購入は注文ページをご確認ください。一括注文は発送後にご案内する追跡情報をご利用ください。",
+  "Stock and delivery details are checked after payment confirmation.": "入金確認後に在庫と配送情報を確認します。",
+  "Complete payment from the PayPal link we send back.": "返信でお送りするPayPalリンクからお支払いください。",
+  "Email the purchase conditions to hondit.": "購入条件をhonditへメールでお送りください。",
+  "Email the purchase conditions to hondit": "購入条件をhonditへメールする",
+  "Quick purchase links": "クイック購入リンク",
+  "Review the product, quantity and total payment.": "商品、数量、お支払い総額をご確認ください。",
+  "Pay through PayPal": "PayPalで支払う",
+  "Bulk checkout. Dispatch from Korea.": "一括注文決済・韓国から発送。",
+  "Shopee retail and bulk checkout.": "Shopee小売と一括注文決済。",
+  "Order confirmed": "注文確定",
+  "Order attempt": "注文試行",
+  "Try Payment Again": "もう一度支払う",
+  "PRICES": "価格",
+  "HIGHLIGHTS": "商品の特徴",
+  "DELIVERY TIMELINE": "配送スケジュール",
+  "From payment to arrival.": "お支払いからお届けまで。",
+  "Previous products": "前の商品",
+  "Next products": "次の商品",
+  "Product carousel controls": "商品カルーセル操作",
+  "View all products ->": "すべての商品を見る ->",
+  "Shop on Shopee": "Shopeeで購入",
+};
+
+const supplementalCustomerUi: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
+  ja: japaneseCustomerUi,
+  zh: traditionalCustomerUi,
+  "zh-HK": traditionalCustomerUi,
+  "zh-TW": traditionalCustomerUi,
+};
+
 function cleanDynamicText(language: DisplayLanguage, english: string) {
   if (language === "en") return undefined;
   const nonEnglish = language as NonEnglishLanguage;
+
+  const minimumOrderPrice = english.match(/^(.+) each - Minimum order (\d+) units$/);
+  if (minimumOrderPrice) {
+    if (language === "ko") return `${minimumOrderPrice[1]} / 개 · 최소 주문 ${minimumOrderPrice[2]}개`;
+    if (language === "ja") return `${minimumOrderPrice[1]} / 個・最低注文 ${minimumOrderPrice[2]}個`;
+    return `每件 ${minimumOrderPrice[1]}・最低訂購 ${minimumOrderPrice[2]}件`;
+  }
+
+  const minimumOrderPaypal = english.match(/^Review the minimum order, then pay securely through PayPal in (SGD|HKD|USD|TWD|JPY)\.$/);
+  if (minimumOrderPaypal) {
+    if (language === "ko") return `최소 주문 수량을 확인한 뒤 PayPal ${minimumOrderPaypal[1]}로 안전하게 결제합니다.`;
+    if (language === "ja") return `最低注文数を確認し、PayPalで${minimumOrderPaypal[1]}決済します。`;
+    return `確認最低訂購數量後，透過 PayPal 以 ${minimumOrderPaypal[1]} 安全結帳。`;
+  }
+
+  const trackedMinimumOrder = english.match(/^Choose the minimum order quantity and create a tracked (SGD|HKD|USD|TWD|JPY) order\. ->$/);
+  if (trackedMinimumOrder) {
+    if (language === "ko") return `최소 주문 수량을 선택하고 추적 가능한 ${trackedMinimumOrder[1]} 주문을 생성합니다. ->`;
+    if (language === "ja") return `最低注文数を選択し、追跡可能な${trackedMinimumOrder[1]}注文を作成します。 ->`;
+    return `選擇最低訂購數量並建立可追蹤的 ${trackedMinimumOrder[1]} 訂單。 ->`;
+  }
+
+  const minimumCleansing = english.match(/^Please select at least (\d+) cleansing units in total\.$/);
+  if (minimumCleansing) {
+    if (language === "ko") return `클렌징 제품을 합계 ${minimumCleansing[1]}개 이상 선택해 주세요.`;
+    if (language === "ja") return `クレンジング商品を合計${minimumCleansing[1]}個以上選択してください。`;
+    return `請選擇合計最少 ${minimumCleansing[1]} 件潔面產品。`;
+  }
+
+  const availableForDelivery = english.match(/^Orders are currently available for delivery within (.+)\.$/);
+  if (availableForDelivery) {
+    if (language === "ko") return `현재 ${availableForDelivery[1]} 내 배송 주문만 가능합니다.`;
+    if (language === "ja") return `現在、${availableForDelivery[1]}国内への配送注文のみ承っています。`;
+    return `目前僅接受配送至${availableForDelivery[1]}的訂單。`;
+  }
+
+  const payThroughPaypal = english.match(/^Pay through PayPal in (SGD|HKD|USD|TWD|JPY)$/);
+  if (payThroughPaypal) {
+    if (language === "ko") return `PayPal ${payThroughPaypal[1]}로 결제`;
+    if (language === "ja") return `PayPalで${payThroughPaypal[1]}決済`;
+    return `透過 PayPal 以 ${payThroughPaypal[1]} 付款`;
+  }
+
+  const paypalSandbox = english.match(/^PayPal Sandbox payment\. Currency: (SGD|HKD|USD|TWD|JPY)\.$/);
+  if (paypalSandbox) {
+    if (language === "ko") return `PayPal 샌드박스 결제입니다. 통화: ${paypalSandbox[1]}.`;
+    if (language === "ja") return `PayPalサンドボックス決済です。通貨：${paypalSandbox[1]}。`;
+    return `PayPal 沙盒測試付款。貨幣：${paypalSandbox[1]}。`;
+  }
+
+  const bulkUnitPrice = english.match(/^(SGD|HKD|USD|TWD|JPY) BULK UNIT PRICE$/);
+  if (bulkUnitPrice) {
+    if (language === "ko") return `${bulkUnitPrice[1]} 대량주문 개당 가격`;
+    if (language === "ja") return `${bulkUnitPrice[1]} 一括注文単価`;
+    return `${bulkUnitPrice[1]} 批量單價`;
+  }
+
+  const shippingTo = english.match(/^SHIPPING TO (.+)$/);
+  if (shippingTo) {
+    if (language === "ko") return `${shippingTo[1]} 배송`;
+    if (language === "ja") return `${shippingTo[1]}への配送`;
+    return `配送至${shippingTo[1]}`;
+  }
+
+  const savedReference = english.match(/^Your message has been saved\. Reference: (.+)$/);
+  if (savedReference) {
+    if (language === "ko") return `메시지가 저장되었습니다. 문의 번호: ${savedReference[1]}`;
+    if (language === "ja") return `メッセージを保存しました。受付番号：${savedReference[1]}`;
+    return `訊息已儲存。參考編號：${savedReference[1]}`;
+  }
+
+  const protectedInboxForm = english.match(/^This form is saved to hondit's protected admin inbox with the (.+) market tag\.$/);
+  if (protectedInboxForm) {
+    if (language === "ko") return `이 양식은 ${protectedInboxForm[1]} 마켓 태그와 함께 hondit 관리자 문의함에 안전하게 저장됩니다.`;
+    if (language === "ja") return `このフォームは${protectedInboxForm[1]}市場タグ付きで、honditの保護された管理受信箱に保存されます。`;
+    return `此表格會以${protectedInboxForm[1]}市場標籤儲存至 hondit 的受保護管理收件箱。`;
+  }
+
+  const directInbox = english.match(/^Send a message directly to the hondit admin inbox for (.+) bulk orders, or use Shopee Chat for an existing Shopee order\.$/);
+  if (directInbox) {
+    if (language === "ko") return `${directInbox[1]} 대량주문 문의는 hondit 관리자 문의함으로 보내거나, 기존 Shopee 주문은 Shopee 채팅을 이용하세요.`;
+    if (language === "ja") return `${directInbox[1]}の一括注文についてはhondit管理受信箱へお問い合わせください。既存のShopee注文はShopeeチャットをご利用ください。`;
+    return `${directInbox[1]}批量訂單可直接傳送訊息至 hondit 管理收件箱；現有 Shopee 訂單請使用 Shopee 聊天。`;
+  }
+
+  const marketInboxOnly = english.match(/^(.+) orders are handled by hondit bulk checkout only\. Every question sent here is saved to the protected admin inbox\.$/);
+  if (marketInboxOnly) {
+    if (language === "ko") return `${marketInboxOnly[1]} 주문은 hondit 대량주문 결제로만 처리됩니다. 이곳에서 보낸 문의는 보호된 관리자 문의함에 저장됩니다.`;
+    if (language === "ja") return `${marketInboxOnly[1]}の注文はhondit一括注文決済のみで対応します。ここから送信したお問い合わせは保護された管理受信箱に保存されます。`;
+    return `${marketInboxOnly[1]}訂單僅透過 hondit 批量結帳處理。此處送出的查詢會儲存至受保護管理收件箱。`;
+  }
 
   const marketDelivery = english.match(/^(.+) delivery$/);
   if (marketDelivery) {
@@ -2058,7 +2250,7 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
   }
 
   const override = cleanTextOverrides[nonEnglish]?.[english];
-  return override || undefined;
+  return override || supplementalCustomerUi[nonEnglish]?.[english] || undefined;
 }
 
 export function marketText(language: DisplayLanguage, english: string, fallback?: string) {
