@@ -2512,6 +2512,55 @@ video {
   font-size: 2.5rem;
 }
 
+.v23-product-story {
+  width: min(1024px, calc(100% - 56px));
+  margin: 0 auto 82px;
+}
+
+.v23-product-story header {
+  padding: 0 0 24px;
+  text-align: center;
+}
+
+.v23-product-story header .v23-eyebrow {
+  justify-content: center;
+}
+
+.v23-product-story h2 {
+  margin: 8px 0 0;
+  font-family: var(--v23-serif);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+.v23-product-story > div {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--v23-line);
+  border-radius: 24px;
+  background: #fff;
+}
+
+.v23-product-story img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 680px) {
+  .v23-product-story {
+    width: calc(100% - 24px);
+    margin-bottom: 54px;
+  }
+
+  .v23-product-story header {
+    padding-bottom: 16px;
+  }
+
+  .v23-product-story > div {
+    border-radius: 16px;
+  }
+}
+
 .v23-policy-page,
 .v23-not-found {
   min-height: 62vh;
