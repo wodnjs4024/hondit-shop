@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
+import { trackEvent } from "../lib/analytics";
 import {
   formatMarketUnitMoney,
   getMarketUnitPrice,
@@ -22,10 +23,15 @@ export function ProductDetailPage() {
   const { market, language } = useMarket();
   const { productId = "" } = useParams();
   const [product, setProduct] = useState<StorefrontProduct | undefined>(() => v23Products.find((item) => item.slug === productId));
+  const [detailImageIndex, setDetailImageIndex] = useState(0);
 
   useEffect(() => {
     loadStorefrontProduct(productId).then(setProduct).catch(() => undefined);
   }, [productId]);
+
+  useEffect(() => {
+    setDetailImageIndex(0);
+  }, [market.code, productId]);
 
   if (!productId) return <Navigate to="/products" replace />;
   if (!product) return <NotFoundPage />;
@@ -37,6 +43,16 @@ export function ProductDetailPage() {
   const productDescription = marketProductText(language, product.description);
   const productGoodFor = marketProductText(language, product.goodFor);
   const showSingaporeDiffuserDetails = market.code === "SG" && product.slug === "diffuser-350g";
+  const selectDetailImage = (nextIndex: number, source: "arrow" | "thumbnail" | "keyboard") => {
+    const normalizedIndex = (nextIndex + singaporeDiffuser350Details.length) % singaporeDiffuser350Details.length;
+    setDetailImageIndex(normalizedIndex);
+    trackEvent("product_gallery_select", {
+      product_id: product.slug,
+      image_number: normalizedIndex + 1,
+      interaction_source: source,
+      market_code: market.code,
+    });
+  };
   const productUrl = `https://hondit-shop.vercel.app/products/${product.slug}`;
   const absoluteImage = product.image.startsWith("http") ? product.image : `https://hondit-shop.vercel.app${product.image}`;
   const productSchema = {
@@ -135,18 +151,66 @@ export function ProductDetailPage() {
               <p className="v23-eyebrow"><span /> {marketText(language, "PRODUCT DETAILS", "상품 상세 설명")}</p>
               <h2>{productName}</h2>
             </header>
-            <div>
-              {singaporeDiffuser350Details.map((image, index) => (
+            <div className="v23-product-gallery">
+              <div
+                className="v23-product-gallery__stage"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowLeft") {
+                    event.preventDefault();
+                    selectDetailImage(detailImageIndex - 1, "keyboard");
+                  }
+                  if (event.key === "ArrowRight") {
+                    event.preventDefault();
+                    selectDetailImage(detailImageIndex + 1, "keyboard");
+                  }
+                }}
+              >
                 <img
-                  key={image}
-                  src={image}
-                  alt={`${productName} — ${marketText(language, "product detail", "상품 상세 이미지")} ${index + 1}`}
+                  id="v23-diffuser-detail-active"
+                  src={singaporeDiffuser350Details[detailImageIndex]}
+                  alt={`${productName} — ${marketText(language, "product detail", "상품 상세 이미지")} ${detailImageIndex + 1}`}
                   width={1024}
                   height={1024}
-                  loading="lazy"
                   decoding="async"
                 />
-              ))}
+                <button
+                  className="is-previous"
+                  type="button"
+                  aria-label={marketText(language, "Previous image", "이전 이미지")}
+                  onClick={() => selectDetailImage(detailImageIndex - 1, "arrow")}
+                >
+                  ‹
+                </button>
+                <button
+                  className="is-next"
+                  type="button"
+                  aria-label={marketText(language, "Next image", "다음 이미지")}
+                  onClick={() => selectDetailImage(detailImageIndex + 1, "arrow")}
+                >
+                  ›
+                </button>
+                <span className="v23-product-gallery__count" aria-live="polite">
+                  {detailImageIndex + 1} / {singaporeDiffuser350Details.length}
+                </span>
+              </div>
+              <div className="v23-product-gallery__thumbnails" role="tablist" aria-label={marketText(language, "Product image thumbnails", "상품 이미지 미리보기")}>
+                {singaporeDiffuser350Details.map((image, index) => (
+                  <button
+                    key={image}
+                    type="button"
+                    role="tab"
+                    aria-selected={detailImageIndex === index}
+                    aria-controls="v23-diffuser-detail-active"
+                    aria-label={`${marketText(language, "Show image", "이미지 보기")} ${index + 1}`}
+                    className={detailImageIndex === index ? "is-active" : ""}
+                    onClick={() => selectDetailImage(index, "thumbnail")}
+                  >
+                    <img src={image} alt="" width={160} height={160} loading="lazy" decoding="async" />
+                    <span>{index + 1}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </section>
         )}
