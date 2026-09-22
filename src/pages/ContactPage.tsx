@@ -2,15 +2,33 @@ import { FormEvent, useState } from "react";
 import { V23Page } from "../components/v23/SiteChrome";
 import { EMAIL, INSTAGRAM, SHOPEE } from "../data/v23SiteData";
 import { trackEvent } from "../lib/analytics";
-import { marketCountryName, marketText, useMarket } from "../lib/market";
+import { marketCountryName, marketText, useMarket, type DisplayLanguage } from "../lib/market";
 
 const inquiryTypes = ["General", "Product question", "Order support", "Bulk order", "Partnership"];
+
+const openLabel: Record<DisplayLanguage, string> = {
+  en: "Open",
+  ko: "열기",
+  zh: "打开",
+  "zh-HK": "開啟",
+  "zh-TW": "開啟",
+  ja: "開く",
+  ms: "Buka",
+  th: "เปิด",
+};
+
+const channelCopy = (text: string) => text.replace(/\s*(?:->|→)\s*$/, "");
 
 export function ContactPage() {
   const { market, language } = useMarket();
   const countryName = marketCountryName(market, language);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const trackChannel = (channel: string, destination: string) => trackEvent("contact_channel_click", {
+    contact_channel: channel,
+    link_url: destination,
+    market_code: market.code,
+  });
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -98,26 +116,29 @@ export function ContactPage() {
             <p className="v23-eyebrow is-light"><span /> {marketText(language, "QUICK ROUTES", "빠른 경로")}</p>
             <h2>{marketText(language, "Use the right channel.", "상황에 맞는 채널을 선택하세요.")}</h2>
             {market.hasShopee && (
-              <a href={SHOPEE} target="_blank" rel="noreferrer">
+              <a className="v23-contact-channel" href={SHOPEE} target="_blank" rel="noreferrer" onClick={() => trackChannel("shopee_chat", SHOPEE)}>
                 <small>EXISTING SHOPEE ORDER</small>
-                <b>Shopee Chat</b>
-                <span>{marketText(language, "Payment, voucher, delivery tracking or address changes for Shopee orders. ->", "Shopee 주문 결제, 쿠폰, 배송 추적, 주소 변경 문의. ->")}</span>
+                <span className="v23-contact-channel-head"><b>Shopee Chat</b><i>{openLabel[language]} <em aria-hidden="true">↗</em></i></span>
+                <strong>shopee.sg/hondit.office.sg</strong>
+                <span>{channelCopy(marketText(language, "Payment, voucher, delivery tracking or address changes for Shopee orders. ->", "Shopee 주문 결제, 쿠폰, 배송 추적, 주소 변경 문의. ->"))}</span>
               </a>
             )}
-            <a href={INSTAGRAM} target="_blank" rel="noreferrer">
+            <a className="v23-contact-channel" href={INSTAGRAM} target="_blank" rel="noreferrer" onClick={() => trackChannel("instagram", INSTAGRAM)}>
               <small>PRODUCT AND SOCIAL</small>
-              <b>Instagram</b>
-              <span>{marketText(language, "Short product questions, social content and informal collaborations. ->", "간단한 상품 문의, 소셜 콘텐츠, 협업 문의. ->")}</span>
+              <span className="v23-contact-channel-head"><b>Instagram</b><i>{openLabel[language]} <em aria-hidden="true">↗</em></i></span>
+              <strong>@hondit.office</strong>
+              <span>{channelCopy(marketText(language, "Short product questions, social content and informal collaborations. ->", "간단한 상품 문의, 소셜 콘텐츠, 협업 문의. ->"))}</span>
             </a>
-            <a href={`mailto:${EMAIL}`}>
+            <a className="v23-contact-channel" href={`mailto:${EMAIL}`} onClick={() => trackChannel("email", `mailto:${EMAIL}`)}>
               <small>FORMAL DOCUMENTS</small>
-              <b>Email</b>
+              <span className="v23-contact-channel-head"><b>Email</b><i>{openLabel[language]} <em aria-hidden="true">↗</em></i></span>
+              <strong>{EMAIL}</strong>
               <span>{marketText(language, "Attachments and formal records can still be sent by email.", "첨부파일이나 공식 문서는 이메일로 보낼 수 있습니다.")}</span>
             </a>
-            <a href="/bulk-orders">
+            <a className="v23-contact-channel" href="/bulk-orders" onClick={() => trackChannel("bulk_checkout", "/bulk-orders")}>
               <small>DIRECT BULK ORDER</small>
-              <b>PayPal checkout</b>
-              <span>{marketText(language, `Choose the minimum order quantity and create a tracked ${market.currency} order. ->`, `최소 주문 수량을 선택하고 추적 가능한 ${market.currency} 주문을 생성합니다. ->`)}</span>
+              <span className="v23-contact-channel-head"><b>PayPal checkout</b><i>{openLabel[language]} <em aria-hidden="true">→</em></i></span>
+              <span>{channelCopy(marketText(language, `Choose the minimum order quantity and create a tracked ${market.currency} order. ->`, `최소 주문 수량을 선택하고 추적 가능한 ${market.currency} 주문을 생성합니다. ->`))}</span>
             </a>
           </aside>
         </section>
