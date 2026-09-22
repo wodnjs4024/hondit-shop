@@ -8,15 +8,18 @@ type MapStage = "asia" | "korea" | "jeju";
 type SvgLocation = { id: string; path: string; name?: string };
 type SvgMap = { viewBox: string; locations: SvgLocation[] };
 
+const koreaRoutePoint = { x: 833.76, y: 350.7 } as const;
+
+// Marker centres are verified against the same @svg-maps/world country paths rendered below.
 const marketRoutes = {
-  SG: { mapId: "sg", x: 768, y: 457, curve: "M 768 457 C 790 430, 820 397, 842 357" },
-  HK: { mapId: "hk", x: 795.3, y: 398.8, curve: "M 795.3 398.8 C 812 385, 829 368, 842 357" },
-  TW: { mapId: "tw", x: 813.8, y: 397.8, curve: "M 813.8 397.8 C 823 382, 834 367, 842 357" },
-  JP: { mapId: "jp", x: 873, y: 344, curve: "M 873 344 C 862 345, 851 350, 842 357" },
-  BN: { mapId: "bn", x: 813, y: 456, curve: "M 813 456 C 824 421, 834 382, 842 357" },
-  MO: { mapId: "mo", x: 792, y: 402, curve: "M 792 402 C 811 388, 827 371, 842 357" },
-  TH: { mapId: "th", x: 773, y: 438, curve: "M 773 438 C 798 417, 824 379, 842 357" },
-  MY: { mapId: "my", x: 766, y: 459, curve: "M 766 459 C 795 430, 823 389, 842 357" },
+  SG: { mapId: "sg", x: 766.05, y: 459.14, curve: "M 766.05 459.14 C 789 429, 814 383, 833.76 350.7" },
+  HK: { mapId: "hk", x: 794.95, y: 398.71, curve: "M 794.95 398.71 C 807 383, 821 364, 833.76 350.7" },
+  TW: { mapId: "tw", x: 814.49, y: 392.68, curve: "M 814.49 392.68 C 822 379, 828 363, 833.76 350.7" },
+  JP: { mapId: "jp", x: 873, y: 344, curve: "M 873 344 C 861 343, 846 347, 833.76 350.7" },
+  BN: { mapId: "bn", x: 796.39, y: 450.3, curve: "M 796.39 450.3 C 808 417, 823 374, 833.76 350.7" },
+  MO: { mapId: "mo", x: 793.45, y: 399.34, curve: "M 793.45 399.34 C 806 385, 821 365, 833.76 350.7" },
+  TH: { mapId: "th", x: 759.78, y: 416.6, curve: "M 759.78 416.6 C 784 397, 813 367, 833.76 350.7" },
+  MY: { mapId: "my", x: 761.73, y: 450.23, curve: "M 761.73 450.23 C 787 422, 814 376, 833.76 350.7" },
 } as const;
 
 const asiaIds = new Set([
@@ -175,7 +178,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                   })}
                   <path className="v23-asia-route" d={marketRoute.curve} />
                   <circle className="v23-route-origin" cx={marketRoute.x} cy={marketRoute.y} r="3.4" />
-                  <circle className="v23-route-destination" cx="842" cy="357" r="4.2" />
+                  <circle className="v23-route-destination" cx={koreaRoutePoint.x} cy={koreaRoutePoint.y} r="4.2" />
                   {asiaLabels.map((label) => <text key={label.name} x={label.x} y={label.y}>{label.name}</text>)}
                 </svg>
               </div>
