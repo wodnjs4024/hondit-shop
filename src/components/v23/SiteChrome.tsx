@@ -88,10 +88,14 @@ export function V23Header() {
         <div className="v23-nav-tools" aria-label="Market and language settings">
           <label className="v23-market-switch" aria-label="Market">
             <span>Market</span>
-            <select value={market.code} onChange={(event) => setMarket(event.target.value as MarketCode)}>
+            <select value={market.code} onChange={(event) => {
+              const code = event.target.value as MarketCode;
+              setMarket(code);
+              setLanguage(markets[code].defaultLanguage);
+            }}>
               {Object.values(markets).map((option) => (
                 <option key={option.code} value={option.code}>
-                  {option.label} / {option.currency}
+                  {option.flag} {option.label} / {option.currency}
                 </option>
               ))}
             </select>

@@ -39,6 +39,12 @@ export const markets = {
     checkoutNote: "Japan EMS shipping is included in the displayed bulk unit price.",
     allowedBulkCategories: ["diffuser"],
   },
+  BN: { code: "BN", countryCode: "BN", countryName: "Brunei", currency: "SGD", sgdRate: 1, hasShopee: false, checkoutNote: "Brunei EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
+  MO: { code: "MO", countryCode: "MO", countryName: "Macau", currency: "HKD", sgdRate: 6.08, hasShopee: false, checkoutNote: "Macau EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["cleansing", "diffuser"] },
+  ID: { code: "ID", countryCode: "ID", countryName: "Indonesia", currency: "SGD", sgdRate: 1, hasShopee: false, checkoutNote: "Indonesia EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
+  TH: { code: "TH", countryCode: "TH", countryName: "Thailand", currency: "THB", sgdRate: 26.05, hasShopee: false, checkoutNote: "Thailand EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
+  MY: { code: "MY", countryCode: "MY", countryName: "Malaysia", currency: "MYR", sgdRate: 3.217, hasShopee: false, checkoutNote: "Malaysia EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
+  VN: { code: "VN", countryCode: "VN", countryName: "Vietnam", currency: "SGD", sgdRate: 1, hasShopee: false, checkoutNote: "Vietnam EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
 };
 
 export function normalizeMarketCode(value) {
@@ -47,6 +53,12 @@ export function normalizeMarketCode(value) {
   if (normalized === "HK" || normalized === "HONGKONG" || normalized === "HONG KONG") return "HK";
   if (normalized === "TW" || normalized === "TAIWAN" || normalized === "台灣" || normalized === "台湾") return "TW";
   if (normalized === "JP" || normalized === "JAPAN" || normalized === "日本") return "JP";
+  if (normalized === "BN" || normalized === "BRUNEI") return "BN";
+  if (normalized === "MO" || normalized === "MACAU" || normalized === "MACAO" || normalized === "澳門" || normalized === "澳门") return "MO";
+  if (normalized === "ID" || normalized === "INDONESIA") return "ID";
+  if (normalized === "TH" || normalized === "THAILAND") return "TH";
+  if (normalized === "MY" || normalized === "MALAYSIA") return "MY";
+  if (normalized === "VN" || normalized === "VIETNAM") return "VN";
   return null;
 }
 
@@ -100,6 +112,8 @@ export function formatOrderAmount(value, currency = "SGD") {
   const amount = Number(value || 0).toFixed(2);
   if (currency === "HKD") return `HK$${amount}`;
   if (currency === "TWD") return `NT$${amount}`;
+  if (currency === "MYR") return `RM${amount}`;
+  if (currency === "THB") return `฿${amount}`;
   if (currency === "USD") return `$${amount}`;
   return `S$${amount}`;
 }

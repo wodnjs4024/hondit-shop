@@ -19,7 +19,7 @@ export type StorefrontProduct = {
   stockQuantity?: number;
   active?: boolean;
   featured?: boolean;
-  marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP", number>>;
+  marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "ID" | "TH" | "MY" | "VN", number>>;
 };
 
 export const SHOPEE = "https://shopee.sg/hondit.office.sg";
@@ -45,7 +45,7 @@ export const v23Products: StorefrontProduct[] = [
     howTo: ["Place the volcanic stone in its vessel.", "Add 10-12 drops of citrus oil directly onto the stone.", "Let it absorb, then refresh with a few drops whenever needed."],
     goodFor: "Small bedrooms, bathrooms, desks and quiet personal spaces.",
     bulkUnitPrice: 21,
-    marketUnitPrices: { SG: 21, HK: 128, TW: 480, JP: 2400 },
+    marketUnitPrices: { SG: 21, HK: 128, TW: 480, JP: 2400, BN: 21, MO: 128, ID: 21, TH: 550, MY: 68, VN: 21 },
     bulkMoq: 20,
     bulkStep: 10,
     featured: true,
@@ -66,7 +66,7 @@ export const v23Products: StorefrontProduct[] = [
     howTo: ["Arrange the volcanic stone in its vessel.", "Add 10-12 drops across the upper stones.", "Refresh the scent only when you choose."],
     goodFor: "Living rooms, reception desks, studios and hospitality spaces.",
     bulkUnitPrice: 46,
-    marketUnitPrices: { SG: 46, HK: 280, TW: 1050, JP: 5200 },
+    marketUnitPrices: { SG: 46, HK: 280, TW: 1050, JP: 5200, BN: 46, MO: 280, ID: 46, TH: 1200, MY: 148, VN: 46 },
     bulkMoq: 20,
     bulkStep: 10,
     featured: true,
@@ -87,7 +87,7 @@ export const v23Products: StorefrontProduct[] = [
     howTo: ["Pump onto dry hands.", "Massage gently over dry skin.", "Add water to create foam, then rinse thoroughly."],
     goodFor: "Evening cleansing when sunscreen or light makeup needs to be removed.",
     bulkUnitPrice: 8.99,
-    marketUnitPrices: { SG: 8.99, HK: 55 },
+    marketUnitPrices: { SG: 8.99, HK: 55, MO: 55 },
     bulkMoq: 30,
     bulkStep: 10,
     featured: true,
@@ -108,7 +108,7 @@ export const v23Products: StorefrontProduct[] = [
     howTo: ["Wet your face with lukewarm water.", "Pump the foam into your hand.", "Massage gently and rinse thoroughly."],
     goodFor: "Morning cleansing and a simple everyday face-wash routine.",
     bulkUnitPrice: 8.99,
-    marketUnitPrices: { SG: 8.99, HK: 55 },
+    marketUnitPrices: { SG: 8.99, HK: 55, MO: 55 },
     bulkMoq: 30,
     bulkStep: 10,
     featured: true,
@@ -129,7 +129,7 @@ export const v23Products: StorefrontProduct[] = [
     howTo: ["Soak a cotton pad with cleansing water.", "Wipe gently across the face without rubbing.", "Follow with a water-based cleanser when your routine requires it."],
     goodFor: "Light makeup, quick cleansing and low-effort evening resets.",
     bulkUnitPrice: 8.99,
-    marketUnitPrices: { SG: 8.99, HK: 55 },
+    marketUnitPrices: { SG: 8.99, HK: 55, MO: 55 },
     bulkMoq: 30,
     bulkStep: 10,
     featured: true,
