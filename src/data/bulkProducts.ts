@@ -46,7 +46,7 @@ export type BulkProduct = {
   detailImages?: string[];
   detailHighlights?: string[];
   detailHowToUse?: string[];
-  marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "ID" | "TH" | "MY" | "VN", number>>;
+  marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP" | "MO" | "TH" | "MY", number>>;
 };
 
 export const BULK_QTY_STEP = 10;
@@ -169,7 +169,7 @@ export const bulkProducts: BulkProduct[] = [
     description: "A compact Jeju volcanic stone diffuser with citrus oil, suited for desks, shelves and personal spaces.",
     imageUrl: packImages.diffuser350Studio,
     unitPriceSgd: 21,
-    marketUnitPrices: { SG: 21, HK: 128, TW: 480, JP: 2400, BN: 21, MO: 128, ID: 21, TH: 550, MY: 68, VN: 21 },
+    marketUnitPrices: { SG: 21, HK: 128, TW: 480, JP: 2400, MO: 128, TH: 550, MY: 68 },
     packQuantity: 20,
     packPriceSgd: 420,
     unitWeightKg: 0.48,
@@ -194,7 +194,7 @@ export const bulkProducts: BulkProduct[] = [
     description: "A larger Jeju volcanic stone diffuser with citrus oil, suited for bedrooms, bathrooms and shared spaces.",
     imageUrl: packImages.diffuser500Studio,
     unitPriceSgd: 46,
-    marketUnitPrices: { SG: 46, HK: 280, TW: 1050, JP: 5200, BN: 46, MO: 280, ID: 46, TH: 1200, MY: 148, VN: 46 },
+    marketUnitPrices: { SG: 46, HK: 280, TW: 1050, JP: 5200, MO: 280, TH: 1200, MY: 148 },
     packQuantity: 20,
     packPriceSgd: 920,
     unitWeightKg: 0.68,
@@ -221,7 +221,7 @@ export const livePaymentTestProduct: BulkProduct = {
   description: "A hidden operational test item for confirming that Live PayPal payment, order saving and refund flow work correctly.",
   imageUrl: packImages.diffuser350Studio,
   unitPriceSgd: 1,
-  marketUnitPrices: { SG: 1, HK: 6, TW: 25, JP: 120, BN: 1, MO: 6, ID: 1, TH: 26, MY: 3.2, VN: 1 },
+  marketUnitPrices: { SG: 1, HK: 6, TW: 25, JP: 120, MO: 6, TH: 26, MY: 3.2 },
   packQuantity: 1,
   packPriceSgd: 1,
   unitWeightKg: 0,

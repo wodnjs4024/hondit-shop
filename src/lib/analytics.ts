@@ -52,12 +52,9 @@ function getAnalyticsContext(): AnalyticsContext {
     HK: { market_country: "Hong Kong", currency: "HKD" },
     TW: { market_country: "Taiwan", currency: "TWD" },
     JP: { market_country: "Japan", currency: "JPY" },
-    BN: { market_country: "Brunei", currency: "SGD" },
     MO: { market_country: "Macau", currency: "HKD" },
-    ID: { market_country: "Indonesia", currency: "SGD" },
     TH: { market_country: "Thailand", currency: "THB" },
     MY: { market_country: "Malaysia", currency: "MYR" },
-    VN: { market_country: "Vietnam", currency: "SGD" },
   };
   const selected = marketMap[marketCode] || marketMap.SG;
   return { market_code: marketCode, display_language: language, ...selected };

@@ -13,12 +13,9 @@ const marketRoutes = {
   HK: { mapId: "hk", x: 795.3, y: 398.8, curve: "M 795.3 398.8 C 812 385, 829 368, 842 357" },
   TW: { mapId: "tw", x: 813.8, y: 397.8, curve: "M 813.8 397.8 C 823 382, 834 367, 842 357" },
   JP: { mapId: "jp", x: 873, y: 344, curve: "M 873 344 C 862 345, 851 350, 842 357" },
-  BN: { mapId: "bn", x: 813, y: 456, curve: "M 813 456 C 824 421, 834 382, 842 357" },
   MO: { mapId: "mo", x: 792, y: 402, curve: "M 792 402 C 811 388, 827 371, 842 357" },
-  ID: { mapId: "id", x: 775, y: 486, curve: "M 775 486 C 800 448, 824 394, 842 357" },
   TH: { mapId: "th", x: 773, y: 438, curve: "M 773 438 C 798 417, 824 379, 842 357" },
   MY: { mapId: "my", x: 766, y: 459, curve: "M 766 459 C 795 430, 823 389, 842 357" },
-  VN: { mapId: "vn", x: 791, y: 445, curve: "M 791 445 C 812 419, 830 382, 842 357" },
 } as const;
 
 const asiaIds = new Set([
@@ -31,14 +28,11 @@ const asiaLabels = [
   { name: "China", x: 779, y: 360 },
   { name: "India", x: 720, y: 408 },
   { name: "Thailand", x: 779, y: 444 },
-  { name: "Vietnam", x: 798, y: 437 },
   { name: "Malaysia", x: 777, y: 467 },
   { name: "Singapore", x: 768, y: 457 },
   { name: "Hong Kong", x: 786, y: 407 },
   { name: "Macau", x: 784, y: 413 },
   { name: "Taiwan", x: 817, y: 405 },
-  { name: "Indonesia", x: 818, y: 502 },
-  { name: "Brunei", x: 813, y: 463 },
   { name: "Philippines", x: 829, y: 420 },
   { name: "Japan", x: 873, y: 344 },
 ] as const;

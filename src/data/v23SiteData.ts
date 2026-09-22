@@ -19,7 +19,7 @@ export type StorefrontProduct = {
   stockQuantity?: number;
   active?: boolean;
   featured?: boolean;
-  marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "ID" | "TH" | "MY" | "VN", number>>;
+  marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP" | "MO" | "TH" | "MY", number>>;
 };
 
 export const SHOPEE = "https://shopee.sg/hondit.office.sg";
@@ -45,7 +45,7 @@ export const v23Products: StorefrontProduct[] = [
     howTo: ["Place the volcanic stone in its vessel.", "Add 10-12 drops of citrus oil directly onto the stone.", "Let it absorb, then refresh with a few drops whenever needed."],
     goodFor: "Small bedrooms, bathrooms, desks and quiet personal spaces.",
     bulkUnitPrice: 21,
-    marketUnitPrices: { SG: 21, HK: 128, TW: 480, JP: 2400, BN: 21, MO: 128, ID: 21, TH: 550, MY: 68, VN: 21 },
+    marketUnitPrices: { SG: 21, HK: 128, TW: 480, JP: 2400, MO: 128, TH: 550, MY: 68 },
     bulkMoq: 20,
     bulkStep: 10,
     featured: true,
@@ -66,7 +66,7 @@ export const v23Products: StorefrontProduct[] = [
     howTo: ["Arrange the volcanic stone in its vessel.", "Add 10-12 drops across the upper stones.", "Refresh the scent only when you choose."],
     goodFor: "Living rooms, reception desks, studios and hospitality spaces.",
     bulkUnitPrice: 46,
-    marketUnitPrices: { SG: 46, HK: 280, TW: 1050, JP: 5200, BN: 46, MO: 280, ID: 46, TH: 1200, MY: 148, VN: 46 },
+    marketUnitPrices: { SG: 46, HK: 280, TW: 1050, JP: 5200, MO: 280, TH: 1200, MY: 148 },
     bulkMoq: 20,
     bulkStep: 10,
     featured: true,
