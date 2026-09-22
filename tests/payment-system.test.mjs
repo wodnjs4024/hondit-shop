@@ -16,7 +16,7 @@ const diffuser = defaultProducts.find((product) => product.slug === "diffuser-35
 const cleanser = defaultProducts.find((product) => product.category === "cleansing");
 
 test("each market resolves to its correct country and currency", () => {
-  const expected = { SG: "SGD", HK: "HKD", TW: "TWD", JP: "JPY", MO: "HKD", TH: "THB", MY: "MYR" };
+  const expected = { SG: "SGD", HK: "HKD", TW: "TWD", JP: "JPY", BN: "SGD", MO: "HKD", TH: "THB", MY: "MYR" };
   for (const [code, currency] of Object.entries(expected)) {
     const market = resolveMarket({ market: code, countryCode: code });
     assert.equal(market.currency, currency);
@@ -43,14 +43,14 @@ test("market-specific product restrictions are enforced", () => {
   assert.equal(isBulkProductAllowedForMarket(cleanser, markets.TW), false);
   assert.equal(isBulkProductAllowedForMarket(cleanser, markets.JP), false);
   assert.equal(isBulkProductAllowedForMarket(cleanser, markets.MO), true);
-  for (const code of ["TH", "MY"]) {
+  for (const code of ["BN", "TH", "MY"]) {
     assert.equal(isBulkProductAllowedForMarket(diffuser, markets[code]), true);
     assert.equal(isBulkProductAllowedForMarket(cleanser, markets[code]), false);
   }
 });
 
 test("fixed market prices produce expected minimum totals", () => {
-  const expected = { SG: 420, HK: 2560, TW: 9600, JP: 48000, MO: 2560, TH: 11000, MY: 1360 };
+  const expected = { SG: 420, HK: 2560, TW: 9600, JP: 48000, BN: 420, MO: 2560, TH: 11000, MY: 1360 };
   for (const [code, total] of Object.entries(expected)) {
     assert.equal(getMarketUnitPrice(diffuser, markets[code]), total / 20);
     assert.equal(getMarketLineTotal(diffuser, 20, markets[code]), total);

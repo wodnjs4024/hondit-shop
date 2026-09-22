@@ -39,6 +39,7 @@ export const markets = {
     checkoutNote: "Japan EMS shipping is included in the displayed bulk unit price.",
     allowedBulkCategories: ["diffuser"],
   },
+  BN: { code: "BN", countryCode: "BN", countryName: "Brunei", currency: "SGD", sgdRate: 1, hasShopee: false, checkoutNote: "BND and SGD are valued at 1:1. PayPal checkout is processed in SGD; card issuer fees may apply.", allowedBulkCategories: ["diffuser"] },
   MO: { code: "MO", countryCode: "MO", countryName: "Macau", currency: "HKD", sgdRate: 6.08, hasShopee: false, checkoutNote: "Macau EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["cleansing", "diffuser"] },
   TH: { code: "TH", countryCode: "TH", countryName: "Thailand", currency: "THB", sgdRate: 26.05, hasShopee: false, checkoutNote: "Thailand EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
   MY: { code: "MY", countryCode: "MY", countryName: "Malaysia", currency: "MYR", sgdRate: 3.217, hasShopee: false, checkoutNote: "Malaysia EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
@@ -50,6 +51,7 @@ export function normalizeMarketCode(value) {
   if (normalized === "HK" || normalized === "HONGKONG" || normalized === "HONG KONG") return "HK";
   if (normalized === "TW" || normalized === "TAIWAN" || normalized === "台灣" || normalized === "台湾") return "TW";
   if (normalized === "JP" || normalized === "JAPAN" || normalized === "日本") return "JP";
+  if (normalized === "BN" || normalized === "BRUNEI") return "BN";
   if (normalized === "MO" || normalized === "MACAU" || normalized === "MACAO" || normalized === "澳門" || normalized === "澳门") return "MO";
   if (normalized === "TH" || normalized === "THAILAND") return "TH";
   if (normalized === "MY" || normalized === "MALAYSIA") return "MY";

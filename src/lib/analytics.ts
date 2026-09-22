@@ -52,6 +52,7 @@ function getAnalyticsContext(): AnalyticsContext {
     HK: { market_country: "Hong Kong", currency: "HKD" },
     TW: { market_country: "Taiwan", currency: "TWD" },
     JP: { market_country: "Japan", currency: "JPY" },
+    BN: { market_country: "Brunei", currency: "SGD" },
     MO: { market_country: "Macau", currency: "HKD" },
     TH: { market_country: "Thailand", currency: "THB" },
     MY: { market_country: "Malaysia", currency: "MYR" },

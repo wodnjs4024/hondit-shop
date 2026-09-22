@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import { setAnalyticsContext, trackEvent } from "./analytics";
 import { getShortCampaign } from "./shortCampaign";
 
-export type MarketCode = "SG" | "HK" | "TW" | "JP" | "MO" | "TH" | "MY";
+export type MarketCode = "SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "TH" | "MY";
 export type DisplayLanguage = "en" | "ko" | "zh" | "zh-HK" | "zh-TW" | "ja" | "ms" | "th";
 export type CurrencyCode = "SGD" | "HKD" | "TWD" | "JPY" | "MYR" | "THB";
 export type StorefrontMarketCategory = "CARE" | "SCENT";
@@ -142,6 +142,17 @@ export const markets: Record<MarketCode, MarketConfig> = {
     checkoutNoteKo: "일본 EMS 배송비 포함",
     allowedProductCategories: ["SCENT"],
     allowedBulkCategories: ["diffuser"],
+  },
+  BN: {
+    code: "BN", shortLabel: "BN", flag: "🇧🇳", label: "Brunei", koreanLabel: "브루나이",
+    countryCode: "BN", countryName: "Brunei", countryNameKo: "브루나이", currency: "SGD", defaultLanguage: "ms",
+    locale: "en-BN", rateFromSgd: 1, hasShopee: false,
+    announcement: "BRUNEI DIFFUSER BULK ORDER ONLY - PAYPAL SGD - SHIPS FROM KOREA",
+    announcementKo: "브루나이 디퓨저 대량주문 전용 - PayPal SGD - 한국 발송",
+    footerLine: "Pieces of Jeju Island,\narriving in Brunei.", footerLineKo: "제주의 조각이\n브루나이에 도착합니다.",
+    checkoutNote: "BND and SGD are valued at 1:1. PayPal checkout is processed in SGD; card issuer fees may apply.",
+    checkoutNoteKo: "BND와 SGD는 1:1 등가이며 PayPal 결제는 SGD로 처리됩니다. 카드사 수수료가 발생할 수 있습니다.",
+    allowedProductCategories: ["SCENT"], allowedBulkCategories: ["diffuser"],
   },
   MO: {
     code: "MO", shortLabel: "MO", flag: "🇲🇴", label: "Macau", koreanLabel: "마카오",
@@ -311,11 +322,15 @@ export function getMarketLineTotal(product: PricedItem, quantity: number, market
 }
 
 export function formatMarketUnitMoney(product: PricedItem, market: MarketConfig) {
-  return formatCurrency(getMarketUnitPrice(product, market), market.currency, market.locale);
+  const amount = getMarketUnitPrice(product, market);
+  if (market.code === "BN") return `${formatCurrency(amount, "BND", "en-BN")} ≈ ${formatCurrency(amount, "SGD", "en-SG")}`;
+  return formatCurrency(amount, market.currency, market.locale);
 }
 
 export function formatMarketLineMoney(product: PricedItem, quantity: number, market: MarketConfig) {
-  return formatCurrency(getMarketLineTotal(product, quantity, market), market.currency, market.locale);
+  const amount = getMarketLineTotal(product, quantity, market);
+  if (market.code === "BN") return `${formatCurrency(amount, "BND", "en-BN")} ≈ ${formatCurrency(amount, "SGD", "en-SG")}`;
+  return formatCurrency(amount, market.currency, market.locale);
 }
 
 export function isStorefrontProductAllowedForMarket(product: { category?: string }, market: MarketConfig) {
@@ -327,13 +342,13 @@ export function isBulkProductAllowedForMarket(product: { category?: string }, ma
 }
 
 const countryNames: Record<NonEnglishLanguage, Record<MarketCode, string>> = {
-  ko: { SG: "싱가포르", HK: "홍콩", TW: "대만", JP: "일본", MO: "마카오", TH: "태국", MY: "말레이시아" },
-  zh: { SG: "新加坡", HK: "香港", TW: "台湾", JP: "日本", MO: "澳门", TH: "泰国", MY: "马来西亚" },
-  "zh-HK": { SG: "新加坡", HK: "香港", TW: "台灣", JP: "日本", MO: "澳門", TH: "泰國", MY: "馬來西亞" },
-  "zh-TW": { SG: "新加坡", HK: "香港", TW: "台灣", JP: "日本", MO: "澳門", TH: "泰國", MY: "馬來西亞" },
-  ja: { SG: "シンガポール", HK: "香港", TW: "台湾", JP: "日本", MO: "マカオ", TH: "タイ", MY: "マレーシア" },
-  ms: { SG: "Singapura", HK: "Hong Kong", TW: "Taiwan", JP: "Jepun", MO: "Macau", TH: "Thailand", MY: "Malaysia" },
-  th: { SG: "สิงคโปร์", HK: "ฮ่องกง", TW: "ไต้หวัน", JP: "ญี่ปุ่น", MO: "มาเก๊า", TH: "ประเทศไทย", MY: "มาเลเซีย" },
+  ko: { SG: "싱가포르", HK: "홍콩", TW: "대만", JP: "일본", BN: "브루나이", MO: "마카오", TH: "태국", MY: "말레이시아" },
+  zh: { SG: "新加坡", HK: "香港", TW: "台湾", JP: "日本", BN: "文莱", MO: "澳门", TH: "泰国", MY: "马来西亚" },
+  "zh-HK": { SG: "新加坡", HK: "香港", TW: "台灣", JP: "日本", BN: "汶萊", MO: "澳門", TH: "泰國", MY: "馬來西亞" },
+  "zh-TW": { SG: "新加坡", HK: "香港", TW: "台灣", JP: "日本", BN: "汶萊", MO: "澳門", TH: "泰國", MY: "馬來西亞" },
+  ja: { SG: "シンガポール", HK: "香港", TW: "台湾", JP: "日本", BN: "ブルネイ", MO: "マカオ", TH: "タイ", MY: "マレーシア" },
+  ms: { SG: "Singapura", HK: "Hong Kong", TW: "Taiwan", JP: "Jepun", BN: "Brunei", MO: "Macau", TH: "Thailand", MY: "Malaysia" },
+  th: { SG: "สิงคโปร์", HK: "ฮ่องกง", TW: "ไต้หวัน", JP: "ญี่ปุ่น", BN: "บรูไน", MO: "มาเก๊า", TH: "ประเทศไทย", MY: "มาเลเซีย" },
 };
 
 export function marketCountryName(market: MarketConfig, language: DisplayLanguage) {
@@ -1384,14 +1399,14 @@ function dynamicText(language: DisplayLanguage, english: string) {
   const dict = commonText[language] || {};
   const zh = (simplified: string, traditional: string) => (language === "zh" ? simplified : traditional);
 
-  const announcement = english.match(/^(SINGAPORE|HONG KONG|TAIWAN|JAPAN|MACAU|THAILAND|MALAYSIA) (?:DIFFUSER )?BULK ORDER(?: ONLY)? - PAYPAL (SGD|HKD|TWD|JPY|MYR|THB)(?: - (SHOPEE RETAIL AVAILABLE|SHIPS FROM KOREA))$/);
+  const announcement = english.match(/^(SINGAPORE|HONG KONG|TAIWAN|JAPAN|BRUNEI|MACAU|THAILAND|MALAYSIA) (?:DIFFUSER )?BULK ORDER(?: ONLY)? - PAYPAL (SGD|HKD|TWD|JPY|MYR|THB)(?: - (SHOPEE RETAIL AVAILABLE|SHIPS FROM KOREA))$/);
   if (announcement) {
     const announcementMarkets: Record<string, MarketCode> = {
       SINGAPORE: "SG",
       "HONG KONG": "HK",
       TAIWAN: "TW",
       JAPAN: "JP",
-      MACAU: "MO", THAILAND: "TH", MALAYSIA: "MY",
+      BRUNEI: "BN", MACAU: "MO", THAILAND: "TH", MALAYSIA: "MY",
     };
     const announcementMarket = announcementMarkets[announcement[1]];
     const name = country(announcementMarket);
@@ -1401,14 +1416,14 @@ function dynamicText(language: DisplayLanguage, english: string) {
     return only ? `${name}批量訂購專用 - PayPal ${announcement[2]} - 韓國發貨` : `${name}批量訂購 - PayPal ${announcement[2]} - 可使用 Shopee 零售`;
   }
 
-  const footer = english.match(/^Pieces of Jeju Island,\narriving in (Singapore|Hong Kong|Taiwan|Japan|Macau|Thailand|Malaysia)\.$/);
+  const footer = english.match(/^Pieces of Jeju Island,\narriving in (Singapore|Hong Kong|Taiwan|Japan|Brunei|Macau|Thailand|Malaysia)\.$/);
   if (footer) {
     const footerMarkets: Record<string, MarketCode> = {
       Singapore: "SG",
       "Hong Kong": "HK",
       Taiwan: "TW",
       Japan: "JP",
-      Macau: "MO", Thailand: "TH", Malaysia: "MY",
+      Brunei: "BN", Macau: "MO", Thailand: "TH", Malaysia: "MY",
     };
     const name = country(footerMarkets[footer[1]]);
     if (language === "ko") return `제주의 조각이\n${name}에 도착합니다.`;
@@ -2142,6 +2157,7 @@ const malayCustomerUi: TextDictionary = {
   "HOME SCENT": "HARUMAN RUMAH", "Compact scent for small spaces": "Haruman kompak untuk ruang kecil", "Scent object for larger rooms": "Haruman untuk ruang yang lebih besar",
   PRICES: "HARGA", HIGHLIGHTS: "KELEBIHAN", "DELIVERY TIMELINE": "JADUAL PENGHANTARAN", "From payment to arrival.": "Dari pembayaran hingga ketibaan.",
   "Build your cleansing mix": "Bina campuran pencuci anda", "Cleansing Mix Order": "Pesanan campuran pencuci", Selected: "Dipilih", minimum: "minimum",
+  "BND and SGD are valued at 1:1. PayPal checkout is processed in SGD; card issuer fees may apply.": "BND dan SGD bernilai 1:1. Pembayaran PayPal diproses dalam SGD; caj pengeluar kad mungkin dikenakan.",
 };
 
 const thaiCustomerUi: TextDictionary = {
@@ -2166,18 +2182,18 @@ const supplementalCustomerUi: Partial<Record<NonEnglishLanguage, TextDictionary>
 
 function addedLanguageDynamicText(language: "ms" | "th", english: string) {
   const marketNames: Record<string, MarketCode> = {
-    SINGAPORE: "SG", "HONG KONG": "HK", TAIWAN: "TW", JAPAN: "JP", MACAU: "MO", THAILAND: "TH", MALAYSIA: "MY",
+    SINGAPORE: "SG", "HONG KONG": "HK", TAIWAN: "TW", JAPAN: "JP", BRUNEI: "BN", MACAU: "MO", THAILAND: "TH", MALAYSIA: "MY",
   };
   const titleNames: Record<string, MarketCode> = Object.fromEntries(
     Object.entries(markets).map(([code, market]) => [market.countryName, code as MarketCode]),
   );
-  const announcement = english.match(/^(SINGAPORE|HONG KONG|TAIWAN|JAPAN|MACAU|THAILAND|MALAYSIA) (?:DIFFUSER )?BULK ORDER(?: ONLY)? - PAYPAL (SGD|HKD|TWD|JPY|MYR|THB) - (?:SHOPEE RETAIL AVAILABLE|SHIPS FROM KOREA)$/);
+  const announcement = english.match(/^(SINGAPORE|HONG KONG|TAIWAN|JAPAN|BRUNEI|MACAU|THAILAND|MALAYSIA) (?:DIFFUSER )?BULK ORDER(?: ONLY)? - PAYPAL (SGD|HKD|TWD|JPY|MYR|THB) - (?:SHOPEE RETAIL AVAILABLE|SHIPS FROM KOREA)$/);
   if (announcement) {
     const name = countryNames[language][marketNames[announcement[1]]];
     if (language === "ms") return `PESANAN PUKAL ${name.toUpperCase()} - PAYPAL ${announcement[2]} - DIHANTAR DARI KOREA`;
     if (language === "th") return `สั่งซื้อจำนวนมากสำหรับ${name} - PAYPAL ${announcement[2]} - จัดส่งจากเกาหลี`;
   }
-  const footer = english.match(/^Pieces of Jeju Island,\narriving in (Singapore|Hong Kong|Taiwan|Japan|Macau|Thailand|Malaysia)\.$/);
+  const footer = english.match(/^Pieces of Jeju Island,\narriving in (Singapore|Hong Kong|Taiwan|Japan|Brunei|Macau|Thailand|Malaysia)\.$/);
   if (footer) {
     const name = countryNames[language][titleNames[footer[1]]];
     if (language === "ms") return `Sebahagian daripada Pulau Jeju,\ntiba di ${name}.`;
