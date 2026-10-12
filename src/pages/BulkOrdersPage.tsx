@@ -148,7 +148,7 @@ export function BulkOrdersPage() {
                 </button>
               );
             })}
-            {market.allowedBulkCategories.includes("cleansing") && (
+            {market.code !== "SG" && market.allowedBulkCategories.includes("cleansing") && (
               <Link className="v23-cleansing-mix-card" to="/bulk-orders/cleansing-mix">
                 <img
                   src="/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp"

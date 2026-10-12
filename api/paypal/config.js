@@ -2,7 +2,7 @@ import { getPayPalMode, json, supabase } from "../_utils.js";
 
 async function getCheckoutConfig() {
   const fallback = {
-    checkoutEnabled: true,
+    checkoutEnabled: process.env.VERCEL_ENV === "preview" ? false : true,
     mode: getPayPalMode(),
   };
 
@@ -10,7 +10,7 @@ async function getCheckoutConfig() {
     const rows = await supabase("/site_settings?id=eq.1&select=checkout_enabled,paypal_mode");
     const settings = rows?.[0] || {};
     return {
-      checkoutEnabled: settings.checkout_enabled !== false,
+      checkoutEnabled: process.env.VERCEL_ENV === "preview" ? false : settings.checkout_enabled !== false,
       mode: fallback.mode,
     };
   } catch (error) {
@@ -20,13 +20,14 @@ async function getCheckoutConfig() {
 }
 
 export default async function handler(req, res) {
+  if (process.env.VERCEL_ENV === "preview" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   if (req.method !== "GET") return json(res, 405, { error: "Method not allowed" });
 
   const config = await getCheckoutConfig();
   return json(res, 200, {
-    checkoutEnabled: config.checkoutEnabled,
+    checkoutEnabled: process.env.VERCEL_ENV === "preview" ? false : config.checkoutEnabled,
     // PayPal client ID is public for the browser SDK; the secret stays server-only.
-    clientId: process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID || "",
+    clientId: process.env.VERCEL_ENV === "preview" ? "" : (process.env.VITE_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID || ""),
     mode: String(config.mode || "sandbox").toLowerCase(),
   });
 }

@@ -1,10 +1,8 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { V23Page } from "../components/v23/SiteChrome";
 import { EMAIL, INSTAGRAM, SHOPEE } from "../data/v23SiteData";
 import { trackEvent } from "../lib/analytics";
 import { marketCountryName, marketText, useMarket, type DisplayLanguage } from "../lib/market";
-
-const inquiryTypes = ["General", "Product question", "Order support", "Bulk order", "Partnership"];
 
 const openLabel: Record<DisplayLanguage, string> = {
   en: "Open",
@@ -22,57 +20,17 @@ const channelCopy = (text: string) => text.replace(/\s*(?:->|→)\s*$/, "");
 export function ContactPage() {
   const { market, language } = useMarket();
   const countryName = marketCountryName(market, language);
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-  const [message, setMessage] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
+  async function copyEmail() {
+    try { await navigator.clipboard.writeText(EMAIL); setCopied(true); setCopyFailed(false); }
+    catch { setCopyFailed(true); }
+  }
   const trackChannel = (channel: string, destination: string) => trackEvent("contact_channel_click", {
     contact_channel: channel,
     link_url: destination,
     market_code: market.code,
   });
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    if (String(form.get("website") || "")) return;
-    setStatus("sending");
-    setMessage("");
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.get("name"),
-          email: form.get("email"),
-          company: form.get("company"),
-          orderNumber: form.get("orderNumber"),
-          inquiryType: form.get("inquiryType"),
-          message: form.get("message"),
-          market: market.code,
-          countryCode: market.countryCode,
-          currency: market.currency,
-          language,
-        }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || "Message could not be saved.");
-      setStatus("success");
-      setMessage(
-        data.referenceNumber
-          ? marketText(language, `Your message has been saved. Reference: ${data.referenceNumber}`, `문의가 저장되었습니다. 접수번호: ${data.referenceNumber}`)
-          : marketText(language, "Your message has been saved. hondit will reply by email.", "문의가 저장되었습니다. hondit이 이메일로 답변드립니다."),
-      );
-      trackEvent("submit_inquiry", {
-        lead_source: "contact_form",
-        inquiry_type: String(form.get("inquiryType") || "General"),
-        reference_number: data.referenceNumber || "",
-      });
-      event.currentTarget.reset();
-    } catch (error) {
-      setStatus("error");
-      setMessage(error instanceof Error ? error.message : marketText(language, "Message could not be sent. Please try again or email hondit.", "문의 전송에 실패했습니다. 다시 시도하거나 이메일로 문의해주세요."));
-    }
-  }
 
   return (
     <V23Page>
@@ -80,37 +38,30 @@ export function ContactPage() {
         <section className="v23-contact-hero">
           <div>
             <p className="v23-eyebrow"><span /> {marketText(language, "CONTACT HONDIT", "HONDIT 문의")}</p>
-            <h1>{marketText(language, "A real inbox,\nwith a clear route for every question.", "운영팀으로 바로 닿는\n명확한 문의 경로.")}</h1>
+            <h1>{marketText(language, "Questions about your order?\nContact hondit.", "상품과 주문에 대해\nhondit에 문의하세요.")}</h1>
             <p>
               {market.hasShopee
-                ? marketText(language, `Send a message directly to the hondit admin inbox for ${countryName} bulk orders, or use Shopee Chat for an existing Shopee order.`, `${countryName} 대량주문 문의는 hondit 관리자 문의함에 바로 저장됩니다. 이미 진행 중인 Shopee 주문은 Shopee Chat을 이용해주세요.`)
-                : marketText(language, `${countryName} orders are handled by hondit bulk checkout only. Every question sent here is saved to the protected admin inbox.`, `${countryName} 주문은 hondit 대량주문으로만 운영됩니다. 이곳의 모든 문의는 관리자 문의함에 저장됩니다.`)}
+                ? marketText(language, `Ask about ${countryName} bulk orders here, or use Shopee Chat for an existing Shopee order.`, `${countryName} 대량주문 조건을 문의해주세요. 이미 진행 중인 Shopee 주문은 Shopee Chat을 이용해주세요.`)
+                : marketText(language, `Ask about ${countryName} bulk orders and delivery conditions. Email is also available below.`, `${countryName} 주문은 hondit 대량주문으로만 운영됩니다. 아래 이메일 동선도 이용할 수 있습니다.`)}
             </p>
           </div>
           <img src="/images/jeju-field-university.webp" alt="Jeju National University Ara Campus." />
         </section>
 
         <section className="v23-contact-grid">
-          <form onSubmit={submit}>
-            <p className="v23-eyebrow"><span /> {marketText(language, "SEND A MESSAGE", "문의 보내기")}</p>
-            <h2>{marketText(language, "Tell us what you need.", "필요한 내용을 알려주세요.")}</h2>
-            <p>{marketText(language, `This form is saved to hondit's protected admin inbox with the ${countryName} market tag.`, `이 문의는 ${countryName} 판매 태그와 함께 hondit 관리자 문의함에 저장됩니다.`)}</p>
-            <div className="v23-form-two">
-              <label>{marketText(language, "Name", "이름")} *<input name="name" required placeholder={marketText(language, "Your name", "이름")} /></label>
-              <label>Email *<input name="email" type="email" required placeholder="you@example.com" /></label>
+          <section className="v23-email-inquiry" aria-label="Email enquiry">
+            <p className="v23-eyebrow"><span /> {marketText(language, "EMAIL HONDIT", "이메일 문의")}</p>
+            <h2>{marketText(language, "Contact us by email.", "이메일로 문의해주세요.")}</h2>
+            <p>{marketText(language, "The online enquiry form is temporarily unavailable. Please use the existing email address below.", "온라인 문의 폼은 임시 비활성화 상태입니다. 아래 기존 운영 이메일을 이용해주세요.")}</p>
+            <p><a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+            <div className="v23-email-actions">
+              <a className="button button--primary" href={`mailto:${EMAIL}?subject=${encodeURIComponent(`[hondit] ${countryName} enquiry`)}&body=${encodeURIComponent(`Country: ${countryName} (${market.code})\nProduct: \nQuantity (units): \nQuestion: `)}`} onClick={() => trackChannel("email", `mailto:${EMAIL}`)}>{marketText(language, "Open email draft", "이메일 초안 열기")}</a>
+              <button type="button" className="button button--ghost" onClick={copyEmail}>{marketText(language, "Copy email address", "이메일 주소 복사")}</button>
             </div>
-            <div className="v23-form-two">
-              <label>{marketText(language, "Company", "회사명")}<input name="company" placeholder={marketText(language, "Optional", "선택")} /></label>
-              <label>{marketText(language, "Order number", "주문번호")}<input name="orderNumber" placeholder="HON reference" /></label>
-            </div>
-            <label>{marketText(language, "Enquiry type", "문의 유형")} *
-              <select name="inquiryType" required>{inquiryTypes.map((type) => <option key={type}>{type}</option>)}</select>
-            </label>
-            <label>{marketText(language, "Message", "문의 내용")} *<textarea name="message" required placeholder={marketText(language, "Include the product, order reference or question so we can help quickly.", "상품명, 주문번호, 질문 내용을 함께 적어주시면 더 빠르게 확인할 수 있습니다.")} /></label>
-            <input className="v23-honeypot" name="website" tabIndex={-1} autoComplete="off" />
-            <button type="submit" disabled={status === "sending"}>{status === "sending" ? marketText(language, "Sending...", "전송 중...") : marketText(language, "Send to hondit", "hondit에 보내기")}</button>
-            {message && <p className={`v23-form-status is-${status}`}>{message}</p>}
-          </form>
+            <p role="status">{copied ? marketText(language, "Email address copied.", "이메일 주소를 복사했습니다.") : copyFailed ? marketText(language, "Copy unavailable. Please select and copy the email address above.", "복사 기능을 사용할 수 없습니다. 위 이메일 주소를 선택해 복사해주세요.") : ""}</p>
+            <p>{marketText(language, "Opening your email app creates a draft only. Review and send it yourself; opening a draft does not confirm receipt.", "이메일 앱 실행은 초안 열기만 수행합니다. 내용을 확인한 후 직접 발송해주세요. 초안을 여는 것은 문의 접수 완료가 아닙니다.")}</p>
+            <p>{marketText(language, "For additional quantities or multiple products, use the email draft on the order page to include your selected products, quantities and country.", "추가 수량·다품목 문의는 주문 화면의 이메일 초안을 이용하면 선택한 상품·수량·국가가 포함됩니다.")}</p>
+          </section>
 
           <aside>
             <p className="v23-eyebrow is-light"><span /> {marketText(language, "QUICK ROUTES", "빠른 경로")}</p>

@@ -1,6 +1,7 @@
 import { getProducts, json } from "./_utils.js";
 
 export default async function handler(req, res) {
+  if (process.env.VERCEL_ENV === "preview" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   if (req.method !== "GET") return json(res, 405, { error: "Method not allowed" });
 
   try {

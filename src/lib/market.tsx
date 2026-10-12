@@ -1,3 +1,4 @@
+import { sgTerms } from "../../shared/page-sales.js";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { setAnalyticsContext, trackEvent } from "./analytics";
 import { getShortCampaign } from "./shortCampaign";
@@ -33,6 +34,8 @@ export type MarketConfig = {
 };
 
 type PricedItem = {
+  slug?: string;
+  apiSlug?: string;
   bulkUnitPrice?: number;
   unitPriceSgd?: number;
   marketUnitPrices?: Partial<Record<MarketCode, number>>;
@@ -311,6 +314,8 @@ export function formatSgd(amount: number) {
 }
 
 export function getMarketUnitPrice(product: PricedItem, market: MarketConfig) {
+  const approved = sgTerms(product);
+  if (market.code === "SG" && approved) return approved.unitMinor / 100;
   const explicit = product.marketUnitPrices?.[market.code];
   if (typeof explicit === "number") return explicit;
   const base = product.bulkUnitPrice ?? product.unitPriceSgd ?? 0;

@@ -1,11 +1,13 @@
+import { cleanProductUsage } from "../../shared/page-sales.js";
 import { bulkProducts, type BulkProduct } from "../data/bulkProducts";
 import { productOrder, v23Products, type StorefrontProduct } from "../data/v23SiteData";
 import { fetchBulkProducts } from "./bulkApi";
 
 function mergeProduct(staticProduct: StorefrontProduct, apiProduct?: BulkProduct): StorefrontProduct {
-  if (!apiProduct) return staticProduct;
+  if (!apiProduct) return {...staticProduct,howTo:cleanProductUsage(staticProduct.howTo)};
   return {
     ...staticProduct,
+    howTo: cleanProductUsage(staticProduct.howTo),
     active: apiProduct.active,
     stockQuantity: apiProduct.inventoryPacks * apiProduct.packQuantity,
     bulkUnitPrice: apiProduct.unitPriceSgd,

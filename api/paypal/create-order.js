@@ -1,3 +1,4 @@
+import { sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
 import { livePaymentTestProduct } from "../_bulk-data.js";
 import { calculateCart, createOrderNumber, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
 import { formatPayPalAmount, getMarketLineTotal, getMarketUnitPrice, isBulkProductAllowedForMarket, resolveMarket } from "../_markets.js";
@@ -80,6 +81,7 @@ async function createOrderRow(orderPayload) {
 }
 
 export default async function handler(req, res) {
+  if (process.env.VERCEL_ENV === "preview" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
   let order = null;
@@ -95,7 +97,9 @@ export default async function handler(req, res) {
     const checkoutProducts = body.cart.some((item) => item.slug === livePaymentTestProduct.slug)
       ? [...products, livePaymentTestProduct]
       : products;
-    const summary = calculateCart(body.cart, checkoutProducts);
+    if (sgCheckoutNeedsInquiry(body.cart.map(item => ({ product: checkoutProducts.find(p => p.slug === item.slug), quantity: item.packCount })), market.code)) throw new Error("This Singapore quantity or combination requires an enquiry before payment.");
+    const pricingProducts = market.code === "SG" ? checkoutProducts.map(p => sgTerms(p) ? {...p,packQuantity:sgTerms(p).moq} : p) : checkoutProducts;
+    const summary = calculateCart(body.cart, pricingProducts);
     const blockedProduct = summary.lines.find((line) => !isBulkProductAllowedForMarket(line.product, market));
     if (blockedProduct) {
       throw new Error(`${blockedProduct.product.name} is not available for ${market.countryName}.`);
@@ -105,7 +109,9 @@ export default async function handler(req, res) {
       const marketLineTotal = getMarketLineTotal(line.product, line.totalUnits, market);
       return { ...line, marketUnitPrice, marketLineTotal };
     });
-    const marketTotal = Number(marketLines.reduce((sum, line) => sum + line.marketLineTotal, 0).toFixed(2));
+    const marketTotal = market.code === "SG" && marketLines.every(line => sgTerms(line.product))
+      ? marketLines.reduce((sum, line) => sum + sgTerms(line.product).unitMinor * line.totalUnits, 0) / 100
+      : Number(marketLines.reduce((sum, line) => sum + line.marketLineTotal, 0).toFixed(2));
     const marketTotalLabel = market.currency === "JPY" ? String(Math.round(marketTotal)) : marketTotal.toFixed(2);
     const orderNumber = createOrderNumber();
     const attribution = body.attribution || {};

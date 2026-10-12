@@ -1,3 +1,5 @@
+import { cleanProductUsage, sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
+import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { ProductReviews } from "../components/ProductReviews";
@@ -114,7 +116,7 @@ export function BulkProductPage() {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
   const [payPalConfig, setPayPalConfig] = useState({
-    checkoutEnabled: true,
+    checkoutEnabled: false,
     clientId: fallbackPayPalClientId,
     mode: fallbackPayPalMode,
   });
@@ -147,7 +149,8 @@ export function BulkProductPage() {
     products.find((entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market)) ||
     bulkProducts.find((entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market));
   const matchedProduct = apiMatch || fallbackMatch || (isCleansingMixRoute ? cleansingFallback : undefined);
-  const product = matchedProduct || firstAllowedProduct;
+  const baseProduct = matchedProduct || firstAllowedProduct;
+  const product = market.code === "SG" && sgTerms(baseProduct) ? {...baseProduct,packQuantity:sgTerms(baseProduct)!.moq} : baseProduct;
   const isLivePaymentTest = product.slug === "live-payment-test";
   const moq = getBulkMoq(product);
   const maxUnits = getBulkMaxUnits(product);
@@ -174,7 +177,7 @@ export function BulkProductPage() {
   const productDescription = isCleansingMix
     ? marketText(
         language,
-        "Choose any combination of the three cleansing products. Start from 30 units total and add more in 10-unit steps.",
+        market.code === "SG" ? "Singapore mixed orders require supplier confirmation. Please enquire before payment." : "Choose any combination of the three cleansing products. Start from 30 units total and add more in 10-unit steps.",
         "클렌징 3종을 원하는 구성으로 선택하세요. 합계 최소 30개부터 10개 단위로 추가할 수 있습니다.",
       )
     : marketProductText(language, product.description);
@@ -184,17 +187,19 @@ export function BulkProductPage() {
   const paypalMode = payPalConfig.mode;
   const errorId = "bulk-checkout-error";
   const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
-  const checkoutDisabled = !payPalConfig.checkoutEnabled;
+  const inquiryOnly = (market.code === "SG" && isCleansingMix) || sgCheckoutNeedsInquiry(orderLines, market.code);
+  const checkoutDisabled = !payPalConfig.checkoutEnabled || inquiryOnly;
   const orderLineText = orderLines.map((line) => `${line.product.name} ${line.product.volumeLabel || ""}: ${line.quantity} units`);
-  const manualPaymentHref = buildMailto(EMAIL, `[hondit] Manual PayPal link request - ${product.name}`, [
+  const manualPaymentHref = buildMailto(EMAIL, `[hondit] ${inquiryOnly ? "Quantity and shipping enquiry" : "Manual PayPal link request"} - ${product.name}`, [
     "Hello hondit,",
     "",
-    "PayPal/card checkout did not complete. Please send me a direct PayPal payment link for this order.",
+    inquiryOnly ? "Please confirm quantity, packaging, shipping and a quotation before any payment." : "PayPal/card checkout did not complete. Please send me a direct PayPal payment link for this order.",
     "",
+    `Country: ${countryName} (${market.code})`,
     `Market: ${market.label} / ${market.currency}`,
     ...orderLineText,
     `Total quantity: ${totalUnits} units`,
-    `Total payment: ${formatCurrency(marketTotal, market.currency, market.locale)}`,
+    `Product amount (shipping scope to confirm): ${formatCurrency(marketTotal, market.currency, market.locale)}`,
     `Name: ${form.customerName || "-"}`,
     `Email: ${form.customerEmail || "-"}`,
     `Phone / WhatsApp: ${form.customerPhone || "-"}`,
@@ -202,7 +207,7 @@ export function BulkProductPage() {
     `Shipping address: ${[form.addressLine1, form.addressLine2, form.city, countryName, form.postalCode].filter(Boolean).join(", ") || "-"}`,
     `Order note: ${form.customerNote || "-"}`,
     "",
-    "Please reply with the PayPal payment link and next steps.",
+    inquiryOnly ? "Please reply with a quotation and confirmed shipping conditions." : "Please reply with the PayPal payment link and next steps.",
   ]);
 
   useEffect(() => {
@@ -492,37 +497,20 @@ export function BulkProductPage() {
                     )}
               </p>
 
-              <dl className="bulk-price-list bulk-price-list--detail">
-                <div>
-                  <dt>{marketText(language, "Unit price", "개당 가격")}</dt>
-                  <dd>{formatMarketUnitMoney(product, market)}</dd>
-                </div>
-                <div>
-                  <dt>{marketText(language, "Minimum", "理쒖냼 ?섎웾")}</dt>
-                  <dd>
-                    {moq} {marketText(language, isCleansingMix ? "cleansing units combined" : "units", isCleansingMix ? "클렌징 합계" : "개")}
-                  </dd>
-                </div>
-                <div>
-                  <dt>{marketText(language, "Step", "二쇰Ц ?⑥쐞")}</dt>
-                  <dd>
-                    {BULK_QTY_STEP} {marketText(language, "units", "개")}
-                  </dd>
-                </div>
-                <div>
-                  <dt>{marketText(language, "Shipping", "諛곗넚")}</dt>
-                  <dd>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</dd>
-                </div>
-              </dl>
+              <ProductSalesSummary product={product} />
 
               <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{localizedStockStatus}</p>
               <p className="shipping-pill">
                 {marketText(
                   language,
-                  isCleansingMix
+                  market.code === "SG"
+                    ? "Single-product MOQ bundle for direct checkout. Additional quantities and combinations require an enquiry."
+                    : isCleansingMix
                     ? `Mix any cleansing products in steps of ${BULK_QTY_STEP}. Combined minimum: ${moq} units.`
                     : `Order from ${moq} units, in steps of ${BULK_QTY_STEP}.${maxUnits ? ` Available up to ${maxUnits} units.` : ""}`,
-                  isCleansingMix
+                  market.code === "SG"
+                    ? "단일 상품 MOQ 묶음만 직접결제 가능합니다. 추가 수량·혼합 구성은 문의해주세요."
+                    : isCleansingMix
                     ? `클렌징 3종을 ${BULK_QTY_STEP}개 단위로 자유롭게 섞을 수 있습니다. 합계 최소 ${moq}개입니다.`
                     : `최소 ${moq}개부터 ${BULK_QTY_STEP}개 단위로 주문합니다.${maxUnits ? ` 최대 ${maxUnits}개까지 가능합니다.` : ""}`,
                 )}
@@ -594,7 +582,7 @@ export function BulkProductPage() {
                   <strong>{totalUnits}</strong>
                   <span>{marketText(language, "Total payment", "총 결제액")}</span>
                   <strong>{formatCurrency(marketTotal, market.currency, market.locale)}</strong>
-                  <p>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</p>
+                  <p>{marketText(language, "Product amount; taxes and customs charges excluded.", "상품금액 기준 · 세금과 통관비 별도")}</p>
                 </div>
 
                 <form className="checkout-form direct-order-form" aria-describedby={error ? errorId : undefined}>
@@ -827,6 +815,8 @@ export function BulkProductPage() {
                   <a className="button button--primary" href={`/contact?type=restock&product=${product.slug}`}>
                     {marketText(language, "Notify me", "?낃퀬 臾몄쓽")}
                   </a>
+                ) : inquiryOnly ? (
+                  <><a className="button button--primary" href={manualPaymentHref}>{marketText(language, "Open quantity & shipping email draft", "수량·배송 문의 이메일 초안 열기")}</a><p>{marketText(language, "Review and send the email yourself. Opening a draft does not confirm receipt.", "초안을 확인하고 직접 발송해주세요. 이메일 앱 실행은 문의 접수 완료가 아닙니다.")}</p></>
                 ) : checkoutDisabled ? (
                   <p className="setup-warning">
                     {marketText(language, "Direct PayPal checkout is temporarily closed. Please contact hondit for this order.", "PayPal 吏곸젒 寃곗젣媛 ?좎떆 ?ロ? ?덉뒿?덈떎. ??二쇰Ц? hondit??臾몄쓽?댁＜?몄슂.")}
@@ -851,13 +841,12 @@ export function BulkProductPage() {
                     <span key={feature}>{marketProductText(language, feature)}</span>
                   ))}
                 </div>
-                <h2>{marketText(language, "Use and order notes", "?ъ슜 諛?二쇰Ц ?덈궡")}</h2>
+                <h2>{marketText(language, "Product guidance", "?ъ슜 諛?二쇰Ц ?덈궡")}</h2>
                 <ul>
-                  {product.usage.map((item) => (
+                  {cleanProductUsage(product.usage).map((item) => (
                     <li key={item}>{marketProductText(language, item)}</li>
                   ))}
-                  <li>{marketText(language, `Orders are currently available for delivery within ${countryName}.`, `?꾩옱 ${countryName} 諛곗넚 二쇰Ц留?媛?ν빀?덈떎.`)}</li>
-                  <li>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</li>
+
                 </ul>
               </section>}
             </div>

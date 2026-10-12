@@ -11,6 +11,7 @@ function maskEmail(email) {
 }
 
 export default async function handler(req, res) {
+  if (process.env.VERCEL_ENV === "preview" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   try {
     if (req.method === "GET") {
       const productSlug = clean(req.query?.productSlug, 80);

@@ -130,7 +130,7 @@ export function AdminOrderDetailPage() {
       `Tracking number: ${order.tracking_number || ""}`,
       "",
       "Items",
-      ...items.map((item) => `${item.product_name_snapshot} ${item.volume_snapshot} / ${item.pack_count} packs / ${item.total_units} units / ${formatOrderMoney(item.line_total_sgd, order.currency)}`),
+      ...items.map((item) => `${item.product_name_snapshot} ${item.volume_snapshot} / ${item.total_units} units / ${formatOrderMoney(item.line_total_sgd, order.currency)}`),
     ].join("\n");
   }, [detail]);
 
@@ -278,12 +278,11 @@ export function AdminOrderDetailPage() {
         <h2>주문 상품</h2>
         <div className="admin-table-wrap">
           <table className="admin-table">
-            <thead><tr><th>상품</th><th>팩</th><th>개수</th><th>금액</th></tr></thead>
+            <thead><tr><th>상품</th><th>개수</th><th>금액</th></tr></thead>
             <tbody>
               {items.map((item) => (
                 <tr key={String(item.id)}>
                   <td>{item.product_name_snapshot} {item.volume_snapshot}</td>
-                  <td>{item.pack_count}</td>
                   <td>{item.total_units}</td>
                   <td>{formatOrderMoney(item.line_total_sgd, order.currency)}</td>
                 </tr>

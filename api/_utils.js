@@ -1,3 +1,4 @@
+import { cleanProductUsage } from "../shared/page-sales.js";
 import { defaultProducts } from "./_bulk-data.js";
 import { formatOrderAmount } from "./_markets.js";
 
@@ -80,11 +81,11 @@ export function toClientProduct(product) {
     purchaseEnabled: Boolean(product.purchase_enabled ?? product.purchaseEnabled),
     sortOrder: Number(product.sort_order ?? product.sortOrder ?? 0),
     features: product.features || [],
-    usage: product.usage || [],
+    usage: cleanProductUsage(product.usage || []),
     galleryImages: product.gallery_images ?? product.galleryImages ?? [],
     detailImages: product.detail_images ?? product.detailImages ?? [],
     detailHighlights: product.detail_highlights ?? product.detailHighlights ?? [],
-    detailHowToUse: product.detail_how_to_use ?? product.detailHowToUse ?? [],
+    detailHowToUse: cleanProductUsage(product.detail_how_to_use ?? product.detailHowToUse ?? []),
     marketUnitPrices: product.market_unit_prices ?? product.marketUnitPrices ?? defaultProduct?.marketUnitPrices,
   };
 }
@@ -135,7 +136,8 @@ export function calculateCart(cart, products) {
     const moq = Number(product.packQuantity || 1);
     const step = 10;
     const maxUnits = Number(product.inventoryPacks || 0) > 0 ? Number(product.inventoryPacks) * moq : 0;
-    const requested = Math.floor(Number(item.packCount) || 0);
+    const requested = Number(item.packCount);
+    if (!Number.isSafeInteger(requested)) throw new Error("Quantity must be a whole number");
     if (requested <= 0) throw new Error(`Quantity must be greater than zero: ${product.slug}`);
     const isCleansing = product.category === "cleansing";
     if (isCleansing && requested % step !== 0) throw new Error(`Cleansing quantities must be ordered in steps of ${step}`);

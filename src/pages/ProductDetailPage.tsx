@@ -1,3 +1,5 @@
+import { cleanProductUsage } from "../../shared/page-sales.js";
+import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
@@ -80,6 +82,7 @@ export function ProductDetailPage() {
   return (
     <V23Page>
       <main className="v23-product-detail">
+        <nav className="product-breadcrumb" aria-label="Breadcrumb"><Link to="/products">{marketText(language,"Collection","제품 목록")}</Link><span>/</span><span>{productName}</span></nav>
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
         <section className="v23-product-detail-hero">
           <figure>
@@ -100,24 +103,7 @@ export function ProductDetailPage() {
             <h1>{productName}</h1>
             <p>{productDescription}</p>
             <strong>{formatMarketUnitMoney(product, market)}</strong>
-            <dl>
-              <div>
-                <dt>{marketText(language, "Minimum bulk order", "대량주문 최소 수량")}</dt>
-                <dd>{product.bulkMoq} {marketText(language, "units", "개")}</dd>
-              </div>
-              <div>
-                <dt>{marketText(language, "Bulk unit", "대량주문 단가")}</dt>
-                <dd>{formatMarketUnitMoney(product, market)}</dd>
-              </div>
-              <div>
-                <dt>{marketText(language, "Route", "구매 방식")}</dt>
-                <dd>
-                  {market.hasShopee
-                    ? marketText(language, "Shopee retail or PayPal bulk checkout", "Shopee 개별구매 또는 PayPal 대량주문")
-                    : marketText(language, "PayPal bulk checkout only", "PayPal 대량주문 전용")}
-                </dd>
-              </div>
-            </dl>
+            <ProductSalesSummary product={product} />
             <div className="v23-actions">
               {market.hasShopee && (
                 <a href={product.shopee} target="_blank" rel="noreferrer">
@@ -125,7 +111,7 @@ export function ProductDetailPage() {
                 </a>
               )}
               <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout ->", "대량주문 ->")}</Link>
-              {!market.hasShopee && <Link to={`/contact?product=${product.slug}`}>{marketText(language, "Ask hondit ->", "문의하기 ->")}</Link>}
+              {<Link to={`/contact?product=${product.slug}`}>{marketText(language, "Ask hondit ->", "문의하기 ->")}</Link>}
             </div>
           </div>
         </section>
@@ -137,11 +123,11 @@ export function ProductDetailPage() {
           </article>
           <article>
             <p className="v23-eyebrow"><span /> {marketText(language, "HIGHLIGHTS", "특징")}</p>
-            <ul>{product.highlights.map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ul>
+            <ul>{cleanProductUsage(product.highlights).map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ul>
           </article>
           <article>
-            <p className="v23-eyebrow"><span /> {marketText(language, "HOW TO USE", "사용 방법")}</p>
-            <ol>{product.howTo.map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ol>
+            <p className="v23-eyebrow"><span /> {marketText(language, "HOW TO USE", "사용 방법")}</p><p className="product-label-note">{marketText(language,"Follow the product label. Supplier-approved precautions are required before use.","제품 라벨을 우선 확인해주세요. 공급사 승인 주의사항 확인이 필요합니다.")}</p>
+            <ol>{cleanProductUsage(product.howTo).map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ol>
           </article>
         </section>
 

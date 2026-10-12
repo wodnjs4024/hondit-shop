@@ -76,6 +76,7 @@ async function ordersIndex(req, res) {
 }
 
 export default async function handler(req, res) {
+  if (process.env.VERCEL_ENV === "preview" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   const path = String(req.query?.path || new URL(req.url, "https://hondit.local").searchParams.get("path") || "");
   if (path === "summary") return paymentSummary(req, res);
   if (path === "orders") return ordersIndex(req, res);
