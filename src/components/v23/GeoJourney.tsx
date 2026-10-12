@@ -1,7 +1,7 @@
 import { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatPlaceCoordinates, ourJejuBounds, ourJejuPlaces, type OurJejuPlace } from "../../data/v23JejuData";
-import { marketText, useMarket } from "../../lib/market";
+import { marketText, marketCountryName, useMarket } from "../../lib/market";
 import { trackEvent } from "../../lib/analytics";
 
 type MapStage = "asia" | "korea" | "jeju";
@@ -157,7 +157,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
             </aside>
             <div className="v23-asia-panel">
               <div className="v23-map-canvas">
-                <svg viewBox="675 270 235 250" role="img" aria-label={`Map of East and Southeast Asia with the route from ${market.countryName} to South Korea highlighted`}>
+                <svg viewBox="675 270 235 250" role="img" aria-label={`Map of East and Southeast Asia with the route from ${marketCountryName(market,language)} to South Korea highlighted`}>
                   <rect x="675" y="270" width="235" height="250" className="v23-map-water" />
                   {!worldMap && <text className="v23-map-loading-label" x="792" y="392">{t("Loading map...")}</text>}
                   {asiaLocations.map((location) => {
@@ -184,9 +184,9 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
               </div>
               <aside className="v23-asia-route-card">
                 <small>{t("ROUTE TO ORIGIN")}</small>
-                <h3>{market.countryName} {t("to Jeju")}</h3>
+                <h3>{marketCountryName(market,language)} {t("to Jeju")}</h3>
                 <ol>
-                  <li><span>01</span><div><b>{market.countryName}</b><small>{t("Market connection")}</small></div></li>
+                  <li><span>01</span><div><b>{marketCountryName(market,language)}</b><small>{t("Market connection")}</small></div></li>
                   <li><span>02</span><div><b>{t("South Korea")}</b><small>{t("Country context")}</small></div></li>
                   <li><span>03</span><div><b>{t("Jeju Island")}</b><small>{t("hondit origin")}</small></div></li>
                 </ol>

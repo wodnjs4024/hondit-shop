@@ -71,7 +71,7 @@ export function PaymentFailedPage() {
       <main className="bulk-page v23-operational-page">
         <section className="payment-failed section-shell">
           <div className="section-inner section-inner--narrow">
-            <p className="eyebrow">PAYMENT NOT COMPLETED</p>
+            <p className="eyebrow">{marketText(language,"PAYMENT NOT COMPLETED")}</p>
             <h1>{marketText(language, "Payment could not be completed.", "결제가 완료되지 않았습니다.")}</h1>
             <p>
               {marketText(
@@ -86,17 +86,17 @@ export function PaymentFailedPage() {
               <li>{marketText(language, "Complete payment from the PayPal link we send back.", "답장으로 받은 PayPal 링크에서 결제를 완료합니다.")}</li>
             </ol>
 
-            {error && <p className="form-error">{error}</p>}
+            {error && <p className="form-error">{marketText(language,error)}</p>}
 
             <div className="order-record-card payment-failed__record">
               <span>{marketText(language, "Order attempt", "주문 시도")}</span>
               <strong>{orderNumber}</strong>
               {order && (
                 <dl>
-                  <div><dt>Payment status</dt><dd>{order.payment_status}</dd></div>
-                  <div><dt>Failure reason</dt><dd>{order.payment_failure_reason || "Payment was not completed."}</dd></div>
-                  <div><dt>Total payment</dt><dd>{formatCurrency(order.total_sgd, order.currency || market.currency, market.locale)}</dd></div>
-                  <div><dt>Email</dt><dd>{order.customer_email || "-"}</dd></div>
+                  <div><dt>{marketText(language,"Payment status")}</dt><dd>{order.payment_status}</dd></div>
+                  <div><dt>{marketText(language,"Failure reason")}</dt><dd>{order.payment_failure_reason || "Payment was not completed."}</dd></div>
+                  <div><dt>{marketText(language,"Total payment")}</dt><dd>{formatCurrency(order.total_sgd, order.currency || market.currency, market.locale)}</dd></div>
+                  <div><dt>{marketText(language,"Email")}</dt><dd>{order.customer_email || "-"}</dd></div>
                 </dl>
               )}
             </div>

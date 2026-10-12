@@ -821,7 +821,7 @@ export function BulkProductPage() {
 
                 {error && (
                   <p id={errorId} className="form-error" role="alert">
-                    {error}
+                    {marketText(language,error)}
                   </p>
                 )}
                 {soldOut ? (

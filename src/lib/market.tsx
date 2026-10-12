@@ -1,3 +1,4 @@
+import { storefrontCopy } from "../../shared/storefront-copy.js";
 import {salesCopy} from "../../shared/sales-copy.js";
 import { sgTerms } from "../../shared/page-sales.js";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -2216,6 +2217,34 @@ function addedLanguageDynamicText(language: "ms" | "th", english: string) {
     if (language === "ms") return `${price[1]} setiap satu · Pesanan minimum ${price[2]} unit`;
     if (language === "th") return `${price[1]} ต่อชิ้น · สั่งขั้นต่ำ ${price[2]} ชิ้น`;
   }
+
+  const currency = '(SGD|HKD|USD|TWD|JPY|MYR|THB)';
+  const patterns: [RegExp, (v:string)=>string, (v:string)=>string][] = [
+    [new RegExp(`^${currency} BULK UNIT PRICE$`), v=>`${v} HARGA SEUNIT PUKAL`,v=>`${v} ราคาต่อชิ้นขายส่ง`],
+    [new RegExp(`^PayPal ${currency} checkout$`),v=>`Bayaran PayPal ${v}`,v=>`ชำระ PayPal ${v}`],
+    [new RegExp(`^Pay through PayPal in ${currency}$`),v=>`Bayar melalui PayPal dalam ${v}`,v=>`ชำระผ่าน PayPal เป็น ${v}`],
+    [new RegExp(`^Fixed ${currency} bulk price$`),v=>`Harga pukal tetap ${v}`,v=>`ราคาขายส่งคงที่ ${v}`],
+    [new RegExp(`^Fixed ${currency} prices and direct PayPal checkout\\.$`),v=>`Harga tetap ${v} dan bayaran PayPal langsung.`,v=>`ราคาคงที่ ${v} และชำระ PayPal โดยตรง`],
+    [new RegExp(`^Review (?:the minimum order|MOQ), then pay securely through PayPal in ${currency}\\.$`),v=>`Semak pesanan minimum, kemudian bayar melalui PayPal dalam ${v}.`,v=>`ตรวจขั้นต่ำแล้วชำระผ่าน PayPal เป็น ${v}`],
+    [new RegExp(`^Choose the minimum order quantity and create a tracked ${currency} order\\. ->$`),v=>`Pilih kuantiti minimum dan cipta pesanan ${v} dengan penjejakan. →`,v=>`เลือกขั้นต่ำและสร้างคำสั่งซื้อ ${v} ที่ติดตามได้ →`],
+    [new RegExp(`^PayPal Sandbox payment\\. Currency: ${currency}\\.$`),v=>`Bayaran ujian PayPal. Mata wang: ${v}.`,v=>`ชำระทดสอบ PayPal สกุลเงิน ${v}`],
+    [new RegExp(`^Bulk orders are priced and captured in ${currency}\\.$`),v=>`Harga dan bayaran pesanan pukal dalam ${v}.`,v=>`ราคาคำสั่งซื้อจำนวนมากและการชำระเป็น ${v}`],
+    [new RegExp(`^Shopee retail or secure PayPal ${currency} direct checkout\\.$`),v=>`Pembelian Shopee atau bayaran PayPal ${v}.`,v=>`ซื้อปลีก Shopee หรือชำระ PayPal ${v}`],
+    [/^Please select at least (\d+) cleansing units in total\.$/,v=>`Pilih sekurang-kurangnya ${v} unit pencuci.`,v=>`เลือกสินค้าทำความสะอาดรวมอย่างน้อย ${v} ชิ้น`],
+  ];
+  for (const [pattern,ms,th] of patterns) {const match=english.match(pattern);if(match)return language==='ms'?ms(match[1]):th(match[1]);}
+  const delivery = english.match(/^(.+) delivery$/);
+  if(delivery)return language==='ms'?`Penghantaran ${delivery[1]}`:`จัดส่งไป${delivery[1]}`;
+  const shippingTitle = english.match(/^SHIPPING TO (.+)$/);
+  if(shippingTitle){const code=marketNames[shippingTitle[1]];const name=code?countryNames[language][code]:shippingTitle[1];return language==='ms'?`PENGHANTARAN KE ${name}`:`จัดส่งไป${name}`;}
+  const available=english.match(/^Orders are currently available for delivery within (.+)\.$/);
+  if(available)return language==='ms'?`Pesanan tersedia untuk penghantaran dalam ${available[1]}.`:`รับคำสั่งซื้อจัดส่งภายใน${available[1]}`;
+  const bulkCountry=english.match(/^(.+) direct bulk orders$/);
+  if(bulkCountry)return language==='ms'?`Pesanan pukal langsung ${bulkCountry[1]}`:`คำสั่งซื้อจำนวนมากโดยตรง ${bulkCountry[1]}`;
+  const retail=english.match(/^Live prices, vouchers and secure (.+) checkout\.$/);
+  if(retail)return language==='ms'?`Harga semasa, baucar dan bayaran ${retail[1]}.`:`ราคาปัจจุบัน คูปอง และชำระ ${retail[1]}`;
+  const shippingScope=english.match(/^(.+) delivery: confirm the applicable quantity and packaging before ordering\.$/);
+  if(shippingScope)return language==='ms'?`Penghantaran ${shippingScope[1]}: sahkan kuantiti dan pembungkusan sebelum memesan.`:`จัดส่งไป${shippingScope[1]}: ยืนยันจำนวนและบรรจุภัณฑ์ก่อนสั่งซื้อ`;
   return undefined;
 }
 
@@ -2385,6 +2414,8 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 }
 
 export function marketText(language: DisplayLanguage, english: string, fallback?: string) {
+  const copyLanguage = language === "zh" || language === "zh-TW" ? "zh-HK" : language;
+  if (storefrontCopy[english]?.[copyLanguage]) return storefrontCopy[english][copyLanguage];
   if (salesCopy[english]?.[language]) return salesCopy[english][language];
   if (language === "en") return english;
   const cleanDynamic = cleanDynamicText(language, english);

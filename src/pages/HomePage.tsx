@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { V23Page, V23ProductCard } from "../components/v23/SiteChrome";
 import { SHOPEE, v23Products, type StorefrontProduct } from "../data/v23SiteData";
+import { PurchasePaths, ProductComparison } from "../components/SalesDiscovery";
+import { discoveryText } from "../data/discoveryCopy";
 import { trackEvent } from "../lib/analytics";
 import { isStorefrontProductAllowedForMarket, marketCountryName, marketText, useMarket } from "../lib/market";
 import { loadStorefrontProducts } from "../lib/storefrontApi";
@@ -23,6 +25,8 @@ export function HomePage() {
     if (language === "ja") return { eyebrow: "済州から選んだコレクション", title: "あなたの", description: `${countryName}で購入できる商品をご覧ください。` };
     if (language === "zh-HK") return { eyebrow: "濟州精選系列", title: "選擇你的", description: `查看可配送至${countryName}的產品。` };
     if (language === "zh-TW" || language === "zh") return { eyebrow: "濟州精選系列", title: "選擇你的", description: `查看可配送至${countryName}的產品。` };
+    if (language === "ms") return { eyebrow: "KOLEKSI PILIHAN JEJU", title: "Pilih", description: `Terokai produk yang tersedia untuk ${countryName}.` };
+    if (language === "th") return { eyebrow: "คอลเลกชันจากเชจู", title: "เลือก", description: `ดูสินค้าที่มีสำหรับ${countryName}` };
     return { eyebrow: "JEJU-SELECTED COLLECTION", title: "Choose your", description: `Explore the products available for ${countryName}.` };
   })();
 
@@ -100,11 +104,16 @@ export function HomePage() {
   return (
     <V23Page>
       <main className="v23-home">
+        <section className="discovery-hero">
+          <div><p className="v23-eyebrow">HONDIT · JEJU</p><h1>{discoveryText(language,'intro')}</h1><p>{discoveryText(language,'lead')}</p><div className="discovery-hero-actions"><Link to="/products">{discoveryText(language,'view')}</Link><Link to="/partners">{discoveryText(language,'talk')}</Link></div></div>
+          <figure><img src="/images/stonejeju-diffuser-product.png" alt={marketText(language,'Jeju Volcanic Stone Diffuser')} width="1200" height="1200" fetchPriority="high"/><figcaption>STONEJEJU · 350g / 500g</figcaption></figure>
+        </section>
+        <PurchasePaths />
         <section className="v23-home-commerce" aria-labelledby="home-products-title">
           <header className="v23-home-commerce__header">
             <div>
               <p className="v23-eyebrow"><span /> {homeProductCopy.eyebrow}</p>
-              <h1 id="home-products-title">{homeProductCopy.title} <em>{marketText(language, "everyday ritual.")}</em></h1>
+              <h2 id="home-products-title">{homeProductCopy.title} <em>{marketText(language, "everyday ritual.")}</em></h2>
               <p>{homeProductCopy.description}</p>
             </div>
             <div className="v23-home-commerce__actions">
@@ -140,6 +149,7 @@ export function HomePage() {
           </footer>
         </section>
 
+        <ProductComparison products={marketProducts} />
         <section className="v23-editorial-breeze">
           <img
             src="/images/hondit-jeju-dawn-hero-v2.webp"
@@ -162,7 +172,8 @@ export function HomePage() {
           <div className="v23-diffuser-guide__inner">
             <div className="v23-diffuser-guide__copy">
               <p className="v23-eyebrow is-light"><span /> {marketText(language, "VOLCANIC DIFFUSER")}</p>
-              <h2 id="v23-diffuser-title">{marketText(language, "No flame. No electricity.")}<br />{marketText(language, "Refresh the scent whenever you choose.")}</h2>
+              <h2 id="v23-diffuser-title">{marketText(language, "No flame. No electricity.")}</h2>
+              <p className="v23-diffuser-guide__lead">{marketText(language, "Refresh the scent whenever you choose.")}</p>
               <p>{marketText(language, "Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.")}</p>
             </div>
 
@@ -189,7 +200,7 @@ export function HomePage() {
                 alt="Jeju Volcanic Stone Diffuser with citrus fragrance oil, ceramic bowl and volcanic stones."
                 width={1200}
                 height={1200}
-                sizes="(max-width: 900px) 100vw, 30vw"
+                sizes="(max-width: 680px) 35vw, 180px"
                 loading="lazy"
                 decoding="async"
               />
@@ -197,6 +208,10 @@ export function HomePage() {
                 <strong>{marketText(language, "Jeju Volcanic Stone Diffuser")}</strong>
                 <span>{marketText(language, "Volcanic stone / Citrus fragrance oil / Ceramic bowl")}</span>
                 <span>{marketText(language, "Flameless / No electricity / Refreshable scent")}</span>
+                <div className="v23-diffuser-guide__links">
+                  <Link to="/products/diffuser-350g">350g <span aria-hidden="true">↗</span></Link>
+                  <Link to="/products/diffuser-500g">500g <span aria-hidden="true">↗</span></Link>
+                </div>
               </figcaption>
             </figure>
           </div>

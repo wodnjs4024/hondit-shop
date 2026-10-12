@@ -37,7 +37,7 @@ export function V23Header() {
   return (
     <>
       <div className="v23-shipping-bar">
-        {announcement || marketText(language, market.announcement, market.announcement)}
+        {announcement ? marketText(language, announcement) : marketText(language, market.announcement, market.announcement)}
       </div>
       <header className="v23-nav">
         <div className="v23-nav-main">
@@ -69,8 +69,8 @@ export function V23Header() {
           </div>
         </div>
         <div className="v23-nav-tools" aria-label="Market and language settings">
-          <label className="v23-market-switch" aria-label="Market">
-            <span>Market</span>
+          <label className="v23-market-switch" aria-label={marketText(language,"Market")}>
+            <span>{marketText(language,"Market")}</span>
             <select value={market.code} onChange={(event) => {
               const code = event.target.value as MarketCode;
               setMarket(code);
@@ -78,13 +78,13 @@ export function V23Header() {
             }}>
               {Object.values(markets).map((option) => (
                 <option key={option.code} value={option.code}>
-                  {option.flag} {option.label} / {option.currency}
+                  {option.flag} {marketCountryName(option, language)} / {option.currency}
                 </option>
               ))}
             </select>
           </label>
-          <label className="v23-market-switch v23-language-switch" aria-label="Language">
-            <span>Language</span>
+          <label className="v23-market-switch v23-language-switch" aria-label={marketText(language,"Language")}>
+            <span>{marketText(language,"Language")}</span>
             <select value={language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
               {displayLanguages.map((option) => (
                 <option key={option.code} value={option.code}>
@@ -119,7 +119,7 @@ export function V23Footer() {
           <br />
           {marketText(language, "Jeju National University.", "Jeju National University.")}
         </p>
-        <p className="v23-footer-legal-line">Business registration no. 637-12-03059</p>
+        <p className="v23-footer-legal-line">{marketText(language,"Business registration no.")} 637-12-03059</p>
       </div>
       <div>
         <p>{marketText(language, "EXPLORE", "EXPLORE")}</p>
@@ -131,9 +131,7 @@ export function V23Footer() {
       <div>
         <p>{marketText(language, "CONNECT", "CONNECT")}</p>
         {market.hasShopee ? (
-          <a href={SHOPEE} target="_blank" rel="noreferrer">
-            Shopee -&gt;
-          </a>
+          <a href={SHOPEE} target="_blank" rel="noreferrer">{marketText(language,"Shopee ->")}</a>
         ) : (
           <Link to="/bulk-orders">{marketText(language, "Bulk checkout ->", "Bulk checkout ->")}</Link>
         )}
@@ -147,9 +145,7 @@ export function V23Footer() {
         <p>{marketText(language, "TRUST & SUPPORT", "TRUST & SUPPORT")}</p>
         <Link to="/shipping">{marketText(language, "Delivery guide", "Delivery guide")}</Link>
         <Link to="/policy/refund">{marketText(language, "Refund support", "Refund support")}</Link>
-        <a href="https://www.jejunu.ac.kr/eng/" target="_blank" rel="noreferrer">
-          JNU official site -&gt;
-        </a>
+        <a href="https://www.jejunu.ac.kr/eng/" target="_blank" rel="noreferrer">{marketText(language,"JNU official site ->")}</a>
       </div>
       <small>
         (c) 2026 hondit -{" "}
@@ -281,7 +277,7 @@ export function V23PageHero({
           sizes="(max-width: 900px) 100vw, 50vw"
         />
         <figcaption>
-          <i /> FROM JEJU - TO {marketCountryName(market, language).toUpperCase()}
+          <i />{marketText(language,"FROM JEJU - TO")}{marketCountryName(market, language).toUpperCase()}
         </figcaption>
       </figure>
     </section>

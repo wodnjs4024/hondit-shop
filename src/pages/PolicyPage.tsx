@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { EMAIL } from "../data/v23SiteData";
-import { marketCountryName, useMarket } from "../lib/market";
+import { marketCountryName, marketText, useMarket } from "../lib/market";
 import { NotFoundPage } from "./NotFoundPage";
 
 const SHIPPING_NOTICE =
@@ -205,7 +205,7 @@ function getPolicyContent(policy: string, countryName: string, currency: string,
 }
 
 export function PolicyPage() {
-  const { market } = useMarket();
+  const { market, language } = useMarket();
   const { policy = "terms" } = useParams();
   const countryName = marketCountryName(market, "en");
   const content = getPolicyContent(policy, countryName, market.currency, market.hasShopee);
@@ -217,12 +217,13 @@ export function PolicyPage() {
       <main className="v23-policy-page">
         <article className="v23-policy-shell">
           <p className="v23-eyebrow">
-            <span /> HONDIT POLICY
+            <span /> {marketText(language,"HONDIT POLICY")}
           </p>
-          <h1>{content.title}</h1>
-          <p className="v23-policy-intro">{content.intro}</p>
+          <h1>{marketText(language,content.title)}</h1>
+          {language !== "en" && <p role="note">{marketText(language,"Policy text is currently available in English. The original wording is shown below.")}</p>}
+          <p className="v23-policy-intro" lang="en">{content.intro}</p>
           {content.sections.map((section) => (
-            <section className="v23-policy-section" key={section.heading}>
+            <section className="v23-policy-section" lang="en" key={section.heading}>
               <h2>{section.heading}</h2>
               <ul>
                 {section.items.map((item) => (
@@ -232,8 +233,8 @@ export function PolicyPage() {
             </section>
           ))}
           <div className="v23-policy-actions">
-            <Link to="/bulk-orders">Return to Bulk Orders</Link>
-            <Link to="/contact">Contact hondit</Link>
+            <Link to="/bulk-orders">{marketText(language,"Return to Bulk Orders")}</Link>
+            <Link to="/contact">{marketText(language,"Contact hondit")}</Link>
           </div>
         </article>
       </main>

@@ -55,7 +55,7 @@ export function ContactPage() {
         </section>
 
         <section className="v23-contact-grid">
-          <section className="v23-email-inquiry" aria-label="Email enquiry">
+          <section className="v23-email-inquiry" aria-label={marketText(language,"EMAIL HONDIT")}>
             <p className="v23-eyebrow"><span /> {marketText(language, "EMAIL HONDIT", "이메일 문의")}</p>
             <h2>{marketText(language, "Contact us by email.", "이메일로 문의해주세요.")}</h2>
             <p>{marketText(language, "The online enquiry form is temporarily unavailable. Please use the existing email address below.", "온라인 문의 폼은 임시 비활성화 상태입니다. 아래 기존 운영 이메일을 이용해주세요.")}</p>
@@ -69,33 +69,33 @@ export function ContactPage() {
 
           </section>
 
-          <ConsultationPanel lines={context.product?[{name:context.product.name,quantity:context.quantity}]:[]} reason={context.reason} country={`${market.countryName} (${market.code})`}/>
+          <ConsultationPanel lines={context.product?[{name:context.product.name,quantity:context.quantity}]:[]} reason={context.reason} country={`${countryName} (${market.code})`}/>
           <aside>
             <p className="v23-eyebrow is-light"><span /> {marketText(language, "QUICK ROUTES", "빠른 경로")}</p>
             <h2>{marketText(language, "Use the right channel.", "상황에 맞는 채널을 선택하세요.")}</h2>
             {market.hasShopee && (
               <a className="v23-contact-channel" href={SHOPEE} target="_blank" rel="noreferrer" onClick={() => trackChannel("shopee_chat", SHOPEE)}>
-                <small>EXISTING SHOPEE ORDER</small>
-                <span className="v23-contact-channel-head"><b>Shopee Chat</b><i>{openLabel[language]} <em aria-hidden="true">↗</em></i></span>
+                <small>{marketText(language,"EXISTING SHOPEE ORDER")}</small>
+                <span className="v23-contact-channel-head"><b>{marketText(language,"Shopee Chat")}</b><i>{openLabel[language]} <em aria-hidden="true">↗</em></i></span>
                 <strong>shopee.sg/hondit.office.sg</strong>
                 <span>{channelCopy(marketText(language, "Payment, voucher, delivery tracking or address changes for Shopee orders. ->", "Shopee 주문 결제, 쿠폰, 배송 추적, 주소 변경 문의. ->"))}</span>
               </a>
             )}
             <a className="v23-contact-channel" href={INSTAGRAM} target="_blank" rel="noreferrer" onClick={() => trackChannel("instagram", INSTAGRAM)}>
-              <small>PRODUCT AND SOCIAL</small>
+              <small>{marketText(language,"PRODUCT AND SOCIAL")}</small>
               <span className="v23-contact-channel-head"><b>Instagram</b><i>{openLabel[language]} <em aria-hidden="true">↗</em></i></span>
               <strong>@hondit.office</strong>
               <span>{channelCopy(marketText(language, "Short product questions, social content and informal collaborations. ->", "간단한 상품 문의, 소셜 콘텐츠, 협업 문의. ->"))}</span>
             </a>
             <a className="v23-contact-channel" href={`mailto:${EMAIL}`} onClick={() => trackChannel("email", `mailto:${EMAIL}`)}>
-              <small>FORMAL DOCUMENTS</small>
-              <span className="v23-contact-channel-head"><b>Email</b><i>{openLabel[language]} <em aria-hidden="true">↗</em></i></span>
+              <small>{marketText(language,"FORMAL DOCUMENTS")}</small>
+              <span className="v23-contact-channel-head"><b>{marketText(language,"Email")}</b><i>{openLabel[language]} <em aria-hidden="true">↗</em></i></span>
               <strong>{EMAIL}</strong>
               <span>{marketText(language, "Attachments and formal records can still be sent by email.", "첨부파일이나 공식 문서는 이메일로 보낼 수 있습니다.")}</span>
             </a>
             <a className="v23-contact-channel" href="/bulk-orders" onClick={() => trackChannel("bulk_checkout", "/bulk-orders")}>
-              <small>DIRECT BULK ORDER</small>
-              <span className="v23-contact-channel-head"><b>PayPal checkout</b><i>{openLabel[language]} <em aria-hidden="true">→</em></i></span>
+              <small>{marketText(language,"DIRECT BULK ORDER")}</small>
+              <span className="v23-contact-channel-head"><b>{marketText(language,"PayPal checkout")}</b><i>{openLabel[language]} <em aria-hidden="true">→</em></i></span>
               <span>{channelCopy(marketText(language, `Choose the minimum order quantity and create a tracked ${market.currency} order. ->`, `최소 주문 수량을 선택하고 추적 가능한 ${market.currency} 주문을 생성합니다. ->`))}</span>
             </a>
           </aside>

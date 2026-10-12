@@ -1,0 +1,4865 @@
+[
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 58,
+    "kind": "marketText",
+    "text": "DIRECT BULK CHECKOUT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 59,
+    "kind": "marketText",
+    "text": "Build the order. Pay securely with PayPal.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 66,
+    "kind": "marketText",
+    "text": "hondit care and volcanic diffuser collection prepared for ordering.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 76,
+    "kind": "marketText",
+    "text": "Choose one product",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 77,
+    "kind": "marketText",
+    "text": "The minimum order and quantity increments are checked automatically.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 81,
+    "kind": "marketText",
+    "text": "Add delivery details",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 92,
+    "kind": "marketText",
+    "text": "Pay with PayPal",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 103,
+    "kind": "marketText",
+    "text": "Order confirmed",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 104,
+    "kind": "marketText",
+    "text": "Your order is confirmed after payment is completed.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 111,
+    "kind": "marketText",
+    "text": "01 - PRODUCT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 145,
+    "kind": "marketText",
+    "text": "Selected",
+    "missing": [
+      "ko",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 155,
+    "kind": "marketText",
+    "text": "Three cleansing products",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 159,
+    "kind": "marketText",
+    "text": "Cleansing Mix Order",
+    "missing": [
+      "ko",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 170,
+    "kind": "marketText",
+    "text": "PAYPAL CHECKOUT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 176,
+    "kind": "marketText",
+    "text": "Minimum",
+    "missing": [
+      "ms"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 178,
+    "kind": "marketText",
+    "text": "units",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 203,
+    "kind": "marketText",
+    "text": "Need a mixed commercial order?",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 205,
+    "kind": "marketText",
+    "text": "Use Contact for mixed quantities, special delivery instructions or a formal invoice request.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkOrdersPage.tsx",
+    "line": 211,
+    "kind": "marketText",
+    "text": "Go to contact ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 177,
+    "kind": "marketText",
+    "text": "Cleansing Mix Order",
+    "missing": [
+      "ko",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 253,
+    "kind": "marketText",
+    "text": "This product is currently sold out.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 261,
+    "kind": "marketText",
+    "text": "Direct PayPal checkout is temporarily closed. Please contact hondit.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 271,
+    "kind": "marketText",
+    "text": "Please complete all required shipping fields before payment.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 278,
+    "kind": "marketText",
+    "text": "Please confirm the quantity, address and final payment amount.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 449,
+    "kind": "marketText",
+    "text": "Payment could not be completed. Please email your purchase conditions to hondit so we can reply with a direct PayPal payment link.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 479,
+    "kind": "marketText",
+    "text": "Back to Bulk Orders",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 482,
+    "kind": "marketText",
+    "text": "BULK ORDER",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 488,
+    "kind": "raw",
+    "text": "Hidden Live PayPal verification URL. Do not share this page with customers. Refund this test order after the admin check.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 496,
+    "kind": "marketText",
+    "text": "Bulk prices are lower because they exclude marketplace fees applied on Shopee. Ordering directly here passes those savings on to you.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 531,
+    "kind": "marketText",
+    "text": "Build your cleansing mix",
+    "missing": [
+      "ko",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 532,
+    "kind": "marketText",
+    "text": "Choose each product in 10-unit steps. The combined order must be at least 30 units.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 549,
+    "kind": "marketText",
+    "text": "Selected",
+    "missing": [
+      "ko",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 549,
+    "kind": "marketText",
+    "text": "minimum",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 554,
+    "kind": "marketText",
+    "text": "Order quantity",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 589,
+    "kind": "marketText",
+    "text": "Total units",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 593,
+    "kind": "marketText",
+    "text": "Product amount; taxes and customs charges excluded.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 613,
+    "kind": "marketText",
+    "text": "Email",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 644,
+    "kind": "marketText",
+    "text": "Country",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 648,
+    "kind": "marketText",
+    "text": "Address line 1",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 663,
+    "kind": "marketText",
+    "text": "City / District",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 678,
+    "kind": "marketText",
+    "text": "Postal code",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 694,
+    "kind": "marketText",
+    "text": "Company name",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 703,
+    "kind": "marketText",
+    "text": "Address line 2",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 712,
+    "kind": "marketText",
+    "text": "Order note",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 718,
+    "kind": "marketText",
+    "text": "For receipt, company delivery name or special handling requests, write here.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 737,
+    "kind": "marketText",
+    "text": "I confirm that my email, phone number, shipping address, product quantity and final payment amount are correct.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 747,
+    "kind": "marketText",
+    "text": "Review before payment",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 748,
+    "kind": "marketText",
+    "text": "Final payment check",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 749,
+    "kind": "marketText",
+    "text": "Please confirm these details before opening PayPal or card checkout.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 754,
+    "kind": "marketText",
+    "text": "units",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 762,
+    "kind": "marketText",
+    "text": "units",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 770,
+    "kind": "marketText",
+    "text": "Not entered",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 773,
+    "kind": "marketText",
+    "text": "Email",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 774,
+    "kind": "marketText",
+    "text": "Not entered",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 778,
+    "kind": "marketText",
+    "text": "Not entered",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 781,
+    "kind": "marketText",
+    "text": "Company",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 782,
+    "kind": "marketText",
+    "text": "Not entered",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 785,
+    "kind": "marketText",
+    "text": "Shipping address",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 786,
+    "kind": "marketText",
+    "text": "Not entered",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 789,
+    "kind": "marketText",
+    "text": "Order note",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 790,
+    "kind": "marketText",
+    "text": "No note",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 794,
+    "kind": "marketText",
+    "text": "Pay with PayPal or credit/debit card.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 795,
+    "kind": "marketText",
+    "text": "For direct checkout, please use PayPal or an international card.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 797,
+    "kind": "marketText",
+    "text": "If checkout does not complete, email these purchase conditions to hondit. We will reply with a direct PayPal payment link.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 808,
+    "kind": "marketText",
+    "text": "If PayPal/card checkout fails",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 810,
+    "kind": "marketText",
+    "text": "Send the product, quantity, payment total and delivery details by email. hondit will check the order and reply with a direct PayPal link.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 817,
+    "kind": "marketText",
+    "text": "Email purchase conditions",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 829,
+    "kind": "marketText",
+    "text": "Notify me",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 832,
+    "kind": "marketText",
+    "text": "Open quantity & shipping email draft",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 832,
+    "kind": "marketText",
+    "text": "Review and send the email yourself. Opening a draft does not confirm receipt.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 835,
+    "kind": "marketText",
+    "text": "Direct PayPal checkout is temporarily closed. Please contact hondit for this order.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 839,
+    "kind": "marketText",
+    "text": "Direct PayPal checkout is temporarily unavailable. Please email your purchase conditions so hondit can reply with a payment link.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 853,
+    "kind": "marketText",
+    "text": "Product composition",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/BulkProductPage.tsx",
+    "line": 859,
+    "kind": "marketText",
+    "text": "Product guidance",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 46,
+    "kind": "marketText",
+    "text": "CONTACT HONDIT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 47,
+    "kind": "marketText",
+    "text": "Questions about your order?\nContact hondit.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 59,
+    "kind": "marketText",
+    "text": "EMAIL HONDIT",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 60,
+    "kind": "marketText",
+    "text": "Contact us by email.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 61,
+    "kind": "marketText",
+    "text": "The online enquiry form is temporarily unavailable. Please use the existing email address below.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 65,
+    "kind": "marketText",
+    "text": "Copy email address",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 67,
+    "kind": "marketText",
+    "text": "Email address copied.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 67,
+    "kind": "marketText",
+    "text": "Copy unavailable. Please select and copy the email address above.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 68,
+    "kind": "marketText",
+    "text": "Opening your email app creates a draft only. Review and send it yourself; opening a draft does not confirm receipt.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 74,
+    "kind": "marketText",
+    "text": "QUICK ROUTES",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 75,
+    "kind": "marketText",
+    "text": "Use the right channel.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 78,
+    "kind": "raw",
+    "text": "EXISTING SHOPEE ORDER",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 79,
+    "kind": "raw",
+    "text": "Shopee Chat",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 80,
+    "kind": "raw",
+    "text": "shopee.sg/hondit.office.sg",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 81,
+    "kind": "marketText",
+    "text": "Payment, voucher, delivery tracking or address changes for Shopee orders. ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 85,
+    "kind": "raw",
+    "text": "PRODUCT AND SOCIAL",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 86,
+    "kind": "raw",
+    "text": "Instagram",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 87,
+    "kind": "raw",
+    "text": "@hondit.office",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 88,
+    "kind": "marketText",
+    "text": "Short product questions, social content and informal collaborations. ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 91,
+    "kind": "raw",
+    "text": "FORMAL DOCUMENTS",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 92,
+    "kind": "raw",
+    "text": "Email",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 94,
+    "kind": "marketText",
+    "text": "Attachments and formal records can still be sent by email.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 97,
+    "kind": "raw",
+    "text": "DIRECT BULK ORDER",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ContactPage.tsx",
+    "line": 98,
+    "kind": "raw",
+    "text": "PayPal checkout",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 106,
+    "kind": "raw",
+    "text": "HONDIT · JEJU",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 107,
+    "kind": "marketText",
+    "text": "Jeju Volcanic Stone Diffuser",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 107,
+    "kind": "raw",
+    "text": "STONEJEJU · 350g / 500g",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 114,
+    "kind": "marketText",
+    "text": "everyday ritual.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 118,
+    "kind": "marketText",
+    "text": "Shop on Shopee ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 123,
+    "kind": "marketText",
+    "text": "Product carousel controls",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 124,
+    "kind": "marketText",
+    "text": "Previous products",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 125,
+    "kind": "marketText",
+    "text": "Next products",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 143,
+    "kind": "marketText",
+    "text": "Jeju-based student team",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 146,
+    "kind": "marketText",
+    "text": "View all products ->",
+    "missing": [
+      "ko"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 162,
+    "kind": "marketText",
+    "text": "SEA - STONE - WIND",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 163,
+    "kind": "marketText",
+    "text": "A place you can feel,",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 163,
+    "kind": "marketText",
+    "text": "before it becomes a ritual.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 164,
+    "kind": "marketText",
+    "text": "Our edit begins with Jeju's quiet materials: moving water, porous volcanic stone and air that never quite stands still.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 165,
+    "kind": "marketText",
+    "text": "Explore our Jeju ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 172,
+    "kind": "marketText",
+    "text": "VOLCANIC DIFFUSER",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 173,
+    "kind": "marketText",
+    "text": "No flame. No electricity.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 173,
+    "kind": "marketText",
+    "text": "Refresh the scent whenever you choose.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 174,
+    "kind": "marketText",
+    "text": "Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 205,
+    "kind": "marketText",
+    "text": "Jeju Volcanic Stone Diffuser",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 206,
+    "kind": "marketText",
+    "text": "Volcanic stone / Citrus fragrance oil / Ceramic bowl",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 207,
+    "kind": "marketText",
+    "text": "Flameless / No electricity / Refreshable scent",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 215,
+    "kind": "marketText",
+    "text": "ADD 10-12 DROPS",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 216,
+    "kind": "marketText",
+    "text": "Apply the fragrance oil directly onto the volcanic stone.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 220,
+    "kind": "marketText",
+    "text": "LET IT ABSORB",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 221,
+    "kind": "marketText",
+    "text": "Allow the porous stone to absorb the oil naturally.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 225,
+    "kind": "marketText",
+    "text": "REFRESH AS NEEDED",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/HomePage.tsx",
+    "line": 226,
+    "kind": "marketText",
+    "text": "Add a few more drops when the scent becomes lighter.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 17,
+    "kind": "raw",
+    "text": "OUR JEJU - PROJECT ORIGIN",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 18,
+    "kind": "raw",
+    "text": "Not a theme.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 18,
+    "kind": "raw",
+    "text": "A real place.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 19,
+    "kind": "raw",
+    "text": "hondit began in Jeju. This page shows the campus, coast, forest and volcanic landscapes behind the way we select and present everyday care and scent.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 20,
+    "kind": "raw",
+    "text": "Open the Jeju field guide -&gt;",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 26,
+    "kind": "raw",
+    "text": "Sea rhythm, Jeju Island",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 36,
+    "kind": "raw",
+    "text": "HONDIT HOME - ARA CAMPUS",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 37,
+    "kind": "raw",
+    "text": "Built by students,",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 37,
+    "kind": "raw",
+    "text": "grounded in Jeju.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 38,
+    "kind": "raw",
+    "text": "hondit is an independent student-led cross-border commerce project based at Jeju National University. The campus is our working origin, not a product endorsement, and we make that relationship clear rather than borrowing the university name as decoration.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 39,
+    "kind": "raw",
+    "text": "JEJU NATIONAL UNIVERSITY - ARA CAMPUS",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 39,
+    "kind": "raw",
+    "text": "102 Jejudaehak-ro, Jeju-si, Jeju 63243, Republic of Korea",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 40,
+    "kind": "raw",
+    "text": "Verify on the official JNU website -&gt;",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 44,
+    "kind": "raw",
+    "text": "hondit.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 44,
+    "kind": "raw",
+    "text": "JEJU NATIONAL UNIVERSITY-BASED",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 44,
+    "kind": "raw",
+    "text": "Independent student project",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 50,
+    "kind": "raw",
+    "text": "THREE REFERENCES",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 51,
+    "kind": "raw",
+    "text": "What Jeju contributes",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 51,
+    "kind": "raw",
+    "text": "to the hondit language.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 65,
+    "kind": "raw",
+    "text": "FROM PLACE TO RITUAL",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 66,
+    "kind": "raw",
+    "text": "Bring a quieter piece",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 66,
+    "kind": "raw",
+    "text": "of Jeju into everyday life.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 69,
+    "kind": "raw",
+    "text": "Explore the care and scent collection, or review direct PayPal checkout for larger orders.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 70,
+    "kind": "raw",
+    "text": "Explore products",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/JejuPage.tsx",
+    "line": 71,
+    "kind": "raw",
+    "text": "Bulk orders",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/NotFoundPage.tsx",
+    "line": 10,
+    "kind": "raw",
+    "text": "We couldn't find this page.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/NotFoundPage.tsx",
+    "line": 11,
+    "kind": "raw",
+    "text": "The page may have moved, or the address may be incorrect.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/NotFoundPage.tsx",
+    "line": 13,
+    "kind": "raw",
+    "text": "Back to home",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/NotFoundPage.tsx",
+    "line": 14,
+    "kind": "raw",
+    "text": "View products",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/NotFoundPage.tsx",
+    "line": 15,
+    "kind": "raw",
+    "text": "Contact hondit",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 41,
+    "kind": "raw",
+    "text": "ORDER COMPLETE",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 42,
+    "kind": "raw",
+    "text": "Your order is confirmed.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 43,
+    "kind": "raw",
+    "text": "Your PayPal payment has been received. Please save your order number for future reference.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 44,
+    "kind": "raw",
+    "text": "If your email, phone number or shipping address is incorrect, contact hondit immediately with your order number before shipment.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 49,
+    "kind": "raw",
+    "text": "Order number",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 54,
+    "kind": "raw",
+    "text": "Payment status",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 55,
+    "kind": "raw",
+    "text": "Order status",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 56,
+    "kind": "raw",
+    "text": "Total units",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 57,
+    "kind": "raw",
+    "text": "Total payment",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 58,
+    "kind": "raw",
+    "text": "Name",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 59,
+    "kind": "raw",
+    "text": "Company",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 60,
+    "kind": "raw",
+    "text": "Email",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 61,
+    "kind": "raw",
+    "text": "Phone",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 62,
+    "kind": "raw",
+    "text": "Market",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 64,
+    "kind": "raw",
+    "text": "Shipping address",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 71,
+    "kind": "raw",
+    "text": "units",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 80,
+    "kind": "raw",
+    "text": "Continue Shopping",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 81,
+    "kind": "raw",
+    "text": "Contact hondit",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/OrderCompletePage.tsx",
+    "line": 82,
+    "kind": "raw",
+    "text": "Print Order Receipt",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PartnersPage.tsx",
+    "line": 9,
+    "kind": "raw",
+    "text": "HONDIT / PARTNERS",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PartnersPage.tsx",
+    "line": 9,
+    "kind": "marketText",
+    "text": "Volcanic Diffuser 500g",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja"
+    ]
+  },
+  {
+    "file": "src/pages/PartnersPage.tsx",
+    "line": 9,
+    "kind": "raw",
+    "text": "STONEJEJU · 500g",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PartnersPage.tsx",
+    "line": 10,
+    "kind": "raw",
+    "text": "01 / PURPOSE",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PartnersPage.tsx",
+    "line": 11,
+    "kind": "raw",
+    "text": "02 / PROCESS",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PartnersPage.tsx",
+    "line": 12,
+    "kind": "raw",
+    "text": "03 / QUESTIONS",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 74,
+    "kind": "raw",
+    "text": "PAYMENT NOT COMPLETED",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 75,
+    "kind": "marketText",
+    "text": "Payment could not be completed.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 77,
+    "kind": "marketText",
+    "text": "If PayPal or card checkout does not go through, email the purchase conditions to hondit. We will reply with a direct PayPal payment link.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 84,
+    "kind": "marketText",
+    "text": "Review the product, quantity and total payment.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 85,
+    "kind": "marketText",
+    "text": "Email the purchase conditions to hondit.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 86,
+    "kind": "marketText",
+    "text": "Complete payment from the PayPal link we send back.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 92,
+    "kind": "marketText",
+    "text": "Order attempt",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 96,
+    "kind": "raw",
+    "text": "Payment status",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 97,
+    "kind": "raw",
+    "text": "Failure reason",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 98,
+    "kind": "raw",
+    "text": "Total payment",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 99,
+    "kind": "raw",
+    "text": "Email",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 106,
+    "kind": "marketText",
+    "text": "Try Payment Again",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 109,
+    "kind": "marketText",
+    "text": "Email Purchase Conditions",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PaymentFailedPage.tsx",
+    "line": 112,
+    "kind": "marketText",
+    "text": "Contact hondit",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PolicyPage.tsx",
+    "line": 220,
+    "kind": "raw",
+    "text": "HONDIT POLICY",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PolicyPage.tsx",
+    "line": 235,
+    "kind": "raw",
+    "text": "Return to Bulk Orders",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/PolicyPage.tsx",
+    "line": 236,
+    "kind": "raw",
+    "text": "Contact hondit",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 85,
+    "kind": "marketText",
+    "text": "Collection",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 110,
+    "kind": "marketText",
+    "text": "Buy on Shopee ->",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 114,
+    "kind": "marketText",
+    "text": "Ask hondit ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 121,
+    "kind": "marketText",
+    "text": "GOOD FOR",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 129,
+    "kind": "marketText",
+    "text": "HOW TO USE",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 129,
+    "kind": "marketText",
+    "text": "Follow the product label. Supplier-approved precautions are required before use.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 135,
+    "kind": "marketText",
+    "text": "Product details",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 137,
+    "kind": "marketText",
+    "text": "PRODUCT DETAILS",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 158,
+    "kind": "marketText",
+    "text": "product detail",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 166,
+    "kind": "marketText",
+    "text": "Previous image",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 174,
+    "kind": "marketText",
+    "text": "Next image",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 183,
+    "kind": "marketText",
+    "text": "Product image thumbnails",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductDetailPage.tsx",
+    "line": 191,
+    "kind": "marketText",
+    "text": "Show image",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 27,
+    "kind": "marketText",
+    "text": "THE HONDIT EDIT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 28,
+    "kind": "marketText",
+    "text": "Care shaped by water. Scent grounded in stone.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 31,
+    "kind": "marketText",
+    "text": "Clear Jeju water flowing across dark volcanic basalt.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 40,
+    "kind": "marketText",
+    "text": "5 PRODUCTS",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 41,
+    "kind": "marketText",
+    "text": "Focused care and scent edit",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 47,
+    "kind": "marketText",
+    "text": "Fixed market bulk prices",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 52,
+    "kind": "marketText",
+    "text": "2 ROUTES",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 53,
+    "kind": "marketText",
+    "text": "BULK ONLY",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 57,
+    "kind": "marketText",
+    "text": "Individual or bulk orders",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 58,
+    "kind": "marketText",
+    "text": "Direct PayPal checkout",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 67,
+    "kind": "marketText",
+    "text": "SHOP BY RITUAL",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 70,
+    "kind": "marketText",
+    "text": "Find your",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 72,
+    "kind": "marketText",
+    "text": "everyday fit.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 82,
+    "kind": "marketText",
+    "text": "CHOOSE YOUR ROUTE",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 86,
+    "kind": "marketText",
+    "text": "One item or a larger order?",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 87,
+    "kind": "marketText",
+    "text": "Bulk orders only for this market.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 93,
+    "kind": "marketText",
+    "text": "INDIVIDUAL RETAIL",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 94,
+    "kind": "raw",
+    "text": "Shopee Singapore",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 96,
+    "kind": "marketText",
+    "text": "Use Shopee for live retail prices, vouchers, familiar checkout and order tracking.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 103,
+    "kind": "marketText",
+    "text": "Shop on Shopee",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 108,
+    "kind": "marketText",
+    "text": "DIRECT MARKET",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 109,
+    "kind": "marketText",
+    "text": "No Shopee route",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 117,
+    "kind": "marketText",
+    "text": "Start bulk checkout",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 122,
+    "kind": "marketText",
+    "text": "BUSINESS AND GROUPS",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 123,
+    "kind": "marketText",
+    "text": "Direct PayPal checkout",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ProductsPage.tsx",
+    "line": 131,
+    "kind": "marketText",
+    "text": "Open bulk checkout",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 19,
+    "kind": "marketText",
+    "text": "Shopee retail and bulk checkout.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 20,
+    "kind": "marketText",
+    "text": "Bulk checkout. Dispatch from Korea.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 34,
+    "kind": "marketText",
+    "text": "INDIVIDUAL PURCHASE",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 35,
+    "kind": "marketText",
+    "text": "Shop through Shopee Singapore",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 37,
+    "kind": "marketText",
+    "text": "Marketplace delivery window and tracking",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 39,
+    "kind": "marketText",
+    "text": "Live vouchers and product availability",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 40,
+    "kind": "marketText",
+    "text": "Order tracking inside Shopee",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 42,
+    "kind": "marketText",
+    "text": "Choose a product ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 47,
+    "kind": "marketText",
+    "text": "LARGER PURCHASE",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 47,
+    "kind": "marketText",
+    "text": "BULK PURCHASE ONLY",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 50,
+    "kind": "marketText",
+    "text": "Payment must be confirmed before a bulk order is prepared for dispatch.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 51,
+    "kind": "marketText",
+    "text": "Product-specific minimum orders and quantity steps",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 53,
+    "kind": "marketText",
+    "text": "Tracking information is shared after dispatch.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 55,
+    "kind": "marketText",
+    "text": "Open bulk checkout ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 61,
+    "kind": "marketText",
+    "text": "DELIVERY TIMELINE",
+    "missing": [
+      "ko"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 62,
+    "kind": "marketText",
+    "text": "From payment to arrival.",
+    "missing": [
+      "ko"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 66,
+    "kind": "marketText",
+    "text": "ORDER PREPARATION",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 67,
+    "kind": "marketText",
+    "text": "Usually 1-3 business days",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 68,
+    "kind": "marketText",
+    "text": "Stock and delivery details are checked after payment confirmation.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 72,
+    "kind": "marketText",
+    "text": "EMS DELIVERY",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 73,
+    "kind": "marketText",
+    "text": "Usually 3-5 business days",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 74,
+    "kind": "marketText",
+    "text": "The delivery estimate begins when the parcel is dispatched from Korea.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 78,
+    "kind": "marketText",
+    "text": "TOTAL ESTIMATE",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 79,
+    "kind": "marketText",
+    "text": "Usually 4-8 business days",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 80,
+    "kind": "marketText",
+    "text": "Customs, holidays and unusually large orders can extend this estimate.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 86,
+    "kind": "marketText",
+    "text": "TIMING NOTES",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 87,
+    "kind": "marketText",
+    "text": "What can change the delivery date?",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 90,
+    "kind": "marketText",
+    "text": "Dispatch day",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 91,
+    "kind": "marketText",
+    "text": "Orders placed close to weekends or holidays may begin moving on the next working day.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 94,
+    "kind": "marketText",
+    "text": "Customs and carrier handover",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 95,
+    "kind": "marketText",
+    "text": "Inspection, flight capacity and local handover can add time.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 98,
+    "kind": "marketText",
+    "text": "Bulk size and stock",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 99,
+    "kind": "marketText",
+    "text": "Larger paid orders may require additional preparation before dispatch.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 102,
+    "kind": "marketText",
+    "text": "Tracking",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 105,
+    "kind": "marketText",
+    "text": "For Shopee purchases, use the order page. For a paid bulk order, use the tracking details supplied after dispatch.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 106,
+    "kind": "marketText",
+    "text": "For paid bulk orders, use the tracking details supplied after dispatch.",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 112,
+    "kind": "marketText",
+    "text": "Need help with an order?",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 115,
+    "kind": "marketText",
+    "text": "Use Shopee chat for a Shopee transaction, or prepare a message for the hondit team.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 116,
+    "kind": "marketText",
+    "text": "Send a message to hondit with your order number, product and delivery question.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/pages/ShippingPage.tsx",
+    "line": 118,
+    "kind": "marketText",
+    "text": "Go to contact ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/BrandLogo.tsx",
+    "line": 7,
+    "kind": "raw",
+    "text": "hondit.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/CampusVisual.tsx",
+    "line": 11,
+    "kind": "raw",
+    "text": "Jeju National University",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/CampusVisual.tsx",
+    "line": 12,
+    "kind": "raw",
+    "text": "Where hondit's Singapore project began.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/CampusVisual.tsx",
+    "line": 14,
+    "kind": "raw",
+    "text": "hondit.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 89,
+    "kind": "raw",
+    "text": "FROM ASIA TO JEJU",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 90,
+    "kind": "raw",
+    "text": "Find Korea in Asia. Follow hondit to Jeju.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 91,
+    "kind": "raw",
+    "text": "A softer field-guide map connects the market we serve with the island and university where hondit's project began.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 116,
+    "kind": "raw",
+    "text": "hondit home",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 139,
+    "kind": "raw",
+    "text": "South Korea",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 163,
+    "kind": "raw",
+    "text": "Jeju Island",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 173,
+    "kind": "raw",
+    "text": "Back to Korea",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 176,
+    "kind": "raw",
+    "text": "verified Jeju references",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 180,
+    "kind": "raw",
+    "text": "JEJU ISLAND FIELD GUIDE",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 181,
+    "kind": "raw",
+    "text": "Meet Jeju, one landscape at a time.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 182,
+    "kind": "raw",
+    "text": "VOLCANIC HEART · FOREST TRAILS · COAST & ISLANDS · HONDIT HOME",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 231,
+    "kind": "raw",
+    "text": "Address",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 235,
+    "kind": "raw",
+    "text": "Coordinates",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 241,
+    "kind": "raw",
+    "text": "JNU website",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/JejuJourney.tsx",
+    "line": 242,
+    "kind": "raw",
+    "text": "Contact hondit",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/MobileShopCTA.tsx",
+    "line": 16,
+    "kind": "raw",
+    "text": "Shop on Shopee SG",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/OurJejuFieldGuide.tsx",
+    "line": 40,
+    "kind": "raw",
+    "text": "JEJU ISLAND FIELD GUIDE",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/OurJejuFieldGuide.tsx",
+    "line": 41,
+    "kind": "raw",
+    "text": "Meet Jeju, one landscape at a time.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/OurJejuFieldGuide.tsx",
+    "line": 42,
+    "kind": "raw",
+    "text": "VOLCANIC HEART · FOREST TRAILS · COAST & ISLANDS · HONDIT HOME",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/OurJejuFieldGuide.tsx",
+    "line": 97,
+    "kind": "raw",
+    "text": "Location markers use real latitude and longitude, projected into one consistent map frame.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/OurJejuFieldGuide.tsx",
+    "line": 110,
+    "kind": "raw",
+    "text": "Address",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/OurJejuFieldGuide.tsx",
+    "line": 114,
+    "kind": "raw",
+    "text": "Coordinates",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/OurJejuFieldGuide.tsx",
+    "line": 124,
+    "kind": "raw",
+    "text": "Photo:",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductCard.tsx",
+    "line": 72,
+    "kind": "raw",
+    "text": "You save",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductCard.tsx",
+    "line": 76,
+    "kind": "raw",
+    "text": "BEST FOR",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductCard.tsx",
+    "line": 86,
+    "kind": "raw",
+    "text": "View Details",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductCard.tsx",
+    "line": 89,
+    "kind": "raw",
+    "text": "Buy on Shopee",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductCard.tsx",
+    "line": 97,
+    "kind": "raw",
+    "text": "Bulk Inquiry",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 58,
+    "kind": "raw",
+    "text": "VERIFIED REVIEWS",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 59,
+    "kind": "raw",
+    "text": "What buyers say after ordering.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 60,
+    "kind": "raw",
+    "text": "Reviews are submitted with an order number and email, then approved by hondit before appearing here.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 77,
+    "kind": "raw",
+    "text": "No approved reviews yet.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 78,
+    "kind": "raw",
+    "text": "Be the first verified buyer to leave one after checkout.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 84,
+    "kind": "raw",
+    "text": "Leave a verified review",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 85,
+    "kind": "raw",
+    "text": "Order number",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 86,
+    "kind": "raw",
+    "text": "Order email",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 87,
+    "kind": "raw",
+    "text": "Display name",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 88,
+    "kind": "raw",
+    "text": "Rating",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 89,
+    "kind": "raw",
+    "text": "stars",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 91,
+    "kind": "raw",
+    "text": "Title",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 92,
+    "kind": "raw",
+    "text": "Review",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductReviews.tsx",
+    "line": 95,
+    "kind": "raw",
+    "text": "Submit for approval",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 11,
+    "kind": "t",
+    "text": "Bulk purchase conditions",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 12,
+    "kind": "t",
+    "text": "Direct bulk order",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 14,
+    "kind": "t",
+    "text": "Minimum quantity",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 14,
+    "kind": "t",
+    "text": "units",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 15,
+    "kind": "t",
+    "text": "Minimum product amount",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 16,
+    "kind": "t",
+    "text": "Quantity increment",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 16,
+    "kind": "t",
+    "text": "units",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 18,
+    "kind": "t",
+    "text": "Singapore delivery included for this single-product MOQ bundle. Additional quantities or combinations require an enquiry.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 19,
+    "kind": "t",
+    "text": "Tax & customs",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 19,
+    "kind": "t",
+    "text": "Excluded; payable by the recipient where applicable.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 20,
+    "kind": "t",
+    "text": "Delivery time, returns and product precautions: confirm before ordering.",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/ProductSalesSummary.tsx",
+    "line": 21,
+    "kind": "t",
+    "text": "Ask about this order →",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SalesDiscovery.tsx",
+    "line": 9,
+    "kind": "raw",
+    "text": "HONDIT / 01",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SalesDiscovery.tsx",
+    "line": 9,
+    "kind": "t",
+    "text": "choose",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SalesDiscovery.tsx",
+    "line": 15,
+    "kind": "raw",
+    "text": "HONDIT / 02",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SalesDiscovery.tsx",
+    "line": 15,
+    "kind": "t",
+    "text": "compare",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SalesDiscovery.tsx",
+    "line": 15,
+    "kind": "t",
+    "text": "compareBody",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SalesDiscovery.tsx",
+    "line": 15,
+    "kind": "t",
+    "text": "compare",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SiteHeader.tsx",
+    "line": 63,
+    "kind": "raw",
+    "text": "Shopee delivery 5-10 days",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SiteHeader.tsx",
+    "line": 64,
+    "kind": "raw",
+    "text": "&middot;",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SiteHeader.tsx",
+    "line": 65,
+    "kind": "raw",
+    "text": "Bulk delivery 3-5 days after dispatch",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SiteHeader.tsx",
+    "line": 66,
+    "kind": "raw",
+    "text": "&middot;",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SiteHeader.tsx",
+    "line": 67,
+    "kind": "raw",
+    "text": "Ships from Korea",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SiteHeader.tsx",
+    "line": 77,
+    "kind": "raw",
+    "text": "Shop on Shopee",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SiteHeader.tsx",
+    "line": 86,
+    "kind": "raw",
+    "text": "Menu",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/SiteHeader.tsx",
+    "line": 94,
+    "kind": "raw",
+    "text": "Shop on Shopee",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 134,
+    "kind": "t",
+    "text": "A REAL ROUTE TO OUR ORIGIN",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 135,
+    "kind": "t",
+    "text": "Asia to Korea.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 135,
+    "kind": "t",
+    "text": "Korea to Jeju.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 137,
+    "kind": "t",
+    "text": "Three clear geographic views locate hondit without covering the map: accurate country boundaries, South Korea as the only highlighted country, then real coordinates on Jeju.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 142,
+    "kind": "t",
+    "text": "Map navigation",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 143,
+    "kind": "t",
+    "text": "Asia",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 143,
+    "kind": "t",
+    "text": "Regional context",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 144,
+    "kind": "t",
+    "text": "South Korea",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 144,
+    "kind": "t",
+    "text": "Find Jeju below",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 145,
+    "kind": "t",
+    "text": "Jeju Island",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 145,
+    "kind": "t",
+    "text": "Explore six places",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 154,
+    "kind": "t",
+    "text": "REGIONAL CONTEXT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 155,
+    "kind": "t",
+    "text": "Find South Korea without losing Asia.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 156,
+    "kind": "t",
+    "text": "Country boundaries remain neutral. South Korea is the only highlighted country and is selectable.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 162,
+    "kind": "t",
+    "text": "Loading map...",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 175,
+    "kind": "t",
+    "text": "Open South Korea map",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 186,
+    "kind": "t",
+    "text": "ROUTE TO ORIGIN",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 187,
+    "kind": "t",
+    "text": "to Jeju",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 189,
+    "kind": "t",
+    "text": "Market connection",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 190,
+    "kind": "t",
+    "text": "South Korea",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 190,
+    "kind": "t",
+    "text": "Country context",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 191,
+    "kind": "t",
+    "text": "Jeju Island",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 191,
+    "kind": "t",
+    "text": "hondit origin",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 193,
+    "kind": "t",
+    "text": "Continue to South Korea",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 203,
+    "kind": "t",
+    "text": "A CLOSER VIEW",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 204,
+    "kind": "t",
+    "text": "Jeju sits below the peninsula.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 205,
+    "kind": "t",
+    "text": "The province outline is real map data. Select the orange Jeju Island shape to continue.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 206,
+    "kind": "t",
+    "text": "Back to Asia",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 210,
+    "kind": "t",
+    "text": "Map of South Korea with Jeju highlighted",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 212,
+    "kind": "t",
+    "text": "Loading map...",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 224,
+    "kind": "t",
+    "text": "Open Jeju Island map",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 228,
+    "kind": "t",
+    "text": "SOUTH KOREA",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 229,
+    "kind": "t",
+    "text": "JEJU STRAIT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 232,
+    "kind": "t",
+    "text": "What Korea is known for",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 233,
+    "kind": "t",
+    "text": "BEYOND THE MAP",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 233,
+    "kind": "t",
+    "text": "What the world knows Korea for.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 252,
+    "kind": "t",
+    "text": "Back to South Korea",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 253,
+    "kind": "t",
+    "text": "JEJU ISLAND FIELD GUIDE",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 253,
+    "kind": "t",
+    "text": "Six places, one clear origin",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 254,
+    "kind": "t",
+    "text": "REAL COORDINATES",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 257,
+    "kind": "t",
+    "text": "Interactive map of Jeju Island",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 258,
+    "kind": "t",
+    "text": "Jeju Island outline",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 274,
+    "kind": "t",
+    "text": "View",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 292,
+    "kind": "t",
+    "text": "Our Jeju story",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/GeoJourney.tsx",
+    "line": 296,
+    "kind": "t",
+    "text": "Choose a Jeju place",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 44,
+    "kind": "raw",
+    "text": "hondit",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 53,
+    "kind": "marketText",
+    "text": "Shop on Shopee ->",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 67,
+    "kind": "marketText",
+    "text": "Menu",
+    "missing": [
+      "ms"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 73,
+    "kind": "raw",
+    "text": "Market",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 87,
+    "kind": "raw",
+    "text": "Language",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 109,
+    "kind": "raw",
+    "text": "hondit",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 118,
+    "kind": "marketText",
+    "text": "A student-led brand based at",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 120,
+    "kind": "marketText",
+    "text": "Jeju National University.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 122,
+    "kind": "raw",
+    "text": "Business registration no. 637-12-03059",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 125,
+    "kind": "marketText",
+    "text": "EXPLORE",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 126,
+    "kind": "marketText",
+    "text": "Asia to Jeju",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 132,
+    "kind": "marketText",
+    "text": "CONNECT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 134,
+    "kind": "raw",
+    "text": "Shopee -&gt;",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 140,
+    "kind": "raw",
+    "text": "Instagram -&gt;",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 143,
+    "kind": "marketText",
+    "text": "Email",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 147,
+    "kind": "marketText",
+    "text": "TRUST & SUPPORT",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 148,
+    "kind": "marketText",
+    "text": "Delivery guide",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 149,
+    "kind": "marketText",
+    "text": "Refund support",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 150,
+    "kind": "raw",
+    "text": "JNU official site -&gt;",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 154,
+    "kind": "raw",
+    "text": "(c) 2026 hondit -",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 156,
+    "kind": "marketText",
+    "text": "Student-led project based at Jeju National University.",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 157,
+    "kind": "marketText",
+    "text": "Refund",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 158,
+    "kind": "marketText",
+    "text": "Privacy",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 159,
+    "kind": "marketText",
+    "text": "Terms",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 233,
+    "kind": "marketText",
+    "text": "Quick purchase links",
+    "missing": [
+      "ko",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 238,
+    "kind": "marketText",
+    "text": "Bulk Checkout",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 284,
+    "kind": "raw",
+    "text": "FROM JEJU - TO",
+    "missing": [
+      "ko",
+      "zh-HK",
+      "ja",
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 310,
+    "kind": "marketText",
+    "text": "OUT OF STOCK",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 332,
+    "kind": "marketText",
+    "text": "Buy on Shopee",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 340,
+    "kind": "marketText",
+    "text": "Bulk unavailable",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  },
+  {
+    "file": "src/components/v23/SiteChrome.tsx",
+    "line": 344,
+    "kind": "marketText",
+    "text": "Ask hondit",
+    "missing": [
+      "ms",
+      "th"
+    ]
+  }
+]
