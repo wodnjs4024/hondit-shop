@@ -1,12 +1,15 @@
+import {normalizeShipping, paypalShipping} from "../../shared/shipping.js";
 import { sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
 import { livePaymentTestProduct } from "../_bulk-data.js";
 import { calculateCart, createOrderNumber, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
 import { formatPayPalAmount, getMarketLineTotal, getMarketUnitPrice, isBulkProductAllowedForMarket, resolveMarket } from "../_markets.js";
 
 function validateCheckout(body) {
-  const required = ["orderType", "customerName", "customerEmail", "customerPhone", "addressLine1", "city", "postalCode"];
+  const required = ["orderType", "customerName", "customerEmail", "customerPhone", "addressLine1", "city"];
   const missing = required.filter((key) => !String(body[key] || "").trim());
   if (missing.length) throw new Error(`Missing checkout fields: ${missing.join(", ")}`);
+  if (typeof body.customerEmail !== 'string' || body.customerEmail.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.customerEmail.trim())) throw new Error('Invalid order email');
+  if (typeof body.customerPhone !== 'string' || body.customerPhone.trim().length > 40) throw new Error('Invalid delivery phone');
   if (!Array.isArray(body.cart) || !body.cart.length) throw new Error("Cart is empty");
 }
 
@@ -91,6 +94,7 @@ export default async function handler(req, res) {
     const body = await readBody(req);
     const market = resolveMarket(body);
     validateCheckout(body);
+    const shipping = normalizeShipping(body, market);
     await ensureCheckoutEnabled();
 
     const products = await getProducts();
@@ -119,17 +123,17 @@ export default async function handler(req, res) {
     const orderPayload = {
       order_number: orderNumber,
       order_type: body.orderType,
-      customer_name: body.customerName.trim(),
+      customer_name: shipping.name,
       customer_email: body.customerEmail.trim(),
       customer_phone: body.customerPhone.trim(),
       company_name: body.companyName || null,
       country_code: market.countryCode,
-      address_line_1: body.addressLine1.trim(),
-      address_line_2: body.addressLine2 || null,
-      city: body.city.trim(),
-      postal_code: body.postalCode.trim(),
+      address_line_1: shipping.line1,
+      address_line_2: shipping.line2 || null,
+      city: shipping.city,
+      postal_code: shipping.postal,
       customer_note: body.customerNote || null,
-      internal_note: `${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
+      internal_note: `[shipping:v1] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
       utm_source: attribution.utm_source || attribution.traffic_source || null,
       utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,
@@ -176,11 +180,13 @@ export default async function handler(req, res) {
       method: "POST",
       body: JSON.stringify({
         intent: "CAPTURE",
+        payment_source: { paypal: { experience_context: { shipping_preference: "SET_PROVIDED_ADDRESS" } } },
         purchase_units: [
           {
             reference_id: orderNumber,
             description: `hondit ${market.countryName} bulk order`,
             custom_id: order.id,
+            shipping: paypalShipping(shipping),
             amount: {
               currency_code: market.currency,
               value: formatPayPalAmount(marketTotal, market.currency),

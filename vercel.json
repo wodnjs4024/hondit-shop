@@ -1,5 +1,8 @@
 {
+  "functions": { "api/products.js": { "includeFiles": "dist/index.html" } },
   "rewrites": [
+    { "source": "/partners", "destination": "/index.html" },
+    { "source": "/partners/(.*)", "destination": "/api/products?partnerSlug=$1" },
     { "source": "/api/admin/(.*)", "destination": "/api/admin-handler?path=$1" },
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/", "destination": "/index.html" },

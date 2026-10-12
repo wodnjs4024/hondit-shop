@@ -1,3 +1,7 @@
+import {useSearchParams} from "react-router-dom";
+import {ConsultationPanel} from "../components/ConsultationPanel";
+import {consultationContext} from "../../shared/consultation.js";
+import {v23Products} from "../data/v23SiteData";
 import { useState } from "react";
 import { V23Page } from "../components/v23/SiteChrome";
 import { EMAIL, INSTAGRAM, SHOPEE } from "../data/v23SiteData";
@@ -19,6 +23,8 @@ const channelCopy = (text: string) => text.replace(/\s*(?:->|→)\s*$/, "");
 
 export function ContactPage() {
   const { market, language } = useMarket();
+  const [params]=useSearchParams();
+  const context=consultationContext(params,v23Products,market.code,language);
   const countryName = marketCountryName(market, language);
   const [copied, setCopied] = useState(false);
   const [copyFailed, setCopyFailed] = useState(false);
@@ -55,14 +61,15 @@ export function ContactPage() {
             <p>{marketText(language, "The online enquiry form is temporarily unavailable. Please use the existing email address below.", "온라인 문의 폼은 임시 비활성화 상태입니다. 아래 기존 운영 이메일을 이용해주세요.")}</p>
             <p><a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
             <div className="v23-email-actions">
-              <a className="button button--primary" href={`mailto:${EMAIL}?subject=${encodeURIComponent(`[hondit] ${countryName} enquiry`)}&body=${encodeURIComponent(`Country: ${countryName} (${market.code})\nProduct: \nQuantity (units): \nQuestion: `)}`} onClick={() => trackChannel("email", `mailto:${EMAIL}`)}>{marketText(language, "Open email draft", "이메일 초안 열기")}</a>
+
               <button type="button" className="button button--ghost" onClick={copyEmail}>{marketText(language, "Copy email address", "이메일 주소 복사")}</button>
             </div>
             <p role="status">{copied ? marketText(language, "Email address copied.", "이메일 주소를 복사했습니다.") : copyFailed ? marketText(language, "Copy unavailable. Please select and copy the email address above.", "복사 기능을 사용할 수 없습니다. 위 이메일 주소를 선택해 복사해주세요.") : ""}</p>
             <p>{marketText(language, "Opening your email app creates a draft only. Review and send it yourself; opening a draft does not confirm receipt.", "이메일 앱 실행은 초안 열기만 수행합니다. 내용을 확인한 후 직접 발송해주세요. 초안을 여는 것은 문의 접수 완료가 아닙니다.")}</p>
-            <p>{marketText(language, "For additional quantities or multiple products, use the email draft on the order page to include your selected products, quantities and country.", "추가 수량·다품목 문의는 주문 화면의 이메일 초안을 이용하면 선택한 상품·수량·국가가 포함됩니다.")}</p>
+
           </section>
 
+          <ConsultationPanel lines={context.product?[{name:context.product.name,quantity:context.quantity}]:[]} reason={context.reason} country={`${market.countryName} (${market.code})`}/>
           <aside>
             <p className="v23-eyebrow is-light"><span /> {marketText(language, "QUICK ROUTES", "빠른 경로")}</p>
             <h2>{marketText(language, "Use the right channel.", "상황에 맞는 채널을 선택하세요.")}</h2>

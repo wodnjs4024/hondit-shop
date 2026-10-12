@@ -5634,3 +5634,11 @@ video {
 
 .v23-email-inquiry { padding: clamp(24px, 5vw, 48px); background: #fff; border: 1px solid #ddd9d0; border-radius: 16px; overflow-wrap: anywhere; }
 .v23-email-actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
+
+.direct-checkout-fields{border:0;padding:0;margin:0;min-width:0} [hidden]{display:none!important}
+.sales-program-page{max-width:1000px;margin:0 auto;padding:clamp(24px,5vw,72px)}
+.sales-program-page>section,.consultation-panel{padding:clamp(20px,4vw,36px);margin:24px 0;border:1px solid #d8d5cd;border-radius:16px;background:#fff}
+.consultation-panel label{display:grid;gap:8px;margin:16px 0}.consultation-panel input{width:100%;min-height:44px;font-size:16px;box-sizing:border-box}
+.consultation-summary{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}
+summary{cursor:pointer;min-height:44px;padding:12px 0}details label{display:grid;gap:8px;margin:16px 0}
+:focus-visible{outline:3px solid #8b622f;outline-offset:3px}.checkout-form small{display:block}

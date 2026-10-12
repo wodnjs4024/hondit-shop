@@ -1,3 +1,4 @@
+import {assertShippingMatches} from "../../shared/shipping.js";
 import { json, notifyTelegramNewOrder, paypal, readBody, supabase } from "../_utils.js";
 import { validateCapturedPayment } from "../_markets.js";
 
@@ -31,10 +32,17 @@ export default async function handler(req, res) {
     order = orderRows[0];
     if (order.paypal_order_id !== paypalOrderId) return json(res, 409, { error: "PayPal order ID does not match hondit order" });
 
+    // Verify before any financial capture; never replace the site's saved address.
+    if (order.payment_status === 'completed') return json(res, 200, { orderNumber: order.order_number, paymentStatus: 'completed' });
+    if (String(order.internal_note||'').startsWith('[shipping:v1]')) {
+    const approved = await paypal(`/v2/checkout/orders/${encodeURIComponent(paypalOrderId)}`, { method: 'GET' });
+    assertShippingMatches(order, approved);
+    }
     const captureResponse = await paypal(`/v2/checkout/orders/${encodeURIComponent(paypalOrderId)}/capture`, {
       method: "POST",
       body: JSON.stringify({}),
     });
+    if(String(order.internal_note||'').startsWith('[shipping:v1]')) assertShippingMatches(order, captureResponse);
     const capture = findCapture(captureResponse);
     const expectedCurrency = order.currency || "SGD";
     const { paidAmount, paidCurrency } = validateCapturedPayment(capture, order.total_sgd, expectedCurrency);
@@ -94,6 +102,10 @@ export default async function handler(req, res) {
 
     return json(res, 200, { orderNumber });
   } catch (error) {
+    if (String(error.message).startsWith('Shipping verification failed')) {
+      if (order) await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {method:'PATCH',body:JSON.stringify({order_status:'address_check',internal_note:`${order.internal_note||''} Shipping verification requires manual review. No address was overwritten.`})}).catch(()=>{});
+      return json(res,409,{error:'Shipping verification failed. Please contact hondit before retrying.'});
+    }
     if (order?.id) {
       const now = new Date().toISOString();
       const failureReason = error.message || "Could not capture PayPal order";

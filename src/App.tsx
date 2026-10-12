@@ -1,3 +1,11 @@
+// Consultation URLs accept only public identifiers. Never retain free text or contact details.
+if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.location.pathname===path || window.location.pathname.startsWith(path+'/'))) {
+ const url=new URL(window.location.href);const allowed=new Set(['product','quantity','market','lang','reason']);
+ for(const key of Array.from(url.searchParams.keys()))if(!allowed.has(key))url.searchParams.delete(key);
+ window.history.replaceState({},'',url);
+}
+import {PartnersPage} from "./pages/PartnersPage";
+import {PartnerGuidePage} from "./pages/PartnerGuidePage";
 import { lazy, Suspense, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { getCampaignLandingEventName, trackEvent, trackPageView } from "./lib/analytics";
@@ -93,6 +101,8 @@ const policyMeta: Record<string, { title: string; description: string }> = {
 };
 
 function routeMeta(pathname: string): PageMeta {
+  if(pathname==='/partners')return {title:'Partner program | hondit',description:'Partner introduction and pilot consultation with HONDIT.',robots:'index,follow',image:defaultOgImage};
+  if(pathname.startsWith('/partners/'))return {title:'Partner product guide | hondit',description:'Partner product information.',robots:'noindex,nofollow',image:defaultOgImage};
   if (pathname.startsWith("/admin")) {
     return {
       title: "Admin | hondit",
@@ -322,6 +332,8 @@ export default function App() {
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/bulk-orders" element={<BulkOrdersPage />} />
         <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
+        <Route path="/partners" element={<PartnersPage />} />
+        <Route path="/partners/:slug" element={<PartnerGuidePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/shipping" element={<ShippingPage />} />
         <Route path="/policy/:policy" element={<PolicyPage />} />

@@ -23,17 +23,17 @@ test('server checkout uses approved SG totals and ignores submitted prices (all 
  Object.assign(process.env,{VERCEL_ENV:'production',SUPABASE_URL:'https://db.invalid',SUPABASE_SERVICE_ROLE_KEY:'mock-only',PAYPAL_CLIENT_ID:'mock-only',PAYPAL_CLIENT_SECRET:'mock-only'});
  const {defaultProducts}=await import('../api/_bulk-data.js');const {toDbProduct}=await import('../api/_utils.js');
  try{for(const [slug,q,expected] of [['foam-oil',30,'267.00'],['diffuser-350g',20,'420.00'],['diffuser-500g',20,'920.00']]){
-  let paid;let stored;globalThis.fetch=async(url,opts={})=>{const u=String(url);let reply=[];
+  let paid;let stored;let request;globalThis.fetch=async(url,opts={})=>{const u=String(url);let reply=[];
    if(u.includes('/products'))reply=defaultProducts.map(toDbProduct);
    else if(u.includes('/site_settings'))reply=[{checkout_enabled:true}];
    else if(u.includes('/v1/oauth2/token'))reply={access_token:'mock-only'};
-   else if(u.includes('/v2/checkout/orders')){paid=JSON.parse(opts.body).purchase_units[0].amount;reply={id:'mock-paypal-order'}}
+   else if(u.includes('/v2/checkout/orders')){request=JSON.parse(opts.body);paid=request.purchase_units[0].amount;reply={id:'mock-paypal-order'}}
    else if(u.includes('/orders')&&opts.method==='POST'){stored=JSON.parse(opts.body);reply=[{...stored,id:'mock-order'}]}
    else if(!u.startsWith('https://db.invalid/'))throw Error('Unmocked request');
    return new Response(JSON.stringify(reply),{status:200});};
   let status;let result;const res={status(n){status=n;return this},setHeader(){return this},end(v){result=JSON.parse(v)}};
   await createOrder({method:'POST',headers:{},body:{market:'SG',countryCode:'SG',orderType:'bulk',customerName:'Synthetic',customerEmail:'test@example.invalid',customerPhone:'test',addressLine1:'Synthetic',city:'Synthetic',postalCode:'000000',price:0.01,total:0.01,cart:[{slug,packCount:q,unitPrice:0.01}]}},res);
-  assert.equal(status,200,JSON.stringify(result));assert.equal(paid.value,expected);assert.equal(paid.currency_code,'SGD');assert.equal(stored.total_sgd,Number(expected));
+  assert.equal(status,200,JSON.stringify(result));assert.equal(paid.value,expected);assert.equal(paid.currency_code,'SGD');assert.equal(stored.total_sgd,Number(expected));assert.deepEqual(request.purchase_units[0].shipping,{name:{full_name:stored.customer_name},address:{address_line_1:stored.address_line_1,admin_area_2:stored.city,postal_code:stored.postal_code,country_code:stored.country_code}});assert.equal(request.payment_source.paypal.experience_context.shipping_preference,'SET_PROVIDED_ADDRESS');
  }}finally{globalThis.fetch=original;for(const k of keys)if(before[k]===undefined)delete process.env[k];else process.env[k]=before[k]}
 });
 

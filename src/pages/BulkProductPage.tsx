@@ -1,3 +1,5 @@
+import {ConsultationPanel} from "../components/ConsultationPanel";
+import {normalizeShipping,postalRequired} from "../../shared/shipping.js";
 import { cleanProductUsage, sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { useEffect, useRef, useState } from "react";
@@ -115,6 +117,7 @@ export function BulkProductPage() {
   const [form, setForm] = useState<OrderForm>(initialForm);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
+  const [invalidField,setInvalidField]=useState("");
   const [payPalConfig, setPayPalConfig] = useState({
     checkoutEnabled: false,
     clientId: fallbackPayPalClientId,
@@ -200,12 +203,6 @@ export function BulkProductPage() {
     ...orderLineText,
     `Total quantity: ${totalUnits} units`,
     `Product amount (shipping scope to confirm): ${formatCurrency(marketTotal, market.currency, market.locale)}`,
-    `Name: ${form.customerName || "-"}`,
-    `Email: ${form.customerEmail || "-"}`,
-    `Phone / WhatsApp: ${form.customerPhone || "-"}`,
-    `Company: ${form.companyName || "-"}`,
-    `Shipping address: ${[form.addressLine1, form.addressLine2, form.city, countryName, form.postalCode].filter(Boolean).join(", ") || "-"}`,
-    `Order note: ${form.customerNote || "-"}`,
     "",
     inquiryOnly ? "Please reply with a quotation and confirmed shipping conditions." : "Please reply with the PayPal payment link and next steps.",
   ]);
@@ -225,7 +222,11 @@ export function BulkProductPage() {
   }, [form, orderLines, product]);
 
   useEffect(() => {
-    if (!paypalClientId || soldOut || checkoutDisabled) return;
+    if (!paypalClientId || soldOut || checkoutDisabled) {
+      document.querySelectorAll('script[id^="paypal-sdk-"]').forEach(script=>script.remove());
+      const buttons=document.getElementById('direct-paypal-buttons');if(buttons)buttons.innerHTML='';
+      window.paypal=undefined;setReady(false);return;
+    }
     const container = document.getElementById("direct-paypal-buttons");
     if (container) container.innerHTML = "";
     document.querySelectorAll('script[id^="paypal-sdk-"]').forEach((script) => script.remove());
@@ -237,9 +238,10 @@ export function BulkProductPage() {
     script.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientId}&currency=${market.currency}&intent=capture`;
     script.onload = () => setReady(true);
     document.body.appendChild(script);
+    return ()=>{script.onload=null;script.remove();const target=document.getElementById('direct-paypal-buttons');if(target)target.innerHTML='';window.paypal=undefined;};
   }, [checkoutDisabled, market.currency, paypalClientId, soldOut]);
 
-  const update = (key: keyof OrderForm, value: string | boolean) => setForm((current) => ({ ...current, [key]: value }));
+  const update = (key: keyof OrderForm, value: string | boolean) => {setInvalidField("");setForm((current) => ({ ...current, [key]: value }));};
   const updateMixQuantity = (entry: BulkProduct, requested: number) => {
     const availableUnits = getBulkMaxUnits(entry);
     const stepped = Math.max(0, Math.floor((Number.isFinite(requested) ? requested : 0) / BULK_QTY_STEP) * BULK_QTY_STEP);
@@ -264,10 +266,14 @@ export function BulkProductPage() {
       !currentForm.customerPhone ||
       !currentForm.addressLine1 ||
       !currentForm.city ||
-      !currentForm.postalCode
+      (postalRequired(market.countryCode) && !currentForm.postalCode)
     ) {
       return marketText(language, "Please complete all required shipping fields before payment.", "寃곗젣 ???꾩닔 諛곗넚 ?뺣낫瑜?紐⑤몢 ?낅젰?댁＜?몄슂.");
     }
+    try { normalizeShipping({...currentForm,countryCode:market.countryCode},market); }
+    catch (issue) { const field=String((issue as {field?:string}).field||'addressLine1');setInvalidField(field);const ids:Record<string,string>={customerName:'bulk-customer-name',addressLine1:'bulk-address-line1',addressLine2:'bulk-address-line2',city:'bulk-city',postalCode:'bulk-postal-code'};document.getElementById(ids[field])?.focus();return marketText(language,'Check this field.'); }
+    const invalidInput=document.querySelector<HTMLInputElement>('.direct-order-form input:invalid');
+    if(invalidInput){setInvalidField(invalidInput.name);invalidInput.focus();return marketText(language,'Check this field.');}
     if (!currentForm.reviewed) {
       return marketText(language, "Please confirm the quantity, address and final payment amount.", "?섎웾, 二쇱냼, 理쒖쥌 寃곗젣 湲덉븸???뺤씤?댁＜?몄슂.");
     }
@@ -306,6 +312,8 @@ export function BulkProductPage() {
           const validationError = validate(currentForm, currentLines);
           if (validationError) {
             setError(validationError);
+            const invalid=document.querySelector<HTMLInputElement>('.direct-order-form input:invalid');
+            invalid?.focus(); invalid?.scrollIntoView({block:'center'});
             throw new Error(validationError);
           }
 
@@ -580,69 +588,62 @@ export function BulkProductPage() {
                 <div className="bulk-total-box">
                   <span>{marketText(language, "Total units", "珥??섎웾")}</span>
                   <strong>{totalUnits}</strong>
-                  <span>{marketText(language, "Total payment", "총 결제액")}</span>
+                  <span>{marketText(language, inquiryOnly ? "Product amount" : "Total payment", inquiryOnly ? "상품금액" : "총 결제액")}</span>
                   <strong>{formatCurrency(marketTotal, market.currency, market.locale)}</strong>
                   <p>{marketText(language, "Product amount; taxes and customs charges excluded.", "상품금액 기준 · 세금과 통관비 별도")}</p>
                 </div>
 
+                <fieldset className="direct-checkout-fields" hidden={inquiryOnly} disabled={inquiryOnly}>
                 <form className="checkout-form direct-order-form" aria-describedby={error ? errorId : undefined}>
                   <label htmlFor="bulk-customer-name">
-                    {marketText(language, "Full name", "이름")} *
+                    {marketText(language, "Delivery recipient")} *
                     <input
                       id="bulk-customer-name"
                       name="customerName"
                       autoComplete="name"
                       required
                       aria-required="true"
-                      aria-invalid={requiredFieldInvalid(form.customerName)}
+                      aria-invalid={(invalidField === "customerName" || requiredFieldInvalid(form.customerName))}
                       aria-describedby={error ? errorId : undefined}
                       value={form.customerName}
                       onChange={(event) => update("customerName", event.target.value)}
-                    />
+                    />{(invalidField === "customerName" || requiredFieldInvalid(form.customerName)) && <small role="alert">{marketText(language,"Check this field.")}</small>}
                   </label>
                   <label htmlFor="bulk-customer-email">
-                    {marketText(language, "Email", "이메일")} *
+                    {marketText(language, "Email", "이메일")} *<small>{marketText(language,"For order updates.")}</small>
                     <input
                       id="bulk-customer-email"
                       name="customerEmail"
-                      type="email"
+                      type="email" inputMode="email"
                       autoComplete="email"
                       required
                       aria-required="true"
-                      aria-invalid={requiredFieldInvalid(form.customerEmail)}
+                      aria-invalid={(invalidField === "customerEmail" || requiredFieldInvalid(form.customerEmail))}
                       aria-describedby={error ? errorId : undefined}
                       value={form.customerEmail}
                       onChange={(event) => update("customerEmail", event.target.value)}
-                    />
+                    />{(invalidField === "customerEmail" || requiredFieldInvalid(form.customerEmail)) && <small role="alert">{marketText(language,"Check this field.")}</small>}
                   </label>
                   <label htmlFor="bulk-customer-phone">
-                    {marketText(language, "Phone / WhatsApp", "전화 / WhatsApp")} *
+                    {marketText(language, "Delivery phone")} *
                     <input
                       id="bulk-customer-phone"
                       name="customerPhone"
+                      type="tel" inputMode="tel"
                       autoComplete="tel"
                       required
                       aria-required="true"
-                      aria-invalid={requiredFieldInvalid(form.customerPhone)}
+                      aria-invalid={(invalidField === "customerPhone" || requiredFieldInvalid(form.customerPhone))}
                       aria-describedby={error ? errorId : undefined}
                       value={form.customerPhone}
                       onChange={(event) => update("customerPhone", event.target.value)}
-                    />
+                    />{(invalidField === "customerPhone" || requiredFieldInvalid(form.customerPhone)) && <small role="alert">{marketText(language,"Check this field.")}</small>}
                   </label>
-                  <label htmlFor="bulk-company-name">
-                    {marketText(language, "Company name", "회사명")}
-                    <input
-                      id="bulk-company-name"
-                      name="companyName"
-                      autoComplete="organization"
-                      value={form.companyName}
-                      onChange={(event) => update("companyName", event.target.value)}
-                    />
-                  </label>
-                  <label htmlFor="bulk-country">
+
+                  <div className="checkout-country">
                     {marketText(language, "Country", "배송 국가")}
-                    <input id="bulk-country" name="country" autoComplete="country-name" value={countryName} readOnly />
-                  </label>
+                    <strong id="bulk-country">{countryName}</strong>
+                  </div>
                   <label htmlFor="bulk-address-line1">
                     {marketText(language, "Address line 1", "주소 1")} *
                     <input
@@ -651,22 +652,13 @@ export function BulkProductPage() {
                       autoComplete="address-line1"
                       required
                       aria-required="true"
-                      aria-invalid={requiredFieldInvalid(form.addressLine1)}
+                      aria-invalid={(invalidField === "addressLine1" || requiredFieldInvalid(form.addressLine1))}
                       aria-describedby={error ? errorId : undefined}
                       value={form.addressLine1}
                       onChange={(event) => update("addressLine1", event.target.value)}
-                    />
+                    />{(invalidField === "addressLine1" || requiredFieldInvalid(form.addressLine1)) && <small role="alert">{marketText(language,"Check this field.")}</small>}
                   </label>
-                  <label htmlFor="bulk-address-line2">
-                    {marketText(language, "Address line 2", "주소 2")}
-                    <input
-                      id="bulk-address-line2"
-                      name="addressLine2"
-                      autoComplete="address-line2"
-                      value={form.addressLine2}
-                      onChange={(event) => update("addressLine2", event.target.value)}
-                    />
-                  </label>
+
                   <label htmlFor="bulk-city">
                     {marketText(language, "City / District", "도시 / 지역")} *
                     <input
@@ -675,27 +667,48 @@ export function BulkProductPage() {
                       autoComplete="address-level2"
                       required
                       aria-required="true"
-                      aria-invalid={requiredFieldInvalid(form.city)}
+                      aria-invalid={(invalidField === "city" || requiredFieldInvalid(form.city))}
                       aria-describedby={error ? errorId : undefined}
                       value={form.city}
                       onChange={(event) => update("city", event.target.value)}
-                    />
+                    />{(invalidField === "city" || requiredFieldInvalid(form.city)) && <small role="alert">{marketText(language,"Check this field.")}</small>}
                   </label>
+                  {postalRequired(market.countryCode) ? (
                   <label htmlFor="bulk-postal-code">
                     {marketText(language, "Postal code", "우편번호")} *
                     <input
                       id="bulk-postal-code"
                       name="postalCode"
                       autoComplete="postal-code"
+                      inputMode={market.code === "BN" ? "text" : "numeric"}
                       required
                       aria-required="true"
-                      aria-invalid={requiredFieldInvalid(form.postalCode)}
+                      aria-invalid={(invalidField === "postalCode" || requiredFieldInvalid(form.postalCode))}
                       aria-describedby={error ? errorId : undefined}
                       value={form.postalCode}
                       onChange={(event) => update("postalCode", event.target.value)}
+                    />{(invalidField === "postalCode" || requiredFieldInvalid(form.postalCode)) && <small role="alert">{marketText(language,"Check this field.")}</small>}
+                  </label>) : <p>{marketText(language,"No postal code is required for this destination.")}</p>}
+
+                  <details className="checkout-form__wide"><summary>{marketText(language,"Optional delivery details")}</summary>                  <label htmlFor="bulk-company-name">
+                    {marketText(language, "Company name", "회사명")}
+                    <input
+                      id="bulk-company-name"
+                      name="companyName"
+                      autoComplete="organization"
+                      value={form.companyName}
+                      onChange={(event) => update("companyName", event.target.value)}
                     />
-                  </label>
-                  <label className="checkout-form__wide" htmlFor="bulk-customer-note">
+                  </label>                  <label htmlFor="bulk-address-line2">
+                    {marketText(language, "Address line 2", "주소 2")}
+                    <input
+                      id="bulk-address-line2"
+                      name="addressLine2"
+                      autoComplete="address-line2"
+                      value={form.addressLine2}
+                      onChange={(event) => update("addressLine2", event.target.value)}
+                    />
+                  </label>                  <label className="checkout-form__wide" htmlFor="bulk-customer-note">
                     {marketText(language, "Order note", "주문 메모")}
                     <textarea
                       id="bulk-customer-note"
@@ -708,7 +721,7 @@ export function BulkProductPage() {
                         "영수증, 회사 배송명, 별도 요청사항이 있으면 적어주세요.",
                       )}
                     />
-                  </label>
+                  </label></details>
                   <label className="checkout-confirm checkout-form__wide" htmlFor="bulk-reviewed">
                     <input
                       id="bulk-reviewed"
@@ -753,7 +766,7 @@ export function BulkProductPage() {
                   )}
                   <dl className="direct-payment-summary__details">
                     <div>
-                      <dt>{marketText(language, "Full name", "이름")}</dt>
+                      <dt>{marketText(language, "Delivery recipient")}</dt>
                       <dd>{form.customerName || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
@@ -761,7 +774,7 @@ export function BulkProductPage() {
                       <dd>{form.customerEmail || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
-                      <dt>{marketText(language, "Phone / WhatsApp", "?꾪솕 / WhatsApp")}</dt>
+                      <dt>{marketText(language, "Delivery phone", "?꾪솕 / WhatsApp")}</dt>
                       <dd>{form.customerPhone || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
@@ -831,7 +844,9 @@ export function BulkProductPage() {
                   </p>
                 ) : (
                   <div id="direct-paypal-buttons" className="paypal-buttons" />
-                )}
+                )}                </fieldset>
+                <div hidden={!inquiryOnly}><ConsultationPanel lines={orderLines.map(line=>({name:line.product.name,quantity:line.quantity}))} reason={isCleansingMix?'combination':'quantity'}/></div>
+
               </section>
 
               {!isCleansingMix && <section className="bulk-product-info">

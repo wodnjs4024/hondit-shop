@@ -45,24 +45,7 @@ export function V23Header() {
             hondit<span>.</span>
           </Link>
           <nav className={open ? "v23-nav-links is-open" : "v23-nav-links"} aria-label="Main navigation">
-            <NavLink to="/" onClick={() => setOpen(false)}>
-              {marketText(language, "Home", "Home")}
-            </NavLink>
-            <NavLink to="/jeju" onClick={() => setOpen(false)}>
-              {marketText(language, "Explore Jeju", "Explore Jeju")}
-            </NavLink>
-            <NavLink to="/products" onClick={() => setOpen(false)}>
-              {marketText(language, "Products", "Products")}
-            </NavLink>
-            <NavLink to="/bulk-orders" onClick={() => setOpen(false)}>
-              {marketText(language, "Bulk Orders", "Bulk Orders")}
-            </NavLink>
-            <NavLink to="/shipping" onClick={() => setOpen(false)}>
-              {marketText(language, "Shipping", "Shipping")}
-            </NavLink>
-            <NavLink to="/contact" onClick={() => setOpen(false)}>
-              {marketText(language, "Contact", "Contact")}
-            </NavLink>
+            {[['/products','Products'],['/bulk-orders','Bulk orders & consultation'],['/partners','Partner program'],['/jeju','About HONDIT']].map(([path,label])=><NavLink key={path} to={path} onClick={()=>setOpen(false)}>{marketText(language,label)}</NavLink>)}
           </nav>
           <div className="v23-nav-actions">
             {market.hasShopee ? (
@@ -247,14 +230,14 @@ export function V23Page({ children }: { children: ReactNode }) {
       <V23Header />
       {children}
       <V23Footer />
-      <nav className="v23-mobile-actions" aria-label={marketText(language, "Quick purchase links", "빠른 구매 링크")}>
+      {!location.pathname.startsWith("/partners/") && <nav className="v23-mobile-actions" aria-label={marketText(language, "Quick purchase links", "빠른 구매 링크")}>
         <Link to="/products" className={location.pathname === "/products" ? "is-current" : ""}>
           {marketText(language, "Products", "상품")}
         </Link>
         <Link to="/bulk-orders" className={location.pathname.startsWith("/bulk-orders") ? "is-current" : ""}>
           {marketText(language, "Bulk Checkout", "대량주문")}
         </Link>
-      </nav>
+      </nav>}
     </>
   );
 }

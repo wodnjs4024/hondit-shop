@@ -1,3 +1,4 @@
+import {salesCopy} from "../../shared/sales-copy.js";
 import { sgTerms } from "../../shared/page-sales.js";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { setAnalyticsContext, trackEvent } from "./analytics";
@@ -2384,6 +2385,7 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 }
 
 export function marketText(language: DisplayLanguage, english: string, fallback?: string) {
+  if (salesCopy[english]?.[language]) return salesCopy[english][language];
   if (language === "en") return english;
   const cleanDynamic = cleanDynamicText(language, english);
   if (cleanDynamic) return cleanDynamic;

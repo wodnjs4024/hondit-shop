@@ -1,3 +1,5 @@
+import {assertShippingMatches} from "../../shared/shipping.js";
+import {paypal} from "../_utils.js";
 import { getPayPalAccessToken, json, notifyTelegramNewOrder, readBody, supabase } from "../_utils.js";
 
 async function verifyWebhook(req, event) {
@@ -58,6 +60,9 @@ export default async function handler(req, res) {
     }).catch(() => null);
 
     if (verified && order && event.event_type === "PAYMENT.CAPTURE.COMPLETED") {
+      try { if(String(order.internal_note||'').startsWith('[shipping:v1]')) { const details=await paypal(`/v2/checkout/orders/${encodeURIComponent(order.paypal_order_id)}`,{method:'GET'});assertShippingMatches(order,details); } }
+      catch {await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`,{method:'PATCH',body:JSON.stringify({order_status:'address_check',internal_note:`${order.internal_note||''} Webhook shipping verification requires manual review. Address unchanged.`})});return json(res,409,{error:'Shipping verification requires review'});}
+
       await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
         method: "PATCH",
         body: JSON.stringify({
