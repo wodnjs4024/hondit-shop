@@ -1,3 +1,4 @@
+import { salesToolsCopy } from "../../shared/sales-tools-copy.js";
 import { storefrontCopy } from "../../shared/storefront-copy.js";
 import {salesCopy} from "../../shared/sales-copy.js";
 import { sgTerms } from "../../shared/page-sales.js";
@@ -2415,6 +2416,7 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 
 export function marketText(language: DisplayLanguage, english: string, fallback?: string) {
   const copyLanguage = language === "zh" || language === "zh-TW" ? "zh-HK" : language;
+  if (salesToolsCopy[english]?.[copyLanguage]) return salesToolsCopy[english][copyLanguage];
   if (storefrontCopy[english]?.[copyLanguage]) return storefrontCopy[english][copyLanguage];
   if (salesCopy[english]?.[language]) return salesCopy[english][language];
   if (language === "en") return english;

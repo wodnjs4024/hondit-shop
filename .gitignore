@@ -8,3 +8,7 @@ dist
 tsconfig.tsbuildinfo
 .vercel
 .env*
+
+# Public-source raw captures remain local; publish only reviewed structured facts.
+docs/sources/*.html
+docs/sources/*.jpg

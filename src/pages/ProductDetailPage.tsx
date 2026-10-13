@@ -1,3 +1,6 @@
+import {DiffuserComparison,ProductCare} from "../components/ProductFactsDisplay";
+import {QuantityReview} from "../components/QuantityReview";
+import {productFacts} from "../data/productFacts";
 import { cleanProductUsage } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { useEffect, useState } from "react";
@@ -42,7 +45,7 @@ export function ProductDetailPage() {
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
   const productName = marketProductText(language, product.name);
   const productCategory = marketProductText(language, product.category);
-  const productDescription = marketProductText(language, product.description);
+  const productDescription = marketProductText(language, productFacts(product.slug)?.description||product.description);
   const productGoodFor = marketProductText(language, product.goodFor);
   const showSingaporeDiffuserDetails = market.code === "SG" && product.slug === "diffuser-350g";
   const selectDetailImage = (nextIndex: number, source: "arrow" | "thumbnail" | "keyboard") => {
@@ -116,6 +119,10 @@ export function ProductDetailPage() {
           </div>
         </section>
 
+        <QuantityReview key={`${product.slug}-${market.code}`} product={product}/>
+        {productFacts(product.slug)&&<DiffuserComparison/>}
+        <ProductCare slug={product.slug}/>
+        <Link className="product-guide-link" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>
         <section className="v23-product-detail-grid">
           <article>
             <p className="v23-eyebrow"><span /> {marketText(language, "GOOD FOR", "추천 용도")}</p>

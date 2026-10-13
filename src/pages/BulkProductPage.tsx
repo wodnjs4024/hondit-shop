@@ -1,9 +1,11 @@
+import {productFacts} from "../data/productFacts";
+import {validQuantity} from "../../shared/sales-tools.js";
 import {ConsultationPanel} from "../components/ConsultationPanel";
 import {normalizeShipping,postalRequired} from "../../shared/shipping.js";
 import { cleanProductUsage, sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { useEffect, useRef, useState } from "react";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ProductReviews } from "../components/ProductReviews";
 import { V23Page } from "../components/v23/SiteChrome";
 import {
@@ -112,7 +114,8 @@ export function BulkProductPage() {
   const isCleansingMixRoute = slug === "cleansing-mix";
   const navigate = useNavigate();
   const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
-  const [packCount, setPackCount] = useState(0);
+  const [selectionParams]=useSearchParams();
+  const [packCount, setPackCount] = useState(()=>validQuantity(selectionParams.get("quantity")||"")?Number(selectionParams.get("quantity")):0);
   const [mixQuantities, setMixQuantities] = useState<Record<string, number>>({});
   const [form, setForm] = useState<OrderForm>(initialForm);
   const [ready, setReady] = useState(false);
@@ -152,7 +155,9 @@ export function BulkProductPage() {
     products.find((entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market)) ||
     bulkProducts.find((entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market));
   const matchedProduct = apiMatch || fallbackMatch || (isCleansingMixRoute ? cleansingFallback : undefined);
-  const baseProduct = matchedProduct || firstAllowedProduct;
+  const selectedBase = matchedProduct || firstAllowedProduct;
+  const facts=productFacts(selectedBase.slug);
+  const baseProduct = facts ? {...selectedBase,description:facts.description,features:[facts.container,"Jeju volcanic scoria","Citrus oil 10ml included","No flame","No electricity"]} : selectedBase;
   const product = market.code === "SG" && sgTerms(baseProduct) ? {...baseProduct,packQuantity:sgTerms(baseProduct)!.moq} : baseProduct;
   const isLivePaymentTest = product.slug === "live-payment-test";
   const moq = getBulkMoq(product);

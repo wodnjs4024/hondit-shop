@@ -1,3 +1,4 @@
+import {v23Products} from "../data/v23SiteData";
 import { marketText, useMarket } from "../lib/market";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -77,6 +78,7 @@ export function OrderCompletePage() {
             )}
           </div>
 
+          {order&&<section><h2>{marketText(language,"Product care & follow-up")}</h2>{v23Products.filter(p=>order.items.some(item=>item.product_slug===p.slug)).map(p=><p key={p.slug}><Link to={`/guide/${p.slug}`}>{marketText(language,p.name)} →</Link></p>)}</section>}
           <div className="bulk-card__actions">
             <Link className="button button--primary" to="/bulk-orders">{marketText(language,"Continue Shopping")}</Link>
             <Link className="button button--ghost" to="/contact">{marketText(language,"Contact hondit")}</Link>

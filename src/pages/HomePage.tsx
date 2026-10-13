@@ -206,7 +206,7 @@ export function HomePage() {
               />
               <figcaption>
                 <strong>{marketText(language, "Jeju Volcanic Stone Diffuser")}</strong>
-                <span>{marketText(language, "Volcanic stone / Citrus fragrance oil / Ceramic bowl")}</span>
+                <span>{marketText(language, "Jeju volcanic scoria")} / {marketText(language, "Citrus fragrance oil")}</span>
                 <span>{marketText(language, "Flameless / No electricity / Refreshable scent")}</span>
                 <div className="v23-diffuser-guide__links">
                   <Link to="/products/diffuser-350g">350g <span aria-hidden="true">↗</span></Link>

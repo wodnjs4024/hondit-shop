@@ -9,6 +9,7 @@ import "@fontsource/cormorant-garamond/600.css";
 import "./styles/global.css";
 import "./styles/v23.css";
 import "./styles/admin.css";
+import "./styles/sales-tools.css";
 import App from "./App";
 import { initAnalytics } from "./lib/analytics";
 

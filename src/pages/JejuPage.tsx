@@ -73,6 +73,7 @@ export function JejuPage() {
             <Link to="/bulk-orders">{marketText(language,"Bulk orders")}</Link>
           </div>
         </section>
+      <section className="sales-tools-section"><h2>{marketText(language,"Meet StoneJeju in Jeju")}</h2><p>{marketText(language,"Supplier-listed locations, not HONDIT partners. Check opening hours and stock before visiting.")}</p><Link to="/jeju/stores">{marketText(language,"Open map")} →</Link></section>
       </main>
     </V23Page>
   );

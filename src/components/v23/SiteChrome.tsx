@@ -15,6 +15,7 @@ import {
 } from "../../lib/market";
 
 export function V23Header() {
+  const partnerOnly=useLocation().pathname.startsWith("/partners/");
   const [open, setOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const { market, setMarket, language, setLanguage } = useMarket();
@@ -36,19 +37,19 @@ export function V23Header() {
 
   return (
     <>
-      <div className="v23-shipping-bar">
+      {!partnerOnly&&<div className="v23-shipping-bar">
         {announcement ? marketText(language, announcement) : marketText(language, market.announcement, market.announcement)}
-      </div>
+      </div>}
       <header className="v23-nav">
         <div className="v23-nav-main">
           <Link className="v23-brand" to="/" aria-label="hondit home">
             hondit<span>.</span>
           </Link>
           <nav className={open ? "v23-nav-links is-open" : "v23-nav-links"} aria-label="Main navigation">
-            {[['/products','Products'],['/bulk-orders','Bulk orders & consultation'],['/partners','Partner program'],['/jeju','About HONDIT']].map(([path,label])=><NavLink key={path} to={path} onClick={()=>setOpen(false)}>{marketText(language,label)}</NavLink>)}
+            {[['/products','Products'],['/partners','Shops & business'],['/jeju','About HONDIT']].map(([path,label])=><NavLink key={path} to={path} onClick={()=>setOpen(false)}>{marketText(language,label)}</NavLink>)}
           </nav>
           <div className="v23-nav-actions">
-            {market.hasShopee ? (
+            {!partnerOnly && (market.hasShopee ? (
               <a className="v23-shop-button" href={SHOPEE} target="_blank" rel="noreferrer">
                 {marketText(language, "Shop on Shopee ->", "Shop on Shopee ->")}
               </a>
@@ -56,7 +57,7 @@ export function V23Header() {
               <Link className="v23-shop-button" to="/bulk-orders">
                 {marketText(language, "Bulk checkout ->", "Bulk checkout ->")}
               </Link>
-            )}
+            ))}
             <button
               className="v23-menu-button"
               type="button"
@@ -100,6 +101,7 @@ export function V23Header() {
 }
 
 export function V23Footer() {
+  const partnerOnly=useLocation().pathname.startsWith("/partners/");
   const { market, language } = useMarket();
   const footerLines = marketText(language, market.footerLine, market.footerLine).split("\n");
 
@@ -125,15 +127,16 @@ export function V23Footer() {
         <p>{marketText(language, "EXPLORE", "EXPLORE")}</p>
         <Link to="/jeju">{marketText(language, "Asia to Jeju", "Asia to Jeju")}</Link>
         <Link to="/products">{marketText(language, "Products", "Products")}</Link>
-        <Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>
+        <Link to="/jeju/stores">{marketText(language,"Meet StoneJeju in Jeju")}</Link>
+        {!partnerOnly&&<Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>}
         <Link to="/shipping">{marketText(language, "Shipping", "Shipping")}</Link>
       </div>
       <div>
         <p>{marketText(language, "CONNECT", "CONNECT")}</p>
-        {market.hasShopee ? (
+        {!partnerOnly && market.hasShopee ? (
           <a href={SHOPEE} target="_blank" rel="noreferrer">{marketText(language,"Shopee ->")}</a>
         ) : (
-          <Link to="/bulk-orders">{marketText(language, "Bulk checkout ->", "Bulk checkout ->")}</Link>
+          !partnerOnly&&<Link to="/bulk-orders">{marketText(language, "Bulk checkout ->", "Bulk checkout ->")}</Link>
         )}
         <a href={INSTAGRAM} target="_blank" rel="noreferrer">
           Instagram -&gt;
