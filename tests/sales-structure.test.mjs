@@ -33,7 +33,7 @@ test('pickup state machine requires staff, operations and verified payment; pres
  const ctx={operationsApproved:true,staffApproved:true,verified:true,location:'SYNTHETIC LOCAL TEST',time:'2030-01-01T10:00',now:'2030-01-01T00:00:00Z',billingCurrency:'SGD',billingAmount:1};
  let r=transitionPickup(initial,'approve',ctx);assert.equal(initial.status,'requested');assert.equal(initial.history.length,0);assert.throws(()=>transitionPickup(r,'confirm_payment',ctx));assert.throws(()=>transitionPickup(r,'request_payment',{}));
  for(const action of ['request_payment','confirm_payment','schedule','reschedule','reconfirm','schedule','no_show','reconfirm','schedule','deliver'])r=transitionPickup(r,action,ctx);assert.equal(r.status,'delivered');assert.equal(r.deliveredAt,ctx.now);assert.equal(r.history.length,11);assert.throws(()=>transitionPickup(r,'cancel',ctx));
- let paid=transitionPickup(transitionPickup(transitionPickup(initial,'approve',ctx),'request_payment',ctx),'confirm_payment',ctx);paid=transitionPickup(paid,'reschedule',ctx);paid=transitionPickup(paid,'cancel',ctx);assert.equal(paid.status,'refund_pending');assert.throws(()=>transitionPickup(paid,'refund',{}));assert.equal(transitionPickup(paid,'refund',ctx).status,'refunded');assert.equal(transitionPickup(initial,'cancel',ctx).status,'cancelled');
+ let paid=transitionPickup(transitionPickup(transitionPickup(initial,'approve',ctx),'request_payment',ctx),'confirm_payment',ctx);paid=transitionPickup(paid,'reschedule',ctx);paid=transitionPickup(paid,'cancel',ctx);assert.equal(paid.status,'refund_pending');assert.throws(()=>transitionPickup(paid,'cancel',ctx));assert.throws(()=>transitionPickup(paid,'refund',{}));assert.equal(transitionPickup(paid,'refund',ctx).status,'refunded');assert.equal(transitionPickup(initial,'cancel',ctx).status,'cancelled');
 });
 test('forged pickup approval is rejected at both server entry points before external access',async()=>{
  const old=globalThis.fetch;globalThis.fetch=()=>{throw Error('Unexpected external access')};
@@ -54,4 +54,5 @@ test('capture uncertainty and post-capture DB failure never become a failed paym
 test('result screens require server payment status and pickup draft is not in migration discovery',()=>{
  assert.match(source('src/pages/OrderCompletePage.tsx'),/data.order.payment_status === "completed"/);assert.match(source('src/pages/PaymentFailedPage.tsx'),/if\(!order \|\| !\['payment_failed','payment_cancelled'\]/);assert.match(source('src/pages/BulkProductPage.tsx'),/readOnlyPreview \? "" : payPalConfig.clientId/);assert.match(source('supabase/drafts/jeju_pickup_NOT_FOR_PRODUCTION.sql'),/rollback;/);
 });
+
 
