@@ -24,7 +24,7 @@ export type StorefrontProduct = {
 
 export const SHOPEE = "https://shopee.sg/hondit.office.sg";
 export const INSTAGRAM = "https://www.instagram.com/hondit.office/";
-export const EMAIL = "hondit.official@gmail.com";
+export const EMAIL = "hondit.office@gmail.com";
 
 export const productOrder = ["diffuser-350g", "diffuser-500g", "foam-oil", "foaming-cleanser", "cleansing-water"];
 

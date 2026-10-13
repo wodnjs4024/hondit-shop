@@ -1,10 +1,11 @@
+import {purchasePurposes} from "./purchase-context.js";
 const markets=['SG','HK','JP','TW','TH','MY','BN','MO'];
 const languages=['en','ko','zh','zh-HK','zh-TW','ja','ms','th'];
 const reasons=['partner','quantity','combination','product'];
 export function consultationContext(params,products,defaultMarket='SG',defaultLanguage='en') {
  const product=products.find(p=>p.slug===params.get('product')||p.apiSlug===params.get('product'));
  const raw=params.get('quantity');const quantity=raw&&/^\d{1,6}$/.test(raw)&&Number(raw)>0?Number(raw):undefined;
- return {product:product?{slug:product.slug,name:product.name}:undefined,quantity:product?quantity:undefined,market:markets.includes(params.get('market'))?params.get('market'):defaultMarket,language:languages.includes(params.get('lang'))?params.get('lang'):defaultLanguage,reason:reasons.includes(params.get('reason'))?params.get('reason'):'product'};
+ return {purpose:purchasePurposes.includes(params.get('purpose'))?params.get('purpose'):'unspecified',fulfillment:params.get('fulfillment')==='jeju_pickup'?'jeju_pickup':'international_bundle',product:product?{slug:product.slug,name:product.name}:undefined,quantity:product?quantity:undefined,market:markets.includes(params.get('market'))?params.get('market'):defaultMarket,language:languages.includes(params.get('lang'))?params.get('lang'):defaultLanguage,reason:reasons.includes(params.get('reason'))?params.get('reason'):'product'};
 }
 const labels={
  en:['HONDIT consultation','Market / country','Language','Reason','units','to confirm','Business type (optional)','Purpose (optional)','Preferred timing (optional)','Additional information (optional)','Please confirm applicable conditions. This is not a confirmed quotation.','Product','Quantity','Combination','Partner'],

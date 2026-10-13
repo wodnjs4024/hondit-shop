@@ -32,6 +32,6 @@ export function selectionUrl(
     quantity: string | number;
     market: string;
     language: string;
-    reason?: string;
+    reason?: string; purpose?:string;
   },
 ): string;

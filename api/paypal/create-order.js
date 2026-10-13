@@ -1,3 +1,4 @@
+import {purchaseContext,purchaseRoute} from "../../shared/purchase-context.js";
 import {normalizeShipping, paypalShipping} from "../../shared/shipping.js";
 import { sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
 import { livePaymentTestProduct } from "../_bulk-data.js";
@@ -92,6 +93,8 @@ export default async function handler(req, res) {
 
   try {
     const body = await readBody(req);
+    const salesContext=purchaseContext(body);
+    if(salesContext.fulfillment!=="international_bundle") return json(res,403,{error:"Pickup payment is not approved"});
     const market = resolveMarket(body);
     validateCheckout(body);
     const shipping = normalizeShipping(body, market);
@@ -104,6 +107,7 @@ export default async function handler(req, res) {
     if (sgCheckoutNeedsInquiry(body.cart.map(item => ({ product: checkoutProducts.find(p => p.slug === item.slug), quantity: item.packCount })), market.code)) throw new Error("This Singapore quantity or combination requires an enquiry before payment.");
     const pricingProducts = market.code === "SG" ? checkoutProducts.map(p => sgTerms(p) ? {...p,packQuantity:sgTerms(p).moq} : p) : checkoutProducts;
     const summary = calculateCart(body.cart, pricingProducts);
+    if (!body.cart.some(item=>item.slug===livePaymentTestProduct.slug) && purchaseRoute(summary.lines.map(line=>({product:line.product,quantity:line.totalUnits})),market.code)!=='direct') throw new Error('This quantity or combination requires consultation before payment.');
     const blockedProduct = summary.lines.find((line) => !isBulkProductAllowedForMarket(line.product, market));
     if (blockedProduct) {
       throw new Error(`${blockedProduct.product.name} is not available for ${market.countryName}.`);
@@ -133,7 +137,7 @@ export default async function handler(req, res) {
       city: shipping.city,
       postal_code: shipping.postal,
       customer_note: body.customerNote || null,
-      internal_note: `[shipping:v1] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
+      internal_note: `[shipping:v1] [sales:v1 fulfillment=${salesContext.fulfillment} purpose=${salesContext.purpose}] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
       utm_source: attribution.utm_source || attribution.traffic_source || null,
       utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,

@@ -119,7 +119,7 @@ export function ProductDetailPage() {
           </div>
         </section>
 
-        <QuantityReview key={`${product.slug}-${market.code}`} product={product}/>
+        <QuantityReview key={product.slug} product={product}/>
         {productFacts(product.slug)&&<DiffuserComparison/>}
         <ProductCare slug={product.slug}/>
         <Link className="product-guide-link" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>

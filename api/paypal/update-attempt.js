@@ -25,6 +25,7 @@ export default async function handler(req, res) {
     const rows = await supabase(`/orders?order_number=eq.${encodeURIComponent(orderNumber)}&select=*`);
     if (!rows.length) return json(res, 404, { error: "Order not found" });
     const order = rows[0];
+    if(paypalOrderId && order.paypal_order_id!==paypalOrderId) return json(res,409,{error:'PayPal order ID does not match hondit order'});
     if (order.payment_status === "completed") return json(res, 409, { error: "Completed orders cannot be marked as failed or cancelled" });
     if (
       status === "payment_failed" &&
@@ -50,21 +51,21 @@ export default async function handler(req, res) {
       payment_status: status,
       order_status: "pending_payment",
       payment_failure_reason: failureReason,
-      paypal_order_id: paypalOrderId || order.paypal_order_id || null,
+      paypal_order_id: order.paypal_order_id || null,
       updated_at: now,
     };
 
-    await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
+    await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}&payment_status=neq.completed`, {
       method: "PATCH",
       body: JSON.stringify(payload),
     }).catch(() =>
-      supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
+      supabase(`/orders?id=eq.${encodeURIComponent(order.id)}&payment_status=neq.completed`, {
         method: "PATCH",
         body: JSON.stringify({
           payment_status: status,
           order_status: "pending_payment",
           paypal_order_id: payload.paypal_order_id,
-          internal_note: `Payment attempt ${status}: ${failureReason}`,
+          internal_note: `${order.internal_note||''} Payment attempt ${status}: ${failureReason}`,
           updated_at: now,
         }),
       }),

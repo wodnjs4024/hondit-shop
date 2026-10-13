@@ -18,7 +18,7 @@ export function OrderCompletePage() {
     fetchPublicOrder(orderNumber)
       .then((data) => {
         setOrder(data.order);
-        trackEvent("purchase", {
+        if(data.order.payment_status === "completed") trackEvent("purchase", {
           transaction_id: data.order.order_number,
           value: data.order.total_sgd,
           currency: data.order.currency || "SGD",
@@ -41,9 +41,9 @@ export function OrderCompletePage() {
     <main className="bulk-page v23-operational-page">
       <section className="order-complete section-shell">
         <div className="section-inner section-inner--narrow">
-          <p className="eyebrow">{marketText(language,"ORDER COMPLETE")}</p>
-          <h1>{marketText(language,"Your order is confirmed.")}</h1>
-          <p>{marketText(language,"Your PayPal payment has been received. Please save your order number for future reference.")}</p>
+          <p className="eyebrow">{marketText(language,order?.payment_status === "completed"?"ORDER COMPLETE":"Payment verification pending")}</p>
+          <h1>{marketText(language,order?.payment_status === "completed"?"Your order is confirmed.":"Payment verification pending")}</h1>
+          <p>{marketText(language,order?.payment_status === "completed"?"Your PayPal payment has been received. Please save your order number for future reference.":"We could not confirm the payment status. Do not pay again; contact HONDIT with your order reference.")}</p>
           <p>{marketText(language,"If your email, phone number or shipping address is incorrect, contact hondit immediately with your order number before shipment.")}</p>
 
           {error && <p className="form-error">{marketText(language,error)}</p>}
@@ -82,7 +82,7 @@ export function OrderCompletePage() {
           <div className="bulk-card__actions">
             <Link className="button button--primary" to="/bulk-orders">{marketText(language,"Continue Shopping")}</Link>
             <Link className="button button--ghost" to="/contact">{marketText(language,"Contact hondit")}</Link>
-            <button className="button button--quiet" type="button" onClick={() => window.print()}>{marketText(language,"Print Order Receipt")}</button>
+            <button disabled={order?.payment_status!=="completed"} className="button button--quiet" type="button" onClick={() => window.print()}>{marketText(language,"Print Order Receipt")}</button>
           </div>
         </div>
       </section>

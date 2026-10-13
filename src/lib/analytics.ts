@@ -26,7 +26,7 @@ const envMeasurementId = import.meta.env.VITE_GA_MEASUREMENT_ID as string | unde
 const measurementId = envMeasurementId && envMeasurementId !== "G-XXXXXXXXXX" ? envMeasurementId : fallbackMeasurementId;
 let initialized = false;
 
-const hasMeasurementId = Boolean(measurementId);
+const hasMeasurementId = Boolean(measurementId) && import.meta.env.VITE_VERCEL_ENV !== 'preview';
 const attributionKey = "hondit_attribution_v1";
 const analyticsSessionKey = "hondit_analytics_session_id";
 type AnalyticsContext = {

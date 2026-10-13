@@ -21,6 +21,8 @@ export default async function handler(req, res) {
 
   let order = null;
   let paypalOrderId = "";
+  let captureStarted = false;
+  let verifiedCapture = null;
   try {
     const body = await readBody(req);
     paypalOrderId = body.paypalOrderId;
@@ -38,6 +40,7 @@ export default async function handler(req, res) {
     const approved = await paypal(`/v2/checkout/orders/${encodeURIComponent(paypalOrderId)}`, { method: 'GET' });
     assertShippingMatches(order, approved);
     }
+    captureStarted = true;
     const captureResponse = await paypal(`/v2/checkout/orders/${encodeURIComponent(paypalOrderId)}/capture`, {
       method: "POST",
       body: JSON.stringify({}),
@@ -46,6 +49,7 @@ export default async function handler(req, res) {
     const capture = findCapture(captureResponse);
     const expectedCurrency = order.currency || "SGD";
     const { paidAmount, paidCurrency } = validateCapturedPayment(capture, order.total_sgd, expectedCurrency);
+    verifiedCapture = capture;
 
     const now = new Date().toISOString();
     await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
@@ -96,12 +100,19 @@ export default async function handler(req, res) {
         paid_at: now,
       },
       items,
-    ).catch((notificationError) => {
-      console.error("Telegram notification failed", notificationError);
+    ).catch(() => {
+      console.error("Telegram notification failed; verified order preserved");
     });
 
     return json(res, 200, { orderNumber });
   } catch (error) {
+    // A lost response or database error after capture cannot prove a payment failure.
+    // The existing verified webhook can reconcile; otherwise staff must check PayPal.
+    if (captureStarted) {
+      console.error('PAYMENT_REVIEW_REQUIRED: capture response or persistence needs reconciliation');
+      if(order?.id) await supabase('/payment_events',{method:'POST',body:JSON.stringify({order_id:order.id,provider:'paypal',provider_event_id:verifiedCapture?.id||paypalOrderId,event_type:'CHECKOUT.ORDER.REVIEW_REQUIRED',paypal_order_id:paypalOrderId,paypal_capture_id:verifiedCapture?.id||null,amount_sgd:Number(order.total_sgd),currency:order.currency||'SGD',verified:Boolean(verifiedCapture),raw_payload:{reason_code:'capture_or_persistence_uncertain'}})}).catch(()=>{});
+      return json(res,409,{code:'PAYMENT_REVIEW_REQUIRED',error:'Payment verification pending. Do not pay again; contact HONDIT with your order reference.'});
+    }
     if (String(error.message).startsWith('Shipping verification failed')) {
       if (order) await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {method:'PATCH',body:JSON.stringify({order_status:'address_check',internal_note:`${order.internal_note||''} Shipping verification requires manual review. No address was overwritten.`})}).catch(()=>{});
       return json(res,409,{error:'Shipping verification failed. Please contact hondit before retrying.'});
@@ -110,7 +121,7 @@ export default async function handler(req, res) {
       const now = new Date().toISOString();
       const failureReason = error.message || "Could not capture PayPal order";
       const reasonCode = captureFailureCode(failureReason);
-      await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
+      await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}&payment_status=neq.completed`, {
         method: "PATCH",
         body: JSON.stringify({
           payment_status: "payment_failed",
@@ -119,7 +130,7 @@ export default async function handler(req, res) {
           updated_at: now,
         }),
       }).catch(() =>
-        supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`, {
+        supabase(`/orders?id=eq.${encodeURIComponent(order.id)}&payment_status=neq.completed`, {
           method: "PATCH",
           body: JSON.stringify({
             payment_status: "payment_failed",

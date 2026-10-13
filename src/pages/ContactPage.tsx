@@ -1,3 +1,5 @@
+import {ContactQrs} from "../components/ContactQrs";
+import {purposeLabels} from "../../shared/purchase-context.js";
 import {useSearchParams} from "react-router-dom";
 import {ConsultationPanel} from "../components/ConsultationPanel";
 import {consultationContext} from "../../shared/consultation.js";
@@ -69,7 +71,7 @@ export function ContactPage() {
 
           </section>
 
-          <ConsultationPanel lines={context.product?[{name:context.product.name,quantity:context.quantity}]:[]} reason={context.reason} country={`${countryName} (${market.code})`}/>
+          <ConsultationPanel presetPurpose={marketText(language,purposeLabels[context.purpose])} summaryDetails={marketText(language,context.fulfillment==="jeju_pickup"?"Jeju pickup information":"Overseas bundle orders")} lines={context.product?[{name:context.product.name,quantity:context.quantity}]:[]} reason={context.reason} country={context.fulfillment==="jeju_pickup"?"Jeju / KR":`${countryName} (${market.code})`}/>
           <aside>
             <p className="v23-eyebrow is-light"><span /> {marketText(language, "QUICK ROUTES", "빠른 경로")}</p>
             <h2>{marketText(language, "Use the right channel.", "상황에 맞는 채널을 선택하세요.")}</h2>
@@ -100,6 +102,7 @@ export function ContactPage() {
             </a>
           </aside>
         </section>
+      <ContactQrs/>
       </main>
     </V23Page>
   );

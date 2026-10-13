@@ -393,7 +393,7 @@ function emailConfiguration() {
   return {
     apiKey: process.env.RESEND_API_KEY?.trim() || "",
     from: process.env.SUPPORT_FROM_EMAIL?.trim() || "",
-    replyTo: process.env.SUPPORT_REPLY_TO?.trim() || process.env.CUSTOMER_SERVICE_EMAIL?.trim() || "hondit.official@gmail.com",
+    replyTo: process.env.SUPPORT_REPLY_TO?.trim() || process.env.CUSTOMER_SERVICE_EMAIL?.trim() || "hondit.office@gmail.com",
     connected: Boolean(process.env.RESEND_API_KEY?.trim() && process.env.SUPPORT_FROM_EMAIL?.trim()),
   };
 }

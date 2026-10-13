@@ -36,7 +36,7 @@ function normalizeInquiryType(value) {
 async function notifyInquiryByEmail(inquiry) {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = process.env.SUPPORT_FROM_EMAIL?.trim();
-  const to = process.env.ADMIN_NOTIFICATION_EMAIL?.trim() || process.env.CUSTOMER_SERVICE_EMAIL?.trim() || "hondit.official@gmail.com";
+  const to = process.env.ADMIN_NOTIFICATION_EMAIL?.trim() || process.env.CUSTOMER_SERVICE_EMAIL?.trim() || "hondit.office@gmail.com";
   if (!apiKey || !from || !to) return { skipped: true };
 
   const adminBase = process.env.SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || "";

@@ -1,3 +1,4 @@
+import {purchaseRoute,purchasePurposes,purposeLabels} from "../../shared/purchase-context.js";
 import {productFacts} from "../data/productFacts";
 import {validQuantity} from "../../shared/sales-tools.js";
 import {ConsultationPanel} from "../components/ConsultationPanel";
@@ -6,7 +7,6 @@ import { cleanProductUsage, sgCheckoutNeedsInquiry, sgTerms } from "../../shared
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { ProductReviews } from "../components/ProductReviews";
 import { V23Page } from "../components/v23/SiteChrome";
 import {
   BULK_QTY_STEP,
@@ -115,6 +115,8 @@ export function BulkProductPage() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<BulkProduct[]>(bulkProducts);
   const [selectionParams]=useSearchParams();
+  const purpose=purchasePurposes.includes(selectionParams.get("purpose")||"")?selectionParams.get("purpose"):"unspecified";
+  const readOnlyPreview=import.meta.env.VITE_VERCEL_ENV==="preview";
   const [packCount, setPackCount] = useState(()=>validQuantity(selectionParams.get("quantity")||"")?Number(selectionParams.get("quantity")):0);
   const [mixQuantities, setMixQuantities] = useState<Record<string, number>>({});
   const [form, setForm] = useState<OrderForm>(initialForm);
@@ -191,12 +193,12 @@ export function BulkProductPage() {
     : marketProductText(language, product.description);
   const productVolume = product.volumeLabel ? marketProductText(language, product.volumeLabel) : "";
   const localizedStockStatus = marketText(language, stockStatus);
-  const paypalClientId = payPalConfig.clientId;
+  const paypalClientId = readOnlyPreview ? "" : payPalConfig.clientId;
   const paypalMode = payPalConfig.mode;
   const errorId = "bulk-checkout-error";
   const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
-  const inquiryOnly = (market.code === "SG" && isCleansingMix) || sgCheckoutNeedsInquiry(orderLines, market.code);
-  const checkoutDisabled = !payPalConfig.checkoutEnabled || inquiryOnly;
+  const inquiryOnly = !isLivePaymentTest && ((market.code === "SG" && isCleansingMix) || sgCheckoutNeedsInquiry(orderLines, market.code) || purchaseRoute(orderLines,market.code)!=="direct");
+  const checkoutDisabled = readOnlyPreview || !payPalConfig.checkoutEnabled || inquiryOnly;
   const orderLineText = orderLines.map((line) => `${line.product.name} ${line.product.volumeLabel || ""}: ${line.quantity} units`);
   const manualPaymentHref = buildMailto(EMAIL, `[hondit] ${inquiryOnly ? "Quantity and shipping enquiry" : "Manual PayPal link request"} - ${product.name}`, [
     "Hello hondit,",
@@ -204,6 +206,7 @@ export function BulkProductPage() {
     inquiryOnly ? "Please confirm quantity, packaging, shipping and a quotation before any payment." : "PayPal/card checkout did not complete. Please send me a direct PayPal payment link for this order.",
     "",
     `Country: ${countryName} (${market.code})`,
+    `Fulfillment: international_bundle; purpose: ${purpose}`,
     `Market: ${market.label} / ${market.currency}`,
     ...orderLineText,
     `Total quantity: ${totalUnits} units`,
@@ -287,6 +290,8 @@ export function BulkProductPage() {
 
   const buildPayload = (currentLines: OrderLine[], currentForm: OrderForm): CheckoutPayload => ({
     orderType: "Direct bulk order",
+    fulfillment:"international_bundle",
+    purpose:purpose||"unspecified",
     customerName: currentForm.customerName.trim(),
     customerEmail: currentForm.customerEmail.trim(),
     customerPhone: currentForm.customerPhone.trim(),
@@ -324,6 +329,8 @@ export function BulkProductPage() {
 
           setError("");
           trackEvent("begin_checkout", {
+            fulfillment:'international_bundle',
+            purchase_purpose:purpose,
             product_id: currentProduct.slug,
             product_name: currentLines.length > 1 ? "Mixed cleansing order" : currentProduct.name,
             quantity: currentLines.reduce((sum, line) => sum + line.quantity, 0),
@@ -385,25 +392,8 @@ export function BulkProductPage() {
             });
             navigate(`/order-complete/${response.orderNumber}`);
           } catch (captureError) {
-            const reason = captureError instanceof Error ? captureError.message : "Payment could not be completed.";
-            trackEvent("checkout_failure", {
-              checkout_step: "capture",
-              checkout_stage: "capture_failed",
-              reason_code: "capture_failed",
-              failure_reason: "capture_failed",
-              order_number: createdOrderNumber.current,
-              paypal_order_id: data.orderID,
-              error_message: reason.slice(0, 120),
-            });
-            await updatePaymentAttempt({
-              orderNumber: createdOrderNumber.current,
-              paypalOrderId: data.orderID,
-              status: "payment_failed",
-              reason,
-              reasonCode: "capture_failed",
-              checkoutStep: "capture",
-            }).catch(() => undefined);
-            navigate(`/payment-failed/${createdOrderNumber.current}`);
+            setError(marketText(language,"We could not confirm the payment status. Do not pay again; contact HONDIT with your order reference."));
+            navigate('/order-complete/'+createdOrderNumber.current+'?verification=pending');
           }
         },
         onCancel: async (data) => {
@@ -428,7 +418,7 @@ export function BulkProductPage() {
           navigate(`/payment-failed/${createdOrderNumber.current}?status=cancelled`);
         },
         onError: (paypalError) => {
-          console.error(paypalError);
+          console.error("PayPal widget error");
           const reason = paypalError instanceof Error ? paypalError.message : "PayPal payment could not be completed.";
           trackEvent("checkout_error", {
             checkout_step: "paypal_widget",
@@ -440,15 +430,7 @@ export function BulkProductPage() {
             error_message: reason.slice(0, 120),
           });
           if (createdOrderNumber.current) {
-            updatePaymentAttempt({
-              orderNumber: createdOrderNumber.current,
-              status: "payment_failed",
-              reason,
-              reasonCode: "paypal_sdk_error",
-              checkoutStep: "paypal_widget",
-              clientContext: { page_visibility: document.visibilityState },
-            }).catch(() => undefined);
-            navigate(`/payment-failed/${createdOrderNumber.current}`);
+            navigate('/order-complete/'+createdOrderNumber.current+'?verification=pending');
             return;
           }
           setError(
@@ -461,7 +443,7 @@ export function BulkProductPage() {
         },
       })
       .render("#direct-paypal-buttons");
-  }, [checkoutDisabled, isCleansingMix, language, market, moq, navigate, paypalClientId, product.slug, ready, soldOut]);
+  }, [checkoutDisabled, isCleansingMix, language, market, moq, navigate, paypalClientId, product.slug, ready, soldOut, purpose]);
 
   if (!matchedProduct && firstAllowedProduct?.slug && slug !== firstAllowedProduct.slug) {
     return <Navigate to={`/bulk-orders/${firstAllowedProduct.slug}`} replace />;
@@ -469,7 +451,7 @@ export function BulkProductPage() {
 
   return (
     <V23Page>
-      <main className="bulk-page v23-operational-page">
+      <main className="bulk-page v23-operational-page checkout-flow">
         <section className="bulk-detail section-shell">
           <div className="section-inner section-inner--wide bulk-detail__grid">
             <figure className="bulk-detail__image">
@@ -494,21 +476,6 @@ export function BulkProductPage() {
                   Hidden Live PayPal verification URL. Do not share this page with customers. Refund this test order after the admin check.
                 </p>
               )}
-
-              <p>{productDescription}</p>
-              <p className="bulk-price-explainer">
-                {market.hasShopee
-                  ? marketText(
-                      language,
-                      "Bulk prices are lower because they exclude marketplace fees applied on Shopee. Ordering directly here passes those savings on to you.",
-                      "??됱＜臾멸???Shopee 留덉폆 ?섏닔猷뚮? ?쒖쇅??援ъ꽦?⑸땲?? 吏곸젒 二쇰Ц?섎㈃ 洹?李⑥븸??怨좉컼 媛寃⑹뿉 諛섏쁺?⑸땲??",
-                    )
-                  : marketText(
-                      language,
-                      `This market uses direct bulk checkout only. The displayed price is the fixed ${market.currency} bulk unit price.`,
-                      `???먮ℓ 吏??? 吏곸젒 ??됱＜臾몃쭔 ?댁쁺?⑸땲?? ?쒖떆 湲덉븸? 怨좎젙 ${market.currency} ??됱＜臾??④??낅땲??`,
-                    )}
-              </p>
 
               <ProductSalesSummary product={product} />
 
@@ -599,6 +566,11 @@ export function BulkProductPage() {
                 </div>
 
                 <fieldset className="direct-checkout-fields" hidden={inquiryOnly} disabled={inquiryOnly}>
+                {error && (
+                  <p id={errorId} className="form-error" role="alert">
+                    {marketText(language,error)}
+                  </p>
+                )}
                 <form className="checkout-form direct-order-form" aria-describedby={error ? errorId : undefined}>
                   <label htmlFor="bulk-customer-name">
                     {marketText(language, "Delivery recipient")} *
@@ -727,27 +699,7 @@ export function BulkProductPage() {
                       )}
                     />
                   </label></details>
-                  <label className="checkout-confirm checkout-form__wide" htmlFor="bulk-reviewed">
-                    <input
-                      id="bulk-reviewed"
-                      name="reviewed"
-                      type="checkbox"
-                      required
-                      aria-required="true"
-                      aria-invalid={Boolean(error && !form.reviewed)}
-                      aria-describedby={error ? errorId : undefined}
-                      checked={form.reviewed}
-                      onChange={(event) => update("reviewed", event.target.checked)}
-                    />
-                    {marketText(
-                      language,
-                      "I confirm that my email, phone number, shipping address, product quantity and final payment amount are correct.",
-                      "이메일, 전화번호, 배송 주소, 상품 수량, 최종 결제 금액이 정확한 것을 확인했습니다.",
-                    )}
-                  </label>
-                </form>
-
-                <div className="direct-payment-summary">
+                <div className="direct-payment-summary checkout-form__wide">
                   <div className="direct-payment-summary__header">
                     <span>{marketText(language, "Review before payment", "寃곗젣 ???뺤씤")}</span>
                     <h2>{marketText(language, "Final payment check", "理쒖쥌 寃곗젣 ?뺤씤")}</h2>
@@ -805,7 +757,7 @@ export function BulkProductPage() {
                         "寃곗젣媛 ?꾨즺?섏? ?딆쑝硫??꾩옱 援щℓ 議곌굔??hondit 硫붿씪濡?蹂대궡二쇱꽭?? ?뺤씤 ??吏곸젒 寃곗젣 媛?ν븳 PayPal 留곹겕瑜??듭옣?쒕┰?덈떎.",
                       )}
                     </span>
-                    {paypalMode === "sandbox" && (
+                    {paypalMode === "sandbox" && !readOnlyPreview && (
                       <span>{marketText(language, `PayPal Sandbox payment. Currency: ${market.currency}.`, `PayPal Sandbox 寃곗젣?낅땲?? ?듯솕: ${market.currency}.`)}</span>
                     )}
                   </div>
@@ -824,11 +776,26 @@ export function BulkProductPage() {
                   </div>
                 </div>
 
-                {error && (
-                  <p id={errorId} className="form-error" role="alert">
-                    {marketText(language,error)}
-                  </p>
-                )}
+                  <label className="checkout-confirm checkout-form__wide" htmlFor="bulk-reviewed">
+                    <input
+                      id="bulk-reviewed"
+                      name="reviewed"
+                      type="checkbox"
+                      required
+                      aria-required="true"
+                      aria-invalid={Boolean(error && !form.reviewed)}
+                      aria-describedby={error ? errorId : undefined}
+                      checked={form.reviewed}
+                      onChange={(event) => update("reviewed", event.target.checked)}
+                    />
+                    {marketText(
+                      language,
+                      "I confirm that my email, phone number, shipping address, product quantity and final payment amount are correct.",
+                      "이메일, 전화번호, 배송 주소, 상품 수량, 최종 결제 금액이 정확한 것을 확인했습니다.",
+                    )}
+                  </label>
+                </form>
+
                 {soldOut ? (
                   <a className="button button--primary" href={`/contact?type=restock&product=${product.slug}`}>
                     {marketText(language, "Notify me", "?낃퀬 臾몄쓽")}
@@ -837,7 +804,7 @@ export function BulkProductPage() {
                   <><a className="button button--primary" href={manualPaymentHref}>{marketText(language, "Open quantity & shipping email draft", "수량·배송 문의 이메일 초안 열기")}</a><p>{marketText(language, "Review and send the email yourself. Opening a draft does not confirm receipt.", "초안을 확인하고 직접 발송해주세요. 이메일 앱 실행은 문의 접수 완료가 아닙니다.")}</p></>
                 ) : checkoutDisabled ? (
                   <p className="setup-warning">
-                    {marketText(language, "Direct PayPal checkout is temporarily closed. Please contact hondit for this order.", "PayPal 吏곸젒 寃곗젣媛 ?좎떆 ?ロ? ?덉뒿?덈떎. ??二쇰Ц? hondit??臾몄쓽?댁＜?몄슂.")}
+                    {marketText(language, readOnlyPreview ? "Payment is disabled in this read-only preview." : "Direct PayPal checkout is temporarily closed. Please contact hondit for this order.", "PayPal 吏곸젒 寃곗젣媛 ?좎떆 ?ロ? ?덉뒿?덈떎. ??二쇰Ц? hondit??臾몄쓽?댁＜?몄슂.")}
                   </p>
                 ) : !paypalClientId ? (
                   <p className="setup-warning">
@@ -850,11 +817,11 @@ export function BulkProductPage() {
                 ) : (
                   <div id="direct-paypal-buttons" className="paypal-buttons" />
                 )}                </fieldset>
-                <div hidden={!inquiryOnly}><ConsultationPanel lines={orderLines.map(line=>({name:line.product.name,quantity:line.quantity}))} reason={isCleansingMix?'combination':'quantity'}/></div>
+                <div hidden={!inquiryOnly}><ConsultationPanel presetPurpose={marketText(language,purposeLabels[purpose||"unspecified"])} summaryDetails={marketText(language,"Overseas bundle orders")} lines={orderLines.map(line=>({name:line.product.name,quantity:line.quantity}))} reason={isCleansingMix?'combination':'quantity'}/></div>
 
               </section>
 
-              {!isCleansingMix && <section className="bulk-product-info">
+              {!isCleansingMix && <details className="bulk-product-info"><summary>{marketText(language,"Product composition")}</summary>
                 <h2>{marketText(language, "Product composition", "?곹뭹 援ъ꽦")}</h2>
                 <div className="product-card__chips">
                   {product.features.map((feature) => (
@@ -868,12 +835,10 @@ export function BulkProductPage() {
                   ))}
 
                 </ul>
-              </section>}
+              </details>}
             </div>
           </div>
-          {!isCleansingMix && <div className="section-inner section-inner--wide">
-            <ProductReviews product={product} />
-          </div>}
+
         </section>
       </main>
     </V23Page>

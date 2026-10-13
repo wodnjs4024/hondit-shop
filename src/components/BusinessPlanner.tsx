@@ -25,6 +25,7 @@ import {
   type MarketCode,
 } from "../lib/market";
 import { ConsultationPanel } from "./ConsultationPanel";
+import {purchaseRoute} from '../../shared/purchase-context.js';
 const purposes = ["Display / space", "Resale", "Gifts", "Group purchase"];
 export function BusinessPlanner() {
   const { market, language, setMarket } = useMarket();
@@ -45,6 +46,8 @@ export function BusinessPlanner() {
         ),
   );
   const [purpose, setPurpose] = useState(purposes[0]);
+  const [requirements,setRequirements]=useState("");
+  const [timing,setTiming]=useState("");
   const [display, setDisplay] = useState(0);
   const [reserve, setReserve] = useState(0);
   const [resale, setResale] = useState("");
@@ -93,10 +96,12 @@ export function BusinessPlanner() {
       market.locale,
     );
   const summary = [
+    `${marketProductText(language,product.name)} · ${marketCountryName(market,language)} · ${quantity} ${t('units')}`,
     `${t("Introduction summary")}: ${t(purpose)}`,
     `${t("Selected product amount")}: ${amount ? money(amount.totalMinor) : t("No confirmed amount")}`,
     t("Review only — not a confirmed quotation or purchase order."),
-    allocation
+    purpose!=="Resale" ? `${t("Placement / requirements")}: ${requirements}; ${t("Preferred timing")}: ${timing}` : "",
+    allocation && purpose === "Resale"
       ? `${t("Display units")}: ${allocation.display}; ${t("Units for sale")}: ${allocation.sale}; ${t("Reserve units")}: ${allocation.reserve}`
       : "",
     t(
@@ -182,8 +187,10 @@ export function BusinessPlanner() {
           />
         </label>
       </div>
+      {purpose!=="Resale" && <div className="business-planner__fields"><label>{t("Placement / requirements")}<textarea maxLength={1000} value={requirements} onChange={e=>setRequirements(e.target.value)}/></label>{["Gifts","Group purchase"].includes(purpose)&&<label>{t("Preferred timing")}<input type="date" value={timing} onChange={e=>setTiming(e.target.value)}/></label>}</div>}
       <ProductSalesSummary product={product} />
       <section className="planner-summary" aria-live="polite">
+        <p className="route-status">{t(purchaseRoute([{product,quantity:Number(quantity)}],market.code)==='direct'?'Direct order candidate':purchaseRoute([{product,quantity:Number(quantity)}],market.code)==='confirmation'?'Confirmation required':'Consultation required')}</p>
         <h3>{t("Introduction summary")}</h3>
         <p>
           {marketProductText(language, product.name)} ·{" "}
@@ -212,7 +219,7 @@ export function BusinessPlanner() {
           {t("Quantity must be a whole number from 1 to 9999.")}
         </p>
       )}
-      {allocation && (
+      {allocation && purpose === "Resale" && (
         <section>
           <h3>{t("Quantity allocation")}</h3>
           <div className="business-planner__fields">
@@ -289,7 +296,7 @@ export function BusinessPlanner() {
           </div>
         </section>
       )}
-      <section>
+      {purpose === "Resale" && <>      <section>
         <h3>{t("Simple resale difference")}</h3>
         <label>
           {t("Your resale unit price")} ({market.currency})
@@ -407,6 +414,9 @@ export function BusinessPlanner() {
           )}
         </p>
       </section>
+</>}
+      <article className="introduction-print"><h3>{t('Introduction summary')}</h3><pre>{summary}</pre></article>
+      <div className="planner-summary-actions"><button type="button" className="button button--ghost" onClick={()=>{document.body.dataset.printReview='1';try{window.print()}finally{delete document.body.dataset.printReview}}}>{t("Print / save as PDF")}</button></div>
       {amount && allocation && (
         <ConsultationPanel
           key={`${product.slug}-${market.code}`}

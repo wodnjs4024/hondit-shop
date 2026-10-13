@@ -1,6 +1,8 @@
 {
   "functions": { "api/products.js": { "includeFiles": "dist/index.html" } },
   "rewrites": [
+    { "source": "/api/pickup", "destination": "/api/products?pickupInfo=1" },
+    { "source": "/jeju/pickup", "destination": "/index.html" },
     { "source": "/jeju/stores", "destination": "/index.html" },
     { "source": "/guide/(.*)", "destination": "/index.html" },
     { "source": "/partners", "destination": "/index.html" },

@@ -10,6 +10,7 @@ import "./styles/global.css";
 import "./styles/v23.css";
 import "./styles/admin.css";
 import "./styles/sales-tools.css";
+import "./styles/sales-structure.css";
 import App from "./App";
 import { initAnalytics } from "./lib/analytics";
 

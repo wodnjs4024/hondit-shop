@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { EMAIL } from "../data/v23SiteData";
 import { fetchPublicOrder, type PublicOrder } from "../lib/bulkApi";
@@ -66,6 +66,8 @@ export function PaymentFailedPage() {
     ]);
   }, [market, order, orderNumber]);
 
+  if(order?.payment_status==='completed') return <Navigate to={'/order-complete/'+orderNumber} replace/>;
+  if(!order || !['payment_failed','payment_cancelled'].includes(order.payment_status)) return <V23Page><main className="product-guide-page"><h1>{marketText(language,"Payment verification pending")}</h1><p>{marketText(language,"We could not confirm the payment status. Do not pay again; contact HONDIT with your order reference.")}</p><p>{orderNumber}</p><Link to="/contact">{marketText(language,"Contact hondit")}</Link></main></V23Page>;
   return (
     <V23Page>
       <main className="bulk-page v23-operational-page">

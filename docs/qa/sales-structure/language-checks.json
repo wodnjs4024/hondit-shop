@@ -1,0 +1,44 @@
+[
+  {
+    "heading": "Jeju pickup information",
+    "lang": "en",
+    "overflow": false,
+    "pickup": "false",
+    "sdk": false
+  },
+  {
+    "heading": "제주 수령 안내",
+    "lang": "ko",
+    "overflow": false,
+    "pickup": "false",
+    "sdk": false
+  },
+  {
+    "heading": "濟州取貨指南",
+    "lang": "zh-HK",
+    "overflow": false,
+    "pickup": "false",
+    "sdk": false
+  },
+  {
+    "heading": "済州受取案内",
+    "lang": "ja",
+    "overflow": false,
+    "pickup": "false",
+    "sdk": false
+  },
+  {
+    "heading": "Maklumat pengambilan Jeju",
+    "lang": "ms",
+    "overflow": false,
+    "pickup": "false",
+    "sdk": false
+  },
+  {
+    "heading": "ข้อมูลรับสินค้าที่เชจู",
+    "lang": "th",
+    "overflow": false,
+    "pickup": "false",
+    "sdk": false
+  }
+]

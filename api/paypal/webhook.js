@@ -1,4 +1,5 @@
 import {assertShippingMatches} from "../../shared/shipping.js";
+import {validateCapturedPayment} from '../_markets.js';
 import {paypal} from "../_utils.js";
 import { getPayPalAccessToken, json, notifyTelegramNewOrder, readBody, supabase } from "../_utils.js";
 
@@ -60,6 +61,9 @@ export default async function handler(req, res) {
     }).catch(() => null);
 
     if (verified && order && event.event_type === "PAYMENT.CAPTURE.COMPLETED") {
+      if(event.resource?.supplementary_data?.related_ids?.order_id!==order.paypal_order_id) return json(res,409,{error:'Webhook order mismatch'});
+      validateCapturedPayment(event.resource,order.total_sgd,order.currency||'SGD');
+      if(['completed','refunded','partially_refunded'].includes(order.payment_status)) return json(res,200,{received:true,preserved:true});
       try { if(String(order.internal_note||'').startsWith('[shipping:v1]')) { const details=await paypal(`/v2/checkout/orders/${encodeURIComponent(order.paypal_order_id)}`,{method:'GET'});assertShippingMatches(order,details); } }
       catch {await supabase(`/orders?id=eq.${encodeURIComponent(order.id)}`,{method:'PATCH',body:JSON.stringify({order_status:'address_check',internal_note:`${order.internal_note||''} Webhook shipping verification requires manual review. Address unchanged.`})});return json(res,409,{error:'Shipping verification requires review'});}
 
@@ -84,8 +88,8 @@ export default async function handler(req, res) {
             paypal_capture_id: captureId,
           },
           items,
-        ).catch((notificationError) => {
-          console.error("Telegram notification failed", notificationError);
+        ).catch(() => {
+          console.error("Telegram notification failed; verified order preserved");
         });
       }
     }

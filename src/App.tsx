@@ -1,8 +1,10 @@
+import {JejuPickupPage} from "./pages/JejuPickupPage";
+import {AdminPickupPage} from "./pages/AdminPickupPage";
 import {JejuStoresPage} from "./pages/JejuStoresPage";
 import {ProductGuidePage} from "./pages/ProductGuidePage";
 // Consultation URLs accept only public identifiers. Never retain free text or contact details.
 if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.location.pathname===path || window.location.pathname.startsWith(path+'/'))) {
- const url=new URL(window.location.href);const allowed=new Set(['product','quantity','market','lang','reason','utm_source','utm_medium','utm_campaign','utm_content','utm_term']);
+ const url=new URL(window.location.href);const allowed=new Set(['product','quantity','market','lang','reason','utm_source','utm_medium','utm_campaign','utm_content','utm_term','purpose','fulfillment']);
  for(const key of Array.from(url.searchParams.keys()))if(!allowed.has(key))url.searchParams.delete(key);
  window.history.replaceState({},'',url);
 }
@@ -103,6 +105,7 @@ const policyMeta: Record<string, { title: string; description: string }> = {
 };
 
 function routeMeta(pathname: string): PageMeta {
+  if(pathname==="/jeju/pickup")return {title:"Jeju pickup information | HONDIT",description:"Pickup enquiries; reservations and payment are not open.",robots:"noindex,follow",image:defaultOgImage};
   if(pathname==="/jeju/stores")return {title:"Meet StoneJeju in Jeju | hondit",description:"Supplier-listed locations and verified location sources. Check stock before visiting.",robots:"index,follow",image:defaultOgImage};
   if(pathname.startsWith("/guide/"))return {title:"Product care & follow-up | hondit",description:"Product use, care and consultation.",robots:"noindex,follow",image:defaultOgImage};
   if(pathname==='/partners')return {title:'Partner program | hondit',description:'Partner introduction and pilot consultation with HONDIT.',robots:'index,follow',image:defaultOgImage};
@@ -336,6 +339,7 @@ export default function App() {
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/bulk-orders" element={<BulkOrdersPage />} />
         <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
+        <Route path="/jeju/pickup" element={<JejuPickupPage />} />
         <Route path="/jeju/stores" element={<JejuStoresPage />} />
         <Route path="/guide/:productId" element={<ProductGuidePage />} />
         <Route path="/partners" element={<PartnersPage />} />
@@ -348,6 +352,7 @@ export default function App() {
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
+          <Route path="pickup" element={<AdminPickupPage />} />
           <Route path="orders" element={<AdminOrdersPage />} />
           <Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
           <Route path="inquiries" element={<AdminInquiriesPage />} />

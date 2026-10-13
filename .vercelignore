@@ -1,0 +1,9 @@
+.git
+node_modules
+.qa-tools
+.env*
+.codex*
+docs
+tests
+supabase
+tsconfig.tsbuildinfo

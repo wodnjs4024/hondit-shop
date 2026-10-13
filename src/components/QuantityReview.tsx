@@ -7,6 +7,8 @@ import {
   validQuantity,
 } from "../../shared/sales-tools.js";
 import { sgTerms } from "../../shared/page-sales.js";
+import { useSearchParams } from "react-router-dom";
+import { purchaseRoute } from "../../shared/purchase-context.js";
 import {
   getMarketUnitPrice,
   marketText,
@@ -14,11 +16,12 @@ import {
   formatCurrency,
 } from "../lib/market";
 import type { StorefrontProduct } from "../data/v23SiteData";
-export function QuantityReview({ product }: { product: StorefrontProduct }) {
+export function QuantityReview({ product, purpose="unspecified" }: { product: StorefrontProduct;purpose?:string }) {
   const { market, language } = useMarket();
   const t = (s: string) => marketText(language, s);
+  const [params] = useSearchParams();
   const [quantity, setQuantity] = useState(
-    String(
+    validQuantity(params.get("quantity")||"") ? params.get("quantity")! : String(
       (market.code === "SG" ? sgTerms(product)?.moq : null) ?? product.bulkMoq,
     ),
   );
@@ -38,6 +41,7 @@ export function QuantityReview({ product }: { product: StorefrontProduct }) {
     market: market.code,
     language,
     reason: "quantity",
+    purpose,
   };
   return (
     <section className="quantity-review sales-tools-section">
@@ -66,6 +70,7 @@ export function QuantityReview({ product }: { product: StorefrontProduct }) {
           {t("Quantity must be a whole number from 1 to 9999.")}
         </p>
       )}
+      <p className="route-status">{t(purchaseRoute([{product,quantity:Number(quantity)}],market.code)==="confirmation"?"Confirmation required":direct?"Direct order candidate":"Consultation required")}</p>
       <p>{t("Review only — not a confirmed quotation or purchase order.")}</p>
       <p>
         {t(

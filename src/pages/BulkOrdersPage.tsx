@@ -1,216 +1,27 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { V23Page, V23PageHero } from "../components/v23/SiteChrome";
-import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
-import {
-  formatMarketLineMoney,
-  formatMarketUnitMoney,
-  isStorefrontProductAllowedForMarket,
-  marketCountryName,
-  marketProductText,
-  marketText,
-  useMarket,
-} from "../lib/market";
-import { loadStorefrontProducts } from "../lib/storefrontApi";
-import { trackEvent } from "../lib/analytics";
-
-export function BulkOrdersPage() {
-  const { market, language } = useMarket();
-  const countryName = marketCountryName(market, language);
-  const [params] = useSearchParams();
-  const [products, setProducts] = useState<StorefrontProduct[]>(v23Products);
-  const marketProducts = useMemo(
-    () => products.filter((product) => isStorefrontProductAllowedForMarket(product, market)),
-    [products, market],
-  );
-  const requested = params.get("product");
-  const [selectedSlug, setSelectedSlug] = useState(
-    () => requested || marketProducts[0]?.slug || "",
-  );
-
-  useEffect(() => {
-    loadStorefrontProducts()
-      .then(setProducts)
-      .catch(() => undefined);
-  }, []);
-
-  useEffect(() => {
-    setSelectedSlug((currentSlug) => {
-      if (requested && marketProducts.some((product) => product.slug === requested)) {
-        return requested;
-      }
-      if (marketProducts.some((product) => product.slug === currentSlug)) {
-        return currentSlug;
-      }
-      return marketProducts[0]?.slug || "";
-    });
-  }, [marketProducts, requested]);
-
-  const selected = useMemo(
-    () => marketProducts.find((product) => product.slug === selectedSlug) || marketProducts[0],
-    [marketProducts, selectedSlug],
-  );
-
-  return (
-    <V23Page>
-      <main className="v23-bulk-page">
-        <V23PageHero
-          eyebrow={marketText(language, "DIRECT BULK CHECKOUT", "직접 대량주문")}
-          title={marketText(language, "Build the order. Pay securely with PayPal.", "주문을 구성하고 PayPal로 결제하세요.")}
-          description={marketText(
-            language,
-            `Choose a product, review its minimum order and fixed ${market.currency} total, add ${countryName} delivery details and continue to PayPal. Pay securely through PayPal.`,
-            `상품별 최소 주문 수량과 고정 ${market.currency} 결제 금액을 확인한 뒤 ${countryName} 배송 정보를 입력하고 PayPal로 안전하게 결제합니다.`,
-          )}
-          image="/images/hondit-collection-hero.webp"
-          imageAlt={marketText(
-            language,
-            "hondit care and volcanic diffuser collection prepared for ordering.",
-            "주문을 위해 준비된 hondit 케어와 화산석 디퓨저 제품.",
-          )}
-        />
-
-        <section className="v23-bulk-steps">
-          <article>
-            <span>01</span>
-            <b>{marketText(language, "Choose one product", "상품 선택")}</b>
-            <p>{marketText(language, "The minimum order and quantity increments are checked automatically.", "최소 주문 수량과 주문 단위가 자동으로 확인됩니다.")}</p>
-          </article>
-          <article>
-            <span>02</span>
-            <b>{marketText(language, "Add delivery details", "배송 정보 입력")}</b>
-            <p>
-              {marketText(
-                language,
-                `Required ${countryName} delivery information is saved only with the order.`,
-                `${countryName} 배송 정보는 주문 기록에만 저장됩니다.`,
-              )}
-            </p>
-          </article>
-          <article>
-            <span>03</span>
-            <b>{marketText(language, "Pay with PayPal", "PayPal 결제")}</b>
-            <p>
-              {marketText(
-                language,
-                `PayPal checkout confirms the final ${market.currency} amount before the order is recorded.`,
-                `주문이 기록되기 전에 PayPal 결제에서 최종 ${market.currency} 금액을 확인합니다.`,
-              )}
-            </p>
-          </article>
-          <article>
-            <span>04</span>
-            <b>{marketText(language, "Order confirmed", "주문 확정")}</b>
-            <p>{marketText(language, "Your order is confirmed after payment is completed.", "결제가 완료된 주문만 배송 준비 단계로 넘어갑니다.")}</p>
-          </article>
-        </section>
-
-        <section className="v23-bulk-checkout">
-          <div className="v23-bulk-list">
-            <p className="v23-eyebrow">
-              <span /> {marketText(language, "01 - PRODUCT", "01 - 상품")}
-            </p>
-            <h2>{marketText(language, "Choose a bulk product.", "대량주문 상품을 선택하세요.")}</h2>
-            {marketProducts.map((product) => {
-              const productName = marketProductText(language, product.name);
-              const shortName = marketProductText(language, product.shortName);
-              const category = marketProductText(language, product.category);
-              return (
-                <button
-                  key={product.slug}
-                  type="button"
-                  className={selected?.slug === product.slug ? "is-selected" : ""}
-                  aria-pressed={selected?.slug === product.slug}
-                  onClick={() => {
-                    setSelectedSlug(product.slug);
-                    trackEvent("select_item", {
-                      item_list_name: "bulk_product_selector",
-                      interaction_target: "bulk_product_selection",
-                      items: [{ item_id: product.slug, item_name: productName, item_category: product.category, price: product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice, currency: market.currency }],
-                    });
-                  }}
-                >
-                  <img src={product.image} alt={productName} />
-                  <span>
-                    <small>{category}</small>
-                    <b>{shortName || productName}</b>
-                    <em>
-                      {marketText(
-                        language,
-                        `${formatMarketUnitMoney(product, market)} each - Minimum order ${product.bulkMoq} units`,
-                        `개당 ${formatMarketUnitMoney(product, market)} - 최소 주문 ${product.bulkMoq}개`,
-                      )}
-                    </em>
-                    {selected?.slug === product.slug && (
-                      <span className="v23-selection-status">✓ {marketText(language, "Selected", "선택됨")}</span>
-                    )}
-                  </span>
-                </button>
-              );
-            })}
-            {market.code !== "SG" && market.allowedBulkCategories.includes("cleansing") && (
-              <Link className="v23-cleansing-mix-card" to="/bulk-orders/cleansing-mix">
-                <img
-                  src="/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp"
-                  alt={marketText(language, "Three cleansing products", "클렌징 3종")}
-                />
-                <span>
-                  <small>{marketText(language, "CARE", "케어")}</small>
-                  <b>{marketText(language, "Cleansing Mix Order", "클렌징 MIX 주문")}</b>
-                  <em>{marketText(language, `${formatMarketUnitMoney(marketProducts.find((item) => item.apiSlug === "foam-oil") || marketProducts[0], market)} each - Minimum order 30 units`, `개당 ${formatMarketUnitMoney(marketProducts.find((item) => item.apiSlug === "foam-oil") || marketProducts[0], market)} - 최소 주문 30개`)}</em>
-                </span>
-              </Link>
-            )}
-          </div>
-
-          <aside className="v23-bulk-summary">
-            {selected && (
-              <>
-                <p className="v23-eyebrow">
-                  <span /> {marketText(language, "PAYPAL CHECKOUT", "PAYPAL 결제")}
-                </p>
-                <img src={selected.image} alt={marketProductText(language, selected.name)} />
-                <h2>{marketProductText(language, selected.name)}</h2>
-                <dl>
-                  <div>
-                    <dt>{marketText(language, "Minimum", "최소 수량")}</dt>
-                    <dd>
-                      {selected.bulkMoq} {marketText(language, "units", "개")}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>{marketText(language, "Unit price", "개당 가격")}</dt>
-                    <dd>{formatMarketUnitMoney(selected, market)}</dd>
-                  </div>
-                  <div>
-                    <dt>{marketText(language, "Minimum total", "최소 결제액")}</dt>
-                    <dd>{formatMarketLineMoney(selected, selected.bulkMoq, market)}</dd>
-                  </div>
-                  <div>
-                    <dt>{marketText(language, "Delivery", "배송")}</dt>
-                    <dd>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</dd>
-                  </div>
-                </dl>
-                <Link to={`/bulk-orders/${selected.apiSlug}`}>
-                  {marketText(language, "Continue to delivery and PayPal ->", "배송 입력 및 PayPal 결제로 ->")}
-                </Link>
-              </>
-            )}
-          </aside>
-        </section>
-
-        <section className="v23-route-banner">
-          <h2>{marketText(language, "Need a mixed commercial order?", "여러 상품을 묶어 주문해야 하나요?")}</h2>
-          <p>
-            {marketText(
-              language,
-              "Use Contact for mixed quantities, special delivery instructions or a formal invoice request.",
-              "혼합 수량, 특수 배송 요청, 인보이스 요청은 문의 페이지로 보내주세요.",
-            )}
-          </p>
-          <Link to="/contact">{marketText(language, "Go to contact ->", "문의하기 ->")}</Link>
-        </section>
-      </main>
-    </V23Page>
-  );
+import {useEffect,useState} from 'react';
+import {Link,useSearchParams} from 'react-router-dom';
+import {V23Page} from '../components/v23/SiteChrome';
+import {QuantityReview} from '../components/QuantityReview';
+import {ProductSalesSummary} from '../components/ProductSalesSummary';
+import {ConsultationPanel} from '../components/ConsultationPanel';
+import {v23Products,type StorefrontProduct} from '../data/v23SiteData';
+import {loadStorefrontProducts} from '../lib/storefrontApi';
+import {markets,marketText,marketProductText,marketCountryName,isStorefrontProductAllowedForMarket,useMarket,type MarketCode} from '../lib/market';
+import {purchasePurposes,purposeLabels} from '../../shared/purchase-context.js';
+export function BulkOrdersPage(){
+ const {market,language,setMarket}=useMarket();const [params]=useSearchParams();const t=(s:string)=>marketText(language,s);
+ const [products,setProducts]=useState<StorefrontProduct[]>(v23Products);const [slug,setSlug]=useState(params.get('product')||'diffuser-350g');
+ const [purpose,setPurpose]=useState(purchasePurposes.includes(params.get('purpose')||'')?params.get('purpose')!:'personal_gift');
+ const [quantities,setQuantities]=useState<Record<string,string>>({});
+ useEffect(()=>{loadStorefrontProducts().then(setProducts).catch(()=>undefined)},[]);
+ const available=products.filter(p=>isStorefrontProductAllowedForMarket(p,market));const selected=available.find(p=>p.slug===slug)||available[0];
+ const lines=available.filter(p=>/^\d+$/.test(quantities[p.slug]||'')&&Number(quantities[p.slug])>0&&Number(quantities[p.slug])<=9999).map(p=>({name:p.name,quantity:Number(quantities[p.slug])}));
+ return <V23Page><main className="bundle-entry">
+  <header className="bundle-entry__intro"><p className="v23-eyebrow">HONDIT · {market.code}</p><h1>{t('Overseas bundle orders')}</h1><p>{t('Select product, country and quantity before entering delivery information.')}</p><p>{t('International delivery is offered as MOQ bundles, not individual small-quantity shipping. Group purchases are welcome.')}</p></header>
+  <section className="bundle-entry__selectors"><label>{t('Market')}<select value={market.code} onChange={e=>setMarket(e.target.value as MarketCode)}>{Object.values(markets).map(m=><option key={m.code} value={m.code}>{marketCountryName(m,language)} · {m.currency}</option>)}</select></label><label>{t('Products')}<select value={selected?.slug||''} onChange={e=>setSlug(e.target.value)}>{available.map(p=><option key={p.slug} value={p.slug}>{marketProductText(language,p.name)}</option>)}</select></label><label>{t('Purpose')}<select value={purpose} onChange={e=>setPurpose(e.target.value)}>{purchasePurposes.map(p=><option key={p} value={p}>{t(purposeLabels[p])}</option>)}</select></label></section>
+  {selected&&<section className="bundle-entry__review"><figure><img src={selected.image} alt={marketProductText(language,selected.name)} width="640" height="640"/><figcaption><Link to={'/products/'+selected.slug}>{marketProductText(language,selected.name)} →</Link></figcaption></figure><div><ProductSalesSummary product={selected}/><QuantityReview key={selected.slug} product={selected} purpose={purpose}/></div></section>}
+  <section className="bundle-entry__consult"><p>{t('EMS shipping is included only for the approved reference MOQ bundle. Additional quantities and combinations require confirmation.')}</p><details><summary>{t('Need a mixed commercial order?')}</summary><p className="route-status">{t('Consultation required')}</p><div className="bundle-entry__selectors">{available.map(p=><label key={p.slug}>{marketProductText(language,p.name)}<input type="number" min="0" max="9999" step="1" value={quantities[p.slug]||''} onChange={e=>setQuantities(q=>({...q,[p.slug]:e.target.value}))}/></label>)}</div><ConsultationPanel lines={lines} reason="combination" presetPurpose={t(purposeLabels[purpose])} summaryDetails={t('Overseas bundle orders')}/></details>
+  {['HK','MO'].includes(market.code)&&<Link to="/bulk-orders/cleansing-mix">{t('Cleansing Mix Order')} →</Link>}
+  <Link to="/jeju/pickup">{t('Jeju pickup information')} →</Link></section>
+ </main></V23Page>;
 }

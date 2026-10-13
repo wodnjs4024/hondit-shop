@@ -100,7 +100,7 @@ export function validateCapturedPayment(capture, expectedAmount, expectedCurrenc
   if (!capture || capture.status !== "COMPLETED") throw new Error("PayPal capture was not completed");
   const paidAmount = Number(capture.amount?.value || 0);
   const paidCurrency = capture.amount?.currency_code;
-  if (paidCurrency !== expectedCurrency || Math.abs(paidAmount - Number(expectedAmount)) > 0.01) {
+  if (paidCurrency !== expectedCurrency || !Number.isFinite(paidAmount) || paidAmount <= 0 || paidAmount !== Number(expectedAmount)) {
     throw new Error("PayPal paid amount does not match the hondit order total");
   }
   return { paidAmount, paidCurrency };

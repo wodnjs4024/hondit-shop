@@ -46,18 +46,14 @@ export function V23Header() {
             hondit<span>.</span>
           </Link>
           <nav className={open ? "v23-nav-links is-open" : "v23-nav-links"} aria-label="Main navigation">
-            {[['/products','Products'],['/partners','Shops & business'],['/jeju','About HONDIT']].map(([path,label])=><NavLink key={path} to={path} onClick={()=>setOpen(false)}>{marketText(language,label)}</NavLink>)}
+            {[['/products','Products'],['/bulk-orders','Overseas bundle orders'],['/partners','Shops & business'],['/jeju','About HONDIT']].map(([path,label])=><NavLink key={path} to={path} onClick={()=>setOpen(false)}>{marketText(language,label)}</NavLink>)}
           </nav>
           <div className="v23-nav-actions">
-            {!partnerOnly && (market.hasShopee ? (
-              <a className="v23-shop-button" href={SHOPEE} target="_blank" rel="noreferrer">
-                {marketText(language, "Shop on Shopee ->", "Shop on Shopee ->")}
-              </a>
-            ) : (
+            {!partnerOnly && (
               <Link className="v23-shop-button" to="/bulk-orders">
-                {marketText(language, "Bulk checkout ->", "Bulk checkout ->")}
+                {marketText(language, "Overseas bundle orders")} →
               </Link>
-            ))}
+            )}
             <button
               className="v23-menu-button"
               type="button"
@@ -70,6 +66,7 @@ export function V23Header() {
           </div>
         </div>
         <div className="v23-nav-tools" aria-label="Market and language settings">
+          <Link className="pickup-nav" to="/jeju/pickup">{marketText(language,"Jeju pickup information")} →</Link>
           <label className="v23-market-switch" aria-label={marketText(language,"Market")}>
             <span>{marketText(language,"Market")}</span>
             <select value={market.code} onChange={(event) => {
@@ -127,6 +124,7 @@ export function V23Footer() {
         <p>{marketText(language, "EXPLORE", "EXPLORE")}</p>
         <Link to="/jeju">{marketText(language, "Asia to Jeju", "Asia to Jeju")}</Link>
         <Link to="/products">{marketText(language, "Products", "Products")}</Link>
+        <Link to="/jeju/pickup">{marketText(language,"Jeju pickup information")}</Link>
         <Link to="/jeju/stores">{marketText(language,"Meet StoneJeju in Jeju")}</Link>
         {!partnerOnly&&<Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>}
         <Link to="/shipping">{marketText(language, "Shipping", "Shipping")}</Link>
@@ -325,24 +323,11 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
         <strong>{displayPrice}</strong>
       </Link>
       <div className="v23-product-links">
+        <Link className="is-dark" to={`/bulk-orders?product=${product.slug}`}>{marketText(language,"Overseas bundle orders")} →</Link>
         <Link to={`/products/${product.slug}`}>{marketText(language, "View details", "View details")}</Link>
-        {market.hasShopee ? (
-          <a className="is-dark" href={product.shopee} target="_blank" rel="noreferrer">
-            {marketText(language, "Buy on Shopee", "Buy on Shopee")}
-          </a>
-        ) : (
-          <Link className="is-dark" to={`/bulk-orders?product=${product.slug}`}>
-            {marketText(language, "Bulk checkout", "Bulk checkout")}
-          </Link>
-        )}
-        {outOfStock ? (
-          <span>{marketText(language, "Bulk unavailable", "Bulk unavailable")}</span>
-        ) : market.hasShopee ? (
-          <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout", "Bulk checkout")}</Link>
-        ) : (
-          <Link to={`/contact?product=${product.slug}`}>{marketText(language, "Ask hondit", "Ask hondit")}</Link>
-        )}
       </div>
+      <p className="product-moq">{marketText(language,"Minimum")}: {product.bulkMoq} {marketText(language,"units")}</p>
+      {market.hasShopee && <details className="retail-alternative"><summary>Shopee</summary><a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"Buy on Shopee")} ↗</a></details>}
     </article>
   );
 }

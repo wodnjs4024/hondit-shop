@@ -1,3 +1,4 @@
+import {purchaseRoute} from "./purchase-context.js";
 // Review calculations only. Checkout remains validated by the existing server.
 import { sgTerms } from "./page-sales.js";
 export function currencyDigits(currency) {
@@ -66,20 +67,11 @@ export function resaleDifference(salePrice, unitMinor, saleQuantity, currency) {
   };
 }
 export function reviewCheckout(product, quantity, marketCode) {
-  if (!validQuantity(quantity)) return false;
-  const q = Number(quantity),
-    sg = sgTerms(product);
-  if (marketCode === "SG") return !!sg && q === sg.moq;
-  const moq = product.bulkMoq ?? product.packQuantity,
-    step = product.bulkStep ?? 10;
-  // Other markets keep their existing order-page decision; never activate new paths here.
-  return (
-    Number.isInteger(moq) && q >= moq && (q - moq) % step === 0 && q <= 240
-  );
+ return purchaseRoute([{product,quantity:Number(quantity)}],marketCode)==='direct';
 }
 export function selectionUrl(
   path,
-  { slug, quantity, market, language, reason = "product" },
+  { slug, quantity, market, language, reason = "product", purpose = "unspecified" },
 ) {
   const params = new URLSearchParams({
     product: slug,
@@ -87,6 +79,8 @@ export function selectionUrl(
     market,
     lang: language,
     reason,
+    purpose,
+    fulfillment: "international_bundle",
   });
   return `${path}?${params}`;
 }

@@ -7,6 +7,8 @@ export type CheckoutItem = {
 };
 
 export type CheckoutPayload = {
+  fulfillment?: 'international_bundle';
+  purpose?: string;
   orderType: string;
   customerName: string;
   customerEmail: string;

@@ -37,7 +37,7 @@ export function JejuStoresPage() {
               "Supplier-listed locations, not HONDIT partners. Check opening hours and stock before visiting.",
             )}
           </p>
-          <Link to="/products">{t("Products")} →</Link>
+          <p>{t("Location cross-checked; current stock and product range unconfirmed.")}</p><Link to="/jeju/pickup">{t("Jeju pickup information")} →</Link><Link to="/products">{t("Products")} →</Link>
         </header>
         <div className="stockist-layout">
           <section
@@ -111,11 +111,6 @@ export function JejuStoresPage() {
             <article className="stockist-selected" aria-live="polite">
               <h2>{name(active)}</h2>
               <address>{active.address}</address>
-              <p>
-                {t(
-                  "Location cross-checked; current stock and product range unconfirmed.",
-                )}
-              </p>
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(active.name + " " + active.address)}`}
                 target="_blank"
@@ -136,11 +131,6 @@ export function JejuStoresPage() {
                   {i + 1}. {name(s)}
                 </button>
                 <address>{s.address}</address>
-                <p>
-                  {t(
-                    "Location cross-checked; current stock and product range unconfirmed.",
-                  )}
-                </p>
                 <small>
                   {t("Checked on")}: <time>{s.checkedOn}</time>
                 </small>
