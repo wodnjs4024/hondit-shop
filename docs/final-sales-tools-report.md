@@ -27,3 +27,58 @@
 
 ## 운영 반영 전
 Preview는 쓰기403·PayPal 비활성 상태에서만 확인. Production은 새 승인 후 기존 Git 배포 경로 사용, Preview환경 promote 금지. DB/마이그레이션은 이번 변경과 무관하며 B 후속으로 별도 진행. 실제 PDF 출력·원어민 감수·미확인 판매처 검토는 남아 있음.
+
+## Preview 최종 확인
+- 구현 커밋: 2ccc6e4 (codex/final-sales-tools, main push 없음)
+- URL: https://hondit-shop-7qvvx1slq-hondit.vercel.app
+- ID: dpl_fgTEpJKV2YpRJpnGf9Lyz2n246FV / Preview Ready
+- 기존 Vercel 인증 보호 유지. Production promote 미수행.
+- GET PayPal config: checkoutEnabled=false, client ID 비어 있음. 빈 create-order POST는403으로 외부 접근 전 차단.
+- 원격 지도8카드/5마커, 비교표 공식 용기/치수/표시 용량, 도입 단순 차액135 확인.
+- Preview /partners/demo: 명시적 데모 표시, 페이지 전체 bulk 링크0, PayPal 문구 없음, 모바일 구매CTA 없음. 승인된 파트너 새로 등록하지 않음.
+- /guide/diffuser-500g 일본어 사용·관리·재주문 상담 연결 확인.
+- 추가 캡처: product-comparison-desktop.jpg, business-mobile.jpg, stockists-desktop.jpg, business-card-desktop.jpg.
+- docs/qa 변경과 본 결과 기록은 후속 문서 커밋이며 배포 코드 변경 없음.
+
+## 변경 파일
+- .gitignore
+- docs/claude-redesign-handoff.md
+- docs/final-sales-tools-baseline.md
+- docs/final-sales-tools-report.md
+- docs/product-source-review-2026-10-13.md
+- docs/qa/business-card-desktop.jpg
+- docs/qa/business-mobile.jpg
+- docs/qa/product-comparison-desktop.jpg
+- docs/qa/stockists-desktop.jpg
+- docs/sources/image-urls.json
+- docs/sources/offlineshop-extraction.md
+- docs/sources/stockist-verification.json
+- package.json
+- shared/sales-tools-copy.d.ts
+- shared/sales-tools-copy.js
+- shared/sales-tools.d.ts
+- shared/sales-tools.js
+- src/App.tsx
+- src/components/BusinessPlanner.tsx
+- src/components/ConsultationPanel.tsx
+- src/components/ProductFactsDisplay.tsx
+- src/components/QuantityReview.tsx
+- src/components/v23/SiteChrome.tsx
+- src/data/jejuStockists.json
+- src/data/productFacts.ts
+- src/data/v23SiteData.ts
+- src/lib/market.tsx
+- src/main.tsx
+- src/pages/BulkProductPage.tsx
+- src/pages/HomePage.tsx
+- src/pages/JejuPage.tsx
+- src/pages/JejuStoresPage.tsx
+- src/pages/OrderCompletePage.tsx
+- src/pages/PartnerGuidePage.tsx
+- src/pages/PartnersPage.tsx
+- src/pages/ProductDetailPage.tsx
+- src/pages/ProductGuidePage.tsx
+- src/styles/sales-tools.css
+- tests/sales-tools.test.mjs
+- tests/site-localization.test.mjs
+- vercel.json

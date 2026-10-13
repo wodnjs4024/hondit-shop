@@ -86,3 +86,7 @@ npm run preview -- --host 127.0.0.1 --port 4182
 
 ## 미확인 사항
 공개 제외8곳의 현재 운영/정확한 위치, 공개 목록 중3곳의 좌표, 개별 판매처 현재 SKU/재고, 공급 수량/출고 일정, 운송·규제 승인, 실제 이메일 수신·PayPal 완료·인증 관리자 전체, 원어민 번역 감수 및 실제 PDF 출력. 출처보고서에서 상세 원인 확인.
+
+## 검토용 Preview
+https://hondit-shop-7qvvx1slq-hondit.vercel.app
+ID dpl_fgTEpJKV2YpRJpnGf9Lyz2n246FV, 구현커밋2ccc6e4. Preview 인증 보호·결제 비활성·쓰기403 확인. Production 환경은 이번에 변경하지 않음.
