@@ -89,3 +89,17 @@
 - 화면: Home/BulkOrders/BulkProduct/Partners/Contact/ProductDetail/ProductGuide/JejuStores/OrderComplete/PaymentFailed, SiteChrome/BusinessPlanner/QuantityReview/ProductSalesSummary/SalesDiscovery/ContactQrs.
 - 서버: PayPal create/capture/update-attempt/webhook, 금액 검증 `_markets.js`, products 분기, 연락 이메일 기본값.
 - 연결·자산·검증: App/vercel/main/market/bulkApi/analytics, sales-structure.css, QR PNG, localization 및 sales-structure 테스트, `.vercelignore`.
+
+## 최종 Preview 검증 결과
+
+- 최종 소스 커밋: `90e5b40` (핵심 구현 `12ee8f0`, 사업자 상태 문구 보정 `39a40b2`, 제주 환불 대기·전달 기록 보호 `90e5b40`).
+- URL: https://hondit-shop-reo7u7626-hondit.vercel.app/?market=SG&lang=ko
+- 배포 ID: `dpl_EvdST5bokRLLRzpktgGNYzTNSZdw`, target=preview, Ready 확인.
+- 기존 Vercel 인증 보호 유지. 권한 없는 브라우저에서는 로그인이 필요할 수 있음. 보호 설정을 해제하지 않음.
+- 배포 환경에서 `/api/paypal/config`: 200, checkoutEnabled=false, clientId 빈 값. `/api/pickup`: 200, 예약·결제=false.
+- 빈 POST 안전 점검 9개 모두 403: pickup, PayPal create/capture/webhook/update-attempt, contact, products, reviews, admin/settings. 실제 거래를 만들지 않음.
+- 이전 동일 화면 Preview에서 추가 수량 상담의 복사 내용에 상품·국가·수량·구매 목적·이행 방식 포함, 필수 주소 입력 0개 확인. 프런트 PayPal SDK 미로드 확인. 최종 Preview는 추가로 내부 제주 데모 상태 보호만 수정했으며 같은 차단 검증을 다시 통과함.
+- 최종 커밋 기준 로컬 빌드 및 57개 테스트 재통과. 대형 번들 경고만 남음.
+- 마지막 Production 확인: `dpl_6KKkyTC83oxFsDCHLXokFCnvWfbX` 유지. 원격 main `61d0e1dd683966f2e346ece39a3c487d97cdbfb4` 유지.
+- 변경 파일 전체: `docs/qa/sales-structure/changed-files.txt`. 배포 API 결과: `preview-api-checks.json`. 테스트 로그: `regression-tests.txt`.
+- 최종 인계 문서와 캡처 추가 커밋은 배포 제외 자료만 변경하며 별도 Preview 재배포가 필요하지 않음.
