@@ -7,7 +7,7 @@ import { EMAIL, SHOPEE, v23Products, type StorefrontProduct } from "../data/v23S
 import { PurchasePaths, ProductComparison } from "../components/SalesDiscovery";
 import { discoveryText } from "../data/discoveryCopy";
 import { trackEvent } from "../lib/analytics";
-import { isStorefrontProductAllowedForMarket, marketCountryName, marketText, useMarket } from "../lib/market";
+import { isStorefrontProductAllowedForMarket, marketCountryName, marketProductText, marketText, useMarket } from "../lib/market";
 import { loadStorefrontProducts } from "../lib/storefrontApi";
 
 export function HomePage() {
@@ -97,7 +97,7 @@ export function HomePage() {
           <StoneJejuFilm kind="forest" />
           <div><p className="v23-eyebrow is-light"><span /> {marketText(language,"SEA - STONE - WIND")}</p>
             <h2>{filmCopy.forest}</h2><p>{filmCopy.forestText}</p><Link to={`/jeju${pageQuery}`}>{marketText(language,"Explore our Jeju ->")}</Link>
-            <figure className="home-coast-reference"><img src="/images/hondit-jeju-dawn-hero-v2.webp" alt={filmCopy.coast} width={1600} height={900} loading="lazy" decoding="async"/><figcaption>{filmCopy.coast}</figcaption></figure>
+
           </div>
         </section>
         <section className="v23-diffuser-guide home-material-story" aria-labelledby="v23-diffuser-title">
@@ -105,34 +105,17 @@ export function HomePage() {
             <div className="v23-diffuser-guide__copy">
               <p className="v23-eyebrow is-light"><span /> {marketText(language, "VOLCANIC DIFFUSER")}</p>
               <h2 id="v23-diffuser-title">{marketText(language, "No flame. No electricity.")}</h2>
-              <p className="v23-diffuser-guide__lead">{marketText(language, "Refresh the scent whenever you choose.")}</p>
               <p>{marketText(language, "Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.")}</p>
             </div>
 
-            <StoneJejuFilm kind="detail">
-                <div className="v23-diffuser-guide__links">
-                  <Link to={`/products/diffuser-350g${pageQuery}`}>350g <span aria-hidden="true">↗</span></Link>
-                  <Link to={`/products/diffuser-500g${pageQuery}`}>500g <span aria-hidden="true">↗</span></Link>
-                </div>
-            </StoneJejuFilm>
+            <StoneJejuFilm kind="detail" />
+          </div>
 
-            <figure className="v23-diffuser-guide__product">
-              <img
-                src="/images/stonejeju-diffuser-product.png"
-                alt="Jeju Volcanic Stone Diffuser with citrus fragrance oil, ceramic bowl and volcanic stones."
-                width={1200}
-                height={1200}
-                sizes="(max-width: 680px) 35vw, 180px"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>
-                <strong>{marketText(language, "Jeju Volcanic Stone Diffuser")}</strong>
-                <span>{marketText(language, "Jeju volcanic scoria")} / {marketText(language, "Citrus fragrance oil")}</span>
-                <span>{marketText(language, "Flameless / No electricity / Refreshable scent")}</span>
-
-              </figcaption>
-            </figure>
+          <div className="home-spec-comparison">
+            {marketProducts.filter(product => product.category === "SCENT").map(product => <article key={product.slug}>
+              <img src={product.image} alt={marketProductText(language,product.name)} width={880} height={1200} loading="lazy" decoding="async" />
+              <div><h3>StoneJeju {product.slug === "diffuser-350g" ? "350g" : "500g"}</h3><Link to={`/products/${product.slug}${pageQuery}`}>{marketText(language,"Product details","상품 상세 설명")} →</Link></div>
+            </article>)}
           </div>
 
           <div className="v23-diffuser-guide__steps" aria-label="How to use the volcanic diffuser">

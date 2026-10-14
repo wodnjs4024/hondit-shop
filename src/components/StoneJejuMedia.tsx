@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMarket } from "../lib/market";
 import { stonejejuMediaCopy } from "../data/stonejejuMediaCopy";
 import { homeMediaCopy } from "../data/homeMediaCopy";
@@ -10,20 +10,20 @@ const films = {
   detail: { file: "detail_product.mp4", poster: "05_product_stone.webp" },
 };
 
-/** Each film downloads on first visible playback, remembers user pause and never loops. */
-export function StoneJejuFilm({ kind, children }: { kind: FilmKind; children?: ReactNode }) {
+/** Each film downloads on first visible playback, remembers user pause and loops only while visible. */
+export function StoneJejuFilm({ kind }: { kind: FilmKind }) {
   const { language } = useMarket();
   const copy = homeMediaCopy(language), mediaCopy = stonejejuMediaCopy(language);
   const videoRef = useRef<HTMLVideoElement>(null);
   const figureRef = useRef<HTMLElement>(null);
   const visible = useRef(false), reduced = useRef(false), userPaused = useRef(false);
-  const finished = useRef(false), manual = useRef(false);
+  const manual = useRef(false);
   const [loaded, setLoaded] = useState(false), [failed, setFailed] = useState(false), [playing, setPlaying] = useState(false);
   const syncRef = useRef<() => void>(() => {});
   syncRef.current = () => {
     const video = videoRef.current;
     if (!video) return;
-    const shouldPlay = visible.current && !document.hidden && !userPaused.current && !finished.current && (!reduced.current || manual.current);
+    const shouldPlay = visible.current && !document.hidden && !userPaused.current && (!reduced.current || manual.current);
     if (!shouldPlay) { video.pause(); return; }
     if (!loaded) { setLoaded(true); return; }
     if (video.paused) video.play().catch(() => setPlaying(false));
@@ -44,23 +44,21 @@ export function StoneJejuFilm({ kind, children }: { kind: FilmKind; children?: R
     const video = videoRef.current;
     if (!video) return;
     if (!video.paused) { userPaused.current = true; manual.current = false; video.pause(); }
-    else { userPaused.current = false; manual.current = true; if (finished.current) video.currentTime = 0; finished.current = false; syncRef.current(); }
+    else { userPaused.current = false; manual.current = true; syncRef.current(); }
   };
   const caption = kind === "product" ? copy.product : kind === "forest" ? copy.forest : copy.detail;
   const alt = kind === "forest" ? mediaCopy.forestAlt : kind === "detail" ? mediaCopy.detailStoneAlt : mediaCopy.homeAlt;
   return <figure ref={figureRef} className={`stonejeju-film stonejeju-film--${kind}`}>
     {failed ? <img src={`/media/stonejeju/${films[kind].poster}`} alt={alt} width={1920} height={1080} /> :
       <video ref={videoRef} src={loaded ? `/media/stonejeju/${films[kind].file}` : undefined}
-        poster={`/media/stonejeju/${films[kind].poster}`} muted playsInline preload="none" width={1280} height={720}
+        poster={`/media/stonejeju/${films[kind].poster}`} muted playsInline loop preload="none" width={1280} height={720}
         aria-label={caption} aria-describedby={`stonejeju-${kind}-caption`}
         onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
-        onEnded={() => { finished.current = true; manual.current = false; setPlaying(false); }}
         onError={() => setFailed(true)} />}
     <figcaption id={`stonejeju-${kind}-caption`}><span>{caption}</span>
       {!failed && <button type="button" onClick={toggle} aria-label={`${playing ? copy.pause : copy.play} · ${caption}`}>{playing ? copy.pause : copy.play} {playing ? "Ⅱ" : "▷"}</button>}
       {failed && <span role="status">{mediaCopy.videoFallback}</span>}
     </figcaption>
-    {children}
   </figure>;
 }
 
