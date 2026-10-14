@@ -1,3 +1,4 @@
+import { StoneJejuProductVideo } from "../components/StoneJejuMedia";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { V23Page, V23ProductCard } from "../components/v23/SiteChrome";
@@ -11,7 +12,6 @@ import { loadStorefrontProducts } from "../lib/storefrontApi";
 export function HomePage() {
   const { market, language } = useMarket();
   const countryName = marketCountryName(market, language);
-  const diffuserVideoRef = useRef<HTMLVideoElement | null>(null);
   const productRailRef = useRef<HTMLDivElement | null>(null);
   const railDirectionRef = useRef(1);
   const railPausedRef = useRef(false);
@@ -77,29 +77,6 @@ export function HomePage() {
     rail.scrollBy({ left: direction * Math.min(420, rail.clientWidth * 0.72), behavior: "smooth" });
   };
 
-  useEffect(() => {
-    const video = diffuserVideoRef.current;
-    if (!video) return;
-
-    const keepPlaying = () => {
-      video.muted = true;
-      video.defaultMuted = true;
-      if (document.visibilityState === "hidden") return;
-      const playRequest = video.play();
-      if (playRequest) playRequest.catch(() => undefined);
-    };
-
-    keepPlaying();
-    document.addEventListener("visibilitychange", keepPlaying);
-    window.addEventListener("focus", keepPlaying);
-    window.addEventListener("pageshow", keepPlaying);
-
-    return () => {
-      document.removeEventListener("visibilitychange", keepPlaying);
-      window.removeEventListener("focus", keepPlaying);
-      window.removeEventListener("pageshow", keepPlaying);
-    };
-  }, []);
 
   return (
     <V23Page>
@@ -177,22 +154,7 @@ export function HomePage() {
               <p>{marketText(language, "Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.")}</p>
             </div>
 
-            <figure className="v23-diffuser-guide__video">
-              <video
-                ref={diffuserVideoRef}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                poster="/images/stonejeju-diffuser-product.png"
-                disablePictureInPicture
-                controlsList="nodownload noplaybackrate noremoteplayback"
-                aria-label="Fragrance oil being applied directly to volcanic stone"
-              >
-                <source src="/videos/stonejeju-use-loop.mp4" type="video/mp4" />
-              </video>
-            </figure>
+            <StoneJejuProductVideo />
 
             <figure className="v23-diffuser-guide__product">
               <img

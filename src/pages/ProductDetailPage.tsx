@@ -1,3 +1,4 @@
+import { StoneJejuSceneGallery } from "../components/StoneJejuMedia";
 import {DiffuserComparison,ProductCare} from "../components/ProductFactsDisplay";
 import {QuantityReview} from "../components/QuantityReview";
 import {productFacts} from "../data/productFacts";
@@ -130,6 +131,8 @@ export function ProductDetailPage() {
             <ol>{cleanProductUsage(product.howTo).map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ol>
           </article>
         </section>
+
+        {product.slug === "diffuser-500g" && <StoneJejuSceneGallery />}
 
         {showSingaporeDiffuserDetails && (
           <section className="v23-product-story" aria-label={marketText(language, "Product details", "상품 상세 설명")}>

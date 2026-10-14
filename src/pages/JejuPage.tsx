@@ -1,3 +1,4 @@
+import { stonejejuMediaCopy } from "../data/stonejejuMediaCopy";
 import { marketText, useMarket } from "../lib/market";
 import { Link } from "react-router-dom";
 import { V23GeoJourney } from "../components/v23/GeoJourney";
@@ -11,6 +12,7 @@ const jejuNotes = [
 
 export function JejuPage() {
   const { language } = useMarket();
+  const mediaCopy = stonejejuMediaCopy(language);
   return (
     <V23Page>
       <main className="v23-jeju-page">
@@ -55,8 +57,8 @@ export function JejuPage() {
           <div>
             {jejuNotes.map((note) => (
               <article key={marketText(language,note.title)}>
-                <img src={note.image} alt={note.alt} />
-                <div><span>{marketText(language,note.kicker)}</span><h3>{note.title}</h3><p>{marketText(language,note.text)}</p></div>
+                <img className={note.title === "Forest" ? "stonejeju-forest-scene" : undefined} src={note.title === "Forest" ? "/media/stonejeju/04_forest.jpg" : note.image} alt={note.title === "Forest" ? mediaCopy.forestAlt : note.alt} width={1920} height={1080} loading="lazy" decoding="async" onError={(event) => { if (note.title === "Forest" && !event.currentTarget.src.endsWith(note.image)) { event.currentTarget.src = note.image; event.currentTarget.alt = marketText(language, "Forest"); } }} />
+                <div><span>{marketText(language,note.kicker)}</span><h3>{marketText(language,note.title)}</h3><p>{marketText(language,note.text)}</p></div>
               </article>
             ))}
           </div>

@@ -4055,6 +4055,28 @@ video {
   object-fit: cover;
   opacity: 1;
 }
+/* Supplied landscape footage: retain the whole frame and native controls. */
+.v23-diffuser-guide__video.stonejeju-product-film {
+  width: 100%;
+  aspect-ratio: auto;
+  border-radius: 16px;
+}
+.stonejeju-product-film video,
+.stonejeju-product-film > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #111;
+}
+.stonejeju-product-film figcaption { padding: 16px; color: #bcbcaf; font-size: 14px; line-height: 1.6; }
+.stonejeju-product-film figcaption strong, .stonejeju-product-film figcaption span { display: block; }
+.stonejeju-product-film figcaption strong { color: #f4f0e9; margin-bottom: 4px; }
+.stonejeju-scene-gallery > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.stonejeju-scene-gallery figure { margin: 0; min-width: 0; }
+.stonejeju-scene-gallery img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 16px; }
+@media (max-width: 680px) { .stonejeju-scene-gallery > div { grid-template-columns: 1fr; } }
 .v23-diffuser-guide__product {
   grid-column: 2;
   display: grid;
@@ -5471,3 +5493,6 @@ summary{cursor:pointer;min-height:44px;padding:12px 0}details label{display:grid
 .v23-home-commerce__header h2{font-size:clamp(32px,4vw,56px);line-height:1.1;margin:12px 0}
 .discovery-hero-actions a:focus-visible,.discovery-path:focus-visible,.discovery-table-wrap:focus-visible{outline:3px solid #a47548;outline-offset:4px}
 @media(max-width:760px){.discovery-hero{grid-template-columns:1fr;padding:28px 20px;gap:20px}.discovery-hero img{height:270px}.discovery-hero-actions a{font-size:14px;padding:12px 14px}.discovery-section{padding:32px 20px}.discovery-paths{grid-template-columns:1fr}.discovery-path{padding:22px}.discovery-path h3{margin-top:12px}.discovery-path p{margin-bottom:18px}.discovery-table th,.discovery-table td{padding:14px 10px;font-size:13px}.discovery-table tbody th{min-width:210px}.discovery-table img{width:48px;height:48px}.partner-process ol{grid-template-columns:1fr 1fr;gap:20px}.partner-consultation{padding:0 20px}.v23-home-commerce__header h2{font-size:32px}}
+
+/* Keep the supplied forest frame intact at every breakpoint. */
+.v23-jeju-notes article img.stonejeju-forest-scene { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; }
