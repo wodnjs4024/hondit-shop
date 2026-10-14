@@ -1,4 +1,12 @@
 const rows = {
+ 'Select product':['상품 선택','選擇商品','商品を選択','Pilih produk','เลือกสินค้า'],
+ 'Quantity':['수량','數量','数量','Kuantiti','จำนวน'],
+ '350g total':['350g 총액','350g 總額','350g 合計','Jumlah 350g','ยอดรวม 350g'],
+ '500g total':['500g 총액','500g 總額','500g 合計','Jumlah 500g','ยอดรวม 500g'],
+ 'Awaiting price approval':['가격 승인 대기','價格待批准','価格承認待ち','Menunggu kelulusan harga','รออนุมัติราคา'],
+ 'Local review only · proposed price · ordering unavailable':['로컬 검토 전용 · 제안가격 · 주문 불가','僅限本機檢視 · 建議價格 · 無法下單','ローカル確認専用 · 提案価格 · 注文不可','Semakan tempatan sahaja · harga cadangan · pesanan tidak tersedia','ตรวจสอบในเครื่องเท่านั้น · ราคาเสนอ · ยังสั่งซื้อไม่ได้'],
+ 'Product amount only. No quantity discount.':['상품금액 기준입니다. 수량 할인은 적용하지 않습니다.','僅商品金額，無數量折扣。','商品代金のみ。数量割引はありません。','Jumlah produk sahaja. Tiada diskaun kuantiti.','เฉพาะมูลค่าสินค้า ไม่มีส่วนลดตามจำนวน'],
+
  'Store & business purchase guide':['매장·사업자 구매 안내','商店及企業採購指南','店舗・事業者向け購入案内','Panduan pembelian kedai dan perniagaan','คู่มือซื้อสำหรับร้านค้าและธุรกิจ'],
  'Contact for additional requests':['추가 요청 연락하기','聯絡提出額外要求','追加のご要望はこちら','Hubungi untuk permintaan tambahan','ติดต่อสำหรับคำขอเพิ่มเติม'],
  'Check products, approved prices and support materials. Order eligible bundles directly; contact us only for additional requests.':['상품·승인 가격·지원자료를 확인하세요. 조건에 맞는 묶음은 바로 주문하고 추가 요청이 있을 때 연락해주세요.','查看產品、已確認價格及支援資料。符合條件的組合可直接下單，額外要求請聯絡我們。','商品・承認済み価格・資料をご確認ください。条件に合うセットは直接注文でき、追加のご要望のみご連絡ください。','Semak produk, harga diluluskan dan bahan sokongan. Pesan pakej yang layak terus; hubungi untuk permintaan tambahan sahaja.','ตรวจสอบสินค้า ราคาที่อนุมัติและสื่อสนับสนุน สั่งชุดที่ตรงเงื่อนไขได้โดยตรง ติดต่อเมื่อมีคำขอเพิ่มเติม'],

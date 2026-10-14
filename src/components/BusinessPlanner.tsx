@@ -1,10 +1,11 @@
+import {ResaleCalculator} from "./ResaleCalculator";
+import {approvedResaleTerms} from "../../shared/resale-economics.js";
 import { ProductSalesSummary } from "./ProductSalesSummary";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   allocateQuantity,
   reviewAmount,
-  resaleDifference,
   validQuantity,
   selectionUrl,
 } from "../../shared/sales-tools.js";
@@ -51,7 +52,7 @@ export function BusinessPlanner() {
   const [timing,setTiming]=useState("");
   const [display, setDisplay] = useState(0);
   const [reserve, setReserve] = useState(0);
-  const [resale, setResale] = useState("");
+  const [resaleSummary,setResaleSummary]=useState("");
   const [store, setStore] = useState("");
   const [cardLanguage, setCardLanguage] = useState<DisplayLanguage>(language);
   useEffect(() => {
@@ -78,20 +79,12 @@ export function BusinessPlanner() {
   const route=purchaseRoute([{product,quantity:Number(quantity)}],market.code);
   const routeMessage=route==='direct'?'Existing checkout rules apply; final availability and payment settings are checked on the order page.':'Consultation required before payment. No new quantity or combination is approved here.';
   const facts = productFacts(product.slug);
-  const amount = reviewAmount(
+  const approved=approvedResaleTerms(product,market.code,quantity);
+  const amount = approved ? reviewAmount(
     getMarketUnitPrice(product, market),
     quantity,
     market.currency,
-  );
-  const difference =
-    amount && allocation
-      ? resaleDifference(
-          resale,
-          amount.unitMinor,
-          allocation.sale,
-          market.currency,
-        )
-      : null;
+  ) : null;
   const money = (minor: number) =>
     formatCurrency(
       minor / 10 ** (amount?.digits ?? 2),
@@ -103,6 +96,7 @@ export function BusinessPlanner() {
     `${t("Introduction summary")}: ${t(purpose)}`,
     `${t("Selected product amount")}: ${amount ? money(amount.totalMinor) : t("No confirmed amount")}`,
     t("Review only — not a confirmed quotation or purchase order."),
+    purpose==="Resale" ? resaleSummary : "",
     purpose!=="Resale" ? `${t("Placement / requirements")}: ${requirements}; ${t("Preferred timing")}: ${timing}` : "",
     allocation && purpose === "Resale"
       ? `${t("Display units")}: ${allocation.display}; ${t("Units for sale")}: ${allocation.sale}; ${t("Reserve units")}: ${allocation.reserve}`
@@ -142,7 +136,7 @@ export function BusinessPlanner() {
             value={market.code}
             onChange={(e) => {
               setMarket(e.target.value as MarketCode);
-              setResale("");
+              setResaleSummary("");
             }}
           >
             {Object.values(markets).map((m) => (
@@ -166,7 +160,7 @@ export function BusinessPlanner() {
               );
               setDisplay(0);
               setReserve(0);
-              setResale("");
+              setResaleSummary("");
             }}
           >
             {available.map((p) => (
@@ -189,7 +183,7 @@ export function BusinessPlanner() {
         </label>
       </div>
       {purpose!=="Resale" && <div className="business-planner__fields"><label>{t("Placement / requirements")}<textarea maxLength={1000} value={requirements} onChange={e=>setRequirements(e.target.value)}/></label>{["Gifts","Group purchase"].includes(purpose)&&<label>{t("Preferred timing")}<input type="date" value={timing} onChange={e=>setTiming(e.target.value)}/></label>}</div>}
-      <ProductSalesSummary product={product} />
+      {approved ? <ProductSalesSummary product={product} /> : <p role="status">{t("Approved terms unavailable for this selection. Contact us to confirm.")}</p>}
       <section className="planner-summary" aria-live="polite">
         <p className="route-status">{t(route==='direct'?'Direct order candidate':route==='confirmation'?'Confirmation required':'Consultation required')}</p>
         <h3>{t("Introduction summary")}</h3>
@@ -295,40 +289,8 @@ export function BusinessPlanner() {
           </div>
         </section>
       )}
-      {purpose === "Resale" && <>      <section>
-        <h3>{t("Simple resale difference")}</h3>
-        <label>
-          {t("Your resale unit price")} ({market.currency})
-          <input
-            type="number"
-            min="0"
-            step={market.currency === "JPY" ? "1" : "0.01"}
-            value={resale}
-            onChange={(e) => setResale(e.target.value)}
-          />
-        </label>
-        {difference ? (
-          <p aria-live="polite">
-            {t("Unit price difference")}: {money(difference.unitMinor)}
-            <br />
-            {t("Difference for sale allocation")}:{" "}
-            <output data-testid="resale-difference">
-              {money(difference.totalMinor)}
-            </output>
-          </p>
-        ) : (
-          resale !== "" && (
-            <p role="alert">
-              {t("Enter a non-negative amount in the displayed currency.")}
-            </p>
-          )
-        )}
-        <p>
-          {t(
-            "Same currency only. Excludes freight, taxes, duties, fees, discounts, display stock and losses. Not net profit or guaranteed income.",
-          )}
-        </p>
-      </section>
+      {purpose === "Resale" && <>
+      <ResaleCalculator key={`${market.code}-${product.slug}-${quantity}`} product={product} quantity={quantity} onSummary={setResaleSummary}/>
       <section>
         <h3>{t("Sales support materials")}</h3>
         <p>
@@ -415,9 +377,9 @@ export function BusinessPlanner() {
       </section>
 </>}
       <article className="introduction-print"><h3>{t('Introduction summary')}</h3><pre>{summary}</pre></article>
-      {route==='direct'&&<Link className="button button--primary" to={selectionUrl('/bulk-orders/'+product.slug,{slug:product.slug,quantity,market:market.code,language,reason:'partner',purpose:purpose==='Resale'?'resale':purpose==='Display / space'?'business_use':purpose==='Group purchase'?'group_purchase':'personal_gift'})}>{t('Continue to delivery and PayPal ->')}</Link>}
+      {approved&&route==='direct'&&<Link className="button button--primary" to={selectionUrl('/bulk-orders/'+product.slug,{slug:product.slug,quantity,market:market.code,language,reason:'partner',purpose:purpose==='Resale'?'resale':purpose==='Display / space'?'business_use':purpose==='Group purchase'?'group_purchase':'personal_gift'})}>{t('Continue to delivery and PayPal ->')}</Link>}
       <div className="planner-summary-actions"><button type="button" className="button button--ghost" onClick={()=>{document.body.dataset.printReview='1';try{window.print()}finally{delete document.body.dataset.printReview}}}>{t("Print / save as PDF")}</button></div>
-      {amount && allocation && (
+      {allocation && (
         <ConsultationPanel
           key={`${product.slug}-${market.code}`}
           lines={[{ name: product.name, quantity: Number(quantity) }]}
