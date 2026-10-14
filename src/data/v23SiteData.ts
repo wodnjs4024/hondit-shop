@@ -18,6 +18,7 @@ export type StorefrontProduct = {
   bulkStep: number;
   stockQuantity?: number;
   active?: boolean;
+  purchaseEnabled?: boolean;
   featured?: boolean;
   marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "TH" | "MY", number>>;
 };

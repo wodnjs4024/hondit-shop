@@ -74,7 +74,7 @@ export function V23Header() {
             <select value={market.code} onChange={(event) => {
               const code = event.target.value as MarketCode;
               setMarket(code);
-              setLanguage(markets[code].defaultLanguage);
+
             }}>
               {Object.values(markets).map((option) => (
                 <option key={option.code} value={option.code}>

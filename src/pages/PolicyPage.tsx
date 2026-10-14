@@ -1,3 +1,4 @@
+import {policyKo} from "../data/policyKo";
 import { Link, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { EMAIL } from "../data/v23SiteData";
@@ -18,7 +19,7 @@ type PolicyContent = {
   sections: PolicySection[];
 };
 
-function getPolicyContent(policy: string, countryName: string, currency: string, hasShopee: boolean): PolicyContent | null {
+export function getPolicyContent(policy: string, countryName: string, currency: string, hasShopee: boolean): PolicyContent | null {
   const content: Record<string, PolicyContent> = {
     shipping: {
       title: "Shipping Policy",
@@ -211,6 +212,7 @@ export function PolicyPage() {
   const content = getPolicyContent(policy, countryName, market.currency, market.hasShopee);
 
   if (!content) return <NotFoundPage />;
+  const translate=(text:string)=>language==="ko"?policyKo(text,marketCountryName(market,"ko"),market.currency):text;
 
   return (
     <V23Page>
@@ -220,14 +222,14 @@ export function PolicyPage() {
             <span /> {marketText(language,"HONDIT POLICY")}
           </p>
           <h1>{marketText(language,content.title)}</h1>
-          {language !== "en" && <p role="note">{marketText(language,"Policy text is currently available in English. The original wording is shown below.")}</p>}
-          <p className="v23-policy-intro" lang="en">{content.intro}</p>
+          {language !== "en" && language!=="ko" && <p role="note">{marketText(language,"Policy text is currently available in English. The original wording is shown below.")}</p>}
+          <p className="v23-policy-intro" lang={language==="ko"?"ko":"en"}>{translate(content.intro)}</p>
           {content.sections.map((section) => (
-            <section className="v23-policy-section" lang="en" key={section.heading}>
-              <h2>{section.heading}</h2>
+            <section className="v23-policy-section" lang="en" key={translate(section.heading)}>
+              <h2>{translate(section.heading)}</h2>
               <ul>
                 {section.items.map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item}>{translate(item)}</li>
                 ))}
               </ul>
             </section>

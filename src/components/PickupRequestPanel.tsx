@@ -17,7 +17,7 @@ export function PickupRequestPanel({initialQuantity=1}:{initialQuantity?:number}
  {(['350g','500g'] as const).map(size=><label key={size} className={product===size?'is-selected':''}>
  <input type="radio" name="pickup-product" value={size} checked={product===size} disabled={size==='500g'&&proposedUnitPrice===null} onChange={()=>setProduct(size)}/>
  <img src={`/images/diffuser-${size}.webp`} width="160" height="160" alt={name(size)}/>
- <span><strong>{name(size)}</strong><small>{size==='350g'?money(pickupRequestTotal(1)):proposedUnitPrice===null?t('Awaiting price approval'):money(proposedUnitPrice)}</small>{size==='500g'&&<small>{t(proposedUnitPrice===null?'Awaiting price approval':'Local review only · proposed price · ordering unavailable')}</small>}</span>
+ <span><strong>{name(size)}</strong><small>{size==='350g'?money(pickupRequestTotal(1)):proposedUnitPrice===null?t('Awaiting price approval'):money(proposedUnitPrice)}</small>{size==='500g'&&proposedUnitPrice!==null&&<small>{t(proposedUnitPrice===null?'Awaiting price approval':'Local review only · proposed price · ordering unavailable')}</small>}</span>
  </label>)}
  </fieldset>
  <div className="pickup-price-table"><table><caption>{t('Product amount only. No quantity discount.')}</caption>

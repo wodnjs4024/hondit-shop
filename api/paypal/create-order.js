@@ -1,3 +1,4 @@
+import {resolveCheckoutCart,paypalCurrencyDigits} from "../../shared/checkout-terms.js";
 import {purchaseContext,purchaseRoute} from "../../shared/purchase-context.js";
 import {normalizeShipping, paypalShipping} from "../../shared/shipping.js";
 import { sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
@@ -104,6 +105,8 @@ export default async function handler(req, res) {
     const checkoutProducts = body.cart.some((item) => item.slug === livePaymentTestProduct.slug)
       ? [...products, livePaymentTestProduct]
       : products;
+    const rawDecision=resolveCheckoutCart(body.cart.map(item=>({product:checkoutProducts.find(p=>p.slug===item.slug),quantity:item.packCount})),market.code);
+    if(rawDecision.status!=='direct')return json(res,409,{error:'Selected price, quantity and shipping conditions require confirmation.',code:'PAYMENT_CONDITIONS_REQUIRED'});
     if (sgCheckoutNeedsInquiry(body.cart.map(item => ({ product: checkoutProducts.find(p => p.slug === item.slug), quantity: item.packCount })), market.code)) throw new Error("This Singapore quantity or combination requires an enquiry before payment.");
     const pricingProducts = market.code === "SG" ? checkoutProducts.map(p => sgTerms(p) ? {...p,packQuantity:sgTerms(p).moq} : p) : checkoutProducts;
     const summary = calculateCart(body.cart, pricingProducts);
@@ -112,15 +115,16 @@ export default async function handler(req, res) {
     if (blockedProduct) {
       throw new Error(`${blockedProduct.product.name} is not available for ${market.countryName}.`);
     }
+    const decision=resolveCheckoutCart(summary.lines.map(line=>({product:line.product,quantity:line.totalUnits})),market.code);
+    if(decision.status!=='direct')return json(res,409,{error:'Please request payment for these selections; transaction conditions require confirmation.',code:'PAYMENT_CONDITIONS_REQUIRED'});
     const marketLines = summary.lines.map((line) => {
       const marketUnitPrice = getMarketUnitPrice(line.product, market);
       const marketLineTotal = getMarketLineTotal(line.product, line.totalUnits, market);
       return { ...line, marketUnitPrice, marketLineTotal };
     });
-    const marketTotal = market.code === "SG" && marketLines.every(line => sgTerms(line.product))
-      ? marketLines.reduce((sum, line) => sum + sgTerms(line.product).unitMinor * line.totalUnits, 0) / 100
-      : Number(marketLines.reduce((sum, line) => sum + line.marketLineTotal, 0).toFixed(2));
-    const marketTotalLabel = market.currency === "JPY" ? String(Math.round(marketTotal)) : marketTotal.toFixed(2);
+    const marketTotal=decision.totalMinor/10**paypalCurrencyDigits(decision.billingCurrency);
+    if(decision.billingCurrency!==market.currency)throw Error('Confirmed billing currency does not match this checkout route');
+    const marketTotalLabel=formatPayPalAmount(marketTotal,decision.billingCurrency);
     const orderNumber = createOrderNumber();
     const attribution = body.attribution || {};
 
@@ -137,7 +141,7 @@ export default async function handler(req, res) {
       city: shipping.city,
       postal_code: shipping.postal,
       customer_note: body.customerNote || null,
-      internal_note: `[shipping:v1] [sales:v1 fulfillment=${salesContext.fulfillment} purpose=${salesContext.purpose}] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
+      internal_note: `[shipping:v1] [condition:${decision.version}] [sales:v1 fulfillment=${salesContext.fulfillment} purpose=${salesContext.purpose}] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
       utm_source: attribution.utm_source || attribution.traffic_source || null,
       utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,

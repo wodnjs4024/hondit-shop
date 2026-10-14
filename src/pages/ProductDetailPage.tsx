@@ -105,17 +105,14 @@ export function ProductDetailPage() {
             <p className="v23-eyebrow"><span /> {productCategory}</p>
             <h1>{productName}</h1>
             <p>{productDescription}</p>
-            <strong>{formatMarketUnitMoney(product, market)}</strong>
-            <ProductSalesSummary product={product} />
-            <div className="v23-actions">
-              <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout ->", "대량주문 ->")}</Link>
-              {<Link to={`/contact?product=${product.slug}`}>{marketText(language, "Ask hondit ->", "문의하기 ->")}</Link>}
-            </div>
+            <strong>{formatMarketUnitMoney(product, market)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}
+            <ProductSalesSummary product={product} showContact={false}/>
+            <QuantityReview key={product.slug} product={product}/>
             {market.hasShopee&&product.shopee&&<a className="shopee-trust-link" href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"View Shopee store ↗")}</a>}
           </div>
         </section>
 
-        <QuantityReview key={product.slug} product={product}/>
+
         {productFacts(product.slug)&&<DiffuserComparison/>}
         <ProductCare slug={product.slug}/>
         <Link className="product-guide-link" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>

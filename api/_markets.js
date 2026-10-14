@@ -1,3 +1,4 @@
+import {approvedUnitPrice} from "../shared/checkout-terms.js";
 import { sgTerms } from "../shared/page-sales.js";
 export const markets = {
   SG: {
@@ -74,8 +75,8 @@ export function convertSgdToMarketAmount(value, market) {
 }
 
 export function getMarketUnitPrice(product, market) {
-  const approved = sgTerms(product);
-  if (market.code === "SG" && approved) return approved.unitMinor / 100;
+  const approved = approvedUnitPrice(product,market.code);
+  if (approved!==null) return approved;
   const prices = product?.marketUnitPrices || product?.market_unit_prices || {};
   const fixed = prices?.[market.code] ?? prices?.[market.currency];
   if (Number.isFinite(Number(fixed))) return Number(fixed);

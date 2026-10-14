@@ -1,3 +1,4 @@
+import {shippingSummary} from "../../shared/shipping-summary.js";
 import { Link } from "react-router-dom";
 import { V23Page, V23PageHero } from "../components/v23/SiteChrome";
 import { marketCountryName, marketText, useMarket } from "../lib/market";
@@ -49,7 +50,7 @@ export function ShippingPage() {
             <ul>
               <li>{marketText(language, "Payment must be confirmed before a bulk order is prepared for dispatch.", "결제가 확인된 주문만 발송 준비를 시작합니다.")}</li>
               <li>{marketText(language, "Product-specific minimum orders and quantity steps", "상품별 최소 수량과 주문 단위 적용")}</li>
-              <li>{marketText(language, market.checkoutNote, market.checkoutNoteKo)}</li>
+              <li>{marketText(language, shippingSummary(market.code))}</li>
               <li>{marketText(language, "Tracking information is shared after dispatch.", "발송 후 배송 추적 정보를 안내합니다.")}</li>
             </ul>
             <Link to="/bulk-orders">{marketText(language, "Open bulk checkout ->", "대량주문 열기 ->")}</Link>

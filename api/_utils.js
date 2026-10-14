@@ -1,3 +1,5 @@
+import {isDiffuser,diffuserQuantity} from '../shared/diffuser-quantity.js';
+import {resolveCheckoutTerms} from '../shared/checkout-terms.js';
 import { cleanProductUsage } from "../shared/page-sales.js";
 import { defaultProducts } from "./_bulk-data.js";
 import { formatOrderAmount } from "./_markets.js";
@@ -141,7 +143,8 @@ export function calculateCart(cart, products) {
     if (requested <= 0) throw new Error(`Quantity must be greater than zero: ${product.slug}`);
     const isCleansing = product.category === "cleansing";
     if (isCleansing && requested % step !== 0) throw new Error(`Cleansing quantities must be ordered in steps of ${step}`);
-    if (!isCleansing && (requested < moq || (requested - moq) % step !== 0)) {
+    if (isDiffuser(product) && !diffuserQuantity(item.packCount).valid) throw new Error("Choose a 10-unit trial or a whole-number quantity of at least 20");
+    if (!isCleansing && !isDiffuser(product) && (requested < moq || (requested - moq) % step !== 0)) {
       throw new Error(`${product.name} requires at least ${moq} units in steps of ${step}`);
     }
     const quantity = requested;
@@ -151,7 +154,7 @@ export function calculateCart(cart, products) {
       product,
       packCount: quantity,
       totalUnits: quantity,
-      lineTotalSgd: Number((product.unitPriceSgd * quantity).toFixed(2)),
+      lineTotalSgd: isDiffuser(product) ? resolveCheckoutTerms(product,'SG',quantity).referenceTotalMinor/100 : Number((product.unitPriceSgd * quantity).toFixed(2)),
     };
   });
   const duplicateSlugs = requestedLines.filter((line, index) => requestedLines.findIndex((entry) => entry.product.slug === line.product.slug) !== index);

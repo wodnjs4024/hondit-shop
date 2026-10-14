@@ -145,6 +145,7 @@ function routeMeta(pathname: string): PageMeta {
   }
   if (pathname.startsWith("/bulk-orders/")) {
     const slug = pathname.split("/").filter(Boolean).at(-1) || "";
+    if (slug === "cleansing-mix") return {title:"Cleansing Mix Order | hondit",description:"Review existing market-specific cleansing bundle rules or request confirmation.",robots:"noindex,follow",image:defaultOgImage};
     if (productMeta[slug]) {
       return {
         ...productMeta[slug],

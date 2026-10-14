@@ -1,3 +1,8 @@
+import {DiffuserQuantitySelector,usePurchaseQuantity} from '../components/DiffuserQuantitySelector';
+import {isDiffuser} from '../../shared/diffuser-quantity.js';
+import {PaymentRequestPanel} from "../components/PaymentRequestPanel";
+import {resolveCheckoutCart,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
+import {checkoutDisplayState} from "../../shared/checkout-display.js";
 import {purchaseRoute,purchasePurposes,purposeLabels} from "../../shared/purchase-context.js";
 import {productFacts} from "../data/productFacts";
 import {validQuantity} from "../../shared/sales-tools.js";
@@ -15,7 +20,6 @@ import {
   getBulkMoq,
   getBulkProduct,
   getStockStatus,
-  normalizeBulkQuantity,
   type BulkProduct,
 } from "../data/bulkProducts";
 import { EMAIL } from "../data/v23SiteData";
@@ -117,10 +121,12 @@ export function BulkProductPage() {
   const [selectionParams]=useSearchParams();
   const purpose=purchasePurposes.includes(selectionParams.get("purpose")||"")?selectionParams.get("purpose"):"unspecified";
   const readOnlyPreview=import.meta.env.VITE_VERCEL_ENV==="preview";
-  const [packCount, setPackCount] = useState(()=>validQuantity(selectionParams.get("quantity")||"")?Number(selectionParams.get("quantity")):0);
+  const [quantityText,setQuantityText]=usePurchaseQuantity(slug,String(getBulkProduct(slug)?.packQuantity??20));
   const [mixQuantities, setMixQuantities] = useState<Record<string, number>>({});
   const [form, setForm] = useState<OrderForm>(initialForm);
   const [ready, setReady] = useState(false);
+  const [configState,setConfigState]=useState<"loading"|"ready"|"failed">("loading");
+  const [sdkFailed,setSdkFailed]=useState(false);
   const [error, setError] = useState("");
   const [invalidField,setInvalidField]=useState("");
   const [payPalConfig, setPayPalConfig] = useState({
@@ -136,14 +142,14 @@ export function BulkProductPage() {
   useEffect(() => {
     fetchBulkProducts().then(setProducts);
     fetchPayPalConfig()
-      .then((config) =>
-        setPayPalConfig({
+      .then((config) => {
+        setConfigState("ready");setPayPalConfig({
           checkoutEnabled: config.checkoutEnabled !== false,
           clientId: config.clientId || fallbackPayPalClientId,
           mode: (config.mode || fallbackPayPalMode).toLowerCase(),
-        }),
-      )
-      .catch(() => undefined);
+        });
+      })
+      .catch(() => setConfigState("failed"));
   }, []);
 
   const apiMatch = products.find((entry) => entry.slug === slug && entry.active && isBulkProductAllowedForMarket(entry, market));
@@ -164,7 +170,7 @@ export function BulkProductPage() {
   const isLivePaymentTest = product.slug === "live-payment-test";
   const moq = getBulkMoq(product);
   const maxUnits = getBulkMaxUnits(product);
-  const quantity = normalizeBulkQuantity(product, packCount || moq);
+  const quantity = Number(quantityText);
   const isCleansingMix = isCleansingMixRoute;
   const cleansingProducts = products.filter(
     (entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market),
@@ -197,8 +203,11 @@ export function BulkProductPage() {
   const paypalMode = payPalConfig.mode;
   const errorId = "bulk-checkout-error";
   const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
-  const inquiryOnly = !isLivePaymentTest && ((market.code === "SG" && isCleansingMix) || sgCheckoutNeedsInquiry(orderLines, market.code) || purchaseRoute(orderLines,market.code)!=="direct");
-  const checkoutDisabled = readOnlyPreview || !payPalConfig.checkoutEnabled || inquiryOnly;
+  const selectionDecision=isCleansingMix?resolveCheckoutCart(orderLines,market.code):resolveCheckoutTerms(product,market.code,quantityText);
+  const invalidQuantity=selectionDecision.status==="unavailable";
+  const inquiryOnly = invalidQuantity || selectionDecision.status!=="direct" || ((market.code === "SG" && isCleansingMix) || sgCheckoutNeedsInquiry(orderLines, market.code) || purchaseRoute(orderLines,market.code)!=="direct");
+  const checkoutDisabled = readOnlyPreview || configState!=="ready" || !payPalConfig.checkoutEnabled || inquiryOnly;
+  const paymentDisplay=checkoutDisplayState({preview:readOnlyPreview,configuration:configState,enabled:payPalConfig.checkoutEnabled,clientId:paypalClientId,sdkReady:ready,sdkFailed});
   const orderLineText = orderLines.map((line) => `${line.product.name} ${line.product.volumeLabel || ""}: ${line.quantity} units`);
   const manualPaymentHref = buildMailto(EMAIL, `[hondit] ${inquiryOnly ? "Quantity and shipping enquiry" : "Manual PayPal link request"} - ${product.name}`, [
     "Hello hondit,",
@@ -210,7 +219,7 @@ export function BulkProductPage() {
     `Market: ${market.label} / ${market.currency}`,
     ...orderLineText,
     `Total quantity: ${totalUnits} units`,
-    `Product amount (shipping scope to confirm): ${formatCurrency(marketTotal, market.currency, market.locale)}`,
+    `Product amount (shipping scope to confirm): ${formatCurrency(marketTotal,'displayCurrency' in selectionDecision?String(selectionDecision.displayCurrency):market.currency,market.locale)}`,
     "",
     inquiryOnly ? "Please reply with a quotation and confirmed shipping conditions." : "Please reply with the PayPal payment link and next steps.",
   ]);
@@ -244,9 +253,12 @@ export function BulkProductPage() {
     const script = document.createElement("script");
     script.id = `paypal-sdk-${market.currency.toLowerCase()}`;
     script.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientId}&currency=${market.currency}&intent=capture`;
-    script.onload = () => setReady(true);
+    setSdkFailed(false);
+    const sdkTimer=window.setTimeout(()=>setSdkFailed(true),20000);
+    script.onload = () => {window.clearTimeout(sdkTimer);setSdkFailed(false);setReady(true);};
+    script.onerror = () => {window.clearTimeout(sdkTimer);setSdkFailed(true);};
     document.body.appendChild(script);
-    return ()=>{script.onload=null;script.remove();const target=document.getElementById('direct-paypal-buttons');if(target)target.innerHTML='';window.paypal=undefined;};
+    return ()=>{window.clearTimeout(sdkTimer);script.onload=null;script.onerror=null;script.remove();const target=document.getElementById('direct-paypal-buttons');if(target)target.innerHTML='';window.paypal=undefined;};
   }, [checkoutDisabled, market.currency, paypalClientId, soldOut]);
 
   const update = (key: keyof OrderForm, value: string | boolean) => {setInvalidField("");setForm((current) => ({ ...current, [key]: value }));};
@@ -442,7 +454,7 @@ export function BulkProductPage() {
           );
         },
       })
-      .render("#direct-paypal-buttons");
+      .render("#direct-paypal-buttons").catch(()=>setSdkFailed(true));
   }, [checkoutDisabled, isCleansingMix, language, market, moq, navigate, paypalClientId, product.slug, ready, soldOut, purpose]);
 
   if (!matchedProduct && firstAllowedProduct?.slug && slug !== firstAllowedProduct.slug) {
@@ -477,18 +489,18 @@ export function BulkProductPage() {
                 </p>
               )}
 
-              <ProductSalesSummary product={product} />
+              <ProductSalesSummary product={product} quantity={quantityText}/>
 
               <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{localizedStockStatus}</p>
               <p className="shipping-pill">
                 {marketText(
                   language,
-                  market.code === "SG"
+                  isDiffuser(product) ? "Trial: 10 units. General order: 20 or more. Shipping scope is confirmed per quantity." : market.code === "SG"
                     ? "Single-product MOQ bundle for direct checkout. Additional quantities and combinations require an enquiry."
                     : isCleansingMix
                     ? `Mix any cleansing products in steps of ${BULK_QTY_STEP}. Combined minimum: ${moq} units.`
                     : `Order from ${moq} units, in steps of ${BULK_QTY_STEP}.${maxUnits ? ` Available up to ${maxUnits} units.` : ""}`,
-                  market.code === "SG"
+                  isDiffuser(product) ? "체험 주문 10개 · 일반 주문 20개 이상. 배송 범위는 수량별로 확인합니다." : market.code === "SG"
                     ? "단일 상품 MOQ 묶음만 직접결제 가능합니다. 추가 수량·혼합 구성은 문의해주세요."
                     : isCleansingMix
                     ? `클렌징 3종을 ${BULK_QTY_STEP}개 단위로 자유롭게 섞을 수 있습니다. 합계 최소 ${moq}개입니다.`
@@ -518,17 +530,17 @@ export function BulkProductPage() {
                       );
                     })}
                     <p className={totalUnits < moq ? "cleansing-mix__minimum cleansing-mix__minimum--warning" : "cleansing-mix__minimum"}>
-                      {marketText(language, "Selected", "선택 수량")}: <strong>{totalUnits}</strong> / {marketText(language, "minimum", "최소")} {moq}
+                      {marketText(language, "Selected", "선택 수량")}: <strong>{Number.isSafeInteger(totalUnits)&&totalUnits>0?totalUnits:"—"}</strong> / {marketText(language, "minimum", "최소")} {moq}
                     </p>
                   </div>
                 ) : (
-                <div className="pack-stepper" aria-label="Order quantity">
+                isDiffuser(product)?<DiffuserQuantitySelector value={quantityText} onChange={setQuantityText} disabled={soldOut}/>:<div className="pack-stepper" aria-label="Order quantity">
                   <span>{marketText(language, "Order quantity", "二쇰Ц ?섎웾")}</span>
                   <div>
                     <button
                       type="button"
                       disabled={soldOut}
-                      onClick={() => setPackCount((value) => normalizeBulkQuantity(product, (value || moq) - BULK_QTY_STEP))}
+                      onClick={() => setQuantityText(String(Math.max(moq,quantity-BULK_QTY_STEP)))}
                     >
                       -
                     </button>
@@ -536,13 +548,13 @@ export function BulkProductPage() {
                       aria-label="Units"
                       disabled={soldOut}
                       inputMode="numeric"
-                      value={quantity}
-                      onChange={(event) => setPackCount(normalizeBulkQuantity(product, Number(event.target.value)))}
+                      value={quantityText}
+                      onChange={(event) => setQuantityText(event.target.value)}
                     />
                     <button
                       type="button"
                       disabled={soldOut}
-                      onClick={() => setPackCount((value) => normalizeBulkQuantity(product, (value || moq) + BULK_QTY_STEP))}
+                      onClick={() => setQuantityText(String(quantity+BULK_QTY_STEP))}
                     >
                       +
                     </button>
@@ -559,9 +571,9 @@ export function BulkProductPage() {
 
                 <div className="bulk-total-box">
                   <span>{marketText(language, "Total units", "珥??섎웾")}</span>
-                  <strong>{totalUnits}</strong>
+                  <strong>{Number.isSafeInteger(totalUnits)&&totalUnits>0?totalUnits:"—"}</strong>
                   <span>{marketText(language, inquiryOnly ? "Product amount" : "Total payment", inquiryOnly ? "상품금액" : "총 결제액")}</span>
-                  <strong>{formatCurrency(marketTotal, market.currency, market.locale)}</strong>
+                  <strong>{invalidQuantity?"—":formatCurrency(marketTotal,'displayCurrency' in selectionDecision?String(selectionDecision.displayCurrency):market.currency,market.locale)}</strong>
                   <p>{marketText(language, "Product amount; taxes and customs charges excluded.", "상품금액 기준 · 세금과 통관비 별도")}</p>
                 </div>
 
@@ -708,7 +720,7 @@ export function BulkProductPage() {
                   <div className="direct-payment-summary__total">
                     <span>{marketText(language, isCleansingMix ? "Cleansing mix" : productName, isCleansingMix ? "클렌징 MIX" : productName)}</span>
                     <strong>
-                      {totalUnits} {marketText(language, "units", "개")} / {formatCurrency(marketTotal, market.currency, market.locale)}
+                      {totalUnits} {marketText(language, "units", "개")} / {formatCurrency(marketTotal,'displayCurrency' in selectionDecision?String(selectionDecision.displayCurrency):market.currency,market.locale)}
                     </strong>
                   </div>
                   {isCleansingMix && (
@@ -802,22 +814,10 @@ export function BulkProductPage() {
                   </a>
                 ) : inquiryOnly ? (
                   <><a className="button button--primary" href={manualPaymentHref}>{marketText(language, "Open quantity & shipping email draft", "수량·배송 문의 이메일 초안 열기")}</a><p>{marketText(language, "Review and send the email yourself. Opening a draft does not confirm receipt.", "초안을 확인하고 직접 발송해주세요. 이메일 앱 실행은 문의 접수 완료가 아닙니다.")}</p></>
-                ) : checkoutDisabled ? (
-                  <p className="setup-warning">
-                    {marketText(language, readOnlyPreview ? "Payment is disabled in this read-only preview." : "Direct PayPal checkout is temporarily closed. Please contact hondit for this order.", "PayPal 吏곸젒 寃곗젣媛 ?좎떆 ?ロ? ?덉뒿?덈떎. ??二쇰Ц? hondit??臾몄쓽?댁＜?몄슂.")}
-                  </p>
-                ) : !paypalClientId ? (
-                  <p className="setup-warning">
-                    {marketText(
-                      language,
-                      "Direct PayPal checkout is temporarily unavailable. Please email your purchase conditions so hondit can reply with a payment link.",
-                      "PayPal 직접 결제를 일시적으로 사용할 수 없습니다. 구매 조건을 이메일로 보내주시면 결제 링크로 답장드리겠습니다.",
-                    )}
-                  </p>
                 ) : (
-                  <div id="direct-paypal-buttons" className="paypal-buttons" />
+                  <><p className="payment-status" role="status">{marketText(language,paymentDisplay==='loading'?'Preparing secure payment…':paymentDisplay==='failed'?'Payment could not load. Refresh or contact us.':paymentDisplay==='closed'?'Payment is currently closed. Contact us.':paymentDisplay==='preview'?'Payment is disabled in this read-only preview.':'Secure payment is ready.')}</p><div id="direct-paypal-buttons" className="paypal-buttons" hidden={paymentDisplay!=='ready'}/></>
                 )}                </fieldset>
-                <div hidden={!inquiryOnly}><ConsultationPanel presetPurpose={marketText(language,purposeLabels[purpose||"unspecified"])} summaryDetails={marketText(language,"Overseas bundle orders")} lines={orderLines.map(line=>({name:line.product.name,quantity:line.quantity}))} reason={isCleansingMix?'combination':'quantity'}/></div>
+                <div hidden={!inquiryOnly||invalidQuantity}><PaymentRequestPanel lines={orderLines} purpose={purpose==='unspecified'?'':marketText(language,purposeLabels[purpose||'unspecified'])}/></div>
 
               </section>
 

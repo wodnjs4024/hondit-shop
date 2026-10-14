@@ -1,3 +1,7 @@
+import {DiffuserQuantitySelector,usePurchaseQuantity} from './DiffuserQuantitySelector';
+import {isDiffuser} from '../../shared/diffuser-quantity.js';
+import {PaymentRequestPanel} from './PaymentRequestPanel';
+import {resolveCheckoutTerms} from "../../shared/checkout-terms.js";
 import {ResaleCalculator} from "./ResaleCalculator";
 import {approvedResaleTerms} from "../../shared/resale-economics.js";
 import { ProductSalesSummary } from "./ProductSalesSummary";
@@ -39,14 +43,7 @@ export function BusinessPlanner() {
     v23Products.find(
       (p) => p.slug === (params.get("product") || "diffuser-350g"),
     ) || v23Products[0];
-  const [quantity, setQuantity] = useState(
-    validQuantity(params.get("quantity") || "")
-      ? params.get("quantity")!
-      : String(
-          (market.code === "SG" ? sgTerms(initialProduct)?.moq : null) ??
-            initialProduct.bulkMoq,
-        ),
-  );
+  const [quantity,setQuantity]=usePurchaseQuantity(slug,String((market.code==='SG'?sgTerms(initialProduct)?.moq:null)??initialProduct.bulkMoq));
   const [purpose, setPurpose] = useState(purposes[0]);
   const [requirements,setRequirements]=useState("");
   const [timing,setTiming]=useState("");
@@ -76,15 +73,12 @@ export function BusinessPlanner() {
     }
   }, [quantity]);
   if (!product) return null;
-  const route=purchaseRoute([{product,quantity:Number(quantity)}],market.code);
-  const routeMessage=route==='direct'?'Existing checkout rules apply; final availability and payment settings are checked on the order page.':'Consultation required before payment. No new quantity or combination is approved here.';
+  const saleDecision=resolveCheckoutTerms(product,market.code,quantity);
+  const route=saleDecision.status==='direct'?'direct':saleDecision.status==='unavailable'?'confirmation':'consultation';
+  const routeMessage=route==='direct'?'Existing checkout rules apply; final availability and payment settings are checked on the order page.':'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.';
   const facts = productFacts(product.slug);
   const approved=approvedResaleTerms(product,market.code,quantity);
-  const amount = approved ? reviewAmount(
-    getMarketUnitPrice(product, market),
-    quantity,
-    market.currency,
-  ) : null;
+  const amount = approved ? {totalMinor:approved.totalMinor,digits:saleDecision.referenceDigits} : null;
   const money = (minor: number) =>
     formatCurrency(
       minor / 10 ** (amount?.digits ?? 2),
@@ -153,11 +147,7 @@ export function BusinessPlanner() {
             onChange={(e) => {
               const p = available.find((p) => p.slug === e.target.value)!;
               setSlug(p.slug);
-              setQuantity(
-                String(
-                  (market.code === "SG" ? sgTerms(p)?.moq : null) ?? p.bulkMoq,
-                ),
-              );
+              if(!isDiffuser(p))setQuantity(String(p.bulkMoq));
               setDisplay(0);
               setReserve(0);
               setResaleSummary("");
@@ -170,7 +160,7 @@ export function BusinessPlanner() {
             ))}
           </select>
         </label>
-        <label>
+        {isDiffuser(product)?<DiffuserQuantitySelector value={quantity} onChange={setQuantity}/>:<label>
           {t("Order quantity")}
           <input
             type="number"
@@ -180,10 +170,10 @@ export function BusinessPlanner() {
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
-        </label>
+        </label>}
       </div>
       {purpose!=="Resale" && <div className="business-planner__fields"><label>{t("Placement / requirements")}<textarea maxLength={1000} value={requirements} onChange={e=>setRequirements(e.target.value)}/></label>{["Gifts","Group purchase"].includes(purpose)&&<label>{t("Preferred timing")}<input type="date" value={timing} onChange={e=>setTiming(e.target.value)}/></label>}</div>}
-      {approved ? <ProductSalesSummary product={product} /> : <p role="status">{t("Approved terms unavailable for this selection. Contact us to confirm.")}</p>}
+      {approved ? <ProductSalesSummary product={product} quantity={quantity}/> : <p role="status">{t("Approved terms unavailable for this selection. Contact us to confirm.")}</p>}
       <section className="planner-summary" aria-live="polite">
         <p className="route-status">{t(route==='direct'?'Direct order candidate':route==='confirmation'?'Confirmation required':'Consultation required')}</p>
         <h3>{t("Introduction summary")}</h3>
@@ -290,7 +280,7 @@ export function BusinessPlanner() {
         </section>
       )}
       {purpose === "Resale" && <>
-      <ResaleCalculator key={`${market.code}-${product.slug}-${quantity}`} product={product} quantity={quantity} onSummary={setResaleSummary}/>
+      <ResaleCalculator key={`${market.code}-${product.slug}-${quantity}`} product={product} quantity={quantity} saleQuantity={allocation?.sale} onSummary={setResaleSummary}/>
       <section>
         <h3>{t("Sales support materials")}</h3>
         <p>
@@ -378,8 +368,9 @@ export function BusinessPlanner() {
 </>}
       <article className="introduction-print"><h3>{t('Introduction summary')}</h3><pre>{summary}</pre></article>
       {approved&&route==='direct'&&<Link className="button button--primary" to={selectionUrl('/bulk-orders/'+product.slug,{slug:product.slug,quantity,market:market.code,language,reason:'partner',purpose:purpose==='Resale'?'resale':purpose==='Display / space'?'business_use':purpose==='Group purchase'?'group_purchase':'personal_gift'})}>{t('Continue to delivery and PayPal ->')}</Link>}
+      {saleDecision.status==='request'&&<PaymentRequestPanel lines={[{product,quantity:Number(quantity)}]} purpose={t(purpose)}/>}
       <div className="planner-summary-actions"><button type="button" className="button button--ghost" onClick={()=>{document.body.dataset.printReview='1';try{window.print()}finally{delete document.body.dataset.printReview}}}>{t("Print / save as PDF")}</button></div>
-      {allocation && (
+      {allocation && saleDecision.status!=='unavailable' && (
         <ConsultationPanel
           key={`${product.slug}-${market.code}`}
           lines={[{ name: product.name, quantity: Number(quantity) }]}

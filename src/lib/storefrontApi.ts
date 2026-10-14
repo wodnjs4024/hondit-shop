@@ -9,6 +9,7 @@ function mergeProduct(staticProduct: StorefrontProduct, apiProduct?: BulkProduct
     ...staticProduct,
     howTo: cleanProductUsage(staticProduct.howTo),
     active: apiProduct.active,
+    purchaseEnabled: apiProduct.purchaseEnabled,
     stockQuantity: apiProduct.inventoryPacks * apiProduct.packQuantity,
     bulkUnitPrice: apiProduct.unitPriceSgd,
     marketUnitPrices: apiProduct.marketUnitPrices ?? staticProduct.marketUnitPrices,

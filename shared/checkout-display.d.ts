@@ -1,0 +1,1 @@
+export function checkoutDisplayState(input:{preview?:boolean;configuration?:'loading'|'ready'|'failed';enabled?:boolean;clientId?:string;sdkReady?:boolean;sdkFailed?:boolean}):'preview'|'loading'|'failed'|'closed'|'ready';

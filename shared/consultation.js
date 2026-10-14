@@ -1,7 +1,7 @@
 import {purchasePurposes} from "./purchase-context.js";
 const markets=['SG','HK','JP','TW','TH','MY','BN','MO'];
 const languages=['en','ko','zh','zh-HK','zh-TW','ja','ms','th'];
-const reasons=['partner','quantity','combination','product'];
+const reasons=['partner','quantity','combination','product','payment_request'];
 export function consultationContext(params,products,defaultMarket='SG',defaultLanguage='en') {
  const product=products.find(p=>p.slug===params.get('product')||p.apiSlug===params.get('product'));
  const raw=params.get('quantity');const quantity=raw&&/^\d{1,6}$/.test(raw)&&Number(raw)>0?Number(raw):undefined;
@@ -15,7 +15,8 @@ const labels={
  ms:['Permintaan HONDIT','Pasaran / negara','Bahasa','Sebab','unit','untuk disahkan','Jenis perniagaan (pilihan)','Tujuan (pilihan)','Masa pilihan','Maklumat tambahan (pilihan)','Sila sahkan syarat berkenaan. Ini bukan sebut harga disahkan.','Produk','Kuantiti','Gabungan','Rakan niaga'],
  th:['คำขอถึง HONDIT','ตลาด / ประเทศ','ภาษา','เหตุผล','ชิ้น','รอยืนยัน','ประเภทธุรกิจ (ไม่บังคับ)','วัตถุประสงค์ (ไม่บังคับ)','ช่วงเวลาที่ต้องการ','ข้อมูลเพิ่มเติม (ไม่บังคับ)','โปรดยืนยันเงื่อนไขที่ใช้ นี่ไม่ใช่ใบเสนอราคาที่ยืนยันแล้ว','สินค้า','จำนวน','รวมสินค้า','พันธมิตร']};
 export function consultationBody({lines=[],market,language,reason='product',business='',purpose='',timing='',additional=''}) {
+ if(['Purpose','unspecified','도입 목적','用途','目的','Tujuan','วัตถุประสงค์'].includes(purpose))purpose='';
  const l=labels[language.startsWith('zh')?'zh':language]||labels.en;
- return [l[0],`${l[1]}: ${market}`,`${l[3]}: ${l[11+['product','quantity','combination','partner'].indexOf(reason)]||l[11]}`,...lines.map(line=>`${line.name}: ${line.quantity??l[5]} ${l[4]}`),'',business?`${l[6]}: ${business}`:'',purpose?`${l[7]}: ${purpose}`:'',timing?`${l[8]}: ${timing}`:'',additional?`${l[9]}: ${additional}`:'','',l[10]].filter((line,i,all)=>line||all[i-1]).join('\n');
+ return [l[0],`${l[1]}: ${market}`,`${l[3]}: ${reason==='payment_request'?({en:'Payment request',ko:'선택 조건 결제 요청',zh:'付款請求',ja:'選択条件での決済依頼',ms:'Permintaan pembayaran',th:'คำขอชำระเงิน'}[language.startsWith('zh')?'zh':language]||'Payment request'):l[11+['product','quantity','combination','partner'].indexOf(reason)]||l[11]}`,...lines.map(line=>`${line.name}: ${line.quantity??l[5]} ${l[4]}`),'',business?`${l[6]}: ${business}`:'',purpose?`${l[7]}: ${purpose}`:'',timing?`${l[8]}: ${timing}`:'',additional?`${l[9]}: ${additional}`:'','',l[10]].filter((line,i,all)=>line||all[i-1]).join('\n');
 }
 export function consultationMailto(email,body) {return `mailto:${email}?subject=${encodeURIComponent(body.split('\n')[0] || '[HONDIT] Request')}&body=${encodeURIComponent(body)}`;}

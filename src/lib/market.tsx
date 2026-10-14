@@ -1,3 +1,6 @@
+import {diffuserCopy} from "../../shared/diffuser-copy.js";
+import {approvedUnitPrice,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
+import {buyerFlowCopy} from "../../shared/buyer-flow-copy.js";
 import {resaleCopy} from "../../shared/resale-copy.js";
 import {structureCopy} from "../../shared/structure-copy.js";
 import {contactCopy} from "../../shared/contact-copy.js";
@@ -320,8 +323,8 @@ export function formatSgd(amount: number) {
 }
 
 export function getMarketUnitPrice(product: PricedItem, market: MarketConfig) {
-  const approved = sgTerms(product);
-  if (market.code === "SG" && approved) return approved.unitMinor / 100;
+  const approved = approvedUnitPrice(product,market.code);
+  if (approved!==null) return approved;
   const explicit = product.marketUnitPrices?.[market.code];
   if (typeof explicit === "number") return explicit;
   const base = product.bulkUnitPrice ?? product.unitPriceSgd ?? 0;
@@ -329,7 +332,8 @@ export function getMarketUnitPrice(product: PricedItem, market: MarketConfig) {
 }
 
 export function getMarketLineTotal(product: PricedItem, quantity: number, market: MarketConfig) {
-  return Number((getMarketUnitPrice(product, market) * quantity).toFixed(2));
+  const d=resolveCheckoutTerms(product,market.code,quantity);
+  return d.referenceTotalMinor===null?0:d.referenceTotalMinor/10**d.referenceDigits;
 }
 
 export function formatMarketUnitMoney(product: PricedItem, market: MarketConfig) {
@@ -2419,6 +2423,8 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 
 export function marketText(language: DisplayLanguage, english: string, fallback?: string) {
   const copyLanguage = language === "zh" || language === "zh-TW" ? "zh-HK" : language;
+  if (diffuserCopy[english]?.[copyLanguage]) return diffuserCopy[english][copyLanguage];
+  if (buyerFlowCopy[english]?.[copyLanguage]) return buyerFlowCopy[english][copyLanguage];
   if (resaleCopy[english]?.[copyLanguage]) return resaleCopy[english][copyLanguage];
   if (contactCopy[english]?.[copyLanguage]) return contactCopy[english][copyLanguage];
   if (structureCopy[english]?.[copyLanguage]) return structureCopy[english][copyLanguage];
