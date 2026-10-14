@@ -1,0 +1,22 @@
+[
+  {
+    "channel": "whatsapp",
+    "sha256": "49abd4b5e9a3b7a78d7564187649a8d39310dbf1ffd4124168a9f14b647852fc",
+    "decoded": "https://wa.me/qr/JEM3ZMXANDWUL1"
+  },
+  {
+    "channel": "telegram",
+    "sha256": "603aaf5c91bc86a7c115324a347afba819ebbf059b92f2cbe907c64d7df7b2ee",
+    "decoded": "https://t.me/+821033382694"
+  },
+  {
+    "channel": "wechat",
+    "sha256": "049cf3d37f2441413a61d42efba8dde3ba10635ed708cac12ed06c8823af7a3c",
+    "decoded": "https://u.wechat.com/kHt8bwuQNBpT5UVpbenp3Ok?s=2"
+  },
+  {
+    "channel": "instagram",
+    "sha256": "e85b4b612b8452b017141b90bf7e6f66c7b26b7b04cad26afb7f9250fa226f59",
+    "decoded": "https://instagram.com/hondit.office?mdxt=NnBvbDJkcGp3Nm5x&utm_source=qr"
+  }
+]
