@@ -1,0 +1,51 @@
+{
+  "deployment": "https://hondit-shop-24yz4erbu-hondit.vercel.app",
+  "paypal": {
+    "status": 200,
+    "checkoutEnabled": false,
+    "clientIdEmpty": true
+  },
+  "pickup": {
+    "status": 200,
+    "reservationsEnabled": false,
+    "paymentEnabled": false
+  },
+  "writes": [
+    {
+      "path": "/api/pickup",
+      "status": 403
+    },
+    {
+      "path": "/api/paypal/create-order",
+      "status": 403
+    },
+    {
+      "path": "/api/paypal/capture-order",
+      "status": 403
+    },
+    {
+      "path": "/api/paypal/webhook",
+      "status": 403
+    },
+    {
+      "path": "/api/paypal/update-attempt",
+      "status": 403
+    },
+    {
+      "path": "/api/contact",
+      "status": 403
+    },
+    {
+      "path": "/api/products",
+      "status": 403
+    },
+    {
+      "path": "/api/reviews",
+      "status": 403
+    },
+    {
+      "path": "/api/admin/settings",
+      "status": 403
+    }
+  ]
+}
