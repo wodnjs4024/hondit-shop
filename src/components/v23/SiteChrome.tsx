@@ -40,7 +40,7 @@ export function V23Header() {
   return (
     <>
       {!partnerOnly&&!pickupOnly&&<div className="v23-shipping-bar">
-        {announcement ? marketText(language, announcement) : marketText(language, market.announcement, market.announcement)}
+        {market.code!=='SG'?`${marketCountryName(market,language)} · ${marketText(language,'Confirm final amount and shipping before payment.')}`:announcement ? marketText(language, announcement) : marketText(language, market.announcement, market.announcement)}
       </div>}
       <header className="v23-nav">
         <div className="v23-nav-main">
@@ -78,7 +78,7 @@ export function V23Header() {
             }}>
               {Object.values(markets).map((option) => (
                 <option key={option.code} value={option.code}>
-                  {option.flag} {marketCountryName(option, language)} / {option.currency}
+                  {option.flag} {marketCountryName(option, language)}{!['BN','MO'].includes(option.code)&&` / ${option.currency}`}
                 </option>
               ))}
             </select>

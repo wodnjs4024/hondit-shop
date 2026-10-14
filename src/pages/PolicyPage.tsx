@@ -1,3 +1,4 @@
+import {policyTranslation} from '../data/policyTranslations';
 import {policyKo} from "../data/policyKo";
 import { Link, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
@@ -212,7 +213,7 @@ export function PolicyPage() {
   const content = getPolicyContent(policy, countryName, market.currency, market.hasShopee);
 
   if (!content) return <NotFoundPage />;
-  const translate=(text:string)=>language==="ko"?policyKo(text,marketCountryName(market,"ko"),market.currency):text;
+  const translate=(text:string)=>language==="ko"?policyKo(text,marketCountryName(market,"ko"),market.currency):language==="ja"||language.startsWith("zh")?policyTranslation(text,language,marketCountryName(market,language),market.currency):text;
 
   return (
     <V23Page>
@@ -222,10 +223,10 @@ export function PolicyPage() {
             <span /> {marketText(language,"HONDIT POLICY")}
           </p>
           <h1>{marketText(language,content.title)}</h1>
-          {language !== "en" && language!=="ko" && <p role="note">{marketText(language,"Policy text is currently available in English. The original wording is shown below.")}</p>}
-          <p className="v23-policy-intro" lang={language==="ko"?"ko":"en"}>{translate(content.intro)}</p>
+          {language !== "en" && language!=="ko" && language!=="ja" && !language.startsWith("zh") && <p role="note">{marketText(language,"Policy text is currently available in English. The original wording is shown below.")}</p>}
+          <p className="v23-policy-intro" lang={language}>{translate(content.intro)}</p>
           {content.sections.map((section) => (
-            <section className="v23-policy-section" lang="en" key={translate(section.heading)}>
+            <section className="v23-policy-section" lang={language} key={translate(section.heading)}>
               <h2>{translate(section.heading)}</h2>
               <ul>
                 {section.items.map((item) => (

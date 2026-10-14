@@ -1,9 +1,11 @@
 import {resolveCheckoutTerms} from '../../shared/checkout-terms.js';
+import {useSearchParams} from 'react-router-dom';
 import {useEffect,useState} from 'react';
 import {approvedResaleTerms,resaleEconomics} from '../../shared/resale-economics.js';
 import {marketText,marketProductText,useMarket,formatCurrency} from '../lib/market';
 import type {StorefrontProduct} from '../data/v23SiteData';
 export function ResaleCalculator({product,quantity,saleQuantity,onSummary}:{saleQuantity?:number;product:StorefrontProduct;quantity:string;onSummary:(summary:string)=>void}){
+ const [params]=useSearchParams();const autoOpen=params.get('purpose')==='resale';
  const {market,language}=useMarket();const t=(s:string)=>marketText(language,s);
  const [input,setInput]=useState({price:'',inbound:'0',discount:'0',selling:'0',fixed:'0'});
  const selection=resolveCheckoutTerms(product,market.code,quantity);
@@ -17,7 +19,7 @@ export function ResaleCalculator({product,quantity,saleQuantity,onSummary}:{sale
  const summary=terms&&result?[market.code+' · '+terms.currency,marketProductText(language,product.name)+' · '+quantity+' '+t('units'),t('Unit price')+': '+money(terms.unitMinor),...fields.map(([k,label])=>t(label)+': '+(k==='discount'?input[k]+'%':money(result[k]))),t('Units for sale')+': '+result.saleQuantity, t('Expected sales revenue')+': '+money(result.salesRevenue),...outputs.map(([k,v])=>t(k)+': '+v),disclaimer].join('\n'):'';
  useEffect(()=>{onSummary(summary)},[summary,onSummary]);
  const field=([key,label]:typeof fields[number])=><label key={key}>{t(label)} {key==='discount'?'':`(${market.currency})`}<input type="number" min="0" max={key==='discount'?100:undefined} step={key==='discount'?'0.01':market.currency==='JPY'?'1':'0.01'} value={input[key]} onChange={e=>setInput({...input,[key]:e.target.value})}/></label>;
- return <details className="resale-calculator resale-calculator--simple"><summary>{t('Resale economics review')}</summary>{!terms?<p role="status">{t('Approved terms unavailable for this selection. Contact us to confirm.')}</p>:<>
+ return <details id="resale-calculator" className="resale-calculator resale-calculator--simple" open={autoOpen||undefined}><summary>{t('Resale economics review')}</summary>{!terms?<p role="status">{t('Approved terms unavailable for this selection. Contact us to confirm.')}</p>:<>
  <p className="resale-selection">{marketProductText(language,product.name)} · {market.code} / {terms.currency} · {quantity} {t('units')}</p>
  <div className="resale-key-amount"><span>{t('Initial product purchase')}</span><strong>{money(terms.totalMinor)}</strong><small>{t('Unit price')}: {money(terms.unitMinor)} × {quantity} {t('units')}</small></div>
  {selection.status!=='direct'&&<p role="status">{t('Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.')}</p>}

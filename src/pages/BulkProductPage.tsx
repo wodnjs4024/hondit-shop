@@ -1,3 +1,6 @@
+import {consultationBody,consultationMailto} from '../../shared/consultation.js';
+import {readMixSelection,writeMixSelection} from '../../shared/mix-selection.js';
+import {loadPayPalSdk,type PayPalSdk,type PayPalButtonsInstance} from '../lib/paypalSdk';
 import {DiffuserQuantitySelector,usePurchaseQuantity} from '../components/DiffuserQuantitySelector';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
 import {PaymentRequestPanel} from "../components/PaymentRequestPanel";
@@ -107,10 +110,6 @@ function readAttribution() {
   }
 }
 
-function buildMailto(to: string, subject: string, lines: string[]) {
-  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
-}
-
 export function BulkProductPage() {
   const { market, language } = useMarket();
   const countryName = marketCountryName(market, language);
@@ -122,7 +121,7 @@ export function BulkProductPage() {
   const purpose=purchasePurposes.includes(selectionParams.get("purpose")||"")?selectionParams.get("purpose"):"unspecified";
   const readOnlyPreview=import.meta.env.VITE_VERCEL_ENV==="preview";
   const [quantityText,setQuantityText]=usePurchaseQuantity(slug,String(getBulkProduct(slug)?.packQuantity??20));
-  const [mixQuantities, setMixQuantities] = useState<Record<string, number>>({});
+  const [mixQuantities, setMixQuantities] = useState<Record<string, number>>(()=>readMixSelection(selectionParams.get("mix")??""));
   const [form, setForm] = useState<OrderForm>(initialForm);
   const [ready, setReady] = useState(false);
   const [configState,setConfigState]=useState<"loading"|"ready"|"failed">("loading");
@@ -134,6 +133,7 @@ export function BulkProductPage() {
     clientId: fallbackPayPalClientId,
     mode: fallbackPayPalMode,
   });
+  const sdkRef=useRef<PayPalSdk|null>(null);
   const formRef = useRef(initialForm);
   const orderLinesRef = useRef<OrderLine[]>([]);
   const productRef = useRef<BulkProduct | null>(null);
@@ -208,29 +208,21 @@ export function BulkProductPage() {
   const inquiryOnly = invalidQuantity || selectionDecision.status!=="direct" || ((market.code === "SG" && isCleansingMix) || sgCheckoutNeedsInquiry(orderLines, market.code) || purchaseRoute(orderLines,market.code)!=="direct");
   const checkoutDisabled = readOnlyPreview || configState!=="ready" || !payPalConfig.checkoutEnabled || inquiryOnly;
   const paymentDisplay=checkoutDisplayState({preview:readOnlyPreview,configuration:configState,enabled:payPalConfig.checkoutEnabled,clientId:paypalClientId,sdkReady:ready,sdkFailed});
-  const orderLineText = orderLines.map((line) => `${line.product.name} ${line.product.volumeLabel || ""}: ${line.quantity} units`);
-  const manualPaymentHref = buildMailto(EMAIL, `[hondit] ${inquiryOnly ? "Quantity and shipping enquiry" : "Manual PayPal link request"} - ${product.name}`, [
-    "Hello hondit,",
-    "",
-    inquiryOnly ? "Please confirm quantity, packaging, shipping and a quotation before any payment." : "PayPal/card checkout did not complete. Please send me a direct PayPal payment link for this order.",
-    "",
-    `Country: ${countryName} (${market.code})`,
-    `Fulfillment: international_bundle; purpose: ${purpose}`,
-    `Market: ${market.label} / ${market.currency}`,
-    ...orderLineText,
-    `Total quantity: ${totalUnits} units`,
-    `Product amount (shipping scope to confirm): ${formatCurrency(marketTotal,'displayCurrency' in selectionDecision?String(selectionDecision.displayCurrency):market.currency,market.locale)}`,
-    "",
-    inquiryOnly ? "Please reply with a quotation and confirmed shipping conditions." : "Please reply with the PayPal payment link and next steps.",
-  ]);
+  const manualPaymentHref=consultationMailto(EMAIL,consultationBody({
+    language,market:`${countryName} (${market.code})`,reason:'payment_request',
+    purpose:purpose==='unspecified'?'':marketText(language,purposeLabels[purpose||'unspecified']),
+    lines:orderLines.map(line=>({name:marketProductText(language,line.product.name)+' '+line.product.volumeLabel,quantity:line.quantity})),
+    additional:[`${marketText(language,'Selected product amount')}: ${formatCurrency(marketTotal,'displayCurrency' in selectionDecision?String(selectionDecision.displayCurrency):market.currency,market.locale)}`,marketText(language,'Please confirm the billing currency, final amount and shipping terms, and send me a PayPal payment link.')].join('\n'),
+  }));
 
-  useEffect(() => {
-    if (product.category !== "cleansing") return;
-    const available = products.filter(
-      (entry) => entry.active && entry.category === "cleansing" && isBulkProductAllowedForMarket(entry, market),
-    );
-    setMixQuantities(Object.fromEntries(available.map((entry) => [entry.slug, 0])));
-  }, [isCleansingMix, market.code]);
+  useEffect(()=>{
+    if(!isCleansingMix)return;
+    const url=new URL(window.location.href);
+    const value=writeMixSelection(mixQuantities);
+    if(value)url.searchParams.set('mix',value);else url.searchParams.delete('mix');
+    url.searchParams.set('quantity',String(totalUnits));
+    window.history.replaceState(window.history.state,'',url);
+  },[isCleansingMix,mixQuantities,totalUnits]);
 
   useEffect(() => {
     formRef.current = form;
@@ -239,26 +231,13 @@ export function BulkProductPage() {
   }, [form, orderLines, product]);
 
   useEffect(() => {
-    if (!paypalClientId || soldOut || checkoutDisabled) {
-      document.querySelectorAll('script[id^="paypal-sdk-"]').forEach(script=>script.remove());
-      const buttons=document.getElementById('direct-paypal-buttons');if(buttons)buttons.innerHTML='';
-      window.paypal=undefined;setReady(false);return;
-    }
-    const container = document.getElementById("direct-paypal-buttons");
-    if (container) container.innerHTML = "";
-    document.querySelectorAll('script[id^="paypal-sdk-"]').forEach((script) => script.remove());
-    window.paypal = undefined;
-    setReady(false);
-
-    const script = document.createElement("script");
-    script.id = `paypal-sdk-${market.currency.toLowerCase()}`;
-    script.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientId}&currency=${market.currency}&intent=capture`;
+    let active=true;setReady(false);
+    if (!paypalClientId || soldOut || checkoutDisabled) return;
     setSdkFailed(false);
-    const sdkTimer=window.setTimeout(()=>setSdkFailed(true),20000);
-    script.onload = () => {window.clearTimeout(sdkTimer);setSdkFailed(false);setReady(true);};
-    script.onerror = () => {window.clearTimeout(sdkTimer);setSdkFailed(true);};
-    document.body.appendChild(script);
-    return ()=>{window.clearTimeout(sdkTimer);script.onload=null;script.onerror=null;script.remove();const target=document.getElementById('direct-paypal-buttons');if(target)target.innerHTML='';window.paypal=undefined;};
+    loadPayPalSdk(paypalClientId,market.currency).then(sdk=>{
+      if(active){sdkRef.current=sdk;setReady(true);}
+    }).catch(()=>{if(active)setSdkFailed(true)});
+    return ()=>{active=false;};
   }, [checkoutDisabled, market.currency, paypalClientId, soldOut]);
 
   const update = (key: keyof OrderForm, value: string | boolean) => {setInvalidField("");setForm((current) => ({ ...current, [key]: value }));};
@@ -321,10 +300,13 @@ export function BulkProductPage() {
 
   useEffect(() => {
     const container = document.getElementById("direct-paypal-buttons");
-    if (!ready || !window.paypal || !paypalClientId || !container || container.childElementCount > 0 || soldOut || checkoutDisabled) return;
+    if (!ready || typeof sdkRef.current?.Buttons!=='function' || !paypalClientId || !container || soldOut || checkoutDisabled) return;
+    let active=true;let buttons:PayPalButtonsInstance|undefined;
+    // Use a fresh child host so async SDK cleanup cannot remove the next instance.
+    const host=document.createElement('div');container.appendChild(host);
+    try {
 
-    window.paypal
-      .Buttons({
+    buttons=sdkRef.current.Buttons({
         createOrder: async () => {
           const currentForm = formRef.current;
           const currentProduct = productRef.current;
@@ -384,7 +366,7 @@ export function BulkProductPage() {
             throw createError;
           }
         },
-        onApprove: async (data) => {
+        onApprove: async (data:{orderID:string}) => {
           trackEvent("checkout_approved", {
             checkout_step: "paypal_approval_complete",
             checkout_stage: "paypal_approval_complete",
@@ -408,7 +390,7 @@ export function BulkProductPage() {
             navigate('/order-complete/'+createdOrderNumber.current+'?verification=pending');
           }
         },
-        onCancel: async (data) => {
+        onCancel: async (data:{orderID:string}) => {
           trackEvent("checkout_cancel", {
             checkout_step: "paypal_approval",
             checkout_stage: "buyer_cancelled",
@@ -429,7 +411,7 @@ export function BulkProductPage() {
           }).catch(() => undefined);
           navigate(`/payment-failed/${createdOrderNumber.current}?status=cancelled`);
         },
-        onError: (paypalError) => {
+        onError: (paypalError:unknown) => {
           console.error("PayPal widget error");
           const reason = paypalError instanceof Error ? paypalError.message : "PayPal payment could not be completed.";
           trackEvent("checkout_error", {
@@ -453,10 +435,17 @@ export function BulkProductPage() {
             ),
           );
         },
-      })
-      .render("#direct-paypal-buttons").catch(()=>setSdkFailed(true));
+      });
+      buttons.render(host).catch(()=>{if(active)setSdkFailed(true)});
+    }catch{setSdkFailed(true);}
+    return ()=>{
+      active=false;
+      try{Promise.resolve(buttons?.close?.()).catch(()=>undefined);}catch{/* Keep SDK cleanup failures inside the payment area. */}
+      host.remove();
+    };
   }, [checkoutDisabled, isCleansingMix, language, market, moq, navigate, paypalClientId, product.slug, ready, soldOut, purpose]);
 
+  if(isCleansingMix&&cleansingProducts.length===0)return <Navigate to={`/bulk-orders?market=${market.code}&lang=${language}`} replace/>;
   if (!matchedProduct && firstAllowedProduct?.slug && slug !== firstAllowedProduct.slug) {
     return <Navigate to={`/bulk-orders/${firstAllowedProduct.slug}`} replace />;
   }
@@ -489,7 +478,7 @@ export function BulkProductPage() {
                 </p>
               )}
 
-              <ProductSalesSummary product={product} quantity={quantityText}/>
+              {isCleansingMix?<aside className="mix-selection-summary product-sales-summary"><h2>{marketText(language,'Selected mix')}</h2><dl><div><dt>{marketText(language,'Total units')}</dt><dd>{totalUnits}</dd></div><div><dt>{marketText(language,'Selected product amount')}</dt><dd>{formatCurrency(marketTotal,market.currency,market.locale)}</dd></div></dl><p>{marketText(language,'Combined minimum: 30 units. Select each product in 10-unit steps.')}</p><p>{marketText(language,'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.')}</p></aside>:<ProductSalesSummary product={product} quantity={quantityText}/>}
 
               <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{localizedStockStatus}</p>
               <p className="shipping-pill">

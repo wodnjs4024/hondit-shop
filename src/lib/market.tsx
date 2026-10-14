@@ -1,3 +1,5 @@
+import {traditionalText} from './traditionalText';
+import {qaCopy} from '../../shared/qa-copy.js';
 import {diffuserCopy} from "../../shared/diffuser-copy.js";
 import {approvedUnitPrice,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
 import {buyerFlowCopy} from "../../shared/buyer-flow-copy.js";
@@ -2421,8 +2423,9 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
   return override || supplementalCustomerUi[nonEnglish]?.[english] || undefined;
 }
 
-export function marketText(language: DisplayLanguage, english: string, fallback?: string) {
+function rawMarketText(language: DisplayLanguage, english: string, fallback?: string) {
   const copyLanguage = language === "zh" || language === "zh-TW" ? "zh-HK" : language;
+  if (qaCopy[english]?.[copyLanguage]) return qaCopy[english][copyLanguage];
   if (diffuserCopy[english]?.[copyLanguage]) return diffuserCopy[english][copyLanguage];
   if (buyerFlowCopy[english]?.[copyLanguage]) return buyerFlowCopy[english][copyLanguage];
   if (resaleCopy[english]?.[copyLanguage]) return resaleCopy[english][copyLanguage];
@@ -2441,7 +2444,12 @@ export function marketText(language: DisplayLanguage, english: string, fallback?
   return supplementalCustomerUi[language as NonEnglishLanguage]?.[english] || commonText[language]?.[english] || (language === "ko" ? fallback : undefined) || english;
 }
 
+export function marketText(language:DisplayLanguage,english:string,fallback?:string){
+ const text=rawMarketText(language,english,fallback);
+ return language==='zh-HK'||language==='zh-TW'?traditionalText(text):text;
+}
 export function marketProductText(language: DisplayLanguage, text: string) {
-  return productText[language]?.[text] || marketText(language, text);
+ const translated=productText[language]?.[text] || marketText(language, text);
+ return language==='zh-HK'||language==='zh-TW'?traditionalText(translated):translated;
 }
 

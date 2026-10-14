@@ -20,7 +20,7 @@ export function ProductSalesSummary({product,showContact=true,quantity}: {produc
   <dl><div><dt>{diffuser&&!quantity?marketText(language,'General order unit price (20+)'):t('Unit price','개당 단가','単価')}</dt><dd>{money(unit)}</dd></div>
    <div><dt>{diffuser&&quantity!=='10'?marketText(language,'General order minimum'):t('Minimum quantity','최소 주문수량','最低注文数')}</dt><dd>{quantity==='10'?10:moq} {t('units','개','個')}</dd></div>
    <div className="product-sales-summary__total"><dt>{quantity?marketText(language,'Selected product amount'):t('Minimum product amount','최소 상품금액','最低商品代金')}</dt><dd>{chosen!==null&&chosen!==undefined?money(chosen/10**selected!.referenceDigits):quantity?"—":money(approved ? approved.unitMinor*moq/100 : unit*moq)}</dd></div>
-   <div><dt>{t('Quantity increment','추가 주문단위','追加注文単位')}</dt><dd>{diffuser?marketText(language,'General order: 20 or more'):approved?marketText(language,'Consultation required'):<>10 {t('units','개','個')}</>}</dd></div>
+   <div><dt>{t('Quantity increment','추가 주문단위','追加注文単位')}</dt><dd>{diffuser?<>1 {marketText(language,'unit')}</>:<>10 {t('units','개','個')}</>}</dd></div>
   </dl>
   <div className="product-sales-summary__notes"><p><b>{t('Shipping','배송','配送')}</b> {marketText(language,quantity&&quantity!=='20'&&diffuser?'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.':shippingSummary(market.code,product))}</p>
    <p><b>{t('Tax & customs','세금·통관비','税金・通関費用')}</b> {t('Excluded; payable by the recipient where applicable.','별도이며 발생 시 수취인 부담입니다.','含まれません。発生する場合は受取人の負担です。')}</p>

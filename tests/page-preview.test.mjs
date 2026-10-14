@@ -41,7 +41,7 @@ test('server checkout uses approved SG totals and ignores submitted prices (all 
 test('contact form is disabled and quantity enquiry preserves email draft context',()=>{
  const contact=fs.readFileSync(new URL('../src/pages/ContactPage.tsx',import.meta.url),'utf8');
  assert.doesNotMatch(contact,/<form|fetch\(/);const actions=fs.readFileSync(new URL("../src/components/RequestActions.tsx",import.meta.url),"utf8");assert.match(actions,/copy\(EMAIL\)/);assert.match(actions,/does not confirm an order/);
- const bulk=fs.readFileSync(new URL('../src/pages/BulkProductPage.tsx',import.meta.url),'utf8');assert.match(bulk,/Country: \$\{countryName\}/);assert.match(bulk,/orderLines.map/);assert.match(bulk,/href=\{manualPaymentHref\}/);
+ const bulk=fs.readFileSync(new URL('../src/pages/BulkProductPage.tsx',import.meta.url),'utf8');assert.match(bulk,/market:`\$\{countryName\} \(\$\{market.code\}\)`/);assert.match(bulk,/orderLines.map/);assert.match(bulk,/href=\{manualPaymentHref\}/);
 });
 
 test('Production config keeps real client ID and settings; Preview stays read-only',async()=>{

@@ -52,3 +52,11 @@
 .diffuser-quantity p { font-size:13px; line-height:1.6; }
 .diffuser-quantity p[role=alert] { color:#ae4935; }
 .business-planner__fields > .diffuser-quantity { grid-column:1/-1; }
+/* Restore functional mixed-quantity controls without loading the retired storefront sheet. */
+.cleansing-mix__row { display:grid; grid-template-columns:minmax(0,1fr) 176px; gap:12px; align-items:center; padding:14px 0; border-top:1px solid var(--v23-line,#ddd8cc); }
+.cleansing-mix__product { min-width:0; overflow-wrap:anywhere; }
+.cleansing-mix__stepper { display:grid; grid-template-columns:44px minmax(64px,1fr) 44px; min-width:0; }
+.cleansing-mix__stepper button,.cleansing-mix__stepper input { min-height:44px; width:100%; min-width:0; border:1px solid var(--v23-line,#ddd8cc); text-align:center; color:inherit; background:transparent; font:inherit; }
+.cleansing-mix__intro { display:grid; gap:8px; margin-bottom:12px; }
+.cleansing-mix__minimum { margin:12px 0; }
+@media(max-width:600px){.cleansing-mix__row{grid-template-columns:1fr}.cleansing-mix__stepper{width:100%}}

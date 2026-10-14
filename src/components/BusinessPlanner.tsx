@@ -1,6 +1,5 @@
 import {DiffuserQuantitySelector,usePurchaseQuantity} from './DiffuserQuantitySelector';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
-import {PaymentRequestPanel} from './PaymentRequestPanel';
 import {resolveCheckoutTerms} from "../../shared/checkout-terms.js";
 import {ResaleCalculator} from "./ResaleCalculator";
 import {approvedResaleTerms} from "../../shared/resale-economics.js";
@@ -44,7 +43,7 @@ export function BusinessPlanner() {
       (p) => p.slug === (params.get("product") || "diffuser-350g"),
     ) || v23Products[0];
   const [quantity,setQuantity]=usePurchaseQuantity(slug,String((market.code==='SG'?sgTerms(initialProduct)?.moq:null)??initialProduct.bulkMoq));
-  const [purpose, setPurpose] = useState(purposes[0]);
+  const [purpose, setPurpose] = useState(params.get("purpose")==="resale"?"Resale":purposes[0]);
   const [requirements,setRequirements]=useState("");
   const [timing,setTiming]=useState("");
   const [display, setDisplay] = useState(0);
@@ -78,7 +77,7 @@ export function BusinessPlanner() {
   const routeMessage=route==='direct'?'Existing checkout rules apply; final availability and payment settings are checked on the order page.':'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.';
   const facts = productFacts(product.slug);
   const approved=approvedResaleTerms(product,market.code,quantity);
-  const amount = approved ? {totalMinor:approved.totalMinor,digits:saleDecision.referenceDigits} : null;
+  const amount = saleDecision.status!=='unavailable'&&saleDecision.referenceTotalMinor!==null?{totalMinor:saleDecision.referenceTotalMinor,digits:saleDecision.referenceDigits}:null;
   const money = (minor: number) =>
     formatCurrency(
       minor / 10 ** (amount?.digits ?? 2),
@@ -88,7 +87,7 @@ export function BusinessPlanner() {
   const summary = [
     `${marketProductText(language,product.name)} · ${marketCountryName(market,language)} · ${quantity} ${t('units')}`,
     `${t("Introduction summary")}: ${t(purpose)}`,
-    `${t("Selected product amount")}: ${amount ? money(amount.totalMinor) : t("No confirmed amount")}`,
+    `${t(approved?"Selected product amount":"Reference product amount")}: ${amount ? money(amount.totalMinor) : t("No confirmed amount")}`,
     t("Review only — not a confirmed quotation or purchase order."),
     purpose==="Resale" ? resaleSummary : "",
     purpose!=="Resale" ? `${t("Placement / requirements")}: ${requirements}; ${t("Preferred timing")}: ${timing}` : "",
@@ -135,7 +134,7 @@ export function BusinessPlanner() {
           >
             {Object.values(markets).map((m) => (
               <option value={m.code} key={m.code}>
-                {marketCountryName(m, language)} · {m.currency}
+                {marketCountryName(m, language)}{!['BN','MO'].includes(m.code)&&` · ${m.currency}`}
               </option>
             ))}
           </select>
@@ -368,15 +367,14 @@ export function BusinessPlanner() {
 </>}
       <article className="introduction-print"><h3>{t('Introduction summary')}</h3><pre>{summary}</pre></article>
       {approved&&route==='direct'&&<Link className="button button--primary" to={selectionUrl('/bulk-orders/'+product.slug,{slug:product.slug,quantity,market:market.code,language,reason:'partner',purpose:purpose==='Resale'?'resale':purpose==='Display / space'?'business_use':purpose==='Group purchase'?'group_purchase':'personal_gift'})}>{t('Continue to delivery and PayPal ->')}</Link>}
-      {saleDecision.status==='request'&&<PaymentRequestPanel lines={[{product,quantity:Number(quantity)}]} purpose={t(purpose)}/>}
       <div className="planner-summary-actions"><button type="button" className="button button--ghost" onClick={()=>{document.body.dataset.printReview='1';try{window.print()}finally{delete document.body.dataset.printReview}}}>{t("Print / save as PDF")}</button></div>
       {allocation && saleDecision.status!=='unavailable' && (
         <ConsultationPanel
           key={`${product.slug}-${market.code}`}
           lines={[{ name: product.name, quantity: Number(quantity) }]}
-          reason="partner"
+          reason={saleDecision.status==='request'?"payment_request":"partner"}
           presetPurpose={t(purpose)}
-          summaryDetails={summary}
+          summaryDetails={summary+"\n\n"+(saleDecision.status==='request'?t("Please confirm the billing currency, final amount and shipping terms, and send me a PayPal payment link."):"")}
         />
       )}
     </section>
