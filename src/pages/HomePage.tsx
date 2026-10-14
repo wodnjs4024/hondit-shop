@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { V23Page, V23ProductCard } from "../components/v23/SiteChrome";
-import { EMAIL, v23Products, type StorefrontProduct } from "../data/v23SiteData";
+import { EMAIL, SHOPEE, v23Products, type StorefrontProduct } from "../data/v23SiteData";
 import { PurchasePaths, ProductComparison } from "../components/SalesDiscovery";
 import { discoveryText } from "../data/discoveryCopy";
 import { trackEvent } from "../lib/analytics";
@@ -105,7 +105,7 @@ export function HomePage() {
     <V23Page>
       <main className="v23-home">
         <section className="discovery-hero">
-          <div><p className="v23-eyebrow">HONDIT · JEJU</p><h1>{discoveryText(language,'intro')}</h1><p>{discoveryText(language,'lead')}</p><div className="discovery-hero-actions"><Link to="/bulk-orders">{marketText(language,"Overseas bundle orders")} →</Link><Link to="/jeju/pickup">{marketText(language,"Jeju pickup information")}</Link></div><p className="pickup-status">{marketText(language,"Jeju pickup is not open for reservations or payment.")}</p></div>
+          <div><p className="v23-eyebrow">HONDIT · JEJU</p><h1>{discoveryText(language,'intro')}</h1><p>{discoveryText(language,'lead')}</p><div className="discovery-hero-actions"><Link to="/bulk-orders">{marketText(language,"Overseas bundle orders")} →</Link><Link to="/jeju/pickup">{marketText(language,"Jeju pickup information")}</Link></div><p className="pickup-status">{marketText(language,"Jeju pickup by message")}</p></div>
           <figure><img src="/images/stonejeju-diffuser-product.png" alt={marketText(language,'Jeju Volcanic Stone Diffuser')} width="1200" height="1200" fetchPriority="high"/><figcaption>STONEJEJU · 350g / 500g</figcaption></figure>
         </section>
         <section className="v23-home-commerce" aria-labelledby="home-products-title">
@@ -149,7 +149,7 @@ export function HomePage() {
 
         <ProductComparison products={marketProducts} />
         <PurchasePaths />
-        <section className="discovery-section home-support"><div className="discovery-paths"><article className="discovery-path"><h2>{marketText(language,'Shops & business')}</h2><p>{marketText(language,'Product photos, specifications and published use guidance are available. Supply, dispatch timing, import rules and shipping are confirmed per order.')}</p><Link to="/partners">{marketText(language,'Plan your introduction')} →</Link></article><article className="discovery-path"><h2>{marketText(language,'Product care & follow-up')}</h2><p>{marketText(language,'Reorders require a new check of current prices, availability and delivery conditions.')}</p><Link to="/guide/diffuser-350g">350g · {marketText(language,'HOW TO USE')} →</Link><br/><Link to="/guide/diffuser-500g">500g · {marketText(language,'HOW TO USE')} →</Link></article><article className="discovery-path"><h2>{marketText(language,'TRUST & SUPPORT')}</h2><p>{marketText(language,'Jeju-based student team')}</p><p>{marketText(language,'Business registration no.')} 637-12-03059</p><a href={`mailto:${EMAIL}`}>{EMAIL}</a><p><Link to="/jeju">{marketText(language,'About HONDIT')} →</Link></p></article></div></section>
+        <section className="discovery-section home-support"><div className="discovery-paths"><article className="discovery-path"><h2>{marketText(language,'Store & business purchase guide')}</h2><p>{marketText(language,'Product photos, specifications and published use guidance are available. Supply, dispatch timing, import rules and shipping are confirmed per order.')}</p><Link to="/partners">{marketText(language,'Store & business purchase guide')} →</Link></article><article className="discovery-path"><h2>{marketText(language,'Product care & follow-up')}</h2><p>{marketText(language,'Reorders require a new check of current prices, availability and delivery conditions.')}</p><Link to="/guide/diffuser-350g">350g · {marketText(language,'HOW TO USE')} →</Link><br/><Link to="/guide/diffuser-500g">500g · {marketText(language,'HOW TO USE')} →</Link></article><article className="discovery-path"><h2>{marketText(language,'TRUST & SUPPORT')}</h2><p>{marketText(language,'Jeju-based student team')}</p><p>{marketText(language,'Business registration no.')} 637-12-03059</p><a href={`mailto:${EMAIL}`}>{EMAIL}</a><p>{marketText(language,"You can also view HONDIT products and sales activity on our Singapore Shopee store.")}</p><a className="shopee-trust-link" href={SHOPEE} target="_blank" rel="noreferrer">{marketText(language,"View Shopee store ↗")}</a><p><Link to="/jeju">{marketText(language,'About HONDIT')} →</Link></p></article></div></section>
         <section className="v23-editorial-breeze">
           <img
             src="/images/hondit-jeju-dawn-hero-v2.webp"

@@ -16,6 +16,8 @@ import {
 
 export function V23Header() {
   const partnerOnly=useLocation().pathname.startsWith("/partners/");
+  const location=useLocation();
+  const pickupOnly=location.pathname==="/jeju/pickup"||(location.pathname==="/contact"&&new URLSearchParams(location.search).get("fulfillment")==="jeju_pickup");
   const [open, setOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const { market, setMarket, language, setLanguage } = useMarket();
@@ -37,7 +39,7 @@ export function V23Header() {
 
   return (
     <>
-      {!partnerOnly&&<div className="v23-shipping-bar">
+      {!partnerOnly&&!pickupOnly&&<div className="v23-shipping-bar">
         {announcement ? marketText(language, announcement) : marketText(language, market.announcement, market.announcement)}
       </div>}
       <header className="v23-nav">
@@ -46,7 +48,7 @@ export function V23Header() {
             hondit<span>.</span>
           </Link>
           <nav className={open ? "v23-nav-links is-open" : "v23-nav-links"} aria-label="Main navigation">
-            {[['/products','Products'],['/bulk-orders','Overseas bundle orders'],['/partners','Shops & business'],['/jeju','About HONDIT']].map(([path,label])=><NavLink key={path} to={path} onClick={()=>setOpen(false)}>{marketText(language,label)}</NavLink>)}
+            {[['/products','Products'],['/bulk-orders','Overseas bundle orders'],['/partners','Store & business purchase guide'],['/jeju','About HONDIT']].map(([path,label])=><NavLink key={path} to={path} onClick={()=>setOpen(false)}>{marketText(language,label)}</NavLink>)}
           </nav>
           <div className="v23-nav-actions">
             {!partnerOnly && (
@@ -98,9 +100,11 @@ export function V23Header() {
 }
 
 export function V23Footer() {
+  const footerLocation=useLocation();
+  const pickupOnly=footerLocation.pathname==="/jeju/pickup"||(footerLocation.pathname==="/contact"&&new URLSearchParams(footerLocation.search).get("fulfillment")==="jeju_pickup");
   const partnerOnly=useLocation().pathname.startsWith("/partners/");
   const { market, language } = useMarket();
-  const footerLines = marketText(language, market.footerLine, market.footerLine).split("\n");
+  const footerLines = (pickupOnly?marketText(language,"StoneJeju 350g · Jeju designated-location pickup"):marketText(language, market.footerLine, market.footerLine)).split("\n");
 
   return (
     <footer className="v23-footer">

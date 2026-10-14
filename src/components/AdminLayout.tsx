@@ -2,7 +2,6 @@ import { NavLink, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { clearAdminToken, getAdminToken } from "../lib/bulkApi";
 
 const navItems = [
-  {to:"/admin/pickup",label:"제주 수령 · 미운영 데모"},
   { to: "/admin", label: "운영 대시보드", end: true },
   { to: "/admin/orders", label: "주문 · 배송 · 취소/환불" },
   { to: "/admin/inquiries", label: "문의 · 답장" },

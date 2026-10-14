@@ -1,0 +1,20 @@
+[
+  {
+    "quantity": "1",
+    "amount": "18,000원",
+    "copyQuantity": true,
+    "copyAmount": true
+  },
+  {
+    "quantity": "2",
+    "amount": "36,000원",
+    "copyQuantity": true,
+    "copyAmount": true
+  },
+  {
+    "quantity": "3",
+    "amount": "54,000원",
+    "copyQuantity": true,
+    "copyAmount": true
+  }
+]

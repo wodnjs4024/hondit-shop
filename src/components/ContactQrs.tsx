@@ -1,9 +1,15 @@
+import {useState} from 'react';
 import {INSTAGRAM} from '../data/v23SiteData';
 import {marketText,useMarket} from '../lib/market';
-export const contactQrs=[
+type ContactChannel={name:string;file:string;href:string;account?:string};
+export const contactQrs:ContactChannel[]=[
  {name:'WhatsApp',file:'hondit_whatsapp_qr.png',href:'https://wa.me/qr/JEM3ZMXANDWUL1'},
- {name:'Telegram',file:'hondit_telegram_qr.png',href:'https://t.me/+821033382694'},
+ {name:'Telegram',account:'+821033382694',file:'hondit_telegram_qr.png',href:'https://t.me/+821033382694'},
  {name:'WeChat',file:'hondit_wechat_qr.png',href:'https://u.wechat.com/kHt8bwuQNBpT5UVpbenp3Ok?s=2'},
- {name:'Instagram',file:'hondit_instagram_qr.png',href:INSTAGRAM},
+ {name:'Instagram',account:'@hondit.office',file:'hondit_instagram_qr.png',href:INSTAGRAM},
 ];
-export function ContactQrs(){const {language}=useMarket();return <section className="contact-qr-section"><h2>{marketText(language,'Provided contact QR')}</h2><p>{marketText(language,'App scanning and account availability still need confirmation. Opening an app does not send a message.')}</p><div className="contact-qr-grid">{contactQrs.map(q=><article key={q.name}><h3>{q.name}</h3><img src={`/images/contact/${q.file}`} alt={`${q.name} QR`} width="800" height="800" loading="lazy"/><a href={q.href} target="_blank" rel="noreferrer">{q.name} ↗</a></article>)}</div></section>}
+function Channel({channel,primary=false}:{channel:typeof contactQrs[number];primary?:boolean}){
+ const {language}=useMarket();const t=(s:string)=>marketText(language,s);const [status,setStatus]=useState('');
+ return <article className={primary?'contact-channel is-primary':'contact-channel'}><h3>{channel.name}</h3><a className={primary?'button button--primary':'text-link'} href={channel.href} target="_blank" rel="noreferrer">{t('Open messenger / add contact')} ↗</a><button type="button" onClick={async()=>{try{await navigator.clipboard.writeText(channel.account||channel.href);setStatus('Copied.')}catch{setStatus('Copy unavailable. Select the text below to copy.')}}}>{t(channel.account?'Copy account / contact':'Copy contact link')}</button><p role="status">{t(status)}</p>{status.startsWith('Copy unavailable')&&<a href={channel.href}>{channel.href}</a>}<details><summary>{t('QR for desktop or print')}</summary><img src={'/images/contact/'+channel.file} alt={channel.name+' QR'} width="800" height="800" loading="lazy"/></details></article>;
+}
+export function ContactQrs(){const {language}=useMarket();return <section className="compact-contact-channels"><Channel channel={contactQrs[0]} primary/><details className="other-channels"><summary>{marketText(language,'Other contact channels')}</summary>{contactQrs.slice(1).map(channel=><Channel key={channel.name} channel={channel}/>)}</details></section>}

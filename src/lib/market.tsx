@@ -1,4 +1,5 @@
 import {structureCopy} from "../../shared/structure-copy.js";
+import {contactCopy} from "../../shared/contact-copy.js";
 import { salesToolsCopy } from "../../shared/sales-tools-copy.js";
 import { storefrontCopy } from "../../shared/storefront-copy.js";
 import {salesCopy} from "../../shared/sales-copy.js";
@@ -2417,6 +2418,7 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 
 export function marketText(language: DisplayLanguage, english: string, fallback?: string) {
   const copyLanguage = language === "zh" || language === "zh-TW" ? "zh-HK" : language;
+  if (contactCopy[english]?.[copyLanguage]) return contactCopy[english][copyLanguage];
   if (structureCopy[english]?.[copyLanguage]) return structureCopy[english][copyLanguage];
   if (salesToolsCopy[english]?.[copyLanguage]) return salesToolsCopy[english][copyLanguage];
   if (storefrontCopy[english]?.[copyLanguage]) return storefrontCopy[english][copyLanguage];

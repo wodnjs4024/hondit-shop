@@ -108,14 +108,10 @@ export function ProductDetailPage() {
             <strong>{formatMarketUnitMoney(product, market)}</strong>
             <ProductSalesSummary product={product} />
             <div className="v23-actions">
-              {market.hasShopee && (
-                <a href={product.shopee} target="_blank" rel="noreferrer">
-                  {marketText(language, "Buy on Shopee ->", "Shopee 구매 ->")}
-                </a>
-              )}
               <Link to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Bulk checkout ->", "대량주문 ->")}</Link>
               {<Link to={`/contact?product=${product.slug}`}>{marketText(language, "Ask hondit ->", "문의하기 ->")}</Link>}
             </div>
+            {market.hasShopee&&product.shopee&&<a className="shopee-trust-link" href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"View Shopee store ↗")}</a>}
           </div>
         </section>
 

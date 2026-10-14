@@ -1,0 +1,44 @@
+[
+  {
+    "amount": "18,000 KRW",
+    "inputs": 0,
+    "lang": "en",
+    "overflow": false,
+    "sdk": false
+  },
+  {
+    "amount": "18,000원",
+    "inputs": 0,
+    "lang": "ko",
+    "overflow": false,
+    "sdk": false
+  },
+  {
+    "amount": "18,000 KRW",
+    "inputs": 0,
+    "lang": "zh-HK",
+    "overflow": false,
+    "sdk": false
+  },
+  {
+    "amount": "18,000 KRW",
+    "inputs": 0,
+    "lang": "ja",
+    "overflow": false,
+    "sdk": false
+  },
+  {
+    "amount": "18,000 KRW",
+    "inputs": 0,
+    "lang": "ms",
+    "overflow": false,
+    "sdk": false
+  },
+  {
+    "amount": "18,000 KRW",
+    "inputs": 0,
+    "lang": "th",
+    "overflow": false,
+    "sdk": false
+  }
+]
