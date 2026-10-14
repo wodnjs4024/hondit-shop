@@ -5496,3 +5496,35 @@ summary{cursor:pointer;min-height:44px;padding:12px 0}details label{display:grid
 
 /* Keep the supplied forest frame intact at every breakpoint. */
 .v23-jeju-notes article img.stonejeju-forest-scene { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; }
+/* Home film sequence uses the established green, paper and serif system. */
+.stonejeju-film { margin: 0; min-width: 0; overflow: hidden; border: 1px solid #8d8b6840; border-radius: 16px; background: #22251c; }
+.stonejeju-film video, .stonejeju-film > img { position: static; display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; opacity: 1; mix-blend-mode: normal; background: #171b16; }
+.stonejeju-film figcaption { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 16px; color: #f4f0e9; font-size: 13px; line-height: 1.5; letter-spacing: 0; text-align: left; margin: 0; }
+.stonejeju-film figcaption button { min-height: 44px; padding: 8px 14px; border: 1px solid #d6b68b80; background: transparent; color: #f4f0e9; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+.stonejeju-film figcaption button:focus-visible { outline: 3px solid #d6b68b; outline-offset: 2px; }
+.home-film-hero { grid-template-columns: 1fr 1.15fr; gap: 20px 44px; padding-block: 32px; }
+.home-film-hero .home-film-intro { grid-column: 1; grid-row: 1; }
+.home-film-hero .stonejeju-film { grid-column: 2; grid-row: 1 / 3; }
+.home-film-hero .discovery-hero-actions { grid-column: 1; grid-row: 2; margin-top: 0; align-self: start; }
+.home-film-hero h1 { margin: 12px 0; font-size: clamp(30px, 3.4vw, 50px); }
+.home-nature-story { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; min-height: 0; padding: 48px max(24px, calc((100% - 1240px)/2)); }
+.home-nature-story > div { width: 100%; padding: 0; }
+.home-nature-story h2 { font-size: clamp(28px, 3vw, 42px); line-height: 1.2; }
+.home-coast-reference { margin: 24px 0 0; }
+.home-nature-story .home-coast-reference img { position: static; width: min(100%, 320px); height: auto; aspect-ratio: 16 / 9; opacity: 1; border-radius: 10px; }
+.home-coast-reference figcaption { font-size: 12px; color: #d2d5ca; margin-top: 6px; }
+.home-material-story .stonejeju-film { grid-column: 1; grid-row: 1 / 3; align-self: center; }
+@media(max-width:760px) {
+  .home-film-hero { grid-template-columns: 1fr; padding: 20px; gap: 14px; }
+  .home-film-hero .home-film-intro { grid-column: 1; grid-row: 1; }
+  .home-film-hero .stonejeju-film { grid-column: 1; grid-row: 2; }
+  .home-film-hero .discovery-hero-actions { grid-column: 1; grid-row: 3; gap: 8px; }
+  .home-film-hero .v23-eyebrow { margin: 0; }
+  .home-film-hero h1 { font-size: 28px; margin: 8px 0; }
+  .home-film-hero .home-film-intro > p:last-child { font-size: 14px; line-height: 1.5; margin: 8px 0 0; }
+  .stonejeju-film figcaption { padding: 10px 12px; font-size: 12px; }
+  .home-nature-story { grid-template-columns: 1fr; padding: 32px 20px; gap: 24px; }
+}
+@media(max-width:680px) { .home-material-story .stonejeju-film { grid-column: 1; grid-row: 2; } }
+
+.stonejeju-film > .v23-diffuser-guide__links { margin: 0; padding: 0 16px 16px; }
