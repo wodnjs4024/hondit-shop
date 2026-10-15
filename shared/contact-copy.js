@@ -13,9 +13,9 @@ const rows = {
  'View Shopee store ↗':['Shopee 스토어 보기 ↗','查看 Shopee 商店 ↗','Shopeeストアを見る ↗','Lihat kedai Shopee ↗','ดูร้าน Shopee ↗'],
  'You can also view HONDIT products and sales activity on our Singapore Shopee store.':['싱가포르 Shopee에서도 HONDIT의 상품과 판매 활동을 확인할 수 있습니다.','您也可在新加坡 Shopee 商店查看 HONDIT 商品與銷售活動。','シンガポールのShopeeストアでもHONDITの商品と販売活動をご覧いただけます。','Lihat juga produk dan aktiviti jualan HONDIT di kedai Shopee Singapura kami.','ดูสินค้าและกิจกรรมการขาย HONDIT ได้ที่ร้าน Shopee สิงคโปร์'],
  'Jeju pickup by message':['메시지로 제주 수령 요청','以訊息申請濟州取貨','メッセージで済州受取を依頼','Minta pengambilan Jeju melalui mesej','ขอรับสินค้าที่เชจูทางข้อความ'],
- 'StoneJeju 350g · Jeju designated-location pickup':['StoneJeju 디퓨저 350g · 제주 지정 장소 수령','StoneJeju 350g · 濟州指定地點取貨','StoneJeju 350g · 済州指定場所での受取','StoneJeju 350g · Pengambilan di lokasi ditetapkan di Jeju','StoneJeju 350g · รับที่จุดนัดหมายในเชจู'],
- 'Handover is at a designated place in Jeju. Confirm airport availability, time, exact location and payment method by message. No island-wide delivery or international individual shipping.':['제주 지정 장소에서 직접 전달합니다. 공항 인계 가능 시간·정확한 장소·결제 방법은 메시지로 확인해주세요. 제주 전역 배달·해외 개별배송은 제공하지 않습니다.','於濟州指定地點交收。機場交收時間、確切地點及付款方式請以訊息確認。不提供全島配送或海外單件寄送。','済州の指定場所で直接お渡しします。空港での対応時間・正確な場所・支払方法はメッセージでご確認ください。島内全域配達・海外個別配送はありません。','Serahan di lokasi ditetapkan di Jeju. Sahkan ketersediaan di lapangan terbang, masa, lokasi tepat dan cara bayaran melalui mesej. Tiada penghantaran seluruh pulau atau penghantaran individu ke luar negara.','ส่งมอบที่จุดนัดหมายในเชจู โปรดยืนยันเวลารับที่สนามบิน สถานที่และวิธีชำระเงินทางข้อความ ไม่มีบริการส่งทั่วเกาะหรือส่งต่างประเทศรายชิ้น'],
- 'Select quantity → send your request → confirm time, place and payment method → collect.':['수량 선택 → 구매 요청 문구 전송 → 시간·장소·결제 방법 확인 → 수령','選擇數量 → 傳送購買要求 → 確認時間、地點與付款方式 → 取貨','数量を選択 → 購入依頼を送信 → 時間・場所・支払方法を確認 → 受取','Pilih kuantiti → hantar permintaan → sahkan masa, tempat dan cara bayaran → ambil.','เลือกจำนวน → ส่งคำขอซื้อ → ยืนยันเวลา สถานที่และวิธีชำระเงิน → รับสินค้า'],
+ "StoneJeju 350g · Jeju Airport pickup":["StoneJeju 디퓨저 350g · 제주공항 수령","StoneJeju 350g · 濟州機場交收","StoneJeju 350g · 済州空港受取","StoneJeju 350g · Pengambilan di Lapangan Terbang Jeju","StoneJeju 350g · รับที่สนามบินเชจู"],
+ "Collect at Jeju Airport on arrival or departure day. Arrange the time and airport meeting point by message in advance.":["도착일 또는 출국일에 제주공항에서 전달합니다. 전달 시간과 공항 안의 만남 지점은 미리 메시지로 조율해주세요.","抵達或離境當天於濟州機場交收。請提前以訊息協調時間及機場內會面地點。","到着日または出発日に済州空港でお渡しします。時間と空港内の待合せ場所は事前にメッセージでご相談ください。","Ambil di Lapangan Terbang Jeju pada hari ketibaan atau berlepas. Aturkan masa dan tempat pertemuan dalam lapangan terbang melalui mesej terlebih dahulu.","รับที่สนามบินเชจูในวันมาถึงหรือวันเดินทางออก โปรดตกลงเวลาและจุดพบภายในสนามบินล่วงหน้าทางข้อความ"],
+ "Select quantity → add our contact → send the template → confirm airport handover → collect.":["수량 선택 → 친구 추가 → 양식 전송 → 공항 전달 일정 확인 → 수령","選擇數量 → 新增聯絡人 → 傳送範本 → 確認機場交收安排 → 領取","数量選択 → 友だち追加 → テンプレート送信 → 空港受取日程確認 → 受取","Pilih kuantiti → tambah kenalan → hantar templat → sahkan serahan lapangan terbang → ambil.","เลือกจำนวน → เพิ่มเพื่อน → ส่งแบบฟอร์มข้อความ → ยืนยันการส่งมอบที่สนามบิน → รับสินค้า"],
  'Copying a request or opening an app does not confirm an order. Review and send the message yourself.':['문구 복사나 메신저 열기만으로 주문이 확정되지는 않습니다. 내용을 확인하고 직접 전송해주세요.','複製要求或開啟應用程式不代表訂單已確認。請自行核對並傳送。','文面のコピーやアプリを開くだけでは注文は確定しません。確認してご自身で送信してください。','Menyalin permintaan atau membuka aplikasi tidak mengesahkan pesanan. Semak dan hantar mesej sendiri.','การคัดลอกข้อความหรือเปิดแอปไม่ถือว่ายืนยันคำสั่งซื้อ โปรดตรวจสอบและส่งข้อความด้วยตนเอง'],
  'Copy purchase request':['구매 요청 문구 복사','複製購買要求','購入依頼文をコピー','Salin permintaan pembelian','คัดลอกคำขอซื้อ'],
  'Copy request text':['요청 문구 복사','複製要求文案','依頼文をコピー','Salin teks permintaan','คัดลอกข้อความคำขอ'],
@@ -30,15 +30,69 @@ const rows = {
 };
 export const contactCopy=Object.fromEntries(Object.entries(rows).map(([en,values])=>[en,Object.fromEntries(['ko','zh-HK','ja','ms','th'].map((lang,i)=>[lang,values[i]]))]));
 const templates={
- en:['Hello. I would like to purchase for pickup in Jeju.','Product: StoneJeju diffuser 350g','Quantity','units','Product amount','Preferred pickup date / time:'],
- ko:['안녕하세요. 제주 수령으로 구매하고 싶습니다.','상품: StoneJeju 디퓨저 350g','수량','개','상품금액','희망 수령일·시간:'],
- 'zh-HK':['您好，我想購買並於濟州取貨。','商品：StoneJeju 擴香 350g','數量','件','商品金額','希望取貨日期及時間：'],
- ja:['こんにちは。済州での受取で購入を希望します。','商品：StoneJeju ディフューザー 350g','数量','個','商品代金','希望受取日・時間：'],
- ms:['Helo. Saya ingin membeli untuk pengambilan di Jeju.','Produk: penyebar StoneJeju 350g','Kuantiti','unit','Jumlah produk','Tarikh / masa pengambilan pilihan:'],
- th:['สวัสดี ต้องการซื้อเพื่อรับสินค้าที่เชจู','สินค้า: StoneJeju หินกระจายกลิ่น 350g','จำนวน','ชิ้น','มูลค่าสินค้า','วันและเวลารับสินค้าที่ต้องการ:']
+  "en": [
+    "Hello. I would like to purchase for pickup at Jeju Airport.",
+    "Product: StoneJeju diffuser 350g",
+    "Quantity",
+    "units",
+    "Product amount",
+    "Preferred pickup date / time:",
+    "Pickup location: Jeju Airport",
+    "Pickup day: arrival / departure"
+  ],
+  "ko": [
+    "안녕하세요. 제주공항 수령으로 구매하고 싶습니다.",
+    "상품: StoneJeju 디퓨저 350g",
+    "수량",
+    "개",
+    "상품금액",
+    "희망 수령일·시간:",
+    "수령 장소: 제주공항",
+    "수령 구분: 도착일 / 출국일"
+  ],
+  "zh-HK": [
+    "您好，我想購買並於濟州機場交收。",
+    "商品：StoneJeju 擴香 350g",
+    "數量",
+    "件",
+    "商品金額",
+    "希望取貨日期及時間：",
+    "交收地點：濟州機場",
+    "交收日期類型：抵達日／離境日"
+  ],
+  "ja": [
+    "こんにちは。済州空港での受取で購入を希望します。",
+    "商品：StoneJeju ディフューザー 350g",
+    "数量",
+    "個",
+    "商品代金",
+    "希望受取日・時間：",
+    "受取場所：済州空港",
+    "受取日区分：到着日／出発日"
+  ],
+  "ms": [
+    "Helo. Saya ingin membeli untuk pengambilan di Lapangan Terbang Jeju.",
+    "Produk: penyebar StoneJeju 350g",
+    "Kuantiti",
+    "unit",
+    "Jumlah produk",
+    "Tarikh / masa pengambilan pilihan:",
+    "Lokasi pengambilan: Lapangan Terbang Jeju",
+    "Hari pengambilan: ketibaan / berlepas"
+  ],
+  "th": [
+    "สวัสดี ต้องการซื้อเพื่อรับสินค้าที่สนามบินเชจู",
+    "สินค้า: StoneJeju หินกระจายกลิ่น 350g",
+    "จำนวน",
+    "ชิ้น",
+    "มูลค่าสินค้า",
+    "วันและเวลารับสินค้าที่ต้องการ:",
+    "จุดรับสินค้า: สนามบินเชจู",
+    "วันรับสินค้า: วันมาถึง / วันเดินทางออก"
+  ]
 };
 export function pickupRequestTotal(quantity){if(!Number.isInteger(quantity)||quantity<1||quantity>3)throw Error('Pickup quantity must be 1–3');return quantity*18000;}
 export function pickupRequestMessage(quantity,language='en'){
  const total=pickupRequestTotal(quantity);const lang=language.startsWith('zh')?'zh-HK':language;const l=templates[lang]||templates.en;
- return [l[0],'',l[1],`${l[2]}: ${quantity}${lang==='ko'||lang==='ja'?'':' '}${lang==='en'&&quantity===1?'unit':l[3]}`,`${l[4]}: ${total.toLocaleString('en-US')}${lang==='ko'?'원':' KRW'}`,l[5]].join('\n');
+ return [l[0],'',l[1],`${l[2]}: ${quantity}${lang==='ko'||lang==='ja'?'':' '}${lang==='en'&&quantity===1?'unit':l[3]}`,`${l[4]}: ${total.toLocaleString('en-US')}${lang==='ko'?'원':' KRW'}`,l[6],l[7],l[5]].join('\n');
 }

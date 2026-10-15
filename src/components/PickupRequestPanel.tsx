@@ -25,7 +25,7 @@ export function PickupRequestPanel({initialQuantity=1}:{initialQuantity?:number}
  <tbody>{[1,2,3].map(q=><tr key={q} className={quantity===q?'is-selected':''}><th scope="row">{q} {language==='en'&&q===1?'unit':t('units')}</th><td>{money(pickupRequestTotal(q))}</td><td>{proposedUnitPrice===null?t('Awaiting price approval'):money(q*proposedUnitPrice)}</td></tr>)}</tbody></table></div>
  <label className="pickup-quantity">{t('Order quantity')}<select value={quantity} onChange={e=>{const q=Number(e.target.value);if([1,2,3].includes(q))setQuantity(q)}}>{[1,2,3].map(q=><option key={q} value={q}>{q} {language==='en'&&q===1?'unit':t('units')}</option>)}</select></label>
  <div className="pickup-total-summary"><span>{name(product)} · {t('Product amount')}</span><output className="pickup-request-total" aria-live="polite">{money(total)}</output></div>
- {proposed?<p role="status">{t('Local review only · proposed price · ordering unavailable')}</p>:<><p>{t('Select quantity → send your request → confirm time, place and payment method → collect.')}</p><RequestActions body={pickupRequestMessage(quantity,language)} purchase channels/></>}
- <p>{t('Handover is at a designated place in Jeju. Confirm airport availability, time, exact location and payment method by message. No island-wide delivery or international individual shipping.')}</p>
+ {proposed?<p role="status">{t('Local review only · proposed price · ordering unavailable')}</p>:<><p>{t('Select quantity → add our contact → send the template → confirm airport handover → collect.')}</p><RequestActions body={pickupRequestMessage(quantity,language)} purchase channels/></>}
+ <p>{t('Collect at Jeju Airport on arrival or departure day. Arrange the time and airport meeting point by message in advance.')}</p>
  </section>;
 }

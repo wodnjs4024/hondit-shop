@@ -1,0 +1,168 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "lang": "ko",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 1440,
+      "lang": "en",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 1440,
+      "lang": "ja",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 1440,
+      "lang": "zh-HK",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 1440,
+      "lang": "ms",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 1440,
+      "lang": "th",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 768,
+      "lang": "ko",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 768,
+      "lang": "en",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 768,
+      "lang": "ja",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 768,
+      "lang": "zh-HK",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 768,
+      "lang": "ms",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 768,
+      "lang": "th",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 390,
+      "lang": "ko",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 390,
+      "lang": "ja",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 390,
+      "lang": "zh-HK",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 390,
+      "lang": "ms",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    },
+    {
+      "width": 390,
+      "lang": "th",
+      "airportCopy": true,
+      "amount54000": true,
+      "channelsBeforeTemplate": true,
+      "clipboard": true,
+      "noPaymentSdk": true
+    }
+  ],
+  "writes": 0,
+  "actualMessagesSent": false
+}
