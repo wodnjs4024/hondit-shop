@@ -219,12 +219,14 @@ export function PolicyPage() {
     <V23Page>
       <main className="v23-policy-page">
         <article className="v23-policy-shell">
+          <header className="v23-policy-head">
           <p className="v23-eyebrow">
             <span /> {marketText(language,"HONDIT POLICY")}
           </p>
           <h1>{marketText(language,content.title)}</h1>
           {language !== "en" && language!=="ko" && language!=="ja" && !language.startsWith("zh") && <p role="note">{marketText(language,"Policy text is currently available in English. The original wording is shown below.")}</p>}
           <p className="v23-policy-intro" lang={language}>{translate(content.intro)}</p>
+          </header>
           {content.sections.map((section) => (
             <section className="v23-policy-section" lang={language} key={translate(section.heading)}>
               <h2>{translate(section.heading)}</h2>

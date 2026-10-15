@@ -366,3 +366,73 @@ body.hd-site .v23-map-tabs button:not(.is-active) span { color: #f2c3a8; }
 body.hd-site main .contact-channel > h2.contact-channel__name { font-size: var(--t-h3) !important; font-weight: 600 !important; margin: 0; }
 body.hd-site .v23-map-copy > span { color: #56645d; }
 body.hd-site .v23-asia-route-card small { color: #56645d; }
+
+/* =====================================================================
+ * Impeccable layout pass: one frame for every page
+ * Browsing pages use the full frame; reading and task pages put the title
+ * on the left and the content in one measured column on the right.
+ * ===================================================================== */
+body.hd-site { --frame: 1600px; --measure: 760px; --section-gap: 96px; }
+@media (max-width: 1023px) { body.hd-site { --section-gap: 72px; } }
+@media (max-width: 639px) { body.hd-site { --section-gap: 48px; } }
+
+/* Title-left / content-right pages share the gutter with the header logo. */
+body.hd-site main:is(.v23-policy-page, .contact-simple, .pickup-simple, .product-guide-page) {
+  box-sizing: border-box; width: 100%; max-width: var(--frame); margin: 0 auto;
+  padding: 56px var(--hd-gutter) var(--section-gap);
+  display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: 64px; row-gap: 0; align-items: start;
+}
+body.hd-site main.v23-policy-page > .v23-policy-shell { display: contents; }
+body.hd-site main:is(.v23-policy-page, .contact-simple, .pickup-simple, .product-guide-page) > *,
+body.hd-site main.v23-policy-page > .v23-policy-shell > * { grid-column: 2; max-width: var(--measure); min-width: 0; margin-top: 0; }
+body.hd-site main:is(.contact-simple, .pickup-simple, .product-guide-page) > header,
+body.hd-site main.v23-policy-page .v23-policy-head {
+  grid-column: 1; grid-row: 1 / span 14; position: sticky; top: 96px; align-self: start; display: grid; gap: 14px; margin: 0; max-width: 420px;
+}
+body.hd-site main.product-guide-page > img { grid-column: 1; grid-row: 2 / span 12; width: 100%; max-width: 420px; height: auto; margin-top: 24px; background: var(--hd-tile); }
+body.hd-site main.product-guide-page > header { grid-row: 1; position: static; }
+body.hd-site main:is(.v23-policy-page, .contact-simple, .pickup-simple, .product-guide-page) > :not(header):not(img) + * { margin-top: 24px; }
+body.hd-site main.v23-policy-page .v23-policy-section { background: transparent !important; padding: 24px 0 !important; border-top: 1px solid var(--hd-line) !important; }
+body.hd-site main.v23-policy-page .v23-policy-section:first-of-type { border-top-color: var(--hd-line-strong) !important; }
+body.hd-site main.v23-policy-page .v23-policy-section h2 { margin-bottom: 10px; }
+body.hd-site main.v23-policy-page .v23-policy-section ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+body.hd-site main.v23-policy-page .v23-policy-actions { display: flex; flex-wrap: wrap; gap: 8px 24px; padding-top: 24px; border-top: 1px solid var(--hd-line-strong); }
+body.hd-site main.contact-simple .request-panel, body.hd-site main.pickup-simple .pickup-message-panel { max-width: var(--measure); }
+@media (max-width: 1023px) {
+  body.hd-site main:is(.v23-policy-page, .contact-simple, .pickup-simple, .product-guide-page) { grid-template-columns: minmax(0, 1fr); padding-top: 32px; }
+  body.hd-site main:is(.v23-policy-page, .contact-simple, .pickup-simple, .product-guide-page) > *,
+  body.hd-site main.v23-policy-page > .v23-policy-shell > *,
+  body.hd-site main:is(.contact-simple, .pickup-simple, .product-guide-page) > header,
+  body.hd-site main.v23-policy-page .v23-policy-head,
+  body.hd-site main.product-guide-page > img { grid-column: 1; grid-row: auto; position: static; max-width: var(--measure); }
+  body.hd-site main:is(.contact-simple, .pickup-simple, .product-guide-page) > header, body.hd-site main.v23-policy-page .v23-policy-head { margin-bottom: 24px; }
+  body.hd-site main.product-guide-page > img { max-width: 360px; margin: 0 0 24px; }
+}
+
+/* Browsing pages: every section lands on the same frame and left edge. */
+body.hd-site main.partner-discovery > :is(section, .business-order-note, details),
+body.hd-site main.v23-shipping-page > section,
+body.hd-site main.stockist-page > *,
+body.hd-site .hd-pdp__specs {
+  box-sizing: border-box; max-width: var(--frame) !important; width: 100% !important; margin-left: auto !important; margin-right: auto !important;
+  padding-left: var(--hd-gutter) !important; padding-right: var(--hd-gutter) !important;
+}
+body.hd-site main.partner-discovery > section + section { margin-top: 0; padding-top: var(--section-gap) !important; }
+body.hd-site .hd-pdp__specs > * { max-width: none !important; width: 100%; }
+body.hd-site .hd-pdp__specs .sales-tools-section { margin: 0 !important; }
+
+/* Product detail gallery: one crop for secondary photos so the grid reads as a set. */
+.hd-pdp__photo { aspect-ratio: 1 / 1; overflow: hidden; }
+.hd-pdp__photo img { width: 100%; height: 100%; object-fit: cover; }
+.hd-pdp__gallery .hd-pdp__photo:last-child:nth-child(even) { grid-column: auto; }
+.hd-pdp__gallery .hd-pdp__photo:nth-child(2):last-child { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+
+/* Partners opening: picture at the size of the other page openings. */
+body.hd-site main.partner-discovery .discovery-hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: center; padding-top: 56px !important; padding-bottom: 24px !important; }
+body.hd-site main.partner-discovery .discovery-hero figure, body.hd-site main.partner-discovery .discovery-hero img { width: 100%; max-width: none; height: auto; aspect-ratio: 16 / 10; object-fit: cover; margin: 0; }
+@media (max-width: 1023px) { body.hd-site main.partner-discovery .discovery-hero { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+body.hd-site main.stockist-page { max-width: none !important; width: 100%; padding-left: 0 !important; padding-right: 0 !important; }
+body.hd-site main.product-guide-page > button { justify-self: start; width: auto; }
+body.hd-site main:is(.product-guide-page, .partner-discovery) .sales-tools-section { max-width: none; width: 100%; margin: 0 !important; padding: 24px 0 0 !important; border: 0 !important; border-top: 1px solid var(--hd-line-strong) !important; background: transparent !important; box-sizing: border-box; }
+body.hd-site main.partner-discovery > .sales-tools-section, body.hd-site main.partner-discovery > details { margin-top: var(--section-gap) !important; }
+body.hd-site main.v23-policy-page .v23-policy-actions a { color: var(--hd-ink); text-decoration: underline; text-underline-offset: 4px; min-height: 44px; display: inline-flex; align-items: center; }
