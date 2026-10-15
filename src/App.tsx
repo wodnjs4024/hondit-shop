@@ -1,5 +1,4 @@
 import {JejuPickupPage} from "./pages/JejuPickupPage";
-import {JejuStoresPage} from "./pages/JejuStoresPage";
 import {ProductGuidePage} from "./pages/ProductGuidePage";
 // Consultation URLs accept only public identifiers. Never retain free text or contact details.
 if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.location.pathname===path || window.location.pathname.startsWith(path+'/'))) {
@@ -10,7 +9,7 @@ if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.
 import {PartnersPage} from "./pages/PartnersPage";
 import {PartnerGuidePage} from "./pages/PartnerGuidePage";
 import { lazy, Suspense, useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { getCampaignLandingEventName, trackEvent, trackPageView } from "./lib/analytics";
 import { MarketProvider, MarketSelectionDialog } from "./lib/market";
 import { getShortCampaign } from "./lib/shortCampaign";
@@ -105,7 +104,6 @@ const policyMeta: Record<string, { title: string; description: string }> = {
 
 function routeMeta(pathname: string): PageMeta {
   if(pathname==="/jeju/pickup")return {title:"Jeju pickup information | HONDIT",description:"StoneJeju 350g pickup requests by message; confirm time, place and payment method before collecting.",robots:"noindex,follow",image:defaultOgImage};
-  if(pathname==="/jeju/stores")return {title:"Meet StoneJeju in Jeju | hondit",description:"Supplier-listed locations and verified location sources. Check stock before visiting.",robots:"index,follow",image:defaultOgImage};
   if(pathname.startsWith("/guide/"))return {title:"Product care & follow-up | hondit",description:"Product use, care and consultation.",robots:"noindex,follow",image:defaultOgImage};
   if(pathname==='/partners')return {title:'Store & business purchase guide | hondit',description:'Review products, approved bundle prices and sales support. Order eligible bundles directly or contact HONDIT for additional requests.',robots:'index,follow',image:defaultOgImage};
   if(pathname.startsWith('/partners/'))return {title:'Partner product guide | hondit',description:'Partner product information.',robots:'noindex,nofollow',image:defaultOgImage};
@@ -340,7 +338,7 @@ export default function App() {
         <Route path="/bulk-orders" element={<BulkOrdersPage />} />
         <Route path="/bulk-orders/:slug" element={<BulkProductPage />} />
         <Route path="/jeju/pickup" element={<JejuPickupPage />} />
-        <Route path="/jeju/stores" element={<JejuStoresPage />} />
+        <Route path="/jeju/stores" element={<Navigate to={`/jeju${location.search}`} replace />} />
         <Route path="/guide/:productId" element={<ProductGuidePage />} />
         <Route path="/partners" element={<PartnersPage />} />
         <Route path="/partners/:slug" element={<PartnerGuidePage />} />
