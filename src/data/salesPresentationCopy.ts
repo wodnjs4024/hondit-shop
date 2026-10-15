@@ -15,7 +15,7 @@ const copy:Record<string,readonly string[]>={
     "도착일·출국일 공항 전달",
     "제주공항에서 전달합니다. 공항 안의 정확한 만남 지점은 메시지로 확인해주세요. 제주 전역 배달이나 해외 개별배송은 제공하지 않습니다.",
     "도착일 또는 출국일, 미리 예약하고 제주공항에서 받으세요.",
-    "제주 해안 풍경. 실제 수령 장소를 표시한 사진이 아닙니다.",
+    "제주국제공항 터미널 외관",
     "현지 세금 및 통관 관련 비용은 배송 국가의 정책에 따라 달라질 수 있습니다.",
     "해당 비용은 HONDIT가 선납하는 가격에 포함되지 않습니다. 비용이 발생하면 현지 세관 또는 운송사가 수취인에게 안내·청구할 수 있습니다.",
     "배송·통관 안내"
@@ -34,7 +34,7 @@ const copy:Record<string,readonly string[]>={
     "Arrival or departure day handover",
     "We meet at Jeju Airport. Confirm the exact meeting point inside the airport by message. No island-wide delivery or international individual shipping.",
     "Reserve ahead and collect at Jeju Airport on arrival or departure day.",
-    "Jeju coastal scenery, not a designated collection point.",
+    "Exterior of the Jeju International Airport terminal",
     "Local taxes and customs-related charges may vary with the destination’s policies.",
     "These charges are not prepaid by HONDIT or included in the price. If applicable, local customs or the carrier may notify and collect them from the recipient.",
     "Delivery & customs guide"
@@ -53,7 +53,7 @@ const copy:Record<string,readonly string[]>={
     "到着日・出発日に空港でお渡し",
     "済州空港でお渡しします。空港内の詳しい待合せ場所はメッセージで確認してください。島内全域配達・海外個別配送はありません。",
     "事前に予約し、到着日または出発日に済州空港でお受け取り。",
-    "済州の海岸風景です。指定受取場所の写真ではありません。",
+    "済州国際空港ターミナルの外観",
     "現地の税金・通関関連費用は配送先の規定により異なります。",
     "これらの費用は価格に含まれず、HONDITによる前払いはありません。発生する場合、現地税関または運送会社から受取人に案内・請求されることがあります。",
     "配送・通関のご案内"
@@ -72,7 +72,7 @@ const copy:Record<string,readonly string[]>={
     "抵達或離境當天交收",
     "於濟州機場交收。機場內確切會面地點請透過訊息確認。不提供全島配送或海外單件寄送。",
     "提前預約，抵達或離境當天於濟州機場領取。",
-    "濟州海岸風景，並非指定交收地點。",
+    "濟州國際機場客運大樓外觀",
     "當地稅項及通關相關費用可能因配送目的地政策而異。",
     "此類費用不包含在價格內，亦非由HONDIT預付。如有產生，當地海關或承運商可能向收件人通知及收取。",
     "配送及通關指南"
@@ -91,7 +91,7 @@ const copy:Record<string,readonly string[]>={
     "Serahan pada hari ketibaan atau berlepas",
     "Serahan di Lapangan Terbang Jeju. Sahkan tempat pertemuan tepat dalam lapangan terbang melalui mesej. Tiada penghantaran seluruh pulau atau antarabangsa individu.",
     "Tempah awal dan ambil di Lapangan Terbang Jeju pada hari ketibaan atau berlepas.",
-    "Pemandangan pantai Jeju, bukan lokasi pengambilan ditetapkan.",
+    "Bahagian luar terminal Lapangan Terbang Antarabangsa Jeju",
     "Cukai tempatan dan caj kastam mungkin berbeza mengikut dasar destinasi penghantaran.",
     "Caj ini tidak termasuk dalam harga dan tidak dibayar awal oleh HONDIT. Jika berkenaan, kastam tempatan atau pengangkut mungkin memaklumkan dan mengutip daripada penerima.",
     "Panduan penghantaran & kastam"
@@ -110,7 +110,7 @@ const copy:Record<string,readonly string[]>={
     "ส่งมอบวันมาถึงหรือวันเดินทางออก",
     "ส่งมอบที่สนามบินเชจู โปรดยืนยันจุดพบภายในสนามบินทางข้อความ ไม่มีบริการส่งทั่วเกาะหรือส่งต่างประเทศรายชิ้น",
     "จองล่วงหน้าและรับที่สนามบินเชจูในวันมาถึงหรือวันเดินทางออก",
-    "ทิวทัศน์ชายฝั่งเชจู ไม่ใช่จุดรับสินค้าที่กำหนด",
+    "ภายนอกอาคารผู้โดยสารสนามบินนานาชาติเชจู",
     "ภาษีท้องถิ่นและค่าใช้จ่ายศุลกากรอาจต่างกันตามนโยบายของประเทศปลายทาง",
     "ค่าใช้จ่ายเหล่านี้ไม่รวมในราคาและ HONDIT ไม่ได้ชำระล่วงหน้า หากเกิดค่าใช้จ่าย ศุลกากรท้องถิ่นหรือผู้ขนส่งอาจแจ้งและเรียกเก็บจากผู้รับ",
     "คู่มือจัดส่งและศุลกากร"
