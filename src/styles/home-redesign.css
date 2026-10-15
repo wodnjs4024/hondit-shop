@@ -451,3 +451,17 @@
   .hd-compare__price td { font-size: 18px !important; }
   .hd-compare__actions td > * { display: flex; width: 100%; margin: 0 0 6px; justify-content: center; }
 }
+
+/* ---------- Review pass (Taste · UI/UX Pro Max · Impeccable) ---------- */
+/* One type scale for section titles: display, section, item. */
+:root { --hd-size-section: clamp(28px, 2.5vw, 36px); --hd-size-item: 24px; }
+.hd-overlay h2, .hd-bar h2, .hd-buy__copy h2 { font-size: var(--hd-size-section); }
+:is(.hd-home, .hd-page) .hd-use h3, :lang(en) :is(.hd-home, .hd-page) .hd-use h3, :lang(ms) :is(.hd-home, .hd-page) .hd-use h3, .hd-compare__name, .hd-home > .discovery-section .discovery-heading h2 { font-size: var(--hd-size-item); }
+@media (max-width: 639px) { :root { --hd-size-section: 26px; --hd-size-item: 20px; } .hd-compare__name { font-size: 18px; } }
+
+/* Film captions sit on the same dark chip as the pause control instead of a text shadow. */
+.hd-home .stonejeju-film figcaption { text-shadow: none; }
+.hd-home .stonejeju-film figcaption > span:first-child { padding: 6px 10px; background: rgba(18, 22, 18, 0.55); }
+
+/* Focus is never hidden under the sticky header or the mobile bar. */
+html:has(body.hd-site) { scroll-padding-top: 80px; scroll-padding-bottom: 88px; }
