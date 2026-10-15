@@ -178,7 +178,7 @@ export function HomeFooter() {
 }
 
 /** Browsing pages only. On the home it waits until the hero has gone; everywhere it steps aside for the footer. */
-const barPaths = /^\/($|products(\/|$)|jeju\/?$|jeju\/stores|guide\/|shipping|policy\/)/;
+const barPaths = /^\/($|products\/?$|jeju\/?$|jeju\/stores|guide\/|shipping|policy\/)/;
 export function HomeMobileBar() {
   const { language } = useMarket();
   const location = useLocation();

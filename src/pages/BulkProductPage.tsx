@@ -1,6 +1,7 @@
 import {orderPanelCopy} from "../data/orderPanelCopy";
 import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
 import {CheckoutAvailability} from "../components/CheckoutAvailability";
+import {OrderBar} from "../components/OrderBar";
 import {checkoutFlowCopy} from "../data/checkoutFlowCopy";
 import {consultationBody,consultationMailto} from '../../shared/consultation.js';
 import {readMixSelection,writeMixSelection} from '../../shared/mix-selection.js';
@@ -141,6 +142,7 @@ export function BulkProductPage() {
     mode: fallbackPayPalMode,
   });
   const sdkRef=useRef<PayPalSdk|null>(null);
+  const summaryRef=useRef<HTMLElement|null>(null);
   const formRef = useRef(initialForm);
   const orderLinesRef = useRef<OrderLine[]>([]);
   const productRef = useRef<BulkProduct | null>(null);
@@ -481,19 +483,41 @@ export function BulkProductPage() {
     return <Navigate to={`/bulk-orders/${firstAllowedProduct.slug}`} replace />;
   }
 
+  const o=orderPanelCopy(language);
+  const terms=selectionDecision as {shippingIncluded?:boolean;shippingMinor?:number|null;billingCurrency?:string|null;referenceUnitMinor?:number|null;referenceDigits?:number;displayCurrency?:string|null};
+  const displayCurrency=terms.displayCurrency?String(terms.displayCurrency):market.currency;
+  const directTerms=selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision;
+  const unitsText=Number.isSafeInteger(totalUnits)&&totalUnits>0?`${totalUnits} ${o.units}`:"—";
+  const totalText=invalidQuantity?"—":formatCurrency(marketTotal,displayCurrency,market.locale);
+  const unitText=!isCleansingMix&&!invalidQuantity&&terms.referenceUnitMinor!=null?formatCurrency(terms.referenceUnitMinor/10**(terms.referenceDigits??2),displayCurrency,market.locale):null;
+  const shippingText=directTerms?(terms.shippingIncluded?o.included:formatCurrency(terms.shippingMinor!/10**paypalCurrencyDigits(terms.billingCurrency!),terms.billingCurrency!,market.locale)):o.confirm;
+  const summaryCta=soldOut||invalidQuantity?null:inquiryOnly?{href:"#payment-request",label:checkoutChargeCopy(language).quote}:deliveryChecked?{href:"#paypal-payment-step",label:o.toPay}:{href:"#shipping-step",label:o.toShipping};
+  /* One order summary: the only place quantity, unit price, shipping and the total are stated together. */
+  const summary=<aside className="checkout-summary" ref={summaryRef} aria-label={o.summary}>
+    <div className="checkout-summary__core">
+      <h2 className="checkout-summary__title">{o.summary}</h2>
+      <div className="checkout-summary__product">
+        <figure className="bulk-detail__image"><img src={isCleansingMix ? "/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp" : product.imageUrl} alt={productName}/></figure>
+        <p><strong>{productName}</strong>{!isCleansingMix&&productVolume&&<span>{productVolume}</span>}</p>
+      </div>
+      <dl className="order-lines">
+        <div><dt>{o.quantity}</dt><dd>{unitsText}</dd></div>
+        {unitText&&<div><dt>{o.unit}</dt><dd>{unitText}</dd></div>}
+        <div><dt>{o.shipping}</dt><dd className={directTerms&&terms.shippingIncluded?"is-included":"is-pending"}>{shippingText}</dd></div>
+        <div><dt>{o.tax}</dt><dd className="is-note">{o.taxValue}</dd></div>
+      </dl>
+      <div className="order-total"><span>{inquiryOnly?o.estimate:o.total}{directTerms&&terms.billingCurrency&&<small>{terms.billingCurrency}</small>}</span><output aria-live="polite">{totalText}</output></div>
+      <CheckoutAvailability status={selectionDecision.status} reason={selectionDecision.reason}/>
+      {summaryCta&&<a className="button button--primary order-cta" href={summaryCta.href}><span>{summaryCta.label}</span><i aria-hidden="true">↓</i></a>}
+    </div>
+  </aside>;
+
   return (
     <V23Page>
       <main className="bulk-page v23-operational-page checkout-flow">
         <section className="bulk-detail section-shell">
-          <div className="section-inner section-inner--wide bulk-detail__grid">
-            <figure className="bulk-detail__image">
-              <img
-                src={isCleansingMix ? "/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp" : product.imageUrl}
-                alt={productName}
-              />
-            </figure>
-
-            <div className="bulk-detail__content">
+          <div className="section-inner section-inner--wide bulk-detail__grid checkout-grid">
+            <header className="checkout-head">
               <Link className="text-link" to="/bulk-orders">
                 {marketText(language, "Back to Bulk Orders", "대량주문으로 돌아가기")}
               </Link>
@@ -502,16 +526,17 @@ export function BulkProductPage() {
               </p>
               <h1>{productName}</h1>
               {!isCleansingMix && productVolume && <p className="bulk-detail__volume">{productVolume}</p>}
-              <CheckoutAvailability status={selectionDecision.status} reason={selectionDecision.reason}/>
               {!inquiryOnly&&<nav className="checkout-step-links" aria-label={flowCopy.steps}><a href="#shipping-step">{flowCopy.shipping}</a><a href="#paypal-payment-step">{flowCopy.payment}</a></nav>}
-
+            </header>
+            {summary}
+            <div className="bulk-detail__content checkout-main">
               {isLivePaymentTest && (
                 <p className="setup-warning">
                   Hidden Live PayPal verification URL. Do not share this page with customers. Refund this test order after the admin check.
                 </p>
               )}
 
-              {isCleansingMix?<aside className="mix-selection-summary product-sales-summary"><h2>{marketText(language,'Selected mix')}</h2><dl><div><dt>{marketText(language,'Total units')}</dt><dd>{totalUnits}</dd></div><div><dt>{marketText(language,'Selected product amount')}</dt><dd>{formatCurrency(marketTotal,market.currency,market.locale)}</dd></div></dl><p>{marketText(language,'Combined minimum: 30 units. Select each product in 10-unit steps.')}</p><p>{marketText(language,'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.')}</p></aside>:<details className="pdp-conditions"><summary>{orderPanelCopy(language).conditions}</summary><ProductSalesSummary product={product} quantity={quantityText}/></details>}
+              {isCleansingMix?<aside className="mix-selection-summary product-sales-summary"><h2>{marketText(language,'Selected mix')}</h2><dl><div><dt>{marketText(language,'Total units')}</dt><dd>{totalUnits}</dd></div><div><dt>{marketText(language,'Selected product amount')}</dt><dd>{formatCurrency(marketTotal,market.currency,market.locale)}</dd></div></dl><p>{marketText(language,'Combined minimum: 30 units. Select each product in 10-unit steps.')}</p><p>{marketText(language,'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.')}</p></aside>:null}
 
               <h2 className="order-step-heading">{orderPanelCopy(language).qty}</h2>
               <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{localizedStockStatus}</p>
@@ -592,16 +617,6 @@ export function BulkProductPage() {
                 </div>
                 )}
 
-                <h2 className="order-step-heading">{orderPanelCopy(language).price}</h2>
-                <div className="bulk-total-box">
-                  <span>{marketText(language, "Total units", "珥??섎웾")}</span>
-                  <strong>{Number.isSafeInteger(totalUnits)&&totalUnits>0?totalUnits:"—"}</strong>
-                  <span>{marketText(language, inquiryOnly ? "Product amount" : "Total payment", inquiryOnly ? "상품금액" : "총 결제액")}</span>
-                  <strong>{invalidQuantity?"—":formatCurrency(marketTotal,'displayCurrency' in selectionDecision?String(selectionDecision.displayCurrency):market.currency,market.locale)}</strong>
-                  <p>{marketText(language, "Product amount; taxes and customs charges excluded.", "상품금액 기준 · 세금과 통관비 별도")}</p>
-                </div>
-
-                {selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision&&<p className="checkout-charge-breakdown">{marketText(language,"Shipping")}: {selectionDecision.shippingIncluded?checkoutChargeCopy(language).included:formatCurrency(selectionDecision.shippingMinor!/10**paypalCurrencyDigits(selectionDecision.billingCurrency!),selectionDecision.billingCurrency!,market.locale)} · {selectionDecision.billingCurrency}</p>}
                 <fieldset className="direct-checkout-fields" hidden={inquiryOnly} disabled={inquiryOnly}>
                 {error && (
                   <p id={errorId} className="form-error" role="alert">
@@ -743,12 +758,6 @@ export function BulkProductPage() {
                     <h2>{marketText(language, "Final payment check", "理쒖쥌 寃곗젣 ?뺤씤")}</h2>
                     <p>{marketText(language, "Please confirm these details before opening PayPal or card checkout.", "PayPal ?먮뒗 移대뱶 寃곗젣李쎌쓣 ?닿린 ?꾩뿉 ?꾨옒 ?뺣낫瑜??뺤씤?댁＜?몄슂.")}</p>
                   </div>
-                  <div className="direct-payment-summary__total">
-                    <span>{marketText(language, isCleansingMix ? "Cleansing mix" : productName, isCleansingMix ? "클렌징 MIX" : productName)}</span>
-                    <strong>
-                      {totalUnits} {marketText(language, "units", "개")} / {formatCurrency(marketTotal,'displayCurrency' in selectionDecision?String(selectionDecision.displayCurrency):market.currency,market.locale)}
-                    </strong>
-                  </div>
                   {isCleansingMix && (
                     <ul className="direct-payment-summary__items">
                       {orderLines.map((line) => (
@@ -831,11 +840,14 @@ export function BulkProductPage() {
                 ) : (
                   <section id="paypal-payment-step" className="checkout-payment-step" tabIndex={-1} aria-busy={paymentBusy}><h2 className="order-step-heading">{flowCopy.payment}</h2>{deliveryChecked&&<p role="status">{flowCopy.checked}</p>}{paymentBusy&&<p role="status">{flowCopy.busy}</p>}<p>{flowCopy.card}</p><p className="payment-status" role="status">{marketText(language,paymentDisplay==='loading'?'Preparing secure payment…':paymentDisplay==='failed'?'Payment could not load. Refresh or contact us.':paymentDisplay==='closed'?'Payment is currently closed. Contact us.':paymentDisplay==='preview'?'Payment is disabled in this read-only preview.':'Secure payment is ready.')}</p><div id="direct-paypal-buttons" className="paypal-buttons" hidden={paymentDisplay!=='ready'}/></section>
                 )}                </fieldset>
-                <div hidden={!inquiryOnly||invalidQuantity}><PaymentRequestPanel lines={orderLines} purpose={purpose==='unspecified'?'':marketText(language,purposeLabels[purpose||'unspecified'])}/></div>
+                <div id="payment-request" hidden={!inquiryOnly||invalidQuantity}><PaymentRequestPanel lines={orderLines} purpose={purpose==='unspecified'?'':marketText(language,purposeLabels[purpose||'unspecified'])}/></div>
 
               </section>
 
-              {!isCleansingMix && <details className="bulk-product-info"><summary>{marketText(language,"Product composition")}</summary>
+              {!isCleansingMix&&<section className="checkout-notes" aria-label={o.notes}>
+              <h2 className="checkout-notes__title">{o.notes}</h2>
+              <details className="pdp-conditions"><summary>{orderPanelCopy(language).conditions}</summary><ProductSalesSummary product={product} quantity={quantityText}/></details>
+              <details className="bulk-product-info"><summary>{marketText(language,"Product composition")}</summary>
                 <h2>{marketText(language, "Product composition", "?곹뭹 援ъ꽦")}</h2>
                 <div className="product-card__chips">
                   {product.features.map((feature) => (
@@ -849,11 +861,13 @@ export function BulkProductPage() {
                   ))}
 
                 </ul>
-              </details>}
+              </details>
+              </section>}
             </div>
           </div>
 
         </section>
+        {summaryCta&&<OrderBar watch={summaryRef} label={inquiryOnly?o.estimate:o.total} detail={unitsText} amount={totalText} cta={summaryCta}/>}
       </main>
     </V23Page>
   );

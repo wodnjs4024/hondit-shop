@@ -27,3 +27,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   </React.StrictMode>,
 );
 import "./styles/checkout-flow.css";
+import "./styles/commerce-v4.css";
