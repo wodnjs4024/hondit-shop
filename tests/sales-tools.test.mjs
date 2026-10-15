@@ -65,7 +65,7 @@ test("resale is a signed simple difference for sale allocation only", () => {
   assert.equal(resaleDifference("-30", 2100, 15, "SGD"), null);
   assert.equal(resaleDifference("30", 2100, -1, "SGD"), null);
 });
-test("SG review cannot expand exact MOQ checkout or approve mixed cleansing", () => {
+test("SG review permits delivered diffuser 20+ and preserves cleansing MOQ and mix restrictions", () => {
   for (const [slug, moq] of [
     ["foam-oil", 30],
     ["foaming-cleanser", 30],
@@ -74,7 +74,7 @@ test("SG review cannot expand exact MOQ checkout or approve mixed cleansing", ()
     ["diffuser-500g", 20],
   ]) {
     assert.equal(reviewCheckout({ slug }, moq, "SG"), true);
-    assert.equal(reviewCheckout({ slug }, moq + 10, "SG"), false);
+    assert.equal(reviewCheckout({ slug }, moq + 10, "SG"), slug.startsWith("diffuser-"));
     assert.equal(reviewCheckout({ slug }, moq - 1, "SG"), false);
   }
   assert.equal(reviewCheckout({ slug: "cleansing-mix" }, 30, "SG"), false);

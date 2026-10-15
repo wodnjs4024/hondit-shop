@@ -1,4 +1,8 @@
 export const structureCopy = {
+"SG diffuser orders of 10 or 20+ units and single cleansing SKU orders of 30 units include international shipping. Mixed orders require confirmation.":{"ko":"SG 디퓨저 10개 또는 20개 이상, 클렌징 단일 SKU 30개 주문은 국제배송비가 포함됩니다. 다품목 주문은 별도 확인합니다.","zh-HK":"SG擴香10件或20件以上、潔面單一SKU 30件訂單含國際運費。混合訂單須另行確認。","ja":"SG向けディフューザー10個または20個以上、クレンジング単一SKU30個の注文は国際送料込みです。複数商品の注文は別途確認します。","ms":"Pesanan diffuser SG 10 atau 20+ unit dan satu SKU pencuci 30 unit termasuk penghantaran antarabangsa. Pesanan campuran perlu pengesahan.","th":"ดิฟฟิวเซอร์ SG 10 ชิ้นหรือตั้งแต่ 20 ชิ้น และผลิตภัณฑ์ทำความสะอาด SKU เดียว 30 ชิ้นรวมค่าจัดส่งระหว่างประเทศ คำสั่งซื้อผสมต้องยืนยันแยก"},
+
+"International shipping is included for SG diffuser trial orders (10 units) and general orders (20 or more). No extra international shipping charge.":{"ko":"SG 디퓨저 10개 체험 주문과 20개 이상 일반 주문은 국제배송비가 포함된 가격입니다. 국제배송비를 추가 청구하지 않습니다.","zh-HK":"SG擴香10件體驗訂單及20件起一般訂單均含國際運費，不另收國際運費。","ja":"SG向けディフューザーのお試し10個・通常20個以上は国際送料込みです。国際送料の追加請求はありません。","ms":"Pesanan percubaan 10 unit dan pesanan biasa 20 unit ke atas bagi diffuser SG termasuk penghantaran antarabangsa. Tiada caj penghantaran antarabangsa tambahan.","th":"ดิฟฟิวเซอร์ SG แบบทดลอง 10 ชิ้นและแบบทั่วไปตั้งแต่ 20 ชิ้นรวมค่าจัดส่งระหว่างประเทศแล้ว ไม่มีการเรียกเก็บเพิ่ม"},
+
   "Overseas bundle orders": {
     "ko": "해외 묶음 주문",
     "zh-HK": "海外組合訂購",

@@ -1,17 +1,20 @@
+import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
+import {CheckoutAvailability} from "../components/CheckoutAvailability";
+import {checkoutFlowCopy} from "../data/checkoutFlowCopy";
 import {consultationBody,consultationMailto} from '../../shared/consultation.js';
 import {readMixSelection,writeMixSelection} from '../../shared/mix-selection.js';
 import {loadPayPalSdk,type PayPalSdk,type PayPalButtonsInstance} from '../lib/paypalSdk';
 import {DiffuserQuantitySelector,usePurchaseQuantity} from '../components/DiffuserQuantitySelector';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
 import {PaymentRequestPanel} from "../components/PaymentRequestPanel";
-import {resolveCheckoutCart,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
+import {paypalCurrencyDigits,resolveCheckoutCart,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
 import {checkoutDisplayState} from "../../shared/checkout-display.js";
-import {purchaseRoute,purchasePurposes,purposeLabels} from "../../shared/purchase-context.js";
+import {purchasePurposes,purposeLabels} from "../../shared/purchase-context.js";
 import {productFacts} from "../data/productFacts";
 import {validQuantity} from "../../shared/sales-tools.js";
 import {ConsultationPanel} from "../components/ConsultationPanel";
 import {normalizeShipping,postalRequired} from "../../shared/shipping.js";
-import { cleanProductUsage, sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
+import { cleanProductUsage, sgTerms } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -112,6 +115,7 @@ function readAttribution() {
 
 export function BulkProductPage() {
   const { market, language } = useMarket();
+  const flowCopy = checkoutFlowCopy(language);
   const countryName = marketCountryName(market, language);
   const { slug = "" } = useParams();
   const isCleansingMixRoute = slug === "cleansing-mix";
@@ -123,6 +127,8 @@ export function BulkProductPage() {
   const [quantityText,setQuantityText]=usePurchaseQuantity(slug,String(getBulkProduct(slug)?.packQuantity??20));
   const [mixQuantities, setMixQuantities] = useState<Record<string, number>>(()=>readMixSelection(selectionParams.get("mix")??""));
   const [form, setForm] = useState<OrderForm>(initialForm);
+  const [deliveryChecked,setDeliveryChecked] = useState(false);
+  const [paymentBusy,setPaymentBusy] = useState(false);
   const [ready, setReady] = useState(false);
   const [configState,setConfigState]=useState<"loading"|"ready"|"failed">("loading");
   const [sdkFailed,setSdkFailed]=useState(false);
@@ -181,7 +187,7 @@ export function BulkProductPage() {
         .filter((entry) => entry.quantity > 0)
     : [{ product, quantity }];
   const totalUnits = orderLines.reduce((sum, line) => sum + line.quantity, 0);
-  const marketTotal = orderLines.reduce((sum, line) => sum + getMarketLineTotal(line.product, line.quantity, market), 0);
+  const marketSubtotal = orderLines.reduce((sum, line) => sum + getMarketLineTotal(line.product, line.quantity, market), 0);
   const stockStatus = getStockStatus(product);
   const soldOut = isCleansingMix
     ? orderLines.some((line) => getStockStatus(line.product) === "Sold out")
@@ -204,8 +210,10 @@ export function BulkProductPage() {
   const errorId = "bulk-checkout-error";
   const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
   const selectionDecision=isCleansingMix?resolveCheckoutCart(orderLines,market.code):resolveCheckoutTerms(product,market.code,quantityText);
+  const marketTotal = selectionDecision.status === "direct" && "totalMinor" in selectionDecision && selectionDecision.totalMinor!==null ? selectionDecision.totalMinor/10**paypalCurrencyDigits(selectionDecision.billingCurrency!) : "referenceTotalMinor" in selectionDecision && selectionDecision.referenceTotalMinor!==null ? selectionDecision.referenceTotalMinor/10**selectionDecision.referenceDigits : marketSubtotal;
+  const billingCurrency=selectionDecision.billingCurrency||market.currency;
   const invalidQuantity=selectionDecision.status==="unavailable";
-  const inquiryOnly = invalidQuantity || selectionDecision.status!=="direct" || ((market.code === "SG" && isCleansingMix) || sgCheckoutNeedsInquiry(orderLines, market.code) || purchaseRoute(orderLines,market.code)!=="direct");
+  const inquiryOnly = invalidQuantity || selectionDecision.status!=="direct";
   const checkoutDisabled = readOnlyPreview || configState!=="ready" || !payPalConfig.checkoutEnabled || inquiryOnly;
   const paymentDisplay=checkoutDisplayState({preview:readOnlyPreview,configuration:configState,enabled:payPalConfig.checkoutEnabled,clientId:paypalClientId,sdkReady:ready,sdkFailed});
   const manualPaymentHref=consultationMailto(EMAIL,consultationBody({
@@ -234,13 +242,13 @@ export function BulkProductPage() {
     let active=true;setReady(false);
     if (!paypalClientId || soldOut || checkoutDisabled) return;
     setSdkFailed(false);
-    loadPayPalSdk(paypalClientId,market.currency).then(sdk=>{
+    loadPayPalSdk(paypalClientId,billingCurrency).then(sdk=>{
       if(active){sdkRef.current=sdk;setReady(true);}
     }).catch(()=>{if(active)setSdkFailed(true)});
     return ()=>{active=false;};
-  }, [checkoutDisabled, market.currency, paypalClientId, soldOut]);
+  }, [checkoutDisabled, billingCurrency, paypalClientId, soldOut]);
 
-  const update = (key: keyof OrderForm, value: string | boolean) => {setInvalidField("");setForm((current) => ({ ...current, [key]: value }));};
+  const update = (key: keyof OrderForm, value: string | boolean) => {setDeliveryChecked(false);setInvalidField("");setForm((current) => ({ ...current, [key]: value }));};
   const updateMixQuantity = (entry: BulkProduct, requested: number) => {
     const availableUnits = getBulkMaxUnits(entry);
     const stepped = Math.max(0, Math.floor((Number.isFinite(requested) ? requested : 0) / BULK_QTY_STEP) * BULK_QTY_STEP);
@@ -279,6 +287,20 @@ export function BulkProductPage() {
     return "";
   };
 
+  const reviewDelivery = () => {
+    const issue = validate(formRef.current, orderLinesRef.current);
+    if (issue) {
+      setDeliveryChecked(false);setError(issue);
+      const invalid = document.querySelector<HTMLInputElement>('.direct-order-form input:invalid');
+      invalid?.focus();invalid?.scrollIntoView({block:'center'});return false;
+    }
+    setError("");setDeliveryChecked(true);
+    const target = document.getElementById('paypal-payment-step');
+    target?.scrollIntoView({block:'center',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+    target?.focus({preventScroll:true});return true;
+  };
+  useEffect(()=>{setDeliveryChecked(false);setForm(current=>({...current,reviewed:false}));},[market.code,slug,quantityText]);
+
   const buildPayload = (currentLines: OrderLine[], currentForm: OrderForm): CheckoutPayload => ({
     orderType: "Direct bulk order",
     fulfillment:"international_bundle",
@@ -307,6 +329,7 @@ export function BulkProductPage() {
     try {
 
     buttons=sdkRef.current.Buttons({
+        onClick: (_data:unknown, actions:{resolve:()=>Promise<void>;reject:()=>Promise<void>}) => reviewDelivery()?actions.resolve():actions.reject(),
         createOrder: async () => {
           const currentForm = formRef.current;
           const currentProduct = productRef.current;
@@ -322,6 +345,7 @@ export function BulkProductPage() {
           }
 
           setError("");
+          setPaymentBusy(true);
           trackEvent("begin_checkout", {
             fulfillment:'international_bundle',
             purchase_purpose:purpose,
@@ -352,6 +376,7 @@ export function BulkProductPage() {
             });
             return response.paypalOrderId;
           } catch (createError) {
+            setPaymentBusy(false);
             const reason = createError instanceof Error ? createError.message : "PayPal order could not be created.";
             trackEvent("checkout_failure", {
               checkout_step: "create_order",
@@ -367,6 +392,7 @@ export function BulkProductPage() {
           }
         },
         onApprove: async (data:{orderID:string}) => {
+          setPaymentBusy(true);
           trackEvent("checkout_approved", {
             checkout_step: "paypal_approval_complete",
             checkout_stage: "paypal_approval_complete",
@@ -391,6 +417,7 @@ export function BulkProductPage() {
           }
         },
         onCancel: async (data:{orderID:string}) => {
+          setPaymentBusy(false);
           trackEvent("checkout_cancel", {
             checkout_step: "paypal_approval",
             checkout_stage: "buyer_cancelled",
@@ -409,9 +436,11 @@ export function BulkProductPage() {
             checkoutStep: "paypal_approval",
             clientContext: { page_visibility: document.visibilityState },
           }).catch(() => undefined);
-          navigate(`/payment-failed/${createdOrderNumber.current}?status=cancelled`);
+          createdOrderNumber.current = "";
+          setError(flowCopy.cancelled);
         },
         onError: (paypalError:unknown) => {
+          setPaymentBusy(false);
           console.error("PayPal widget error");
           const reason = paypalError instanceof Error ? paypalError.message : "PayPal payment could not be completed.";
           trackEvent("checkout_error", {
@@ -470,6 +499,8 @@ export function BulkProductPage() {
                 {productCategory.toUpperCase()} {marketText(language, "BULK ORDER", "대량주문")}
               </p>
               <h1>{productName}</h1>
+              <CheckoutAvailability status={selectionDecision.status} reason={selectionDecision.reason}/>
+              {!inquiryOnly&&<nav className="checkout-step-links" aria-label={flowCopy.steps}><a href="#shipping-step">{flowCopy.shipping}</a><a href="#paypal-payment-step">{flowCopy.payment}</a></nav>}
               {!isCleansingMix && productVolume && <p className="bulk-detail__volume">{productVolume}</p>}
 
               {isLivePaymentTest && (
@@ -566,13 +597,15 @@ export function BulkProductPage() {
                   <p>{marketText(language, "Product amount; taxes and customs charges excluded.", "상품금액 기준 · 세금과 통관비 별도")}</p>
                 </div>
 
+                {selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision&&<p className="checkout-charge-breakdown">{marketText(language,"Shipping")}: {selectionDecision.shippingIncluded?checkoutChargeCopy(language).included:formatCurrency(selectionDecision.shippingMinor!/10**paypalCurrencyDigits(selectionDecision.billingCurrency!),selectionDecision.billingCurrency!,market.locale)} · {selectionDecision.billingCurrency}</p>}
                 <fieldset className="direct-checkout-fields" hidden={inquiryOnly} disabled={inquiryOnly}>
                 {error && (
                   <p id={errorId} className="form-error" role="alert">
                     {marketText(language,error)}
                   </p>
                 )}
-                <form className="checkout-form direct-order-form" aria-describedby={error ? errorId : undefined}>
+                <form id="shipping-step" className="checkout-form direct-order-form" aria-describedby={error ? errorId : undefined} onSubmit={event=>{event.preventDefault();reviewDelivery();}}>
+                  <h2 className="checkout-form__wide">{flowCopy.shipping}</h2>
                   <label htmlFor="bulk-customer-name">
                     {marketText(language, "Delivery recipient")} *
                     <input
@@ -735,35 +768,22 @@ export function BulkProductPage() {
                       <dt>{marketText(language, "Delivery phone", "?꾪솕 / WhatsApp")}</dt>
                       <dd>{form.customerPhone || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
-                    <div>
+                    {form.companyName&&<div>
                       <dt>{marketText(language, "Company", "회사명")}</dt>
-                      <dd>{form.companyName || marketText(language, "Not entered", "미입력")}</dd>
-                    </div>
+                      <dd>{form.companyName}</dd>
+                    </div>}
                     <div>
                       <dt>{marketText(language, "Shipping address", "諛곗넚 二쇱냼")}</dt>
                       <dd>{[form.addressLine1, form.addressLine2, form.city, countryName, form.postalCode].filter(Boolean).join(", ") || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
-                    <div>
+                    {form.customerNote&&<div>
                       <dt>{marketText(language, "Order note", "二쇰Ц 硫붾え")}</dt>
                       <dd>{form.customerNote || marketText(language, "No note", "硫붾え ?놁쓬")}</dd>
-                    </div>
+                    </div>}
                   </dl>
-                  <div className="direct-payment-summary__notice">
-                    <strong>{marketText(language, "Pay with PayPal or credit/debit card.", "PayPal ?먮뒗 ?좎슜/吏곷텋移대뱶濡?寃곗젣?⑸땲??")}</strong>
-                    <span>{marketText(language, "For direct checkout, please use PayPal or an international card.", "吏곸젒 寃곗젣??PayPal ?먮뒗 ?댁쇅 寃곗젣媛 媛?ν븳 移대뱶濡?吏꾪뻾?댁＜?몄슂.")}</span>
-                    <span>
-                      {marketText(
-                        language,
-                        "If checkout does not complete, email these purchase conditions to hondit. We will reply with a direct PayPal payment link.",
-                        "寃곗젣媛 ?꾨즺?섏? ?딆쑝硫??꾩옱 援щℓ 議곌굔??hondit 硫붿씪濡?蹂대궡二쇱꽭?? ?뺤씤 ??吏곸젒 寃곗젣 媛?ν븳 PayPal 留곹겕瑜??듭옣?쒕┰?덈떎.",
-                      )}
-                    </span>
-                    {paypalMode === "sandbox" && !readOnlyPreview && (
-                      <span>{marketText(language, `PayPal Sandbox payment. Currency: ${market.currency}.`, `PayPal Sandbox 寃곗젣?낅땲?? ?듯솕: ${market.currency}.`)}</span>
-                    )}
-                  </div>
-                  <div className="manual-payment-fallback">
-                    <strong>{marketText(language, "If PayPal/card checkout fails", "PayPal/카드 결제가 안 될 때")}</strong>
+                  {paypalMode === "sandbox" && !readOnlyPreview && <p>{marketText(language, `PayPal Sandbox payment. Currency: ${market.currency}.`)}</p>}
+                  <details className="manual-payment-fallback"><summary>{marketText(language,"If PayPal/card checkout fails")}</summary>
+
                     <p>
                       {marketText(
                         language,
@@ -774,7 +794,7 @@ export function BulkProductPage() {
                     <a className="button button--ghost" href={manualPaymentHref}>
                       {marketText(language, "Email purchase conditions", "구매조건 메일 보내기")}
                     </a>
-                  </div>
+                  </details>
                 </div>
 
                   <label className="checkout-confirm checkout-form__wide" htmlFor="bulk-reviewed">
@@ -795,6 +815,7 @@ export function BulkProductPage() {
                       "이메일, 전화번호, 배송 주소, 상품 수량, 최종 결제 금액이 정확한 것을 확인했습니다.",
                     )}
                   </label>
+                  <button type="submit" className="button button--primary checkout-form__wide checkout-review-button" disabled={checkoutDisabled||soldOut||paymentBusy}>{flowCopy.check}</button>
                 </form>
 
                 {soldOut ? (
@@ -804,7 +825,7 @@ export function BulkProductPage() {
                 ) : inquiryOnly ? (
                   <><a className="button button--primary" href={manualPaymentHref}>{marketText(language, "Open quantity & shipping email draft", "수량·배송 문의 이메일 초안 열기")}</a><p>{marketText(language, "Review and send the email yourself. Opening a draft does not confirm receipt.", "초안을 확인하고 직접 발송해주세요. 이메일 앱 실행은 문의 접수 완료가 아닙니다.")}</p></>
                 ) : (
-                  <><p className="payment-status" role="status">{marketText(language,paymentDisplay==='loading'?'Preparing secure payment…':paymentDisplay==='failed'?'Payment could not load. Refresh or contact us.':paymentDisplay==='closed'?'Payment is currently closed. Contact us.':paymentDisplay==='preview'?'Payment is disabled in this read-only preview.':'Secure payment is ready.')}</p><div id="direct-paypal-buttons" className="paypal-buttons" hidden={paymentDisplay!=='ready'}/></>
+                  <section id="paypal-payment-step" className="checkout-payment-step" tabIndex={-1} aria-busy={paymentBusy}><h2>{flowCopy.payment}</h2>{deliveryChecked&&<p role="status">{flowCopy.checked}</p>}{paymentBusy&&<p role="status">{flowCopy.busy}</p>}<p>{flowCopy.card}</p><p className="payment-status" role="status">{marketText(language,paymentDisplay==='loading'?'Preparing secure payment…':paymentDisplay==='failed'?'Payment could not load. Refresh or contact us.':paymentDisplay==='closed'?'Payment is currently closed. Contact us.':paymentDisplay==='preview'?'Payment is disabled in this read-only preview.':'Secure payment is ready.')}</p><div id="direct-paypal-buttons" className="paypal-buttons" hidden={paymentDisplay!=='ready'}/></section>
                 )}                </fieldset>
                 <div hidden={!inquiryOnly||invalidQuantity}><PaymentRequestPanel lines={orderLines} purpose={purpose==='unspecified'?'':marketText(language,purposeLabels[purpose||'unspecified'])}/></div>
 

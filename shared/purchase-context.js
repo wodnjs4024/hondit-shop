@@ -16,6 +16,7 @@ export function purchaseRoute(lines,marketCode) {
  if(lines.length>1)return ['HK','MO'].includes(marketCode)&&lines.every(l=>['cleansing','CARE'].includes(l.product.category)&&Number(l.quantity)%10===0)&&lines.reduce((s,l)=>s+Number(l.quantity),0)>=30?'direct':'consultation';
  const {product:p,quantity}=lines[0],q=Number(quantity),sg=marketCode==='SG'?sgTerms(p):null;
  if(isDiffuser(p)&&!diffuserQuantity(quantity).valid)return 'confirmation';
+ if(sg&&isDiffuser(p))return 'direct';
  const moq=sg?.moq??p.bulkMoq??p.packQuantity,step=isDiffuser(p)?1:p.bulkStep??10;
  const stock=p.stockQuantity??(Number.isFinite(p.inventoryPacks)?p.inventoryPacks*p.packQuantity:undefined);
  if(stock!==undefined&&q>stock)return 'confirmation';

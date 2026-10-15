@@ -1,0 +1,46 @@
+{
+  "unitTests": {
+    "passed": 97,
+    "failed": 0
+  },
+  "browser": {
+    "passed": 126,
+    "pageErrors": 0,
+    "widths": [
+      1440,
+      390
+    ],
+    "languages": [
+      "ko",
+      "en",
+      "ja",
+      "zh-HK",
+      "ms",
+      "th"
+    ],
+    "markets": [
+      "SG",
+      "JP",
+      "HK",
+      "TW",
+      "TH",
+      "MY",
+      "BN",
+      "MO"
+    ],
+    "financialRequests": "isolated mocks only"
+  },
+  "build": {
+    "status": "passed",
+    "warning": "existing large bundle warning"
+  },
+  "previewGuard": {
+    "status": "passed",
+    "sdkRequests": 0,
+    "writeRequests": 0,
+    "build": "VITE_VERCEL_ENV=preview; API mock deliberately advertises live enabled"
+  },
+  "productionDeployment": false,
+  "databaseChanges": false,
+  "actualPayments": false
+}

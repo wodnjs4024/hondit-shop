@@ -1,0 +1,6 @@
+{
+  "status": "passed",
+  "sdkRequests": 0,
+  "writeRequests": 0,
+  "build": "VITE_VERCEL_ENV=preview; API mock deliberately advertises live enabled"
+}
