@@ -16,3 +16,8 @@
 - Download: https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Jejuairport2024.jpg/1280px-Jejuairport2024.jpg
 - No retouching; Wikimedia supplied the scaled thumbnail. The website displays it with a responsive CSS crop. Attribution and license links appear directly beneath the photograph.
 - Replaces the coastal image only in the pickup introduction. It does not identify a confirmed airport meeting point or imply airport/photographer endorsement.
+
+## Readable airport-sign reference — 2026-10-15
+- Current pickup hero: `jeju-airport-sign-reference.png`, supplied by the user in this chat (`codex-clipboard-ce2a0bf5-174f-4630-a5dc-e8c898aba683.png`).
+- The supplied file is preserved unchanged. CSS displays only its left photograph (reference rectangle x=32,y=33,w=694,h=369), showing the existing JEJU INT'L AIRPORT lettering and tower. No synthetic lettering or architectural edits.
+- Original photographer and source were not supplied; do not attribute this asset to Kimhs5400 or to any of the Wikimedia candidates. The earlier Wikimedia photo and its metadata are preserved as a separate asset, but no longer displayed in this hero.

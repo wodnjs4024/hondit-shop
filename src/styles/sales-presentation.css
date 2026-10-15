@@ -67,5 +67,6 @@ body.hd-site .pickup-introduction .hd-btn--solid{background:var(--hd-brand);colo
 body.hd-site .pickup-introduction .hd-btn--solid:hover{background:var(--hd-brand-hover)}
 .pickup-travel .request-actions p{max-width:65ch}
 body.hd-site main.partner-discovery .discovery-hero figure.partner-spaces-visual{aspect-ratio:auto}
-.pickup-photo-credit{display:block;font-size:12px;line-height:1.6;margin-top:8px;color:var(--hd-muted)}
-.pickup-photo-credit a{text-underline-offset:3px}
+/* Render the supplied reference's left photograph without changing its lettering. */
+.pickup-airport-sign-frame{position:relative;aspect-ratio:694 / 369;overflow:hidden}
+.pickup-introduction figure .pickup-airport-sign-frame img{position:absolute;width:calc(100% * 1504 / 694);max-width:none;height:auto;aspect-ratio:auto;object-fit:initial;left:calc(-100% * 32 / 694);top:calc(-100% * 33 / 369)}
