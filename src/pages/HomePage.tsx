@@ -2,20 +2,57 @@ import { homeMediaCopy } from "../data/homeMediaCopy";
 import { StoneJejuFilm } from "../components/StoneJejuMedia";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { V23Page, V23ProductCard } from "../components/v23/SiteChrome";
-import { EMAIL, SHOPEE, v23Products, type StorefrontProduct } from "../data/v23SiteData";
+import { V23Page } from "../components/v23/SiteChrome";
+import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
 import { ProductComparison } from "../components/SalesDiscovery";
 import { discoveryText } from "../data/discoveryCopy";
 import { productFacts } from "../data/productFacts";
 import { shippingSummary } from "../../shared/shipping-summary.js";
 import { trackEvent } from "../lib/analytics";
-import { isStorefrontProductAllowedForMarket, marketCountryName, marketProductText, marketText, useMarket, type DisplayLanguage } from "../lib/market";
+import { formatMarketUnitMoney, isStorefrontProductAllowedForMarket, marketCountryName, marketProductText, marketText, useMarket, type DisplayLanguage } from "../lib/market";
 import { loadStorefrontProducts } from "../lib/storefrontApi";
 import "../styles/home-redesign.css";
 
-const usageHeading: Record<string, string> = { ko: "사용 방법", en: "How to use", ja: "使い方", zh: "使用方法", ms: "Cara guna", th: "วิธีใช้" };
-const headingFor = (copy: Record<string, string>, language: DisplayLanguage) =>
+const pick = (copy: Record<string, string>, language: DisplayLanguage) =>
   copy[language === "zh-HK" || language === "zh-TW" ? "zh" : language] ?? copy.en;
+const shippingAlt = { ko: "HONDIT 전 제품과 해외 배송 상자", en: "The full HONDIT line with an overseas shipping box", ja: "HONDITの全商品と海外配送用の箱", zh: "HONDIT 全系列產品與海外配送箱", ms: "Rangkaian penuh HONDIT bersama kotak penghantaran luar negara", th: "ผลิตภัณฑ์ HONDIT ทั้งหมดพร้อมกล่องจัดส่งต่างประเทศ" };
+const usageHeading = { ko: "사용 방법", en: "How to use", ja: "使い方", zh: "使用方法", ms: "Cara guna", th: "วิธีใช้" };
+
+/* Real product photographs for the size comparison: each shot shows only the named size. */
+const sizePhotos: Record<string, { src: string; width: number; height: number }> = {
+  "diffuser-350g": { src: "/images/hondit-pack/hondit_codex_image_pack/01_product_originals/03_diffuser_350_window.webp", width: 1256, height: 1114 },
+  "diffuser-500g": { src: "/images/hondit-pack/hondit_codex_image_pack/01_product_originals/07_diffuser_500_window.webp", width: 1138, height: 874 },
+};
+const shippingPhoto = "/images/hondit-pack/hondit_codex_image_pack/01_product_originals/15_full_product_line_real.webp";
+const stonePhoto = "/images/hondit-pack/hondit_codex_image_pack/01_product_originals/04_diffuser_350_stone.webp";
+
+function ProductTile({ product, query }: { product: StorefrontProduct; query: string }) {
+  const { market, language } = useMarket();
+  const name = marketProductText(language, product.name);
+  const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
+  return <li>
+    <article className="hd-tile v23-product-card" data-item-id={product.slug} data-item-name={name} data-item-category={product.category}
+      data-item-price={product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice} data-currency={market.currency}>
+      <Link className="hd-tile__media" to={`/products/${product.slug}${query}`} tabIndex={-1} aria-hidden="true">
+        <img src={product.image} alt="" width={880} height={1100} loading="lazy" decoding="async" sizes="(max-width: 639px) 70vw, 22vw" />
+        <span className="hd-tile__badge">{outOfStock ? marketText(language, "OUT OF STOCK", "OUT OF STOCK") : marketProductText(language, product.badge)}</span>
+      </Link>
+      <div className="hd-tile__body">
+        <h3><Link to={`/products/${product.slug}${query}`}>{name}</Link></h3>
+        <p className="hd-tile__price"><span>{formatMarketUnitMoney(product, market)}</span></p>
+        <p className="hd-tile__desc">{marketProductText(language, product.detail)}</p>
+        <p className="hd-tile__terms">{marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)} · {marketText(language, "Minimum")} {product.bulkMoq} {marketText(language, "units")}</p>
+        <div className="hd-tile__actions">
+          <Link className="hd-btn hd-btn--solid" to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Overseas bundle orders")}</Link>
+        </div>
+        <div className="hd-tile__links">
+          <Link className="hd-textlink" to={`/products/${product.slug}${query}`}>{marketText(language, "View details", "View details")}</Link>
+          {market.hasShopee && <details className="hd-tile__retail"><summary>Shopee</summary><a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee")} ↗</a></details>}
+        </div>
+      </div>
+    </article>
+  </li>;
+}
 
 export function HomePage() {
   const { market, language } = useMarket();
@@ -33,7 +70,7 @@ export function HomePage() {
     [catalog, market],
   );
   const diffusers = marketProducts.filter((product) => product.category === "SCENT" && productFacts(product.slug));
-  const homeProductCopy = (() => {
+  const collection = (() => {
     if (language === "ko") return { title: "제주에서 고른 컬렉션", description: `${countryName}에서 구매 가능한 제품을 확인하세요.` };
     if (language === "ja") return { title: "済州から選んだコレクション", description: `${countryName}で購入できる商品をご覧ください。` };
     if (language === "zh-HK" || language === "zh-TW" || language === "zh") return { title: "濟州精選系列", description: `查看可配送至${countryName}的產品。` };
@@ -62,73 +99,89 @@ export function HomePage() {
   }, [market, marketProducts]);
 
   return (
-    <V23Page>
+    <V23Page chrome="home">
       <main className="v23-home hd-home">
-        {/* 1. Hero: one sentence, the 6-second product film, one primary action. */}
+        {/* Hero: the product film fills the first screen; copy and the shop action sit on it. */}
         <section className="hd-hero" aria-labelledby="hd-hero-title">
+          <StoneJejuFilm kind="product" priority />
           <div className="hd-hero__copy">
             <h1 id="hd-hero-title">{discoveryText(language, "intro")}</h1>
             <p>{filmCopy.intro}</p>
             <div className="hd-hero__actions">
-              <Link className="hd-button" to={`/products${pageQuery}`}>{filmCopy.products}</Link>
-              <Link className="hd-link" to={`/bulk-orders${pageQuery}`}>{t("Overseas bundle orders")} →</Link>
+              <Link className="hd-btn hd-btn--light" to={`/products${pageQuery}`}>{filmCopy.products}</Link>
+              <Link className="hd-textlink" to={`/bulk-orders${pageQuery}`}>{t("Overseas bundle orders")}</Link>
             </div>
           </div>
-          <StoneJejuFilm kind="product" priority />
         </section>
 
-        {/* 2. Collection: the products this market can buy, straight after the hero. */}
+        {/* Collection: what this market can buy, directly under the film. */}
         <section className="hd-collection" aria-labelledby="hd-collection-title">
-          <header className="hd-section-head">
-            <h2 id="hd-collection-title">{homeProductCopy.title}</h2>
-            <p>{homeProductCopy.description}</p>
+          <header className="hd-head">
+            <h2 id="hd-collection-title">{collection.title}</h2>
+            <p>{collection.description}</p>
           </header>
-          <div className="hd-collection__grid" data-count={marketProducts.length}>
-            {marketProducts.map((product) => <V23ProductCard key={product.slug} product={product} />)}
+          <ul className="hd-collection__rail" data-count={marketProducts.length}>
+            {marketProducts.map((product) => <ProductTile key={product.slug} product={product} query={pageQuery} />)}
+          </ul>
+          <p className="hd-collection__more">
+            <Link className="hd-btn hd-btn--solid" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기 ->").replace(/\s*->$/, "")}</Link>
+          </p>
+        </section>
+
+        {/* Jeju: forest film beside a real StoneJeju photograph. */}
+        <section className="hd-jeju" aria-labelledby="hd-jeju-title">
+          <div className="hd-jeju__film">
+            <StoneJejuFilm kind="forest" />
+            <div className="hd-overlay">
+              <h2 id="hd-jeju-title">{filmCopy.forest}</h2>
+              <p>{filmCopy.forestText}</p>
+              <Link className="hd-textlink" to={`/jeju${pageQuery}`}>{t("Explore our Jeju ->").replace(/\s*->$/, "")}</Link>
+            </div>
           </div>
-          <footer className="hd-collection__foot">
-            <p>
-              <span>{t("Jeju-based student team", "제주 기반 학생 운영팀")}</span>
-              <span>{t(`${countryName} delivery`, `${countryName} 배송`)}</span>
-              <span>{t(`PayPal ${market.currency} checkout`, `PayPal ${market.currency} 결제`)}</span>
+          <figure className="hd-jeju__photo">
+            <img src={stonePhoto} alt={marketProductText(language, "Volcanic Diffuser 350g")} width={1266} height={1186} loading="lazy" decoding="async" />
+            <figcaption>StoneJeju 350g</figcaption>
+          </figure>
+        </section>
+
+        {/* Material: the close-up film, then how the stone is used. */}
+        <section className="hd-material" aria-labelledby="hd-material-title">
+          <div className="hd-material__film">
+            <StoneJejuFilm kind="detail" />
+            <div className="hd-overlay hd-overlay--material">
+              <h2 id="hd-material-title">{t("No flame. No electricity.")}</h2>
+              <p>{t("Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.")}</p>
+            </div>
+          </div>
+          <div className="hd-use">
+            <h3>{pick(usageHeading, language)}</h3>
+            <ol>
+              <li><b>{t("ADD 10-12 DROPS")}</b><span>{t("Apply the fragrance oil directly onto the volcanic stone.")}</span></li>
+              <li><b>{t("LET IT ABSORB")}</b><span>{t("Allow the porous stone to absorb the oil naturally.")}</span></li>
+              <li><b>{t("REFRESH AS NEEDED")}</b><span>{t("Add a few more drops when the scent becomes lighter.")}</span></li>
+            </ol>
+            <p className="hd-use__guides">
+              <Link className="hd-textlink" to={`/guide/diffuser-350g${pageQuery}`}>350g · {t("HOW TO USE")}</Link>
+              <Link className="hd-textlink" to={`/guide/diffuser-500g${pageQuery}`}>500g · {t("HOW TO USE")}</Link>
             </p>
-            <Link className="hd-link" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기 ->")}</Link>
-          </footer>
-        </section>
-
-        {/* 3. Nature: the forest film leads into OUR JEJU. */}
-        <section className="hd-split hd-split--forest" aria-labelledby="hd-forest-title">
-          <StoneJejuFilm kind="forest" />
-          <div className="hd-split__copy">
-            <h2 id="hd-forest-title">{filmCopy.forest}</h2>
-            <p>{filmCopy.forestText}</p>
-            <Link className="hd-link" to={`/jeju${pageQuery}`}>{t("Explore our Jeju ->")}</Link>
           </div>
         </section>
 
-        {/* 4. StoneJeju material: vessel and volcanic stone up close. */}
-        <section className="hd-split hd-split--material" aria-labelledby="hd-material-title">
-          <div className="hd-split__copy">
-            <h2 id="hd-material-title">{t("No flame. No electricity.")}</h2>
-            <p>{t("Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.")}</p>
-          </div>
-          <StoneJejuFilm kind="detail" />
-        </section>
-
-        {/* 5. 350g and 500g: each real product photo with its own specification. */}
+        {/* Sizes: each real photograph carries its own name, specification and price. */}
         {diffusers.length > 0 && <section className="hd-sizes" aria-labelledby="hd-sizes-title">
-          <header className="hd-section-head">
+          <header className="hd-head">
             <h2 id="hd-sizes-title">{t("Compare the diffusers")}</h2>
           </header>
           <div className="hd-sizes__pair">
             {diffusers.map((product) => {
               const facts = productFacts(product.slug)!;
               const size = product.slug === "diffuser-350g" ? "350g" : "500g";
+              const photo = sizePhotos[product.slug] ?? { src: product.image, width: 880, height: 1100 };
               return <article key={product.slug} className="hd-size">
-                <Link to={`/products/${product.slug}${pageQuery}`} className="hd-size__media">
-                  <img src={product.image} alt={marketProductText(language, product.name)} width={880} height={1100} loading="lazy" decoding="async" />
-                </Link>
-                <div className="hd-size__body">
+                <figure>
+                  <img src={photo.src} alt={marketProductText(language, product.name)} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
+                </figure>
+                <div className="hd-size__info">
                   <h3>StoneJeju {size}</h3>
                   <p>{marketProductText(language, product.detail)}</p>
                   <dl>
@@ -137,49 +190,35 @@ export function HomePage() {
                     <div><dt>{t("Dimensions (W × H × D)")}</dt><dd>{facts.dimensions}</dd></div>
                     <div><dt>{t("Citrus fragrance oil")}</dt><dd>{facts.oil}</dd></div>
                   </dl>
-                  <Link className="hd-link" to={`/products/${product.slug}${pageQuery}`}>{t("Product details", "상품 상세 설명")} →</Link>
+                  <p className="hd-size__price"><strong>{formatMarketUnitMoney(product, market)}</strong> <span>{t(`${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)} · {t("Minimum")} {product.bulkMoq} {t("units")}</span></p>
+                  <div className="hd-tile__actions">
+                    <Link className="hd-btn hd-btn--solid" to={`/bulk-orders?product=${product.slug}`}>{t("Overseas bundle orders")}</Link>
+                    <Link className="hd-btn hd-btn--line" to={`/products/${product.slug}${pageQuery}`}>{t("Product details", "상품 상세 설명")}</Link>
+                  </div>
                 </div>
               </article>;
             })}
           </div>
         </section>}
-        <ProductComparison products={marketProducts} eyebrow={false} />
 
-        {/* 6. Use, how to buy, and who sells it. */}
-        <section className="hd-close" aria-label={t("TRUST & SUPPORT")}>
-          <div className="hd-close__use">
-            <h2>{headingFor(usageHeading, language)}</h2>
-            <ol>
-              <li><b>{t("ADD 10-12 DROPS")}</b><p>{t("Apply the fragrance oil directly onto the volcanic stone.")}</p></li>
-              <li><b>{t("LET IT ABSORB")}</b><p>{t("Allow the porous stone to absorb the oil naturally.")}</p></li>
-              <li><b>{t("REFRESH AS NEEDED")}</b><p>{t("Add a few more drops when the scent becomes lighter.")}</p></li>
-            </ol>
-            <p className="hd-close__guides">
-              <Link className="hd-link" to={`/guide/diffuser-350g${pageQuery}`}>350g · {t("HOW TO USE")} →</Link>
-              <Link className="hd-link" to={`/guide/diffuser-500g${pageQuery}`}>500g · {t("HOW TO USE")} →</Link>
-            </p>
-          </div>
-          <div className="hd-close__paths">
-            <h2>{t("Choose delivery separately from your purchase purpose.")}</h2>
+        {/* Buying: delivery paths beside the real shipment photograph, then the market price table. */}
+        <section className="hd-buy" aria-labelledby="hd-buy-title">
+          <figure className="hd-buy__photo">
+            <img src={shippingPhoto} alt={pick(shippingAlt, language)} width={1672} height={941} loading="lazy" decoding="async" />
+          </figure>
+          <div className="hd-buy__copy">
+            <h2 id="hd-buy-title">{t("Choose delivery separately from your purchase purpose.")}</h2>
             <p>{t("International delivery is offered as MOQ bundles, not individual small-quantity shipping. Group purchases are welcome.")}</p>
             <p>{t(shippingSummary(market.code))}</p>
-            <ul>
-              <li><Link className="hd-link" to={`/bulk-orders${pageQuery}`}>{t("Overseas bundle orders")} →</Link></li>
-              <li><Link className="hd-link" to="/jeju/pickup">{t("Jeju pickup information")} →</Link></li>
-              <li><Link className="hd-link" to={`/partners${pageQuery}`}>{t("Store & business purchase guide")} →</Link></li>
+            <ul className="hd-paths">
+              <li><Link to={`/bulk-orders${pageQuery}`}><span>{t("Overseas bundle orders")}</span><span aria-hidden="true">→</span></Link></li>
+              <li><Link to="/jeju/pickup"><span>{t("Jeju pickup information")}</span><span aria-hidden="true">→</span></Link></li>
+              <li><Link to={`/partners${pageQuery}`}><span>{t("Store & business purchase guide")}</span><span aria-hidden="true">→</span></Link></li>
             </ul>
             <p className="hd-note">{t("Reorders require a new check of current prices, availability and delivery conditions.")}</p>
           </div>
-          <div className="hd-close__trust">
-            <h2>{t("TRUST & SUPPORT")}</h2>
-            <p>{t("Jeju-based student team")}</p>
-            <p>{t("Business registration no.")} 637-12-03059</p>
-            <p><a className="hd-link" href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
-            <p>{t("You can also view HONDIT products and sales activity on our Singapore Shopee store.")}</p>
-            <p><a className="hd-link" href={SHOPEE} target="_blank" rel="noreferrer">{t("View Shopee store ↗")}</a></p>
-            <p><Link className="hd-link" to={`/jeju${pageQuery}`}>{t("About HONDIT")} →</Link></p>
-          </div>
         </section>
+        <ProductComparison products={marketProducts} eyebrow={false} />
       </main>
     </V23Page>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { HomeFooter, HomeHeader, HomeMobileBar } from "../home/HomeChrome";
 import { EMAIL, INSTAGRAM, SHOPEE, type StorefrontProduct } from "../../data/v23SiteData";
 import { trackEvent, trackNavigationClick, trackOutboundClick } from "../../lib/analytics";
 import {
@@ -164,7 +165,7 @@ export function V23Footer() {
   );
 }
 
-export function V23Page({ children }: { children: ReactNode }) {
+export function V23Page({ children, chrome = "default" }: { children: ReactNode; chrome?: "default" | "home" }) {
   const { language } = useMarket();
   const location = useLocation();
 
@@ -228,10 +229,10 @@ export function V23Page({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <V23Header />
+      {chrome === "home" ? <HomeHeader /> : <V23Header />}
       {children}
-      <V23Footer />
-      {!location.pathname.startsWith("/partners/") && <nav className="v23-mobile-actions" aria-label={marketText(language, "Quick purchase links", "빠른 구매 링크")}>
+      {chrome === "home" ? <><HomeFooter /><HomeMobileBar /></> : <V23Footer />}
+      {chrome !== "home" && !location.pathname.startsWith("/partners/") && <nav className="v23-mobile-actions" aria-label={marketText(language, "Quick purchase links", "빠른 구매 링크")}>
         <Link to="/products" className={location.pathname === "/products" ? "is-current" : ""}>
           {marketText(language, "Products", "상품")}
         </Link>
