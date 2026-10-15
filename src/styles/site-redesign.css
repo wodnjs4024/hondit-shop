@@ -437,3 +437,49 @@ body.hd-site main:is(.product-guide-page, .partner-discovery) .sales-tools-secti
 body.hd-site main.partner-discovery > .sales-tools-section, body.hd-site main.partner-discovery > details { margin-top: var(--section-gap) !important; }
 body.hd-site main.v23-policy-page .v23-policy-actions a { color: var(--hd-ink); text-decoration: underline; text-underline-offset: 4px; min-height: 44px; display: inline-flex; align-items: center; }
 body.hd-site .checkout-flow .bulk-detail__volume { margin: 0 !important; }
+
+/* =====================================================================
+ * Impeccable colorize: colour by role, drawn from Jeju's materials
+ *   forest  #173d35  brand, primary action, the closing field of every page
+ *   basalt  #161a17  ink
+ *   paper / stone tile  canvas and raised surfaces
+ *   clay    #a4532f  the single accent (wordmark dot, "needs confirmation")
+ *   moss tint / clay tint / ember tint  state fields: ready / confirm / unavailable
+ * ===================================================================== */
+:root {
+  --hd-forest: #173d35;
+  --hd-forest-ink: #fbfaf7;
+  --hd-forest-muted: #b9c9c1;
+  --hd-clay: #a4532f;
+  --hd-state-ready-bg: #e3ece6;   --hd-state-ready-fg: #134a3a;
+  --hd-state-confirm-bg: #f6e6db; --hd-state-confirm-fg: #7a3a1c;
+  --hd-state-stop-bg: #f5e1df;    --hd-state-stop-fg: #8a1f1f;
+}
+
+/* The page always closes on the forest field: one deliberate region of brand colour per page. */
+.hd-footer { background: var(--hd-forest); color: var(--hd-forest-ink); }
+.hd-footer :is(h2, a, .hd-footer__cols a) { color: var(--hd-forest-ink); }
+.hd-footer :is(p, .hd-footer__brand p, .hd-footer__cols p, .hd-footer__base) { color: var(--hd-forest-muted); }
+.hd-footer__brand b span { color: #e39a72; }
+.hd-footer__base { border-top-color: rgba(251, 250, 247, 0.22); }
+.hd-footer a:focus-visible { outline-color: var(--hd-forest-ink); }
+
+/* Order state reads by colour and by its words: ready to pay, needs confirmation, unavailable. */
+body.hd-site .checkout-availability { padding: 14px 18px; border: 0; }
+body.hd-site .checkout-availability--direct { background: var(--hd-state-ready-bg); }
+body.hd-site .checkout-availability--direct strong { color: var(--hd-state-ready-fg); }
+body.hd-site .checkout-availability:not(.checkout-availability--direct) { background: var(--hd-state-confirm-bg); }
+body.hd-site .checkout-availability:not(.checkout-availability--direct) strong { color: var(--hd-state-confirm-fg); }
+body.hd-site .checkout-availability p { color: var(--hd-ink); }
+body.hd-site main .stock-pill--in-stock { background: var(--hd-state-ready-bg) !important; color: var(--hd-state-ready-fg) !important; }
+body.hd-site main .stock-pill--low-stock { background: var(--hd-state-confirm-bg) !important; color: var(--hd-state-confirm-fg) !important; }
+body.hd-site main .stock-pill--sold-out { background: var(--hd-state-stop-bg) !important; color: var(--hd-state-stop-fg) !important; }
+body.hd-site main .form-error, body.hd-site main [role="alert"]:not(:empty) { color: var(--hd-state-stop-fg); }
+body.hd-site .checkout-flow .form-error { background: var(--hd-state-stop-bg) !important; }
+
+/* Selection uses the brand, not black. */
+.hd-filters button.is-active { background: var(--hd-forest); border-color: var(--hd-forest); }
+body.hd-site main .pickup-price-table tbody .is-selected { background: var(--hd-state-ready-bg); }
+body.hd-site main input:is([type="radio"], [type="checkbox"]) { accent-color: var(--hd-forest); }
+body.hd-site main :is(input, select, textarea):focus-visible { outline-color: var(--hd-forest); }
+body.hd-site { caret-color: var(--hd-forest); }
