@@ -10,54 +10,104 @@ const films = {
   detail: { file: "detail_product.mp4", poster: "05_product_stone.webp" },
 };
 
-/** Each film downloads on first visible playback, remembers user pause and loops only while visible. */
-export function StoneJejuFilm({ kind }: { kind: FilmKind }) {
+/*
+ * Only one film plays at a time: the most visible film (at least 35% in view) is elected.
+ * The current film keeps playing until another is clearly more visible, so sections that
+ * share the viewport do not flip back and forth. Off-screen pauses never count as user pauses.
+ */
+const PLAY_RATIO = 0.35, SWITCH_MARGIN = 0.2;
+type FilmEntry = { ratio: number; eligible: () => boolean; manual: () => boolean; sync: () => void };
+const filmRegistry = new Map<symbol, FilmEntry>();
+let activeFilm: symbol | null = null;
+function electFilm() {
+  const score = (entry: FilmEntry) => entry.ratio + (entry.manual() ? 1 : 0);
+  let best: symbol | null = null, bestScore = 0;
+  filmRegistry.forEach((entry, id) => {
+    if (entry.ratio >= PLAY_RATIO && entry.eligible() && score(entry) > bestScore) { best = id; bestScore = score(entry); }
+  });
+  const current = activeFilm ? filmRegistry.get(activeFilm) : undefined;
+  if (current && best !== activeFilm && current.ratio >= PLAY_RATIO && current.eligible() && bestScore < score(current) + SWITCH_MARGIN) best = activeFilm;
+  activeFilm = best;
+  filmRegistry.forEach((entry) => entry.sync());
+}
+
+const PlayIcon = () => <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor" /></svg>;
+const PauseIcon = () => <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor" /></svg>;
+
+/** Each film downloads on first elected playback, remembers user pause and loops only while visible. */
+export function StoneJejuFilm({ kind, priority = false }: { kind: FilmKind; priority?: boolean }) {
   const { language } = useMarket();
   const copy = homeMediaCopy(language), mediaCopy = stonejejuMediaCopy(language);
   const videoRef = useRef<HTMLVideoElement>(null);
   const figureRef = useRef<HTMLElement>(null);
-  const visible = useRef(false), reduced = useRef(false), userPaused = useRef(false);
-  const manual = useRef(false);
-  const [loaded, setLoaded] = useState(false), [failed, setFailed] = useState(false), [playing, setPlaying] = useState(false);
-  const syncRef = useRef<() => void>(() => {});
-  syncRef.current = () => {
+  const id = useRef(Symbol(kind)).current;
+  const reduced = useRef(false), userPaused = useRef(false), manual = useRef(false), blocked = useRef(false);
+  const [loaded, setLoaded] = useState(false), [failed, setFailed] = useState(false), [posterFailed, setPosterFailed] = useState(false);
+  const [playing, setPlaying] = useState(false), [attempt, setAttempt] = useState(0);
+  const loadedRef = useRef(false), failedRef = useRef(false);
+  loadedRef.current = loaded; failedRef.current = failed;
+  const sync = () => {
     const video = videoRef.current;
     if (!video) return;
-    const shouldPlay = visible.current && !document.hidden && !userPaused.current && (!reduced.current || manual.current);
-    if (!shouldPlay) { video.pause(); return; }
-    if (!loaded) { setLoaded(true); return; }
-    if (video.paused) video.play().catch(() => setPlaying(false));
+    const shouldPlay = activeFilm === id && !document.hidden;
+    if (!shouldPlay) { if (!video.paused) video.pause(); return; }
+    if (!loadedRef.current) { setLoaded(true); return; }
+    if (video.paused) video.play().catch(() => {
+      // Autoplay refused: show the play button and leave the film alone until the visitor presses it.
+      blocked.current = true; setPlaying(false); electFilm();
+    });
   };
+  const syncRef = useRef(sync);
+  syncRef.current = sync;
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     reduced.current = motion.matches;
-    const onMotion = () => { reduced.current = motion.matches; if (motion.matches) manual.current = false; syncRef.current(); };
-    const observer = new IntersectionObserver(([entry]) => { visible.current = entry.isIntersecting && entry.intersectionRatio >= .25; syncRef.current(); }, { threshold: [0, .25] });
+    const entry: FilmEntry = {
+      ratio: 0,
+      eligible: () => !failedRef.current && !userPaused.current && (manual.current || (!reduced.current && !blocked.current)),
+      manual: () => manual.current,
+      sync: () => syncRef.current(),
+    };
+    filmRegistry.set(id, entry);
+    const onMotion = () => { reduced.current = motion.matches; if (motion.matches) manual.current = false; electFilm(); };
+    const observer = new IntersectionObserver(([observed]) => {
+      entry.ratio = observed.isIntersecting ? observed.intersectionRatio : 0;
+      electFilm();
+    }, { threshold: [0, .2, .35, .5, .65, .8, 1] });
     if (figureRef.current) observer.observe(figureRef.current);
     const onVisibility = () => syncRef.current();
     document.addEventListener("visibilitychange", onVisibility);
     motion.addEventListener("change", onMotion);
-    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", onVisibility); motion.removeEventListener("change", onMotion); videoRef.current?.pause(); };
-  }, []);
-  useEffect(() => { syncRef.current(); }, [loaded]);
+    return () => {
+      observer.disconnect(); filmRegistry.delete(id); if (activeFilm === id) activeFilm = null;
+      document.removeEventListener("visibilitychange", onVisibility); motion.removeEventListener("change", onMotion);
+      videoRef.current?.pause(); electFilm();
+    };
+  }, [id]);
+  useEffect(() => { if (loaded) syncRef.current(); }, [loaded, attempt]);
   const toggle = () => {
     const video = videoRef.current;
     if (!video) return;
-    if (!video.paused) { userPaused.current = true; manual.current = false; video.pause(); }
-    else { userPaused.current = false; manual.current = true; syncRef.current(); }
+    if (playing) { userPaused.current = true; manual.current = false; video.pause(); electFilm(); return; }
+    userPaused.current = false; manual.current = true; blocked.current = false;
+    activeFilm = id; filmRegistry.forEach((entry) => entry.sync());
   };
+  const retry = () => { failedRef.current = false; setFailed(false); setPosterFailed(false); blocked.current = false; setAttempt((value) => value + 1); electFilm(); };
   const caption = kind === "product" ? copy.product : kind === "forest" ? copy.forest : copy.detail;
   const alt = kind === "forest" ? mediaCopy.forestAlt : kind === "detail" ? mediaCopy.detailStoneAlt : mediaCopy.homeAlt;
-  return <figure ref={figureRef} className={`stonejeju-film stonejeju-film--${kind}`}>
-    {failed ? <img src={`/media/stonejeju/${films[kind].poster}`} alt={alt} width={1920} height={1080} /> :
-      <video ref={videoRef} src={loaded ? `/media/stonejeju/${films[kind].file}` : undefined}
-        poster={`/media/stonejeju/${films[kind].poster}`} muted playsInline loop preload="none" width={1280} height={720}
+  const poster = `/media/stonejeju/${films[kind].poster}`;
+  return <figure ref={figureRef} className={`stonejeju-film stonejeju-film--${kind}`} data-playing={playing || undefined}>
+    {failed ? (posterFailed ? <div className="stonejeju-film__missing" role="img" aria-label={alt} /> :
+      <img src={poster} alt={alt} width={1920} height={1080} onError={() => setPosterFailed(true)} />) :
+      <video key={attempt} ref={videoRef} src={loaded ? `/media/stonejeju/${films[kind].file}` : undefined}
+        poster={poster} muted playsInline loop preload="none" width={1280} height={720}
         aria-label={caption} aria-describedby={`stonejeju-${kind}-caption`}
         onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
-        onError={() => setFailed(true)} />}
+        onError={() => { failedRef.current = true; setFailed(true); setPlaying(false); electFilm(); }} />}
+    {priority && !failed && <link rel="preload" as="image" href={poster} />}
     <figcaption id={`stonejeju-${kind}-caption`}><span>{caption}</span>
-      {!failed && <button type="button" onClick={toggle} aria-label={`${playing ? copy.pause : copy.play} · ${caption}`}>{playing ? copy.pause : copy.play} {playing ? "Ⅱ" : "▷"}</button>}
-      {failed && <span role="status">{mediaCopy.videoFallback}</span>}
+      {!failed && <button type="button" className="stonejeju-film__toggle" onClick={toggle} aria-label={`${playing ? copy.pause : copy.play} · ${caption}`} title={playing ? copy.pause : copy.play}>{playing ? <PauseIcon /> : <PlayIcon />}</button>}
+      {failed && <><span role="status">{mediaCopy.videoFallback}</span><button type="button" className="stonejeju-film__retry" onClick={retry}>{copy.retry}</button></>}
     </figcaption>
   </figure>;
 }
