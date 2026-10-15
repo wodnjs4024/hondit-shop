@@ -91,8 +91,8 @@ const templates={
     "วันรับสินค้า: วันมาถึง / วันเดินทางออก"
   ]
 };
-export function pickupRequestTotal(quantity){if(!Number.isInteger(quantity)||quantity<1||quantity>3)throw Error('Pickup quantity must be 1–3');return quantity*18000;}
-export function pickupRequestMessage(quantity,language='en'){
- const total=pickupRequestTotal(quantity);const lang=language.startsWith('zh')?'zh-HK':language;const l=templates[lang]||templates.en;
- return [l[0],'',l[1],`${l[2]}: ${quantity}${lang==='ko'||lang==='ja'?'':' '}${lang==='en'&&quantity===1?'unit':l[3]}`,`${l[4]}: ${total.toLocaleString('en-US')}${lang==='ko'?'원':' KRW'}`,l[6],l[7],l[5]].join('\n');
+export function pickupRequestTotal(quantity,product='350g'){if(!Number.isInteger(quantity)||quantity<1||quantity>3)throw Error('Pickup quantity must be 1–3');if(!['350g','500g'].includes(product))throw Error('Unknown pickup product');return quantity*(product==='500g'?40000:18000);}
+export function pickupRequestMessage(quantity,language='en',product='350g'){
+ const total=pickupRequestTotal(quantity,product);const lang=language.startsWith('zh')?'zh-HK':language;const l=templates[lang]||templates.en;
+ return [l[0],'',l[1].replace('350g',product),`${l[2]}: ${quantity}${lang==='ko'||lang==='ja'?'':' '}${lang==='en'&&quantity===1?'unit':l[3]}`,`${l[4]}: ${total.toLocaleString('en-US')}${lang==='ko'?'원':' KRW'}`,l[6],l[7],l[5]].join('\n');
 }
