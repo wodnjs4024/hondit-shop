@@ -1,4 +1,5 @@
 import {orderPanelCopy} from '../data/orderPanelCopy';
+import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import {shippingSummary} from '../../shared/shipping-summary.js';
 import {checkoutFlowCopy} from "../data/checkoutFlowCopy";
 import {validQuantity} from "../../shared/sales-tools.js";
@@ -27,6 +28,6 @@ export function BulkOrdersPage(){
   {selected&&<section className="bundle-entry__review"><figure><img src={selected.image} alt={marketProductText(language,selected.name)} width="640" height="640"/><figcaption><Link to={`/products/${selected.slug}?${new URLSearchParams({...Object.fromEntries(params),market:market.code,lang:language,product:selected.slug})}`}>{marketProductText(language,selected.name)} →</Link></figcaption></figure><div><QuantityReview key={selected.slug} product={selected} purpose={purpose}/><details className="pdp-conditions"><summary>{orderPanelCopy(language).conditions}</summary><ProductSalesSummary product={selected} showContact={false}/></details></div></section>}
   <section className="bundle-entry__consult">{market.code==='SG'&&<p>{t(shippingSummary(market.code,selected))}</p>}<details><summary>{t('Need a mixed commercial order?')}</summary><p className="route-status">{t('Consultation required')}</p><div className="bundle-entry__selectors">{available.map(p=><label key={p.slug}>{marketProductText(language,p.name)}<input type="number" min="0" max="9999" step="1" value={quantities[p.slug]||''} onChange={e=>setQuantities(q=>({...q,[p.slug]:e.target.value}))}/></label>)}</div><ConsultationPanel lines={lines} reason="combination" presetPurpose={t(purposeLabels[purpose])} summaryDetails={t('Overseas bundle orders')}/></details>
   {['HK','MO'].includes(market.code)&&<Link to="/bulk-orders/cleansing-mix">{t('Cleansing Mix Order')} →</Link>}
-  <Link to="/jeju/pickup">{t('Jeju pickup information')} →</Link></section>
+  <aside className="bundle-pickup-entry"><h2>{salesPresentationCopy(language).pickupNav}</h2><p>{salesPresentationCopy(language).pickupShort}</p><Link className="hd-textlink" to={`/jeju/pickup?market=${market.code}&lang=${language}`}>{salesPresentationCopy(language).pickupAction} →</Link></aside></section>
  </main></V23Page>;
 }

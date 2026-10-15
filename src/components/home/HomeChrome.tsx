@@ -1,3 +1,4 @@
+import {salesPresentationCopy} from '../../data/salesPresentationCopy';
 import {checkoutFlowCopy} from "../../data/checkoutFlowCopy";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
@@ -29,7 +30,7 @@ export function homeChromeCopy(language: DisplayLanguage) {
   return chromeCopy[language === "zh" || language === "zh-HK" || language === "zh-TW" ? "zh" : language];
 }
 
-const navItems = [["/products", "Products"], ["/bulk-orders", "Overseas bundle orders"], ["/partners", "Store & business purchase guide"], ["/jeju", "About HONDIT"]] as const;
+const navItems = [["/products", "Products"], ["/bulk-orders", "Overseas bundle orders"], ["/partners", "Store & business purchase guide"], ["/jeju/pickup", "Jeju pickup information"], ["/jeju", "About HONDIT"]] as const;
 
 function MarketLanguageFields({ idPrefix }: { idPrefix: string }) {
   const { market, setMarket, language, setLanguage } = useMarket();
@@ -103,7 +104,7 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
         {navItems.map(([path, label]) => <NavLink key={path} to={path}>{path === "/bulk-orders" ? checkoutFlowCopy(language).primary : marketText(language, label)}</NavLink>)}
       </nav>
       <div className="hd-header__tools">
-        <Link className="hd-header__pickup" to="/jeju/pickup">{marketText(language, "Jeju pickup information")}</Link>
+        <Link className="hd-header__pickup" to="/jeju/pickup">{salesPresentationCopy(language).pickupNav}</Link>
         <div className="hd-locale" ref={localeRef}>
           <button type="button" className="hd-locale__toggle" aria-expanded={localeOpen} aria-controls="hd-locale-panel" aria-label={`${copy.settings}: ${marketCountryName(market, language)} · ${languageLabel}`} onClick={() => setLocaleOpen((value) => !value)}>
             <span>{market.code}<span className="hd-locale__cur"> · {market.currency}</span></span><span className="hd-locale__lang">{languageLabel}</span><Chevron />
@@ -117,7 +118,6 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
     <div className={`hd-menu${menuOpen ? " is-open" : ""}`} id="hd-menu" hidden={!menuOpen}>
       <nav aria-label={copy.menu}>
         {navItems.map(([path, label]) => <NavLink key={path} to={path} onClick={() => setMenuOpen(false)}>{path === "/bulk-orders" ? checkoutFlowCopy(language).primary : marketText(language, label)}</NavLink>)}
-        <NavLink to="/jeju/pickup" onClick={() => setMenuOpen(false)}>{marketText(language, "Jeju pickup information")}</NavLink>
         <NavLink to="/contact" onClick={() => setMenuOpen(false)}>{marketText(language, "Contact", "Contact")}</NavLink>
       </nav>
       <section aria-label={copy.settings}>

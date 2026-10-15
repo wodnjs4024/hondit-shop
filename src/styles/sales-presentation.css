@@ -1,0 +1,69 @@
+/* Targeted sales presentation: existing HONDIT colours and typography. */
+body.hd-site main.partner-discovery .discovery-hero h1{font-size:clamp(32px,3.2vw,48px);line-height:1.15;word-break:keep-all;text-wrap:balance}
+body.hd-site main.partner-discovery .partner-spaces-visual{aspect-ratio:auto;height:auto;overflow:visible}
+body.hd-site main.partner-discovery .partner-spaces-visual img{aspect-ratio:1;object-fit:contain;height:auto}
+body.hd-site main.partner-discovery .partner-spaces-visual figcaption{position:static;display:grid;gap:6px;padding:14px 0 0;color:var(--hd-ink);background:transparent;font-size:14px;line-height:1.5}
+.partner-spaces-visual figcaption strong{font-weight:500}
+.partner-spaces-visual figcaption span{font-size:13px;color:var(--hd-muted)}
+body.hd-site main.pickup-travel{display:block;max-width:var(--frame);padding:48px var(--hd-gutter) var(--section-gap)}
+body.hd-site main.pickup-travel>section,body.hd-site main.pickup-travel>#pickup-selection{max-width:none;grid-column:auto;margin:0}
+.pickup-introduction{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px 56px;align-items:center}
+.pickup-introduction h1{font-size:clamp(32px,3.5vw,50px);line-height:1.15;margin:0 0 20px;word-break:keep-all;text-wrap:balance}
+.pickup-introduction p{font-size:17px;line-height:1.75;max-width:50ch;margin:0 0 24px}
+.pickup-introduction>div:first-child .hd-textlink{display:flex;width:fit-content;margin-top:12px}
+.pickup-introduction figure{margin:0;min-width:0}
+.pickup-introduction figure img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+.pickup-introduction figcaption{font-size:14px;line-height:1.6;margin-top:12px}
+.pickup-intro-facts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:28px 64px;background:var(--hd-tile);padding:24px;margin:0}
+.pickup-intro-facts dt{font-size:14px;margin-bottom:6px}
+.pickup-intro-facts dd{font-size:18px;margin:0}
+.pickup-arrangements{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.pickup-arrangements h2{font-size:24px;margin:0 0 12px;word-break:keep-all}
+.pickup-arrangements p{font-size:16px;margin:0;max-width:60ch}
+body.hd-site main.pickup-travel>#pickup-selection{padding-top:40px;scroll-margin-top:100px}
+body.hd-site main.pickup-travel .pickup-message-panel{max-width:none;margin:0;padding:0}
+.pickup-travel .pickup-product-options{max-width:880px}
+.pickup-travel .pickup-price-table{max-width:880px}
+.pickup-travel .pickup-total-summary{max-width:880px}
+.bundle-pickup-entry{margin-top:28px;padding:24px;background:var(--hd-tile)}
+.bundle-pickup-entry h2{font-size:24px;margin:0 0 10px}
+.bundle-pickup-entry p{max-width:55ch;margin:0}
+body.hd-site .customs-policy-note{padding:24px 0!important;max-width:var(--measure);scroll-margin-top:100px}
+.customs-policy-note h2{font-size:24px}
+.customs-policy-note p{font-size:15px;line-height:1.7;margin:12px 0}
+.checkout-policy-link{font-size:14px;display:inline-flex;align-items:center;min-height:44px;text-underline-offset:4px}
+.hd-paths__pickup>p{margin:0 0 20px;font-size:15px;line-height:1.6}
+.hd-tile__pickup{color:var(--hd-forest)}
+.hd-header__nav{gap:clamp(14px,1.8vw,28px)}
+.hd-header__nav a{font-size:14px}
+@media(max-width:1199px){
+ .hd-header{grid-template-columns:44px minmax(0,1fr) auto;height:60px;gap:12px}
+ .hd-header__menu{display:grid;grid-column:1;grid-row:1}
+ .hd-header__brand{grid-column:2;justify-self:start;font-size:26px}
+ .hd-header__nav{display:none}
+ .hd-header__tools{grid-column:3;gap:12px}
+ .hd-header__pickup{display:inline-flex;align-items:center;min-height:44px;font-size:13px;white-space:nowrap}
+ .hd-menu.is-open{position:fixed;inset:60px 0 0;z-index:39;display:grid;align-content:start;gap:32px;padding:24px var(--hd-gutter) 40px;overflow-y:auto;background:var(--hd-paper);color:var(--hd-ink)}
+ .hd-menu nav{display:grid}
+ .hd-menu nav a{display:flex;align-items:center;min-height:52px;color:inherit;font-size:20px;text-decoration:none}
+}
+@media(max-width:767px){
+ body.hd-site main.pickup-travel{padding-top:32px}
+ .pickup-introduction{grid-template-columns:minmax(0,1fr);gap:24px}
+ .pickup-introduction h1{font-size:32px;max-width:14em}
+ .pickup-introduction p{font-size:16px}
+ .pickup-intro-facts{padding:20px;gap:24px}
+ .pickup-arrangements{grid-template-columns:1fr;gap:24px}
+ .pickup-arrangements h2{font-size:22px}
+ .pickup-intro-facts dd{font-size:16px}
+ .hd-header__tools{gap:8px}
+ .hd-header__pickup{font-size:12px;max-width:90px;white-space:normal;line-height:1.2}
+ .hd-header__brand{font-size:24px}
+ body.hd-site main.partner-discovery .discovery-hero{gap:24px}
+ body.hd-site main.partner-discovery .discovery-hero h1{font-size:32px}
+}
+/* Keep the collection request prominent inside the existing page shell. */
+body.hd-site .pickup-introduction .hd-btn--solid{background:var(--hd-brand);color:var(--hd-white);text-decoration:none}
+body.hd-site .pickup-introduction .hd-btn--solid:hover{background:var(--hd-brand-hover)}
+.pickup-travel .request-actions p{max-width:65ch}
+body.hd-site main.partner-discovery .discovery-hero figure.partner-spaces-visual{aspect-ratio:auto}

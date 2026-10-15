@@ -1,0 +1,65 @@
+import type {DisplayLanguage} from '../lib/market';
+const keys=['businessBody','businessCaption','industries','pickupTitle','pickupBody','pickupNav','pickupAction','pickupAudience','pickupSchedule','pickupScheduleBody','pickupMethod','pickupMethodBody','pickupShort','pickupImageAlt','taxNeutral','taxPolicy','taxDetails'] as const;
+const copy:Record<string,readonly string[]>={
+ko:[
+'숙박·웰니스·카페·리테일 공간을 위한 상품을 살펴보세요. 공간 배치, 매장 재판매, 단체 선물에 맞는 규격과 승인 가격을 확인하고 바로 주문할 수 있습니다.',
+'AI 공간 연출 예시 · 실제 납품 사례가 아닙니다.','숙박·객실 / 스파·웰니스 / 카페·쇼룸',
+'제주 여행 중 직접 만나세요','제주 여행객과 단기 체류자를 위해 일부 상품의 지정 장소 수령을 제공합니다. 여행 일정에 맞춰 시간과 장소를 먼저 조율해주세요.',
+'제주 수령','수령 일정 문의','여행객·단기 체류자','일정 조율','구매 요청을 보내 수령 가능 시간·장소·결제 방법을 먼저 확인합니다. 메시지만으로 주문이 확정되지는 않습니다.',
+'지정 장소에서 직접 전달','공항 인계 가능 시간과 정확한 장소는 메시지로 확인합니다. 제주 전역 배달이나 해외 개별배송은 제공하지 않습니다.',
+'해외배송 대신, 제주 여행 일정에 맞춘 지정 장소 수령','제주 해안 풍경. 실제 수령 장소를 표시한 사진이 아닙니다.',
+'현지 세금 및 통관 관련 비용은 배송 국가의 정책에 따라 달라질 수 있습니다.',
+'해당 비용은 HONDIT가 선납하는 가격에 포함되지 않습니다. 비용이 발생하면 현지 세관 또는 운송사가 수취인에게 안내·청구할 수 있습니다.',
+'배송·통관 안내'],
+en:[
+'Explore products for hospitality, wellness, cafés and retail spaces. Review sizes and approved prices for placement, resale or group gifts, then order directly.',
+'AI space concepts, not actual customer installations.','Hospitality / Spa & wellness / Café & showroom',
+'Collect during your Jeju trip','Selected products are available for designated-location collection for Jeju travellers and short-stay visitors. Arrange the time and place around your itinerary before ordering.',
+'Jeju pickup','Ask about collection','Travellers & short-stay visitors','Arrange your visit','Send a purchase request to confirm time, place and payment method first. Sending a message does not confirm an order.',
+'Handed over at an agreed location','Confirm airport availability and the exact location by message. No island-wide delivery or international individual shipping.',
+'Collect at an agreed location during your Jeju trip, without overseas shipping.','Jeju coastal scenery, not a designated collection point.',
+'Local taxes and customs-related charges may vary with the destination’s policies.',
+'These charges are not prepaid by HONDIT or included in the price. If applicable, local customs or the carrier may notify and collect them from the recipient.',
+'Delivery & customs guide'],
+ja:[
+'宿泊施設、ウェルネス、カフェ、小売店の空間に合う商品をご覧ください。空間配置、再販売、団体ギフト向けの規格と承認価格を確認し、そのまま注文できます。',
+'AIによる空間演出例です。実際の納入事例ではありません。','宿泊・客室 / スパ・ウェルネス / カフェ・ショールーム',
+'済州旅行中にお受け取り','済州旅行者や短期滞在者向けに、一部商品を指定場所でお渡しします。ご予定に合わせ、日時と場所を事前にご相談ください。',
+'済州受取','受取日程を問い合わせる','旅行者・短期滞在者','日程の調整','購入希望のメッセージで日時・場所・支払方法を先に確認します。メッセージだけでは注文確定になりません。',
+'合意した場所で直接お渡し','空港対応時間と正確な場所はメッセージで確認します。済州全域への配達や海外個別配送はありません。',
+'海外配送を使わず、済州旅行の日程に合わせて指定場所で受取。','済州の海岸風景です。指定受取場所の写真ではありません。',
+'現地の税金・通関関連費用は配送先の規定により異なります。',
+'これらの費用は価格に含まれず、HONDITによる前払いはありません。発生する場合、現地税関または運送会社から受取人に案内・請求されることがあります。',
+'配送・通関のご案内'],
+zh:[
+'為住宿、健康養生、咖啡店及零售空間挑選商品。查看適合空間擺設、店內轉售或團體送禮的規格與核准價格，即可直接訂購。',
+'AI空間佈置示意，並非實際客戶案例。','住宿・客房 / 水療・健康養生 / 咖啡店・展示空間',
+'在濟州旅途中親自領取','為濟州旅客及短期停留人士提供部分商品的指定地點交收。請配合行程，事先確認時間與地點。',
+'濟州交收','查詢交收安排','旅客及短期停留人士','協調行程','傳送購買請求，先確認時間、地點及付款方式。傳送訊息不代表訂單已確認。',
+'於約定地點直接交收','機場交收時段與確切地點請透過訊息確認。不提供全島配送或海外單件寄送。',
+'無需海外運送，配合濟州旅程於約定地點領取。','濟州海岸風景，並非指定交收地點。',
+'當地稅項及通關相關費用可能因配送目的地政策而異。',
+'此類費用不包含在價格內，亦非由HONDIT預付。如有產生，當地海關或承運商可能向收件人通知及收取。',
+'配送及通關指南'],
+ms:[
+'Terokai produk untuk penginapan, kesejahteraan, kafe dan kedai runcit. Semak saiz dan harga diluluskan untuk penempatan, jualan semula atau hadiah berkumpulan, kemudian pesan terus.',
+'Konsep ruang AI, bukan pemasangan pelanggan sebenar.','Penginapan / Spa & kesejahteraan / Kafe & ruang pameran',
+'Ambil semasa melawat Jeju','Produk terpilih boleh diambil di lokasi dipersetujui oleh pelancong Jeju dan pengunjung jangka pendek. Aturkan masa dan tempat mengikut perjalanan anda terlebih dahulu.',
+'Ambil di Jeju','Tanya jadual pengambilan','Pelancong & pengunjung jangka pendek','Aturkan jadual','Hantar permintaan pembelian untuk mengesahkan masa, tempat dan cara bayaran. Mesej sahaja tidak mengesahkan pesanan.',
+'Serahan di lokasi dipersetujui','Sahkan waktu serahan lapangan terbang dan lokasi tepat melalui mesej. Tiada penghantaran seluruh pulau atau antarabangsa individu.',
+'Ambil di lokasi dipersetujui semasa lawatan Jeju tanpa penghantaran luar negara.','Pemandangan pantai Jeju, bukan lokasi pengambilan ditetapkan.',
+'Cukai tempatan dan caj kastam mungkin berbeza mengikut dasar destinasi penghantaran.',
+'Caj ini tidak termasuk dalam harga dan tidak dibayar awal oleh HONDIT. Jika berkenaan, kastam tempatan atau pengangkut mungkin memaklumkan dan mengutip daripada penerima.',
+'Panduan penghantaran & kastam'],
+th:[
+'เลือกสินค้าสำหรับที่พัก เวลเนส คาเฟ่ และร้านค้าปลีก ดูขนาดและราคาที่อนุมัติสำหรับตกแต่งพื้นที่ ขายต่อ หรือของขวัญกลุ่ม แล้วสั่งซื้อได้โดยตรง',
+'ภาพแนวคิดพื้นที่จาก AI ไม่ใช่สถานที่ของลูกค้าจริง','ที่พัก / สปาและเวลเนส / คาเฟ่และโชว์รูม',
+'รับสินค้าระหว่างเที่ยวเชจู','สินค้าบางรายการรับได้ ณ จุดนัดหมายสำหรับนักท่องเที่ยวและผู้พำนักระยะสั้นในเชจู โปรดตกลงเวลาและสถานที่ให้ตรงกับแผนเดินทางล่วงหน้า',
+'รับที่เชจู','สอบถามเวลารับสินค้า','นักท่องเที่ยวและผู้พักระยะสั้น','นัดหมายล่วงหน้า','ส่งคำขอซื้อเพื่อยืนยันเวลา สถานที่ และวิธีชำระเงินก่อน การส่งข้อความยังไม่ใช่การยืนยันคำสั่งซื้อ',
+'ส่งมอบ ณ จุดนัดหมาย','ยืนยันช่วงเวลารับที่สนามบินและสถานที่แน่นอนทางข้อความ ไม่มีบริการส่งทั่วเกาะหรือส่งต่างประเทศรายชิ้น',
+'รับ ณ จุดนัดหมายระหว่างเที่ยวเชจู โดยไม่ต้องจัดส่งข้ามประเทศ','ทิวทัศน์ชายฝั่งเชจู ไม่ใช่จุดรับสินค้าที่กำหนด',
+'ภาษีท้องถิ่นและค่าใช้จ่ายศุลกากรอาจต่างกันตามนโยบายของประเทศปลายทาง',
+'ค่าใช้จ่ายเหล่านี้ไม่รวมในราคาและ HONDIT ไม่ได้ชำระล่วงหน้า หากเกิดค่าใช้จ่าย ศุลกากรท้องถิ่นหรือผู้ขนส่งอาจแจ้งและเรียกเก็บจากผู้รับ',
+'คู่มือจัดส่งและศุลกากร']
+};
+export function salesPresentationCopy(language:DisplayLanguage){const values=copy[language==='zh-HK'||language==='zh-TW'?'zh':language]||copy.en;return Object.fromEntries(keys.map((key,i)=>[key,values[i]])) as Record<typeof keys[number],string>;}

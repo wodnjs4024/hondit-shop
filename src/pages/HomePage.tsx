@@ -1,3 +1,4 @@
+import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import { homeMediaCopy } from "../data/homeMediaCopy";
 import { StoneJejuFilm } from "../components/StoneJejuMedia";
 import { useEffect, useMemo, useState } from "react";
@@ -184,7 +185,7 @@ export function HomePage() {
             <p>{t(shippingSummary(market.code))}</p>
             <ul className="hd-paths">
               <li><Link to={`/bulk-orders${pageQuery}`}><span>{t("Overseas bundle orders")}</span><span aria-hidden="true">→</span></Link></li>
-              <li><Link to="/jeju/pickup"><span>{t("Jeju pickup information")}</span><span aria-hidden="true">→</span></Link></li>
+              <li className="hd-paths__pickup"><Link to={`/jeju/pickup?market=${market.code}&lang=${language}`}><span>{salesPresentationCopy(language).pickupNav}</span><span aria-hidden="true">→</span></Link><p>{salesPresentationCopy(language).pickupShort}</p></li>
               <li><Link to={`/partners${pageQuery}`}><span>{t("Store & business purchase guide")}</span><span aria-hidden="true">→</span></Link></li>
             </ul>
             <p className="hd-note">{t("Reorders require a new check of current prices, availability and delivery conditions.")}</p>

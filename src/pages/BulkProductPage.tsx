@@ -1,4 +1,5 @@
 import {orderPanelCopy} from "../data/orderPanelCopy";
+import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
 import {CheckoutAvailability} from "../components/CheckoutAvailability";
 import {checkoutFlowCopy} from "../data/checkoutFlowCopy";
@@ -598,7 +599,7 @@ export function BulkProductPage() {
                   <strong>{Number.isSafeInteger(totalUnits)&&totalUnits>0?totalUnits:"—"}</strong>
                   <span>{marketText(language, inquiryOnly ? "Product amount" : "Total payment", inquiryOnly ? "상품금액" : "총 결제액")}</span>
                   <strong>{invalidQuantity?"—":formatCurrency(marketTotal,'displayCurrency' in selectionDecision?String(selectionDecision.displayCurrency):market.currency,market.locale)}</strong>
-                  <p>{marketText(language, "Product amount; taxes and customs charges excluded.", "상품금액 기준 · 세금과 통관비 별도")}</p>
+                  <Link className="checkout-policy-link" to="/shipping#customs-costs">{salesPresentationCopy(language).taxDetails}</Link>
                 </div>
 
                 {selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision&&<p className="checkout-charge-breakdown">{marketText(language,"Shipping")}: {selectionDecision.shippingIncluded?checkoutChargeCopy(language).included:formatCurrency(selectionDecision.shippingMinor!/10**paypalCurrencyDigits(selectionDecision.billingCurrency!),selectionDecision.billingCurrency!,market.locale)} · {selectionDecision.billingCurrency}</p>}

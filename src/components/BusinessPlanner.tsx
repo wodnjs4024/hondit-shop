@@ -1,3 +1,4 @@
+import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import {DiffuserQuantitySelector,usePurchaseQuantity} from './DiffuserQuantitySelector';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
 import {resolveCheckoutTerms} from "../../shared/checkout-terms.js";
@@ -98,7 +99,7 @@ export function BusinessPlanner() {
     t(
       "Product photos, specifications and published use guidance are available. Supply, dispatch timing, import rules and shipping are confirmed per order.",
     ),
-    `${t("Tax & customs")}: ${t("Excluded; payable by the recipient where applicable.")}`,
+    `${t("Tax & customs")}: ${salesPresentationCopy(language).taxNeutral}`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -187,8 +188,8 @@ export function BusinessPlanner() {
           {t(routeMessage)}
         </p>
         <p>
-          {t("Tax & customs")}:{" "}
-          {t("Excluded; payable by the recipient where applicable.")}
+
+          {salesPresentationCopy(language).taxNeutral}
         </p>
         <p>
           {t(
