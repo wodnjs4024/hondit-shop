@@ -3,12 +3,8 @@ import { marketText, useMarket } from "../lib/market";
 import { Link } from "react-router-dom";
 import { V23GeoJourney } from "../components/v23/GeoJourney";
 import { V23Page } from "../components/v23/SiteChrome";
+import { MaterialBand } from "../components/MaterialBand";
 
-const jejuNotes = [
-  { title: "Sea", kicker: "CLEAR COAST", text: "Open light and clean water give hondit's care selection its fresh, uncomplicated mood.", image: "/images/jeju-field-sea.webp", alt: "Clear water and dark volcanic rocks on Jeju's coast." },
-  { title: "Stone", kicker: "VOLCANIC TEXTURE", text: "Jeju scoria is not just decoration: it is the reusable scent object at the centre of our diffuser.", image: "/images/jeju-field-jusangjeolli.webp", alt: "Dark volcanic columns at Jusangjeolli Cliff in Jeju." },
-  { title: "Forest", kicker: "QUIET RHYTHM", text: "Shaded paths and slow movement shape a brand language that feels calm, useful and lived-in.", image: "/images/jeju-field-bijarim.webp", alt: "A quiet green trail through Bijarim Forest in Jeju." },
-];
 
 export function JejuPage() {
   const { language } = useMarket();
@@ -49,19 +45,12 @@ export function JejuPage() {
           </figure>
         </section>
 
-        <section className="v23-jeju-notes">
+        <section className="v23-jeju-notes v23-jeju-notes--band">
           <header>
             <p className="v23-eyebrow"><span />{marketText(language,"THREE REFERENCES")}</p>
             <h2>{marketText(language,"What Jeju contributes")}<br /><em>{marketText(language,"to the hondit language.")}</em></h2>
           </header>
-          <div>
-            {jejuNotes.map((note) => (
-              <article key={marketText(language,note.title)}>
-                <img className={note.title === "Forest" ? "stonejeju-forest-scene" : undefined} src={note.title === "Forest" ? "/media/stonejeju/04_forest.jpg" : note.image} alt={note.title === "Forest" ? mediaCopy.forestAlt : note.alt} width={1920} height={1080} loading="lazy" decoding="async" onError={(event) => { if (note.title === "Forest" && !event.currentTarget.src.endsWith(note.image)) { event.currentTarget.src = note.image; event.currentTarget.alt = marketText(language, "Forest"); } }} />
-                <div><span>{marketText(language,note.kicker)}</span><h3>{marketText(language,note.title)}</h3><p>{marketText(language,note.text)}</p></div>
-              </article>
-            ))}
-          </div>
+          <MaterialBand />
         </section>
 
         <section className="v23-soft-cta">
