@@ -85,60 +85,62 @@ export function ProductDetailPage() {
 
   return (
     <V23Page>
-      <main className="v23-product-detail">
-        <nav className="product-breadcrumb" aria-label="Breadcrumb"><Link to="/products">{marketText(language,"Collection","제품 목록")}</Link><span>/</span><span>{productName}</span></nav>
+      <main className="v23-product-detail hd-page hd-pdp">
+        <nav className="hd-crumbs" aria-label="Breadcrumb"><Link to="/products">{marketText(language,"Collection","제품 목록")}</Link><span aria-hidden="true">/</span><span>{productName}</span></nav>
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
-        <section className="v23-product-detail-hero">
-          <figure>
+        <section className="hd-pdp__hero">
+          <figure className="hd-pdp__media">
             <img
               src={product.image}
               alt={productName}
-              width={900}
-              height={900}
-              sizes="(max-width: 900px) 100vw, 48vw"
+              width={880}
+              height={1100}
+              sizes="(max-width: 1023px) 100vw, 56vw"
               loading="eager"
               decoding="async"
               fetchPriority="high"
             />
-            {outOfStock && <span>{marketText(language, "Out of stock", "품절")}</span>}
+            {outOfStock && <span className="hd-tile__badge">{marketText(language, "Out of stock", "품절")}</span>}
           </figure>
-          <div>
-            <p className="v23-eyebrow"><span /> {productCategory}</p>
+          <div className="hd-pdp__info">
+            <p className="hd-pdp__category">{productCategory}</p>
             <h1>{productName}</h1>
-            <p>{productDescription}</p>
-            <strong>{formatMarketUnitMoney(product, market)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}
+            <p className="hd-pdp__lead">{productDescription}</p>
+            <p className="hd-pdp__price"><strong>{formatMarketUnitMoney(product, market)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}</p>
             <ProductSalesSummary product={product} showContact={false}/>
             <QuantityReview key={product.slug} product={product}/>
-            {market.hasShopee&&product.shopee&&<a className="shopee-trust-link" href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"View Shopee store ↗")}</a>}
+            {market.hasShopee&&product.shopee&&<a className="hd-textlink" href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"View Shopee store ↗")}</a>}
           </div>
         </section>
 
-
-        {productFacts(product.slug)&&<DiffuserComparison/>}
-        <ProductCare slug={product.slug}/>
-        <Link className="product-guide-link" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>
-        <section className="v23-product-detail-grid">
+        <section className="hd-pdp__about" aria-label={marketText(language, "Product details", "상품 상세 설명")}>
           <article>
-            <p className="v23-eyebrow"><span /> {marketText(language, "GOOD FOR", "추천 용도")}</p>
-            <h2>{productGoodFor}</h2>
+            <h2>{marketText(language, "GOOD FOR", "추천 용도")}</h2>
+            <p className="hd-pdp__goodfor">{productGoodFor}</p>
           </article>
           <article>
-            <p className="v23-eyebrow"><span /> {marketText(language, "HIGHLIGHTS", "특징")}</p>
+            <h2>{marketText(language, "HIGHLIGHTS", "특징")}</h2>
             <ul>{cleanProductUsage(product.highlights).map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ul>
           </article>
           <article>
-            <p className="v23-eyebrow"><span /> {marketText(language, "HOW TO USE", "사용 방법")}</p><p className="product-label-note">{marketText(language,"Follow the product label. Supplier-approved precautions are required before use.","제품 라벨을 우선 확인해주세요. 공급사 승인 주의사항 확인이 필요합니다.")}</p>
+            <h2>{marketText(language, "HOW TO USE", "사용 방법")}</h2>
+            <p className="product-label-note">{marketText(language,"Follow the product label. Supplier-approved precautions are required before use.","제품 라벨을 우선 확인해주세요. 공급사 승인 주의사항 확인이 필요합니다.")}</p>
             <ol>{cleanProductUsage(product.howTo).map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ol>
           </article>
         </section>
+
+        <div className="hd-pdp__specs">
+          {productFacts(product.slug)&&<DiffuserComparison/>}
+          <ProductCare slug={product.slug}/>
+          <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>
+        </div>
 
         {product.slug === "diffuser-500g" && <StoneJejuSceneGallery />}
 
         {showSingaporeDiffuserDetails && (
           <section className="v23-product-story" aria-label={marketText(language, "Product details", "상품 상세 설명")}>
             <header>
-              <p className="v23-eyebrow"><span /> {marketText(language, "PRODUCT DETAILS", "상품 상세 설명")}</p>
-              <h2>{productName}</h2>
+              <h2>{marketText(language, "Product details", "상품 상세 설명")}</h2>
             </header>
             <div className="v23-product-gallery">
               <div

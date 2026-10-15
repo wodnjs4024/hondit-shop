@@ -12,8 +12,8 @@ import {
 } from "../../lib/market";
 
 /*
- * Home-only header, footer and bottom bar for the redesign preview.
- * Other pages keep V23Header / V23Footer until the home direction is approved.
+ * Site header, footer and mobile bar. The header sits on the hero film on the home (overlay)
+ * and is a solid bar on every other page.
  */
 
 const chromeCopy = {
@@ -50,8 +50,11 @@ const Chevron = () => <svg viewBox="0 0 12 12" width="12" height="12" aria-hidde
 const Burger = () => <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M2 6h16M2 14h16" stroke="currentColor" strokeWidth="1.4" /></svg>;
 const Cross = () => <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m4 4 12 12M16 4 4 16" stroke="currentColor" strokeWidth="1.4" /></svg>;
 
-export function HomeHeader() {
+export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
   const { market, language } = useMarket();
+  const location = useLocation();
+  const partnerOnly = location.pathname.startsWith("/partners/");
+  const pickupOnly = location.pathname === "/jeju/pickup" || (location.pathname === "/contact" && new URLSearchParams(location.search).get("fulfillment") === "jeju_pickup");
   const copy = homeChromeCopy(language);
   const [solid, setSolid] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -89,8 +92,8 @@ export function HomeHeader() {
     : notice ? marketText(language, notice) : marketText(language, market.announcement, market.announcement);
 
   return <>
-    <p className="hd-announce">{announcement}</p>
-    <header className={`hd-header${solid || menuOpen ? " is-solid" : ""}`}>
+    {!partnerOnly && !pickupOnly && <p className="hd-announce">{announcement}</p>}
+    <header className={`hd-header${overlay ? " is-overlay" : ""}${!overlay || solid || menuOpen ? " is-solid" : ""}`}>
       <button type="button" className="hd-header__menu" aria-expanded={menuOpen} aria-controls="hd-menu" aria-label={menuOpen ? copy.close : copy.openMenu} onClick={() => setMenuOpen((value) => !value)}>
         {menuOpen ? <Cross /> : <Burger />}
       </button>
@@ -126,8 +129,11 @@ export function HomeHeader() {
 
 export function HomeFooter() {
   const { market, language } = useMarket();
+  const location = useLocation();
+  const partnerOnly = location.pathname.startsWith("/partners/");
+  const pickupOnly = location.pathname === "/jeju/pickup" || (location.pathname === "/contact" && new URLSearchParams(location.search).get("fulfillment") === "jeju_pickup");
   const copy = homeChromeCopy(language);
-  const footerLines = marketText(language, market.footerLine, market.footerLine).split("\n");
+  const footerLines = (pickupOnly ? marketText(language, "StoneJeju 350g · Jeju designated-location pickup") : marketText(language, market.footerLine, market.footerLine)).split("\n");
   return <footer className="hd-footer">
     <div className="hd-footer__brand">
       <b>hondit<span>.</span></b>
@@ -137,14 +143,14 @@ export function HomeFooter() {
       <div>
         <h2>{copy.explore}</h2>
         <Link to="/products">{marketText(language, "Products", "Products")}</Link>
-        <Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>
+        {!partnerOnly && <Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>}
         <Link to="/jeju/pickup">{marketText(language, "Jeju pickup information")}</Link>
         <Link to="/jeju/stores">{marketText(language, "Meet StoneJeju in Jeju")}</Link>
         <Link to="/jeju">{marketText(language, "Asia to Jeju", "Asia to Jeju")}</Link>
       </div>
       <div>
         <h2>{copy.connect}</h2>
-        {market.hasShopee && <a href={SHOPEE} target="_blank" rel="noreferrer">{marketText(language, "Shopee ->")}</a>}
+        {!partnerOnly && market.hasShopee && <a href={SHOPEE} target="_blank" rel="noreferrer">{marketText(language, "Shopee ->")}</a>}
         <a href={INSTAGRAM} target="_blank" rel="noreferrer">Instagram ↗</a>
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
         <Link to="/contact">{marketText(language, "Contact", "Contact")}</Link>
@@ -170,26 +176,35 @@ export function HomeFooter() {
   </footer>;
 }
 
-/** Appears once the hero has scrolled away so it never covers the first-screen actions. */
+/** Browsing pages only. On the home it waits until the hero has gone; everywhere it steps aside for the footer. */
+const barPaths = /^\/($|products(\/|$)|jeju\/?$|jeju\/stores|guide\/|shipping|policy\/)/;
 export function HomeMobileBar() {
   const { language } = useMarket();
   const location = useLocation();
   const [shown, setShown] = useState(false);
+  const enabled = barPaths.test(location.pathname);
   useEffect(() => {
+    if (!enabled) return;
     const hero = document.querySelector(".hd-hero");
     const footer = document.querySelector(".hd-footer");
-    if (!hero || !("IntersectionObserver" in window)) { setShown(true); return; }
-    let heroVisible = true, footerVisible = false;
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => { if (entry.target === hero) heroVisible = entry.isIntersecting; else footerVisible = entry.isIntersecting; });
-      setShown(!heroVisible && !footerVisible);
-    });
-    observer.observe(hero); if (footer) observer.observe(footer);
-    return () => observer.disconnect();
-  }, [location.pathname]);
+    let pastTop = false, footerVisible = false;
+    const update = () => setShown(pastTop && !footerVisible);
+    const onScroll = () => {
+      pastTop = hero ? hero.getBoundingClientRect().bottom < 0 : window.scrollY > 160;
+      update();
+    };
+    const observer = "IntersectionObserver" in window ? new IntersectionObserver((entries) => { footerVisible = entries[0].isIntersecting; update(); }) : null;
+    if (observer && footer) observer.observe(footer);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { observer?.disconnect(); window.removeEventListener("scroll", onScroll); };
+  }, [location.pathname, enabled]);
+  if (!enabled) return null;
   const query = location.search;
+  const productMatch = location.pathname.match(/^\/products\/([^/]+)/);
+  const orderHref = productMatch ? `/bulk-orders?product=${productMatch[1]}` : `/bulk-orders${query}`;
   return <nav className={`hd-mobile-bar v23-mobile-actions${shown ? " is-shown" : ""}`} aria-label={marketText(language, "Quick purchase links", "빠른 구매 링크")} aria-hidden={!shown}>
     <Link to={`/products${query}`} tabIndex={shown ? 0 : -1}>{marketText(language, "Products", "상품")}</Link>
-    <Link to={`/bulk-orders${query}`} tabIndex={shown ? 0 : -1} className="is-primary">{marketText(language, "Overseas bundle orders")}</Link>
+    <Link to={orderHref} tabIndex={shown ? 0 : -1} className="is-primary">{marketText(language, "Overseas bundle orders")}</Link>
   </nav>;
 }

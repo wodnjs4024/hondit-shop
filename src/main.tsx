@@ -11,6 +11,8 @@ import "./styles/v23.css";
 import "./styles/admin.css";
 import "./styles/sales-tools.css";
 import "./styles/sales-structure.css";
+import "./styles/home-redesign.css";
+import "./styles/site-redesign.css";
 import App from "./App";
 import { initAnalytics } from "./lib/analytics";
 

@@ -1,0 +1,212 @@
+/*
+ * Site-wide redesign layer (DESIGN.md v3.0, approved home draft 2).
+ * Applies the home's design language to every public page rendered inside V23Page (body.hd-site).
+ * Admin pages do not use V23Page and are not affected.
+ */
+
+/* ---------- Tokens: point the legacy palette at the new one ---------- */
+body.hd-site {
+  --v23-green: var(--hd-brand);
+  --v23-green-2: var(--hd-brand-hover);
+  --v23-ink: var(--hd-ink);
+  --v23-cream: var(--hd-tile);
+  --v23-paper: var(--hd-paper);
+  --v23-sand: var(--hd-tile);
+  --v23-blue: var(--hd-tile);
+  --v23-orange: #a4532f;
+  --v23-line: var(--hd-line);
+  --v23-sans: var(--hd-sans), var(--hd-cjk, sans-serif);
+  background: var(--hd-paper);
+  color: var(--hd-ink);
+  font-family: var(--hd-sans), var(--hd-cjk, sans-serif);
+}
+body.hd-site main { background: var(--hd-paper); color: var(--hd-ink); }
+body.hd-site main :is(p, li, dd, td) { color: inherit; }
+
+/* Headings: same voice as the home (Cormorant only for Latin scripts). */
+body.hd-site main :is(h1, h2) {
+  font-family: var(--hd-cjk, var(--hd-sans));
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+:lang(en) body.hd-site main :is(h1, h2), :lang(ms) body.hd-site main :is(h1, h2) { font-family: var(--hd-serif); font-weight: 500; letter-spacing: -0.01em; }
+body.hd-site main :is(h1, h2) em { font-style: normal; color: inherit; font-family: inherit; }
+body.hd-site main h3 { font-family: var(--hd-sans), var(--hd-cjk, sans-serif); letter-spacing: 0; }
+:lang(ko) body.hd-site main { word-break: keep-all; }
+
+/* Small labels above headings: quiet sentence-size text, no decorative rule. */
+body.hd-site main .v23-eyebrow {
+  display: block; margin: 0 0 10px; color: var(--hd-muted);
+  font-family: var(--hd-sans), var(--hd-cjk, sans-serif); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.02em; text-transform: none;
+}
+body.hd-site main .v23-eyebrow span { display: none; }
+body.hd-site main .v23-eyebrow.is-light { color: rgba(255, 255, 255, 0.8); }
+
+/* Surfaces: no rounded cards or floating shadows; separate by tone. */
+body.hd-site main :is(article, section, aside, figure, details, .discovery-path, .sales-tools-section, .sales-tools-table) { box-shadow: none; }
+body.hd-site main :is(.discovery-path, .v23-route-guide article, .v23-confidence article, .sales-tools-section, .partner-card, .bulk-panel, .checkout-panel) { border-radius: 0; }
+body.hd-site main img { border-radius: 0; }
+
+/* Buttons and links: square, brand green, 44px+. */
+body.hd-site main :is(button, .button, .v23-button, .v23-shop-button, a.is-dark, .primary-button, .secondary-button, [class*="cta"]) { border-radius: 0; }
+body.hd-site main :is(.is-dark, .primary-button, .v23-button--dark, button[type="submit"]) { background-color: var(--hd-brand); border-color: var(--hd-brand); color: var(--hd-white); }
+body.hd-site main :is(.is-dark, .primary-button, .v23-button--dark, button[type="submit"]):hover { background-color: var(--hd-brand-hover); }
+body.hd-site main :is(button, a) { text-transform: none; letter-spacing: 0; }
+
+/* Forms: visible labels, 16px inputs, square fields. */
+body.hd-site main :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  border-radius: 0; font-size: 16px; font-family: inherit; color: var(--hd-ink); background-color: var(--hd-white);
+  border-color: var(--hd-line-strong);
+}
+body.hd-site main :is(input, select, textarea):focus-visible { outline: 2px solid var(--hd-brand); outline-offset: 1px; }
+body.hd-site main label { color: var(--hd-ink); }
+
+/* Tables: Aesop-like ruled rows, tabular figures. */
+body.hd-site main table { font-variant-numeric: tabular-nums; border-collapse: collapse; }
+body.hd-site main :is(th, td) { border-color: var(--hd-line); }
+body.hd-site main thead th { background: transparent; color: var(--hd-muted); font-weight: 500; text-transform: none; letter-spacing: 0; }
+body.hd-site main table small { font-size: 13px; }
+
+/* Expandable detail rows */
+body.hd-site main details > summary { min-height: 44px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+
+/* ---------- New page parts (.hd-page) ---------- */
+.hd-page { padding-bottom: 96px; }
+.hd-page-head { display: grid; gap: 14px; max-width: 1600px; margin: 0 auto; padding: 72px var(--hd-gutter) 40px; }
+.hd-page-head h1 { font-size: clamp(32px, 3.4vw, 52px); line-height: 1.15; max-width: 900px; }
+.hd-page-head > p { max-width: 680px; color: var(--hd-muted); font-size: 16px; line-height: 1.6; }
+.hd-page-head__facts { display: flex; flex-wrap: wrap; gap: 6px 24px; margin: 6px 0 0; padding: 0; list-style: none; color: var(--hd-ink); font-size: 14px; }
+.hd-page-head__facts li { display: inline-flex; align-items: center; gap: 8px; }
+.hd-page-head__facts li::before { content: ""; width: 4px; height: 4px; background: var(--hd-muted); }
+
+.hd-catalog { max-width: 1600px; margin: 0 auto; padding: 0 var(--hd-gutter); }
+.hd-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 28px; padding: 0 0 16px; border-bottom: 1px solid var(--hd-line); }
+.hd-filters button {
+  min-height: 44px; padding: 0 18px; border: 1px solid var(--hd-line-strong); border-radius: 0; background: transparent;
+  color: var(--hd-ink); font: inherit; font-size: 15px; cursor: pointer; transition: background-color var(--hd-fast) var(--hd-ease), color var(--hd-fast) var(--hd-ease);
+}
+.hd-filters button.is-active { background: var(--hd-ink); border-color: var(--hd-ink); color: var(--hd-white); }
+.hd-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px 20px; margin: 0; padding: 0; list-style: none; }
+.hd-grid > li { min-width: 0; }
+
+.hd-routes { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px 64px; max-width: 1600px; margin: 96px auto 0; padding: 64px var(--hd-gutter) 0; border-top: 1px solid var(--hd-line); }
+.hd-routes h2 { font-size: clamp(26px, 2.2vw, 34px); line-height: 1.3; }
+.hd-routes__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+.hd-routes__grid article { display: grid; align-content: start; gap: 10px; }
+.hd-routes__grid h3 { font-size: 18px; font-weight: 600; }
+.hd-routes__grid p { color: var(--hd-muted); font-size: 15px; line-height: 1.6; }
+.hd-routes .hd-paths { grid-column: 2; }
+
+@media (max-width: 1023px) {
+  .hd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 16px; }
+  .hd-routes { grid-template-columns: minmax(0, 1fr); }
+  .hd-routes .hd-paths { grid-column: 1; }
+}
+@media (max-width: 639px) {
+  .hd-page-head { padding: 40px var(--hd-gutter) 28px; }
+  .hd-page-head h1 { font-size: 28px; }
+  .hd-grid { gap: 32px 12px; }
+  .hd-grid .hd-tile__body { grid-template-columns: minmax(0, 1fr); }
+  .hd-grid .hd-tile__price { grid-column: 1; grid-row: auto; margin-top: 2px !important; }
+  .hd-routes { margin-top: 56px; padding-top: 40px; }
+  .hd-routes__grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}
+
+.hd-page p { margin: 0; }
+body.hd-site main .button { border-radius: 0; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: 0 22px; font-size: 15px; font-weight: 500; text-decoration: none; box-shadow: none; }
+body.hd-site main .button--primary { background: var(--hd-brand); border: 1px solid var(--hd-brand); color: var(--hd-white); }
+body.hd-site main .button--primary:hover { background: var(--hd-brand-hover); color: var(--hd-white); }
+body.hd-site main .button--ghost { background: transparent; border: 1px solid var(--hd-line-strong); color: var(--hd-ink); }
+body.hd-site main .button--ghost:hover { border-color: var(--hd-ink); }
+
+/* ---------- Breadcrumb ---------- */
+.hd-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; max-width: 1600px; margin: 0 auto; padding: 20px var(--hd-gutter) 0; color: var(--hd-muted); font-size: 14px; }
+.hd-crumbs a { display: inline-flex; align-items: center; min-height: 44px; color: var(--hd-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--hd-line-strong); }
+
+/* ---------- Product detail: large photograph, buying column beside it ---------- */
+.hd-pdp__hero { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: start; max-width: 1600px; margin: 0 auto; padding: 16px var(--hd-gutter) 0; }
+.hd-pdp__media { position: sticky; top: 88px; margin: 0; aspect-ratio: 4 / 5; overflow: hidden; background: var(--hd-tile); }
+.hd-pdp__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hd-pdp__info { display: grid; gap: 16px; padding-top: 24px; }
+.hd-pdp__category { color: var(--hd-muted); font-size: 14px; }
+.hd-pdp__info h1 { font-size: clamp(32px, 3vw, 48px); line-height: 1.15; }
+.hd-pdp__lead { font-size: 16px; line-height: 1.7; color: var(--hd-ink); }
+.hd-pdp__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 4px 0 8px; }
+.hd-pdp__price strong { font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.hd-pdp__price small { color: var(--hd-muted); font-size: 14px; }
+
+/* Aesop-like ruled blocks for the summary and quantity review */
+.hd-pdp .product-sales-summary,
+.hd-pdp .quantity-review { margin: 0; padding: 20px 0 0; border: 0; border-top: 1px solid var(--hd-line-strong); border-radius: 0; background: transparent; box-shadow: none; }
+.hd-pdp .quantity-review h2,
+.hd-pdp .product-sales-summary__heading { font-family: var(--hd-sans), var(--hd-cjk, sans-serif) !important; font-size: 16px !important; font-weight: 600 !important; letter-spacing: 0 !important; margin: 0 0 12px; }
+.hd-pdp .quantity-review output { display: block; margin: 12px 0 4px; font-size: 32px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.hd-pdp .route-status { display: inline-block; padding: 4px 10px; background: var(--hd-tile); color: var(--hd-ink); font-size: 14px; border: 0; }
+.hd-pdp .quantity-review p { color: var(--hd-muted); font-size: 14px; line-height: 1.6; margin: 8px 0 0; }
+.hd-pdp .quantity-review .v23-actions { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 20px; }
+.hd-pdp .quantity-review .v23-actions .button { width: 100%; }
+
+.hd-pdp__about { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 48px; max-width: 1600px; margin: 112px auto 0; padding: 0 var(--hd-gutter); }
+.hd-pdp__about article { display: grid; align-content: start; gap: 12px; padding-top: 20px; border-top: 1px solid var(--hd-line-strong); background: transparent; border-radius: 0; }
+.hd-pdp__about h2 { font-family: var(--hd-sans), var(--hd-cjk, sans-serif) !important; font-size: 14px !important; font-weight: 600 !important; color: var(--hd-muted); letter-spacing: 0 !important; }
+.hd-pdp__goodfor { font-family: var(--hd-cjk, var(--hd-sans)); font-size: 24px; line-height: 1.45; }
+:lang(en) .hd-pdp__goodfor, :lang(ms) .hd-pdp__goodfor { font-family: var(--hd-serif); font-size: 28px; }
+.hd-pdp__about :is(ul, ol) { display: grid; gap: 8px; margin: 0; padding-left: 1.2em; font-size: 15px; line-height: 1.6; }
+.hd-pdp__about .product-label-note { color: var(--hd-muted); font-size: 14px; }
+
+.hd-pdp__specs { display: grid; gap: 32px; max-width: 1600px; margin: 96px auto 0; padding: 0 var(--hd-gutter); }
+.hd-pdp__specs > .hd-textlink { justify-self: start; }
+.hd-pdp .sales-tools-section { margin: 0; padding: 32px 0 0; border: 0; border-top: 1px solid var(--hd-line-strong); border-radius: 0; background: transparent; }
+.hd-pdp .sales-tools-section > h2 { font-size: clamp(24px, 2vw, 30px); margin-bottom: 16px; }
+.hd-pdp .sales-tools-table table { width: 100%; }
+.hd-pdp .sales-tools-table :is(th, td) { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--hd-line); text-align: left; font-size: 15px; }
+
+.hd-pdp .v23-product-story { max-width: 1600px; margin: 96px auto 0; padding: 0 var(--hd-gutter); background: transparent; }
+.hd-pdp .v23-product-story header { margin-bottom: 24px; text-align: left; }
+.hd-pdp .v23-product-story h2 { font-size: clamp(24px, 2vw, 30px); }
+
+@media (max-width: 1023px) {
+  .hd-pdp__hero { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 8px 0 0; }
+  .hd-pdp__media { position: relative; top: 0; aspect-ratio: 1 / 1; }
+  .hd-pdp__info { padding: 8px var(--hd-gutter) 0; }
+  .hd-pdp__about { grid-template-columns: minmax(0, 1fr); margin-top: 64px; }
+  .hd-pdp__specs { margin-top: 56px; }
+}
+@media (max-width: 639px) {
+  .hd-pdp__info h1 { font-size: 28px; }
+  .hd-pdp__price strong { font-size: 24px; }
+  .hd-pdp .sales-tools-table { overflow-x: auto; }
+}
+
+/* Square geometry everywhere on public pages (dots and radio marks keep their shape). */
+body.hd-site main :is(section, article, aside, figure, img, video, div, details, header, footer, nav, a, button, label, output, table, ul, ol, form, fieldset, textarea, select) { border-radius: 0; }
+body.hd-site main :is(section, article, aside, figure, div, details, a, button) { box-shadow: none; }
+
+/* Legacy serif accents (prices, totals, numerals) read in the sans; titles keep their own rule above. */
+body.hd-site { --v23-serif: var(--hd-sans), var(--hd-cjk, sans-serif); }
+
+/* Single accent band → brand ground, no orange fields. */
+body.hd-site main .v23-route-banner { background: var(--hd-brand); color: var(--hd-white); }
+body.hd-site main .v23-route-banner a { background: var(--hd-white); color: var(--hd-ink); border-color: var(--hd-white); }
+body.hd-site main :is(.v23-shop-button, .v23-actions a, .v23-bulk-summary a, .v23-soft-cta a, .v23-route-guide a) { border-radius: 0; font-weight: 500; }
+
+/* OUR JEJU hero caption: one quiet line under the coast film instead of large overlapping type. */
+body.hd-site main .v23-our-jeju-hero figure { position: relative; }
+body.hd-site main .v23-our-jeju-hero figcaption {
+  position: absolute; left: 16px; right: auto; bottom: 16px; top: auto; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+  max-width: calc(100% - 32px); padding: 6px 10px; background: var(--hd-paper); color: var(--hd-ink); transform: none;
+}
+body.hd-site main .v23-our-jeju-hero figcaption :is(span, strong) {
+  position: static; font-family: var(--hd-sans), var(--hd-cjk, sans-serif); font-size: 13px; line-height: 1.4; font-weight: 500; letter-spacing: 0; color: var(--hd-ink); transform: none; text-shadow: none;
+}
+body.hd-site main .v23-our-jeju-hero figcaption span { color: var(--hd-muted); font-variant-numeric: tabular-nums; }
+
+/* CJK titles need open leading; Latin display keeps its tighter set. */
+body.hd-site main :is(h1, h2) { line-height: 1.22; }
+:lang(en) body.hd-site main :is(h1, h2), :lang(ms) body.hd-site main :is(h1, h2) { line-height: 1.08; }
+
+/* Page heroes sit on the page instead of inside an inset card. */
+body.hd-site main :is(.v23-our-jeju-hero, .v23-page-hero) { margin-left: 0; margin-right: 0; width: auto; max-width: none; background: var(--hd-paper); }

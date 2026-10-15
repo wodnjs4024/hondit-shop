@@ -15,159 +15,14 @@ import {
   type MarketCode,
 } from "../../lib/market";
 
-export function V23Header() {
-  const partnerOnly=useLocation().pathname.startsWith("/partners/");
-  const location=useLocation();
-  const pickupOnly=location.pathname==="/jeju/pickup"||(location.pathname==="/contact"&&new URLSearchParams(location.search).get("fulfillment")==="jeju_pickup");
-  const [open, setOpen] = useState(false);
-  const [announcement, setAnnouncement] = useState("");
-  const { market, setMarket, language, setLanguage } = useMarket();
-
-  useEffect(() => {
-    const closeOnEscape = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, []);
-
-  useEffect(() => {
-    fetch("/api/admin/settings")
-      .then((response) => (response.ok ? response.json() : null))
-      .then((value: { settings?: { announcement?: string } } | null) => {
-        if (value?.settings?.announcement) setAnnouncement(value.settings.announcement);
-      })
-      .catch(() => undefined);
-  }, []);
-
-  return (
-    <>
-      {!partnerOnly&&!pickupOnly&&<div className="v23-shipping-bar">
-        {market.code!=='SG'?`${marketCountryName(market,language)} · ${marketText(language,'Confirm final amount and shipping before payment.')}`:announcement ? marketText(language, announcement) : marketText(language, market.announcement, market.announcement)}
-      </div>}
-      <header className="v23-nav">
-        <div className="v23-nav-main">
-          <Link className="v23-brand" to="/" aria-label="hondit home">
-            hondit<span>.</span>
-          </Link>
-          <nav className={open ? "v23-nav-links is-open" : "v23-nav-links"} aria-label="Main navigation">
-            {[['/products','Products'],['/bulk-orders','Overseas bundle orders'],['/partners','Store & business purchase guide'],['/jeju','About HONDIT']].map(([path,label])=><NavLink key={path} to={path} onClick={()=>setOpen(false)}>{marketText(language,label)}</NavLink>)}
-          </nav>
-          <div className="v23-nav-actions">
-            {!partnerOnly && (
-              <Link className="v23-shop-button" to="/bulk-orders">
-                {marketText(language, "Overseas bundle orders")} →
-              </Link>
-            )}
-            <button
-              className="v23-menu-button"
-              type="button"
-              aria-label="Toggle menu"
-              aria-expanded={open}
-              onClick={() => setOpen((value) => !value)}
-            >
-              {marketText(language, "Menu", "Menu")}
-            </button>
-          </div>
-        </div>
-        <div className="v23-nav-tools" aria-label="Market and language settings">
-          <Link className="pickup-nav" to="/jeju/pickup">{marketText(language,"Jeju pickup information")} →</Link>
-          <label className="v23-market-switch" aria-label={marketText(language,"Market")}>
-            <span>{marketText(language,"Market")}</span>
-            <select value={market.code} onChange={(event) => {
-              const code = event.target.value as MarketCode;
-              setMarket(code);
-
-            }}>
-              {Object.values(markets).map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.flag} {marketCountryName(option, language)}{!['BN','MO'].includes(option.code)&&` / ${option.currency}`}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="v23-market-switch v23-language-switch" aria-label={marketText(language,"Language")}>
-            <span>{marketText(language,"Language")}</span>
-            <select value={language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
-              {displayLanguages.map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.shortLabel}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-      </header>
-    </>
-  );
-}
-
-export function V23Footer() {
-  const footerLocation=useLocation();
-  const pickupOnly=footerLocation.pathname==="/jeju/pickup"||(footerLocation.pathname==="/contact"&&new URLSearchParams(footerLocation.search).get("fulfillment")==="jeju_pickup");
-  const partnerOnly=useLocation().pathname.startsWith("/partners/");
-  const { market, language } = useMarket();
-  const footerLines = (pickupOnly?marketText(language,"StoneJeju 350g · Jeju designated-location pickup"):marketText(language, market.footerLine, market.footerLine)).split("\n");
-
-  return (
-    <footer className="v23-footer">
-      <div className="v23-footer-brand">
-        <b>
-          hondit<span>.</span>
-        </b>
-        <p>
-          {footerLines[0]}
-          <br />
-          {footerLines[1] || ""}
-        </p>
-        <p>
-          {marketText(language, "A student-led brand based at", "A student-led brand based at")}
-          <br />
-          {marketText(language, "Jeju National University.", "Jeju National University.")}
-        </p>
-        <p className="v23-footer-legal-line">{marketText(language,"Business registration no.")} 637-12-03059</p>
-      </div>
-      <div>
-        <p>{marketText(language, "EXPLORE", "EXPLORE")}</p>
-        <Link to="/jeju">{marketText(language, "Asia to Jeju", "Asia to Jeju")}</Link>
-        <Link to="/products">{marketText(language, "Products", "Products")}</Link>
-        <Link to="/jeju/pickup">{marketText(language,"Jeju pickup information")}</Link>
-        <Link to="/jeju/stores">{marketText(language,"Meet StoneJeju in Jeju")}</Link>
-        {!partnerOnly&&<Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>}
-        <Link to="/shipping">{marketText(language, "Shipping", "Shipping")}</Link>
-      </div>
-      <div>
-        <p>{marketText(language, "CONNECT", "CONNECT")}</p>
-        {!partnerOnly && market.hasShopee ? (
-          <a href={SHOPEE} target="_blank" rel="noreferrer">{marketText(language,"Shopee ->")}</a>
-        ) : (
-          !partnerOnly&&<Link to="/bulk-orders">{marketText(language, "Bulk checkout ->", "Bulk checkout ->")}</Link>
-        )}
-        <a href={INSTAGRAM} target="_blank" rel="noreferrer">
-          Instagram -&gt;
-        </a>
-        <a href={`mailto:${EMAIL}`}>{marketText(language, "Email", "Email")}</a>
-        <Link to="/contact">{marketText(language, "Contact", "Contact")}</Link>
-      </div>
-      <div>
-        <p>{marketText(language, "TRUST & SUPPORT", "TRUST & SUPPORT")}</p>
-        <Link to="/shipping">{marketText(language, "Delivery guide", "Delivery guide")}</Link>
-        <Link to="/policy/refund">{marketText(language, "Refund support", "Refund support")}</Link>
-        <a href="https://www.jejunu.ac.kr/eng/" target="_blank" rel="noreferrer">{marketText(language,"JNU official site ->")}</a>
-      </div>
-      <small>
-        (c) 2026 hondit -{" "}
-        {marketText(language, "Student-led project based at Jeju National University.", "Student-led project based at Jeju National University.")}{" "}
-        <Link to="/policy/refund">{marketText(language, "Refund", "Refund")}</Link> -{" "}
-        <Link to="/policy/privacy">{marketText(language, "Privacy", "Privacy")}</Link> -{" "}
-        <Link to="/policy/terms">{marketText(language, "Terms", "Terms")}</Link> -{" "}
-        <Link to="/policy/shipping">{marketText(language, "Shipping", "Shipping")}</Link>
-      </small>
-    </footer>
-  );
-}
-
 export function V23Page({ children, chrome = "default" }: { children: ReactNode; chrome?: "default" | "home" }) {
   const { language } = useMarket();
   const location = useLocation();
+
+  useEffect(() => {
+    document.body.classList.add("hd-site");
+    return () => document.body.classList.remove("hd-site");
+  }, []);
 
   useEffect(() => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>("main > section"));
@@ -229,17 +84,11 @@ export function V23Page({ children, chrome = "default" }: { children: ReactNode;
 
   return (
     <>
-      {chrome === "home" ? <HomeHeader /> : <V23Header />}
+      <HomeHeader overlay={chrome === "home"} />
       {children}
-      {chrome === "home" ? <><HomeFooter /><HomeMobileBar /></> : <V23Footer />}
-      {chrome !== "home" && !location.pathname.startsWith("/partners/") && <nav className="v23-mobile-actions" aria-label={marketText(language, "Quick purchase links", "빠른 구매 링크")}>
-        <Link to="/products" className={location.pathname === "/products" ? "is-current" : ""}>
-          {marketText(language, "Products", "상품")}
-        </Link>
-        <Link to="/bulk-orders" className={location.pathname.startsWith("/bulk-orders") ? "is-current" : ""}>
-          {marketText(language, "Bulk Checkout", "대량주문")}
-        </Link>
-      </nav>}
+      <HomeFooter />
+      {!location.pathname.startsWith("/partners/") && <HomeMobileBar />}
+      
     </>
   );
 }

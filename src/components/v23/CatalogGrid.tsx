@@ -3,16 +3,22 @@ import { v23Products, type StorefrontProduct } from "../../data/v23SiteData";
 import { loadStorefrontProducts } from "../../lib/storefrontApi";
 import { isStorefrontProductAllowedForMarket, marketText, useMarket } from "../../lib/market";
 import { V23ProductCard } from "./SiteChrome";
+import { ProductTile } from "../home/ProductTile";
 import { trackEvent } from "../../lib/analytics";
 
 export function V23CatalogGrid({
   featuredOnly = false,
   limit,
   showFilters = true,
+  tiles = false,
+  query = "",
 }: {
   featuredOnly?: boolean;
   limit?: number;
   showFilters?: boolean;
+  /** Render the redesigned product tiles instead of the legacy cards. */
+  tiles?: boolean;
+  query?: string;
 }) {
   const { market, language } = useMarket();
   const [catalog, setCatalog] = useState<StorefrontProduct[]>(v23Products);
@@ -67,9 +73,9 @@ export function V23CatalogGrid({
 
   return (
     <>
-      {showFilters && <div className="v23-filters" role="group" aria-label="Filter products">
+      {showFilters && <div className={tiles ? "hd-filters" : "v23-filters"} role="group" aria-label="Filter products">
         {filterOptions.map((item) => (
-          <button key={item} type="button" className={filter === item ? "is-active" : ""} onClick={() => {
+          <button key={item} type="button" aria-pressed={filter === item} className={filter === item ? "is-active" : ""} onClick={() => {
             setFilter(item);
             trackEvent("product_filter_select", { filter_name: "category", filter_value: item, item_list_name: featuredOnly ? "home_featured_products" : "products_catalog" });
           }}>
@@ -77,9 +83,11 @@ export function V23CatalogGrid({
           </button>
         ))}
       </div>}
-      <div className="v23-product-grid" key={`${filter}-${market.code}`} aria-live="polite">
+      {tiles ? <ul className="hd-grid" key={`${filter}-${market.code}`} aria-live="polite">
+        {visible.map((product) => <ProductTile product={product} key={product.slug} query={query} />)}
+      </ul> : <div className="v23-product-grid" key={`${filter}-${market.code}`} aria-live="polite">
         {visible.map((product) => <V23ProductCard product={product} key={product.slug} />)}
-      </div>
+      </div>}
     </>
   );
 }
