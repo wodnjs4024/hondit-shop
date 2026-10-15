@@ -140,3 +140,47 @@ body.hd-site .checkout-flow .checkout-review-button { width: 100%; min-height: 5
 /* Stepper: one bordered control, no inner button borders. */
 body.hd-site main .diffuser-quantity__stepper button { border: 0 !important; box-shadow: none !important; }
 body.hd-site main .order-secondary { justify-self: center; }
+
+/* ---------- Quote request (/contact with a selection) ---------- */
+body.hd-site main .payment-request-panel { counter-reset: order-step; display: grid; gap: 8px; }
+body.hd-site main .payment-request-panel > .order-step__title, body.hd-site main .quote-summary .order-step__title { counter-increment: order-step; }
+body.hd-site main .quote-summary .order-panel__core { padding-top: 24px; }
+body.hd-site main .quote-send-title { margin-top: 32px !important; }
+body.hd-site main .payment-request-panel .request-message { margin: 0 0 16px; padding: 20px 22px; background: var(--hd-tile); border: 0; border-radius: 0; font-size: 15px; line-height: 1.7; }
+body.hd-site main .payment-request-panel .request-actions { display: grid; gap: 12px; }
+body.hd-site main .payment-request-panel .v23-email-actions .button--primary { min-height: 52px; width: 100%; }
+
+/* =====================================================================
+ * Info pages: shipping, partners — rows and columns instead of tinted cards
+ * ===================================================================== */
+/* Shipping: two routes as ruled columns on the paper. */
+body.hd-site .v23-shipping-page .v23-shipping-compare { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 !important; background: transparent !important; padding-top: 48px !important; }
+body.hd-site .v23-shipping-page .v23-shipping-compare.is-single-route { grid-template-columns: minmax(0, 1fr); }
+body.hd-site .v23-shipping-page .v23-shipping-compare article { background: transparent !important; padding: 28px 40px 32px 0 !important; border-top: 2px solid var(--hd-ink) !important; }
+body.hd-site .v23-shipping-page .v23-shipping-compare article + article { padding-left: 40px !important; border-left: 1px solid var(--of-rule) !important; }
+body.hd-site .v23-shipping-page .v23-shipping-compare ul { margin: 16px 0 20px; padding: 0; list-style: none; }
+body.hd-site .v23-shipping-page .v23-shipping-compare li { padding: 10px 0; border-bottom: 1px solid var(--of-rule); font-size: 15px; line-height: 1.55; }
+/* Timeline: a real sequence, numbers kept, set on one rule. */
+body.hd-site .v23-shipping-page .v23-delivery-timeline { display: grid !important; grid-template-columns: minmax(0, 3fr) repeat(3, minmax(0, 3fr)); gap: 0 32px !important; background: transparent !important; padding-top: var(--section-gap) !important; }
+body.hd-site .v23-shipping-page .v23-delivery-timeline > * { background: transparent !important; border: 0 !important; border-top: 1px solid var(--of-rule-strong) !important; padding: 20px 0 0 !important; }
+body.hd-site .v23-shipping-page .v23-delivery-timeline article > span:first-child { font-size: 15px; font-weight: 600; color: var(--hd-ink); }
+@media (max-width: 1023px) {
+  body.hd-site .v23-shipping-page .v23-shipping-compare { grid-template-columns: minmax(0, 1fr); }
+  body.hd-site .v23-shipping-page .v23-shipping-compare article + article { padding-left: 0 !important; border-left: 0 !important; margin-top: 24px; }
+  body.hd-site .v23-shipping-page .v23-delivery-timeline { grid-template-columns: minmax(0, 1fr); gap: 0 !important; }
+  body.hd-site .v23-shipping-page .v23-delivery-timeline > * { padding: 16px 0 !important; }
+}
+
+/* Partners: purposes as a list of rows, not three identical cards. */
+body.hd-site main.partner-discovery .discovery-paths { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; gap: 0 !important; border-top: 2px solid var(--hd-ink); }
+body.hd-site main.partner-discovery .discovery-path { display: grid !important; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 8px 48px; align-items: baseline; padding: 20px 0 !important; background: transparent !important; border-bottom: 1px solid var(--of-rule) !important; }
+body.hd-site main.partner-discovery .discovery-path > :not(h2):not(h3):not(strong):not(b) { grid-column: 2; }
+body.hd-site main.partner-discovery .discovery-path :is(h2, h3) { grid-column: 1; grid-row: 1 / span 4; margin: 0 !important; }
+body.hd-site main.partner-discovery .discovery-path p { margin: 0; font-size: 16px; line-height: 1.6; }
+body.hd-site main.partner-discovery .support-examples a { background: var(--hd-tile); border-radius: 0; }
+body.hd-site main.partner-discovery .partner-faq details { border-bottom: 1px solid var(--of-rule); }
+body.hd-site main.partner-discovery .partner-faq summary { min-height: 56px; font-size: 16px; font-weight: 500; }
+@media (max-width: 639px) {
+  body.hd-site main.partner-discovery .discovery-path { grid-template-columns: minmax(0, 1fr); }
+  body.hd-site main.partner-discovery .discovery-path :is(h2, h3), body.hd-site main.partner-discovery .discovery-path > * { grid-column: 1; grid-row: auto; }
+}
