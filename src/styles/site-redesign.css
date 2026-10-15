@@ -357,7 +357,7 @@ body.hd-site .v23-map-tabs button:not(.is-active) span { color: #f2c3a8; }
   body.hd-site .checkout-flow .bulk-detail__grid { grid-template-columns: 96px minmax(0, 1fr) !important; column-gap: 0 !important; row-gap: 0 !important; padding: 0 0 0 var(--hd-gutter); }
   body.hd-site .checkout-flow .bulk-detail__image { grid-column: 1; grid-row: 1; width: 96px; aspect-ratio: 4 / 5 !important; margin-top: 64px; }
   body.hd-site .checkout-flow .bulk-detail__content { grid-column: 1 / -1; grid-row: 1; padding: 0 var(--hd-gutter) 0 0; }
-  body.hd-site .checkout-flow .bulk-detail__content > :is(h1, .bulk-detail__volume) { margin-left: 112px; }
+  body.hd-site .checkout-flow .bulk-detail__content > h1 { margin-left: 112px; }
   body.hd-site .checkout-flow .bulk-detail__content > h1 { font-size: 24px !important; }
 }
 
@@ -436,3 +436,4 @@ body.hd-site main.product-guide-page > button { justify-self: start; width: auto
 body.hd-site main:is(.product-guide-page, .partner-discovery) .sales-tools-section { max-width: none; width: 100%; margin: 0 !important; padding: 24px 0 0 !important; border: 0 !important; border-top: 1px solid var(--hd-line-strong) !important; background: transparent !important; box-sizing: border-box; }
 body.hd-site main.partner-discovery > .sales-tools-section, body.hd-site main.partner-discovery > details { margin-top: var(--section-gap) !important; }
 body.hd-site main.v23-policy-page .v23-policy-actions a { color: var(--hd-ink); text-decoration: underline; text-underline-offset: 4px; min-height: 44px; display: inline-flex; align-items: center; }
+body.hd-site .checkout-flow .bulk-detail__volume { margin: 0 !important; }
