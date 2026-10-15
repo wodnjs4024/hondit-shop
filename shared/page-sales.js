@@ -7,5 +7,12 @@ export function cleanProductUsage(lines = []) {
 export function sgCheckoutNeedsInquiry(lines, marketCode) {
   if (marketCode !== 'SG') return false;
   const known=lines.filter(line => sgTerms(line.product));
-  return known.length > 0 && (lines.length !== 1 || known.some(line => Number(line.quantity ?? line.packCount ?? line.totalUnits) !== sgTerms(line.product).moq));
+  return known.length > 0 && (lines.length !== 1 || known.some(line => {
+    const quantity=Number(line.quantity ?? line.packCount ?? line.totalUnits);
+    const sku=line.product.apiSlug||line.product.slug;
+    if (['diffuser-350g','diffuser-500g'].includes(sku)) {
+      return !Number.isSafeInteger(quantity) || !(quantity===10 || quantity>=20 && quantity<=9999);
+    }
+    return quantity!==sgTerms(line.product).moq;
+  }));
 }

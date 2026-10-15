@@ -17,8 +17,8 @@ test('synthetic approved delivery calculation combines exact integer charges ser
  assert.equal(d.status,'direct');assert.equal(d.productTotalMinor,48300);assert.equal(d.shippingMinor,369);assert.equal(d.totalMinor,48669);assert.equal(d.classification,'shipping_calculation_required');
  assert.equal(resolveCheckoutTerms(p,'SG',51,[c]).status,'request');
 });
-test('no extrapolation from 10/20 bundles and no overlapping freight selection',()=>{
- for(const q of [21,23,35,50,100])assert.equal(resolveCheckoutTerms({...p,stockQuantity:1000},'SG',q).reason,'delivery_scope_missing');
+test('seller absorbs freight differences for SG 20+ and overlapping rules are rejected',()=>{
+ for(const q of [21,23,35,50,100]){const d=resolveCheckoutTerms({...p,stockQuantity:1000},'SG',q);assert.equal(d.status,'direct');assert.equal(d.totalMinor,2100*q);assert.equal(d.shippingMinor,0)};
  assert.equal(resolveDeliveryCharge({...condition,deliveryRules:[rule,rule]},21).reason,'duplicate_delivery_rules');
 });
 test('invalid, unapproved or mismatched-currency delivery charges cannot be billed',()=>{
@@ -28,4 +28,16 @@ test('invalid, unapproved or mismatched-currency delivery charges cannot be bill
 });
 test('currency minor units are not globally cents',()=>{
  assert.equal(paypalCurrencyDigits('JPY'),0);assert.equal(paypalCurrencyDigits('TWD'),0);assert.equal(paypalCurrencyDigits('SGD'),2);
+});
+
+test('SG included general price covers every integer 20..9999 subject to inventory',()=>{
+ for(const sku of ['diffuser-350g','diffuser-500g']) {
+  const product={...defaultProducts.find(p=>p.slug===sku),stockQuantity:9999};
+  for(let q=20;q<=9999;q++){
+   const d=resolveCheckoutTerms(product,'SG',q);
+   assert.equal(d.status,'direct');assert.equal(d.totalMinor,(sku==='diffuser-350g'?2100:4600)*q);assert.equal(d.shippingMinor,0);assert.equal(d.shippingIncluded,true);
+  }
+  assert.equal(resolveCheckoutTerms({...product,stockQuantity:99},'SG',100).reason,'stock_limit');
+  for(const q of [15,19,10000,'20.1','1e2','',-1])assert.equal(resolveCheckoutTerms(product,'SG',q).status,'unavailable');
+ }
 });

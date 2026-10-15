@@ -1,0 +1,21 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "productSwitch": true,
+      "marketSwitch": true,
+      "quantityPreserved": true,
+      "amountAndCurrencyCorrect": true,
+      "oldMoqOnlyCopyRemoved": true
+    },
+    {
+      "width": 390,
+      "productSwitch": true,
+      "marketSwitch": true,
+      "quantityPreserved": true,
+      "amountAndCurrencyCorrect": true,
+      "oldMoqOnlyCopyRemoved": true
+    }
+  ],
+  "writes": 0
+}
