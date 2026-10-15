@@ -192,3 +192,7 @@ body.hd-site main.partner-discovery .partner-faq summary { min-height: 56px; fon
   body.hd-site main.partner-discovery .discovery-path { display: block !important; }
   body.hd-site main.partner-discovery .discovery-path :is(h2, h3) { margin: 0 0 6px !important; }
 }
+
+/* Legible step labels: no 10px rust captions, no faint numerals. */
+body.hd-site .v23-shipping-page .v23-delivery-timeline article > small { font-size: 13px !important; font-weight: 600; letter-spacing: 0 !important; text-transform: none !important; color: var(--hd-state-confirm-fg, #7a3a1c) !important; }
+body.hd-site main.partner-discovery .discovery-number { font-size: 13px; font-weight: 600; color: var(--hd-muted) !important; }
