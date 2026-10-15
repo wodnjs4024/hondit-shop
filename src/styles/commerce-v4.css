@@ -210,3 +210,16 @@ body.hd-site main .order-cta { min-width: 0; max-width: 100%; height: auto; padd
 body.hd-site main .order-cta span { min-width: 0; white-space: normal; line-height: 1.3; }
 body.hd-site .order-bar .order-bar__sum strong { color: var(--v4-on-forest, #f4f1ea) !important; }
 body.hd-site .order-bar .order-bar__sum span, body.hd-site .order-bar .order-bar__sum small { color: var(--v4-on-forest-soft, rgba(244, 241, 234, 0.78)) !important; }
+
+/* =========================================================
+ * Product tiles: every tile shares the same rows, so names, terms and links line up across a row.
+ *   name/price · description · terms · (space) · order + details · Shopee · airport pickup (diffusers)
+ * ========================================================= */
+.hd-tile__body { grid-template-rows: auto auto auto auto 1fr !important; }
+.hd-tile__body > .hd-tile__links { grid-row: 4; align-self: start; display: grid !important; justify-items: start; gap: 0 !important; margin-top: 16px !important; }
+.hd-tile__primary { display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px; margin: 0 !important; }
+.hd-tile__primary .hd-textlink { display: inline-flex; align-items: center; min-height: 44px; }
+.hd-tile__links .hd-tile__pickup { display: inline-flex; align-items: center; min-height: 44px; }
+.hd-tile__links .hd-tile__retail summary { min-height: 40px; }
+.hd-tile__desc { min-height: 3em; }
+.hd-tile__terms { min-height: 1.5em; }

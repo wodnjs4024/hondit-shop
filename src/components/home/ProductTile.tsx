@@ -8,6 +8,8 @@ import { formatMarketUnitMoney, marketProductText, marketText, useMarket } from 
 export function ProductTile({ product, query }: { product: StorefrontProduct; query: string }) {
   const { market, language } = useMarket();
   const name = marketProductText(language, product.name);
+  /* Both diffusers can be collected at Jeju Airport; the amount comes from the shared pickup price table. */
+  const pickupSize = product.slug === "diffuser-350g" ? "350g" : product.slug === "diffuser-500g" ? "500g" : null;
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
   return <li>
     <article className="hd-tile v23-product-card" data-item-id={product.slug} data-item-name={name} data-item-category={product.category}
@@ -22,10 +24,12 @@ export function ProductTile({ product, query }: { product: StorefrontProduct; qu
         <p className="hd-tile__desc">{marketProductText(language, product.detail)}</p>
         <p className="hd-tile__terms">{marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)} · {marketText(language, "Minimum")} {product.bulkMoq} {marketText(language, "units")}</p>
         <div className="hd-tile__links">
-          <Link className="hd-textlink hd-textlink--order" to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Overseas bundle orders")} →</Link>
-          <Link className="hd-textlink" to={`/products/${product.slug}${query}`}>{marketText(language, "View details", "View details")}</Link>
-          {product.slug==='diffuser-350g'&&<Link className="hd-textlink hd-tile__pickup" to={`/jeju/pickup?market=${market.code}&lang=${language}`}>{salesPresentationCopy(language).pickupNav} · KRW {pickupRequestTotal(1).toLocaleString('en-US')} →</Link>}
+          <p className="hd-tile__primary">
+            <Link className="hd-textlink hd-textlink--order" to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Overseas bundle orders")} →</Link>
+            <Link className="hd-textlink" to={`/products/${product.slug}${query}`}>{marketText(language, "View details", "View details")}</Link>
+          </p>
           {market.hasShopee && <details className="hd-tile__retail"><summary>Shopee</summary><a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee")} ↗</a></details>}
+          {pickupSize&&<Link className="hd-textlink hd-tile__pickup" to={`/jeju/pickup?market=${market.code}&lang=${language}`}>{salesPresentationCopy(language).pickupNav} · KRW {pickupRequestTotal(1,pickupSize).toLocaleString('en-US')} →</Link>}
         </div>
       </div>
     </article>

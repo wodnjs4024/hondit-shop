@@ -1,7 +1,7 @@
 import { stonejejuMediaCopy } from "../data/stonejejuMediaCopy";
 import { marketText, useMarket } from "../lib/market";
 import { Link } from "react-router-dom";
-import { V23GeoJourney } from "../components/v23/GeoJourney";
+import { JejuFieldGuide, OriginRoute } from "../components/OriginJourney";
 import { V23Page } from "../components/v23/SiteChrome";
 import { MaterialBand } from "../components/MaterialBand";
 
@@ -11,27 +11,22 @@ export function JejuPage() {
   const mediaCopy = stonejejuMediaCopy(language);
   return (
     <V23Page>
-      <main className="v23-jeju-page">
-        <section className="v23-our-jeju-hero">
-          <div>
-            <p className="v23-eyebrow"><span />{marketText(language,"OUR JEJU - PROJECT ORIGIN")}</p>
+      <main className="v23-jeju-page about-page">
+        <section className="about-hero">
+          <video autoPlay muted loop playsInline preload="metadata" poster="/images/jeju-field-seongsan.webp" aria-label="Gentle sea movement along the Jeju coast">
+            <source src="/images/jeju-sea-motion.mp4" type="video/mp4" />
+          </video>
+          <div className="about-hero__copy">
+            <p className="about-hero__coords">33.4580 N - 126.9425 E · {marketText(language,"Sea rhythm, Jeju Island")}</p>
             <h1>{marketText(language,"Not a theme.")}<br /><em>{marketText(language,"A real place.")}</em></h1>
             <p>{marketText(language,"hondit began in Jeju. This page shows the campus, coast, forest and volcanic landscapes behind the way we select and present everyday care and scent.")}</p>
             <a href="#field-guide">{marketText(language,"Open the Jeju field guide ->")}</a>
           </div>
-          <figure>
-            <video autoPlay muted loop playsInline preload="metadata" poster="/images/jeju-field-seongsan.webp" aria-label="Gentle sea movement along the Jeju coast">
-              <source src="/images/jeju-sea-motion.mp4" type="video/mp4" />
-            </video>
-            <figcaption><span>33.4580 N - 126.9425 E</span><strong>{marketText(language,"Sea rhythm, Jeju Island")}</strong></figcaption>
-          </figure>
         </section>
 
-        <div id="field-guide">
-          <V23GeoJourney />
-        </div>
+        <OriginRoute />
 
-        <section className="v23-our-jeju-origin">
+        <section className="about-origin">
           <div>
             <p className="v23-eyebrow"><span />{marketText(language,"HONDIT HOME - ARA CAMPUS")}</p>
             <h2>{marketText(language,"Built by students,")}<br /><em>{marketText(language,"grounded in Jeju.")}</em></h2>
@@ -45,6 +40,10 @@ export function JejuPage() {
           </figure>
         </section>
 
+        <div id="field-guide">
+          <JejuFieldGuide />
+        </div>
+
         <section className="v23-jeju-notes v23-jeju-notes--band">
           <header>
             <p className="v23-eyebrow"><span />{marketText(language,"THREE REFERENCES")}</p>
@@ -53,7 +52,7 @@ export function JejuPage() {
           <MaterialBand />
         </section>
 
-        <section className="v23-soft-cta">
+        <section className="v23-soft-cta about-cta">
           <div>
             <p className="v23-eyebrow"><span />{marketText(language,"FROM PLACE TO RITUAL")}</p>
             <h2>{marketText(language,"Bring a quieter piece")}<br /><em>{marketText(language,"of Jeju into everyday life.")}</em></h2>

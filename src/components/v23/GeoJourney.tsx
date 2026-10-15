@@ -11,7 +11,7 @@ type SvgMap = { viewBox: string; locations: SvgLocation[] };
 const koreaRoutePoint = { x: 833.76, y: 350.7 } as const;
 
 // Marker centres are verified against the same @svg-maps/world country paths rendered below.
-const marketRoutes = {
+export const marketRoutes = {
   SG: { mapId: "sg", x: 766.05, y: 459.14, curve: "M 766.05 459.14 C 789 429, 814 383, 833.76 350.7" },
   HK: { mapId: "hk", x: 794.95, y: 398.71, curve: "M 794.95 398.71 C 807 383, 821 364, 833.76 350.7" },
   TW: { mapId: "tw", x: 814.49, y: 392.68, curve: "M 814.49 392.68 C 822 379, 828 363, 833.76 350.7" },
@@ -22,7 +22,7 @@ const marketRoutes = {
   MY: { mapId: "my", x: 761.73, y: 450.23, curve: "M 761.73 450.23 C 787 422, 814 376, 833.76 350.7" },
 } as const;
 
-const asiaIds = new Set([
+export const asiaIds = new Set([
   "kr", "kp", "jp", "cn", "mn", "kz", "in", "bd", "mm", "th", "vn", "my", "sg", "hk", "id", "ph", "tw", "la", "kh", "np", "bt", "pk", "af", "lk", "bn", "mo",
 ]);
 
@@ -73,10 +73,10 @@ const koreaHighlights = [
   },
 ] as const;
 
-const jejuViewBox = { x: 65, y: 584, width: 96, height: 52 };
+export const jejuViewBox = { x: 65, y: 584, width: 96, height: 52 };
 const jejuPathBox = { x: 73.744286, y: 588.55884, width: 76.780004, height: 41.73 };
 
-function projectJeju(place: OurJejuPlace) {
+export function projectJeju(place: OurJejuPlace) {
   const x = jejuPathBox.x + ((place.lon - ourJejuBounds.west) / (ourJejuBounds.east - ourJejuBounds.west)) * jejuPathBox.width;
   const y = jejuPathBox.y + ((ourJejuBounds.north - place.lat) / (ourJejuBounds.north - ourJejuBounds.south)) * jejuPathBox.height;
   return { x: Number(x.toFixed(2)), y: Number(y.toFixed(2)) };
