@@ -1,0 +1,637 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "name": "entry direct status and420",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "invalid PayPal click never creates order and stays on form",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "required form, confirmation, keyboard continue and visible payment",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "mock full create→approval→capture→confirmation and no client amount",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "cancel preserves delivery values and stays retryable",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "create failure stays in checkout without capture",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "capture uncertainty never reports paid or offers automatic retry",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "20→21→20 reusesSDK and resets amount confirmation",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "SG approved diffuser-350g/10",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "SG approved diffuser-500g/10",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "SG approved diffuser-350g/20",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "SG approved diffuser-500g/20",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "quantity +/- direct input blank and request preservation",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability SG/ko",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability SG/en",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability SG/ja",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability SG/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability SG/ms",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability SG/th",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability JP/ko",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability JP/en",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability JP/ja",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability JP/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability JP/ms",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability JP/th",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability HK/ko",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability HK/en",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability HK/ja",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability HK/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability HK/ms",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability HK/th",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TW/ko",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TW/en",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TW/ja",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TW/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TW/ms",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TW/th",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TH/ko",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TH/en",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TH/ja",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TH/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TH/ms",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability TH/th",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MY/ko",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MY/en",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MY/ja",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MY/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MY/ms",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MY/th",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability BN/ko",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability BN/en",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability BN/ja",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability BN/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability BN/ms",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability BN/th",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MO/ko",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MO/en",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MO/ja",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MO/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MO/ms",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "availability MO/th",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "MO noSDK/noaddress with selected request",
+      "status": "passed"
+    },
+    {
+      "width": 1440,
+      "name": "mobile order link retains country language quantity product",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "entry direct status and420",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "invalid PayPal click never creates order and stays on form",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "required form, confirmation, keyboard continue and visible payment",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "mock full create→approval→capture→confirmation and no client amount",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "cancel preserves delivery values and stays retryable",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "create failure stays in checkout without capture",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "capture uncertainty never reports paid or offers automatic retry",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "20→21→20 reusesSDK and resets amount confirmation",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "SG approved diffuser-350g/10",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "SG approved diffuser-500g/10",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "SG approved diffuser-350g/20",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "SG approved diffuser-500g/20",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "quantity +/- direct input blank and request preservation",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability SG/ko",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability SG/en",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability SG/ja",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability SG/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability SG/ms",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability SG/th",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability JP/ko",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability JP/en",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability JP/ja",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability JP/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability JP/ms",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability JP/th",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability HK/ko",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability HK/en",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability HK/ja",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability HK/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability HK/ms",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability HK/th",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TW/ko",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TW/en",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TW/ja",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TW/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TW/ms",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TW/th",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TH/ko",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TH/en",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TH/ja",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TH/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TH/ms",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability TH/th",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MY/ko",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MY/en",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MY/ja",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MY/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MY/ms",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MY/th",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability BN/ko",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability BN/en",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability BN/ja",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability BN/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability BN/ms",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability BN/th",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MO/ko",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MO/en",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MO/ja",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MO/zh-HK",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MO/ms",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "availability MO/th",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "MO noSDK/noaddress with selected request",
+      "status": "passed"
+    },
+    {
+      "width": 390,
+      "name": "mobile order link retains country language quantity product",
+      "status": "passed"
+    }
+  ],
+  "pageErrors": [],
+  "externalBlocked": 116,
+  "finance": "all create/capture/order responses local mocked; no external finance or data writes"
+}

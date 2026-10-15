@@ -13,9 +13,9 @@ test('approved SG trial and arbitrary general quantities use exact minor amounts
   const d=resolveCheckoutTerms(product(sku),'SG',q);
   assert.equal(d.referenceTotalMinor,total);assert.equal(d.priceApproval,'approved');
   assert.equal(calculateCart([{slug:sku,packCount:q}],defaultProducts).totalSgd,total/100);
-  assert.equal(customerConditionLabel(product(sku),'SG',q),q===20?'Order the listed MOQ bundle':'Request payment with these selections');
-  assert.equal(d.status,q===20?'direct':'request');
-  if(q!==20){assert.equal(d.totalMinor,null);assert.equal(d.shippingIncluded,null);assert.equal(d.billingCurrency,null)}
+  assert.equal(customerConditionLabel(product(sku),'SG',q),(q===10||q===20)?'Order the listed MOQ bundle':'Request payment with these selections');
+  assert.equal(d.status,(q===10||q===20)?'direct':'request');
+  if(q!==20&&q!==10){assert.equal(d.totalMinor,null);assert.equal(d.shippingIncluded,null);assert.equal(d.billingCurrency,null)}
   const terms=approvedResaleTerms(product(sku),'SG',q);
   assert.equal(terms.totalMinor,total);assert.equal(resaleEconomics(terms,{price:'80'}).purchase,total);
  }
@@ -58,7 +58,7 @@ test('server rejects pending/invalid conditions before any DB write or PayPal ca
   if(options.method&&options.method!=='GET'){writes++;throw Error('Unexpected DB write')}
   return new Response(JSON.stringify(String(url).includes('site_settings')?[{checkout_enabled:true}]:defaultProducts),{status:200});
  };
- try {for(const [market,sku,q,countryCode] of [['SG','diffuser-350g',10,'SG'],['SG','diffuser-350g',21,'SG'],['SG','diffuser-500g',50,'SG'],['SG','diffuser-350g',15,'SG'],['JP','diffuser-350g',20,'JP'],['JP','foam-oil',30,'JP']]) {
+ try {for(const [market,sku,q,countryCode] of [['SG','diffuser-350g',21,'SG'],['SG','diffuser-500g',50,'SG'],['SG','diffuser-350g',15,'SG'],['JP','diffuser-350g',20,'JP'],['JP','foam-oil',30,'JP']]) {
   let status;let response;await handler({method:'POST',headers:{},body:{orderType:'Direct bulk order',market,countryCode,customerName:'Synthetic Test',customerEmail:'synthetic@example.invalid',customerPhone:'00000000',addressLine1:'1 Test Street',city:'Test',postalCode:countryCode==='SG'?'123456':'1234567',cart:[{slug:sku,packCount:q}],price:1,totalMinor:1,priceApproval:'approved'}},{status(n){status=n;return this},setHeader(){},end(s){response=JSON.parse(s)}});
   assert.equal(status,409,JSON.stringify(response));assert.equal(response.code,'PAYMENT_CONDITIONS_REQUIRED');
  }assert.equal(writes,0)}finally{globalThis.fetch=originalFetch;for(const k of keys)if(original[k]===undefined)delete process.env[k];else process.env[k]=original[k]}
@@ -67,7 +67,7 @@ test('existing SG exact-MOQ server creates only the authoritative amount using m
  const {default:handler}=await import('../api/paypal/create-order.js');
  const keys=['VERCEL_ENV','SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','PAYPAL_CLIENT_ID','PAYPAL_CLIENT_SECRET'];const original=Object.fromEntries(keys.map(k=>[k,process.env[k]]));const originalFetch=globalThis.fetch;
  Object.assign(process.env,{VERCEL_ENV:'production',SUPABASE_URL:'https://mock.invalid',SUPABASE_SERVICE_ROLE_KEY:'mock-only',PAYPAL_CLIENT_ID:'mock-only',PAYPAL_CLIENT_SECRET:'mock-only'});
- try{for(const [slug,quantity,total] of [['diffuser-350g',20,420],['diffuser-500g',20,920],['foam-oil',30,267]]){
+ try{for(const [slug,quantity,total] of [['diffuser-350g',10,230],['diffuser-500g',10,500],['diffuser-350g',20,420],['diffuser-500g',20,920],['foam-oil',30,267]]){
   let orderPayload;let items;let paypalPayload;
   globalThis.fetch=async(url,options={})=>{
    const u=String(url);let data;

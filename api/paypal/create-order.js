@@ -1,10 +1,10 @@
 import {resolveCheckoutCart,paypalCurrencyDigits} from "../../shared/checkout-terms.js";
-import {purchaseContext,purchaseRoute} from "../../shared/purchase-context.js";
+import {purchaseContext} from "../../shared/purchase-context.js";
 import {normalizeShipping, paypalShipping} from "../../shared/shipping.js";
-import { sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
+import { sgTerms } from "../../shared/page-sales.js";
 import { livePaymentTestProduct } from "../_bulk-data.js";
 import { calculateCart, createOrderNumber, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
-import { formatPayPalAmount, getMarketLineTotal, getMarketUnitPrice, isBulkProductAllowedForMarket, resolveMarket } from "../_markets.js";
+import { formatPayPalAmount, isBulkProductAllowedForMarket, resolveMarket } from "../_markets.js";
 
 function validateCheckout(body) {
   const required = ["orderType", "customerName", "customerEmail", "customerPhone", "addressLine1", "city"];
@@ -107,10 +107,8 @@ export default async function handler(req, res) {
       : products;
     const rawDecision=resolveCheckoutCart(body.cart.map(item=>({product:checkoutProducts.find(p=>p.slug===item.slug),quantity:item.packCount})),market.code);
     if(rawDecision.status!=='direct')return json(res,409,{error:'Selected price, quantity and shipping conditions require confirmation.',code:'PAYMENT_CONDITIONS_REQUIRED'});
-    if (sgCheckoutNeedsInquiry(body.cart.map(item => ({ product: checkoutProducts.find(p => p.slug === item.slug), quantity: item.packCount })), market.code)) throw new Error("This Singapore quantity or combination requires an enquiry before payment.");
     const pricingProducts = market.code === "SG" ? checkoutProducts.map(p => sgTerms(p) ? {...p,packQuantity:sgTerms(p).moq} : p) : checkoutProducts;
     const summary = calculateCart(body.cart, pricingProducts);
-    if (!body.cart.some(item=>item.slug===livePaymentTestProduct.slug) && purchaseRoute(summary.lines.map(line=>({product:line.product,quantity:line.totalUnits})),market.code)!=='direct') throw new Error('This quantity or combination requires consultation before payment.');
     const blockedProduct = summary.lines.find((line) => !isBulkProductAllowedForMarket(line.product, market));
     if (blockedProduct) {
       throw new Error(`${blockedProduct.product.name} is not available for ${market.countryName}.`);
@@ -118,12 +116,12 @@ export default async function handler(req, res) {
     const decision=resolveCheckoutCart(summary.lines.map(line=>({product:line.product,quantity:line.totalUnits})),market.code);
     if(decision.status!=='direct')return json(res,409,{error:'Please request payment for these selections; transaction conditions require confirmation.',code:'PAYMENT_CONDITIONS_REQUIRED'});
     const marketLines = summary.lines.map((line) => {
-      const marketUnitPrice = getMarketUnitPrice(line.product, market);
-      const marketLineTotal = getMarketLineTotal(line.product, line.totalUnits, market);
+      const marketUnitPrice = decision.unitMinor / 10**paypalCurrencyDigits(decision.billingCurrency);
+      const marketLineTotal = decision.productTotalMinor / 10**paypalCurrencyDigits(decision.billingCurrency);
       return { ...line, marketUnitPrice, marketLineTotal };
     });
     const marketTotal=decision.totalMinor/10**paypalCurrencyDigits(decision.billingCurrency);
-    if(decision.billingCurrency!==market.currency)throw Error('Confirmed billing currency does not match this checkout route');
+
     const marketTotalLabel=formatPayPalAmount(marketTotal,decision.billingCurrency);
     const orderNumber = createOrderNumber();
     const attribution = body.attribution || {};
@@ -141,7 +139,7 @@ export default async function handler(req, res) {
       city: shipping.city,
       postal_code: shipping.postal,
       customer_note: body.customerNote || null,
-      internal_note: `[shipping:v1] [condition:${decision.version}] [sales:v1 fulfillment=${salesContext.fulfillment} purpose=${salesContext.purpose}] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
+      internal_note: `[shipping:v1] [checkout:v2 ${JSON.stringify({version:decision.version,shippingVersion:decision.shippingVersion,quantity:decision.quantity,billingCurrency:decision.billingCurrency,productTotalMinor:decision.productTotalMinor,shippingMinor:decision.shippingMinor,totalMinor:decision.totalMinor,tax:"recipient",shippingIncluded:decision.shippingIncluded})}] [condition:${decision.version}] [sales:v1 fulfillment=${salesContext.fulfillment} purpose=${salesContext.purpose}] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
       utm_source: attribution.utm_source || attribution.traffic_source || null,
       utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,
@@ -149,11 +147,11 @@ export default async function handler(req, res) {
       utm_term: attribution.utm_term || attribution.traffic_term || null,
       landing_page: attribution.landing_page || null,
       referrer: attribution.referrer || req.headers.referer || null,
-      currency: market.currency,
+      currency: decision.billingCurrency,
       total_packs: summary.totalPacks,
       total_units: summary.totalUnits,
       total_sgd: marketTotal,
-      shipping_included: true,
+      shipping_included: decision.shippingIncluded,
       payment_provider: "paypal",
       payment_status: "pending_payment",
       order_status: "pending_payment",
@@ -174,8 +172,8 @@ export default async function handler(req, res) {
           product_name_snapshot: line.product.name,
           volume_snapshot: line.product.volumeLabel,
           unit_price_sgd_snapshot: line.marketUnitPrice,
-          pack_quantity_snapshot: line.product.packQuantity,
-          pack_price_sgd_snapshot: Number((line.marketUnitPrice * line.product.packQuantity).toFixed(2)),
+          pack_quantity_snapshot: decision.quantity===10?10:line.product.packQuantity,
+          pack_price_sgd_snapshot: Number((line.marketUnitPrice * (decision.quantity===10?10:line.product.packQuantity)).toFixed(2)),
           pack_count: line.packCount,
           total_units: line.totalUnits,
           line_total_sgd: line.marketLineTotal,
@@ -196,8 +194,8 @@ export default async function handler(req, res) {
             custom_id: order.id,
             shipping: paypalShipping(shipping),
             amount: {
-              currency_code: market.currency,
-              value: formatPayPalAmount(marketTotal, market.currency),
+              currency_code: decision.billingCurrency,
+              value: formatPayPalAmount(marketTotal, decision.billingCurrency),
             },
           },
         ],

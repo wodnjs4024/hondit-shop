@@ -11,7 +11,7 @@ export function PaymentRequestPanel({lines,purpose='',heading=true}:{lines:{prod
   const d=resolveCheckoutTerms(product,market.code,quantity);
   const money=(value:number)=>d.displayCurrency+' '+formatCurrency(value/10**d.referenceDigits,d.displayCurrency,market.locale);
   const name=product.volumeLabel&&!product.name.includes(product.volumeLabel)?product.name+' '+product.volumeLabel:product.name;
-  return [name,t(d.priceApproval==='approved'?'Approved product price':'Proposed or legacy reference price — confirmation required'),`${t('Unit price')}: ${d.referenceUnitMinor===null?t('No confirmed amount'):money(d.referenceUnitMinor)}`,`${t('Reference product amount')}: ${d.referenceTotalMinor===null?t('No confirmed amount'):money(d.referenceTotalMinor)}`].join('\n');
+  return [name,`${t('Unit price')}: ${d.referenceUnitMinor===null?t('No confirmed amount'):money(d.referenceUnitMinor)}`,`${t('Reference product amount')}: ${d.referenceTotalMinor===null?t('No confirmed amount'):money(d.referenceTotalMinor)}`].join('\n');
  }).join('\n\n');
  return <section className="payment-request-panel">{heading&&<h2>{t('Request payment with these selections')}</h2>}<ConsultationPanel heading={false} channels lines={lines.map(l=>({name:l.product.volumeLabel&&!l.product.name.includes(l.product.volumeLabel)?l.product.name+' '+l.product.volumeLabel:l.product.name,quantity:l.quantity}))} presetPurpose={purpose} reason="payment_request" summaryDetails={summaries+'\n\n'+t('Please confirm the billing currency, final amount and shipping terms, and send me a PayPal payment link.')}/></section>;
 }

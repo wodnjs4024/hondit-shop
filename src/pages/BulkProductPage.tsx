@@ -1,3 +1,4 @@
+import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
 import {CheckoutAvailability} from "../components/CheckoutAvailability";
 import {checkoutFlowCopy} from "../data/checkoutFlowCopy";
 import {consultationBody,consultationMailto} from '../../shared/consultation.js';
@@ -6,14 +7,14 @@ import {loadPayPalSdk,type PayPalSdk,type PayPalButtonsInstance} from '../lib/pa
 import {DiffuserQuantitySelector,usePurchaseQuantity} from '../components/DiffuserQuantitySelector';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
 import {PaymentRequestPanel} from "../components/PaymentRequestPanel";
-import {resolveCheckoutCart,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
+import {paypalCurrencyDigits,resolveCheckoutCart,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
 import {checkoutDisplayState} from "../../shared/checkout-display.js";
-import {purchaseRoute,purchasePurposes,purposeLabels} from "../../shared/purchase-context.js";
+import {purchasePurposes,purposeLabels} from "../../shared/purchase-context.js";
 import {productFacts} from "../data/productFacts";
 import {validQuantity} from "../../shared/sales-tools.js";
 import {ConsultationPanel} from "../components/ConsultationPanel";
 import {normalizeShipping,postalRequired} from "../../shared/shipping.js";
-import { cleanProductUsage, sgCheckoutNeedsInquiry, sgTerms } from "../../shared/page-sales.js";
+import { cleanProductUsage, sgTerms } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -186,7 +187,7 @@ export function BulkProductPage() {
         .filter((entry) => entry.quantity > 0)
     : [{ product, quantity }];
   const totalUnits = orderLines.reduce((sum, line) => sum + line.quantity, 0);
-  const marketTotal = orderLines.reduce((sum, line) => sum + getMarketLineTotal(line.product, line.quantity, market), 0);
+  const marketSubtotal = orderLines.reduce((sum, line) => sum + getMarketLineTotal(line.product, line.quantity, market), 0);
   const stockStatus = getStockStatus(product);
   const soldOut = isCleansingMix
     ? orderLines.some((line) => getStockStatus(line.product) === "Sold out")
@@ -209,8 +210,10 @@ export function BulkProductPage() {
   const errorId = "bulk-checkout-error";
   const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
   const selectionDecision=isCleansingMix?resolveCheckoutCart(orderLines,market.code):resolveCheckoutTerms(product,market.code,quantityText);
+  const marketTotal = selectionDecision.status === "direct" && "totalMinor" in selectionDecision && selectionDecision.totalMinor!==null ? selectionDecision.totalMinor/10**paypalCurrencyDigits(selectionDecision.billingCurrency!) : "referenceTotalMinor" in selectionDecision && selectionDecision.referenceTotalMinor!==null ? selectionDecision.referenceTotalMinor/10**selectionDecision.referenceDigits : marketSubtotal;
+  const billingCurrency=selectionDecision.billingCurrency||market.currency;
   const invalidQuantity=selectionDecision.status==="unavailable";
-  const inquiryOnly = invalidQuantity || selectionDecision.status!=="direct" || ((market.code === "SG" && isCleansingMix) || sgCheckoutNeedsInquiry(orderLines, market.code) || purchaseRoute(orderLines,market.code)!=="direct");
+  const inquiryOnly = invalidQuantity || selectionDecision.status!=="direct";
   const checkoutDisabled = readOnlyPreview || configState!=="ready" || !payPalConfig.checkoutEnabled || inquiryOnly;
   const paymentDisplay=checkoutDisplayState({preview:readOnlyPreview,configuration:configState,enabled:payPalConfig.checkoutEnabled,clientId:paypalClientId,sdkReady:ready,sdkFailed});
   const manualPaymentHref=consultationMailto(EMAIL,consultationBody({
@@ -239,11 +242,11 @@ export function BulkProductPage() {
     let active=true;setReady(false);
     if (!paypalClientId || soldOut || checkoutDisabled) return;
     setSdkFailed(false);
-    loadPayPalSdk(paypalClientId,market.currency).then(sdk=>{
+    loadPayPalSdk(paypalClientId,billingCurrency).then(sdk=>{
       if(active){sdkRef.current=sdk;setReady(true);}
     }).catch(()=>{if(active)setSdkFailed(true)});
     return ()=>{active=false;};
-  }, [checkoutDisabled, market.currency, paypalClientId, soldOut]);
+  }, [checkoutDisabled, billingCurrency, paypalClientId, soldOut]);
 
   const update = (key: keyof OrderForm, value: string | boolean) => {setDeliveryChecked(false);setInvalidField("");setForm((current) => ({ ...current, [key]: value }));};
   const updateMixQuantity = (entry: BulkProduct, requested: number) => {
@@ -594,6 +597,7 @@ export function BulkProductPage() {
                   <p>{marketText(language, "Product amount; taxes and customs charges excluded.", "상품금액 기준 · 세금과 통관비 별도")}</p>
                 </div>
 
+                {selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision&&<p className="checkout-charge-breakdown">{marketText(language,"Shipping")}: {selectionDecision.shippingIncluded?checkoutChargeCopy(language).included:formatCurrency(selectionDecision.shippingMinor!/10**paypalCurrencyDigits(selectionDecision.billingCurrency!),selectionDecision.billingCurrency!,market.locale)} · {selectionDecision.billingCurrency}</p>}
                 <fieldset className="direct-checkout-fields" hidden={inquiryOnly} disabled={inquiryOnly}>
                 {error && (
                   <p id={errorId} className="form-error" role="alert">
