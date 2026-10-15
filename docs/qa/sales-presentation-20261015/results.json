@@ -1,0 +1,439 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "lang": "ko",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "ko",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 1440,
+      "lang": "ko",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "en",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 1440,
+      "lang": "en",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 1440,
+      "lang": "en",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "ja",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 1440,
+      "lang": "ja",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "ja",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "zh-HK",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "zh-HK",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "zh-HK",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "ms",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 1440,
+      "lang": "ms",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "ms",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "th",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 1440,
+      "lang": "th",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "lang": "th",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 1440,
+      "pickupQuantityAndClipboard": true,
+      "market": "MO",
+      "currency": "KRW"
+    },
+    {
+      "width": 1440,
+      "policyTruthPreserved": true
+    },
+    {
+      "width": 1440,
+      "checkoutPriceAndSdkUnchanged": true
+    },
+    {
+      "width": 1440,
+      "pickupDiscoverable": true
+    },
+    {
+      "width": 768,
+      "lang": "ko",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "ko",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 768,
+      "lang": "ko",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "en",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 768,
+      "lang": "en",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 768,
+      "lang": "en",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "ja",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "ja",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "ja",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "zh-HK",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "zh-HK",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "zh-HK",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "ms",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 768,
+      "lang": "ms",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 768,
+      "lang": "ms",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "lang": "th",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 768,
+      "lang": "th",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 768,
+      "lang": "th",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 768,
+      "pickupQuantityAndClipboard": true,
+      "market": "MO",
+      "currency": "KRW"
+    },
+    {
+      "width": 768,
+      "policyTruthPreserved": true
+    },
+    {
+      "width": 768,
+      "checkoutPriceAndSdkUnchanged": true
+    },
+    {
+      "width": 768,
+      "pickupDiscoverable": true
+    },
+    {
+      "width": 390,
+      "lang": "ko",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "ko",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 390,
+      "lang": "ko",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "ja",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 390,
+      "lang": "ja",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "ja",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "zh-HK",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "zh-HK",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "zh-HK",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "ms",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 390,
+      "lang": "ms",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "ms",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "th",
+      "path": "/partners",
+      "overflow": false,
+      "h1Lines": 2
+    },
+    {
+      "width": 390,
+      "lang": "th",
+      "path": "/jeju/pickup",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "lang": "th",
+      "path": "/bulk-orders",
+      "overflow": false,
+      "h1Lines": 1
+    },
+    {
+      "width": 390,
+      "pickupQuantityAndClipboard": true,
+      "market": "MO",
+      "currency": "KRW"
+    },
+    {
+      "width": 390,
+      "policyTruthPreserved": true
+    },
+    {
+      "width": 390,
+      "checkoutPriceAndSdkUnchanged": true
+    },
+    {
+      "width": 390,
+      "pickupDiscoverable": true
+    }
+  ],
+  "writes": 0,
+  "pageErrors": [],
+  "actualPayments": false
+}

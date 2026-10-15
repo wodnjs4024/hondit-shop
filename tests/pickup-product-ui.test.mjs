@@ -1,8 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {buildSync} from 'esbuild';
-const source=fs.readFileSync('src/components/PickupRequestPanel.tsx','utf8');
-function bundle(dev){return buildSync({entryPoints:['src/components/PickupRequestPanel.tsx'],bundle:true,write:false,platform:'browser',minify:true,define:{'import.meta.env.DEV':String(dev)}}).outputFiles[0].text}
-test('unapproved pickup price is removed from public code and present only in local development',()=>{assert.match(bundle(true),/4e4|40000/);const prod=bundle(false);assert.doesNotMatch(prod,/4e4|40000/);assert.match(source,/disabled=\{size==='500g'&&proposedUnitPrice===null\}/);assert.match(source,/proposed\?<p role="status"/)});
-test('comparison uses exact multiplication and distinct existing product assets',()=>{assert.match(source,/q\*proposedUnitPrice/);assert.match(source,/quantity\*proposedUnitPrice/);assert.match(source,/pickupRequestTotal\(q\)/);for(const size of ['350g','500g'])assert.ok(fs.existsSync(`public/images/diffuser-${size}.webp`));assert.doesNotMatch(source,/pickupConfig|fetch\(|paypal|discountRate/)});
+import {pickupRequestTotal,pickupRequestMessage} from '../shared/contact-copy.js';
+test('approved airport pickup products share totals with multilingual request messages',()=>{for(const [size,unit] of [['350g',18000],['500g',40000]])for(const q of [1,2,3]){assert.equal(pickupRequestTotal(q,size),q*unit);for(const lang of ['en','ko','ja','zh-HK','ms','th']){const body=pickupRequestMessage(q,lang,size);assert.ok(body.includes(size));assert.ok(!body.includes(size==='500g'?'350g':'500g'));assert.ok(body.includes((q*unit).toLocaleString('en-US')));assert.doesNotMatch(body,/SGD|PayPal|MOQ/);}}for(const q of [0,4,1.5,'2',NaN])assert.throws(()=>pickupRequestTotal(q,'500g'));assert.throws(()=>pickupRequestTotal(1,'unknown'));});
+test('both approved product assets exist and public selection has no proposal restriction',()=>{const source=fs.readFileSync('src/components/PickupRequestPanel.tsx','utf8');for(const size of ['350g','500g'])assert.ok(fs.existsSync('public/images/diffuser-'+size+'.webp'));assert.doesNotMatch(source,/proposedUnitPrice|Awaiting price approval|disabled=|pickupConfig|fetch\(|paypal|discountRate/);});

@@ -1,3 +1,4 @@
+import {salesPresentationCopy} from '../../data/salesPresentationCopy';
 import {checkoutFlowCopy} from "../../data/checkoutFlowCopy";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
@@ -29,7 +30,7 @@ export function homeChromeCopy(language: DisplayLanguage) {
   return chromeCopy[language === "zh" || language === "zh-HK" || language === "zh-TW" ? "zh" : language];
 }
 
-const navItems = [["/products", "Products"], ["/bulk-orders", "Overseas bundle orders"], ["/partners", "Store & business purchase guide"], ["/jeju", "About HONDIT"]] as const;
+const navItems = [["/products", "Products"], ["/bulk-orders", "Overseas bundle orders"], ["/partners", "Store & business purchase guide"], ["/jeju/pickup", "Jeju pickup information"], ["/jeju", "About HONDIT"]] as const;
 
 function MarketLanguageFields({ idPrefix }: { idPrefix: string }) {
   const { market, setMarket, language, setLanguage } = useMarket();
@@ -100,10 +101,10 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
       </button>
       <Link className="hd-header__brand" to="/" aria-label="hondit home">hondit<span>.</span></Link>
       <nav className="hd-header__nav" aria-label="Main navigation">
-        {navItems.map(([path, label]) => <NavLink key={path} to={path}>{path === "/bulk-orders" ? checkoutFlowCopy(language).primary : marketText(language, label)}</NavLink>)}
+        {navItems.map(([path, label]) => <NavLink key={path} to={path}>{path === "/bulk-orders" ? checkoutFlowCopy(language).primary : path === "/jeju/pickup" ? salesPresentationCopy(language).pickupNav : marketText(language, label)}</NavLink>)}
       </nav>
       <div className="hd-header__tools">
-        <Link className="hd-header__pickup" to="/jeju/pickup">{marketText(language, "Jeju pickup information")}</Link>
+        <Link className="hd-header__pickup" to="/jeju/pickup">{salesPresentationCopy(language).pickupNav}</Link>
         <div className="hd-locale" ref={localeRef}>
           <button type="button" className="hd-locale__toggle" aria-expanded={localeOpen} aria-controls="hd-locale-panel" aria-label={`${copy.settings}: ${marketCountryName(market, language)} · ${languageLabel}`} onClick={() => setLocaleOpen((value) => !value)}>
             <span>{market.code}<span className="hd-locale__cur"> · {market.currency}</span></span><span className="hd-locale__lang">{languageLabel}</span><Chevron />
@@ -117,7 +118,6 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
     <div className={`hd-menu${menuOpen ? " is-open" : ""}`} id="hd-menu" hidden={!menuOpen}>
       <nav aria-label={copy.menu}>
         {navItems.map(([path, label]) => <NavLink key={path} to={path} onClick={() => setMenuOpen(false)}>{path === "/bulk-orders" ? checkoutFlowCopy(language).primary : marketText(language, label)}</NavLink>)}
-        <NavLink to="/jeju/pickup" onClick={() => setMenuOpen(false)}>{marketText(language, "Jeju pickup information")}</NavLink>
         <NavLink to="/contact" onClick={() => setMenuOpen(false)}>{marketText(language, "Contact", "Contact")}</NavLink>
       </nav>
       <section aria-label={copy.settings}>
@@ -134,7 +134,7 @@ export function HomeFooter() {
   const partnerOnly = location.pathname.startsWith("/partners/");
   const pickupOnly = location.pathname === "/jeju/pickup" || (location.pathname === "/contact" && new URLSearchParams(location.search).get("fulfillment") === "jeju_pickup");
   const copy = homeChromeCopy(language);
-  const footerLines = (pickupOnly ? marketText(language, "StoneJeju 350g · Jeju designated-location pickup") : marketText(language, market.footerLine, market.footerLine)).split("\n");
+  const footerLines = (pickupOnly ? marketText(language, "StoneJeju 350g · Jeju Airport pickup") : marketText(language, market.footerLine, market.footerLine)).split("\n");
   return <footer className="hd-footer">
     <div className="hd-footer__brand">
       <b>hondit<span>.</span></b>
@@ -145,7 +145,7 @@ export function HomeFooter() {
         <h2>{copy.explore}</h2>
         <Link to="/products">{marketText(language, "Products", "Products")}</Link>
         {!partnerOnly && <Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>}
-        <Link to="/jeju/pickup">{marketText(language, "Jeju pickup information")}</Link>
+        <Link to="/jeju/pickup">{salesPresentationCopy(language).pickupNav}</Link>
         <Link to="/jeju/stores">{marketText(language, "Meet StoneJeju in Jeju")}</Link>
         <Link to="/jeju">{marketText(language, "Asia to Jeju", "Asia to Jeju")}</Link>
       </div>

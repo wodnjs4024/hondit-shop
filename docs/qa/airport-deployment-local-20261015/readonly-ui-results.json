@@ -1,0 +1,269 @@
+{
+  "results": [
+    {
+      "width": 1440,
+      "slug": "diffuser-350g",
+      "q": 10,
+      "total": 230,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-350g",
+      "q": 15,
+      "blocked": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-350g",
+      "q": 20,
+      "total": 420,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-350g",
+      "q": 21,
+      "total": 441,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-350g",
+      "q": 35,
+      "total": 735,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-350g",
+      "q": 100,
+      "total": 2100,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-500g",
+      "q": 10,
+      "total": 500,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-500g",
+      "q": 15,
+      "blocked": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-500g",
+      "q": 20,
+      "total": 920,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-500g",
+      "q": 21,
+      "total": 966,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-500g",
+      "q": 35,
+      "total": 1610,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-500g",
+      "q": 100,
+      "total": 4600,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 1440,
+      "slug": "foam-oil",
+      "market": "SG",
+      "q": 30,
+      "expected": "267",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "slug": "diffuser-350g",
+      "market": "JP",
+      "q": 20,
+      "expected": "48,000",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "path": "/",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "path": "/products?market=SG&lang=ko",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "path": "/partners?market=SG&lang=ko&product=diffuser-350g&quantity=35",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "path": "/contact?market=SG&lang=ko",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-350g",
+      "q": 10,
+      "total": 230,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-350g",
+      "q": 15,
+      "blocked": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-350g",
+      "q": 20,
+      "total": 420,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-350g",
+      "q": 21,
+      "total": 441,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-350g",
+      "q": 35,
+      "total": 735,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-350g",
+      "q": 100,
+      "total": 2100,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-500g",
+      "q": 10,
+      "total": 500,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-500g",
+      "q": 15,
+      "blocked": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-500g",
+      "q": 20,
+      "total": 920,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-500g",
+      "q": 21,
+      "total": 966,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-500g",
+      "q": 35,
+      "total": 1610,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-500g",
+      "q": 100,
+      "total": 4600,
+      "paymentRoute": true,
+      "shippingIncluded": true
+    },
+    {
+      "width": 390,
+      "slug": "foam-oil",
+      "market": "SG",
+      "q": 30,
+      "expected": "267",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "slug": "diffuser-350g",
+      "market": "JP",
+      "q": 20,
+      "expected": "48,000",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "path": "/",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "path": "/products?market=SG&lang=ko",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "path": "/partners?market=SG&lang=ko&product=diffuser-350g&quantity=35",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "path": "/contact?market=SG&lang=ko",
+      "passed": true
+    }
+  ],
+  "pageErrors": [],
+  "blockedWrites": 0,
+  "sdkMocks": 22,
+  "config": {
+    "checkoutEnabled": true,
+    "mode": "live",
+    "clientIdPresent": true
+  },
+  "note": "Production UI and read-only API; PayPal SDK mocked for quantity screen checks; no financial or database write requests"
+}

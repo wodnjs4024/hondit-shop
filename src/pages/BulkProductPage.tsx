@@ -1,4 +1,5 @@
 import {orderPanelCopy} from "../data/orderPanelCopy";
+import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
 import {CheckoutAvailability} from "../components/CheckoutAvailability";
 import {OrderBar} from "../components/OrderBar";
@@ -506,6 +507,7 @@ export function BulkProductPage() {
         <div><dt>{o.shipping}</dt><dd className={directTerms&&terms.shippingIncluded?"is-included":"is-pending"}>{shippingText}</dd></div>
         <div><dt>{o.tax}</dt><dd className="is-note">{o.taxValue}</dd></div>
       </dl>
+      <Link className="checkout-policy-link" to="/shipping#customs-costs">{salesPresentationCopy(language).taxDetails}</Link>
       <div className="order-total"><span>{inquiryOnly?o.estimate:o.total}{directTerms&&terms.billingCurrency&&<small>{terms.billingCurrency}</small>}</span><output aria-live="polite">{totalText}</output></div>
       <CheckoutAvailability status={selectionDecision.status} reason={selectionDecision.reason}/>
       {summaryCta&&<a className="button button--primary order-cta" href={summaryCta.href}><span>{summaryCta.label}</span><i aria-hidden="true">↓</i></a>}

@@ -1,3 +1,4 @@
+import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import {shippingSummary} from "../../shared/shipping-summary.js";
 import { Link } from "react-router-dom";
 import { V23Page, V23PageHero } from "../components/v23/SiteChrome";
@@ -109,6 +110,7 @@ export function ShippingPage() {
           </article>
         </section>
 
+        <section className="customs-policy-note" id="customs-costs"><h2>{salesPresentationCopy(language).taxDetails}</h2><p>{salesPresentationCopy(language).taxNeutral}</p><p>{salesPresentationCopy(language).taxPolicy}</p></section>
         <section className="v23-route-banner">
           <h2>{marketText(language, "Need help with an order?", "주문 도움이 필요하신가요?")}</h2>
           <p>

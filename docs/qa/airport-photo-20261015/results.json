@@ -1,0 +1,16 @@
+[
+  {
+    "width": 1440,
+    "realAirportPhoto": true,
+    "imageLoaded": true,
+    "attribution": true,
+    "noOverflow": true
+  },
+  {
+    "width": 390,
+    "realAirportPhoto": true,
+    "imageLoaded": true,
+    "attribution": true,
+    "noOverflow": true
+  }
+]

@@ -1,3 +1,5 @@
+import {salesPresentationCopy} from '../../data/salesPresentationCopy';
+import {pickupRequestTotal} from '../../../shared/contact-copy.js';
 import { Link } from "react-router-dom";
 import type { StorefrontProduct } from "../../data/v23SiteData";
 import { formatMarketUnitMoney, marketProductText, marketText, useMarket } from "../../lib/market";
@@ -22,6 +24,7 @@ export function ProductTile({ product, query }: { product: StorefrontProduct; qu
         <div className="hd-tile__links">
           <Link className="hd-textlink hd-textlink--order" to={`/bulk-orders?product=${product.slug}`}>{marketText(language, "Overseas bundle orders")} →</Link>
           <Link className="hd-textlink" to={`/products/${product.slug}${query}`}>{marketText(language, "View details", "View details")}</Link>
+          {product.slug==='diffuser-350g'&&<Link className="hd-textlink hd-tile__pickup" to={`/jeju/pickup?market=${market.code}&lang=${language}`}>{salesPresentationCopy(language).pickupNav} · KRW {pickupRequestTotal(1).toLocaleString('en-US')} →</Link>}
           {market.hasShopee && <details className="hd-tile__retail"><summary>Shopee</summary><a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee")} ↗</a></details>}
         </div>
       </div>
