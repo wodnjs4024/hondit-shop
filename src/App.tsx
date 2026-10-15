@@ -30,6 +30,7 @@ const AdminSettingsPage = lazy(() => import("./pages/AdminSettingsPage").then((m
 const BulkOrdersPage = lazy(() => import("./pages/BulkOrdersPage").then((module) => ({ default: module.BulkOrdersPage })));
 const BulkProductPage = lazy(() => import("./pages/BulkProductPage").then((module) => ({ default: module.BulkProductPage })));
 const ContactPage = lazy(() => import("./pages/ContactPage").then((module) => ({ default: module.ContactPage })));
+const AboutPage = lazy(() => import("./pages/AboutPage").then((module) => ({ default: module.AboutPage })));
 const JejuPage = lazy(() => import("./pages/JejuPage").then((module) => ({ default: module.JejuPage })));
 const OrderCompletePage = lazy(() => import("./pages/OrderCompletePage").then((module) => ({ default: module.OrderCompletePage })));
 const PaymentFailedPage = lazy(() => import("./pages/PaymentFailedPage").then((module) => ({ default: module.PaymentFailedPage })));
@@ -322,6 +323,7 @@ export default function App() {
       <Suspense fallback={<main className="v23-route-loading" aria-label="Loading page"><span /></main>}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/jeju" element={<JejuPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/sg/ig" element={<ProductsPage />} />

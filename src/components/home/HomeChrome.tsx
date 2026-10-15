@@ -29,7 +29,7 @@ export function homeChromeCopy(language: DisplayLanguage) {
   return chromeCopy[language === "zh" || language === "zh-HK" || language === "zh-TW" ? "zh" : language];
 }
 
-const navItems = [["/products", "Products"], ["/bulk-orders", "Overseas bundle orders"], ["/partners", "Store & business purchase guide"], ["/jeju", "About HONDIT"]] as const;
+const navItems = [["/products", "Products"], ["/bulk-orders", "Overseas bundle orders"], ["/partners", "Store & business purchase guide"], ["/about", "About HONDIT"]] as const;
 
 function MarketLanguageFields({ idPrefix }: { idPrefix: string }) {
   const { market, setMarket, language, setLanguage } = useMarket();

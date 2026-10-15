@@ -224,19 +224,19 @@ body.hd-site {
   --t-note: 14px;
 }
 @media (max-width: 639px) { body.hd-site { --t-h1: 30px; --t-h2: 24px; --t-h3: 18px; } }
-body.hd-site main:not(.hd-home) h1 { font-size: var(--t-h1) !important; line-height: 1.18 !important; letter-spacing: 0 !important; max-width: 22ch; }
-:lang(en) body.hd-site main:not(.hd-home) h1, :lang(ms) body.hd-site main:not(.hd-home) h1 { line-height: 1.05 !important; letter-spacing: -0.01em !important; }
-body.hd-site main:not(.hd-home) h2 { font-size: var(--t-h2) !important; line-height: 1.25 !important; letter-spacing: 0 !important; }
-body.hd-site main:not(.hd-home) h3 { font-size: var(--t-h3) !important; line-height: 1.4 !important; font-weight: 600 !important; letter-spacing: 0 !important; text-transform: none !important; }
-body.hd-site main:not(.hd-home) :is(.v23-policy-section, .product-guide-page, .sales-program-page) :is(p, li) { font-size: var(--t-body); line-height: 1.7; }
+body.hd-site main:not(.hd-home):not(.hd-about) h1 { font-size: var(--t-h1) !important; line-height: 1.18 !important; letter-spacing: 0 !important; max-width: 22ch; }
+:lang(en) body.hd-site main:not(.hd-home):not(.hd-about) h1, :lang(ms) body.hd-site main:not(.hd-home):not(.hd-about) h1 { line-height: 1.05 !important; letter-spacing: -0.01em !important; }
+body.hd-site main:not(.hd-home):not(.hd-about) h2 { font-size: var(--t-h2) !important; line-height: 1.25 !important; letter-spacing: 0 !important; }
+body.hd-site main:not(.hd-home):not(.hd-about) h3 { font-size: var(--t-h3) !important; line-height: 1.4 !important; font-weight: 600 !important; letter-spacing: 0 !important; text-transform: none !important; }
+body.hd-site main:not(.hd-home):not(.hd-about) :is(.v23-policy-section, .product-guide-page, .sales-program-page) :is(p, li) { font-size: var(--t-body); line-height: 1.7; }
 
 /* Labels above titles repeat the title: drop them on inner pages. */
-body.hd-site main:not(.hd-home) :is(.v23-eyebrow, .eyebrow, .discovery-number) { display: none !important; }
+body.hd-site main:not(.hd-home):not(.hd-about) :is(.v23-eyebrow, .eyebrow, .discovery-number) { display: none !important; }
 /* Uppercase micro labels read as sentence case. */
 body.hd-site main :is(small, dt, th, legend, .route-status) { text-transform: none !important; letter-spacing: 0 !important; }
 
 /* Inner page openings sit on the paper, not inside a tinted card. */
-body.hd-site main:not(.hd-home) :is(.v23-page-hero, .discovery-hero, .v23-our-jeju-hero) {
+body.hd-site main:not(.hd-home):not(.hd-about) :is(.v23-page-hero, .discovery-hero, .v23-our-jeju-hero) {
   background: var(--hd-paper) !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
 }
 
