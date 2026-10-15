@@ -184,3 +184,11 @@ body.hd-site main.partner-discovery .partner-faq summary { min-height: 56px; fon
   body.hd-site main.partner-discovery .discovery-path { grid-template-columns: minmax(0, 1fr); }
   body.hd-site main.partner-discovery .discovery-path :is(h2, h3), body.hd-site main.partner-discovery .discovery-path > * { grid-column: 1; grid-row: auto; }
 }
+
+/* Mobile: full-width option tiles and stacked purpose rows, whatever the legacy layers say. */
+@media (max-width: 639px) {
+  body.hd-site main .diffuser-order-options { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; }
+  body.hd-site main .diffuser-order-options label { width: auto !important; max-width: none !important; }
+  body.hd-site main.partner-discovery .discovery-path { display: block !important; }
+  body.hd-site main.partner-discovery .discovery-path :is(h2, h3) { margin: 0 0 6px !important; }
+}
