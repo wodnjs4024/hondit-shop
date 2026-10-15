@@ -1,0 +1,142 @@
+/*
+ * Order flow (product detail, bulk-order entry, checkout).
+ * One nested "tray" holds the purchase steps so the order area reads as a separate object
+ * from the product story: quantity → price → how to pay. Brand palette and square geometry kept.
+ */
+body.hd-site {
+  --of-tray: #ece8df;
+  --of-core: #fdfcf9;
+  --of-rule: rgba(22, 26, 23, 0.12);
+  --of-rule-strong: rgba(22, 26, 23, 0.32);
+  --of-ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ---------- The tray (outer shell + inner core) ---------- */
+body.hd-site main .order-panel {
+  margin: 8px 0 0 !important; padding: 6px !important; background: var(--of-tray) !important;
+  border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+}
+body.hd-site main .order-panel__core { padding: 8px 28px 28px; background: var(--of-core); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8); }
+body.hd-site main .order-panel__title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Steps ---------- */
+.order-steps { margin: 0; padding: 0; list-style: none; counter-reset: order-step; }
+.order-step { counter-increment: order-step; padding: 24px 0; border-top: 1px solid var(--of-rule); }
+.order-step:first-child { border-top: 0; }
+body.hd-site main:not(.hd-home) .order-step__title,
+body.hd-site main:not(.hd-home) .order-step-heading {
+  display: flex; align-items: center; gap: 10px; margin: 0 0 16px !important;
+  font-family: var(--hd-sans), var(--hd-cjk, sans-serif) !important; font-size: 15px !important; font-weight: 600 !important;
+  line-height: 1.3 !important; letter-spacing: 0 !important; color: var(--hd-ink);
+}
+.order-step__title::before,
+body.hd-site .checkout-flow .order-step-heading::before {
+  content: counter(order-step); display: inline-grid; place-items: center; flex: none; width: 24px; height: 24px;
+  border-radius: 999px; background: var(--hd-ink); color: var(--hd-paper); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Step 1: quantity ---------- */
+body.hd-site main .diffuser-quantity { margin: 0; }
+body.hd-site main .diffuser-quantity legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+body.hd-site main .diffuser-order-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0 0 16px; }
+body.hd-site main .diffuser-order-options label {
+  position: relative; display: grid; grid-template-columns: 20px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 10px; row-gap: 2px; align-items: center;
+  min-height: 64px; padding: 12px 14px; border: 1px solid var(--of-rule-strong); background: var(--hd-white); cursor: pointer;
+  transition: border-color 260ms var(--of-ease), background-color 260ms var(--of-ease);
+}
+body.hd-site main .diffuser-order-options label:hover { border-color: var(--hd-ink); }
+body.hd-site main .diffuser-order-options label.is-selected { border-color: var(--hd-ink); box-shadow: inset 0 0 0 1px var(--hd-ink); background: var(--hd-state-ready-bg, #e3ece6); }
+body.hd-site main .diffuser-order-options input[type=radio] { grid-row: 1 / span 2; margin: 0; }
+body.hd-site main .diffuser-order-options label span { font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--hd-ink); }
+body.hd-site main .diffuser-order-options label small { grid-column: 2; font-size: 14px; color: var(--hd-muted); font-variant-numeric: tabular-nums; }
+body.hd-site main .diffuser-quantity > label { display: block; margin: 0 0 8px; font-size: 14px; font-weight: 500; color: var(--hd-muted); }
+body.hd-site main .diffuser-quantity__stepper { display: grid; grid-template-columns: 52px minmax(0, 1fr) 52px; gap: 0; max-width: 320px; border: 1px solid var(--of-rule-strong); background: var(--hd-white); }
+body.hd-site main .diffuser-quantity__stepper button {
+  min-height: 52px; border: 0; border-radius: 0; background: transparent; color: var(--hd-ink); font-size: 22px; line-height: 1; cursor: pointer;
+  transition: background-color 200ms var(--of-ease), transform 120ms var(--of-ease);
+}
+body.hd-site main .diffuser-quantity__stepper button:hover:not(:disabled) { background: var(--hd-tile); }
+body.hd-site main .diffuser-quantity__stepper button:active:not(:disabled) { transform: scale(0.94); }
+body.hd-site main .diffuser-quantity__stepper button:disabled { color: rgba(22, 26, 23, 0.25); cursor: not-allowed; }
+body.hd-site main .diffuser-quantity__stepper input {
+  min-height: 52px; padding: 0 8px; border: 0; border-left: 1px solid var(--of-rule); border-right: 1px solid var(--of-rule); border-radius: 0;
+  text-align: center; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; background: transparent;
+}
+body.hd-site main .diffuser-quantity__stepper input[aria-invalid=true] { box-shadow: inset 0 0 0 2px var(--hd-state-stop-fg, #8a1f1f); }
+body.hd-site main .diffuser-quantity p { margin: 10px 0 0; font-size: 14px; line-height: 1.5; color: var(--hd-muted); }
+body.hd-site main .diffuser-quantity p[role=alert] { color: var(--hd-state-stop-fg, #8a1f1f); font-weight: 500; }
+body.hd-site main .order-qty-field { display: grid; gap: 8px; max-width: 320px; font-size: 14px; color: var(--hd-muted); }
+body.hd-site main .order-qty-field input { min-height: 52px; font-size: 20px; font-weight: 600; text-align: center; }
+
+/* ---------- Step 2: price ---------- */
+.order-lines { display: grid; margin: 0; }
+.order-lines > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 16px; padding: 9px 0; }
+.order-lines dt { font-size: 15px; color: var(--hd-muted); }
+.order-lines dt small { font-size: 14px; }
+.order-lines dd { margin: 0; font-size: 16px; font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; color: var(--hd-ink); }
+.order-lines dd.is-included { color: var(--hd-state-ready-fg, #134a3a); font-weight: 600; }
+.order-lines dd.is-included::before { content: "✓ "; }
+.order-lines dd.is-pending { color: var(--hd-state-confirm-fg, #7a3a1c); }
+.order-lines dd.is-note { font-size: 14px; font-weight: 400; color: var(--hd-muted); }
+.order-total { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-top: 12px; padding-top: 16px; border-top: 1px solid var(--of-rule-strong); }
+.order-total span { font-size: 15px; font-weight: 600; }
+body.hd-site main .order-total output { margin: 0 !important; font-size: clamp(28px, 2.4vw, 34px) !important; font-weight: 600 !important; line-height: 1.1; font-variant-numeric: tabular-nums; color: var(--hd-ink); }
+body.hd-site main .order-note { margin: 10px 0 0 !important; font-size: 14px !important; color: var(--hd-muted) !important; }
+
+/* ---------- Step 3: how to pay ---------- */
+body.hd-site main .order-step--pay .checkout-availability { margin: 0 0 16px; }
+body.hd-site main .order-actions { display: grid !important; gap: 10px !important; margin: 0 !important; }
+body.hd-site main .order-cta {
+  position: relative; display: flex !important; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
+  min-height: 58px; padding: 0 8px 0 22px !important; font-size: 16px !important; font-weight: 600 !important; text-align: left;
+  transition: background-color 300ms var(--of-ease), transform 160ms var(--of-ease);
+}
+body.hd-site main .order-cta i { display: inline-grid; place-items: center; width: 42px; height: 42px; flex: none; background: rgba(255, 255, 255, 0.14); color: inherit; transition: transform 360ms var(--of-ease), background-color 300ms var(--of-ease); }
+body.hd-site main .order-cta:hover i { transform: translateX(3px); background: rgba(255, 255, 255, 0.22); }
+body.hd-site main .order-cta:active { transform: scale(0.985); }
+body.hd-site main .order-secondary { justify-self: start; min-height: 44px !important; padding: 0 !important; border: 0 !important; background: none !important; color: var(--hd-ink) !important; font-size: 15px !important; font-weight: 500 !important; text-decoration: underline; text-underline-offset: 5px; text-decoration-color: var(--hd-line-strong); }
+
+/* ---------- Market conditions, folded under the panel ---------- */
+body.hd-site main .pdp-conditions { margin-top: 4px; border-bottom: 1px solid var(--of-rule); }
+body.hd-site main .pdp-conditions > summary { display: flex; justify-content: space-between; align-items: center; min-height: 56px; font-size: 15px; font-weight: 600; list-style: none; cursor: pointer; }
+body.hd-site main .pdp-conditions > summary::-webkit-details-marker { display: none; }
+body.hd-site main .pdp-conditions > summary::after { content: "+"; font-size: 22px; font-weight: 300; transition: transform 300ms var(--of-ease); }
+body.hd-site main .pdp-conditions[open] > summary::after { transform: rotate(45deg); }
+body.hd-site main .pdp-conditions .product-sales-summary { margin: 0 0 20px !important; padding: 16px 20px !important; background: var(--hd-tile) !important; }
+
+/* ---------- Product detail: story left, order right ---------- */
+.hd-pdp__info { gap: 12px; }
+.hd-pdp__price { padding: 0 0 4px; }
+.hd-pdp__lead { max-width: 52ch; }
+
+/* ---------- Checkout: the same numbered steps across the long form ---------- */
+body.hd-site .checkout-flow .bulk-detail__content { counter-reset: order-step; }
+body.hd-site .checkout-flow .order-step-heading { counter-increment: order-step; margin-top: 16px !important; padding-top: 24px; border-top: 1px solid var(--of-rule); }
+body.hd-site .checkout-flow .direct-order-form > .order-step-heading { margin-top: 0 !important; }
+body.hd-site .checkout-flow :is(.stock-pill, .shipping-pill) { margin-top: -4px !important; }
+body.hd-site .checkout-flow .shipping-pill { font-size: 14px !important; color: var(--hd-muted); }
+body.hd-site .checkout-flow .bulk-total-box { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 6px 16px; }
+body.hd-site .checkout-flow .bulk-total-box > span { font-size: 15px; color: var(--hd-muted); }
+body.hd-site .checkout-flow .bulk-total-box > strong { text-align: right; font-variant-numeric: tabular-nums; }
+body.hd-site .checkout-flow .bulk-total-box > strong:nth-of-type(2) { font-size: 30px; }
+body.hd-site .checkout-flow .bulk-total-box > p { grid-column: 1 / -1; margin: 6px 0 0; padding-top: 10px; border-top: 1px solid var(--of-rule); font-size: 14px; color: var(--hd-muted); }
+body.hd-site .checkout-flow .checkout-charge-breakdown { margin: 8px 0 0; font-size: 15px; color: var(--hd-state-ready-fg, #134a3a); font-weight: 500; }
+body.hd-site .checkout-flow .checkout-step-links { padding: 0; }
+body.hd-site .checkout-flow .checkout-step-links a { font-size: 14px; color: var(--hd-muted); }
+body.hd-site .checkout-flow .checkout-review-button { width: 100%; min-height: 56px; border-radius: 0; background: var(--hd-brand); border: 0; color: var(--hd-white); font-size: 16px; font-weight: 600; }
+
+/* ---------- Phone ---------- */
+@media (max-width: 639px) {
+  body.hd-site main .order-panel__core { padding: 4px 16px 20px; }
+  body.hd-site main .diffuser-order-options { grid-template-columns: minmax(0, 1fr); }
+  body.hd-site main .diffuser-quantity__stepper { max-width: none; }
+  .order-step { padding: 20px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.hd-site main :is(.order-cta, .order-cta i, .diffuser-order-options label, .diffuser-quantity__stepper button) { transition: none; }
+}
+
+/* Stepper: one bordered control, no inner button borders. */
+body.hd-site main .diffuser-quantity__stepper button { border: 0 !important; box-shadow: none !important; }
+body.hd-site main .order-secondary { justify-self: center; }

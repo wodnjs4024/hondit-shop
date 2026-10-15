@@ -1,3 +1,4 @@
+import {orderPanelCopy} from "../data/orderPanelCopy";
 import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
 import {CheckoutAvailability} from "../components/CheckoutAvailability";
 import {checkoutFlowCopy} from "../data/checkoutFlowCopy";
@@ -209,6 +210,7 @@ export function BulkProductPage() {
   const paypalMode = payPalConfig.mode;
   const errorId = "bulk-checkout-error";
   const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
+  const unitOption=(q:string)=>{const r=resolveCheckoutTerms(product,market.code,q);return r.referenceUnitMinor===null||!r.displayCurrency?undefined:`${orderPanelCopy(language).perUnit} ${formatCurrency(r.referenceUnitMinor/10**r.referenceDigits,r.displayCurrency,market.locale)}`;};
   const selectionDecision=isCleansingMix?resolveCheckoutCart(orderLines,market.code):resolveCheckoutTerms(product,market.code,quantityText);
   const marketTotal = selectionDecision.status === "direct" && "totalMinor" in selectionDecision && selectionDecision.totalMinor!==null ? selectionDecision.totalMinor/10**paypalCurrencyDigits(selectionDecision.billingCurrency!) : "referenceTotalMinor" in selectionDecision && selectionDecision.referenceTotalMinor!==null ? selectionDecision.referenceTotalMinor/10**selectionDecision.referenceDigits : marketSubtotal;
   const billingCurrency=selectionDecision.billingCurrency||market.currency;
@@ -499,9 +501,9 @@ export function BulkProductPage() {
                 {productCategory.toUpperCase()} {marketText(language, "BULK ORDER", "대량주문")}
               </p>
               <h1>{productName}</h1>
+              {!isCleansingMix && productVolume && <p className="bulk-detail__volume">{productVolume}</p>}
               <CheckoutAvailability status={selectionDecision.status} reason={selectionDecision.reason}/>
               {!inquiryOnly&&<nav className="checkout-step-links" aria-label={flowCopy.steps}><a href="#shipping-step">{flowCopy.shipping}</a><a href="#paypal-payment-step">{flowCopy.payment}</a></nav>}
-              {!isCleansingMix && productVolume && <p className="bulk-detail__volume">{productVolume}</p>}
 
               {isLivePaymentTest && (
                 <p className="setup-warning">
@@ -509,8 +511,9 @@ export function BulkProductPage() {
                 </p>
               )}
 
-              {isCleansingMix?<aside className="mix-selection-summary product-sales-summary"><h2>{marketText(language,'Selected mix')}</h2><dl><div><dt>{marketText(language,'Total units')}</dt><dd>{totalUnits}</dd></div><div><dt>{marketText(language,'Selected product amount')}</dt><dd>{formatCurrency(marketTotal,market.currency,market.locale)}</dd></div></dl><p>{marketText(language,'Combined minimum: 30 units. Select each product in 10-unit steps.')}</p><p>{marketText(language,'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.')}</p></aside>:<ProductSalesSummary product={product} quantity={quantityText}/>}
+              {isCleansingMix?<aside className="mix-selection-summary product-sales-summary"><h2>{marketText(language,'Selected mix')}</h2><dl><div><dt>{marketText(language,'Total units')}</dt><dd>{totalUnits}</dd></div><div><dt>{marketText(language,'Selected product amount')}</dt><dd>{formatCurrency(marketTotal,market.currency,market.locale)}</dd></div></dl><p>{marketText(language,'Combined minimum: 30 units. Select each product in 10-unit steps.')}</p><p>{marketText(language,'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.')}</p></aside>:<details className="pdp-conditions"><summary>{orderPanelCopy(language).conditions}</summary><ProductSalesSummary product={product} quantity={quantityText}/></details>}
 
+              <h2 className="order-step-heading">{orderPanelCopy(language).qty}</h2>
               <p className={`stock-pill stock-pill--${stockStatus.toLowerCase().replaceAll(" ", "-")}`}>{localizedStockStatus}</p>
               <p className="shipping-pill">
                 {marketText(
@@ -554,7 +557,7 @@ export function BulkProductPage() {
                     </p>
                   </div>
                 ) : (
-                isDiffuser(product)?<DiffuserQuantitySelector value={quantityText} onChange={setQuantityText} disabled={soldOut}/>:<div className="pack-stepper" aria-label="Order quantity">
+                isDiffuser(product)?<DiffuserQuantitySelector value={quantityText} onChange={setQuantityText} disabled={soldOut} optionPrices={{trial:unitOption("10"),general:unitOption("20")}}/>:<div className="pack-stepper" aria-label="Order quantity">
                   <span>{marketText(language, "Order quantity", "二쇰Ц ?섎웾")}</span>
                   <div>
                     <button
@@ -589,6 +592,7 @@ export function BulkProductPage() {
                 </div>
                 )}
 
+                <h2 className="order-step-heading">{orderPanelCopy(language).price}</h2>
                 <div className="bulk-total-box">
                   <span>{marketText(language, "Total units", "珥??섎웾")}</span>
                   <strong>{Number.isSafeInteger(totalUnits)&&totalUnits>0?totalUnits:"—"}</strong>
@@ -605,7 +609,7 @@ export function BulkProductPage() {
                   </p>
                 )}
                 <form id="shipping-step" className="checkout-form direct-order-form" aria-describedby={error ? errorId : undefined} onSubmit={event=>{event.preventDefault();reviewDelivery();}}>
-                  <h2 className="checkout-form__wide">{flowCopy.shipping}</h2>
+                  <h2 className="checkout-form__wide order-step-heading">{flowCopy.shipping}</h2>
                   <label htmlFor="bulk-customer-name">
                     {marketText(language, "Delivery recipient")} *
                     <input
@@ -825,7 +829,7 @@ export function BulkProductPage() {
                 ) : inquiryOnly ? (
                   <><a className="button button--primary" href={manualPaymentHref}>{marketText(language, "Open quantity & shipping email draft", "수량·배송 문의 이메일 초안 열기")}</a><p>{marketText(language, "Review and send the email yourself. Opening a draft does not confirm receipt.", "초안을 확인하고 직접 발송해주세요. 이메일 앱 실행은 문의 접수 완료가 아닙니다.")}</p></>
                 ) : (
-                  <section id="paypal-payment-step" className="checkout-payment-step" tabIndex={-1} aria-busy={paymentBusy}><h2>{flowCopy.payment}</h2>{deliveryChecked&&<p role="status">{flowCopy.checked}</p>}{paymentBusy&&<p role="status">{flowCopy.busy}</p>}<p>{flowCopy.card}</p><p className="payment-status" role="status">{marketText(language,paymentDisplay==='loading'?'Preparing secure payment…':paymentDisplay==='failed'?'Payment could not load. Refresh or contact us.':paymentDisplay==='closed'?'Payment is currently closed. Contact us.':paymentDisplay==='preview'?'Payment is disabled in this read-only preview.':'Secure payment is ready.')}</p><div id="direct-paypal-buttons" className="paypal-buttons" hidden={paymentDisplay!=='ready'}/></section>
+                  <section id="paypal-payment-step" className="checkout-payment-step" tabIndex={-1} aria-busy={paymentBusy}><h2 className="order-step-heading">{flowCopy.payment}</h2>{deliveryChecked&&<p role="status">{flowCopy.checked}</p>}{paymentBusy&&<p role="status">{flowCopy.busy}</p>}<p>{flowCopy.card}</p><p className="payment-status" role="status">{marketText(language,paymentDisplay==='loading'?'Preparing secure payment…':paymentDisplay==='failed'?'Payment could not load. Refresh or contact us.':paymentDisplay==='closed'?'Payment is currently closed. Contact us.':paymentDisplay==='preview'?'Payment is disabled in this read-only preview.':'Secure payment is ready.')}</p><div id="direct-paypal-buttons" className="paypal-buttons" hidden={paymentDisplay!=='ready'}/></section>
                 )}                </fieldset>
                 <div hidden={!inquiryOnly||invalidQuantity}><PaymentRequestPanel lines={orderLines} purpose={purpose==='unspecified'?'':marketText(language,purposeLabels[purpose||'unspecified'])}/></div>
 

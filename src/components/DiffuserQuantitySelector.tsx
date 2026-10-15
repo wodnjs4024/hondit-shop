@@ -12,15 +12,15 @@ export function usePurchaseQuantity(slug:string,initial:string) {
  return [quantity,setQuantity] as const;
 }
 
-export function DiffuserQuantitySelector({value,onChange,disabled=false}:{value:string;onChange:(value:string)=>void;disabled?:boolean}) {
+export function DiffuserQuantitySelector({value,onChange,disabled=false,optionPrices}:{value:string;onChange:(value:string)=>void;disabled?:boolean;optionPrices?:{trial?:string;general?:string}}) {
  const {language}=useMarket();const t=(s:string)=>marketText(language,s);const id=useId();
  const selection=diffuserQuantity(value),trial=selection.mode==='trial';
  const change=(step:number)=>{if(selection.valid&&selection.quantity!==null)onChange(String(selection.quantity+step));};
  return <fieldset className="diffuser-quantity" disabled={disabled}>
   <legend>{t('Choose your order option')}</legend>
   <div className="diffuser-order-options">
-   <label><input type="radio" name={id} checked={trial} onChange={()=>onChange('10')}/><span>{t('10-unit trial order')}</span></label>
-   <label><input type="radio" name={id} checked={!trial} onChange={()=>onChange('20')}/><span>{t('General order: 20 or more')}</span></label>
+   <label className={trial?'is-selected':undefined}><input type="radio" name={id} checked={trial} onChange={()=>onChange('10')}/><span>{t('10-unit trial order')}</span>{optionPrices?.trial&&<small>{optionPrices.trial}</small>}</label>
+   <label className={!trial?'is-selected':undefined}><input type="radio" name={id} checked={!trial} onChange={()=>onChange('20')}/><span>{t('General order: 20 or more')}</span>{optionPrices?.general&&<small>{optionPrices.general}</small>}</label>
   </div>
   {trial?<p>{t('Trial quantity is fixed at 10 units.')}</p>:<>
    <label htmlFor={id}>{t('Order quantity')}</label>

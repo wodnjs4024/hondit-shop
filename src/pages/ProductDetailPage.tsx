@@ -4,6 +4,7 @@ import {QuantityReview} from "../components/QuantityReview";
 import {productFacts} from "../data/productFacts";
 import { cleanProductUsage } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
+import { orderPanelCopy } from "../data/orderPanelCopy";
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
@@ -123,8 +124,11 @@ export function ProductDetailPage() {
             <h1>{productName}</h1>
             <p className="hd-pdp__lead">{productDescription}</p>
             <p className="hd-pdp__price"><strong>{formatMarketUnitMoney(product, market)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}</p>
-            <ProductSalesSummary product={product} showContact={false}/>
             <QuantityReview key={product.slug} product={product}/>
+            <details className="pdp-conditions">
+              <summary>{orderPanelCopy(language).conditions}</summary>
+              <ProductSalesSummary product={product} showContact={false}/>
+            </details>
             {market.hasShopee&&product.shopee&&<a className="hd-textlink" href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"View Shopee store ↗")}</a>}
           </div>
         </section>
