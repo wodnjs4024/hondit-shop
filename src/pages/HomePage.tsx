@@ -88,16 +88,14 @@ export function HomePage() {
 
         {/* Collection: what this market can buy, directly under the film. */}
         <section className="hd-collection" aria-labelledby="hd-collection-title">
-          <header className="hd-head">
+          <header className="hd-bar">
             <h2 id="hd-collection-title">{collection.title}</h2>
-            <p>{collection.description}</p>
+            <p>{collection.description} {t("{count} products").replace("{count}", String(marketProducts.length))}</p>
+            <Link className="hd-textlink" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기 ->").replace(/\s*->$/, "")}</Link>
           </header>
           <ul className="hd-collection__rail" data-count={marketProducts.length}>
             {marketProducts.map((product) => <ProductTile key={product.slug} product={product} query={pageQuery} />)}
           </ul>
-          <p className="hd-collection__more">
-            <Link className="hd-btn hd-btn--solid" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기 ->").replace(/\s*->$/, "")}</Link>
-          </p>
         </section>
 
         {/* Jeju: forest film beside a real StoneJeju photograph. */}
@@ -126,51 +124,53 @@ export function HomePage() {
             </div>
           </div>
           <div className="hd-use">
-            <h3>{pick(usageHeading, language)}</h3>
+            <div className="hd-use__head">
+              <h3>{pick(usageHeading, language)}</h3>
+              <p className="hd-use__guides">
+                <Link className="hd-textlink" to={`/guide/diffuser-350g${pageQuery}`}>350g · {t("HOW TO USE")}</Link>
+                <Link className="hd-textlink" to={`/guide/diffuser-500g${pageQuery}`}>500g · {t("HOW TO USE")}</Link>
+              </p>
+            </div>
             <ol>
               <li><b>{t("ADD 10-12 DROPS")}</b><span>{t("Apply the fragrance oil directly onto the volcanic stone.")}</span></li>
               <li><b>{t("LET IT ABSORB")}</b><span>{t("Allow the porous stone to absorb the oil naturally.")}</span></li>
               <li><b>{t("REFRESH AS NEEDED")}</b><span>{t("Add a few more drops when the scent becomes lighter.")}</span></li>
             </ol>
-            <p className="hd-use__guides">
-              <Link className="hd-textlink" to={`/guide/diffuser-350g${pageQuery}`}>350g · {t("HOW TO USE")}</Link>
-              <Link className="hd-textlink" to={`/guide/diffuser-500g${pageQuery}`}>500g · {t("HOW TO USE")}</Link>
-            </p>
           </div>
         </section>
 
-        {/* Sizes: each real photograph carries its own name, specification and price. */}
+        {/* Sizes: one comparison table, each column a real photograph of that size with its approved spec and price. */}
         {diffusers.length > 0 && <section className="hd-sizes" aria-labelledby="hd-sizes-title">
-          <header className="hd-head">
+          <header className="hd-bar">
             <h2 id="hd-sizes-title">{t("Compare the diffusers")}</h2>
           </header>
-          <div className="hd-sizes__pair">
-            {diffusers.map((product) => {
-              const facts = productFacts(product.slug)!;
-              const size = product.slug === "diffuser-350g" ? "350g" : "500g";
-              const photo = sizePhotos[product.slug] ?? { src: product.image, width: 880, height: 1100 };
-              return <article key={product.slug} className="hd-size">
-                <figure>
-                  <img src={photo.src} alt={marketProductText(language, product.name)} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
-                </figure>
-                <div className="hd-size__info">
-                  <h3>StoneJeju {size}</h3>
-                  <p>{marketProductText(language, product.detail)}</p>
-                  <dl>
-                    <div><dt>{t("Container")}</dt><dd>{t(facts.container)}</dd></div>
-                    <div><dt>{t("Declared content")}</dt><dd>{facts.content}</dd></div>
-                    <div><dt>{t("Dimensions (W × H × D)")}</dt><dd>{facts.dimensions}</dd></div>
-                    <div><dt>{t("Citrus fragrance oil")}</dt><dd>{facts.oil}</dd></div>
-                  </dl>
-                  <p className="hd-size__price"><strong>{formatMarketUnitMoney(product, market)}</strong> <span>{t(`${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)} · {t("Minimum")} {product.bulkMoq} {t("units")}</span></p>
-                  <div className="hd-tile__actions">
-                    <Link className="hd-btn hd-btn--solid" to={`/bulk-orders?product=${product.slug}`}>{t("Overseas bundle orders")}</Link>
-                    <Link className="hd-btn hd-btn--line" to={`/products/${product.slug}${pageQuery}`}>{t("Product details", "상품 상세 설명")}</Link>
-                  </div>
-                </div>
-              </article>;
-            })}
-          </div>
+          <table className="hd-compare" data-count={diffusers.length}>
+            <caption className="hd-visually-hidden">{t("Compare the diffusers")}</caption>
+            <thead>
+              <tr>
+                <td />
+                {diffusers.map((product) => {
+                  const size = product.slug === "diffuser-350g" ? "350g" : "500g";
+                  const photo = sizePhotos[product.slug] ?? { src: product.image, width: 880, height: 1100 };
+                  return <th key={product.slug} scope="col">
+                    <img src={photo.src} alt={marketProductText(language, product.name)} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
+                    <span className="hd-compare__name">StoneJeju {size}</span>
+                    <span className="hd-compare__detail">{marketProductText(language, product.detail)}</span>
+                  </th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {([["Container", (f: NonNullable<ReturnType<typeof productFacts>>) => t(f.container)], ["Declared content", (f: NonNullable<ReturnType<typeof productFacts>>) => f.content], ["Dimensions (W × H × D)", (f: NonNullable<ReturnType<typeof productFacts>>) => f.dimensions], ["Citrus fragrance oil", (f: NonNullable<ReturnType<typeof productFacts>>) => f.oil]] as const).map(([label, value]) =>
+                <tr key={label}><th scope="row">{t(label)}</th>{diffusers.map((product) => <td key={product.slug}>{value(productFacts(product.slug)!)}</td>)}</tr>)}
+              <tr className="hd-compare__price"><th scope="row">{t(`${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)}</th>{diffusers.map((product) => <td key={product.slug}>{formatMarketUnitMoney(product, market)}</td>)}</tr>
+              <tr><th scope="row">{t("Minimum")}</th>{diffusers.map((product) => <td key={product.slug}>{product.bulkMoq} {t("units")}</td>)}</tr>
+              <tr className="hd-compare__actions"><td />{diffusers.map((product) => <td key={product.slug}>
+                <Link className="hd-btn hd-btn--solid" to={`/bulk-orders?product=${product.slug}`}>{t("Overseas bundle orders")}</Link>
+                <Link className="hd-textlink" to={`/products/${product.slug}${pageQuery}`}>{t("Product details", "상품 상세 설명")}</Link>
+              </td>)}</tr>
+            </tbody>
+          </table>
         </section>}
 
         {/* Buying: delivery paths beside the real shipment photograph, then the market price table. */}

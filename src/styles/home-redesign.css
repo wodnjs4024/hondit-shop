@@ -194,15 +194,11 @@
 
 /* ---------- 2. Collection ---------- */
 .hd-home > .hd-collection { padding: 88px var(--hd-gutter) 96px; }
-.hd-head { display: grid; justify-items: center; gap: 10px; margin: 0 auto 48px; text-align: center; }
-.hd-head h2 { font-size: clamp(28px, 2.6vw, 40px); line-height: 1.2; }
-.hd-head p { color: var(--hd-muted); font-size: 16px; }
 .hd-collection__rail { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 40px 16px; margin: 0 auto; padding: 0; list-style: none; max-width: 1600px; }
 .hd-collection__rail[data-count="5"] { --cols: 5; }
 .hd-collection__rail[data-count="3"] { --cols: 3; max-width: 1100px; }
 .hd-collection__rail[data-count="2"] { --cols: 2; max-width: 880px; gap: 40px 24px; }
 .hd-collection__rail > li { min-width: 0; }
-.hd-collection__more { display: flex; justify-content: center; margin-top: 56px; }
 
 :is(.hd-home, .hd-page) .hd-tile { display: flex; flex-direction: column; height: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; transform: none; overflow: visible; }
 :is(.hd-home, .hd-page) .hd-tile:hover, :is(.hd-home, .hd-page) .hd-tile:focus-within { border: 0; box-shadow: none; transform: none; }
@@ -233,7 +229,7 @@
 .hd-jeju__film .stonejeju-film figcaption > span:first-child { display: none; }
 .hd-jeju__photo { position: relative; margin: 0; min-width: 0; overflow: hidden; background: var(--hd-tile); }
 .hd-jeju__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 45% 50%; }
-.hd-jeju__photo figcaption, .hd-size figcaption {
+.hd-jeju__photo figcaption {
   position: absolute; left: 16px; bottom: 16px; padding: 4px 10px; background: var(--hd-paper); color: var(--hd-ink); font-size: 13px; line-height: 1.4;
 }
 
@@ -255,23 +251,6 @@
 
 /* ---------- 5. Sizes ---------- */
 .hd-home > .hd-sizes { padding: 96px var(--hd-gutter); background: var(--hd-tile); }
-.hd-sizes__pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 1600px; margin: 0 auto; }
-.hd-size { display: grid; grid-template-rows: auto 1fr; background: var(--hd-paper); }
-.hd-size figure { position: relative; margin: 0; aspect-ratio: 5 / 4; overflow: hidden; }
-.hd-size figure img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.hd-size__info { display: grid; align-content: start; gap: 12px; padding: 32px 32px 36px; }
-.hd-size__info h3 { font-family: var(--hd-display); font-size: 30px; font-weight: 400; line-height: 1.2; }
-:lang(en) .hd-size__info h3, :lang(ms) .hd-size__info h3 { font-size: 34px; font-weight: 500; }
-.hd-size__info > p { color: var(--hd-muted); }
-.hd-size dl { display: grid; margin: 8px 0 0; }
-.hd-size dl div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; padding: 12px 0; border-top: 1px solid var(--hd-line); font-size: 15px; line-height: 1.5; }
-.hd-size dl div:last-child { border-bottom: 1px solid var(--hd-line); }
-.hd-size dt { color: var(--hd-muted); }
-.hd-size dd { margin: 0; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
-.hd-size__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-top: 8px !important; }
-.hd-size__price strong { color: var(--hd-ink); font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.hd-size__price span { color: var(--hd-muted); font-size: 14px; }
-.hd-size .hd-tile__actions { grid-template-columns: 1fr 1fr; margin-top: 8px; }
 
 /* ---------- 6. Buying paths + price table ---------- */
 .hd-home > .hd-buy { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: center; padding: 96px var(--hd-gutter) 48px; max-width: 1600px; margin: 0 auto; }
@@ -332,7 +311,6 @@
   .hd-collection__rail[data-count="2"] { --cols: 2; }
   .hd-use { grid-template-columns: minmax(0, 1fr); }
   .hd-use__guides { grid-column: 1; }
-  .hd-sizes__pair { grid-template-columns: minmax(0, 1fr); max-width: 720px; }
   .hd-home > .hd-buy { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .hd-footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -359,8 +337,6 @@
 
   /* Collection: a swipe row that shows the next product. */
   .hd-home > .hd-collection { padding: 48px 0 56px; }
-  .hd-head { margin-bottom: 28px; padding: 0 var(--hd-gutter); }
-  .hd-head h2 { font-size: 26px; }
   .hd-collection__rail, .hd-collection__rail[data-count] {
     display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 72%; gap: 12px;
     overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--hd-gutter);
@@ -370,8 +346,6 @@
   .hd-collection__rail[data-count="2"] { grid-auto-columns: calc(50% - 16px); }
   .hd-tile__body { grid-template-columns: minmax(0, 1fr); }
   .hd-tile__price { grid-column: 1; grid-row: auto; margin-top: 2px !important; }
-  .hd-collection__more { margin-top: 32px; padding: 0 var(--hd-gutter); }
-  .hd-collection__more .hd-btn { width: 100%; }
 
   /* Jeju: the forest film alone, portrait, with its words on it. */
   .hd-home > .hd-jeju { display: block; height: auto; min-height: 0; }
@@ -395,11 +369,6 @@
   .hd-use ol { grid-template-columns: minmax(0, 1fr); gap: 20px; }
 
   .hd-home > .hd-sizes { padding: 48px var(--hd-gutter); }
-  .hd-size__info { padding: 20px 20px 24px; }
-  .hd-size__info h3 { font-size: 24px; }
-  .hd-size dl div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
-  .hd-size dd { text-align: left; }
-  .hd-size .hd-tile__actions { grid-template-columns: 1fr; }
 
   .hd-home > .hd-buy { padding: 48px var(--hd-gutter) 24px; }
   .hd-home > .discovery-section { padding: 24px var(--hd-gutter) 64px; }
@@ -421,3 +390,64 @@
 
 /* Japanese titles break at phrase boundaries where the browser supports it. */
 :lang(ja) .hd-home :is(h1, h2, h3) { word-break: auto-phrase; }
+
+/* ---------- Audit pass: fewer stock patterns ---------- */
+.hd-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Section bars: title left, context and the way onward on the same line, instead of centred title + grey subtitle. */
+.hd-bar { display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto; align-items: baseline; gap: 8px 32px; max-width: 1600px; margin: 0 auto 40px; padding-bottom: 16px; border-bottom: 1px solid var(--hd-line-strong); }
+.hd-bar h2 { font-size: clamp(26px, 2.4vw, 36px); line-height: 1.2; }
+.hd-bar p { color: var(--hd-ink); font-size: 15px; }
+.hd-bar .hd-textlink { justify-self: end; white-space: nowrap; }
+
+/* Product tiles: no chip on every photo, one quiet order link instead of a row of identical green blocks. */
+:is(.hd-home, .hd-page) .hd-tile__desc { color: var(--hd-ink); }
+.hd-tile__links { gap: 0 20px; margin-top: 12px; }
+:is(.hd-home, .hd-page) .hd-textlink--order { color: var(--hd-brand); font-weight: 600; text-decoration-color: currentColor; }
+
+/* How to use: a short ordered list beside its title, not three numbered cards. */
+:is(.hd-home, .hd-page) .hd-use { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px 64px; padding-top: 64px; padding-bottom: 72px; }
+.hd-use__head { display: grid; align-content: start; gap: 12px; }
+.hd-use__head .hd-use__guides { grid-column: auto; }
+:is(.hd-home, .hd-page) .hd-use ol { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; border-top: 1px solid var(--hd-line-strong); }
+:is(.hd-home, .hd-page) .hd-use li { display: grid; grid-template-columns: 40px minmax(0, 14rem) minmax(0, 1fr); align-items: baseline; gap: 4px 24px; padding: 18px 0; border-top: 0; border-bottom: 1px solid var(--hd-line); }
+:is(.hd-home, .hd-page) .hd-use li::before { font-size: 15px; font-weight: 500; color: var(--hd-muted); font-variant-numeric: tabular-nums; }
+:is(.hd-home, .hd-page) .hd-use li span { color: var(--hd-ink); }
+
+/* Size comparison as one table: columns are the products, rows are the facts. */
+.hd-home > .hd-sizes { background: var(--hd-paper); }
+.hd-compare { width: 100%; max-width: 1600px; margin: 0 auto; border-collapse: collapse; table-layout: fixed; font-variant-numeric: tabular-nums; }
+.hd-compare thead td { width: 22%; }
+.hd-compare thead th { padding: 0 12px 24px; text-align: left; vertical-align: top; font-weight: 400; }
+.hd-compare thead img { display: block; width: 100%; height: auto; aspect-ratio: 5 / 4; object-fit: cover; margin-bottom: 16px; background: var(--hd-tile); }
+.hd-compare__name { display: block; font-family: var(--hd-display); font-size: clamp(24px, 2vw, 30px); line-height: 1.2; color: var(--hd-ink); }
+.hd-compare__detail { display: block; margin-top: 4px; color: var(--hd-ink); font-size: 15px; }
+.hd-compare tbody th, .hd-compare tbody td { padding: 14px 12px; border-top: 1px solid var(--hd-line); text-align: left; vertical-align: top; font-size: 15px; line-height: 1.5; }
+.hd-compare tbody th { padding-left: 0; color: var(--hd-muted); font-weight: 500; }
+.hd-compare tbody td { color: var(--hd-ink); font-weight: 500; }
+.hd-compare__price td { font-size: 24px !important; font-weight: 600 !important; }
+.hd-compare__actions td { display: table-cell; border-top: 1px solid var(--hd-line-strong) !important; padding-top: 20px !important; }
+.hd-compare__actions td > * { margin: 0 16px 8px 0; vertical-align: middle; }
+.hd-compare__actions .hd-btn { min-height: 44px; padding: 0 18px; font-size: 14px; }
+
+@media (max-width: 1023px) {
+  .hd-bar { grid-template-columns: minmax(0, 1fr) auto; }
+  .hd-bar p { grid-column: 1 / -1; grid-row: 2; }
+  :is(.hd-home, .hd-page) .hd-use { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 639px) {
+  .hd-bar { grid-template-columns: minmax(0, 1fr); margin: 0 var(--hd-gutter) 24px; gap: 6px; }
+  .hd-bar .hd-textlink { justify-self: start; }
+  :is(.hd-home, .hd-page) .hd-use li { grid-template-columns: 28px minmax(0, 1fr); }
+  :is(.hd-home, .hd-page) .hd-use li span { grid-column: 2; }
+  .hd-home > .hd-sizes { padding-left: 0; padding-right: 0; }
+  .hd-home > .hd-sizes .hd-bar { margin-left: var(--hd-gutter); margin-right: var(--hd-gutter); }
+  .hd-compare thead td { width: 28%; }
+  .hd-compare thead th { padding: 0 6px 16px; }
+  .hd-compare__name { font-size: 18px; }
+  .hd-compare__detail { font-size: 13px; }
+  .hd-compare tbody th, .hd-compare tbody td { padding: 12px 6px; font-size: 13px; }
+  .hd-compare tbody th:first-child, .hd-compare thead td { padding-left: var(--hd-gutter); }
+  .hd-compare__price td { font-size: 18px !important; }
+  .hd-compare__actions td > * { display: flex; width: 100%; margin: 0 0 6px; justify-content: center; }
+}
