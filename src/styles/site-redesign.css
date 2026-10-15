@@ -338,3 +338,31 @@ body.hd-site .v23-jeju-page :is(.v23-our-jeju-origin, .v23-jeju-notes, .v23-our-
 body.hd-site .v23-jeju-page .v23-jeju-notes article { background: var(--hd-paper) !important; border: 0 !important; }
 body.hd-site .v23-jeju-page .sales-tools-section { max-width: 1600px; margin: 0 auto !important; padding: 48px var(--hd-gutter) 96px !important; background: transparent !important; }
 body.hd-site .v23-jeju-page .v23-soft-cta { max-width: 1600px; margin: 0 auto !important; padding: 72px var(--hd-gutter) !important; box-sizing: border-box; }
+
+/* =====================================================================
+ * Stage 2 (UI/UX Pro Max): buying journey, mobile and accessibility
+ * ===================================================================== */
+/* Map stage numbers read at AA on both tab states. */
+body.hd-site .v23-map-tabs span { color: #a4532f; }
+body.hd-site .v23-map-tabs button:not(.is-active) span { color: #f2c3a8; }
+
+/* Phone product detail: a square gallery so name and price arrive on the first screen. */
+@media (max-width: 639px) {
+  .hd-pdp__gallery > figure { aspect-ratio: 1 / 1; }
+  .hd-pdp__gallery { grid-auto-columns: 82%; }
+}
+
+/* Phone checkout: product as a compact row beside the title, so the form starts sooner. */
+@media (max-width: 639px) {
+  body.hd-site .checkout-flow .bulk-detail__grid { grid-template-columns: 96px minmax(0, 1fr) !important; column-gap: 0 !important; row-gap: 0 !important; padding: 0 0 0 var(--hd-gutter); }
+  body.hd-site .checkout-flow .bulk-detail__image { grid-column: 1; grid-row: 1; width: 96px; aspect-ratio: 4 / 5 !important; margin-top: 64px; }
+  body.hd-site .checkout-flow .bulk-detail__content { grid-column: 1 / -1; grid-row: 1; padding: 0 var(--hd-gutter) 0 0; }
+  body.hd-site .checkout-flow .bulk-detail__content > :is(h1, .bulk-detail__volume) { margin-left: 112px; }
+  body.hd-site .checkout-flow .bulk-detail__content > h1 { font-size: 24px !important; }
+}
+
+/* Keyboard focus on scrollable rows is visible. */
+.hd-pdp__gallery:focus-visible, .hd-collection__rail:focus-visible { outline: 2px solid var(--hd-ink); outline-offset: 4px; }
+body.hd-site main .contact-channel > h2.contact-channel__name { font-size: var(--t-h3) !important; font-weight: 600 !important; margin: 0; }
+body.hd-site .v23-map-copy > span { color: #56645d; }
+body.hd-site .v23-asia-route-card small { color: #56645d; }

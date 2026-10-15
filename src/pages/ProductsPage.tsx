@@ -23,7 +23,7 @@ export function ProductsPage(){
     <li>{t('Confirm final amount and shipping before payment.')}</li>
    </ul>
   </header>
-  <section className="hd-catalog" aria-label={t('Products')}><V23CatalogGrid tiles query={query}/></section>
+  <section className="hd-catalog" aria-labelledby="hd-catalog-title"><h2 id="hd-catalog-title" className="hd-visually-hidden">{t('Products')}</h2><V23CatalogGrid tiles query={query}/></section>
   <section className="hd-routes" aria-labelledby="hd-routes-title">
    <h2 id="hd-routes-title">{t('Overseas bundle order conditions')}</h2>
    <div className="hd-routes__grid">

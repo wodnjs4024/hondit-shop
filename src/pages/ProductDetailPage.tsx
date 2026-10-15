@@ -99,7 +99,7 @@ export function ProductDetailPage() {
         <nav className="hd-crumbs" aria-label="Breadcrumb"><Link to="/products">{marketText(language,"Collection","제품 목록")}</Link><span aria-hidden="true">/</span><span>{productName}</span></nav>
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
         <section className="hd-pdp__hero">
-          <div className="hd-pdp__gallery" aria-label={productName}>
+          <div className="hd-pdp__gallery" role="group" aria-label={productName} tabIndex={0}>
             <figure className="hd-pdp__media">
               <img
                 src={product.image}
@@ -128,7 +128,7 @@ export function ProductDetailPage() {
           </div>
         </section>
 
-        <section className="hd-pdp__about" aria-label={marketText(language, "Product details", "상품 상세 설명")}>
+        <section className="hd-pdp__about">
           <article>
             <h2>{marketText(language, "GOOD FOR", "추천 용도")}</h2>
             <p className="hd-pdp__goodfor">{productGoodFor}</p>

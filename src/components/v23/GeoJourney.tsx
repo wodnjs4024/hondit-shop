@@ -149,15 +149,15 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
       <div className="v23-map-shell">
         {stage === "asia" && (
           <div className="v23-map-stage">
-            <aside className="v23-map-copy">
+            <div className="v23-map-copy">
               <span>01</span>
               <p>{t("REGIONAL CONTEXT")}</p>
               <h3>{t("Find South Korea without losing Asia.")}</h3>
               <p>{t("Country boundaries remain neutral. South Korea is the only highlighted country and is selectable.")}</p>
-            </aside>
+            </div>
             <div className="v23-asia-panel">
               <div className="v23-map-canvas">
-                <svg viewBox="675 270 235 250" role="img" aria-label={`Map of East and Southeast Asia with the route from ${marketCountryName(market,language)} to South Korea highlighted`}>
+                <svg viewBox="675 270 235 250" role="group" aria-label={`Map of East and Southeast Asia with the route from ${marketCountryName(market,language)} to South Korea highlighted`}>
                   <rect x="675" y="270" width="235" height="250" className="v23-map-water" />
                   {!worldMap && <text className="v23-map-loading-label" x="792" y="392">{t("Loading map...")}</text>}
                   {asiaLocations.map((location) => {
@@ -182,7 +182,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                   {asiaLabels.map((label) => <text key={label.name} x={label.x} y={label.y}>{label.name}</text>)}
                 </svg>
               </div>
-              <aside className="v23-asia-route-card">
+              <div className="v23-asia-route-card">
                 <small>{t("ROUTE TO ORIGIN")}</small>
                 <h3>{marketCountryName(market,language)} {t("to Jeju")}</h3>
                 <ol>
@@ -191,23 +191,23 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                   <li><span>03</span><div><b>{t("Jeju Island")}</b><small>{t("hondit origin")}</small></div></li>
                 </ol>
                 <button type="button" onClick={() => selectStage("korea", "asia_continue_button")}>{t("Continue to South Korea")}</button>
-              </aside>
+              </div>
             </div>
           </div>
         )}
 
         {stage === "korea" && (
           <div className="v23-map-stage is-korea">
-            <aside className="v23-map-copy">
+            <div className="v23-map-copy">
               <span>02</span>
               <p>{t("A CLOSER VIEW")}</p>
               <h3>{t("Jeju sits below the peninsula.")}</h3>
               <p>{t("The province outline is real map data. Select the orange Jeju Island shape to continue.")}</p>
               <button type="button" onClick={() => selectStage("asia", "korea_back_button")}>{t("Back to Asia")}</button>
-            </aside>
+            </div>
             <div className="v23-korea-panel">
               <div className="v23-korea-map">
-                <svg viewBox={southKoreaMap?.viewBox || "0 0 524 631"} role="img" aria-label={t("Map of South Korea with Jeju highlighted")}>
+                <svg viewBox={southKoreaMap?.viewBox || "0 0 524 631"} role="group" aria-label={t("Map of South Korea with Jeju highlighted")}>
                   <rect width="524" height="631" className="v23-map-water" />
                   {!southKoreaMap && <text className="v23-map-loading-label" x="262" y="315">{t("Loading map...")}</text>}
                   {(southKoreaMap?.locations || []).map((location) => {
@@ -229,7 +229,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                   <text x="118" y="579">{t("JEJU STRAIT")}</text>
                 </svg>
               </div>
-              <aside className="v23-korea-cards" aria-label={t("What Korea is known for")}>
+              <div role="group" className="v23-korea-cards" aria-label={t("What Korea is known for")}>
                 <header><small>{t("BEYOND THE MAP")}</small><h3>{t("What the world knows Korea for.")}</h3></header>
                 <div>
                   {koreaHighlights.map((item) => (
@@ -241,7 +241,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                     </article>
                   ))}
                 </div>
-              </aside>
+              </div>
             </div>
           </div>
         )}
@@ -255,7 +255,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
             </div>
             <div className="v23-jeju-layout">
               <div className="v23-jeju-map" aria-label={t("Interactive map of Jeju Island")}>
-                <svg viewBox={`${jejuViewBox.x} ${jejuViewBox.y} ${jejuViewBox.width} ${jejuViewBox.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={t("Jeju Island outline")}>
+                <svg viewBox={`${jejuViewBox.x} ${jejuViewBox.y} ${jejuViewBox.width} ${jejuViewBox.height}`} preserveAspectRatio="xMidYMid meet" role="group" aria-label={t("Jeju Island outline")}>
                   <rect x={jejuViewBox.x} y={jejuViewBox.y} width={jejuViewBox.width} height={jejuViewBox.height} className="v23-map-water" />
                   {jejuShape && <path d={jejuShape.path} className="v23-jeju-shape" />}
                   {ourJejuPlaces.map((place, index) => {

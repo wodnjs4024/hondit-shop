@@ -17,12 +17,12 @@ import {
  */
 
 const chromeCopy = {
-  ko: { settings: "국가·언어", close: "닫기", menu: "메뉴", explore: "둘러보기", connect: "연결", support: "고객 지원", seller: "판매자 정보", openMenu: "메뉴 열기" },
-  en: { settings: "Country & language", close: "Close", menu: "Menu", explore: "Explore", connect: "Connect", support: "Support", seller: "Seller", openMenu: "Open menu" },
-  ja: { settings: "国・言語", close: "閉じる", menu: "メニュー", explore: "ご案内", connect: "つながる", support: "サポート", seller: "販売者情報", openMenu: "メニューを開く" },
-  zh: { settings: "國家・語言", close: "關閉", menu: "選單", explore: "探索", connect: "聯絡", support: "支援", seller: "賣家資訊", openMenu: "開啟選單" },
-  ms: { settings: "Negara & bahasa", close: "Tutup", menu: "Menu", explore: "Terokai", connect: "Hubungi", support: "Sokongan", seller: "Penjual", openMenu: "Buka menu" },
-  th: { settings: "ประเทศและภาษา", close: "ปิด", menu: "เมนู", explore: "สำรวจ", connect: "ติดต่อ", support: "ช่วยเหลือ", seller: "ข้อมูลผู้ขาย", openMenu: "เปิดเมนู" },
+  ko: { notice: "안내", settings: "국가·언어", close: "닫기", menu: "메뉴", explore: "둘러보기", connect: "연결", support: "고객 지원", seller: "판매자 정보", openMenu: "메뉴 열기" },
+  en: { notice: "Notice", settings: "Country & language", close: "Close", menu: "Menu", explore: "Explore", connect: "Connect", support: "Support", seller: "Seller", openMenu: "Open menu" },
+  ja: { notice: "お知らせ", settings: "国・言語", close: "閉じる", menu: "メニュー", explore: "ご案内", connect: "つながる", support: "サポート", seller: "販売者情報", openMenu: "メニューを開く" },
+  zh: { notice: "公告", settings: "國家・語言", close: "關閉", menu: "選單", explore: "探索", connect: "聯絡", support: "支援", seller: "賣家資訊", openMenu: "開啟選單" },
+  ms: { notice: "Notis", settings: "Negara & bahasa", close: "Tutup", menu: "Menu", explore: "Terokai", connect: "Hubungi", support: "Sokongan", seller: "Penjual", openMenu: "Buka menu" },
+  th: { notice: "ประกาศ", settings: "ประเทศและภาษา", close: "ปิด", menu: "เมนู", explore: "สำรวจ", connect: "ติดต่อ", support: "ช่วยเหลือ", seller: "ข้อมูลผู้ขาย", openMenu: "เปิดเมนู" },
 };
 export function homeChromeCopy(language: DisplayLanguage) {
   return chromeCopy[language === "zh" || language === "zh-HK" || language === "zh-TW" ? "zh" : language];
@@ -92,7 +92,7 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
     : notice ? marketText(language, notice) : marketText(language, market.announcement, market.announcement);
 
   return <>
-    {!partnerOnly && !pickupOnly && <p className="hd-announce">{announcement}</p>}
+    {!partnerOnly && !pickupOnly && <aside className="hd-announce" aria-label={copy.notice}>{announcement}</aside>}
     <header className={`hd-header${overlay ? " is-overlay" : ""}${!overlay || solid || menuOpen ? " is-solid" : ""}`}>
       <button type="button" className="hd-header__menu" aria-expanded={menuOpen} aria-controls="hd-menu" aria-label={menuOpen ? copy.close : copy.openMenu} onClick={() => setMenuOpen((value) => !value)}>
         {menuOpen ? <Cross /> : <Burger />}
