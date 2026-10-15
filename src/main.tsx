@@ -25,3 +25,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </BrowserRouter>
   </React.StrictMode>,
 );
+import "./styles/checkout-flow.css";

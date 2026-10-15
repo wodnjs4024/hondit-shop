@@ -1,3 +1,4 @@
+import {checkoutFlowCopy} from "../../data/checkoutFlowCopy";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { EMAIL, INSTAGRAM, SHOPEE } from "../../data/v23SiteData";
@@ -99,7 +100,7 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
       </button>
       <Link className="hd-header__brand" to="/" aria-label="hondit home">hondit<span>.</span></Link>
       <nav className="hd-header__nav" aria-label="Main navigation">
-        {navItems.map(([path, label]) => <NavLink key={path} to={path}>{marketText(language, label)}</NavLink>)}
+        {navItems.map(([path, label]) => <NavLink key={path} to={path}>{path === "/bulk-orders" ? checkoutFlowCopy(language).primary : marketText(language, label)}</NavLink>)}
       </nav>
       <div className="hd-header__tools">
         <Link className="hd-header__pickup" to="/jeju/pickup">{marketText(language, "Jeju pickup information")}</Link>
@@ -115,7 +116,7 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
     </header>
     <div className={`hd-menu${menuOpen ? " is-open" : ""}`} id="hd-menu" hidden={!menuOpen}>
       <nav aria-label={copy.menu}>
-        {navItems.map(([path, label]) => <NavLink key={path} to={path} onClick={() => setMenuOpen(false)}>{marketText(language, label)}</NavLink>)}
+        {navItems.map(([path, label]) => <NavLink key={path} to={path} onClick={() => setMenuOpen(false)}>{path === "/bulk-orders" ? checkoutFlowCopy(language).primary : marketText(language, label)}</NavLink>)}
         <NavLink to="/jeju/pickup" onClick={() => setMenuOpen(false)}>{marketText(language, "Jeju pickup information")}</NavLink>
         <NavLink to="/contact" onClick={() => setMenuOpen(false)}>{marketText(language, "Contact", "Contact")}</NavLink>
       </nav>
@@ -202,9 +203,11 @@ export function HomeMobileBar() {
   if (!enabled) return null;
   const query = location.search;
   const productMatch = location.pathname.match(/^\/products\/([^/]+)/);
-  const orderHref = productMatch ? `/bulk-orders?product=${productMatch[1]}` : `/bulk-orders${query}`;
+  const orderParams = new URLSearchParams(query);
+  if(productMatch)orderParams.set("product",productMatch[1]);
+  const orderHref = `/bulk-orders?${orderParams}`;
   return <nav className={`hd-mobile-bar v23-mobile-actions${shown ? " is-shown" : ""}`} aria-label={marketText(language, "Quick purchase links", "빠른 구매 링크")} aria-hidden={!shown}>
     <Link to={`/products${query}`} tabIndex={shown ? 0 : -1}>{marketText(language, "Products", "상품")}</Link>
-    <Link to={orderHref} tabIndex={shown ? 0 : -1} className="is-primary">{marketText(language, "Overseas bundle orders")}</Link>
+    <Link to={orderHref} tabIndex={shown ? 0 : -1} className="is-primary">{checkoutFlowCopy(language).primary}</Link>
   </nav>;
 }
