@@ -83,9 +83,6 @@ export function ProductCare({ slug }: { slug: string }) {
           <li key={s}>{marketText(language, s)}</li>
         ))}
       </ul>
-      <Link to="/jeju/stores">
-        {marketText(language, "Meet StoneJeju in Jeju")} →
-      </Link>
     </section>
   );
 }

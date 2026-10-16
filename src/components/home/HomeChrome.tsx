@@ -146,7 +146,6 @@ export function HomeFooter() {
         <Link to="/products">{marketText(language, "Products", "Products")}</Link>
         {!partnerOnly && <Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>}
         <Link to="/jeju/pickup">{salesPresentationCopy(language).pickupNav}</Link>
-        <Link to="/jeju/stores">{marketText(language, "Meet StoneJeju in Jeju")}</Link>
         <Link to="/jeju">{marketText(language, "Asia to Jeju", "Asia to Jeju")}</Link>
       </div>
       <div>
