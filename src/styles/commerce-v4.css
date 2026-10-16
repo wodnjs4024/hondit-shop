@@ -223,3 +223,40 @@ body.hd-site .order-bar .order-bar__sum span, body.hd-site .order-bar .order-bar
 .hd-tile__links .hd-tile__retail summary { min-height: 40px; }
 .hd-tile__desc { min-height: 3em; }
 .hd-tile__terms { min-height: 1.5em; }
+
+/* =========================================================
+ * Main-branch additions brought onto the same ladder
+ * ========================================================= */
+/* Checkout summary: the customs link is a quiet footnote to the tax line, not a label for the total */
+body.hd-site .checkout-flow .checkout-summary .checkout-policy-link { display: flex; justify-content: flex-end; min-height: 36px; margin: -14px 0 14px; font-size: 13px; color: var(--v4-on-forest-soft) !important; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--v4-forest-rule); }
+
+/* Airport pickup: the introduction is the page head (stone, full bleed); facts sit on a rule, not in a grey box */
+body.hd-site main.pickup-travel .pickup-introduction { padding: 40px 0 48px; background: var(--v4-stone); box-shadow: 0 0 0 100vmax var(--v4-stone); clip-path: inset(0 -100vmax); }
+body.hd-site main.pickup-travel { padding-top: 0 !important; }
+body.hd-site .pickup-introduction figure img, body.hd-site .pickup-introduction .pickup-airport-sign-frame { border-radius: 0 !important; }
+body.hd-site .pickup-intro-facts { background: transparent !important; padding: 20px 0 0 !important; border-top: 2px solid var(--hd-ink); }
+body.hd-site .pickup-intro-facts dt { color: var(--hd-muted); }
+body.hd-site .pickup-intro-facts dd { font-weight: 600; }
+body.hd-site .pickup-arrangements { padding-top: 8px; }
+body.hd-site main.pickup-travel > #pickup-selection { padding-top: 56px !important; }
+
+/* Bulk-order entry: other routes as ruled rows, not grey boxes */
+body.hd-site main.bundle-entry .bundle-entry__selectors { background: transparent !important; padding: 20px 0 !important; border-top: 1px solid var(--of-rule-strong); border-bottom: 1px solid var(--of-rule-strong); }
+body.hd-site main.bundle-entry .bundle-entry__consult details { padding: 0 !important; background: transparent !important; border: 0 !important; border-top: 1px solid var(--of-rule-strong) !important; border-radius: 0 !important; }
+body.hd-site main.bundle-entry .bundle-entry__consult summary { display: flex; align-items: center; min-height: 56px; padding: 0 !important; background: transparent !important; font-size: 17px; }
+body.hd-site main.bundle-entry .bundle-pickup-entry { margin-top: 0 !important; padding: 20px 0 8px !important; background: transparent !important; border-top: 1px solid var(--of-rule-strong); }
+body.hd-site main.bundle-entry .bundle-pickup-entry h2 { font-size: 20px !important; }
+body.hd-site main.bundle-entry .bundle-pickup-entry .hd-textlink { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* Shipping: reference on stone, the customs note on paper with room, help as a ruled row with one forest action */
+body.hd-site .v23-shipping-page .v23-delivery-timeline { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+body.hd-site .v23-shipping-page .v23-timing-notes { background: var(--v4-stone) !important; color: var(--hd-ink) !important; }
+body.hd-site .v23-shipping-page .v23-timing-notes :is(h2, h3, p, strong, em, span) { color: var(--hd-ink) !important; }
+body.hd-site .v23-shipping-page .v23-timing-notes p { color: var(--hd-muted) !important; }
+body.hd-site .v23-shipping-page .v23-timing-notes article { border-color: var(--of-rule-strong) !important; }
+body.hd-site .v23-shipping-page .customs-policy-note { max-width: 1440px !important; margin: 0 auto !important; padding: 72px var(--hd-gutter) !important; }
+body.hd-site .v23-shipping-page .customs-policy-note p { max-width: 68ch; font-size: 16px; }
+body.hd-site .v23-shipping-page .v23-route-banner { background: transparent !important; color: var(--hd-ink) !important; border-top: 2px solid var(--hd-ink); max-width: none !important; width: auto !important; margin: 0 var(--hd-gutter) 88px !important; padding: 28px 0 !important; box-sizing: border-box; }
+body.hd-site .v23-shipping-page .v23-route-banner :is(h2, p, strong, span) { color: var(--hd-ink) !important; }
+body.hd-site .v23-shipping-page .v23-route-banner a { background: var(--v4-forest) !important; color: var(--v4-on-forest) !important; border: 0 !important; min-height: 48px; padding: 0 22px !important; display: inline-flex; align-items: center; }
+@media (max-width: 767px) { body.hd-site .v23-shipping-page .v23-route-banner { margin: 0 var(--hd-gutter) 64px !important; } }

@@ -1,7 +1,8 @@
 import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import { homeMediaCopy } from "../data/homeMediaCopy";
 import { StoneJejuFilm } from "../components/StoneJejuMedia";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRowAlign } from "../lib/useRowAlign";
 import { Link, useLocation } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
@@ -42,6 +43,8 @@ export function HomePage() {
     () => catalog.filter((product) => isStorefrontProductAllowedForMarket(product, market)),
     [catalog, market],
   );
+  const railRef = useRef<HTMLUListElement>(null);
+  useRowAlign(railRef, ".hd-tile__body h3", [marketProducts, language]);
   const diffusers = marketProducts.filter((product) => product.category === "SCENT" && productFacts(product.slug));
   const collection = (() => {
     if (language === "ko") return { title: "제주에서 고른 컬렉션", description: `${countryName}에서 구매 가능한 제품을 확인하세요.` };
@@ -94,7 +97,7 @@ export function HomePage() {
             <p>{collection.description} {t("{count} products").replace("{count}", String(marketProducts.length))}</p>
             <Link className="hd-textlink" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기 ->").replace(/\s*->$/, "")}</Link>
           </header>
-          <ul className="hd-collection__rail" data-count={marketProducts.length}>
+          <ul ref={railRef} className="hd-collection__rail" data-count={marketProducts.length}>
             {marketProducts.map((product) => <ProductTile key={product.slug} product={product} query={pageQuery} />)}
           </ul>
         </section>

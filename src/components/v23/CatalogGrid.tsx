@@ -5,6 +5,7 @@ import { isStorefrontProductAllowedForMarket, marketText, useMarket } from "../.
 import { V23ProductCard } from "./SiteChrome";
 import { ProductTile } from "../home/ProductTile";
 import { trackEvent } from "../../lib/analytics";
+import { useRowAlign } from "../../lib/useRowAlign";
 
 export function V23CatalogGrid({
   featuredOnly = false,
@@ -24,6 +25,7 @@ export function V23CatalogGrid({
   const [catalog, setCatalog] = useState<StorefrontProduct[]>(v23Products);
   const [filter, setFilter] = useState<"ALL" | "CARE" | "SCENT">("ALL");
   const lastTrackedList = useRef("");
+  const gridRef = useRef<HTMLUListElement>(null);
   const filterLabels = {
     ALL: marketText(language, "ALL", "전체"),
     CARE: marketText(language, "CARE", "케어"),
@@ -52,6 +54,7 @@ export function V23CatalogGrid({
       );
     return typeof limit === "number" ? filtered.slice(0, limit) : filtered;
   }, [catalog, featuredOnly, filter, limit, market]);
+  useRowAlign(gridRef, ".hd-tile__body h3", [visible, language, tiles]);
 
   useEffect(() => {
     const signature = `${market.code}:${filter}:${visible.map((product) => product.slug).join(",")}`;
@@ -83,7 +86,7 @@ export function V23CatalogGrid({
           </button>
         ))}
       </div>}
-      {tiles ? <ul className="hd-grid" key={`${filter}-${market.code}`} aria-live="polite">
+      {tiles ? <ul ref={gridRef} className="hd-grid" key={`${filter}-${market.code}`} aria-live="polite">
         {visible.map((product) => <ProductTile product={product} key={product.slug} query={query} />)}
       </ul> : <div className="v23-product-grid" key={`${filter}-${market.code}`} aria-live="polite">
         {visible.map((product) => <V23ProductCard product={product} key={product.slug} />)}
