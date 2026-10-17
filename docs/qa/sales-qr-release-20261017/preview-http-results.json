@@ -1,0 +1,567 @@
+{
+  "projectId": "prj_vrdIEoaMB15T9kDx0sdWXQ6Mkf6t",
+  "name": "hondit-shop",
+  "git": {
+    "type": "github",
+    "repo": "hondit-shop",
+    "org": "wodnjs4024",
+    "productionBranch": "main"
+  },
+  "ssoProtection": {
+    "deploymentType": "all_except_custom_domains"
+  },
+  "existingAutomationCredential": true,
+  "settingsModified": false,
+  "preview": "https://hondit-shop-pw4hpakb0-hondit.vercel.app",
+  "qr": [
+    {
+      "id": "l0001",
+      "language": "en",
+      "status": 307,
+      "location": "/?lang=en&quantity=35&product=diffuser-500g&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0001",
+      "language": "ko",
+      "status": 307,
+      "location": "/?lang=ko&quantity=35&product=diffuser-500g&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0001",
+      "language": "ja",
+      "status": 307,
+      "location": "/?lang=ja&quantity=35&product=diffuser-500g&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0001",
+      "language": "zh-HK",
+      "status": 307,
+      "location": "/?lang=zh-HK&quantity=35&product=diffuser-500g&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0001",
+      "language": "ms",
+      "status": 307,
+      "location": "/?lang=ms&quantity=35&product=diffuser-500g&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0001",
+      "language": "th",
+      "status": 307,
+      "location": "/?lang=th&quantity=35&product=diffuser-500g&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0002",
+      "language": "en",
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&quantity=35&product=diffuser-500g&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0002",
+      "language": "ko",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ko&quantity=35&product=diffuser-500g&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0002",
+      "language": "ja",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ja&quantity=35&product=diffuser-500g&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0002",
+      "language": "zh-HK",
+      "status": 307,
+      "location": "/jeju/pickup?lang=zh-HK&quantity=35&product=diffuser-500g&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0002",
+      "language": "ms",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ms&quantity=35&product=diffuser-500g&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0002",
+      "language": "th",
+      "status": 307,
+      "location": "/jeju/pickup?lang=th&quantity=35&product=diffuser-500g&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0003",
+      "language": "en",
+      "status": 307,
+      "location": "/?lang=en&quantity=35&product=diffuser-500g&market=SG&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0003",
+      "language": "ko",
+      "status": 307,
+      "location": "/?lang=ko&quantity=35&product=diffuser-500g&market=SG&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0003",
+      "language": "ja",
+      "status": 307,
+      "location": "/?lang=ja&quantity=35&product=diffuser-500g&market=SG&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0003",
+      "language": "zh-HK",
+      "status": 307,
+      "location": "/?lang=zh-HK&quantity=35&product=diffuser-500g&market=SG&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0003",
+      "language": "ms",
+      "status": 307,
+      "location": "/?lang=ms&quantity=35&product=diffuser-500g&market=SG&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0003",
+      "language": "th",
+      "status": 307,
+      "location": "/?lang=th&quantity=35&product=diffuser-500g&market=SG&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0004",
+      "language": "en",
+      "status": 307,
+      "location": "/partners?lang=en&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0004",
+      "language": "ko",
+      "status": 307,
+      "location": "/partners?lang=ko&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0004",
+      "language": "ja",
+      "status": 307,
+      "location": "/partners?lang=ja&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0004",
+      "language": "zh-HK",
+      "status": 307,
+      "location": "/partners?lang=zh-HK&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0004",
+      "language": "ms",
+      "status": 307,
+      "location": "/partners?lang=ms&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0004",
+      "language": "th",
+      "status": 307,
+      "location": "/partners?lang=th&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0005",
+      "language": "en",
+      "status": 307,
+      "location": "/partners?lang=en&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0005",
+      "language": "ko",
+      "status": 307,
+      "location": "/partners?lang=ko&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0005",
+      "language": "ja",
+      "status": 307,
+      "location": "/partners?lang=ja&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0005",
+      "language": "zh-HK",
+      "status": 307,
+      "location": "/partners?lang=zh-HK&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0005",
+      "language": "ms",
+      "status": 307,
+      "location": "/partners?lang=ms&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0005",
+      "language": "th",
+      "status": 307,
+      "location": "/partners?lang=th&quantity=35&product=diffuser-500g&market=SG&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0006",
+      "language": "en",
+      "status": 307,
+      "location": "/partners?lang=en&quantity=35&product=diffuser-500g&market=SG&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0006",
+      "language": "ko",
+      "status": 307,
+      "location": "/partners?lang=ko&quantity=35&product=diffuser-500g&market=SG&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0006",
+      "language": "ja",
+      "status": 307,
+      "location": "/partners?lang=ja&quantity=35&product=diffuser-500g&market=SG&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0006",
+      "language": "zh-HK",
+      "status": 307,
+      "location": "/partners?lang=zh-HK&quantity=35&product=diffuser-500g&market=SG&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0006",
+      "language": "ms",
+      "status": 307,
+      "location": "/partners?lang=ms&quantity=35&product=diffuser-500g&market=SG&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    },
+    {
+      "id": "l0006",
+      "language": "th",
+      "status": 307,
+      "location": "/partners?lang=th&quantity=35&product=diffuser-500g&market=SG&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "preserved": {
+        "language": true,
+        "utm_content": true,
+        "link_id": true,
+        "quantity": true
+      },
+      "finalStatus": 200,
+      "cspPresent": true
+    }
+  ],
+  "blocked": [
+    {
+      "route": "/api/paypal/create-order",
+      "status": 403
+    },
+    {
+      "route": "/api/paypal/capture-order",
+      "status": 403
+    },
+    {
+      "route": "/api/paypal/webhook",
+      "status": 403
+    },
+    {
+      "route": "/api/paypal/update-attempt",
+      "status": 403
+    },
+    {
+      "route": "/api/contact",
+      "status": 403
+    },
+    {
+      "route": "/api/pickup",
+      "status": 403
+    },
+    {
+      "route": "/api/analytics/consent",
+      "status": 403
+    },
+    {
+      "route": "/api/admin/orders/QA-NOT-REAL",
+      "status": 403
+    },
+    {
+      "route": "/api/reviews",
+      "status": 403
+    }
+  ],
+  "unknownStatus": 404,
+  "payment": {
+    "status": 200,
+    "checkoutEnabled": false,
+    "clientIdEmpty": true,
+    "mode": "sandbox"
+  }
+}

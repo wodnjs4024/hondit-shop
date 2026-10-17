@@ -1,0 +1,48 @@
+{
+  "syntheticOnly": true,
+  "localTokenCases": [
+    {
+      "case": "valid",
+      "result": "{\n  \"case\": \"valid\",\n  \"allowed\": true,\n  \"fields\": [\n    \"order_number\",\n    \"payment_status\",\n    \"order_status\",\n    \"created_at\",\n    \"total_units\",\n    \"total_packs\",\n    \"total_sgd\",\n    \"currency\",\n    \"country_code\",\n    \"retry_context\",\n    \"items\"\n  ],\n  \"privateFieldsPresent\": false\n}"
+    },
+    {
+      "case": "tampered",
+      "result": "{\n  \"case\": \"tampered\",\n  \"allowed\": false\n}"
+    },
+    {
+      "case": "expired",
+      "result": "{\n  \"case\": \"expired\",\n  \"allowed\": false\n}"
+    },
+    {
+      "case": "other-order",
+      "result": "{\n  \"case\": \"other\",\n  \"allowed\": false\n}"
+    }
+  ],
+  "localPickup": {
+    "product": "500g",
+    "quantity": 2,
+    "displayTotalKRW": 80000,
+    "copiedTotalKRW": 80000,
+    "copySuccessObserved": true
+  },
+  "retry": {
+    "product": "diffuser-500g",
+    "quantity": 35,
+    "market": "SG",
+    "language": "ja",
+    "purpose": "resale",
+    "href": "/bulk-orders/diffuser-500g?market=SG&lang=ja&purpose=resale&fulfillment=international_bundle&product=diffuser-500g&quantity=35"
+  },
+  "history": "수량 편집은 replace, 뒤로가기는 이전 페이지, 앞으로가기는 편집된 3개 유지 확인",
+  "preview": {
+    "checkoutDisabled": true,
+    "paypalSdkLoaded": false,
+    "gaScriptLoaded": false,
+    "errorsOnCheckout": [],
+    "quantity35TotalSGD": 735,
+    "plusQuantity": 36,
+    "minusQuantity": 35
+  },
+  "externalPayments": 0,
+  "customerOrderLookups": 0
+}

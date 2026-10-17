@@ -1,0 +1,123 @@
+{
+  "preservationCommit": "31f7918c24f0471e76226593079ca8d8f0c03ad1",
+  "sourceCommit": "b42d6bf200b95f84323f0a0f491a90cd4c12b6f6",
+  "productionBase": "45ebbe84a09441ae641586884223d27e5cf9696e",
+  "branch": "codex/sales-qr-release",
+  "remoteMain": "45ebbe84a09441ae641586884223d27e5cf9696e",
+  "productionAfter": {
+    "id": "dpl_5mAi8Se9Ew4t8hKZq2qC1YgZLyH4",
+    "commit": "45ebbe84a09441ae641586884223d27e5cf9696e"
+  },
+  "unchanged": [
+    {
+      "file": "api/admin.js",
+      "unchanged": true
+    },
+    {
+      "file": "api/paypal/capture-order.js",
+      "unchanged": true
+    },
+    {
+      "file": "api/paypal/webhook.js",
+      "unchanged": true
+    },
+    {
+      "file": "api/paypal/update-attempt.js",
+      "unchanged": true
+    },
+    {
+      "file": "api/paypal/config.js",
+      "unchanged": true
+    },
+    {
+      "file": "api/_utils.js",
+      "unchanged": true
+    },
+    {
+      "file": "api/_markets.js",
+      "unchanged": true
+    },
+    {
+      "file": "api/_bulk-data.js",
+      "unchanged": true
+    },
+    {
+      "file": "shared/checkout-terms.js",
+      "unchanged": true
+    },
+    {
+      "file": "shared/page-sales.js",
+      "unchanged": true
+    },
+    {
+      "file": "shared/pickup.js",
+      "unchanged": true
+    }
+  ],
+  "changedFiles": [
+    "api/_order-access.js",
+    "api/orders/public/[orderNumber].js",
+    "api/paypal/create-order.js",
+    "api/qr-not-found.js",
+    "config/qr-links.json",
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "scripts/prepare-isolated-preview.mjs",
+    "scripts/sync-qr-redirects.mjs",
+    "shared/analytics-consent-policy.d.ts",
+    "shared/analytics-consent-policy.js",
+    "shared/attribution.d.ts",
+    "shared/attribution.js",
+    "shared/checkout-analytics.d.ts",
+    "shared/checkout-analytics.js",
+    "shared/order-retry.d.ts",
+    "shared/order-retry.js",
+    "shared/sales-tools.d.ts",
+    "shared/sales-tools.js",
+    "shared/tracking-policy.d.ts",
+    "shared/tracking-policy.js",
+    "src/App.tsx",
+    "src/components/AnalyticsConsent.tsx",
+    "src/components/BusinessPlanner.tsx",
+    "src/components/ContactQrs.tsx",
+    "src/components/DiffuserQuantitySelector.tsx",
+    "src/components/OrderLookupNotice.tsx",
+    "src/components/PickupRequestPanel.tsx",
+    "src/components/RequestActions.tsx",
+    "src/components/home/HomeChrome.tsx",
+    "src/components/home/ProductTile.tsx",
+    "src/components/v23/CatalogGrid.tsx",
+    "src/components/v23/SiteChrome.tsx",
+    "src/data/orderSupportCopy.ts",
+    "src/lib/analytics.ts",
+    "src/lib/analyticsConsent.ts",
+    "src/lib/attribution.ts",
+    "src/lib/bulkApi.ts",
+    "src/lib/market.tsx",
+    "src/lib/orderAccess.ts",
+    "src/main.tsx",
+    "src/pages/BulkOrdersPage.tsx",
+    "src/pages/BulkProductPage.tsx",
+    "src/pages/ContactPage.tsx",
+    "src/pages/HomePage.tsx",
+    "src/pages/OrderCompletePage.tsx",
+    "src/pages/PartnersPage.tsx",
+    "src/pages/PaymentFailedPage.tsx",
+    "src/pages/ProductDetailPage.tsx",
+    "src/pages/ProductsPage.tsx",
+    "src/styles/analytics-consent.css",
+    "tests/analytics-consent-ui.test.mjs",
+    "tests/order-support.test.mjs",
+    "tests/purchase-followup.test.mjs",
+    "tests/qr-consent-config.test.mjs",
+    "tests/resale-simple-ui.test.mjs",
+    "tests/sales-qr-release.test.mjs",
+    "tests/sales-structure.test.mjs",
+    "tests/tracking-phase1.test.mjs",
+    "tests/tracking-ui.test.mjs",
+    "vercel.json",
+    "vite.config.js"
+  ],
+  "schemaMigrationsChanged": false
+}

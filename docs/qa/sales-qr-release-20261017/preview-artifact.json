@@ -1,0 +1,1331 @@
+{
+  "projectName": "hondit-shop",
+  "projectId": "prj_vrdIEoaMB15T9kDx0sdWXQ6Mkf6t",
+  "orgId": "team_yMYAr7dQRXpQAF6BGYOm4Vis",
+  "target": "preview",
+  "functions": 0,
+  "productionDBCredentialsIncluded": false,
+  "externalConnectionsBlockedByCSP": true,
+  "gaEnabled": false,
+  "paypalEnabled": false,
+  "files": 263,
+  "totalBytes": 119935929,
+  "routesHash": "a36dfec91b4a71585799f071c1d91fa37e40a203fd45a428908d3d2bbd6e3038",
+  "staticFileHashes": [
+    {
+      "path": "config.json",
+      "bytes": 7555,
+      "sha256": "eb3dc630db820ab332cbc18cbbfbaf186bf1b5f65368b1c0945f717a1a85af1c"
+    },
+    {
+      "path": "static/assets/AdminCampaignLinksPage-q_cfPSoR.js",
+      "bytes": 4905,
+      "sha256": "f3c7c4b803352b42f53cec660082ed18eeab850b259e327c2cabb100acfb3436"
+    },
+    {
+      "path": "static/assets/AdminDashboardPage-B6181yWv.js",
+      "bytes": 7688,
+      "sha256": "9da2c2b4cfb48c0c5830b03b6cbac0ae571fcdf936a71f06cd19f32e897c6e8b"
+    },
+    {
+      "path": "static/assets/AdminInquiriesPage-C5gHhNsH.js",
+      "bytes": 5862,
+      "sha256": "f26e49b01c8ed2560f2b341ac45291c5ea353144baa32018b3cf8a7479c9f51a"
+    },
+    {
+      "path": "static/assets/AdminLayout-DW-9Hanv.js",
+      "bytes": 1480,
+      "sha256": "c9518defdd51c7d322aff498eaa0b4dc19355562d12ca92bce99d11765363ce0"
+    },
+    {
+      "path": "static/assets/AdminLoginPage-ClTNlSiZ.js",
+      "bytes": 982,
+      "sha256": "9af880a22436d8ec79d45abd5ff5d8072f663279f9409416ee2bd427538e75b8"
+    },
+    {
+      "path": "static/assets/AdminOrderDetailPage-CS_ksgHc.js",
+      "bytes": 14734,
+      "sha256": "a258e9f11d07a8c7c45867e18db5806b003a720fbc2f17de56d72aa18d147e65"
+    },
+    {
+      "path": "static/assets/AdminOrdersPage-wCY94dhk.js",
+      "bytes": 4789,
+      "sha256": "29aee718e58f9fded5ff83d36b913ba4451b86b2a867222e91772165a7fa3d69"
+    },
+    {
+      "path": "static/assets/AdminProductsPage-CYehdfHc.js",
+      "bytes": 12127,
+      "sha256": "f6ab7cd71bd0bbff302f7e5e3de9fdb83708202bf0e6d2ec5a30849f2386801f"
+    },
+    {
+      "path": "static/assets/AdminReviewsPage-C-rBh40a.js",
+      "bytes": 2522,
+      "sha256": "eb907d9efb62dd9e14d40125a7022fe315b4621750e163cac99ea2c34fa6b6c7"
+    },
+    {
+      "path": "static/assets/AdminSettingsPage-C02ZGPi4.js",
+      "bytes": 3052,
+      "sha256": "e2ddd714bf83d99238c78779ec396a3fe56525577d95c0b7296a59c3ff0bb33d"
+    },
+    {
+      "path": "static/assets/BulkOrdersPage-BWcIfQSC.js",
+      "bytes": 3818,
+      "sha256": "8543366f4072a7a5298222e4e1fd51c2e68b6dba49bd6ec8562ba47a5f703bb9"
+    },
+    {
+      "path": "static/assets/BulkProductPage-Ci86h4Rr.js",
+      "bytes": 30849,
+      "sha256": "79798a12ca00e5e3bb44e5010d25ea006533811e4276702c5a759467ce1d7277"
+    },
+    {
+      "path": "static/assets/ContactPage-DtO0DWU7.js",
+      "bytes": 1690,
+      "sha256": "4dd587a002082a3a00467d1a4a85a826817ecd8c0d633253ed33901c638ccdf3"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-cyrillic-500-normal-CyAY5ZLS.woff2",
+      "bytes": 12920,
+      "sha256": "30aec8d9cdb4ea84534ffcd7c58b0f06069f63dc177b5aafd7438627dfe10fb8"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-cyrillic-500-normal-DkJXBcIH.woff",
+      "bytes": 15760,
+      "sha256": "77aa93b818437cd94c9b77eb8f06593a7401696bc05af21cb199ec8fa540c706"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-cyrillic-600-normal-C2atO-64.woff2",
+      "bytes": 13016,
+      "sha256": "012bad3c47fada69f033bab125a60357379d69080ecfd37282e636f8390c6bf9"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-cyrillic-600-normal-FNmA3REe.woff",
+      "bytes": 15824,
+      "sha256": "bd9271a11ce512935f8eb74d3663cec7b70640917b80eaeaee3acc2804b3f96e"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-cyrillic-ext-500-normal-lsPpqi9g.woff",
+      "bytes": 17552,
+      "sha256": "94ff60604efd714cd2da16316554a894e969e9b8e779231921743aff5d51b046"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-cyrillic-ext-500-normal-Yta7XZ9C.woff2",
+      "bytes": 14096,
+      "sha256": "acab2d007aaa8b005a573cf1389f8f4f35bfb3413e2f6d59af49fbcc3668d925"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-cyrillic-ext-600-normal-BMhMHfrj.woff2",
+      "bytes": 14184,
+      "sha256": "c7e2b743c908a6ce81639cff1d0847f2c8b3d7d7a3ae10cbfa34eb31c1a2b26d"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-cyrillic-ext-600-normal-CsIYWmWK.woff",
+      "bytes": 17620,
+      "sha256": "bfbfeb7171787ae6b6cd710d22dd8620d3d345491278aa5a31c89aeede279eea"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-latin-500-normal-BsRWmXhO.woff2",
+      "bytes": 23312,
+      "sha256": "8197bf53615ddc8c423f444c7f0eec63b7fa0ba093fcfbec60dfdd28429b0fc8"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-latin-500-normal-zIXX3Q-H.woff",
+      "bytes": 31372,
+      "sha256": "314ee3edd5ddcdef5cf2374c1126b8be9f7f1ebd6c5c66a23c237f3b836a3ec1"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-latin-600-normal-2CBVLo0M.woff",
+      "bytes": 31304,
+      "sha256": "6d837ba78b1d06e83248201bfc5de93b6e1c67aed36820021cff3db9602542c8"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-latin-600-normal-Co1r35X9.woff2",
+      "bytes": 23396,
+      "sha256": "ae062b6d5ae308e7edf61b28b07b9984bbb6e961b1f34d9b2c2f4389c33f21ea"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-latin-ext-500-normal-CH1kM7og.woff2",
+      "bytes": 20200,
+      "sha256": "3de1b0f23516d8ff77cc1a5af88b6c19037a375ec52729a8a5633998f58aa609"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-latin-ext-500-normal-DYeaGGzO.woff",
+      "bytes": 28280,
+      "sha256": "08ef933798b9939e6c79d08b68c0aad8c0024d5ea25c2c1b00da51aa5ffb38c3"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-latin-ext-600-normal-DaBc-lu7.woff2",
+      "bytes": 20304,
+      "sha256": "4993f7f4feb5e31d94f54e3b11428337a06f0c8c8d9ffef331aabd7e6a81b4c8"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-latin-ext-600-normal-Dk3-quAP.woff",
+      "bytes": 28260,
+      "sha256": "05eb51186a2b5a3df53ee8f4abe5e25c9a01b5f921a858e1814e0794ae582f5e"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-vietnamese-500-normal-BZGLGj12.woff2",
+      "bytes": 6756,
+      "sha256": "f245c41ee20c58be0acd85ac9e3060f8ff9a2dba455892ff37c1e11b9133eda0"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-vietnamese-500-normal-DqXqCC0q.woff",
+      "bytes": 9332,
+      "sha256": "b981d0af206e554e32a75cd806da1c266576843e6696d5df8d32f43e26935848"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-vietnamese-600-normal-BoXdMtcr.woff2",
+      "bytes": 6796,
+      "sha256": "5b1d7b7a52c90f436f97008deaf87aba7924bb3cddf1574f11068ff4119c9115"
+    },
+    {
+      "path": "static/assets/cormorant-garamond-vietnamese-600-normal-C4HEjEaf.woff",
+      "bytes": 9420,
+      "sha256": "0866c0b1774f7a7282eac8c668df632c6fb3ed157f0365a571f9c4ff446b3662"
+    },
+    {
+      "path": "static/assets/index-Bo4uRxc9.js",
+      "bytes": 80445,
+      "sha256": "f6d4abd9a165f033c2b8a6b977c098e79eb941f49a9b7d81b81fdbd801fa00dd"
+    },
+    {
+      "path": "static/assets/index-DQw0BGrj.js",
+      "bytes": 740365,
+      "sha256": "5b2cc26ca18a8a2af7366aa0131504f69b6ecf873958687fa78e14b22945eef3"
+    },
+    {
+      "path": "static/assets/index-DxgsaXu5.js",
+      "bytes": 1231882,
+      "sha256": "0a32da3ad07be9ac75fa2c7fc35a0f9061669d97c6ee667ba4441b11a1676a85"
+    },
+    {
+      "path": "static/assets/index-G8uiNF-c.css",
+      "bytes": 257207,
+      "sha256": "be10ae9f1fa2e33b607be7ff77f4739270d3f7cc9a2b13f6695c3c8d21362cc3"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-400-normal-HOLc17fK.woff",
+      "bytes": 9780,
+      "sha256": "6e441a6c94788318fa02b6d0a633aa29eebe27b69c6567eb1e59b4edc68ed70e"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-400-normal-obahsSVq.woff2",
+      "bytes": 7712,
+      "sha256": "f0bb586459ce8f09b238285040f17e3e9e9538b2c5a7aae0775194e33c36c3c3"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-500-normal-BasfLYem.woff2",
+      "bytes": 7900,
+      "sha256": "b77a86ec16aadc157f4a99e8898d71cd75ea264753d9bdf13f962f8c3988cbb0"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-500-normal-CxZf_p3X.woff",
+      "bytes": 9940,
+      "sha256": "5be18e0345781cb882a267798518553c0e915174fc70731ab5f085ca64ba1ebc"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-600-normal-4D_pXhcN.woff",
+      "bytes": 9936,
+      "sha256": "cc190ed1b64eb650a4ad7e97c7a668cb8b34acd9c4c7f7bf4372c0cbacd35795"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-600-normal-CWCymEST.woff2",
+      "bytes": 7972,
+      "sha256": "6c2a37f82a676bcd441b735e4e2cda4edb8873a059ab9c362a84f0711f257041"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-ext-400-normal-BQZuk6qB.woff2",
+      "bytes": 10232,
+      "sha256": "ef572f9187a8be018d9d9c2c6b77c1f6cb2af4199f02fc16c292ea10ab25a2cc"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-ext-400-normal-DQukG94-.woff",
+      "bytes": 13336,
+      "sha256": "5cb2f1cc0936f89a42ceae34f5a5720248dc5b8114c12b1c33a7d2ef01a9b6b9"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-ext-500-normal-B0yAr1jD.woff2",
+      "bytes": 10432,
+      "sha256": "1c2db92d3cd9b237ca7c9c07af556d542f28ded1db54cd4382cf776501c5291f"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-ext-500-normal-BmqWE9Dz.woff",
+      "bytes": 13452,
+      "sha256": "e250c05aebcf49971e0b25f476992dd463c28c0292ebb204d9db542fb5066ca7"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-ext-600-normal-Bcila6Z-.woff",
+      "bytes": 13464,
+      "sha256": "a5073285409443f4653c858de58c5dc0bfc2fd33e60d8747388345e7c5ab1ab3"
+    },
+    {
+      "path": "static/assets/inter-cyrillic-ext-600-normal-Dfes3d0z.woff2",
+      "bytes": 10484,
+      "sha256": "509fca9c59564f9a846fa69bc647f9b050fc11abf1c9f6f3da71fb2d5ed425bd"
+    },
+    {
+      "path": "static/assets/inter-greek-400-normal-B4URO6DV.woff2",
+      "bytes": 7776,
+      "sha256": "c15ddd00a9927b56f5c655a41f976f79bd848a20cce91fc14227751872a1cc27"
+    },
+    {
+      "path": "static/assets/inter-greek-400-normal-q2sYcFCs.woff",
+      "bytes": 9924,
+      "sha256": "bdae9d28729e8c68587d5d54e216d771a40d7a6800e824586a6e2f570c2f10df"
+    },
+    {
+      "path": "static/assets/inter-greek-500-normal-BIZE56-Y.woff2",
+      "bytes": 7920,
+      "sha256": "cc197d79d33a3615a047baae85f4d1957f6f98b8898313658e160b1d519b1b6f"
+    },
+    {
+      "path": "static/assets/inter-greek-500-normal-Xzm54t5V.woff",
+      "bytes": 9980,
+      "sha256": "86d55a4b1b9cbced7e61e76d5d44cf49d0bd1c814d3df2de67b7136ab4fdcece"
+    },
+    {
+      "path": "static/assets/inter-greek-600-normal-BZpKdvQh.woff",
+      "bytes": 10032,
+      "sha256": "090b24e22fc4ddf41450d13bdec81c8a74808b9fc7edaf8df06c909b177a8992"
+    },
+    {
+      "path": "static/assets/inter-greek-600-normal-plRanbMR.woff2",
+      "bytes": 7944,
+      "sha256": "9c5a897f9d9fcfe60d90631d766ae62b4bf1edd76633fa7a4b2f8c87e036789b"
+    },
+    {
+      "path": "static/assets/inter-greek-ext-400-normal-DGGRlc-M.woff2",
+      "bytes": 5264,
+      "sha256": "eadedd9e13c2582430a9fb1519eb86152fdabb483a6f66d90f8d8a52e977a1b7"
+    },
+    {
+      "path": "static/assets/inter-greek-ext-400-normal-KugGGMne.woff",
+      "bytes": 7064,
+      "sha256": "4f2b6f92ddfece8812e79774d446218aa6e0773ff8c2d31130fe2bdc23bd22d0"
+    },
+    {
+      "path": "static/assets/inter-greek-ext-500-normal-2j5mBUwD.woff",
+      "bytes": 7192,
+      "sha256": "c85d11bde719108cc9a4f6f5b008087f6c36493b47395580d4f5336182b0f0c7"
+    },
+    {
+      "path": "static/assets/inter-greek-ext-500-normal-C4iEst2y.woff2",
+      "bytes": 5428,
+      "sha256": "75a9ec9383a3b7a7bf7cfb94f64edf38d9cfdc5f7ffa0cbed2733627a6e4426d"
+    },
+    {
+      "path": "static/assets/inter-greek-ext-600-normal-B8X0CLgF.woff",
+      "bytes": 7212,
+      "sha256": "efc7aa9cce5c505dd8cc4c4daf00247fa805f37bcda96079239ba3358ab27dfb"
+    },
+    {
+      "path": "static/assets/inter-greek-ext-600-normal-DRtmH8MT.woff2",
+      "bytes": 5432,
+      "sha256": "399f94d75aa73403e40e2353e8c0cc75c38f7362a6ca263b3b02d9723157ffe5"
+    },
+    {
+      "path": "static/assets/inter-latin-400-normal-C38fXH4l.woff2",
+      "bytes": 23664,
+      "sha256": "8909904ab6c872eb994093482a88a28eca2cd95912d7b6fecd72103b0dc07edc"
+    },
+    {
+      "path": "static/assets/inter-latin-400-normal-CyCys3Eg.woff",
+      "bytes": 30696,
+      "sha256": "e20fa0b4fd2dd26e4d14b3ac3cc922509c3a63fa5e910e90c614544aa042dd45"
+    },
+    {
+      "path": "static/assets/inter-latin-500-normal-BL9OpVg8.woff",
+      "bytes": 31284,
+      "sha256": "9b42c108da48b5ed55a3072e815ffee2d271562e6c0dd6998910e8f9c09e0a3d"
+    },
+    {
+      "path": "static/assets/inter-latin-500-normal-Cerq10X2.woff2",
+      "bytes": 24272,
+      "sha256": "f3779f1efccc4bdcdf9c0a02ab95bf6bd092ed09c48c08cedc725889edd1d19f"
+    },
+    {
+      "path": "static/assets/inter-latin-600-normal-CiBQ2DWP.woff",
+      "bytes": 31260,
+      "sha256": "6a9cb3a509b4eeaf12b7dda6c4aacac3e85d07f4201bf4dd716e332e692b87bd"
+    },
+    {
+      "path": "static/assets/inter-latin-600-normal-LgqL8muc.woff2",
+      "bytes": 24452,
+      "sha256": "f9a06e79cd3a2a20951c0f0e28f66dd0e6d3fda73911d640a2125c8fcb78f21a"
+    },
+    {
+      "path": "static/assets/inter-latin-ext-400-normal-77YHD8bZ.woff",
+      "bytes": 47560,
+      "sha256": "22ae8360fbad24d2af7c6c9898a346c881774dc87f7cf94bd262c48ad58d7116"
+    },
+    {
+      "path": "static/assets/inter-latin-ext-400-normal-C1nco2VV.woff2",
+      "bytes": 35000,
+      "sha256": "6744a7f509ebc6ab220a6cd4ea77e898adf014f03d88dcda5d45d8a9feefb4e9"
+    },
+    {
+      "path": "static/assets/inter-latin-ext-500-normal-BxGbmqWO.woff",
+      "bytes": 48492,
+      "sha256": "30d2903ce97f8a89ea0e9c083b42cb8bf97e7bbb5607e7f00352815f19cb0d5b"
+    },
+    {
+      "path": "static/assets/inter-latin-ext-500-normal-CV4jyFjo.woff2",
+      "bytes": 36024,
+      "sha256": "2c6fbc42d315528beb06c1096df45487bf4186c4b78b8111d12c9c951f8acca2"
+    },
+    {
+      "path": "static/assets/inter-latin-ext-600-normal-CIVaiw4L.woff",
+      "bytes": 48668,
+      "sha256": "22ff20a6170674fb9637c2a072227be86303bb6ec52b829b9d7077405f7196a6"
+    },
+    {
+      "path": "static/assets/inter-latin-ext-600-normal-D2bJ5OIk.woff2",
+      "bytes": 36260,
+      "sha256": "e4bdf67b0cd15ca9e184509275be95db942195d3cc2b17f6a0452f2adf75d0bf"
+    },
+    {
+      "path": "static/assets/inter-vietnamese-400-normal-Bbgyi5SW.woff",
+      "bytes": 6500,
+      "sha256": "54aa42d325bcdfd623ecb9eac4a5e3c6420c63d7b86e9d8545fb479f653beb57"
+    },
+    {
+      "path": "static/assets/inter-vietnamese-400-normal-DMkecbls.woff2",
+      "bytes": 4972,
+      "sha256": "547ad9fdaeb0ae43487f4b8a02e47c36553c0c0cb73c8aa98f93b7b615f6b55d"
+    },
+    {
+      "path": "static/assets/inter-vietnamese-500-normal-DOriooB6.woff2",
+      "bytes": 5112,
+      "sha256": "44e36aa5a8f12130029a29bb0e6695d0262b67446ce321e878b1fb56162b5de6"
+    },
+    {
+      "path": "static/assets/inter-vietnamese-500-normal-mJboJaSs.woff",
+      "bytes": 6596,
+      "sha256": "18a4a09f751671cd8929d7c66e8fe7d820b511c36e51cf6047ffceab88eec4a4"
+    },
+    {
+      "path": "static/assets/inter-vietnamese-600-normal-BuLX-rYi.woff",
+      "bytes": 6640,
+      "sha256": "24a01e7bd947aeef91ae8f7b8edeb23fadaf5ceda34a610ce62d2bbdaea57e83"
+    },
+    {
+      "path": "static/assets/inter-vietnamese-600-normal-Cc8MFFhd.woff2",
+      "bytes": 5100,
+      "sha256": "1aeb94ae9db052a4a2fe6f3046f928cff1fdbd7abdf870a9a01c13cae6faeba5"
+    },
+    {
+      "path": "static/assets/JejuPage-CTjTEnHu.js",
+      "bytes": 18957,
+      "sha256": "9a086c23ffb08e449e4a020b93039d662a0e45e67f6c2b7f431590ceffcbbd55"
+    },
+    {
+      "path": "static/assets/OrderBar-BpDB3wW2.js",
+      "bytes": 1329,
+      "sha256": "bbce7e6c1f5ed501e981d3bc65eadadae7d87e0008301859d7355cdf913385b1"
+    },
+    {
+      "path": "static/assets/OrderCompletePage-yGdXYRDK.js",
+      "bytes": 3642,
+      "sha256": "3c15e3696d238d32a394ebbaab079f68a7e81c437c2de29493eb4ed5f8cf36c2"
+    },
+    {
+      "path": "static/assets/OrderLookupNotice-Cex56Qti.js",
+      "bytes": 8948,
+      "sha256": "c39d611fad8b00ccb3d7dfcb4b8659a81c6fda7dbc68d8a1b8a61dd45b1f7cbf"
+    },
+    {
+      "path": "static/assets/orderPanelCopy-Cy4E3wb7.js",
+      "bytes": 4552,
+      "sha256": "058f60cf858b713d25f2cb2d63ffe9b9b7d8e1f3aaa4fcfbdfa242a004849fc3"
+    },
+    {
+      "path": "static/assets/PaymentFailedPage-BLgUm7T1.js",
+      "bytes": 4964,
+      "sha256": "b6c7d543e5b957e75816e747f02097121497887abaf46795eb9847582dd7fea9"
+    },
+    {
+      "path": "static/assets/PaymentRequestPanel-C7MiRTDr.js",
+      "bytes": 2933,
+      "sha256": "a4fa8547ee3fce3446419f3d1f64e6b8d665d12c03d8415c026e8556c0bb8859"
+    },
+    {
+      "path": "static/assets/PolicyPage-CX4YVItk.js",
+      "bytes": 39035,
+      "sha256": "a4ac2277bd3af18e7872439e483856ce9fe298c2e690a0f9db87234686ece7e4"
+    },
+    {
+      "path": "static/assets/ProductDetailPage-BywwUa0v.js",
+      "bytes": 7128,
+      "sha256": "08d3a5f18af0bb1c4f4cb7d32dcf87963d8364076be81097e7f75e7761296ffd"
+    },
+    {
+      "path": "static/assets/ProductsPage-9AyRBpfX.js",
+      "bytes": 4634,
+      "sha256": "7dc945b96cd8afec12c41b1bb2638a6e635e43e79037ec5d2be849bb81778580"
+    },
+    {
+      "path": "static/assets/QuantityReview-xGKKh87B.js",
+      "bytes": 3854,
+      "sha256": "1ba7cf9ef12a2dd46943b8eb2f11b252506139d3843a4e28db79f87e23afc3bb"
+    },
+    {
+      "path": "static/assets/ShippingPage--f63SVyb.js",
+      "bytes": 6984,
+      "sha256": "ea7f22d5f2002d53b4f90d50784a9a062ffcb5bd8018aeae118c0dd66314ba56"
+    },
+    {
+      "path": "static/images/ATTRIBUTION.md",
+      "bytes": 2546,
+      "sha256": "07060ea44b2c1a3aa21c766f034d7ac4259f4ed09bef2a3477f4703463ecee53"
+    },
+    {
+      "path": "static/images/cleansing-foam-texture.png",
+      "bytes": 1621078,
+      "sha256": "77169f17707ff64ce687c4bdcbc11ec391f77ee9a427b69e6f7d083f2f6dc2a3"
+    },
+    {
+      "path": "static/images/cleansing-water-use.png",
+      "bytes": 1571778,
+      "sha256": "80fa47574352cda7216cc0e1e477f37db3bfbc04dfa30f8d3f2828181f4c0f02"
+    },
+    {
+      "path": "static/images/cleansing-water.png",
+      "bytes": 2675455,
+      "sha256": "e829b943f79ef5231724a903e2f2aa63878e07df76030693a0c7a4386148f159"
+    },
+    {
+      "path": "static/images/cleansing-water.webp",
+      "bytes": 39110,
+      "sha256": "0f1b54f522081f56482a379dbfb256153114a693708ff64d76ca204b96536153"
+    },
+    {
+      "path": "static/images/contact/hondit_instagram_qr.png",
+      "bytes": 162795,
+      "sha256": "e85b4b612b8452b017141b90bf7e6f66c7b26b7b04cad26afb7f9250fa226f59"
+    },
+    {
+      "path": "static/images/contact/hondit_telegram_qr.png",
+      "bytes": 124579,
+      "sha256": "603aaf5c91bc86a7c115324a347afba819ebbf059b92f2cbe907c64d7df7b2ee"
+    },
+    {
+      "path": "static/images/contact/hondit_wechat_qr.png",
+      "bytes": 75618,
+      "sha256": "049cf3d37f2441413a61d42efba8dde3ba10635ed708cac12ed06c8823af7a3c"
+    },
+    {
+      "path": "static/images/contact/hondit_whatsapp_qr.png",
+      "bytes": 44142,
+      "sha256": "49abd4b5e9a3b7a78d7564187649a8d39310dbf1ffd4124168a9f14b647852fc"
+    },
+    {
+      "path": "static/images/diffuser-350g.png",
+      "bytes": 2750335,
+      "sha256": "bebc875148c10ce74cd31eef40d75c5deff66e860376e5decf7b4d57ba4c7cc9"
+    },
+    {
+      "path": "static/images/diffuser-350g.webp",
+      "bytes": 54006,
+      "sha256": "66f7af53de33eea42051673ac4773d06c6333860c6b4bf5e39c8c9aede65c227"
+    },
+    {
+      "path": "static/images/diffuser-500g.png",
+      "bytes": 2793194,
+      "sha256": "1bf7bcb1c87c61f2ab7af66ed30a1b54d9f7a41a04661efbcaba6e828e59b55a"
+    },
+    {
+      "path": "static/images/diffuser-500g.webp",
+      "bytes": 57118,
+      "sha256": "d6ce52d05a8c6c7b414f53217ab9382890b2a5aecb833e068c0be5d4f6127a94"
+    },
+    {
+      "path": "static/images/foam-oil-texture.png",
+      "bytes": 1824193,
+      "sha256": "511042c254e7d5fa28427b0436bd26ef08c2c6d69de09b0808ab713b95620a29"
+    },
+    {
+      "path": "static/images/foam-oil.png",
+      "bytes": 2628888,
+      "sha256": "8abb72f587d3f37cd68e6d65ca4fa3b4a25daa753128b60f97a25b8fce742d57"
+    },
+    {
+      "path": "static/images/foam-oil.webp",
+      "bytes": 26460,
+      "sha256": "afa0309ea50de053c05021cec7432b091c8a9dc8cdd9d49eb09df3b364fbc4cc"
+    },
+    {
+      "path": "static/images/foaming-cleanser.png",
+      "bytes": 2486065,
+      "sha256": "cca89117511d5421a438f115a5654dfff89c2509c650c95962d583a07551826f"
+    },
+    {
+      "path": "static/images/foaming-cleanser.webp",
+      "bytes": 31718,
+      "sha256": "58c7c3da1c12310eb963e4b989faa9e75f5873abd8eccac0fcddd4fd01100d6c"
+    },
+    {
+      "path": "static/images/hondit-cleansing-trio.png",
+      "bytes": 2282859,
+      "sha256": "a5e37ef28cd19f1b1c44117169d2d9c24c87995fb5b3ae9a68b7d61fe5d9f723"
+    },
+    {
+      "path": "static/images/hondit-cleansing-trio.webp",
+      "bytes": 68202,
+      "sha256": "c35cdf5f9e93c9b14a9f9fbfec38e38ef647f61d8a8dd4d146e35c07e50ccc83"
+    },
+    {
+      "path": "static/images/hondit-cleansing-water-detail.png",
+      "bytes": 2249395,
+      "sha256": "e3736b274e717a726b2c8c1f7097ae35edad7ee4c611ce59c2d1f6bb3123c01c"
+    },
+    {
+      "path": "static/images/hondit-collection-hero.png",
+      "bytes": 2522595,
+      "sha256": "157ba29d63dfc61eafa7048d01e0fec6bde933b957a54845e933baf62dfcd0b3"
+    },
+    {
+      "path": "static/images/hondit-collection-hero.webp",
+      "bytes": 81626,
+      "sha256": "ddb4a7d22b127c8270a9ddaaf548210a596b0eced2bf8807267fa301f139fcb7"
+    },
+    {
+      "path": "static/images/hondit-collection-studio.png",
+      "bytes": 2596915,
+      "sha256": "487dd4702f25cc7d07e70ec0e2fb1fbb6ab19008da2b2c2cd41c83a72e439a11"
+    },
+    {
+      "path": "static/images/hondit-diffuser-detail.png",
+      "bytes": 2415288,
+      "sha256": "9a80eedf20ecb442be3bcf1c3a59223bd85e838915bb321977e29310502d7514"
+    },
+    {
+      "path": "static/images/hondit-diffuser-detail.webp",
+      "bytes": 76202,
+      "sha256": "8165f1e73a5dad00529a8a9111061049dc188683d0656f7f6903da8a8d35483a"
+    },
+    {
+      "path": "static/images/hondit-diffuser-scent.png",
+      "bytes": 2692591,
+      "sha256": "e0949b51a06e8708c17e5c3b846ab7c8b7f8341702c358e9e1d34184a6efc123"
+    },
+    {
+      "path": "static/images/hondit-foam-oil-detail.png",
+      "bytes": 2074441,
+      "sha256": "d94f39c923ddc5f7a8c23a85b323dd8251bf21a2f8fcbaba2a0cecf81758cf0b"
+    },
+    {
+      "path": "static/images/hondit-foaming-cleanser-pack.png",
+      "bytes": 2119482,
+      "sha256": "7091824364a0368f58b51e38953177c41f46b5a2dfcb5f9ac8e52561d060f9c1"
+    },
+    {
+      "path": "static/images/hondit-hero.webp",
+      "bytes": 124140,
+      "sha256": "04bc9794a5df23056d11df57d6dcecbab98722ca26931f7d5972ece05b14eaba"
+    },
+    {
+      "path": "static/images/hondit-jeju-dawn-hero-v2.webp",
+      "bytes": 87462,
+      "sha256": "51c25aeafd6d5f950f54659c81a4cb9c76b2bd45b22e65b13a1273742977af58"
+    },
+    {
+      "path": "static/images/hondit-logo-transparent.png",
+      "bytes": 15713,
+      "sha256": "a2650dc65cdce9a6978fadb53cd53ee13f3a8a357996e6e1b40b0af45fba72a5"
+    },
+    {
+      "path": "static/images/hondit-logo.png",
+      "bytes": 21760,
+      "sha256": "fd1902b7f138f6d3560ec8af4ba5a070b931e6dfd9c74557cdf32fc6b88faed6"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/01_diffuser_350_package.webp",
+      "bytes": 59068,
+      "sha256": "f319c5c961af1cfd987f713dde1ed280413f67f62bd4cac01fe3d9afba96c452"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/02_diffuser_350_studio.webp",
+      "bytes": 10770,
+      "sha256": "698a581d55f42e5923474b6ac7f2e1c8bf93035e953cae74577c49bf9e83e612"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/03_diffuser_350_window.webp",
+      "bytes": 71888,
+      "sha256": "ebf24f69426f606584b5559765727e010ecc9cacce64f657a3641af121f71592"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/04_diffuser_350_stone.webp",
+      "bytes": 66676,
+      "sha256": "bb20c17e7e49098c46b0661830547706624a9a8b961ebd352a809555d3697835"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/05_diffuser_350_shelf.webp",
+      "bytes": 71076,
+      "sha256": "cb559bf96c5b0f4d5a7009a6e325fdc6bdc9614a7f126e967bee836d1a598b60"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/06_diffuser_500_studio.webp",
+      "bytes": 12148,
+      "sha256": "262e39235f81a8097a10444ed0dbc2de964c90e10017818dcbf3091e072b8d66"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/07_diffuser_500_window.webp",
+      "bytes": 61596,
+      "sha256": "54687d2e71e23ea510fd737ce1a79bcc9eb234fe3140b1796641b5a8ef4d8a97"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/08_diffuser_500_wood.webp",
+      "bytes": 42120,
+      "sha256": "e2fa4d6ca0e1f9875ad39e5119a807d9dec8e2b150f18ea03a9c1c23a9873961"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/09_foaming_cleanser_cutout.webp",
+      "bytes": 6034,
+      "sha256": "6b907b738595dd39bcd2685f2c24df982666b38148adb63dfe9e2afb87072a4a"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/10_foaming_cleanser_pack.webp",
+      "bytes": 19824,
+      "sha256": "c8acf9a6f3af86d28cd110d1294b5615c2a6ff3ec2aac4a42df3d4a9bd431450"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/11_foaming_cleanser_lifestyle.webp",
+      "bytes": 38836,
+      "sha256": "eada521f9cd725d97549b2aae68463b74547ce8951edc4cae8f1b7dbb6f6d4d3"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/12_foam_oil_cleanser.webp",
+      "bytes": 10752,
+      "sha256": "9c98a0d8f22bddea2090be8fbfed8364901ba8db65d7c683a6132ccade6ac241"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/13_cleansing_water_pack.webp",
+      "bytes": 27794,
+      "sha256": "cd73addb55876681c0955ebe238baf0d6674373e2e81713a19296b7665137421"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/14_cleansing_water_cutout.webp",
+      "bytes": 13388,
+      "sha256": "2dba9f332d729b59656fb46816609bf38974097fea2db260bb2b161e5f6715f9"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/01_product_originals/15_full_product_line_real.webp",
+      "bytes": 94382,
+      "sha256": "6c04e30b9d8218ac8aab1d0f4103d03bd9c1b04c23d51f4ab047c57d33ec8161"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/01_home_hero_full_line_coast.webp",
+      "bytes": 88062,
+      "sha256": "959e90fb054b582c798eb358e5cd2a2d125d43141bb4c71ae9283e82dc2301ed"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/02_home_hero_full_line_stone.webp",
+      "bytes": 110964,
+      "sha256": "74893e3e1f1b4d9ce37f06492f8447c559ec3e0391958dc4136c27834e27dc8d"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp",
+      "bytes": 68202,
+      "sha256": "c35cdf5f9e93c9b14a9f9fbfec38e38ef647f61d8a8dd4d146e35c07e50ccc83"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/04_diffuser_pair_editorial_text.webp",
+      "bytes": 110054,
+      "sha256": "b04e450a69fbfad79d69cf8ddad5b6d77d68dd38eea96e38d8469788f43fe085"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/05_diffuser_350_editorial.webp",
+      "bytes": 76202,
+      "sha256": "8165f1e73a5dad00529a8a9111061049dc188683d0656f7f6903da8a8d35483a"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/06_foaming_cleanser_editorial.webp",
+      "bytes": 44056,
+      "sha256": "ba1cdc74d342a07cc36c5745b97e17d4ab6636c9973f6c602896384753b57b90"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/07_foam_oil_editorial.webp",
+      "bytes": 40724,
+      "sha256": "f4ef5c1b543762f8b27dafb2915baa4c91768786536ffb53a935c25243e2e9a4"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/08_cleansing_water_editorial.webp",
+      "bytes": 64538,
+      "sha256": "b079702c451ae403e12a1e74eff0405f92b055a001b0c54eda563702bd22971f"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/09_full_line_shipping.webp",
+      "bytes": 94382,
+      "sha256": "6c04e30b9d8218ac8aab1d0f4103d03bd9c1b04c23d51f4ab047c57d33ec8161"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/01_jeju_national_university.webp",
+      "bytes": 103104,
+      "sha256": "296140e758ac79bd02f3e8787c458454843d5d068c3436e51e8b82d59bbbea6c"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/02_seongsan_ilchulbong.webp",
+      "bytes": 386884,
+      "sha256": "6ae00cb68e6aeaee83681639135cd8efb348d023de231f1f0d1f7036ad490495"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/03_udo_island.webp",
+      "bytes": 321140,
+      "sha256": "e1036967315a97310486aba2accbab557dd895ecd252768e6fcc9338875b3578"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/04_saryeoni_forest_user_01.webp",
+      "bytes": 380240,
+      "sha256": "96c090c4ada02633cb852b12fff670ae834fd3910d7e53bd1b7c4ee147be7d9f"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/05_saryeoni_forest_user_02.webp",
+      "bytes": 360172,
+      "sha256": "dfb16494026464b3ebd82801ad13a934bfee1108db885a97383b8add46e199a2"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/06_jeju_stone_park.webp",
+      "bytes": 684758,
+      "sha256": "7acd900a9465d83d6deb6682cdb9b9cbfdc09fe4cb2ec92fd0a7f8c50f6b2c68"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/07_hallasan.webp",
+      "bytes": 405964,
+      "sha256": "8ea0b69be3de7ada466503fdb0ca7e85648e34469ed9c05d644760877a94d0bb"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/08_hamdeok_beach.webp",
+      "bytes": 385818,
+      "sha256": "9915a4d2f5175b38553849d82fbe848f3c4710e70a7042c8f131a09947f8a1f3"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/09_woljeongri_beach.webp",
+      "bytes": 319716,
+      "sha256": "99d5f7cdfa4ad0f317ef7e504140181de1e94dc6f0b17e31fc365820060c8733"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/10_seopjikoji.webp",
+      "bytes": 411790,
+      "sha256": "47e36668105fd8d6f466013640e4e804f5093387f3780af8e31c0dcf67a3e633"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/11_jusangjeolli_cliff.webp",
+      "bytes": 668734,
+      "sha256": "829324182cd1209cd1ef37a977fbf2f9ebe208a7a3c30f832da564375f59faee"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/12_oedolgae.webp",
+      "bytes": 423540,
+      "sha256": "bd04915792c23c00378e9643dae66657c18f969e019e940e185b754752ae7f1c"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/13_bijarim_forest.webp",
+      "bytes": 700690,
+      "sha256": "8eeeea9e3b6ba007e9ab2217401f38e59ac5e00778cbb703339dc280db91fc2c"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/14_jeju_stone_wall.webp",
+      "bytes": 571792,
+      "sha256": "376abbbf82b04d67a586a9293ebab73eec114aafd59b958195cf5e0b0f4bcb20"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/01_jeju_national_university.jpg",
+      "bytes": 454959,
+      "sha256": "bac19ab64353b010b8c0241713c4af9da4ccf5942e31c6a470fb28d228ea8b71"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/02_seongsan_ilchulbong.jpg",
+      "bytes": 636335,
+      "sha256": "712f85e45bee57b412f54edaa6ba2cfca25f681b1d358b34b3d3c70c0568f583"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/03_udo_island.jpg",
+      "bytes": 545996,
+      "sha256": "4d809f99a74492ef5a7dd30b2e395a3208bfe3435b4bbcd4fef04f63f1e394a8"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/04_saryeoni_forest_user_01.jpg",
+      "bytes": 912003,
+      "sha256": "55a4d8d07ea730ece4511ae5594d730338cd27d1a5d6d7254701e69e3ee474fc"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/05_saryeoni_forest_user_02.jpg",
+      "bytes": 905093,
+      "sha256": "577486050e907742d3f6b05534d271192b79301682ea237173b0ecf889b27621"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/06_jeju_stone_park.jpg",
+      "bytes": 951053,
+      "sha256": "a71f40af30717e128bd4ae1bc33ce92a11d265e5bff962ad6fe6f62493a59fe1"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/07_hallasan.jpg",
+      "bytes": 733477,
+      "sha256": "a8a0aa63bf0c083b08747c19df72146b13cc76b184c79e72033ead9903d6ce3b"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/08_hamdeok_beach.jpg",
+      "bytes": 647212,
+      "sha256": "6c6289f4fed74dd1b3449867a9c180067ba523ca849bc510ad5fee8ad64a4038"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/09_woljeongri_beach.jpg",
+      "bytes": 605382,
+      "sha256": "5aa86d122748107e60c224b6bcd730c4eed9781134ebf8c0919ac2478d8d58d2"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/10_seopjikoji.jpg",
+      "bytes": 679577,
+      "sha256": "cb2c7da3584c6b3d14028822aec927f2b45f68610ce60f424ecb91d14d49df3e"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/11_jusangjeolli_cliff.jpg",
+      "bytes": 939056,
+      "sha256": "21f386ac2b30c9e5ff1105ceefb0f299b2bfedc924d98ade36c0d3a41f44cf72"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/12_oedolgae.jpg",
+      "bytes": 734298,
+      "sha256": "04d0afbee3089177ccaf0567cb6c4b25351e9b5ad2934b6987cedf214a8b2295"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/13_bijarim_forest.jpg",
+      "bytes": 987770,
+      "sha256": "c4307ed97d002adb4490536b806cb232fca1a2b287cbe4860386efdb9500a875"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/03_jeju_real_photos/source_jpg/14_jeju_stone_wall.jpg",
+      "bytes": 948975,
+      "sha256": "61835ee402d2d6a47706f573a118fafde3f21397406d33e89e3a24b227b0f6e0"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/04_reference/hondit_website_design_board.png",
+      "bytes": 1849322,
+      "sha256": "e582ebf53cb227391ac5fd33bd8288579863f21d8ad67a50862fb86e98f5fcd2"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/04_reference/jeju_contact_sheet.jpg",
+      "bytes": 387809,
+      "sha256": "7ca0371a6fa9860a12e6ce48438f6c759567fc55eb50643fe60b050730d89729"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/04_reference/lifestyle_contact_sheet.jpg",
+      "bytes": 202823,
+      "sha256": "9e87733e4a81fd974dec93d9a24b39c1694ac1a518f4bc5cca131e6072e57ca5"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/04_reference/product_contact_sheet.jpg",
+      "bytes": 224646,
+      "sha256": "f5e009275b5ac200d7f2002bda74c8a4c74d2a77630a7cfd31f6c82e2e9c388b"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/CODEX_PASTE_PROMPT.txt",
+      "bytes": 1639,
+      "sha256": "f49044d14c38c47ec148bc692c55a07827589fd5ef1e49724b89044e721bb968"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/PHOTO_CREDITS.csv",
+      "bytes": 2158,
+      "sha256": "f554fc762240654f6416fe3a0c4b8c19c1971beb0a8f4c6a5d134cc431f8822b"
+    },
+    {
+      "path": "static/images/hondit-pack/hondit_codex_image_pack/README_FOR_CODEX.md",
+      "bytes": 4791,
+      "sha256": "a8380bfd5c2768ab97ce2741fd210871774ea41f6b3d9cc72e3c14a1621019db"
+    },
+    {
+      "path": "static/images/hondit-tidal-ritual-hero.webp",
+      "bytes": 111642,
+      "sha256": "e499b6ef88ff04dc9f1c46a6309efa25c5b4ed5ef32daa95bc678d313aaf5d9c"
+    },
+    {
+      "path": "static/images/instagram-qr.png",
+      "bytes": 1373856,
+      "sha256": "0b50ae640da483aa8f1878a19d64916b121f7c026948b19cb7022965f75c21ac"
+    },
+    {
+      "path": "static/images/jeju-airport-2024.jpg",
+      "bytes": 489992,
+      "sha256": "6455c82d45b21204c7587e2a692448c75a4bc3a56fdd88b8c6c30e44002cf1e5"
+    },
+    {
+      "path": "static/images/jeju-airport-sign-reference.png",
+      "bytes": 680663,
+      "sha256": "aed5be49c1e2611ab702b701d721bab36c9080e43b04bb232b80e0f710fe4a50"
+    },
+    {
+      "path": "static/images/jeju-canola-sea-stonewall.png",
+      "bytes": 2984795,
+      "sha256": "2ac8eb6b794e0f1653e4725950493964bdf9b695a6be9196eda20808936e1c2a"
+    },
+    {
+      "path": "static/images/jeju-clear-water.png",
+      "bytes": 604388,
+      "sha256": "6c3c131c9ff619780c4aa4ad3e9452aa1c8af3c05f7906fc1656cab0ddd4d7c4"
+    },
+    {
+      "path": "static/images/jeju-field-bijarim.webp",
+      "bytes": 700690,
+      "sha256": "8eeeea9e3b6ba007e9ab2217401f38e59ac5e00778cbb703339dc280db91fc2c"
+    },
+    {
+      "path": "static/images/jeju-field-hallasan.webp",
+      "bytes": 405964,
+      "sha256": "8ea0b69be3de7ada466503fdb0ca7e85648e34469ed9c05d644760877a94d0bb"
+    },
+    {
+      "path": "static/images/jeju-field-jusangjeolli.webp",
+      "bytes": 668734,
+      "sha256": "829324182cd1209cd1ef37a977fbf2f9ebe208a7a3c30f832da564375f59faee"
+    },
+    {
+      "path": "static/images/jeju-field-sea.webp",
+      "bytes": 385818,
+      "sha256": "9915a4d2f5175b38553849d82fbe848f3c4710e70a7042c8f131a09947f8a1f3"
+    },
+    {
+      "path": "static/images/jeju-field-seongsan.webp",
+      "bytes": 386884,
+      "sha256": "6ae00cb68e6aeaee83681639135cd8efb348d023de231f1f0d1f7036ad490495"
+    },
+    {
+      "path": "static/images/jeju-field-university.webp",
+      "bytes": 103104,
+      "sha256": "296140e758ac79bd02f3e8787c458454843d5d068c3436e51e8b82d59bbbea6c"
+    },
+    {
+      "path": "static/images/jeju-field-woljeongri.webp",
+      "bytes": 319716,
+      "sha256": "99d5f7cdfa4ad0f317ef7e504140181de1e94dc6f0b17e31fc365820060c8733"
+    },
+    {
+      "path": "static/images/jeju-hero.png",
+      "bytes": 672533,
+      "sha256": "7f9f225d837346af6907ab23aeadb49d2ae0285f9321a0f3c90c93f1685a0695"
+    },
+    {
+      "path": "static/images/jeju-sea-detail.png",
+      "bytes": 1491532,
+      "sha256": "3207726c3bc03bc0f0dfc521719a70d16bd334b554d62e587e6b12da2c6c4705"
+    },
+    {
+      "path": "static/images/jeju-sea-motion.mp4",
+      "bytes": 3785806,
+      "sha256": "42e37929291f33adf2056270f9ff62e66c564651a2957f7e3446c7f1fe302acb"
+    },
+    {
+      "path": "static/images/jeju-sea-stone.png",
+      "bytes": 2024372,
+      "sha256": "81b76a0137fab87cfbd4684cc5e52402073c9718e610b1b90740406437cfff18"
+    },
+    {
+      "path": "static/images/jeju-stone-detail.png",
+      "bytes": 827419,
+      "sha256": "1ece5367a11cf2cefaca2bedada254763a8e5d76a17136543c79157191da7c40"
+    },
+    {
+      "path": "static/images/jeju-tangerine-stonewall.png",
+      "bytes": 3420103,
+      "sha256": "3e9a1323796d851a6c2cdd1dfbd669d21e71417d71b90942dd3514b8e5963658"
+    },
+    {
+      "path": "static/images/jeju-volcanic-landscape.png",
+      "bytes": 675213,
+      "sha256": "2d44fabd2e46f6877f84315dc924e845516cdae792dc7af09a05b03121e1feb8"
+    },
+    {
+      "path": "static/images/jeju-volcanic-rock.png",
+      "bytes": 1285053,
+      "sha256": "8d8c19ab1ce93a2c767c872b2a2b5721fac04f2843bb4a10d413c40b7d833e7d"
+    },
+    {
+      "path": "static/images/jeju-water-basalt-v2.webp",
+      "bytes": 89576,
+      "sha256": "ddd5060df595a1953f2816e5911454471e75bfea068d73dcd6924f01b6803eee"
+    },
+    {
+      "path": "static/images/jeju-wind-coast-v2.webp",
+      "bytes": 133024,
+      "sha256": "f56c1d639d68f63e3fb769df3eefc72d0f917e520c357ef593d79681bb3febc2"
+    },
+    {
+      "path": "static/images/jeju-wind-coast.png",
+      "bytes": 2741937,
+      "sha256": "22473ad597a75b33aa8e1de19776160957cc56a60b6d6868908bf253d7286c89"
+    },
+    {
+      "path": "static/images/jeju-wind-field.png",
+      "bytes": 2849871,
+      "sha256": "76bc127c34303c66a1a15e9af709fca11d0aa42db7358b19dbda087201e22ec8"
+    },
+    {
+      "path": "static/images/jeju-wind-mountain.png",
+      "bytes": 2878510,
+      "sha256": "92fe4d3020af4fca607d4b7fba2e34a55e6fb35dadac67b4ececce889e1182ce"
+    },
+    {
+      "path": "static/images/jnu-campus.webp",
+      "bytes": 103104,
+      "sha256": "296140e758ac79bd02f3e8787c458454843d5d068c3436e51e8b82d59bbbea6c"
+    },
+    {
+      "path": "static/images/korea/hanbok.webp",
+      "bytes": 177568,
+      "sha256": "38c7dc142593c094d6d194f32a98be7f4c43ec620e2b515ff97245e51ce93252"
+    },
+    {
+      "path": "static/images/korea/kbeauty.jpg",
+      "bytes": 40084,
+      "sha256": "dbe16ca2cc4df776f478493afaa5beab48f1b23a9c12ca2508e0ff9f17bc3d15"
+    },
+    {
+      "path": "static/images/korea/korean-food.webp",
+      "bytes": 417028,
+      "sha256": "2e286abbff8ecc32b5e3fbb7feecb86a6b672be61185da8a353f682ae2a30a0b"
+    },
+    {
+      "path": "static/images/korea/seoul-night.webp",
+      "bytes": 208392,
+      "sha256": "8845eabc299435cd54146c2b0754b670424b20e068e97ca5c395c0068b3f6c4b"
+    },
+    {
+      "path": "static/images/map-asia-pastel.svg",
+      "bytes": 48024,
+      "sha256": "47a061d7dad747e2567063d1ce9209b1dd7977c3ac28a5c4da78d91316f7dd90"
+    },
+    {
+      "path": "static/images/map-asia.webp",
+      "bytes": 53722,
+      "sha256": "11555a3db0a754d23a8024facdc43185f5f76322675127ef8de2df3f9f034ba1"
+    },
+    {
+      "path": "static/images/map-jeju-editorial.svg",
+      "bytes": 2521,
+      "sha256": "3dc6fdbee5391bf917ba9c88bc7f9230b1f6eb0b035b93e508e230cad051476d"
+    },
+    {
+      "path": "static/images/map-jeju-field.svg",
+      "bytes": 1971,
+      "sha256": "678f514218f083dd3f007149f89f487fd56c120f40be5311022bc7da889bbcf4"
+    },
+    {
+      "path": "static/images/map-jeju.webp",
+      "bytes": 11380,
+      "sha256": "cef12e15d7192a222b56f8db5d09bd0dc1f02598921aa68686655f4ca26e0911"
+    },
+    {
+      "path": "static/images/map-korea-friendly.webp",
+      "bytes": 24308,
+      "sha256": "df83c576a89dbea577126679f2aaecc5cdb7f8da54acc9f0d5ac7a93822e8b20"
+    },
+    {
+      "path": "static/images/map-korea-pastel.svg",
+      "bytes": 8244,
+      "sha256": "1b18a6d68f04e64823d0e8604669d30029049324c9f2f920b501b8f60074971e"
+    },
+    {
+      "path": "static/images/partners-spaces-concept.png",
+      "bytes": 2552188,
+      "sha256": "60e9ab41127afd9f5d3e534d768a970ffa7a0a2d702c222f810a9bec04e18d48"
+    },
+    {
+      "path": "static/images/place-bijarim.webp",
+      "bytes": 248108,
+      "sha256": "548616964073aab34d1f8b6cb9d29a595455cecc54e60a5b496902e9cd71024a"
+    },
+    {
+      "path": "static/images/place-cheonjiyeon.webp",
+      "bytes": 234568,
+      "sha256": "387d92aeb841012c4cff9b10904c0eec95bfc57cc4ec81963c2b64f7f8b74f88"
+    },
+    {
+      "path": "static/images/place-hallasan.webp",
+      "bytes": 226422,
+      "sha256": "dcc8c6a613aceabcabc952a04f3d2007ca58bf33f5e8f358bb017f9d9994a7ee"
+    },
+    {
+      "path": "static/images/place-hyeopjae.webp",
+      "bytes": 244896,
+      "sha256": "ab981c3889ee6e57c15199423f7445f237b50e5b5d8aaab9bb812179465b8471"
+    },
+    {
+      "path": "static/images/place-jeongbang.webp",
+      "bytes": 98396,
+      "sha256": "1f62330651d460520cf83076c54f1f87969d8a7efe51c4ad595649fb792e33e8"
+    },
+    {
+      "path": "static/images/place-osulloc.webp",
+      "bytes": 194050,
+      "sha256": "e5b72406a94d065b031b4f5b3627b603b3cc771efcd4775018750de4422cde7b"
+    },
+    {
+      "path": "static/images/place-seongsan.webp",
+      "bytes": 118480,
+      "sha256": "b0324acff53096549d91112873115eb2d1f50bc088a37865aaacd2dbd7afec14"
+    },
+    {
+      "path": "static/images/place-seopjikoji.webp",
+      "bytes": 220920,
+      "sha256": "05c729ca9f1f9424de0d4e8c65802fe1c13a17c81483123738609dca1fae5246"
+    },
+    {
+      "path": "static/images/place-udo.webp",
+      "bytes": 26250,
+      "sha256": "c93a16003147c6e88cd2efc5bea27bf5c26d6ad4007521987f289cfcdb05d097"
+    },
+    {
+      "path": "static/images/place-woljeongri.webp",
+      "bytes": 200704,
+      "sha256": "e2d41e09c305dc5923c7c378105f23bf51928f732c792fd28ed2c413f89f0d89"
+    },
+    {
+      "path": "static/images/place-yongduam.webp",
+      "bytes": 54702,
+      "sha256": "a5a5860cf46650f69a5e42a86e9d7dcac864ab6c3068252c986ce291a7416a7d"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/1.jpeg",
+      "bytes": 268883,
+      "sha256": "f44bda438430ebc6a4e4d53069ff9940c321a74abc3d43218d55a7b2b357e052"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/2.jpeg",
+      "bytes": 404240,
+      "sha256": "4d44e805898c0378a28b52610ff245fa1f355736fc91a0c47a741fb72037a830"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/3.jpeg",
+      "bytes": 446605,
+      "sha256": "08fb84ff6f9aec06ff32d046d40bf42a94573be3f987e08ced566a2afbb1ced3"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/4.jpeg",
+      "bytes": 535182,
+      "sha256": "6ca466fb43773242e9efaf445ed362391098691f4eeea011465a44c1c9d2b2b5"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/5.jpeg",
+      "bytes": 505732,
+      "sha256": "39ffd35c371dd06129e4e48b14560264f65cf22ed38f6d6e2b33bd079c23de89"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/6.jpeg",
+      "bytes": 625094,
+      "sha256": "2b65066a600e769da036be81d0cde722a8ab8c2bda956431c5de289b4b2d0c20"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/7.jpeg",
+      "bytes": 609069,
+      "sha256": "6ed3732bf6ec31857099991d466b5816f358681c7ace4c3327d4aa361af9c366"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/8.jpeg",
+      "bytes": 556573,
+      "sha256": "f24d0dc4cbb99b5a754aec2dc3e959eb507b2247b318bde49be629db24fe6f8f"
+    },
+    {
+      "path": "static/images/product-details/diffuser-350g-sg/9.jpeg",
+      "bytes": 705221,
+      "sha256": "b2a552e698608713a7667a9d4245bc22d5fc1907f84c4fd735a0431ac68745b6"
+    },
+    {
+      "path": "static/images/shopee-qr.png",
+      "bytes": 1074153,
+      "sha256": "0c4ba1cd24dc59c81a3a887df54bb91de62013fa36fe5d1a0bddfe87f9563286"
+    },
+    {
+      "path": "static/images/singapore-bathroom.png",
+      "bytes": 3196134,
+      "sha256": "b873d83091db2a48790687a7e83d4703f560a31cdf7f20b8ef446a4d1417fc5e"
+    },
+    {
+      "path": "static/images/singapore-bedroom-desk.png",
+      "bytes": 2992752,
+      "sha256": "78b21dbde2afb0139168e0e51003b7ed095c6584723cb9097e9fe351e51e86e0"
+    },
+    {
+      "path": "static/images/stonejeju-diffuser-product.png",
+      "bytes": 2240456,
+      "sha256": "4fa5655fe66d06e8fc9d54916e037c87853947030e0ae1adef1d696be26014b7"
+    },
+    {
+      "path": "static/index.html",
+      "bytes": 1726,
+      "sha256": "0706edad9dd64c450debb34a90d26b476ad218b44c17c43c95b029b1052da548"
+    },
+    {
+      "path": "static/media/stonejeju/02_product_moss.jpg",
+      "bytes": 162950,
+      "sha256": "18ca8e1b8c0d7e1df8c7e81e37668c6bff3167ce7e3bcc798c0779888363101b"
+    },
+    {
+      "path": "static/media/stonejeju/03_product_light.webp",
+      "bytes": 105374,
+      "sha256": "6fbe107c028e30f097c257979862c115b14800523326aa9473d458d0c8168443"
+    },
+    {
+      "path": "static/media/stonejeju/04_forest.jpg",
+      "bytes": 184653,
+      "sha256": "1dea24e3b1aa7bf2212f539d55af82282d8acae57e5cfb0acc371c883163b29c"
+    },
+    {
+      "path": "static/media/stonejeju/05_product_stone.webp",
+      "bytes": 110598,
+      "sha256": "302bb3e33c00038541fd9286997c3f3d4dd1f38e26a62a431392cb8731282de8"
+    },
+    {
+      "path": "static/media/stonejeju/detail_product.mp4",
+      "bytes": 1835263,
+      "sha256": "ca9335bdf44f76772352c917f17a16c9bda4a12645311ef0f89a98e0bfff780a"
+    },
+    {
+      "path": "static/media/stonejeju/home_product.mp4",
+      "bytes": 759787,
+      "sha256": "fc5ae19bfe87ed4d3e6ae0a0ff32362b1dfa567043ad68d0cdcc39c946b142b6"
+    },
+    {
+      "path": "static/media/stonejeju/our_jeju_forest.mp4",
+      "bytes": 1485378,
+      "sha256": "92117b0be916ae980aeee39c4f78b610cc91642b0d1ed6eb9fe7591a845c93f4"
+    },
+    {
+      "path": "static/robots.txt",
+      "bytes": 98,
+      "sha256": "5445a9cff8931cbdd2293ecea2f0c821ee77ab9205cdc037f8e90025ec7b45de"
+    },
+    {
+      "path": "static/sitemap.xml",
+      "bytes": 2163,
+      "sha256": "0cfbf529567415d00a01ed21f097894a0287da7d8fc1cae52408e79da192f15c"
+    },
+    {
+      "path": "static/videos/stonejeju-use-loop.mp4",
+      "bytes": 786192,
+      "sha256": "9cc6b4d7711af20017dc2b41ccbec25c7272426752e339d9ea7ff417a1d8cff2"
+    },
+    {
+      "path": "static/__preview/blocked.json",
+      "bytes": 70,
+      "sha256": "923cb48ad003f04f0c8c4badf994ae5be9e7cc076fbb2aad7fd5597928c83fd6"
+    },
+    {
+      "path": "static/__preview/paypal-config.json",
+      "bytes": 56,
+      "sha256": "bb664605d0ee4cb6dc2711b8af23d3daadf45967b99c6b8e2c974954fc8cfba2"
+    },
+    {
+      "path": "static/__preview/pickup.json",
+      "bytes": 279,
+      "sha256": "34e1e61af3f51b5431ed452504a4f54710d182de1f090c86d772c2ecc7fe8322"
+    },
+    {
+      "path": "static/__preview/products.json",
+      "bytes": 7001,
+      "sha256": "8c3bea1d76096fbd5e831505ec0da21b8407e51879376a4d4fad9f6c7ec066c9"
+    },
+    {
+      "path": "static/__preview/qr-not-found.json",
+      "bytes": 45,
+      "sha256": "efc66b27f960f47ebe9968ec5693c5ec148d2f106cf03c073f388ea85a5ce619"
+    }
+  ]
+}
