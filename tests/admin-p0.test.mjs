@@ -177,3 +177,14 @@ test('payment server applies market overrides and records stock once after captu
   assert.doesNotMatch(read('shared/checkout-terms.js'), /markets\?\.\[/);
   assert.match(read('supabase/migrations/008_admin_p0.sql'), /create unique index if not exists inventory_movements_order_once/);
 });
+
+test('admin API answers an unauthenticated catalog request with an error response instead of crashing', async () => {
+  const { default: handler } = await import('../api/admin.js');
+  for (const url of ['/api/admin/catalog', '/api/admin/catalog/foam-oil', '/api/admin/products']) {
+    let status = 0, body = '';
+    const res = { status(code) { status = code; return this; }, setHeader() { return this; }, end(text) { body = text; } };
+    await handler({ method: 'GET', url, headers: {}, query: {} }, res);
+    assert.ok(status >= 400 && status < 500, `${url} -> ${status}`);
+    assert.match(body, /error/);
+  }
+});

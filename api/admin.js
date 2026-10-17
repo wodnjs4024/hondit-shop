@@ -530,19 +530,19 @@ export default async function handler(req, res) {
   if (previewWritesBlocked(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   try {
     const parts = segments(req);
-    if (parts[0] === "login") return login(req, res);
-    if (parts[0] === "summary") return summary(req, res);
-    if (parts[0] === "orders" && parts.length === 1) return ordersIndex(req, res);
-    if (parts[0] === "orders" && parts[2] === "refund") return refundOrder(req, res, parts[1]);
-    if (parts[0] === "orders" && parts[2] === "test") return markTestOrder(req, res, parts[1]);
-    if (parts[0] === "orders" && parts[1]) return orderDetail(req, res, parts[1]);
-    if (parts[0] === "catalog") return adminCatalog(req, res, parts);
-    if (parts[0] === "products") return products(req, res);
-    if (parts[0] === "settings") return settings(req, res);
-    if (parts[0] === "reviews" && parts.length === 1) return reviewsIndex(req, res);
-    if (parts[0] === "reviews" && parts[1]) return reviewDetail(req, res, parts[1]);
-    if (parts[0] === "inquiries" && parts[1] === "reply") return inquiryReplies(req, res);
-    if (parts[0] === "inquiries") return inquiriesIndex(req, res);
+    if (parts[0] === "login") return await login(req, res);
+    if (parts[0] === "summary") return await summary(req, res);
+    if (parts[0] === "orders" && parts.length === 1) return await ordersIndex(req, res);
+    if (parts[0] === "orders" && parts[2] === "refund") return await refundOrder(req, res, parts[1]);
+    if (parts[0] === "orders" && parts[2] === "test") return await markTestOrder(req, res, parts[1]);
+    if (parts[0] === "orders" && parts[1]) return await orderDetail(req, res, parts[1]);
+    if (parts[0] === "catalog") return await adminCatalog(req, res, parts);
+    if (parts[0] === "products") return await products(req, res);
+    if (parts[0] === "settings") return await settings(req, res);
+    if (parts[0] === "reviews" && parts.length === 1) return await reviewsIndex(req, res);
+    if (parts[0] === "reviews" && parts[1]) return await reviewDetail(req, res, parts[1]);
+    if (parts[0] === "inquiries" && parts[1] === "reply") return await inquiryReplies(req, res);
+    if (parts[0] === "inquiries") return await inquiriesIndex(req, res);
     return json(res, 404, { error: "Admin endpoint not found" });
   } catch (error) {
     return json(res, 400, { error: error.message || "Admin request failed" });
