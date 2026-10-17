@@ -6,7 +6,7 @@ import { cleanProductUsage } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { orderPanelCopy } from "../data/orderPanelCopy";
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
 import { trackEvent } from "../lib/analytics";
@@ -18,19 +18,14 @@ import {
   marketText,
   useMarket,
 } from "../lib/market";
-import { loadStorefrontProduct } from "../lib/storefrontApi";
+import { composeStorefrontProducts, loadStorefrontProduct } from "../lib/storefrontApi";
+import { getAdminToken } from "../lib/bulkApi";
+import { catalogCopy } from "../data/catalogCopy";
+import { productDescription as describeProduct, productGallery, productList, productMainImage, productName as nameOf, productPriceLabel } from "../lib/productText";
 import { NotFoundPage } from "./NotFoundPage";
+import { productPhotoRoot, productPhotos } from "../data/productPhotos";
 
-/* Supplied real product photographs (01_product_originals), shown under the main shot.
-   Note: 01_diffuser_350_package.webp shows the 500g box despite its file name. */
-const originals = "/images/hondit-pack/hondit_codex_image_pack/01_product_originals/";
-const productPhotos: Record<string, { file: string; width: number; height: number }[]> = {
-  "diffuser-350g": [{ file: "03_diffuser_350_window.webp", width: 1256, height: 1114 }, { file: "04_diffuser_350_stone.webp", width: 1266, height: 1186 }, { file: "05_diffuser_350_shelf.webp", width: 1214, height: 1004 }],
-  "diffuser-500g": [{ file: "07_diffuser_500_window.webp", width: 1138, height: 874 }, { file: "08_diffuser_500_wood.webp", width: 1126, height: 842 }, { file: "01_diffuser_350_package.webp", width: 1081, height: 1440 }],
-  "foaming-cleanser": [{ file: "10_foaming_cleanser_pack.webp", width: 648, height: 930 }, { file: "11_foaming_cleanser_lifestyle.webp", width: 602, height: 756 }],
-  "foam-oil": [{ file: "12_foam_oil_cleanser.webp", width: 544, height: 800 }],
-  "cleansing-water": [{ file: "13_cleansing_water_pack.webp", width: 532, height: 736 }, { file: "14_cleansing_water_cutout.webp", width: 522, height: 886 }],
-};
+const originals = productPhotoRoot;
 
 const singaporeDiffuser350Details = Array.from(
   { length: 9 },
@@ -42,24 +37,38 @@ export function ProductDetailPage() {
   const { productId = "" } = useParams();
   const [product, setProduct] = useState<StorefrontProduct | undefined>(() => v23Products.find((item) => item.slug === productId));
   const [detailImageIndex, setDetailImageIndex] = useState(0);
+  const [params] = useSearchParams();
+  const previewMode = params.get("preview") === "1";
+  const [loaded, setLoaded] = useState(false);
+  const [previewError, setPreviewError] = useState(false);
 
   useEffect(() => {
-    loadStorefrontProduct(productId).then(setProduct).catch(() => undefined);
-  }, [productId]);
+    setLoaded(false);
+    if (previewMode) {
+      // Admin preview: the unpublished draft, fetched with the admin session. Customers never reach this branch's data.
+      fetch(`/api/products?preview=${encodeURIComponent(productId)}`, { headers: { Authorization: `Bearer ${getAdminToken()}` } })
+        .then((response) => (response.ok ? response.json() : Promise.reject(new Error("preview"))))
+        .then((data) => { const [draft] = composeStorefrontProducts(data.products || []); if (draft) setProduct(draft); else setPreviewError(true); })
+        .catch(() => setPreviewError(true))
+        .finally(() => setLoaded(true));
+      return;
+    }
+    loadStorefrontProduct(productId).then(setProduct).catch(() => undefined).finally(() => setLoaded(true));
+  }, [productId, previewMode]);
 
   useEffect(() => {
     setDetailImageIndex(0);
   }, [market.code, productId]);
 
   if (!productId) return <Navigate to="/products" replace />;
-  if (!product) return <NotFoundPage />;
-  if (!isStorefrontProductAllowedForMarket(product, market)) return <Navigate to="/products" replace />;
+  if (!product) return loaded ? <NotFoundPage /> : <V23Page><main className="hd-page hd-pdp" aria-busy="true" /></V23Page>;
+  if (!previewMode && !isStorefrontProductAllowedForMarket(product, market)) return <Navigate to="/products" replace />;
 
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
-  const productName = marketProductText(language, product.name);
+  const productName = nameOf(product, language);
   const productCategory = marketProductText(language, product.category);
-  const productDescription = marketProductText(language, productFacts(product.slug)?.description||product.description);
-  const productGoodFor = marketProductText(language, product.goodFor);
+  const productDescription = describeProduct(product, language, productFacts(product.slug)?.description||product.description);
+  const productGoodFor = product.goodFor ? marketProductText(language, product.goodFor) : "";
   const showSingaporeDiffuserDetails = market.code === "SG" && product.slug === "diffuser-350g";
   const selectDetailImage = (nextIndex: number, source: "arrow" | "thumbnail" | "keyboard") => {
     const normalizedIndex = (nextIndex + singaporeDiffuser350Details.length) % singaporeDiffuser350Details.length;
@@ -72,7 +81,9 @@ export function ProductDetailPage() {
     });
   };
   const productUrl = `https://hondit-shop.vercel.app/products/${product.slug}`;
-  const absoluteImage = product.image.startsWith("http") ? product.image : `https://hondit-shop.vercel.app${product.image}`;
+  const mainImage = productMainImage(product);
+  const adminGallery = productGallery(product);
+  const absoluteImage = mainImage.startsWith("http") ? mainImage : `https://hondit-shop.vercel.app${mainImage}`;
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -86,7 +97,7 @@ export function ProductDetailPage() {
     description: productDescription,
     brand: { "@type": "Brand", name: "hondit" },
     sku: product.apiSlug || product.slug,
-    offers: {
+    offers: product.quoteOnly ? undefined : {
       "@type": "Offer",
       price: getMarketUnitPrice(product, market).toFixed(2),
       priceCurrency: market.currency,
@@ -98,13 +109,14 @@ export function ProductDetailPage() {
   return (
     <V23Page>
       <main className="v23-product-detail hd-page hd-pdp">
+        {previewMode && <p className="hd-preview-banner" role="status">{previewError ? catalogCopy(language).previewMissing : catalogCopy(language).previewBanner}</p>}
         <nav className="hd-crumbs" aria-label="Breadcrumb"><Link to="/products">{marketText(language,"Collection","제품 목록")}</Link><span aria-hidden="true">/</span><span>{productName}</span></nav>
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
         <section className="hd-pdp__hero">
           <div className="hd-pdp__gallery" role="group" aria-label={productName} tabIndex={0}>
             <figure className="hd-pdp__media">
               <img
-                src={product.image}
+                src={mainImage}
                 alt={productName}
                 width={880}
                 height={1100}
@@ -115,7 +127,9 @@ export function ProductDetailPage() {
               />
               {outOfStock && <span className="hd-tile__badge">{marketText(language, "Out of stock", "품절")}</span>}
             </figure>
-            {(productPhotos[product.slug] ?? []).map((photo) => <figure className="hd-pdp__photo" key={photo.file}>
+            {adminGallery.length
+              ? adminGallery.map((url) => <figure className="hd-pdp__photo" key={url}><img src={url} alt={productName} loading="lazy" decoding="async" /></figure>)
+              : (productPhotos[product.slug] ?? []).map((photo) => <figure className="hd-pdp__photo" key={photo.file}>
               <img src={originals + photo.file} alt={productName} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
             </figure>)}
           </div>
@@ -123,7 +137,7 @@ export function ProductDetailPage() {
             <p className="hd-pdp__category">{productCategory}</p>
             <h1>{productName}</h1>
             <p className="hd-pdp__lead">{productDescription}</p>
-            <p className="hd-pdp__price"><strong>{formatMarketUnitMoney(product, market)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}</p>
+            <p className="hd-pdp__price"><strong>{productPriceLabel(product, market, language)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}</p>
             <QuantityReview key={product.slug} product={product}/>
             <details className="pdp-conditions">
               <summary>{orderPanelCopy(language).conditions}</summary>
@@ -134,25 +148,25 @@ export function ProductDetailPage() {
         </section>
 
         <section className="hd-pdp__about">
-          <article>
+          {productGoodFor && <article>
             <h2>{marketText(language, "GOOD FOR", "추천 용도")}</h2>
             <p className="hd-pdp__goodfor">{productGoodFor}</p>
-          </article>
+          </article>}
           <article>
             <h2>{marketText(language, "HIGHLIGHTS", "특징")}</h2>
-            <ul>{cleanProductUsage(product.highlights).map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ul>
+            <ul>{productList(product, language, "highlights").map((item) => <li key={item}>{item}</li>)}</ul>
           </article>
           <article>
             <h2>{marketText(language, "HOW TO USE", "사용 방법")}</h2>
             <p className="product-label-note">{marketText(language,"Follow the product label. Supplier-approved precautions are required before use.","제품 라벨을 우선 확인해주세요. 공급사 승인 주의사항 확인이 필요합니다.")}</p>
-            <ol>{cleanProductUsage(product.howTo).map((item) => <li key={item}>{marketProductText(language, item)}</li>)}</ol>
+            <ol>{productList(product, language, "howTo").map((item) => <li key={item}>{item}</li>)}</ol>
           </article>
         </section>
 
         <div className="hd-pdp__specs">
           {productFacts(product.slug)&&<DiffuserComparison/>}
           <ProductCare slug={product.slug}/>
-          <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>
+          {!product.quoteOnly && <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>}
         </div>
 
         {product.slug === "diffuser-500g" && <StoneJejuSceneGallery />}

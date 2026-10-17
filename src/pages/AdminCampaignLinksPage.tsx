@@ -85,7 +85,7 @@ export function AdminCampaignLinksPage() {
   return (
     <>
       <header className="admin-heading">
-        <span className="eyebrow">Campaign links</span>
+        <span className="eyebrow">마케팅 · 분석</span>
         <h1>홍보 링크 생성기</h1>
         <p>
           GA4 기본 카드에서는 소셜 유입이 묶여 보일 수 있습니다. 아래 링크를 쓰면 방문 시

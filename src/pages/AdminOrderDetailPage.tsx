@@ -202,6 +202,13 @@ export function AdminOrderDetailPage() {
   const canCancelUnpaid = isPending && !isCancelled;
   const canRefundInPayPal = isPaid && hasPayPalCapture && !isRefunded;
 
+  const toggleTest = () => {
+    setActionError("");
+    adminFetch(`/api/admin/orders/${orderId}/test`, { method: "POST", body: JSON.stringify({ is_test: !order.is_test }) })
+      .then(() => load())
+      .catch((err) => setActionError(err.message));
+  };
+
   const exportOrderCsv = () => {
     downloadCsv(`hondit-order-${order.order_number}.csv`, evidence.replaceAll("\n", "\r\n"));
   };
@@ -240,7 +247,9 @@ export function AdminOrderDetailPage() {
             <button className="button button--danger" type="button" onClick={() => quickUpdate("cancelled", "cancelled")}>미결제 시도 취소</button>
           )}
           {canRefundInPayPal && <button className="button button--danger button--refund" type="button" onClick={refundPayPal}>PayPal 실제 환불 실행</button>}
+          <button className="button button--ghost" type="button" onClick={toggleTest}>{order.is_test ? "테스트 표시 해제 (매출에 포함)" : "테스트 거래로 표시 (매출 제외)"}</button>
         </div>
+        {order.is_test && <p className="admin-muted">이 주문은 테스트 거래로 표시되어 매출·대시보드 집계에서 빠집니다.</p>}
         {!canFulfill && !canCancelUnpaid && !canRefundInPayPal && (
           <p className="admin-muted">이미 종료된 주문이거나 현재 바로 처리할 수 있는 버튼이 없습니다.</p>
         )}

@@ -180,9 +180,14 @@ async function orderDetail(req, res, orderId) {
   }
 
   if (req.method === "PATCH") {
-    const currentRows = await supabase(`/orders?id=eq.${encodeURIComponent(orderId)}&select=id,order_status`);
+    const currentRows = await supabase(`/orders?id=eq.${encodeURIComponent(orderId)}&select=id,order_status,payment_status`);
     if (!currentRows.length) return json(res, 404, { error: "Order not found" });
     const body = await readBody(req);
+    // A refund must go through PayPal (refund button) so the books never claim money was returned when it was not.
+    const alreadyRefunded = ["refunded", "partially_refunded"].includes(currentRows[0].payment_status);
+    if (!alreadyRefunded && (body.order_status === "refunded" || body.payment_status === "refunded")) {
+      return json(res, 409, { error: "환불은 주문 화면의 'PayPal 환불' 버튼으로만 처리합니다. 상태만 '환불됨'으로 바꿀 수 없습니다." });
+    }
     const payload = {
       order_status: body.order_status,
       payment_status: body.payment_status || undefined,
@@ -236,6 +241,18 @@ async function orderDetail(req, res, orderId) {
   }
 
   return json(res, 405, { error: "Method not allowed" });
+}
+
+/* Only the test/live flag; nothing else on the order changes. Test orders are left out of revenue. */
+async function markTestOrder(req, res, orderId) {
+  const admin = await verifyAdmin(req);
+  if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
+  const body = await readBody(req);
+  const isTest = body.is_test === true;
+  const rows = await supabase(`/orders?id=eq.${encodeURIComponent(orderId)}`, { method: "PATCH", body: JSON.stringify({ is_test: isTest, updated_at: new Date().toISOString() }) });
+  if (!rows.length) return json(res, 404, { error: "Order not found" });
+  await supabase("/order_status_history", { method: "POST", body: JSON.stringify({ order_id: orderId, previous_status: rows[0].order_status, new_status: rows[0].order_status, changed_by: admin.user.id, note: isTest ? "테스트 거래로 표시(매출 제외)" : "테스트 표시 해제" }) }).catch(() => {});
+  return json(res, 200, { order: rows[0] });
 }
 
 async function refundOrder(req, res, orderId) {
@@ -386,6 +403,37 @@ async function inquiriesIndex(req, res) {
     return json(res, 200, { inquiry: saved[0] });
   }
 
+  // Messenger enquiries (WhatsApp, Telegram, WeChat, Instagram, email, pickup) recorded by hand.
+  if (req.method === "POST") {
+    const body = await readBody(req);
+    const channels = ["whatsapp", "telegram", "wechat", "instagram", "email", "pickup", "other"];
+    const name = cleanRequired(body.name, 120);
+    const message = cleanRequired(body.message, 4000);
+    const channel = channels.includes(body.channel) ? body.channel : "other";
+    if (!name || !message) return json(res, 422, { error: "이름(또는 계정)과 문의 내용을 입력해 주세요." });
+    const now = new Date().toISOString();
+    const saved = await supabase("/inquiries", {
+      method: "POST",
+      body: JSON.stringify({
+        id: createRecordId(),
+        reference_number: `MSG-${now.slice(0, 10).replaceAll("-", "")}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+        name,
+        email: cleanOptional(body.email, 254),
+        company: cleanOptional(body.company, 120),
+        order_number: cleanOptional(body.orderNumber, 80),
+        inquiry_type: cleanOptional(body.inquiryType, 40) || "general",
+        channel,
+        market: cleanOptional(body.market, 4),
+        message,
+        status: body.answered ? "replied" : "new",
+        replied_at: body.answered ? now : null,
+        created_at: now,
+        updated_at: now,
+      }),
+    });
+    return json(res, 201, { inquiry: saved[0] });
+  }
+
   return json(res, 405, { error: "Method not allowed" });
 }
 
@@ -486,6 +534,7 @@ export default async function handler(req, res) {
     if (parts[0] === "summary") return summary(req, res);
     if (parts[0] === "orders" && parts.length === 1) return ordersIndex(req, res);
     if (parts[0] === "orders" && parts[2] === "refund") return refundOrder(req, res, parts[1]);
+    if (parts[0] === "orders" && parts[2] === "test") return markTestOrder(req, res, parts[1]);
     if (parts[0] === "orders" && parts[1]) return orderDetail(req, res, parts[1]);
     if (parts[0] === "catalog") return adminCatalog(req, res, parts);
     if (parts[0] === "products") return products(req, res);

@@ -1,14 +1,14 @@
 import { NavLink, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { clearAdminToken, getAdminToken } from "../lib/bulkApi";
 
+/* Six areas. Reviews (/admin/reviews) stays reachable by address but is hidden from the menu until reviews are collected again. */
 const navItems = [
-  { to: "/admin", label: "운영 대시보드", end: true },
-  { to: "/admin/orders", label: "주문 · 배송 · 취소/환불" },
-  { to: "/admin/inquiries", label: "문의 · 답장" },
-  { to: "/admin/products", label: "상품 등록 · 수정 · 재고" },
-  { to: "/admin/reviews", label: "리뷰 관리" },
-  { to: "/admin/campaign-links", label: "홍보 링크 · UTM" },
-  { to: "/admin/settings", label: "결제 설정 · GA4 · 공지" },
+  { to: "/admin", label: "대시보드", end: true },
+  { to: "/admin/orders", label: "주문 · 배송" },
+  { to: "/admin/products", label: "상품 관리" },
+  { to: "/admin/inquiries", label: "고객 관리" },
+  { to: "/admin/campaign-links", label: "마케팅 · 분석" },
+  { to: "/admin/settings", label: "운영 설정" },
 ];
 
 export function AdminLayout() {

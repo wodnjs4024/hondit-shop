@@ -63,6 +63,16 @@ export function AdminInquiriesPage() {
     [inquiries, selectedId],
   );
 
+  const [manualOpen, setManualOpen] = useState(false);
+  const [manual, setManual] = useState({ channel: "whatsapp", name: "", email: "", market: "", message: "", answered: false });
+  const saveManual = (event: FormEvent) => {
+    event.preventDefault();
+    setError("");
+    adminFetch("/api/admin/inquiries", { method: "POST", body: JSON.stringify(manual) })
+      .then(() => { setManual({ channel: manual.channel, name: "", email: "", market: "", message: "", answered: false }); setNotice("문의를 기록했습니다."); load(); })
+      .catch((err) => setError(err.message));
+  };
+
   const load = () => {
     const query = status ? `?status=${encodeURIComponent(status)}` : "";
     adminFetch<{ inquiries: Inquiry[] }>(`/api/admin/inquiries${query}`)
@@ -114,10 +124,25 @@ export function AdminInquiriesPage() {
   return (
     <>
       <div className="admin-heading">
-        <p className="eyebrow">문의 · 답장</p>
-        <h1>고객 문의함</h1>
-        <p className="admin-muted">새 Contact 화면에서 들어온 문의를 확인하고, 답장 발송 또는 초안 저장 상태를 기록합니다.</p>
+        <p className="eyebrow">고객 관리</p>
+        <h1>고객 문의</h1>
+        <p className="admin-muted">WhatsApp·Telegram·WeChat·Instagram·이메일로 받은 문의를 기록하고 답변 여부를 관리합니다. "신규" 또는 "읽음" 상태는 대시보드의 미답변 문의로 집계됩니다.</p>
       </div>
+
+      <details className="admin-panel admin-manual-inquiry" open={manualOpen} onToggle={(event) => setManualOpen((event.target as HTMLDetailsElement).open)}>
+        <summary>메신저 문의 직접 기록하기</summary>
+        <form onSubmit={saveManual} className="admin-inline-grid">
+          <label>받은 곳<select value={manual.channel} onChange={(e) => setManual({ ...manual, channel: e.target.value })}>
+            <option value="whatsapp">WhatsApp</option><option value="telegram">Telegram</option><option value="wechat">WeChat</option><option value="instagram">Instagram</option><option value="email">이메일</option><option value="pickup">제주공항 수령</option><option value="other">기타</option>
+          </select></label>
+          <label>이름 또는 계정<input required value={manual.name} onChange={(e) => setManual({ ...manual, name: e.target.value })} /></label>
+          <label>이메일 (있으면)<input type="email" value={manual.email} onChange={(e) => setManual({ ...manual, email: e.target.value })} /></label>
+          <label>국가<select value={manual.market} onChange={(e) => setManual({ ...manual, market: e.target.value })}><option value="">모름</option>{["SG", "HK", "MO", "TW", "JP", "TH", "MY", "BN", "KR"].map((code) => <option key={code} value={code}>{code}</option>)}</select></label>
+          <label className="admin-manual-inquiry__wide">문의 내용<textarea required rows={3} value={manual.message} onChange={(e) => setManual({ ...manual, message: e.target.value })} /></label>
+          <label className="admin-checkline"><input type="checkbox" checked={manual.answered} onChange={(e) => setManual({ ...manual, answered: e.target.checked })} /> 이미 답변함</label>
+          <button className="button button--primary" type="submit">기록하기</button>
+        </form>
+      </details>
 
       <form className="admin-filters">
         <select value={status} onChange={(event) => setStatus(event.target.value)}>

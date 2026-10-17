@@ -1,3 +1,4 @@
+import { cleanProductUsage } from "../../shared/page-sales.js";
 import { catalogCopy } from "../data/catalogCopy";
 import type { StorefrontProduct } from "../data/v23SiteData";
 import { formatMarketUnitMoney, marketProductText, type DisplayLanguage, type MarketConfig } from "./market";
@@ -25,7 +26,7 @@ export const productDescription = (product: StorefrontProduct, language: Display
 export function productList(product: StorefrontProduct, language: DisplayLanguage, field: "highlights" | "howTo") {
   const own = product.contents?.[contentLanguage(language)]?.[field];
   if (Array.isArray(own) && own.some((item) => item.trim())) return own.filter((item) => item.trim());
-  return (product[field] || []).map((item) => marketProductText(language, item));
+  return cleanProductUsage(product[field] || []).map((item: string) => marketProductText(language, item));
 }
 
 /* Photos added in the admin replace the built-in set for that role; products without admin photos keep theirs. */

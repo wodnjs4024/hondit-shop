@@ -3,6 +3,7 @@ import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
 import {CheckoutAvailability} from "./CheckoutAvailability";
 import {checkoutFlowCopy} from "../data/checkoutFlowCopy";
 import {orderPanelCopy} from "../data/orderPanelCopy";
+import {catalogCopy} from "../data/catalogCopy";
 import {Link} from 'react-router-dom';
 import {termsFor} from '../../shared/market-overrides.js';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
@@ -34,6 +35,32 @@ export function QuantityReview({product,purpose='unspecified'}:{product:Storefro
  const ctaTo=selectionUrl(direct?`/bulk-orders/${product.slug}`:'/contact',input);
  const ctaLabel=direct?c.pay:charges.quote;
  const commit=useRef<HTMLDivElement>(null);
+ if(product.quoteOnly){
+  // Added in the admin, no approved price yet: quantity and an enquiry, never a price.
+  const k=catalogCopy(language);
+  const quoteTo=selectionUrl('/contact',{...input,reason:'product'});
+  return <section className="quantity-review order-panel" aria-label={k.quoteTitle}>
+   <div className="order-panel__core">
+    <h2 className="order-panel__title">{k.quoteTitle}</h2>
+    <ol className="order-steps">
+     <li className="order-step order-step--qty">
+      <h3 className="order-step__title">{o.qty}</h3>
+      <label className="order-qty-field">{t('Order quantity')}<input type="number" inputMode="numeric" min={product.bulkMoq} max="9999" step="1" value={quantity} onChange={e=>setQuantity(e.target.value)}/></label>
+      <p className="order-note">{t('Minimum')} {product.bulkMoq} {o.units}</p>
+     </li>
+     <li className="order-step order-step--pay">
+      <div className="order-commit" ref={commit}>
+       <h3 className="order-step__title">{k.quoteTitle}</h3>
+       <p className="order-note">{k.quoteNote}</p>
+       {valid?<div className="v23-actions order-actions"><Link className="button button--primary order-cta" to={quoteTo}><span>{k.quoteCta}</span><i aria-hidden="true"><Arrow/></i></Link></div>
+        :<p role="alert">{d.reason==='quantity_condition_scope'?`${t('Minimum')} ${product.bulkMoq} ${o.units}`:t('Quantity must be a whole number from 1 to 9999.')}</p>}
+      </div>
+     </li>
+    </ol>
+   </div>
+   {valid&&<OrderBar watch={commit} label={k.quoteTitle} detail={units} amount={k.priceOnRequest} cta={{label:k.quoteCta,to:quoteTo}}/>}
+  </section>;
+ }
  return <section className="quantity-review order-panel" aria-label={direct?charges.final:charges.estimated}>
   <div className="order-panel__core">
    <h2 className="order-panel__title">{direct?charges.final:charges.estimated}</h2>

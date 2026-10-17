@@ -9,6 +9,7 @@ import "@fontsource/cormorant-garamond/600.css";
 import "./styles/global.css";
 import "./styles/v23.css";
 import "./styles/admin.css";
+import "./styles/admin-catalog.css";
 import "./styles/sales-tools.css";
 import "./styles/sales-structure.css";
 import "./styles/home-redesign.css";

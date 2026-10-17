@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { formatSgd } from "../data/bulkProducts";
 import { formatCurrency } from "../lib/market";
 import { adminFetch } from "../lib/bulkApi";
 
@@ -22,40 +21,6 @@ export type DashboardOrder = {
   order_status: string;
   created_at: string;
   updated_at?: string | null;
-};
-
-type InsightRow = {
-  label: string;
-  count: number;
-  units: number;
-  revenueSgd: number;
-};
-
-type SummaryTotals = {
-  totalOrders?: number;
-  capturedPayments?: number;
-  refundedPayments?: number;
-  checkoutAttempts?: number;
-  pendingPayment?: number;
-  paymentFailed?: number;
-  paymentCancelled?: number;
-  paid?: number;
-  preparing?: number;
-  packed?: number;
-  shipped?: number;
-  delivered?: number;
-  closed?: number;
-  totalPaidSgd?: number;
-  revenueByCurrency?: Record<string, number>;
-  [key: string]: number | Record<string, number> | undefined;
-};
-
-type Summary = {
-  totals: SummaryTotals;
-  popularProducts?: InsightRow[];
-  countries?: InsightRow[];
-  sources?: InsightRow[];
-  recentOrders: DashboardOrder[];
 };
 
 export const orderStatusLabels: Record<string, string> = {
@@ -91,144 +56,119 @@ export function formatAdminOrderMoney(value: unknown, currency?: string | null) 
   return formatCurrency(Number(value || 0), currency || "SGD");
 }
 
-function formatAdminRevenueTotals(totals: SummaryTotals) {
-  const entries = Object.entries(totals.revenueByCurrency || {});
-  if (entries.length) {
-    return entries.map(([currency, value]) => formatAdminOrderMoney(value, currency)).join(" / ");
-  }
-  return formatSgd(totals.totalPaidSgd || 0);
-}
+type Row = { label: string; value: number };
 
+const countryNamesKo: Record<string, string> = { SG: "싱가포르", HK: "홍콩", MO: "마카오", TW: "대만", JP: "일본", TH: "태국", MY: "말레이시아", BN: "브루나이" };
 function countryLabel(code?: string | null) {
   const normalized = String(code || "").toUpperCase();
-  if (normalized === "SG") return "싱가포르";
-  if (normalized === "HK") return "홍콩";
-  return normalized || "-";
+  return countryNamesKo[normalized] || normalized || "-";
+}
+type DashboardSummary = {
+  definitions: Record<string, string>;
+  kpi: { revenue30: Record<string, number>; revenueAll: Record<string, number>; newOrders7: number; toShip: number; unanswered: number | null };
+  toShipOrders: DashboardOrder[];
+  recentOrders: DashboardOrder[];
+  details: { paidOrders: number; refundedOrders: number; refunds: Record<string, number>; attempts30: number; failed30: number; cancelled30: number; testOrders: number; popularProducts: Row[]; countries: Row[]; sources: Row[] };
+};
+
+const byCurrency = (map: Record<string, number>) => {
+  const entries = Object.entries(map || {});
+  return entries.length ? entries.map(([currency, value]) => formatAdminOrderMoney(value, currency)).join(" · ") : "—";
+};
+
+function RowsTable({ title, rows, unit }: { title: string; rows: Row[]; unit: string }) {
+  return (
+    <section className="admin-panel admin-insight">
+      <h3>{title}</h3>
+      {rows.length ? (
+        <table className="admin-table admin-table--compact">
+          <tbody>{rows.map((row) => <tr key={row.label}><td>{row.label}</td><td>{row.value} {unit}</td></tr>)}</tbody>
+        </table>
+      ) : <p className="admin-muted">아직 데이터가 없습니다.</p>}
+    </section>
+  );
 }
 
+/* Main screen: four things to act on. Everything else lives under "상세 통계". */
 export function AdminDashboardPage() {
-  const [summary, setSummary] = useState<Summary | null>(null);
+  const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [error, setError] = useState("");
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const load = () => {
-    adminFetch<Summary>("/api/admin/summary")
-      .then((data) => {
-        setSummary(data);
-        setLastUpdated(new Date());
-        setError("");
-      })
+    adminFetch<DashboardSummary>("/api/admin/summary")
+      .then((data) => { setSummary(data); setLastUpdated(new Date()); setError(""); })
       .catch((err) => setError(err.message));
   };
-
   useEffect(() => {
     load();
-    const timer = window.setInterval(load, 30000);
+    const timer = window.setInterval(load, 60000);
     return () => window.clearInterval(timer);
   }, []);
 
   if (error) return <AdminNotice message={error} />;
-
-  const totals = summary?.totals || ({} as Summary["totals"]);
-  const cards: Array<[string, string | number]> = [
-    ["결제 완료 주문", totals.totalOrders || 0],
-    ["PayPal 승인 이력", totals.capturedPayments || 0],
-    ["환불 완료", totals.refundedPayments || 0],
-    ["결제 시도", totals.checkoutAttempts || 0],
-    ["결제 대기", totals.pendingPayment || 0],
-    ["결제 실패", totals.paymentFailed || 0],
-    ["고객 취소", totals.paymentCancelled || 0],
-    ["상품 준비", totals.preparing || 0],
-    ["포장 완료", totals.packed || 0],
-    ["배송 시작", totals.shipped || 0],
-    ["배송 완료", totals.delivered || 0],
-    ["취소 / 환불", totals.closed || 0],
-    ["결제 완료 매출", formatAdminRevenueTotals(totals)],
-  ];
+  const kpi = summary?.kpi;
+  const d = summary?.details;
 
   return (
     <>
       <div className="admin-heading admin-heading--dashboard">
         <div>
-          <p className="eyebrow">운영 대시보드</p>
-          <h1>hondit 운영 콘솔</h1>
-          <p className="admin-muted">
-            실제 PayPal 결제가 완료된 주문을 중심으로 운영합니다.
-            {lastUpdated ? ` 마지막 업데이트: ${lastUpdated.toLocaleTimeString("ko-KR")}` : ""}
-          </p>
+          <p className="eyebrow">대시보드</p>
+          <h1>오늘 확인할 것</h1>
+          <p className="admin-muted">테스트 거래는 빼고 계산합니다.{lastUpdated ? ` 마지막 업데이트 ${lastUpdated.toLocaleTimeString("ko-KR")}` : ""}</p>
         </div>
-        <button className="button button--ghost" type="button" onClick={load}>
-          지금 새로고침
-        </button>
+        <button className="button button--ghost" type="button" onClick={load}>새로고침</button>
       </div>
 
-      <section className="admin-ops-grid" aria-label="운영 바로가기">
-        <Link to="/admin/orders">
-          <span>01</span>
-          <strong>주문 / 배송 / 환불</strong>
-          <p>결제 완료 주문의 주소 확인, 배송 처리, 취소와 PayPal 환불을 관리합니다.</p>
+      <div className="admin-kpis">
+        <article className="admin-kpi admin-kpi--money" title={summary?.definitions.revenue}>
+          <span>실매출 (최근 30일)</span>
+          <strong>{kpi ? byCurrency(kpi.revenue30) : "…"}</strong>
+          <small>전체 기간: {kpi ? byCurrency(kpi.revenueAll) : "…"}</small>
+        </article>
+        <Link className="admin-kpi" to="/admin/orders" title={summary?.definitions.newOrders}>
+          <span>신규 주문 (7일)</span><strong>{kpi?.newOrders7 ?? "…"}</strong><small>결제 완료 기준</small>
         </Link>
-        <Link to="/admin/products">
-          <span>02</span>
-          <strong>상품 / 이미지 관리</strong>
-          <p>상품명, 가격, MOQ, 재고, 대표 이미지와 상세 이미지를 수정합니다.</p>
+        <Link className={`admin-kpi${kpi?.toShip ? " is-attention" : ""}`} to="/admin/orders?orderStatus=paid" title={summary?.definitions.toShip}>
+          <span>배송 처리 대기</span><strong>{kpi?.toShip ?? "…"}</strong><small>결제 완료 · 아직 발송 전</small>
         </Link>
-        <Link to="/admin/reviews">
-          <span>03</span>
-          <strong>리뷰 관리</strong>
-          <p>구매자 리뷰를 승인, 숨김, 삭제 처리합니다.</p>
+        <Link className={`admin-kpi${kpi?.unanswered ? " is-attention" : ""}`} to="/admin/inquiries" title={summary?.definitions.unanswered}>
+          <span>미답변 문의</span><strong>{kpi ? kpi.unanswered ?? "—" : "…"}</strong><small>{kpi && kpi.unanswered === null ? "문의 기능 준비 중(DB 업데이트 후)" : "신규 · 읽음 상태"}</small>
         </Link>
-        <Link to="/admin/settings">
-          <span>04</span>
-          <strong>운영 설정</strong>
-          <p>사업자 정보, 결제 사용 여부, 고객 안내 정보를 관리합니다.</p>
-        </Link>
-      </section>
-
-      <div className="admin-stat-grid">
-        {cards.map(([label, value]) => (
-          <article key={label}>
-            <span>{label}</span>
-            <strong>{value}</strong>
-          </article>
-        ))}
       </div>
 
-      <section className="admin-panel admin-panel--analytics">
-        <div>
-          <p className="eyebrow">Analytics</p>
-          <h2>방문과 구매 경로</h2>
-          <p className="admin-muted">
-            GA4에서 campaign_landing, landing_facebook_community, landing_instagram_bio 같은 이벤트와 UTM 출처를 확인할 수 있습니다.
-          </p>
-        </div>
-        <div className="admin-analytics-grid">
-          <a href="https://analytics.google.com/analytics/web/" target="_blank" rel="noreferrer">
-            <strong>GA4 열기</strong>
-            <span>실시간 유입 채널, 페이지, 이벤트 확인</span>
-          </a>
-          <a href="https://vercel.com/hondit/hondit-shop/analytics" target="_blank" rel="noreferrer">
-            <strong>Vercel Analytics</strong>
-            <span>실시간 방문과 성능 확인</span>
-          </a>
-          <Link to="/admin/campaign-links">
-            <strong>홍보 링크 만들기</strong>
-            <span>인스타, 페이스북, 커뮤니티 UTM 복사</span>
-          </Link>
-        </div>
-      </section>
+      {!!summary?.toShipOrders.length && (
+        <section className="admin-panel">
+          <h2>배송 처리할 주문</h2>
+          <AdminOrderTable orders={summary.toShipOrders} />
+        </section>
+      )}
 
       <section className="admin-panel">
         <h2>최근 결제 완료 주문</h2>
-        <p className="admin-muted">실제로 결제가 완료된 주문만 상품 준비와 배송 대상으로 봅니다.</p>
         <AdminOrderTable orders={summary?.recentOrders || []} />
       </section>
 
-      <div className="admin-detail-grid">
-        <AdminInsightTable title="인기 상품" rows={summary?.popularProducts || []} valueLabel="판매 개수" />
-        <AdminInsightTable title="고객 국가" rows={summary?.countries || []} valueLabel="주문 수" />
-      </div>
-      <AdminInsightTable title="유입 경로" rows={summary?.sources || []} valueLabel="주문 수" />
+      <details className="admin-panel admin-details">
+        <summary>상세 통계 · 결제 시도 · 테스트 거래</summary>
+        {d && (
+          <>
+            <ul className="admin-detail-list">
+              <li>결제 완료 주문 <strong>{d.paidOrders}</strong></li>
+              <li>환불이 있는 주문 <strong>{d.refundedOrders}</strong> ({byCurrency(d.refunds)})</li>
+              <li>최근 30일 결제 시도(미완료) <strong>{d.attempts30}</strong> · 실패 {d.failed30} · 고객 취소 {d.cancelled30}</li>
+              <li>매출에서 뺀 테스트 거래 <strong>{d.testOrders}</strong></li>
+            </ul>
+            <div className="admin-insight-grid">
+              <RowsTable title="많이 팔린 상품" rows={d.popularProducts} unit="개" />
+              <RowsTable title="주문 국가" rows={d.countries} unit="건" />
+              <RowsTable title="유입 경로 (UTM)" rows={d.sources} unit="건" />
+            </div>
+            <p className="admin-muted">기준: {summary?.definitions.revenue}</p>
+          </>
+        )}
+      </details>
     </>
   );
 }
@@ -294,35 +234,5 @@ export function AdminOrderTable({ orders }: { orders: DashboardOrder[] }) {
         </tbody>
       </table>
     </div>
-  );
-}
-
-function AdminInsightTable({ title, rows, valueLabel }: { title: string; rows: InsightRow[]; valueLabel: string }) {
-  return (
-    <section className="admin-panel admin-insight">
-      <h2>{title}</h2>
-      {rows.length ? (
-        <table className="admin-table admin-table--compact">
-          <thead>
-            <tr>
-              <th>이름</th>
-              <th>{valueLabel}</th>
-              <th>매출</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.label}>
-                <td>{row.label}</td>
-                <td>{valueLabel === "판매 개수" ? row.units : row.count}</td>
-                <td>{formatSgd(row.revenueSgd)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>아직 데이터가 없습니다.</p>
-      )}
-    </section>
   );
 }

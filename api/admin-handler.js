@@ -1,4 +1,5 @@
 import { json, supabase, verifyAdmin, previewWritesBlocked } from "./_utils.js";
+import { summarizeOrders } from "./_admin-summary.js";
 
 function queryValue(req, key) {
   const value = req.query?.[key];
@@ -14,38 +15,10 @@ function escapeLike(value) {
 async function paymentSummary(req, res) {
   try {
     await verifyAdmin(req);
-    const orders = await supabase("/orders?select=*&order=created_at.desc&limit=500");
-    const capturedOrders = orders.filter((order) => order.payment_status === "completed" || order.paypal_capture_id);
-    const completedOrders = orders.filter((order) => order.payment_status === "completed");
-    const attempts = orders.filter((order) => order.payment_status !== "completed" && !order.paypal_capture_id);
-    const count = (status) => orders.filter((order) => order.payment_status === status).length;
-    const revenueByCurrency = completedOrders.reduce((totals, order) => {
-      const currency = order.currency || "SGD";
-      totals[currency] = Number(((totals[currency] || 0) + Number(order.total_sgd || 0)).toFixed(2));
-      return totals;
-    }, {});
-    return json(res, 200, {
-      totals: {
-        totalOrders: completedOrders.length,
-        capturedPayments: capturedOrders.length,
-        refundedPayments: count("refunded"),
-        checkoutAttempts: attempts.length,
-        pendingPayment: count("pending_payment"),
-        paymentFailed: count("payment_failed"),
-        paymentCancelled: count("payment_cancelled"),
-        paid: completedOrders.length,
-        preparing: completedOrders.filter((order) => order.order_status === "preparing").length,
-        packed: completedOrders.filter((order) => order.order_status === "packed").length,
-        shipped: completedOrders.filter((order) => order.order_status === "shipped").length,
-        delivered: completedOrders.filter((order) => order.order_status === "delivered").length,
-        closed: capturedOrders.filter((order) => ["cancelled", "refunded"].includes(order.order_status) || ["cancelled", "refunded"].includes(order.payment_status)).length,
-        totalPaidSgd: Number(completedOrders.reduce((sum, order) => sum + Number(order.total_sgd || 0), 0).toFixed(2)),
-        revenueByCurrency,
-      },
-      recentOrders: completedOrders.slice(0, 8),
-      checkoutAttempts: attempts.slice(0, 20),
-      popularProducts: [], countries: [], sources: [],
-    });
+    const orders = await supabase("/orders?select=*,order_items(product_slug,product_name_snapshot,total_units,line_total_sgd)&order=created_at.desc&limit=2000");
+    // The inquiry table only exists after migration 008; null tells the dashboard to show "not set up yet".
+    const inquiries = await supabase("/inquiries?select=status&limit=2000").catch(() => null);
+    return json(res, 200, summarizeOrders(orders, inquiries));
   } catch (error) {
     return json(res, 401, { error: error.message || "Admin summary failed" });
   }
