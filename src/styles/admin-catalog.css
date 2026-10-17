@@ -80,3 +80,4 @@ a.admin-kpi:hover { border-color: #173d35; }
 .admin-manual-inquiry :is(input, select, textarea) { min-height: 40px; padding: 8px 10px; font: inherit; border: 1px solid #c9c4b8; border-radius: 4px; }
 .admin-manual-inquiry__wide { grid-column: 1 / -1; }
 @media (max-width: 900px) { .admin-kpis, .admin-insight-grid { grid-template-columns: minmax(0, 1fr); } }
+.admin-kpis { margin-bottom: 20px; }

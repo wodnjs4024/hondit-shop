@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type DragEvent, type FormEvent } from "react";
 import { termsFor } from "../../shared/market-overrides.js";
+import { isDiffuser } from "../../shared/diffuser-quantity.js";
 import { cleanProductUsage } from "../../shared/page-sales.js";
 import { type BulkProduct } from "../data/bulkProducts";
 import { productFacts } from "../data/productFacts";
@@ -332,7 +333,7 @@ export function AdminProductsPage() {
               <p className="admin-muted">실제 결제에 쓰이는 값입니다. 가격 수정 기능은 2차 업데이트에서 추가되며, 그 전까지는 바뀌지 않습니다.</p>
               <div className="admin-table-wrap">
                 <table className="admin-table admin-table--compact">
-                  <thead><tr><th>국가</th><th>10개 개당</th><th>최소 수량 개당</th><th>배송비</th><th>결제</th></tr></thead>
+                  <thead><tr><th>국가</th><th>10개 체험 개당</th><th>최소 수량 개당</th><th>배송비</th><th>결제</th></tr></thead>
                   <tbody>
                     {previewProduct && MARKET_CODES.map((code) => {
                       const market = markets[code];
@@ -342,7 +343,7 @@ export function AdminProductsPage() {
                       return (
                         <tr key={code}>
                           <td>{marketCountryName(market, "ko")}</td>
-                          <td>{trial.status === "unavailable" ? "—" : fmt(trial.referenceUnitMinor, trial.referenceDigits, trial.displayCurrency)}</td>
+                          <td>{!isDiffuser(previewProduct) || trial.status === "unavailable" ? "—" : fmt(trial.referenceUnitMinor, trial.referenceDigits, trial.displayCurrency)}</td>
                           <td>{general.status === "unavailable" ? "—" : `${fmt(general.referenceUnitMinor, general.referenceDigits, general.displayCurrency)} (${previewProduct.bulkMoq}개~)`}</td>
                           <td>{general.status === "direct" ? (general.shippingIncluded ? "포함" : fmt(general.shippingMinor, general.referenceDigits, general.billingCurrency)) : "결제 전 확인"}</td>
                           <td>{general.status === "direct" ? "바로 결제" : general.status === "request" ? "견적 문의" : "판매 안 함"}</td>
