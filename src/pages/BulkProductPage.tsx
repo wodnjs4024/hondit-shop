@@ -1,3 +1,5 @@
+import {checkoutAnalytics} from '../../shared/checkout-analytics.js';
+import {readCheckoutAttribution} from '../lib/attribution';
 import {orderPanelCopy} from "../data/orderPanelCopy";
 import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
@@ -96,26 +98,6 @@ const initialForm: OrderForm = {
   customerNote: "",
   reviewed: false,
 };
-
-function readAttribution() {
-  try {
-    const stored = JSON.parse(window.localStorage.getItem("hondit_attribution") || "{}");
-    const analyticsStored = JSON.parse(window.sessionStorage.getItem("hondit_attribution_v1") || "{}");
-    return {
-      utm_source: stored.utm_source || analyticsStored.traffic_source || "",
-      utm_medium: stored.utm_medium || analyticsStored.traffic_medium || "",
-      utm_campaign: stored.utm_campaign || analyticsStored.traffic_campaign || "",
-      utm_content: stored.utm_content || analyticsStored.traffic_content || "",
-      utm_term: stored.utm_term || analyticsStored.traffic_term || "",
-      landing_page: stored.landing_page || analyticsStored.landing_page || "",
-      referrer: stored.referrer || analyticsStored.referrer || "",
-      community_id: stored.community_id || analyticsStored.community_id || "",
-      campaign_channel: analyticsStored.campaign_channel || "",
-    };
-  } catch {
-    return {};
-  }
-}
 
 export function BulkProductPage() {
   const { market, language } = useMarket();
@@ -309,6 +291,7 @@ export function BulkProductPage() {
 
   const buildPayload = (currentLines: OrderLine[], currentForm: OrderForm): CheckoutPayload => ({
     orderType: "Direct bulk order",
+    language,
     fulfillment:"international_bundle",
     purpose:purpose||"unspecified",
     customerName: currentForm.customerName.trim(),
@@ -322,7 +305,7 @@ export function BulkProductPage() {
     city: currentForm.city.trim(),
     postalCode: currentForm.postalCode.trim(),
     customerNote: currentForm.customerNote.trim() || undefined,
-    attribution: readAttribution(),
+    attribution: readCheckoutAttribution(),
     cart: currentLines.map((line) => ({ slug: line.product.slug, packCount: line.quantity })),
   });
 
@@ -357,16 +340,8 @@ export function BulkProductPage() {
             purchase_purpose:purpose,
             product_id: currentProduct.slug,
             product_name: currentLines.length > 1 ? "Mixed cleansing order" : currentProduct.name,
-            quantity: currentLines.reduce((sum, line) => sum + line.quantity, 0),
-            value: currentLines.reduce((sum, line) => sum + getMarketLineTotal(line.product, line.quantity, market), 0),
-            currency: market.currency,
+            ...checkoutAnalytics(currentLines,market.code),
             checkout_stage: "checkout_started",
-            items: currentLines.map((line) => ({
-              item_id: line.product.slug,
-              item_name: line.product.name,
-              quantity: line.quantity,
-              price: getMarketLineTotal(line.product, 1, market),
-            })),
           });
           try {
             const response = await createPayPalOrder(buildPayload(currentLines, currentForm));

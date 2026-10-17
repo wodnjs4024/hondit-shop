@@ -1,3 +1,4 @@
+import {functionalParams} from '../../../shared/tracking-policy.js';
 import {salesPresentationCopy} from '../../data/salesPresentationCopy';
 import {checkoutFlowCopy} from "../../data/checkoutFlowCopy";
 import { useEffect, useRef, useState } from "react";
@@ -56,7 +57,7 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
   const { market, language } = useMarket();
   const location = useLocation();
   const partnerOnly = location.pathname.startsWith("/partners/");
-  const pickupOnly = location.pathname === "/jeju/pickup" || (location.pathname === "/contact" && new URLSearchParams(location.search).get("fulfillment") === "jeju_pickup");
+  const pickupOnly = location.pathname === "/jeju/pickup" || (location.pathname === "/contact" && functionalParams(location.search).get("fulfillment") === "jeju_pickup");
   const copy = homeChromeCopy(language);
   const [solid, setSolid] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -132,9 +133,9 @@ export function HomeFooter() {
   const { market, language } = useMarket();
   const location = useLocation();
   const partnerOnly = location.pathname.startsWith("/partners/");
-  const pickupOnly = location.pathname === "/jeju/pickup" || (location.pathname === "/contact" && new URLSearchParams(location.search).get("fulfillment") === "jeju_pickup");
+  const pickupOnly = location.pathname === "/jeju/pickup" || (location.pathname === "/contact" && functionalParams(location.search).get("fulfillment") === "jeju_pickup");
   const copy = homeChromeCopy(language);
-  const footerLines = (pickupOnly ? marketText(language, "StoneJeju 350g · Jeju Airport pickup") : marketText(language, market.footerLine, market.footerLine)).split("\n");
+  const footerLines = (pickupOnly ? marketText(language, "Jeju pickup information") : marketText(language, market.footerLine, market.footerLine)).split("\n");
   return <footer className="hd-footer">
     <div className="hd-footer__brand">
       <b>hondit<span>.</span></b>
@@ -179,7 +180,7 @@ export function HomeFooter() {
 /** Browsing pages only. On the home it waits until the hero has gone; everywhere it steps aside for the footer. */
 const barPaths = /^\/($|products\/?$|jeju\/?$|jeju\/stores|guide\/|shipping|policy\/)/;
 export function HomeMobileBar() {
-  const { language } = useMarket();
+  const { market,language } = useMarket();
   const location = useLocation();
   const [shown, setShown] = useState(false);
   const enabled = barPaths.test(location.pathname);
@@ -200,7 +201,8 @@ export function HomeMobileBar() {
     return () => { observer?.disconnect(); window.removeEventListener("scroll", onScroll); };
   }, [location.pathname, enabled]);
   if (!enabled) return null;
-  const query = location.search;
+  const cleanQuery=functionalParams(location.search);cleanQuery.set("market",market.code);cleanQuery.set("lang",language);
+  const query=cleanQuery.size?`?${cleanQuery}`:"";
   const productMatch = location.pathname.match(/^\/products\/([^/]+)/);
   const orderParams = new URLSearchParams(query);
   if(productMatch)orderParams.set("product",productMatch[1]);

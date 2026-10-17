@@ -1,41 +1,51 @@
+import {getAnalyticsConsent,subscribeAnalyticsConsent} from '../lib/analyticsConsent';
+import {OrderLookupNotice} from '../components/OrderLookupNotice';
 import {v23Products} from "../data/v23SiteData";
 import { marketText, useMarket } from "../lib/market";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchPublicOrder, type PublicOrder } from "../lib/bulkApi";
-import { trackEvent } from "../lib/analytics";
+import { trackPurchaseOnce } from "../lib/analytics";
 import { V23Page } from "../components/v23/SiteChrome";
 import { formatCurrency, marketCountryName, markets } from "../lib/market";
 
 export function OrderCompletePage() {
   const { language } = useMarket();
+  const consent=useSyncExternalStore(subscribeAnalyticsConsent,getAnalyticsConsent,()=> 'unset' as const);
   const { orderNumber = "" } = useParams();
   const [order, setOrder] = useState<PublicOrder | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (!orderNumber) return;
+    setOrder(null);setError("");let active=true;
     fetchPublicOrder(orderNumber)
       .then((data) => {
-        setOrder(data.order);
-        if(data.order.payment_status === "completed") trackEvent("purchase", {
-          transaction_id: data.order.order_number,
-          value: data.order.total_sgd,
-          currency: data.order.currency || "SGD",
+        if(!active)return;setOrder(data.order);
+
+      })
+      .catch((orderError) => {if(active)setError(orderError.message);});
+    return ()=>{active=false;};
+  }, [orderNumber]);
+
+  useEffect(()=>{if(!order)return;
+        if(order.payment_status === "completed") trackPurchaseOnce(order.order_number, {
+          transaction_id: order.order_number,
+          value: order.total_sgd,
+          currency: order.currency || "SGD",
           checkout_stage: "purchase_complete",
-          order_status: data.order.order_status,
-          payment_status: data.order.payment_status,
-          items: data.order.items.map((item) => ({
+          order_status: order.order_status,
+          payment_status: order.payment_status,
+          items: order.items.map((item) => ({
             item_id: item.product_slug || item.product_name_snapshot,
             item_name: item.product_name_snapshot,
             quantity: item.total_units,
             price: item.total_units ? item.line_total_sgd / item.total_units : 0,
           })),
         });
-      })
-      .catch((orderError) => setError(orderError.message));
-  }, [orderNumber]);
+  },[order,consent]);
 
+  if(!order)return <V23Page><OrderLookupNotice orderNumber={orderNumber} loading={!error}/></V23Page>;
   return (
     <V23Page>
     <main className="bulk-page v23-operational-page">
@@ -58,15 +68,7 @@ export function OrderCompletePage() {
                   <div><dt>{marketText(language,"Order status")}</dt><dd>{order.order_status}</dd></div>
                   <div><dt>{marketText(language,"Total units")}</dt><dd>{order.total_units}</dd></div>
                   <div><dt>{marketText(language,"Total payment")}</dt><dd>{formatCurrency(order.total_sgd, order.currency || "SGD")}</dd></div>
-                  <div><dt>{marketText(language,"Name")}</dt><dd>{order.customer_name || "-"}</dd></div>
-                  <div><dt>{marketText(language,"Company")}</dt><dd>{order.company_name || "-"}</dd></div>
-                  <div><dt>{marketText(language,"Email")}</dt><dd>{order.customer_email || "-"}</dd></div>
-                  <div><dt>{marketText(language,"Phone")}</dt><dd>{order.customer_phone || "-"}</dd></div>
                   <div><dt>{marketText(language,"Market")}</dt><dd>{order.country_code && markets[order.country_code as keyof typeof markets] ? marketCountryName(markets[order.country_code as keyof typeof markets], language) : order.country_code || "-"}</dd></div>
-                  <div>
-                    <dt>{marketText(language,"Shipping address")}</dt>
-                    <dd>{[order.address_line_1, order.address_line_2, order.city, order.postal_code].filter(Boolean).join(", ")}</dd>
-                  </div>
                 </dl>
                 <div className="order-items-compact">
                   {order.items.map((item) => (

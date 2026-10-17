@@ -1,3 +1,5 @@
+import {useLocation,useNavigate} from 'react-router-dom';
+import {functionalParams} from '../../shared/tracking-policy.js';
 import {traditionalText} from './traditionalText';
 import {qaCopy} from '../../shared/qa-copy.js';
 import {diffuserCopy} from "../../shared/diffuser-copy.js";
@@ -238,7 +240,7 @@ function getInitialMarket(): MarketCode {
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get("market");
   if (isMarketCode(fromUrl)) return fromUrl;
-  const fromStorage = window.localStorage.getItem("hondit-market");
+  let fromStorage:string|null=null;try{fromStorage=window.localStorage.getItem("hondit-market");}catch{}
   return isMarketCode(fromStorage) ? fromStorage : "SG";
 }
 
@@ -249,26 +251,29 @@ function getInitialLanguage(): DisplayLanguage {
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get("lang");
   if (isDisplayLanguage(fromUrl)) return fromUrl;
-  const fromStorage = window.localStorage.getItem("hondit-language");
+  let fromStorage:string|null=null;try{fromStorage=window.localStorage.getItem("hondit-language");}catch{}
   return isDisplayLanguage(fromStorage) ? fromStorage : "en";
 }
 
 export function MarketProvider({ children }: { children: ReactNode }) {
-  const [marketCode, setMarketCode] = useState<MarketCode>(getInitialMarket);
-  const [language, setLanguageState] = useState<DisplayLanguage>(getInitialLanguage);
+  const location=useLocation(),navigate=useNavigate();
+  const [storedMarket, setMarketCode] = useState<MarketCode>(getInitialMarket);
+  const [storedLanguage, setLanguageState] = useState<DisplayLanguage>(getInitialLanguage);
+  const params=new URLSearchParams(location.search),short=getShortCampaign(location.pathname);
+  const urlMarket=params.get('market'),urlLanguage=params.get('lang');
+  const marketCode=isMarketCode(urlMarket)?urlMarket:short?.market??storedMarket;
+  const language=isDisplayLanguage(urlLanguage)?urlLanguage:short?.language??storedLanguage;
+  const updateLocale=(key:'market'|'lang',value:string)=>{
+   const next=functionalParams(location.search);next.set('market',marketCode);next.set('lang',language);next.set(key,value);
+   navigate({pathname:location.pathname,search:'?'+next,hash:location.hash});
+  };
   const previousMarket = useRef(marketCode);
   const previousLanguage = useRef(language);
 
   useEffect(() => {
     document.documentElement.lang = htmlLanguageByDisplayLanguage[language];
-    window.localStorage.setItem("hondit-market", marketCode);
-    window.localStorage.setItem("hondit-language", language);
-    if (!getShortCampaign(window.location.pathname)) {
-      const url = new URL(window.location.href);
-      url.searchParams.set("market", marketCode);
-      url.searchParams.set("lang", language);
-      window.history.replaceState({}, "", url);
-    }
+    try {window.localStorage.setItem('hondit-market',marketCode);window.localStorage.setItem('hondit-language',language);}catch{}
+    setMarketCode(marketCode);setLanguageState(language);
   }, [marketCode, language]);
 
   useEffect(() => {
@@ -294,10 +299,10 @@ export function MarketProvider({ children }: { children: ReactNode }) {
       market: markets[marketCode],
       marketCode,
       language,
-      setMarket: setMarketCode,
-      setLanguage: setLanguageState,
+      setMarket: (value:MarketCode)=>updateLocale("market",value),
+      setLanguage: (value:DisplayLanguage)=>updateLocale("lang",value),
     }),
-    [language, marketCode],
+    [language, marketCode,location.pathname,location.search,location.hash],
   );
 
   return <MarketContext.Provider value={value}>{children}</MarketContext.Provider>;

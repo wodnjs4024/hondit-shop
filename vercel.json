@@ -1,38 +1,249 @@
 {
-  "functions": { "api/products.js": { "includeFiles": "dist/index.html" } },
+  "functions": {
+    "api/products.js": {
+      "includeFiles": "dist/index.html"
+    }
+  },
   "rewrites": [
-    { "source": "/api/pickup", "destination": "/api/products?pickupInfo=1" },
-    { "source": "/jeju/pickup", "destination": "/index.html" },
-    { "source": "/jeju/stores", "destination": "/index.html" },
-    { "source": "/guide/(.*)", "destination": "/index.html" },
-    { "source": "/partners", "destination": "/index.html" },
-    { "source": "/partners/(.*)", "destination": "/api/products?partnerSlug=$1" },
-    { "source": "/api/admin/(.*)", "destination": "/api/admin-handler?path=$1" },
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/jeju", "destination": "/index.html" },
-    { "source": "/products", "destination": "/index.html" },
-    { "source": "/products/(.*)", "destination": "/index.html" },
-    { "source": "/sg/ig", "destination": "/index.html" },
-    { "source": "/sg/fb", "destination": "/index.html" },
-    { "source": "/sg/c01", "destination": "/index.html" },
-    { "source": "/hk/ig", "destination": "/index.html" },
-    { "source": "/hk/fb", "destination": "/index.html" },
-    { "source": "/hk/c01", "destination": "/index.html" },
-    { "source": "/jp/ig", "destination": "/index.html" },
-    { "source": "/jp/fb", "destination": "/index.html" },
-    { "source": "/jp/c01", "destination": "/index.html" },
-    { "source": "/tw/ig", "destination": "/index.html" },
-    { "source": "/tw/fb", "destination": "/index.html" },
-    { "source": "/tw/c01", "destination": "/index.html" },
-    { "source": "/bulk-orders", "destination": "/index.html" },
-    { "source": "/bulk-orders/(.*)", "destination": "/index.html" },
-    { "source": "/shipping", "destination": "/index.html" },
-    { "source": "/contact", "destination": "/index.html" },
-    { "source": "/policy/(.*)", "destination": "/index.html" },
-    { "source": "/order-complete/(.*)", "destination": "/index.html" },
-    { "source": "/payment-failed/(.*)", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/(.*)", "destination": "/index.html" }
+    {
+      "source": "/q/(.*)",
+      "destination": "/api/products?qrNotFound=1"
+    },
+    {
+      "source": "/api/pickup",
+      "destination": "/api/products?pickupInfo=1"
+    },
+    {
+      "source": "/jeju/pickup",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/jeju/stores",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/guide/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/partners",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/partners/(.*)",
+      "destination": "/api/products?partnerSlug=$1"
+    },
+    {
+      "source": "/api/admin/(.*)",
+      "destination": "/api/admin-handler?path=$1"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/jeju",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/products",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/products/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sg/ig",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sg/fb",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sg/c01",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/hk/ig",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/hk/fb",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/hk/c01",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/jp/ig",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/jp/fb",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/jp/c01",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tw/ig",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tw/fb",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tw/c01",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/bulk-orders",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/bulk-orders/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/shipping",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/policy/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/order-complete/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/payment-failed/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/q/l0001",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/?lang=:qrLanguage&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0001",
+      "destination": "/?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0002",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/jeju/pickup?lang=:qrLanguage&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0002",
+      "destination": "/jeju/pickup?lang=en&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0003",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/?market=SG&lang=:qrLanguage&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0003",
+      "destination": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0004",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=SG&lang=:qrLanguage&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0004",
+      "destination": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0005",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=SG&lang=:qrLanguage&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0005",
+      "destination": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0006",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=SG&lang=:qrLanguage&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0006",
+      "destination": "/partners?market=SG&lang=en&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "permanent": false
+    }
   ]
 }

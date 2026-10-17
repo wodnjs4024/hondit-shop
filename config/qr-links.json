@@ -1,0 +1,8 @@
+[
+ {"id":"l0001","path":"/","language":"en","source":"airport","medium":"qr","campaign":"jeju_gift_arrival_202610","placement":"airport_arrivals_letter_v1","status":"DRAFT","temporary":true},
+ {"id":"l0002","path":"/jeju/pickup","language":"en","source":"hotel","medium":"qr","campaign":"jeju_pickup_202610","placement":"hotel001_counter","status":"DRAFT"},
+ {"id":"l0003","path":"/","market":"SG","language":"en","source":"instagram","medium":"social","campaign":"sg_online_202610","placement":"bio_main_v1","status":"DRAFT"},
+ {"id":"l0004","path":"/partners","market":"SG","language":"en","source":"outreach","medium":"email","campaign":"sg_b2b_202610","placement":"first_email_v1","status":"DRAFT"},
+ {"id":"l0005","path":"/partners","market":"SG","language":"en","source":"outreach","medium":"email","campaign":"sg_b2b_202610","placement":"followup_email_v1","status":"DRAFT"},
+ {"id":"l0006","path":"/partners","market":"SG","language":"en","source":"catalog","medium":"pdf","campaign":"sg_b2b_202610","placement":"catalog_en_v1","status":"DRAFT"}
+]

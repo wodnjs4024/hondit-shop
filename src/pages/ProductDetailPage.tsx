@@ -5,7 +5,7 @@ import {productFacts} from "../data/productFacts";
 import { cleanProductUsage } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { orderPanelCopy } from "../data/orderPanelCopy";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
@@ -36,6 +36,7 @@ export function ProductDetailPage() {
   const { market, language } = useMarket();
   const { productId = "" } = useParams();
   const [product, setProduct] = useState<StorefrontProduct | undefined>(() => v23Products.find((item) => item.slug === productId));
+  const [loadedId,setLoadedId]=useState("");const viewed=useRef("");
   const [detailImageIndex, setDetailImageIndex] = useState(0);
   const [params] = useSearchParams();
   const previewMode = params.get("preview") === "1";
@@ -43,23 +44,35 @@ export function ProductDetailPage() {
   const [previewError, setPreviewError] = useState(false);
 
   useEffect(() => {
+    let active = true;
+    setLoadedId("");
     setLoaded(false);
     if (previewMode) {
-      // Admin preview: the unpublished draft, fetched with the admin session. Customers never reach this branch's data.
+      // Admin preview: the unpublished draft, fetched with the admin session. No customer view event is recorded for it.
       fetch(`/api/products?preview=${encodeURIComponent(productId)}`, { headers: { Authorization: `Bearer ${getAdminToken()}` } })
         .then((response) => (response.ok ? response.json() : Promise.reject(new Error("preview"))))
-        .then((data) => { const [draft] = composeStorefrontProducts(data.products || []); if (draft) setProduct(draft); else setPreviewError(true); })
-        .catch(() => setPreviewError(true))
-        .finally(() => setLoaded(true));
-      return;
+        .then((data) => { if (!active) return; const [draft] = composeStorefrontProducts(data.products || []); if (draft) setProduct(draft); else setPreviewError(true); })
+        .catch(() => { if (active) setPreviewError(true); })
+        .finally(() => { if (active) setLoaded(true); });
+      return () => { active = false; };
     }
-    loadStorefrontProduct(productId).then(setProduct).catch(() => undefined).finally(() => setLoaded(true));
+    loadStorefrontProduct(productId)
+      .then((value) => { if (active) { setProduct(value); setLoadedId(productId); } })
+      .catch(() => undefined)
+      .finally(() => { if (active) setLoaded(true); });
+    return () => { active = false; };
   }, [productId, previewMode]);
 
   useEffect(() => {
     setDetailImageIndex(0);
   }, [market.code, productId]);
 
+  useEffect(()=>{
+    if(!product||loadedId!==productId||product.slug!==productId||!isStorefrontProductAllowedForMarket(product,market))return;
+    const key=productId+':'+market.code;
+    if(viewed.current===key)return;viewed.current=key;
+    trackEvent('view_item',{interaction_context:'product_detail',items:[{item_id:product.slug,price:getMarketUnitPrice(product,market),currency:market.currency}]});
+  },[productId,loadedId,product,market.code]);
   if (!productId) return <Navigate to="/products" replace />;
   if (!product) return loaded ? <NotFoundPage /> : <V23Page><main className="hd-page hd-pdp" aria-busy="true" /></V23Page>;
   if (!previewMode && !isStorefrontProductAllowedForMarket(product, market)) return <Navigate to="/products" replace />;
@@ -138,7 +151,7 @@ export function ProductDetailPage() {
             <h1>{productName}</h1>
             <p className="hd-pdp__lead">{productDescription}</p>
             <p className="hd-pdp__price"><strong>{productPriceLabel(product, market, language)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}</p>
-            <QuantityReview key={product.slug} product={product}/>
+            <QuantityReview key={product.slug} product={product} purpose={new URLSearchParams(window.location.search).get("purpose")??"unspecified"}/>
             <details className="pdp-conditions">
               <summary>{orderPanelCopy(language).conditions}</summary>
               <ProductSalesSummary product={product} showContact={false}/>

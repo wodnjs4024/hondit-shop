@@ -10,7 +10,7 @@ import {PartnersPage} from "./pages/PartnersPage";
 import {PartnerGuidePage} from "./pages/PartnerGuidePage";
 import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { getCampaignLandingEventName, trackEvent, trackPageView } from "./lib/analytics";
+import { trackCampaignLanding, trackPageView } from "./lib/analytics";
 import { MarketProvider, MarketSelectionDialog } from "./lib/market";
 import { getShortCampaign } from "./lib/shortCampaign";
 import { HomePage } from "./pages/HomePage";
@@ -266,53 +266,9 @@ export default function App() {
     upsertMeta('meta[name="robots"]', { name: "robots" }, meta.robots);
     upsertMeta('link[rel="canonical"]', { rel: "canonical" }, canonical);
     trackPageView(path);
-    if (location.pathname.startsWith("/products/") || location.pathname.startsWith("/bulk-orders/")) {
-      const itemId = location.pathname.split("/").filter(Boolean).at(-1) || "unknown";
-      trackEvent("view_item", {
-        item_id: itemId,
-        interaction_context: location.pathname.startsWith("/bulk-orders/") ? "bulk_checkout_detail" : "product_detail",
-        items: [{ item_id: itemId }],
-      });
-    }
-    const params = new URLSearchParams(location.search);
-    const shortCampaign = getShortCampaign(location.pathname);
-    const attribution = {
-      utm_source: shortCampaign?.source || params.get("utm_source") || "",
-      utm_medium: shortCampaign?.medium || params.get("utm_medium") || "",
-      utm_campaign: shortCampaign?.campaign || params.get("utm_campaign") || "",
-      utm_content: shortCampaign?.content || params.get("utm_content") || "",
-      utm_term: params.get("utm_term") || "",
-      community_id: params.get("community") || "",
-      landing_page: `${location.pathname}${location.search}${location.hash}`,
-      referrer: document.referrer || "",
-      captured_at: new Date().toISOString(),
-    };
-    if (
-      attribution.utm_source ||
-      attribution.utm_medium ||
-      attribution.utm_campaign ||
-      attribution.utm_content ||
-      attribution.utm_term ||
-      attribution.referrer
-    ) {
-      window.localStorage.setItem("hondit_attribution", JSON.stringify(attribution));
-    }
-    if (attribution.utm_source || attribution.utm_campaign) {
-      const campaignPayload = {
-        campaign_source: attribution.utm_source || "direct",
-        campaign_medium: attribution.utm_medium || "none",
-        campaign_name: attribution.utm_campaign || "none",
-        campaign_content: attribution.utm_content || "none",
-        campaign_term: attribution.utm_term || "none",
-        community_id: attribution.community_id || "none",
-        campaign_channel: `${attribution.utm_source || "direct"}_${attribution.utm_medium || "none"}`,
-        landing_page: attribution.landing_page,
-      };
-      trackEvent("campaign_landing", campaignPayload);
-      trackEvent(getCampaignLandingEventName(attribution.utm_source, attribution.utm_medium), campaignPayload);
-    }
+    trackCampaignLanding();
     window.scrollTo({ top: 0, behavior: "auto" });
-  }, [location.pathname, location.search, location.hash]);
+  }, [location.pathname]);
 
   return (
     <MarketProvider>

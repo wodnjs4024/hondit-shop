@@ -1,3 +1,4 @@
+import {functionalParams} from './tracking-policy.js';
 import {purchaseRoute} from "./purchase-context.js";
 // Review calculations only. Checkout remains validated by the existing server.
 import { sgTerms } from "./page-sales.js";
@@ -69,18 +70,8 @@ export function resaleDifference(salePrice, unitMinor, saleQuantity, currency) {
 export function reviewCheckout(product, quantity, marketCode) {
  return purchaseRoute([{product,quantity:Number(quantity)}],marketCode)==='direct';
 }
-export function selectionUrl(
-  path,
-  { slug, quantity, market, language, reason = "product", purpose = "unspecified" },
-) {
-  const params = new URLSearchParams({
-    product: slug,
-    quantity: String(quantity),
-    market,
-    lang: language,
-    reason,
-    purpose,
-    fulfillment: "international_bundle",
-  });
-  return `${path}?${params}`;
+export function selectionUrl(path, input={}) {
+ const {slug,quantity,market,language,reason='product',purpose='unspecified',fulfillment='international_bundle'}=input;
+ const params=functionalParams(new URLSearchParams(Object.fromEntries(Object.entries({product:slug,quantity:quantity===undefined?undefined:String(quantity),market,lang:language,reason,purpose,fulfillment}).filter(([,v])=>v!==undefined))));
+ return path+(params.size?'?'+params:'');
 }

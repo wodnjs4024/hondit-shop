@@ -18,6 +18,11 @@ async function draftPreview(req, res, slug) {
 }
 
 export default async function handler(req, res) {
+  // Reuse the existing function so unknown QR links need no extra deployment slot.
+  if(req.query?.qrNotFound !== undefined) {
+    res.setHeader('Cache-Control','no-store');
+    return json(res,404,{error:'QR link not registered',home:'/'});
+  }
   if(req.query?.pickupInfo !== undefined) return pickupInfo(req,res);
   if (req.query?.partnerSlug !== undefined) return partnerGuide({...req,query:{slug:req.query.partnerSlug}},res);
   if (previewWritesBlocked(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }

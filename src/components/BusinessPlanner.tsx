@@ -1,3 +1,4 @@
+import {functionalParams} from '../../shared/tracking-policy.js';
 import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import {DiffuserQuantitySelector,usePurchaseQuantity} from './DiffuserQuantitySelector';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
@@ -35,16 +36,19 @@ import {purchaseRoute} from '../../shared/purchase-context.js';
 const purposes = ["Display / space", "Resale", "Gifts", "Group purchase"];
 export function BusinessPlanner() {
   const { market, language, setMarket } = useMarket();
-  const [params] = useSearchParams();
+  const [params,setParams] = useSearchParams();
   const t = (s: string) => marketText(language, s);
   const [products, setProducts] = useState<StorefrontProduct[]>(v23Products);
-  const [slug, setSlug] = useState(params.get("product") || "diffuser-350g");
+  const slug=params.get('product')||'diffuser-350g';
+  const setSlug=(value:string)=>setParams(current=>{const next=functionalParams(current);next.set('product',value);next.delete('quantity');return next;});
   const initialProduct =
     v23Products.find(
       (p) => p.slug === (params.get("product") || "diffuser-350g"),
     ) || v23Products[0];
   const [quantity,setQuantity]=usePurchaseQuantity(slug,String((market.code==='SG'?sgTerms(initialProduct)?.moq:null)??initialProduct.bulkMoq));
-  const [purpose, setPurpose] = useState(params.get("purpose")==="resale"?"Resale":purposes[0]);
+  const purposeMap:Record<string,string>={business_use:'Display / space',resale:'Resale',personal_gift:'Gifts',group_purchase:'Group purchase'};
+  const purpose=purposeMap[params.get('purpose')||'']||purposes[0];
+  const setPurpose=(value:string)=>setParams(current=>{const next=functionalParams(current);next.set('purpose',Object.entries(purposeMap).find(([,label])=>label===value)?.[0]||'business_use');return next;});
   const [requirements,setRequirements]=useState("");
   const [timing,setTiming]=useState("");
   const [display, setDisplay] = useState(0);
@@ -65,6 +69,7 @@ export function BusinessPlanner() {
     isStorefrontProductAllowedForMarket(p, market),
   );
   const product = available.find((p) => p.slug === slug) || available[0];
+  useEffect(()=>{if(params.has('product')&&product&&product.slug!==slug)setSlug(product.slug);},[slug,product?.slug,market.code]);
   const allocation = allocateQuantity(quantity, display, reserve);
   useEffect(() => {
     if (allocation) {
@@ -147,7 +152,7 @@ export function BusinessPlanner() {
             onChange={(e) => {
               const p = available.find((p) => p.slug === e.target.value)!;
               setSlug(p.slug);
-              if(!isDiffuser(p))setQuantity(String(p.bulkMoq));
+
               setDisplay(0);
               setReserve(0);
               setResaleSummary("");
