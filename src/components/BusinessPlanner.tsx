@@ -1,7 +1,7 @@
 import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import {DiffuserQuantitySelector,usePurchaseQuantity} from './DiffuserQuantitySelector';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
-import {resolveCheckoutTerms} from "../../shared/checkout-terms.js";
+import {termsFor} from '../../shared/market-overrides.js';
 import {ResaleCalculator} from "./ResaleCalculator";
 import {approvedResaleTerms} from "../../shared/resale-economics.js";
 import { ProductSalesSummary } from "./ProductSalesSummary";
@@ -73,7 +73,7 @@ export function BusinessPlanner() {
     }
   }, [quantity]);
   if (!product) return null;
-  const saleDecision=resolveCheckoutTerms(product,market.code,quantity);
+  const saleDecision=termsFor(product,market.code,quantity);
   const route=saleDecision.status==='direct'?'direct':saleDecision.status==='unavailable'?'confirmation':'consultation';
   const routeMessage=route==='direct'?'Existing checkout rules apply; final availability and payment settings are checked on the order page.':'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.';
   const facts = productFacts(product.slug);

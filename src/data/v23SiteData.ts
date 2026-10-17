@@ -21,7 +21,21 @@ export type StorefrontProduct = {
   purchaseEnabled?: boolean;
   featured?: boolean;
   marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "TH" | "MY", number>>;
+  /* Managed in the admin (migration 008). Absent on the static copy, so the original five products render exactly as before. */
+  sku?: string | null;
+  status?: ProductStatus;
+  contents?: Partial<Record<string, ProductContent>>;
+  media?: ProductMedia[];
+  markets?: Partial<Record<string, MarketMode>>;
+  stockUnits?: number | null;
+  /** Added in the admin without approved terms in code: enquiry only, no price shown. */
+  quoteOnly?: boolean;
 };
+
+export type ProductStatus = "draft" | "published" | "soldout" | "hidden";
+export type MarketMode = "hidden" | "quote" | "direct";
+export type ProductContent = { name?: string; shortDescription?: string; description?: string; highlights?: string[]; howTo?: string[] };
+export type ProductMedia = { url: string; storagePath?: string | null; role: "main" | "gallery" | "detail"; sortOrder: number; alt?: Record<string, string> };
 
 export const SHOPEE = "https://shopee.sg/hondit.office.sg";
 export const INSTAGRAM = "https://www.instagram.com/hondit.office/";

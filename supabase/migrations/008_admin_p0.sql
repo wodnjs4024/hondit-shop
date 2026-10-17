@@ -167,6 +167,111 @@ drop policy if exists "public product media" on public.product_media;
 create policy "public product media" on public.product_media for select
   using (exists (select 1 from public.products p where p.id = product_id and p.status in ('published', 'soldout')));
 
+-- Publish a product snapshot in one transaction (base fields, per-language text, photos, market overrides, revision history).
+-- Snapshot keys: base{name,category,volumeLabel,sku,sortOrder,status,unitWeightKg,packQuantity},
+-- contents{lang:{name,shortDescription,description,highlights[],howTo[]}}, media[{url,storagePath,role,sortOrder,alt{}}], markets{CODE:mode}.
+-- pack_quantity is only written for products with no approved terms in code (the caller decides); prices are never written here.
+create or replace function public.publish_product(p_product_id text, p_snapshot jsonb, p_by uuid default null, p_note text default null)
+returns public.products language plpgsql as $$
+declare
+  b jsonb := coalesce(p_snapshot->'base', '{}'::jsonb);
+  st text := coalesce(b->>'status', 'published');
+  en jsonb := coalesce(p_snapshot->'contents'->'en', '{}'::jsonb);
+  main_url text;
+  row public.products;
+begin
+  if st not in ('draft', 'published', 'soldout', 'hidden') then raise exception 'invalid status %', st; end if;
+  select m->>'url' into main_url from jsonb_array_elements(coalesce(p_snapshot->'media', '[]'::jsonb)) m
+    where coalesce(m->>'role', 'gallery') = 'main' order by coalesce((m->>'sortOrder')::int, 100) limit 1;
+  update public.products set
+    name = coalesce(nullif(en->>'name', ''), nullif(b->>'name', ''), name),
+    category = coalesce(nullif(b->>'category', ''), category),
+    volume_label = coalesce(b->>'volumeLabel', volume_label),
+    sku = coalesce(nullif(b->>'sku', ''), sku),
+    sort_order = coalesce((b->>'sortOrder')::int, sort_order),
+    unit_weight_kg = coalesce((b->>'unitWeightKg')::numeric, unit_weight_kg),
+    pack_quantity = coalesce((b->>'packQuantity')::int, pack_quantity),
+    short_description = coalesce(nullif(en->>'shortDescription', ''), short_description),
+    description = coalesce(nullif(en->>'description', ''), description),
+    image_url = coalesce(main_url, image_url),
+    gallery_images = coalesce((select array_agg(m->>'url' order by coalesce((m->>'sortOrder')::int, 100))
+                               from jsonb_array_elements(coalesce(p_snapshot->'media', '[]'::jsonb)) m where coalesce(m->>'role', 'gallery') = 'gallery'), '{}'),
+    detail_images = coalesce((select array_agg(m->>'url' order by coalesce((m->>'sortOrder')::int, 100))
+                              from jsonb_array_elements(coalesce(p_snapshot->'media', '[]'::jsonb)) m where m->>'role' = 'detail'), '{}'),
+    status = st,
+    active = st in ('published', 'soldout'),
+    purchase_enabled = st = 'published',
+    published_at = case when st in ('published', 'soldout') then now() else published_at end,
+    updated_at = now()
+  where id = p_product_id returning * into row;
+  if row.id is null then raise exception 'product % not found', p_product_id; end if;
+
+  delete from public.product_contents where product_id = p_product_id;
+  insert into public.product_contents (product_id, language, name, short_description, description, highlights, how_to)
+  select p_product_id, c.key, nullif(c.value->>'name', ''), nullif(c.value->>'shortDescription', ''), nullif(c.value->>'description', ''),
+         coalesce((select array_agg(x) from jsonb_array_elements_text(coalesce(c.value->'highlights', '[]'::jsonb)) x where x <> ''), '{}'),
+         coalesce((select array_agg(x) from jsonb_array_elements_text(coalesce(c.value->'howTo', '[]'::jsonb)) x where x <> ''), '{}')
+  from jsonb_each(coalesce(p_snapshot->'contents', '{}'::jsonb)) c
+  where c.key in ('ko', 'en', 'ja', 'zh', 'ms', 'th');
+
+  delete from public.product_media where product_id = p_product_id;
+  insert into public.product_media (product_id, url, storage_path, role, sort_order, alt)
+  select p_product_id, m->>'url', nullif(m->>'storagePath', ''), coalesce(m->>'role', 'gallery'), coalesce((m->>'sortOrder')::int, 100), coalesce(m->'alt', '{}'::jsonb)
+  from jsonb_array_elements(coalesce(p_snapshot->'media', '[]'::jsonb)) m where coalesce(m->>'url', '') <> '';
+
+  delete from public.product_markets where product_id = p_product_id;
+  insert into public.product_markets (product_id, market, mode)
+  select p_product_id, k.key, k.value from jsonb_each_text(coalesce(p_snapshot->'markets', '{}'::jsonb)) k
+  where k.key in ('SG', 'HK', 'MO', 'TW', 'JP', 'TH', 'MY', 'BN') and k.value in ('hidden', 'quote', 'direct');
+
+  update public.product_revisions set state = 'superseded' where product_id = p_product_id and state = 'published';
+  delete from public.product_revisions where product_id = p_product_id and state = 'draft';
+  insert into public.product_revisions (product_id, state, snapshot, note, created_by, published_at)
+  values (p_product_id, 'published', p_snapshot, p_note, p_by, now());
+  return row;
+end $$;
+
+-- Stock: one statement changes the count and writes the ledger. Null stock_units means "not tracked" and stays null.
+create or replace function public.adjust_stock(p_product_id text, p_delta integer, p_reason text, p_note text default null, p_by uuid default null)
+returns integer language plpgsql as $$
+declare next_units integer;
+begin
+  if p_reason not in ('stock_in', 'adjust') then raise exception 'invalid reason %', p_reason; end if;
+  update public.products set stock_units = greatest(0, coalesce(stock_units, 0) + p_delta),
+    inventory_packs = greatest(0, coalesce(stock_units, 0) + p_delta) / greatest(pack_quantity, 1), updated_at = now()
+  where id = p_product_id returning stock_units into next_units;
+  if next_units is null then raise exception 'product % not found', p_product_id; end if;
+  insert into public.inventory_movements (product_id, delta, reason, note, created_by) values (p_product_id, p_delta, p_reason, p_note, p_by);
+  return next_units;
+end $$;
+
+-- After a verified payment: deduct each line once (the unique index makes repeats a no-op). Untracked stock is left alone.
+create or replace function public.record_order_stock(p_order_id uuid)
+returns integer language plpgsql as $$
+declare line record; done integer := 0;
+begin
+  for line in select product_id, sum(total_units)::int as units from public.order_items
+              where order_id = p_order_id and product_id is not null group by product_id loop
+    insert into public.inventory_movements (product_id, delta, reason, order_id, note)
+    values (line.product_id, -line.units, 'order', p_order_id, 'paid order')
+    on conflict do nothing;
+    if found then
+      update public.products set stock_units = greatest(0, stock_units - line.units),
+        inventory_packs = greatest(0, stock_units - line.units) / greatest(pack_quantity, 1), updated_at = now()
+      where id = line.product_id and stock_units is not null;
+      done := done + 1;
+    end if;
+  end loop;
+  return done;
+end $$;
+
+revoke all on function public.publish_product(text, jsonb, uuid, text) from public, anon, authenticated;
+revoke all on function public.adjust_stock(text, integer, text, text, uuid) from public, anon, authenticated;
+revoke all on function public.record_order_stock(uuid) from public, anon, authenticated;
+grant execute on function public.publish_product(text, jsonb, uuid, text) to service_role;
+grant execute on function public.adjust_stock(text, integer, text, text, uuid) to service_role;
+grant execute on function public.record_order_stock(uuid) to service_role;
+
 -- photo storage: public read, writes only through server-issued signed upload URLs
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('product-media', 'product-media', true, 5242880, array['image/webp', 'image/jpeg', 'image/png'])

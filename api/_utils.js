@@ -89,6 +89,32 @@ export function toClientProduct(product) {
     detailHighlights: product.detail_highlights ?? product.detailHighlights ?? [],
     detailHowToUse: cleanProductUsage(product.detail_how_to_use ?? product.detailHowToUse ?? []),
     marketUnitPrices: product.market_unit_prices ?? product.marketUnitPrices ?? defaultProduct?.marketUnitPrices,
+    ...productManagementFields(product),
+  };
+}
+
+/* Fields added by migration 008. Rows from before 008 (or the static fallback) produce today's behaviour:
+   published, no per-language overrides, no market overrides, stock = packs x MOQ when packs are set, otherwise untracked. */
+function productManagementFields(product) {
+  const packs = Number(product.inventory_packs ?? product.inventoryPacks ?? 0);
+  const moq = Number(product.pack_quantity ?? product.packQuantity ?? 1);
+  const rawStock = product.stock_units ?? product.stockUnits;
+  const contents = {};
+  for (const row of product.product_contents || []) {
+    contents[row.language] = { name: row.name || "", shortDescription: row.short_description || "", description: row.description || "", highlights: row.highlights || [], howTo: row.how_to || [] };
+  }
+  const markets = {};
+  for (const row of product.product_markets || []) markets[row.market] = row.mode;
+  const media = (product.product_media || [])
+    .map((row) => ({ url: row.url, storagePath: row.storage_path || null, role: row.role || "gallery", sortOrder: Number(row.sort_order ?? 100), alt: row.alt || {} }))
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+  return {
+    sku: product.sku ?? null,
+    status: product.status ?? (product.active === false ? "hidden" : "published"),
+    stockUnits: rawStock !== undefined && rawStock !== null ? Number(rawStock) : packs > 0 ? packs * moq : null,
+    contents: product.contents ?? contents,
+    media: product.media ?? media,
+    markets: product.markets ?? markets,
   };
 }
 
@@ -120,15 +146,66 @@ export function toDbProduct(product) {
   };
 }
 
+/* Products with their per-language text, photos and market overrides (migration 008).
+   Before 008 is applied the embedded tables do not exist, so the plain product rows are read exactly as before. */
+async function readProductRows(filter) {
+  try {
+    return await supabase(`/products?select=*,product_contents(*),product_media(*),product_markets(*)${filter}`);
+  } catch (error) {
+    if (!/relationship|product_contents|product_media|product_markets|schema cache/i.test(String(error.message || ""))) throw error;
+    return supabase(`/products?select=*${filter}`);
+  }
+}
+
 export async function getProducts({ includeInactive = false } = {}) {
   try {
-    const filter = includeInactive ? "" : "?active=eq.true&purchase_enabled=eq.true&order=sort_order.asc";
-    const data = await supabase(`/products${filter || "?order=sort_order.asc"}`);
-    return data.map(toClientProduct);
+    const filter = includeInactive ? "&order=sort_order.asc" : "&active=eq.true&purchase_enabled=eq.true&order=sort_order.asc";
+    const data = await readProductRows(filter);
+    return data.map(toClientProduct).filter((product) => includeInactive || !["draft", "hidden"].includes(product.status));
   } catch (error) {
     if (String(error.message || "").includes("Missing environment")) return defaultProducts;
     throw error;
   }
+}
+
+/* Storefront list: published and sold-out products (sold-out stays visible but cannot be bought). */
+export async function getStorefrontProducts() {
+  try {
+    const data = await readProductRows("&active=eq.true&order=sort_order.asc");
+    return data.map(toClientProduct).filter((product) => !["draft", "hidden"].includes(product.status));
+  } catch (error) {
+    if (String(error.message || "").includes("Missing environment")) return defaultProducts;
+    throw error;
+  }
+}
+
+/* A draft snapshot laid over a product, for the admin preview and the editor. Never touches prices. */
+export function applyProductSnapshot(product, snapshot = {}) {
+  const base = snapshot.base || {};
+  const media = Array.isArray(snapshot.media) ? snapshot.media.filter((item) => item && item.url) : product.media;
+  const main = media?.find((item) => item.role === "main")?.url;
+  return {
+    ...product,
+    name: snapshot.contents?.en?.name || base.name || product.name,
+    category: base.category || product.category,
+    volumeLabel: base.volumeLabel ?? product.volumeLabel,
+    sku: base.sku || product.sku,
+    sortOrder: base.sortOrder ?? product.sortOrder,
+    packQuantity: base.packQuantity ?? product.packQuantity,
+    status: base.status || product.status,
+    imageUrl: main || product.imageUrl,
+    contents: snapshot.contents || product.contents,
+    media: media || [],
+    markets: snapshot.markets || product.markets,
+  };
+}
+
+/* Writes are refused on every Preview deployment, except one explicitly wired to the staging database. */
+const productionSupabaseRef = "vohlwqamyujzfqthhplk";
+export function previewWritesBlocked(method) {
+  if (process.env.VERCEL_ENV !== "preview" || ["GET", "HEAD", "OPTIONS"].includes(method)) return false;
+  const staging = process.env.HONDIT_STAGING === "1" && process.env.SUPABASE_URL && !process.env.SUPABASE_URL.includes(productionSupabaseRef);
+  return !staging;
 }
 
 export function calculateCart(cart, products) {
@@ -137,7 +214,8 @@ export function calculateCart(cart, products) {
     if (!product) throw new Error(`Product is not available: ${item.slug}`);
     const moq = Number(product.packQuantity || 1);
     const step = 10;
-    const maxUnits = Number(product.inventoryPacks || 0) > 0 ? Number(product.inventoryPacks) * moq : 0;
+    // null = stock not tracked; a number is the exact unit count (0 = sold out)
+    const maxUnits = product.stockUnits ?? (Number(product.inventoryPacks || 0) > 0 ? Number(product.inventoryPacks) * moq : null);
     const requested = Number(item.packCount);
     if (!Number.isSafeInteger(requested)) throw new Error("Quantity must be a whole number");
     if (requested <= 0) throw new Error(`Quantity must be greater than zero: ${product.slug}`);
@@ -148,8 +226,8 @@ export function calculateCart(cart, products) {
       throw new Error(`${product.name} requires at least ${moq} units in steps of ${step}`);
     }
     const quantity = requested;
-    if (maxUnits > 0 && maxUnits < moq) throw new Error(`Product is sold out: ${product.slug}`);
-    if (maxUnits > 0 && quantity > maxUnits) throw new Error(`Requested quantity exceeds stock: ${product.slug}`);
+    if (maxUnits !== null && maxUnits <= 0) throw new Error(`Product is sold out: ${product.slug}`);
+    if (maxUnits !== null && quantity > maxUnits) throw new Error(`Requested quantity exceeds stock: ${product.slug}`);
     return {
       product,
       packCount: quantity,

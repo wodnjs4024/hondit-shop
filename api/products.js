@@ -1,17 +1,35 @@
 import partnerGuide from "./_partner-guide.js";
 import pickupInfo from './_pickup.js';
-import { getProducts, json } from "./_utils.js";
+import { applyProductSnapshot, getProducts, getStorefrontProducts, json, previewWritesBlocked, supabase, verifyAdmin } from "./_utils.js";
+
+/* Admin-only: the product as it would look if the current draft were published. */
+async function draftPreview(req, res, slug) {
+  try {
+    await verifyAdmin(req);
+  } catch {
+    return json(res, 401, { error: "Admin login required for preview" });
+  }
+  const all = await getProducts({ includeInactive: true });
+  const product = all.find((item) => item.slug === slug);
+  if (!product) return json(res, 404, { error: "Product not found" });
+  const drafts = await supabase(`/product_revisions?product_id=eq.${encodeURIComponent(product.id)}&state=eq.draft&select=snapshot&limit=1`).catch(() => []);
+  const preview = applyProductSnapshot(product, drafts[0]?.snapshot || {});
+  return json(res, 200, { products: [{ ...preview, status: "published", active: true }], preview: true, hasDraft: Boolean(drafts[0]) });
+}
 
 export default async function handler(req, res) {
   if(req.query?.pickupInfo !== undefined) return pickupInfo(req,res);
   if (req.query?.partnerSlug !== undefined) return partnerGuide({...req,query:{slug:req.query.partnerSlug}},res);
-  if (process.env.VERCEL_ENV === "preview" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
+  if (previewWritesBlocked(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   if (req.method !== "GET") return json(res, 405, { error: "Method not allowed" });
 
   try {
-    const products = await getProducts();
+    const previewSlug = req.query?.preview ? String(req.query.preview) : "";
+    if (previewSlug) return draftPreview(req, res, previewSlug);
+    const products = await getStorefrontProducts();
     const slug = req.query?.slug ? String(req.query.slug) : "";
     const filtered = slug ? products.filter((product) => product.slug === slug) : products;
+    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=30, stale-while-revalidate=60");
     return json(res, 200, { products: filtered });
   } catch (error) {
     return json(res, 500, { error: error.message || "Could not load products" });

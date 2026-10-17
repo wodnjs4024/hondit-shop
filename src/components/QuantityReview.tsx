@@ -4,7 +4,7 @@ import {CheckoutAvailability} from "./CheckoutAvailability";
 import {checkoutFlowCopy} from "../data/checkoutFlowCopy";
 import {orderPanelCopy} from "../data/orderPanelCopy";
 import {Link} from 'react-router-dom';
-import {resolveCheckoutTerms} from '../../shared/checkout-terms.js';
+import {termsFor} from '../../shared/market-overrides.js';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
 import {selectionUrl} from '../../shared/sales-tools.js';
 import {sgTerms} from '../../shared/page-sales.js';
@@ -17,18 +17,18 @@ const Arrow = () => <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden=
 
 /*
  * Stepped order panel: quantity → what the price is made of → one decision block (total + action).
- * Each amount appears once. Amounts and routing come only from resolveCheckoutTerms.
+ * Each amount appears once. Amounts and routing come only from the approved checkout terms (termsFor).
  */
 export function QuantityReview({product,purpose='unspecified'}:{product:StorefrontProduct;purpose?:string}) {
  const {market,language}=useMarket();const t=(s:string)=>marketText(language,s);const c=checkoutFlowCopy(language);const o=orderPanelCopy(language);
  const [quantity,setQuantity]=usePurchaseQuantity(product.slug,String((market.code==='SG'?sgTerms(product)?.moq:null)??product.bulkMoq));
  const charges=checkoutChargeCopy(language);
- const d=resolveCheckoutTerms(product,market.code,quantity),direct=d.status==='direct';
+ const d=termsFor(product,market.code,quantity),direct=d.status==='direct';
  const input={slug:product.slug,quantity,market:market.code,language,reason:'payment_request',purpose};
  const valid=d.status!=='unavailable';
  const money=(minor:number|null|undefined,currency=d.displayCurrency)=>minor===null||minor===undefined||!currency?'—':formatCurrency(minor/10**d.referenceDigits,currency,market.locale);
  const diffuser=isDiffuser(product);
- const optionPrice=(q:string)=>{const r=resolveCheckoutTerms(product,market.code,q);return r.referenceUnitMinor===null||!r.displayCurrency?undefined:`${o.perUnit} ${formatCurrency(r.referenceUnitMinor/10**r.referenceDigits,r.displayCurrency,market.locale)}`;};
+ const optionPrice=(q:string)=>{const r=termsFor(product,market.code,q);return r.referenceUnitMinor===null||!r.displayCurrency?undefined:`${o.perUnit} ${formatCurrency(r.referenceUnitMinor/10**r.referenceDigits,r.displayCurrency,market.locale)}`;};
  const total=direct?d.totalMinor:d.referenceTotalMinor;
  const units=valid&&d.quantity?`${d.quantity} ${o.units}`:'';
  const ctaTo=selectionUrl(direct?`/bulk-orders/${product.slug}`:'/contact',input);

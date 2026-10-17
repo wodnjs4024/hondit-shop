@@ -10,7 +10,8 @@ import {loadPayPalSdk,type PayPalSdk,type PayPalButtonsInstance} from '../lib/pa
 import {DiffuserQuantitySelector,usePurchaseQuantity} from '../components/DiffuserQuantitySelector';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
 import {PaymentRequestPanel} from "../components/PaymentRequestPanel";
-import {paypalCurrencyDigits,resolveCheckoutCart,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
+import {paypalCurrencyDigits} from "../../shared/checkout-terms.js";
+import {cartTermsFor,termsFor} from '../../shared/market-overrides.js';
 import {checkoutDisplayState} from "../../shared/checkout-display.js";
 import {purchasePurposes,purposeLabels} from "../../shared/purchase-context.js";
 import {productFacts} from "../data/productFacts";
@@ -213,8 +214,8 @@ export function BulkProductPage() {
   const paypalMode = payPalConfig.mode;
   const errorId = "bulk-checkout-error";
   const requiredFieldInvalid = (value: string) => Boolean(error && !value.trim());
-  const unitOption=(q:string)=>{const r=resolveCheckoutTerms(product,market.code,q);return r.referenceUnitMinor===null||!r.displayCurrency?undefined:`${orderPanelCopy(language).perUnit} ${formatCurrency(r.referenceUnitMinor/10**r.referenceDigits,r.displayCurrency,market.locale)}`;};
-  const selectionDecision=isCleansingMix?resolveCheckoutCart(orderLines,market.code):resolveCheckoutTerms(product,market.code,quantityText);
+  const unitOption=(q:string)=>{const r=termsFor(product,market.code,q);return r.referenceUnitMinor===null||!r.displayCurrency?undefined:`${orderPanelCopy(language).perUnit} ${formatCurrency(r.referenceUnitMinor/10**r.referenceDigits,r.displayCurrency,market.locale)}`;};
+  const selectionDecision=isCleansingMix?cartTermsFor(orderLines,market.code):termsFor(product,market.code,quantityText);
   const marketTotal = selectionDecision.status === "direct" && "totalMinor" in selectionDecision && selectionDecision.totalMinor!==null ? selectionDecision.totalMinor/10**paypalCurrencyDigits(selectionDecision.billingCurrency!) : "referenceTotalMinor" in selectionDecision && selectionDecision.referenceTotalMinor!==null ? selectionDecision.referenceTotalMinor/10**selectionDecision.referenceDigits : marketSubtotal;
   const billingCurrency=selectionDecision.billingCurrency||market.currency;
   const invalidQuantity=selectionDecision.status==="unavailable";

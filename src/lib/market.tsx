@@ -1,7 +1,8 @@
 import {traditionalText} from './traditionalText';
 import {qaCopy} from '../../shared/qa-copy.js';
 import {diffuserCopy} from "../../shared/diffuser-copy.js";
-import {approvedUnitPrice,resolveCheckoutTerms} from "../../shared/checkout-terms.js";
+import {approvedUnitPrice} from "../../shared/checkout-terms.js";
+import {isVisibleInMarket,termsFor} from '../../shared/market-overrides.js';
 import {buyerFlowCopy} from "../../shared/buyer-flow-copy.js";
 import {resaleCopy} from "../../shared/resale-copy.js";
 import {structureCopy} from "../../shared/structure-copy.js";
@@ -334,7 +335,7 @@ export function getMarketUnitPrice(product: PricedItem, market: MarketConfig) {
 }
 
 export function getMarketLineTotal(product: PricedItem, quantity: number, market: MarketConfig) {
-  const d=resolveCheckoutTerms(product,market.code,quantity);
+  const d=termsFor(product,market.code,quantity);
   return d.referenceTotalMinor===null?0:d.referenceTotalMinor/10**d.referenceDigits;
 }
 
@@ -350,8 +351,8 @@ export function formatMarketLineMoney(product: PricedItem, quantity: number, mar
   return formatCurrency(amount, market.currency, market.locale);
 }
 
-export function isStorefrontProductAllowedForMarket(product: { category?: string }, market: MarketConfig) {
-  return market.allowedProductCategories.includes(product.category as StorefrontMarketCategory);
+export function isStorefrontProductAllowedForMarket(product: { category?: string; markets?: Partial<Record<string, string>> }, market: MarketConfig) {
+  return isVisibleInMarket(product, market.code, market.allowedProductCategories.includes(product.category as StorefrontMarketCategory));
 }
 
 export function isBulkProductAllowedForMarket(product: { category?: string }, market: MarketConfig) {

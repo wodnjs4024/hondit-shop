@@ -1,3 +1,4 @@
+import { adminCatalog } from "./_admin-products.js";
 import {
   getPayPalMode,
   getProducts,
@@ -7,8 +8,7 @@ import {
   requireEnv,
   supabase,
   toDbProduct,
-  verifyAdmin,
-} from "./_utils.js";
+  verifyAdmin, previewWritesBlocked } from "./_utils.js";
 
 const defaultSettings = {
   id: 1,
@@ -479,7 +479,7 @@ async function inquiryReplies(req, res) {
 }
 
 export default async function handler(req, res) {
-  if (process.env.VERCEL_ENV === "preview" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
+  if (previewWritesBlocked(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   try {
     const parts = segments(req);
     if (parts[0] === "login") return login(req, res);
@@ -487,6 +487,7 @@ export default async function handler(req, res) {
     if (parts[0] === "orders" && parts.length === 1) return ordersIndex(req, res);
     if (parts[0] === "orders" && parts[2] === "refund") return refundOrder(req, res, parts[1]);
     if (parts[0] === "orders" && parts[1]) return orderDetail(req, res, parts[1]);
+    if (parts[0] === "catalog") return adminCatalog(req, res, parts);
     if (parts[0] === "products") return products(req, res);
     if (parts[0] === "settings") return settings(req, res);
     if (parts[0] === "reviews" && parts.length === 1) return reviewsIndex(req, res);

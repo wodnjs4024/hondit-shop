@@ -90,6 +90,9 @@ export default async function handler(req, res) {
       }),
     }).catch(() => {});
 
+    // Stock is deducted once per order (the database ignores repeats); a failure here never changes the payment result.
+    await supabase("/rpc/record_order_stock", { method: "POST", body: JSON.stringify({ p_order_id: order.id }) }).catch(() => {});
+
     const items = await supabase(`/order_items?order_id=eq.${encodeURIComponent(order.id)}&select=product_name_snapshot,volume_snapshot,total_units,line_total_sgd`).catch(() => []);
     await notifyTelegramNewOrder(
       {

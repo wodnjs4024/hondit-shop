@@ -1,5 +1,5 @@
 import {checkoutChargeCopy} from '../data/checkoutChargeCopy';
-import {resolveCheckoutTerms} from '../../shared/checkout-terms.js';
+import {termsFor} from '../../shared/market-overrides.js';
 import {isDiffuser} from '../../shared/diffuser-quantity.js';
 import {customerConditionLabel} from "../../shared/customer-conditions.js";
 import {shippingSummary} from "../../shared/shipping-summary.js";
@@ -10,7 +10,7 @@ type Item = { slug:string; apiSlug?:string; bulkMoq?:number; packQuantity?:numbe
 export function ProductSalesSummary({product,showContact=true,quantity}: {product:Item;showContact?:boolean;quantity?:string}) {
  const {market,language}=useMarket();const charges=checkoutChargeCopy(language); const approved=market.code==='SG'?sgTerms(product):null;
  const moq=approved?.moq ?? product.bulkMoq ?? product.packQuantity ?? 1;
- const selected=quantity!==undefined?resolveCheckoutTerms(product,market.code,quantity):null;
+ const selected=quantity!==undefined?termsFor(product,market.code,quantity):null;
  const unit=selected?.referenceUnitMinor!==null&&selected?.referenceUnitMinor!==undefined?selected.referenceUnitMinor/10**selected.referenceDigits:getMarketUnitPrice(product,market);
  const chosen=selected?.referenceTotalMinor;
  const diffuser=isDiffuser(product);

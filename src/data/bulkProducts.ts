@@ -1,3 +1,4 @@
+import type { MarketMode, ProductContent, ProductMedia, ProductStatus } from "./v23SiteData";
 export type BulkCategory = "cleansing" | "diffuser";
 
 const imagePackRoot = "/images/hondit-pack/hondit_codex_image_pack";
@@ -47,6 +48,12 @@ export type BulkProduct = {
   detailHighlights?: string[];
   detailHowToUse?: string[];
   marketUnitPrices?: Partial<Record<"SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "TH" | "MY", number>>;
+  sku?: string | null;
+  status?: ProductStatus;
+  stockUnits?: number | null;
+  contents?: Partial<Record<string, ProductContent>>;
+  media?: ProductMedia[];
+  markets?: Partial<Record<string, MarketMode>>;
 };
 
 export const BULK_QTY_STEP = 10;

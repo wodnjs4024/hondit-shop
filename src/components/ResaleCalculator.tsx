@@ -1,4 +1,4 @@
-import {resolveCheckoutTerms} from '../../shared/checkout-terms.js';
+import {termsFor} from '../../shared/market-overrides.js';
 import {useSearchParams} from 'react-router-dom';
 import {useEffect,useState} from 'react';
 import {approvedResaleTerms,resaleEconomics} from '../../shared/resale-economics.js';
@@ -8,7 +8,7 @@ export function ResaleCalculator({product,quantity,saleQuantity,onSummary}:{sale
  const [params]=useSearchParams();const autoOpen=params.get('purpose')==='resale';
  const {market,language}=useMarket();const t=(s:string)=>marketText(language,s);
  const [input,setInput]=useState({price:'',inbound:'0',discount:'0',selling:'0',fixed:'0'});
- const selection=resolveCheckoutTerms(product,market.code,quantity);
+ const selection=termsFor(product,market.code,quantity);
  const terms=approvedResaleTerms(product,market.code,quantity),result=resaleEconomics(terms,input,saleQuantity);
  const money=(n:number)=>formatCurrency(n/10**(result?.digits??2),market.currency,market.locale);
  const disclaimer=t('The full purchase outlay is included. Only selected sale units generate revenue; display and reserve units generate none. This is a review, not a quotation or guaranteed income.');

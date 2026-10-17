@@ -1,9 +1,10 @@
-import {resolveCheckoutCart,paypalCurrencyDigits} from "../../shared/checkout-terms.js";
+import {paypalCurrencyDigits} from "../../shared/checkout-terms.js";
+import {cartTermsFor} from '../../shared/market-overrides.js';
 import {purchaseContext} from "../../shared/purchase-context.js";
 import {normalizeShipping, paypalShipping} from "../../shared/shipping.js";
 import { sgTerms } from "../../shared/page-sales.js";
 import { livePaymentTestProduct } from "../_bulk-data.js";
-import { calculateCart, createOrderNumber, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
+import { calculateCart, createOrderNumber, getPayPalMode, getProducts, json, paypal, readBody, supabase } from "../_utils.js";
 import { formatPayPalAmount, isBulkProductAllowedForMarket, resolveMarket } from "../_markets.js";
 
 function validateCheckout(body) {
@@ -78,6 +79,7 @@ async function createOrderRow(orderPayload) {
     const fallbackPayload = { ...orderPayload };
     delete fallbackPayload.utm_content;
     delete fallbackPayload.utm_term;
+    delete fallbackPayload.environment;
     return supabase("/orders", {
       method: "POST",
       body: JSON.stringify(fallbackPayload),
@@ -105,7 +107,7 @@ export default async function handler(req, res) {
     const checkoutProducts = body.cart.some((item) => item.slug === livePaymentTestProduct.slug)
       ? [...products, livePaymentTestProduct]
       : products;
-    const rawDecision=resolveCheckoutCart(body.cart.map(item=>({product:checkoutProducts.find(p=>p.slug===item.slug),quantity:item.packCount})),market.code);
+    const rawDecision=cartTermsFor(body.cart.map(item=>({product:checkoutProducts.find(p=>p.slug===item.slug),quantity:item.packCount})),market.code);
     if(rawDecision.status!=='direct')return json(res,409,{error:'Selected price, quantity and shipping conditions require confirmation.',code:'PAYMENT_CONDITIONS_REQUIRED'});
     const pricingProducts = market.code === "SG" ? checkoutProducts.map(p => sgTerms(p) ? {...p,packQuantity:sgTerms(p).moq} : p) : checkoutProducts;
     const summary = calculateCart(body.cart, pricingProducts);
@@ -113,7 +115,7 @@ export default async function handler(req, res) {
     if (blockedProduct) {
       throw new Error(`${blockedProduct.product.name} is not available for ${market.countryName}.`);
     }
-    const decision=resolveCheckoutCart(summary.lines.map(line=>({product:line.product,quantity:line.totalUnits})),market.code);
+    const decision=cartTermsFor(summary.lines.map(line=>({product:line.product,quantity:line.totalUnits})),market.code);
     if(decision.status!=='direct')return json(res,409,{error:'Please request payment for these selections; transaction conditions require confirmation.',code:'PAYMENT_CONDITIONS_REQUIRED'});
     const marketLines = summary.lines.map((line) => {
       const marketUnitPrice = decision.unitMinor / 10**paypalCurrencyDigits(decision.billingCurrency);
@@ -145,6 +147,7 @@ export default async function handler(req, res) {
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,
       utm_content: attribution.utm_content || attribution.traffic_content || null,
       utm_term: attribution.utm_term || attribution.traffic_term || null,
+      environment: getPayPalMode() === "live" ? "live" : "sandbox",
       landing_page: attribution.landing_page || null,
       referrer: attribution.referrer || req.headers.referer || null,
       currency: decision.billingCurrency,
