@@ -22,6 +22,7 @@ export function V23CatalogGrid({
   query?: string;
 }) {
   const { market, language } = useMarket();
+  const [catalogLoaded,setCatalogLoaded]=useState(false);
   const [catalog, setCatalog] = useState<StorefrontProduct[]>(v23Products);
   const [filter, setFilter] = useState<"ALL" | "CARE" | "SCENT">("ALL");
   const lastTrackedList = useRef("");
@@ -33,7 +34,7 @@ export function V23CatalogGrid({
   };
 
   useEffect(() => {
-    loadStorefrontProducts().then(setCatalog).catch(() => undefined);
+    loadStorefrontProducts().then(value=>{setCatalog(value);setCatalogLoaded(true);}).catch(() => undefined);
   }, []);
 
   const filterOptions = useMemo(
@@ -58,7 +59,7 @@ export function V23CatalogGrid({
 
   useEffect(() => {
     const signature = `${market.code}:${filter}:${visible.map((product) => product.slug).join(",")}`;
-    if (!visible.length || lastTrackedList.current === signature) return;
+    if (!catalogLoaded || !visible.length || lastTrackedList.current === signature) return;
     lastTrackedList.current = signature;
     trackEvent("view_item_list", {
       item_list_name: featuredOnly ? "home_featured_products" : "products_catalog",
@@ -72,7 +73,7 @@ export function V23CatalogGrid({
         currency: market.currency,
       })),
     });
-  }, [featuredOnly, filter, market, visible]);
+  }, [featuredOnly, filter, market, visible,catalogLoaded]);
 
   return (
     <>

@@ -1,3 +1,4 @@
+import {functionalParams} from '../../shared/tracking-policy.js';
 import {useEffect,useState} from 'react';
 import {Link,useLocation} from 'react-router-dom';
 import {V23CatalogGrid} from '../components/v23/CatalogGrid';
@@ -7,7 +8,7 @@ import {loadStorefrontProducts} from '../lib/storefrontApi';
 import {isStorefrontProductAllowedForMarket,marketCountryName,marketText,useMarket} from '../lib/market';
 export function ProductsPage(){
  const {market,language}=useMarket();const t=(s:string)=>marketText(language,s);
- const location=useLocation();const params=new URLSearchParams(location.search);params.set('market',market.code);params.set('lang',language);const query=`?${params.toString()}`;
+ const location=useLocation();const params=functionalParams(location.search);params.set('market',market.code);params.set('lang',language);const query=`?${params.toString()}`;
  const [products,setProducts]=useState(v23Products);useEffect(()=>{loadStorefrontProducts().then(setProducts).catch(()=>undefined)},[]);
  const available=products.filter(p=>isStorefrontProductAllowedForMarket(p,market));
  const care=available.some(p=>p.category==='CARE');

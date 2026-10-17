@@ -1,3 +1,4 @@
+import {trackEvent} from '../lib/analytics';
 import {useState,type ReactNode} from 'react';
 import {INSTAGRAM} from '../data/v23SiteData';
 import {contactChannelCopy} from '../data/contactChannelCopy';
@@ -21,13 +22,13 @@ const icons:Record<ChannelKey|'email',ReactNode>={
 };
 const Mark=({channel}:{channel:ChannelKey|'email'})=><span className="contact-channel__mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26">{icons[channel]}</svg></span>;
 
-function useCopy(){
+function useCopy(channel:ChannelKey|'email'){
  const [status,setStatus]=useState<''|'copied'|'failed'>('');
- return [status,async(value:string)=>{try{await navigator.clipboard.writeText(value);setStatus('copied')}catch{setStatus('failed')}}] as const;
+ return [status,async(value:string)=>{try{await navigator.clipboard.writeText(value);trackEvent('request_copy',{channel,copy_type:channel==='email'?'email':'account',placement_id:'contact_channels'});setStatus('copied')}catch{setStatus('failed')}}] as const;
 }
 
 function Channel({channel}:{channel:ContactChannel}){
- const {language}=useMarket();const c=contactChannelCopy(language);const [status,copy]=useCopy();
+ const {language}=useMarket();const c=contactChannelCopy(language);const [status,copy]=useCopy(channel.key);
  return <article className={`contact-channel contact-channel--${channel.key}`}>
   <header className="contact-channel__head"><Mark channel={channel.key}/><div><h2 className="contact-channel__name">{channel.name}</h2>{channel.account&&<p className="contact-account">{channel.display||channel.account}</p>}</div></header>
   <p className="contact-channel__desc">{c[channel.key]}</p>
@@ -42,7 +43,7 @@ function Channel({channel}:{channel:ContactChannel}){
 }
 
 function EmailChannel({address,draft}:{address:string;draft:string}){
- const {language}=useMarket();const t=(s:string)=>marketText(language,s);const c=contactChannelCopy(language);const [status,copy]=useCopy();
+ const {language}=useMarket();const t=(s:string)=>marketText(language,s);const c=contactChannelCopy(language);const [status,copy]=useCopy('email');
  return <article className="contact-channel contact-channel--email">
   <header className="contact-channel__head"><Mark channel="email"/><div><h2 className="contact-channel__name">Email</h2><p className="contact-account"><a href={'mailto:'+address}>{address}</a></p></div></header>
   <p className="contact-channel__desc">{c.email}</p>

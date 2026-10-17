@@ -1,3 +1,5 @@
+import {AnalyticsConsent} from '../AnalyticsConsent';
+import {selectionUrl} from '../../../shared/sales-tools.js';
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { HomeFooter, HomeHeader, HomeMobileBar } from "../home/HomeChrome";
@@ -55,10 +57,10 @@ export function V23Page({ children, chrome = "default" }: { children: ReactNode;
       const label = link.textContent?.trim().replace(/\s+/g, " ") || link.getAttribute("aria-label") || "unlabelled_link";
       const area = link.closest("header") ? "header" : link.closest("footer") ? "footer" : link.closest(".v23-mobile-actions") ? "mobile_sticky" : "main_content";
       const productCard = link.closest<HTMLElement>(".v23-product-card[data-item-id]");
-      if (productCard) {
+      if (productCard && href.startsWith("/products/")) {
         trackEvent("select_item", {
           item_list_name: location.pathname === "/" ? "home_featured_products" : "products_catalog",
-          interaction_target: href.includes("shopee") ? "shopee" : href.startsWith("/bulk-orders") ? "bulk_checkout" : "product_detail",
+          interaction_target: "product_detail",
           items: [{
             item_id: productCard.dataset.itemId,
             item_name: productCard.dataset.itemName,
@@ -69,6 +71,8 @@ export function V23Page({ children, chrome = "default" }: { children: ReactNode;
         });
         return;
       }
+      const channel=href.startsWith('mailto:')?'email':href.includes('wa.me/')?'whatsapp':href.includes('t.me/')?'telegram':href.includes('u.wechat.com/')?'wechat':href.includes('instagram.com/')?'instagram':null;
+      if(channel){trackEvent('contact_click',{channel,placement_id:area});return;}
       if (/^https?:/i.test(href) && !href.startsWith(window.location.origin)) {
         const platform = href.includes("shopee") ? "shopee" : href.includes("instagram") ? "instagram" : "external_site";
         trackOutboundClick({ destination: href, label, area, platform });
@@ -87,6 +91,7 @@ export function V23Page({ children, chrome = "default" }: { children: ReactNode;
       <HomeHeader overlay={chrome === "home"} />
       {children}
       <HomeFooter />
+      <AnalyticsConsent />
       {!location.pathname.startsWith("/partners/") && <HomeMobileBar />}
       
     </>
@@ -157,7 +162,7 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
       data-item-price={product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice}
       data-currency={market.currency}
     >
-      <Link className={`v23-product-image${imageLoaded ? " is-loaded" : ""}`} to={`/products/${product.slug}`}>
+      <Link className={`v23-product-image${imageLoaded ? " is-loaded" : ""}`} to={selectionUrl(`/products/${product.slug}`,{slug:product.slug,market:market.code,language})}>
         <span>{outOfStock ? marketText(language, "OUT OF STOCK", "OUT OF STOCK") : productBadge}</span>
         <img
           src={product.image}
@@ -170,15 +175,15 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
           onLoad={() => setImageLoaded(true)}
         />
       </Link>
-      <Link className="v23-product-meta" to={`/products/${product.slug}`} aria-label={`${productName} details`}>
+      <Link className="v23-product-meta" to={selectionUrl(`/products/${product.slug}`,{slug:product.slug,market:market.code,language})} aria-label={`${productName} details`}>
         <h3>{productName}</h3>
         <p>{productDetail}</p>
         <small>{marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)}</small>
         <strong>{displayPrice}</strong>
       </Link>
       <div className="v23-product-links">
-        <Link className="is-dark" to={`/bulk-orders?product=${product.slug}`}>{marketText(language,"Overseas bundle orders")} →</Link>
-        <Link to={`/products/${product.slug}`}>{marketText(language, "View details", "View details")}</Link>
+        <Link className="is-dark" to={selectionUrl("/bulk-orders",{slug:product.slug,quantity:product.bulkMoq,market:market.code,language})}>{marketText(language,"Overseas bundle orders")} →</Link>
+        <Link to={selectionUrl(`/products/${product.slug}`,{slug:product.slug,market:market.code,language})}>{marketText(language, "View details", "View details")}</Link>
       </div>
       <p className="product-moq">{marketText(language,"Minimum")}: {product.bulkMoq} {marketText(language,"units")}</p>
       {market.hasShopee && <details className="retail-alternative"><summary>Shopee</summary><a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"Buy on Shopee")} ↗</a></details>}

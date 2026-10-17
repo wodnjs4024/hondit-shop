@@ -28,10 +28,10 @@ export function reviewCheckout(
 export function selectionUrl(
   path: string,
   input: {
-    slug: string;
-    quantity: string | number;
+    slug?: string;
+    quantity?: string | number;
     market: string;
     language: string;
-    reason?: string; purpose?:string;
+    reason?: string; purpose?:string; fulfillment?: string;
   },
 ): string;

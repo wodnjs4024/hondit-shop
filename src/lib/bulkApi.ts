@@ -1,3 +1,5 @@
+import type {publicRetryContext} from '../../shared/order-retry.js';
+import {rememberOrderAccess,readOrderAccess} from './orderAccess';
 import { bulkProducts, type BulkProduct } from "../data/bulkProducts";
 import type { CurrencyCode, MarketCode } from "./market";
 
@@ -7,6 +9,7 @@ export type CheckoutItem = {
 };
 
 export type CheckoutPayload = {
+  language?: string;
   fulfillment?: 'international_bundle';
   purpose?: string;
   orderType: string;
@@ -41,26 +44,16 @@ export type CheckoutPayload = {
 };
 
 export type PublicOrder = {
+  retry_context?: ReturnType<typeof publicRetryContext>;
   order_number: string;
   payment_status: string;
   order_status: string;
-  payment_failure_reason?: string | null;
-  paypal_order_id?: string | null;
   created_at?: string;
-  updated_at?: string | null;
   total_units: number;
   total_packs: number;
   total_sgd: number;
   currency: CurrencyCode | string;
-  customer_name?: string;
-  customer_email?: string;
-  customer_phone?: string;
-  company_name?: string | null;
   country_code?: string;
-  address_line_1?: string;
-  address_line_2?: string | null;
-  city?: string;
-  postal_code?: string;
   items: Array<{
     product_name_snapshot: string;
     product_slug?: string;
@@ -157,7 +150,9 @@ export async function createPayPalOrder(payload: CheckoutPayload) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  return parseJson<{ paypalOrderId: string; orderNumber: string }>(response);
+  const data=await parseJson<{paypalOrderId:string;orderNumber:string;orderAccessToken:string}>(response);
+  rememberOrderAccess(data.orderNumber,data.orderAccessToken);
+  return data;
 }
 
 export async function capturePayPalOrder(paypalOrderId: string, orderNumber: string) {
@@ -187,7 +182,9 @@ export async function updatePaymentAttempt(payload: {
 }
 
 export async function fetchPublicOrder(orderNumber: string) {
-  const response = await fetch(`/api/orders/public/${encodeURIComponent(orderNumber)}`);
+  const token=readOrderAccess(orderNumber);
+  if(!token)throw new Error('Open the receipt in the browser used for checkout, or contact HONDIT with your order reference.');
+  const response = await fetch(`/api/orders/public/${encodeURIComponent(orderNumber)}`,{headers:{'X-Order-Access-Token':token},cache:'no-store'});
   return parseJson<{ order: PublicOrder }>(response);
 }
 
@@ -225,4 +222,12 @@ export async function loginAdmin(email: string, password: string) {
   const data = await parseJson<{ accessToken: string }>(response);
   setAdminToken(data.accessToken);
   return data;
+}
+
+// Retry eligibility must use a successful current API read, never offline defaults.
+export async function fetchRetryProducts():Promise<BulkProduct[]>{
+ const response=await fetch('/api/products',{cache:'no-store'});
+ const data=await parseJson<{products:BulkProduct[]}>(response);
+ if(!Array.isArray(data.products))throw Error('Current products unavailable');
+ return data.products;
 }

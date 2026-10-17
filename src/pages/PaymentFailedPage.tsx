@@ -1,122 +1,54 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
-import { V23Page } from "../components/v23/SiteChrome";
-import { EMAIL } from "../data/v23SiteData";
-import { fetchPublicOrder, type PublicOrder } from "../lib/bulkApi";
-import { formatCurrency, marketText, useMarket } from "../lib/market";
+import {useEffect,useMemo,useState} from 'react';
+import {Link,Navigate,useParams} from 'react-router-dom';
+import {V23Page} from '../components/v23/SiteChrome';
+import {OrderLookupNotice} from '../components/OrderLookupNotice';
+import {EMAIL} from '../data/v23SiteData';
+import {orderSupportCopy} from '../data/orderSupportCopy';
+import {fetchPublicOrder,fetchRetryProducts,type PublicOrder} from '../lib/bulkApi';
+import type {BulkProduct} from '../data/bulkProducts';
+import {formatCurrency,marketText,useMarket} from '../lib/market';
+import {orderRetry} from '../../shared/order-retry.js';
 
-function buildMailto(to: string, subject: string, lines: string[]) {
-  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
-}
-
-export function PaymentFailedPage() {
-  const { orderNumber = "" } = useParams();
-  const { market, language } = useMarket();
-  const [order, setOrder] = useState<PublicOrder | null>(null);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (!orderNumber) return;
-    fetchPublicOrder(orderNumber)
-      .then((data) => setOrder(data.order))
-      .catch((orderError) => setError(orderError.message));
-  }, [orderNumber]);
-
-  const retryHref = useMemo(() => {
-    const firstSlug = order?.items?.[0]?.product_slug;
-    return firstSlug ? `/bulk-orders/${firstSlug}` : "/bulk-orders";
-  }, [order]);
-
-  const manualPaymentHref = useMemo(() => {
-    const orderCurrency = order?.currency || market.currency;
-    const productLines =
-      order?.items?.map((item) => {
-        const lineTotal = formatCurrency(item.line_total_sgd, orderCurrency, market.locale);
-        return `- ${item.product_name_snapshot} ${item.volume_snapshot || ""}: ${item.total_units} units / ${lineTotal}`;
-      }) || [];
-    const shippingAddress = [
-      order?.address_line_1,
-      order?.address_line_2,
-      order?.city,
-      order?.country_code || market.countryName,
-      order?.postal_code,
-    ]
-      .filter(Boolean)
-      .join(", ");
-
-    return buildMailto(EMAIL, `[hondit] Manual PayPal link request - ${orderNumber || "order attempt"}`, [
-      "Hello hondit,",
-      "",
-      "PayPal/card checkout did not complete. Please send me a direct PayPal payment link for this order.",
-      "",
-      `Order number: ${orderNumber || "-"}`,
-      `Market: ${market.label} / ${orderCurrency}`,
-      `Total payment: ${order ? formatCurrency(order.total_sgd, orderCurrency, market.locale) : "-"}`,
-      "Products:",
-      ...(productLines.length ? productLines : ["-"]),
-      "",
-      `Name: ${order?.customer_name || "-"}`,
-      `Email: ${order?.customer_email || "-"}`,
-      `Phone / WhatsApp: ${order?.customer_phone || "-"}`,
-      `Company: ${order?.company_name || "-"}`,
-      `Shipping address: ${shippingAddress || "-"}`,
-      `Failure reason: ${order?.payment_failure_reason || "Payment was not completed."}`,
-      "",
-      "Please reply with the PayPal payment link and next steps.",
-    ]);
-  }, [market, order, orderNumber]);
-
-  if(order?.payment_status==='completed') return <Navigate to={'/order-complete/'+orderNumber} replace/>;
-  if(!order || !['payment_failed','payment_cancelled'].includes(order.payment_status)) return <V23Page><main className="product-guide-page"><h1>{marketText(language,"Payment verification pending")}</h1><p>{marketText(language,"We could not confirm the payment status. Do not pay again; contact HONDIT with your order reference.")}</p><p>{orderNumber}</p><Link to="/contact">{marketText(language,"Contact hondit")}</Link></main></V23Page>;
-  return (
-    <V23Page>
-      <main className="bulk-page v23-operational-page">
-        <section className="payment-failed section-shell">
-          <div className="section-inner section-inner--narrow">
-            <p className="eyebrow">{marketText(language,"PAYMENT NOT COMPLETED")}</p>
-            <h1>{marketText(language, "Payment could not be completed.", "결제가 완료되지 않았습니다.")}</h1>
-            <p>
-              {marketText(
-                language,
-                "If PayPal or card checkout does not go through, email the purchase conditions to hondit. We will reply with a direct PayPal payment link.",
-                "PayPal 또는 카드 결제가 진행되지 않으면 구매 조건을 hondit 메일로 보내주세요. 확인 후 직접 결제 가능한 PayPal 링크를 답장드립니다.",
-              )}
-            </p>
-            <ol className="payment-failed__steps">
-              <li>{marketText(language, "Review the product, quantity and total payment.", "상품, 수량, 총 결제액을 확인합니다.")}</li>
-              <li>{marketText(language, "Email the purchase conditions to hondit.", "구매 조건을 hondit 메일로 보냅니다.")}</li>
-              <li>{marketText(language, "Complete payment from the PayPal link we send back.", "답장으로 받은 PayPal 링크에서 결제를 완료합니다.")}</li>
-            </ol>
-
-            {error && <p className="form-error">{marketText(language,error)}</p>}
-
-            <div className="order-record-card payment-failed__record">
-              <span>{marketText(language, "Order attempt", "주문 시도")}</span>
-              <strong>{orderNumber}</strong>
-              {order && (
-                <dl>
-                  <div><dt>{marketText(language,"Payment status")}</dt><dd>{order.payment_status}</dd></div>
-                  <div><dt>{marketText(language,"Failure reason")}</dt><dd>{order.payment_failure_reason || "Payment was not completed."}</dd></div>
-                  <div><dt>{marketText(language,"Total payment")}</dt><dd>{formatCurrency(order.total_sgd, order.currency || market.currency, market.locale)}</dd></div>
-                  <div><dt>{marketText(language,"Email")}</dt><dd>{order.customer_email || "-"}</dd></div>
-                </dl>
-              )}
-            </div>
-
-            <div className="bulk-card__actions">
-              <Link className="button button--primary" to={retryHref}>
-                {marketText(language, "Try Payment Again", "결제 다시 시도")}
-              </Link>
-              <a className="button button--ghost" href={manualPaymentHref}>
-                {marketText(language, "Email Purchase Conditions", "구매조건 메일 보내기")}
-              </a>
-              <Link className="button button--quiet" to="/contact">
-                {marketText(language, "Contact hondit", "hondit 문의")}
-              </Link>
-            </div>
-          </div>
-        </section>
-      </main>
-    </V23Page>
-  );
+export function PaymentFailedPage(){
+ const {orderNumber=''}=useParams(),{language}=useMarket(),c=orderSupportCopy(language);
+ const [order,setOrder]=useState<PublicOrder|null>(null),[error,setError]=useState('');
+ const [products,setProducts]=useState<BulkProduct[]|null>(null),[checking,setChecking]=useState(true);
+ useEffect(()=>{
+  let active=true;setOrder(null);setError('');setProducts(null);setChecking(true);
+  fetchPublicOrder(orderNumber).then(async data=>{
+   if(!active)return;setOrder(data.order);
+   if(['payment_failed','payment_cancelled'].includes(data.order.payment_status)){
+    try{const rows=await fetchRetryProducts();if(active)setProducts(rows);}catch{/* No confirmed catalogue means no checkout retry. */}
+   }
+   if(active)setChecking(false);
+  }).catch(()=>{if(active){setError('lookup_unavailable');setChecking(false);}});
+  return ()=>{active=false;};
+ },[orderNumber]);
+ const retry=useMemo(()=>orderRetry(order,products),[order,products]);
+ const manualPaymentHref=useMemo(()=>{
+  const amount=order?.currency?formatCurrency(order.total_sgd,order.currency):'';
+  const lines=[c.reference+': '+orderNumber,order?.country_code?c.market+': '+order.country_code:'',order?.currency?c.currency+': '+order.currency:'',amount?c.total+': '+amount:'',...(order?.items||[]).map(i=>`${i.product_name_snapshot} ${i.volume_snapshot||''}: ${i.total_units}`),'',c.request].filter(Boolean);
+  return `mailto:${EMAIL}?subject=${encodeURIComponent(c.subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+ },[order,orderNumber,c]);
+ if(!order)return <V23Page><OrderLookupNotice orderNumber={orderNumber} loading={!error}/></V23Page>;
+ if(order.payment_status==='completed')return <Navigate to={'/order-complete/'+orderNumber+(retry.knownParams?'?'+retry.knownParams:'')} replace/>;
+ if(!['payment_failed','payment_cancelled'].includes(order.payment_status)){
+  const pending=['pending','pending_payment'].includes(order.payment_status);
+  return <V23Page><main className="product-guide-page"><h1>{pending?marketText(language,'Payment verification pending'):c.status}</h1><p>{pending?marketText(language,'We could not confirm the payment status. Do not pay again; contact HONDIT with your order reference.'):c.statusBody}</p><p>{c.reference}: {orderNumber}</p><p>{marketText(language,'Payment status')}: {order.payment_status}</p><a href={manualPaymentHref}>{c.contact}</a></main></V23Page>;
+ }
+ return <V23Page><main className="bulk-page v23-operational-page"><section className="payment-failed section-shell"><div className="section-inner section-inner--narrow">
+  <p className="eyebrow">{marketText(language,'PAYMENT NOT COMPLETED')}</p>
+  <h1>{marketText(language,'Payment could not be completed.','결제가 완료되지 않았습니다.')}</h1>
+  <div className="order-record-card payment-failed__record"><span>{c.reference}</span><strong>{orderNumber}</strong><dl>
+   <div><dt>{marketText(language,'Payment status')}</dt><dd>{order.payment_status}</dd></div>
+   {order.currency&&<div><dt>{c.total}</dt><dd>{formatCurrency(order.total_sgd,order.currency)}</dd></div>}
+   {order.country_code&&<div><dt>{c.market}</dt><dd>{order.country_code}</dd></div>}
+  </dl><ul>{order.items.map((i,index)=><li key={index}>{i.product_name_snapshot} {i.volume_snapshot} · {i.total_units} {marketText(language,'units')}</li>)}</ul></div>
+  {checking?<p role="status">{c.checking}</p>:!retry.href&&<p role="status">{c.changed}</p>}
+  {(!order.retry_context?.language||!order.retry_context?.purpose)&&<p>{c.missing}</p>}
+  <div className="bulk-card__actions">
+   {!checking&&retry.href&&<Link className="button button--primary" to={retry.href}>{c.retry}</Link>}
+   <a className="button button--ghost" href={manualPaymentHref}>{c.contact}</a>
+  </div>
+ </div></section></main></V23Page>;
 }

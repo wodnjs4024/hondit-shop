@@ -5,7 +5,7 @@ import {productFacts} from "../data/productFacts";
 import { cleanProductUsage } from "../../shared/page-sales.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { orderPanelCopy } from "../data/orderPanelCopy";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { v23Products, type StorefrontProduct } from "../data/v23SiteData";
@@ -41,16 +41,25 @@ export function ProductDetailPage() {
   const { market, language } = useMarket();
   const { productId = "" } = useParams();
   const [product, setProduct] = useState<StorefrontProduct | undefined>(() => v23Products.find((item) => item.slug === productId));
+  const [loadedId,setLoadedId]=useState("");const viewed=useRef("");
   const [detailImageIndex, setDetailImageIndex] = useState(0);
 
   useEffect(() => {
-    loadStorefrontProduct(productId).then(setProduct).catch(() => undefined);
+    let active=true;setLoadedId('');
+    loadStorefrontProduct(productId).then(value=>{if(active){setProduct(value);setLoadedId(productId);}}).catch(()=>undefined);
+    return ()=>{active=false;};
   }, [productId]);
 
   useEffect(() => {
     setDetailImageIndex(0);
   }, [market.code, productId]);
 
+  useEffect(()=>{
+    if(!product||loadedId!==productId||product.slug!==productId||!isStorefrontProductAllowedForMarket(product,market))return;
+    const key=productId+':'+market.code;
+    if(viewed.current===key)return;viewed.current=key;
+    trackEvent('view_item',{interaction_context:'product_detail',items:[{item_id:product.slug,price:getMarketUnitPrice(product,market),currency:market.currency}]});
+  },[productId,loadedId,product,market.code]);
   if (!productId) return <Navigate to="/products" replace />;
   if (!product) return <NotFoundPage />;
   if (!isStorefrontProductAllowedForMarket(product, market)) return <Navigate to="/products" replace />;
@@ -124,7 +133,7 @@ export function ProductDetailPage() {
             <h1>{productName}</h1>
             <p className="hd-pdp__lead">{productDescription}</p>
             <p className="hd-pdp__price"><strong>{formatMarketUnitMoney(product, market)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}</p>
-            <QuantityReview key={product.slug} product={product}/>
+            <QuantityReview key={product.slug} product={product} purpose={new URLSearchParams(window.location.search).get("purpose")??"unspecified"}/>
             <details className="pdp-conditions">
               <summary>{orderPanelCopy(language).conditions}</summary>
               <ProductSalesSummary product={product} showContact={false}/>

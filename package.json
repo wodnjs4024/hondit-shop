@@ -9,7 +9,8 @@
     "test:payments": "node --test tests/payment-system.test.mjs tests/page-preview.test.mjs tests/sales-flow.test.mjs",
     "preview": "vite preview --host 0.0.0.0 --configLoader runner",
     "test:localization": "node --test tests/site-localization.test.mjs",
-    "test:sales-tools": "node --test tests/sales-tools.test.mjs"
+    "test:sales-tools": "node --test tests/sales-tools.test.mjs",
+    "test:tracking": "node --test tests/tracking-phase1.test.mjs tests/tracking-ui.test.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.8",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "jsdom": "^26.1.0",
     "typescript": "^5.8.0"
   }
 }

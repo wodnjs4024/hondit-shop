@@ -1,3 +1,5 @@
+import {selectionUrl} from '../../shared/sales-tools.js';
+import {functionalParams} from '../../shared/tracking-policy.js';
 import {salesPresentationCopy} from '../data/salesPresentationCopy';
 import { homeMediaCopy } from "../data/homeMediaCopy";
 import { StoneJejuFilm } from "../components/StoneJejuMedia";
@@ -31,13 +33,14 @@ const stonePhoto = "/images/hondit-pack/hondit_codex_image_pack/01_product_origi
 export function HomePage() {
   const { market, language } = useMarket();
   const location = useLocation();
-  const selectionParams = new URLSearchParams(location.search);
+  const selectionParams = new URLSearchParams();
   selectionParams.set("market", market.code);
   selectionParams.set("lang", language);
   const pageQuery = `?${selectionParams.toString()}`;
   const t = (text: string, fallback?: string) => marketText(language, text, fallback);
   const filmCopy = homeMediaCopy(language);
   const countryName = marketCountryName(market, language);
+  const listSignature=useRef("");const [catalogLoaded,setCatalogLoaded]=useState(false);
   const [catalog, setCatalog] = useState<StorefrontProduct[]>(v23Products);
   const marketProducts = useMemo(
     () => catalog.filter((product) => isStorefrontProductAllowedForMarket(product, market)),
@@ -56,11 +59,13 @@ export function HomePage() {
   })();
 
   useEffect(() => {
-    loadStorefrontProducts().then(setCatalog).catch(() => undefined);
+    loadStorefrontProducts().then(value=>{setCatalog(value);setCatalogLoaded(true);}).catch(() => undefined);
   }, []);
 
   useEffect(() => {
     if (!marketProducts.length) return;
+    const signature=market.code+':'+marketProducts.map(p=>p.slug).join(',');
+    if(!catalogLoaded||listSignature.current===signature)return;listSignature.current=signature;
     trackEvent("view_item_list", {
       item_list_name: "home_product_rail",
       items: marketProducts.map((product, index) => ({
@@ -72,7 +77,7 @@ export function HomePage() {
         currency: market.currency,
       })),
     });
-  }, [market, marketProducts]);
+  }, [market, marketProducts,catalogLoaded]);
 
   return (
     <V23Page chrome="home">
@@ -170,7 +175,7 @@ export function HomePage() {
               <tr className="hd-compare__price"><th scope="row">{t(`${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)}</th>{diffusers.map((product) => <td key={product.slug}>{formatMarketUnitMoney(product, market)}</td>)}</tr>
               <tr><th scope="row">{t("Minimum")}</th>{diffusers.map((product) => <td key={product.slug}>{product.bulkMoq} {t("units")}</td>)}</tr>
               <tr className="hd-compare__actions"><td />{diffusers.map((product) => <td key={product.slug}>
-                <Link className="hd-btn hd-btn--solid" to={`/bulk-orders?product=${product.slug}`}>{t("Overseas bundle orders")}</Link>
+                <Link className="hd-btn hd-btn--solid" to={selectionUrl("/bulk-orders",{slug:product.slug,quantity:product.bulkMoq,market:market.code,language})}>{t("Overseas bundle orders")}</Link>
                 <Link className="hd-textlink" to={`/products/${product.slug}${pageQuery}`}>{t("Product details", "상품 상세 설명")}</Link>
               </td>)}</tr>
             </tbody>

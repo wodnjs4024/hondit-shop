@@ -1,3 +1,6 @@
+import {languageIds} from '../../shared/tracking-policy.js';
+import {cleanCheckoutAttribution} from '../../shared/attribution.js';
+import {issueOrderAccess} from '../_order-access.js';
 import {resolveCheckoutCart,paypalCurrencyDigits} from "../../shared/checkout-terms.js";
 import {purchaseContext} from "../../shared/purchase-context.js";
 import {normalizeShipping, paypalShipping} from "../../shared/shipping.js";
@@ -98,6 +101,7 @@ export default async function handler(req, res) {
     if(salesContext.fulfillment!=="international_bundle") return json(res,403,{error:"Pickup payment is not approved"});
     const market = resolveMarket(body);
     validateCheckout(body);
+    if(body.language!==undefined&&!languageIds.includes(body.language))return json(res,422,{error:'Unsupported order language'});
     const shipping = normalizeShipping(body, market);
     await ensureCheckoutEnabled();
 
@@ -124,7 +128,8 @@ export default async function handler(req, res) {
 
     const marketTotalLabel=formatPayPalAmount(marketTotal,decision.billingCurrency);
     const orderNumber = createOrderNumber();
-    const attribution = body.attribution || {};
+    const orderAccessToken=issueOrderAccess(orderNumber);
+    const attribution = cleanCheckoutAttribution(body.attribution);
 
     const orderPayload = {
       order_number: orderNumber,
@@ -139,14 +144,14 @@ export default async function handler(req, res) {
       city: shipping.city,
       postal_code: shipping.postal,
       customer_note: body.customerNote || null,
-      internal_note: `[shipping:v1] [checkout:v2 ${JSON.stringify({version:decision.version,shippingVersion:decision.shippingVersion,quantity:decision.quantity,billingCurrency:decision.billingCurrency,productTotalMinor:decision.productTotalMinor,shippingMinor:decision.shippingMinor,totalMinor:decision.totalMinor,tax:"recipient",shippingIncluded:decision.shippingIncluded})}] [condition:${decision.version}] [sales:v1 fulfillment=${salesContext.fulfillment} purpose=${salesContext.purpose}] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
+      internal_note: `[shipping:v1] [checkout:v2 ${JSON.stringify({version:decision.version,shippingVersion:decision.shippingVersion,quantity:decision.quantity,billingCurrency:decision.billingCurrency,productTotalMinor:decision.productTotalMinor,shippingMinor:decision.shippingMinor,totalMinor:decision.totalMinor,tax:"recipient",shippingIncluded:decision.shippingIncluded})}] [condition:${decision.version}] [sales:v1 fulfillment=${salesContext.fulfillment} purpose=${salesContext.purpose}${body.language?` language=${body.language}`:''}] ${market.checkoutNote} Fixed ${market.currency} market total: ${marketTotalLabel}. Source SGD reference total: ${summary.totalSgd.toFixed(2)}.`,
       utm_source: attribution.utm_source || attribution.traffic_source || null,
       utm_medium: attribution.utm_medium || attribution.traffic_medium || null,
       utm_campaign: attribution.utm_campaign || attribution.traffic_campaign || null,
       utm_content: attribution.utm_content || attribution.traffic_content || null,
       utm_term: attribution.utm_term || attribution.traffic_term || null,
       landing_page: attribution.landing_page || null,
-      referrer: attribution.referrer || req.headers.referer || null,
+      referrer: attribution.referrer || null,
       currency: decision.billingCurrency,
       total_packs: summary.totalPacks,
       total_units: summary.totalUnits,
@@ -208,7 +213,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({ paypal_order_id: paypalOrder.id, updated_at: new Date().toISOString() }),
     });
 
-    return json(res, 200, { paypalOrderId: paypalOrder.id, orderNumber });
+    return json(res, 200, { paypalOrderId: paypalOrder.id, orderNumber, orderAccessToken });
   } catch (error) {
     const reasonCode = checkoutStep === "paypal_order_create"
       ? "paypal_order_api_failed"

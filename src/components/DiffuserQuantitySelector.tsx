@@ -1,14 +1,24 @@
-import {useEffect,useId,useState} from 'react';
+import {trackEvent} from '../lib/analytics';
+import {useSearchParams} from 'react-router-dom';
+import {functionalParams} from '../../shared/tracking-policy.js';
+import {useEffect,useId,useRef} from 'react';
 import {diffuserQuantity} from '../../shared/diffuser-quantity.js';
 import {marketText,useMarket} from '../lib/market';
 
 export function usePurchaseQuantity(slug:string,initial:string) {
- const [quantity,setQuantity]=useState(()=>typeof window==='undefined'?initial:new URLSearchParams(window.location.search).get('quantity')??initial);
+ const [params,setParams]=useSearchParams();
+ const quantity=(!params.get('product')||params.get('product')===slug)?params.get('quantity')??initial:initial;
+ const previous=useRef({slug,quantity});
  useEffect(()=>{
-  const url=new URL(window.location.href);
-  url.searchParams.set('product',slug);url.searchParams.set('quantity',quantity);
-  window.history.replaceState(window.history.state,'',url);
+  const old=previous.current;previous.current={slug,quantity};
+  const valid=slug.startsWith('diffuser-')?diffuserQuantity(quantity).valid:/^[1-9]\d{0,3}$/.test(quantity);
+  if(old.slug!==slug||old.quantity===quantity||!valid)return;
+  const timer=window.setTimeout(()=>trackEvent('select_quantity',{item_id:slug,quantity:Number(quantity)}),400);
+  return ()=>window.clearTimeout(timer);
  },[slug,quantity]);
+ const setQuantity=(value:string)=>setParams(current=>{
+  const next=functionalParams(current);next.set('product',slug);next.set('quantity',/^\d{0,5}$/.test(value)?value:'');return next;
+ },{replace:true});
  return [quantity,setQuantity] as const;
 }
 

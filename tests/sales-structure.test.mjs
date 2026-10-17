@@ -52,7 +52,7 @@ test('capture uncertainty and post-capture DB failure never become a failed paym
  finally{globalThis.fetch=oldFetch;for(const k of keys)if(old[k]===undefined)delete process.env[k];else process.env[k]=old[k]}
 });
 test('result screens require server payment status and pickup draft is not in migration discovery',()=>{
- assert.match(source('src/pages/OrderCompletePage.tsx'),/data.order.payment_status === "completed"/);assert.match(source('src/pages/PaymentFailedPage.tsx'),/if\(!order \|\| !\['payment_failed','payment_cancelled'\]/);assert.match(source('src/pages/BulkProductPage.tsx'),/readOnlyPreview \? "" : payPalConfig.clientId/);assert.match(source('supabase/drafts/jeju_pickup_NOT_FOR_PRODUCTION.sql'),/rollback;/);
+ assert.match(source('src/pages/OrderCompletePage.tsx'),/order.payment_status === "completed"/);assert.match(source('src/pages/PaymentFailedPage.tsx'),/if\(!\['payment_failed','payment_cancelled'\]/);assert.match(source('src/pages/BulkProductPage.tsx'),/readOnlyPreview \? "" : payPalConfig.clientId/);assert.match(source('supabase/drafts/jeju_pickup_NOT_FOR_PRODUCTION.sql'),/rollback;/);
 });
 
 
