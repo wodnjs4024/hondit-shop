@@ -188,3 +188,25 @@ test('admin API answers an unauthenticated catalog request with an error respons
     assert.match(body, /error/);
   }
 });
+
+test('staging entry token works only on the staging preview, never in production or against the production database', async () => {
+  const { verifyAdmin } = await import('../api/_utils.js');
+  const keep = { env: process.env.VERCEL_ENV, staging: process.env.HONDIT_STAGING, url: process.env.SUPABASE_URL, anon: process.env.VITE_SUPABASE_ANON_KEY };
+  const req = { headers: { authorization: 'Bearer staging-preview' } };
+  try {
+    process.env.VITE_SUPABASE_ANON_KEY = 'x';
+    const cases = [
+      ['production', '1', 'https://abcdefghijklmnopqrst.supabase.co', false],
+      ['preview', undefined, 'https://abcdefghijklmnopqrst.supabase.co', false],
+      ['preview', '1', 'https://vohlwqamyujzfqthhplk.supabase.co', false],
+      ['preview', '1', 'https://abcdefghijklmnopqrst.supabase.co', true],
+    ];
+    for (const [env, staging, url, ok] of cases) {
+      process.env.VERCEL_ENV = env; if (staging) process.env.HONDIT_STAGING = staging; else delete process.env.HONDIT_STAGING; process.env.SUPABASE_URL = url;
+      if (ok) assert.equal((await verifyAdmin(req)).profile.role, 'admin');
+      else await assert.rejects(() => verifyAdmin(req), /Admin login required/, `${env} ${staging} ${url}`);
+    }
+  } finally {
+    for (const [k, v] of [['VERCEL_ENV', keep.env], ['HONDIT_STAGING', keep.staging], ['SUPABASE_URL', keep.url], ['VITE_SUPABASE_ANON_KEY', keep.anon]]) if (v === undefined) delete process.env[k]; else process.env[k] = v;
+  }
+});

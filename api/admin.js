@@ -8,7 +8,7 @@ import {
   requireEnv,
   supabase,
   toDbProduct,
-  verifyAdmin, previewWritesBlocked } from "./_utils.js";
+  verifyAdmin, previewWritesBlocked, isStagingPreview, STAGING_ADMIN_TOKEN } from "./_utils.js";
 
 const defaultSettings = {
   id: 1,
@@ -531,6 +531,7 @@ export default async function handler(req, res) {
   try {
     const parts = segments(req);
     if (parts[0] === "login") return await login(req, res);
+    if (parts[0] === "staging") return json(res, 200, { staging: isStagingPreview(), token: isStagingPreview() ? STAGING_ADMIN_TOKEN : null });
     if (parts[0] === "summary") return await summary(req, res);
     if (parts[0] === "orders" && parts.length === 1) return await ordersIndex(req, res);
     if (parts[0] === "orders" && parts[2] === "refund") return await refundOrder(req, res, parts[1]);

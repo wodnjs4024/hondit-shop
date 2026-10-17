@@ -202,11 +202,19 @@ export function applyProductSnapshot(product, snapshot = {}) {
 
 /* Writes are refused on every Preview deployment, except one explicitly wired to the staging database. */
 const productionSupabaseRef = "vohlwqamyujzfqthhplk";
+export function isStagingPreview() {
+  return process.env.VERCEL_ENV === "preview" && process.env.HONDIT_STAGING === "1" && Boolean(process.env.SUPABASE_URL) && !process.env.SUPABASE_URL.includes(productionSupabaseRef);
+}
+
 export function previewWritesBlocked(method) {
   if (process.env.VERCEL_ENV !== "preview" || ["GET", "HEAD", "OPTIONS"].includes(method)) return false;
-  const staging = process.env.HONDIT_STAGING === "1" && process.env.SUPABASE_URL && !process.env.SUPABASE_URL.includes(productionSupabaseRef);
-  return !staging;
+  return !isStagingPreview();
 }
+
+/* Staging preview only (Vercel-protected deployment + synthetic database): enter the admin without an account.
+   Never true in production, on an ordinary preview, or when the database is the production project. */
+export const STAGING_ADMIN_TOKEN = "staging-preview";
+const stagingAdmin = { user: { id: "00000000-0000-4000-8000-0000000000aa", email: "staging-admin@hondit.test" }, profile: { user_id: "00000000-0000-4000-8000-0000000000aa", email: "staging-admin@hondit.test", role: "admin" } };
 
 export function calculateCart(cart, products) {
   const requestedLines = cart.map((item) => {
@@ -377,6 +385,10 @@ export async function verifyAdmin(req) {
   const header = req.headers.authorization || req.headers.Authorization || "";
   const token = String(header).replace("Bearer ", "");
   if (!token) throw new Error("Admin login required");
+  if (token === STAGING_ADMIN_TOKEN) {
+    if (isStagingPreview()) return stagingAdmin;
+    throw new Error("Admin login required");
+  }
 
   const userResponse = await fetch(`${process.env.SUPABASE_URL}/auth/v1/user`, {
     headers: {
