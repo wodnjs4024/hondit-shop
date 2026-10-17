@@ -79,3 +79,9 @@ test('default local runtime loads no GA script or event queue',async()=>fixture(
  const r=runtime({PROD:true,VITE_VERCEL_ENV:'local'});r.initAnalytics();r.trackEvent('contact_click',{channel:'email'});
  assert.equal(document.querySelector('script[src*=googletagmanager]'),null);assert.equal(window.gtag,undefined);
 }));
+
+test('queued Google tag commands use the official Arguments contract rather than arrays',async()=>fixture(async()=>{
+ const r=runtime({PROD:true,VITE_VERCEL_ENV:'production'});r.setAnalyticsConsent('granted');r.initAnalytics();r.trackPageView('/contact');r.trackEvent('contact_click',{channel:'email'});
+ const commands=window.dataLayer;assert.ok(commands.length>=4);for(const command of commands)assert.equal(Object.prototype.toString.call(command),'[object Arguments]');
+ assert.ok(commands.some(c=>c[0]==='config'&&c[2].send_page_view===false));assert.ok(commands.some(c=>c[0]==='event'&&c[1]==='contact_click'));
+}));

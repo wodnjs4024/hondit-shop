@@ -46,7 +46,8 @@ export function initAnalytics(){
  if(measurementId)(window as unknown as Record<string,unknown>)[`ga-disable-${measurementId}`]=false;
  if(!measurementId||initialized||typeof window==='undefined')return;
  window.dataLayer=window.dataLayer||[];
- window.gtag=(...args)=>{window.dataLayer?.push(args);};
+ // gtag.js consumes the standard arguments-object command queue.
+ window.gtag=function(){window.dataLayer?.push(arguments);};
  window.gtag('js',new Date());
  window.gtag('config',measurementId,{send_page_view:false,page_location:safeLocation(),page_referrer:attributionStore.entry()?.referrer||'',allow_google_signals:false});
  const script=document.createElement('script');script.async=true;script.src=`https://www.googletagmanager.com/gtag/js?id=${measurementId}`;document.head.appendChild(script);initialized=true;
