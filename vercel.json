@@ -7,7 +7,7 @@
   "rewrites": [
     {
       "source": "/q/(.*)",
-      "destination": "/api/qr-not-found"
+      "destination": "/api/products?qrNotFound=1"
     },
     {
       "source": "/api/pickup",

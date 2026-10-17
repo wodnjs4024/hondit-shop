@@ -14,7 +14,7 @@ export function mergeQrConfig(config,links){
  const managed=new Set(links.map(x=>'/q/'+x.id));
  const redirects=(config.redirects||[]).filter(x=>!managed.has(x.source));
  const rewrites=(config.rewrites||[]).filter(x=>x.source!=='/q/(.*)');
- return {...config,redirects:[...redirectsFor(links),...redirects],rewrites:[{source:'/q/(.*)',destination:'/api/qr-not-found'},...rewrites]};
+ return {...config,redirects:[...redirectsFor(links),...redirects],rewrites:[{source:'/q/(.*)',destination:'/api/products?qrNotFound=1'},...rewrites]};
 }
 if(process.argv[1]&&import.meta.url===new URL('file:///'+process.argv[1].replaceAll('\\','/')).href){
  const config=JSON.parse(fs.readFileSync('vercel.json','utf8').replace(/^\uFEFF/,'')),links=JSON.parse(fs.readFileSync('config/qr-links.json','utf8').replace(/^\uFEFF/,''));
