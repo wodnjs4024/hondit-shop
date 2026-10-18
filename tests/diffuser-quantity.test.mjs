@@ -58,10 +58,37 @@ test('server rejects pending/invalid conditions before any DB write or PayPal ca
   if(options.method&&options.method!=='GET'){writes++;throw Error('Unexpected DB write')}
   return new Response(JSON.stringify(String(url).includes('site_settings')?[{checkout_enabled:true}]:defaultProducts),{status:200});
  };
- try {for(const [market,sku,q,countryCode] of [['SG','diffuser-350g',15,'SG'],['JP','diffuser-350g',20,'JP'],['JP','foam-oil',30,'JP']]) {
+ try {for(const [market,sku,q,countryCode] of [['SG','diffuser-350g',15,'SG'],['MY','diffuser-350g',20,'MY'],['JP','diffuser-350g',10,'JP'],['JP','foam-oil',30,'JP']]) {
   let status;let response;await handler({method:'POST',headers:{},body:{orderType:'Direct bulk order',market,countryCode,customerName:'Synthetic Test',customerEmail:'synthetic@example.invalid',customerPhone:'00000000',addressLine1:'1 Test Street',city:'Test',postalCode:countryCode==='SG'?'123456':'1234567',cart:[{slug:sku,packCount:q}],price:1,totalMinor:1,priceApproval:'approved'}},{status(n){status=n;return this},setHeader(){},end(s){response=JSON.parse(s)}});
   assert.equal(status,409,JSON.stringify(response));assert.equal(response.code,'PAYMENT_CONDITIONS_REQUIRED');
  }assert.equal(writes,0)}finally{globalThis.fetch=originalFetch;for(const k of keys)if(original[k]===undefined)delete process.env[k];else process.env[k]=original[k]}
+});
+test('markets opened on 2026-10-18 charge the approved delivered price in their own currency (mocked DB and PayPal)',async()=>{
+ const {default:handler}=await import('../api/paypal/create-order.js');
+ const keys=['VERCEL_ENV','SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','PAYPAL_CLIENT_ID','PAYPAL_CLIENT_SECRET'];const original=Object.fromEntries(keys.map(k=>[k,process.env[k]]));const originalFetch=globalThis.fetch;
+ Object.assign(process.env,{VERCEL_ENV:'production',SUPABASE_URL:'https://mock.invalid',SUPABASE_SERVICE_ROLE_KEY:'mock-only',PAYPAL_CLIENT_ID:'mock-only',PAYPAL_CLIENT_SECRET:'mock-only'});
+ const cases=[['HK','diffuser-350g',20,'HKD','2560.00',''],['MO','diffuser-500g',21,'HKD','5880.00',''],['HK','foam-oil',30,'HKD','1650.00',''],['TW','diffuser-500g',20,'TWD','21000','100'],['JP','diffuser-350g',21,'JPY','50400','100-0001'],['TH','diffuser-350g',100,'THB','55000.00','10110'],['BN','diffuser-500g',20,'SGD','920.00','BS8811']];
+ try{for(const [market,slug,quantity,currency,value,postal] of cases){
+  let orderPayload;let paypalPayload;
+  globalThis.fetch=async(url,options={})=>{
+   const u=String(url);let data;
+   if(u.startsWith('https://mock.invalid/rest/v1/site_settings'))data=[{checkout_enabled:true}];
+   else if(u.startsWith('https://mock.invalid/rest/v1/products'))data=defaultProducts;
+   else if(u==='https://mock.invalid/rest/v1/orders'&&options.method==='POST'){orderPayload=JSON.parse(options.body);data=[{...orderPayload,id:'synthetic-order-id'}]}
+   else if(u==='https://mock.invalid/rest/v1/order_items'&&options.method==='POST')data=[];
+   else if(u.startsWith('https://mock.invalid/rest/v1/orders?')&&options.method==='PATCH')data=[];
+   else if(u.endsWith('/v1/oauth2/token'))data={access_token:'mock-only'};
+   else if(u.endsWith('/v2/checkout/orders')){paypalPayload=JSON.parse(options.body);data={id:'synthetic-paypal-id'}}
+   else throw Error('Unexpected request in isolated test');
+   return new Response(JSON.stringify(data),{status:200});
+  };
+  let status,response;await handler({method:'POST',headers:{},body:{orderType:'Direct bulk order',market,countryCode:market,customerName:'Synthetic Test',customerEmail:'synthetic@example.invalid',customerPhone:'00000000',addressLine1:'1 Test Street',city:'Test City',...(postal?{postalCode:postal}:{}),cart:[{slug,packCount:quantity}],total:1,unitPrice:1,priceApproval:'approved'}},{status(n){status=n;return this},setHeader(){},end(t){response=t}});
+  assert.equal(status,200,`${market} ${slug} ${quantity}: ${response}`);
+  assert.equal(paypalPayload.purchase_units[0].amount.currency_code,currency);
+  assert.equal(paypalPayload.purchase_units[0].amount.value,value);
+  assert.equal(orderPayload.currency,currency);
+  assert.match(orderPayload.internal_note,new RegExp(`\\[condition:${market.toLowerCase()}-(general|moq)-delivered-2026-10-18\\]`));
+ }}finally{globalThis.fetch=originalFetch;for(const k of keys)if(original[k]===undefined)delete process.env[k];else process.env[k]=original[k]}
 });
 test('approved SG trial and 20+ server creates only the authoritative amount using mocked DB and PayPal',async()=>{
  const {default:handler}=await import('../api/paypal/create-order.js');

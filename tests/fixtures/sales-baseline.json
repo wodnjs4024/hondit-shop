@@ -484,108 +484,108 @@
   "version": null
  },
  "diffuser-350g|HK|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 256000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 256000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-350g|HK|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 256000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 256000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-350g|HK|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 268800,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 268800,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-350g|HK|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 268800,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 268800,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-350g|HK|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 384000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 384000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-350g|HK|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 384000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 384000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-350g|HK|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 1280000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 1280000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-350g|HK|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 1280000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 1280000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-350g|MO|listing": {
   "visible": true,
@@ -778,108 +778,108 @@
   "version": null
  },
  "diffuser-350g|MO|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 256000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 256000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-350g|MO|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 256000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 256000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-350g|MO|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 268800,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 268800,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-350g|MO|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 268800,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 268800,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-350g|MO|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 384000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 384000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-350g|MO|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 384000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 384000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-350g|MO|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 1280000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 1280000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-350g|MO|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 12800,
   "referenceTotalMinor": 1280000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 12800,
+  "totalMinor": 1280000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-350g|TW|listing": {
   "visible": true,
@@ -1072,108 +1072,108 @@
   "version": null
  },
  "diffuser-350g|TW|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 48000,
-  "referenceTotalMinor": 960000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 480,
+  "referenceTotalMinor": 9600,
+  "billingCurrency": "TWD",
+  "unitMinor": 480,
+  "totalMinor": 9600,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-350g|TW|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 48000,
-  "referenceTotalMinor": 960000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 480,
+  "referenceTotalMinor": 9600,
+  "billingCurrency": "TWD",
+  "unitMinor": 480,
+  "totalMinor": 9600,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-350g|TW|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 48000,
-  "referenceTotalMinor": 1008000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 480,
+  "referenceTotalMinor": 10080,
+  "billingCurrency": "TWD",
+  "unitMinor": 480,
+  "totalMinor": 10080,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-350g|TW|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 48000,
-  "referenceTotalMinor": 1008000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 480,
+  "referenceTotalMinor": 10080,
+  "billingCurrency": "TWD",
+  "unitMinor": 480,
+  "totalMinor": 10080,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-350g|TW|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 48000,
-  "referenceTotalMinor": 1440000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 480,
+  "referenceTotalMinor": 14400,
+  "billingCurrency": "TWD",
+  "unitMinor": 480,
+  "totalMinor": 14400,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-350g|TW|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 48000,
-  "referenceTotalMinor": 1440000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 480,
+  "referenceTotalMinor": 14400,
+  "billingCurrency": "TWD",
+  "unitMinor": 480,
+  "totalMinor": 14400,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-350g|TW|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 48000,
-  "referenceTotalMinor": 4800000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 480,
+  "referenceTotalMinor": 48000,
+  "billingCurrency": "TWD",
+  "unitMinor": 480,
+  "totalMinor": 48000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-350g|TW|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 48000,
-  "referenceTotalMinor": 4800000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 480,
+  "referenceTotalMinor": 48000,
+  "billingCurrency": "TWD",
+  "unitMinor": 480,
+  "totalMinor": 48000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-350g|JP|listing": {
   "visible": true,
@@ -1366,108 +1366,108 @@
   "version": null
  },
  "diffuser-350g|JP|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 2400,
   "referenceTotalMinor": 48000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 2400,
+  "totalMinor": 48000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-350g|JP|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 2400,
   "referenceTotalMinor": 48000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 2400,
+  "totalMinor": 48000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-350g|JP|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 2400,
   "referenceTotalMinor": 50400,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 2400,
+  "totalMinor": 50400,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-350g|JP|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 2400,
   "referenceTotalMinor": 50400,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 2400,
+  "totalMinor": 50400,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-350g|JP|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 2400,
   "referenceTotalMinor": 72000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 2400,
+  "totalMinor": 72000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-350g|JP|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 2400,
   "referenceTotalMinor": 72000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 2400,
+  "totalMinor": 72000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-350g|JP|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 2400,
   "referenceTotalMinor": 240000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 2400,
+  "totalMinor": 240000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-350g|JP|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 2400,
   "referenceTotalMinor": 240000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 2400,
+  "totalMinor": 240000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-350g|TH|listing": {
   "visible": true,
@@ -1660,108 +1660,108 @@
   "version": null
  },
  "diffuser-350g|TH|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 55000,
   "referenceTotalMinor": 1100000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 55000,
+  "totalMinor": 1100000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-350g|TH|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 55000,
   "referenceTotalMinor": 1100000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 55000,
+  "totalMinor": 1100000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-350g|TH|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 55000,
   "referenceTotalMinor": 1155000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 55000,
+  "totalMinor": 1155000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-350g|TH|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 55000,
   "referenceTotalMinor": 1155000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 55000,
+  "totalMinor": 1155000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-350g|TH|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 55000,
   "referenceTotalMinor": 1650000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 55000,
+  "totalMinor": 1650000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-350g|TH|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 55000,
   "referenceTotalMinor": 1650000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 55000,
+  "totalMinor": 1650000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-350g|TH|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 55000,
   "referenceTotalMinor": 5500000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 55000,
+  "totalMinor": 5500000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-350g|TH|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 55000,
   "referenceTotalMinor": 5500000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 55000,
+  "totalMinor": 5500000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-350g|MY|listing": {
   "visible": true,
@@ -2248,108 +2248,108 @@
   "version": null
  },
  "diffuser-350g|BN|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 2100,
   "referenceTotalMinor": 42000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 42000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-350g|BN|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 2100,
   "referenceTotalMinor": 42000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 42000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-350g|BN|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 2100,
   "referenceTotalMinor": 44100,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 44100,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-350g|BN|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 2100,
   "referenceTotalMinor": 44100,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 44100,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-350g|BN|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 2100,
   "referenceTotalMinor": 63000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 63000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-350g|BN|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 2100,
   "referenceTotalMinor": 63000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 63000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-350g|BN|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 2100,
   "referenceTotalMinor": 210000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 210000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-350g|BN|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 2100,
   "referenceTotalMinor": 210000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 210000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-500g|SG|listing": {
   "visible": true,
@@ -2836,108 +2836,108 @@
   "version": null
  },
  "diffuser-500g|HK|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 560000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 560000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-500g|HK|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 560000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 560000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-500g|HK|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 588000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 588000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-500g|HK|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 588000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 588000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-500g|HK|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 840000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 840000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-500g|HK|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 840000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 840000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-500g|HK|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 2800000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 2800000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-500g|HK|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 2800000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 2800000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-general-delivered-2026-10-18"
  },
  "diffuser-500g|MO|listing": {
   "visible": true,
@@ -3130,108 +3130,108 @@
   "version": null
  },
  "diffuser-500g|MO|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 560000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 560000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-500g|MO|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 560000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 560000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-500g|MO|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 588000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 588000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-500g|MO|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 588000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 588000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-500g|MO|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 840000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 840000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-500g|MO|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 840000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 840000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-500g|MO|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 2800000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 2800000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-500g|MO|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 28000,
   "referenceTotalMinor": 2800000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 28000,
+  "totalMinor": 2800000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-general-delivered-2026-10-18"
  },
  "diffuser-500g|TW|listing": {
   "visible": true,
@@ -3424,108 +3424,108 @@
   "version": null
  },
  "diffuser-500g|TW|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 105000,
-  "referenceTotalMinor": 2100000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 1050,
+  "referenceTotalMinor": 21000,
+  "billingCurrency": "TWD",
+  "unitMinor": 1050,
+  "totalMinor": 21000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-500g|TW|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 105000,
-  "referenceTotalMinor": 2100000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 1050,
+  "referenceTotalMinor": 21000,
+  "billingCurrency": "TWD",
+  "unitMinor": 1050,
+  "totalMinor": 21000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-500g|TW|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 105000,
-  "referenceTotalMinor": 2205000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 1050,
+  "referenceTotalMinor": 22050,
+  "billingCurrency": "TWD",
+  "unitMinor": 1050,
+  "totalMinor": 22050,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-500g|TW|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 105000,
-  "referenceTotalMinor": 2205000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 1050,
+  "referenceTotalMinor": 22050,
+  "billingCurrency": "TWD",
+  "unitMinor": 1050,
+  "totalMinor": 22050,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-500g|TW|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 105000,
-  "referenceTotalMinor": 3150000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 1050,
+  "referenceTotalMinor": 31500,
+  "billingCurrency": "TWD",
+  "unitMinor": 1050,
+  "totalMinor": 31500,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-500g|TW|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 105000,
-  "referenceTotalMinor": 3150000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 1050,
+  "referenceTotalMinor": 31500,
+  "billingCurrency": "TWD",
+  "unitMinor": 1050,
+  "totalMinor": 31500,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-500g|TW|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 105000,
-  "referenceTotalMinor": 10500000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 1050,
+  "referenceTotalMinor": 105000,
+  "billingCurrency": "TWD",
+  "unitMinor": 1050,
+  "totalMinor": 105000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-500g|TW|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "TWD",
-  "referenceUnitMinor": 105000,
-  "referenceTotalMinor": 10500000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "referenceUnitMinor": 1050,
+  "referenceTotalMinor": 105000,
+  "billingCurrency": "TWD",
+  "unitMinor": 1050,
+  "totalMinor": 105000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "tw-general-delivered-2026-10-18"
  },
  "diffuser-500g|JP|listing": {
   "visible": true,
@@ -3718,108 +3718,108 @@
   "version": null
  },
  "diffuser-500g|JP|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 5200,
   "referenceTotalMinor": 104000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 5200,
+  "totalMinor": 104000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-500g|JP|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 5200,
   "referenceTotalMinor": 104000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 5200,
+  "totalMinor": 104000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-500g|JP|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 5200,
   "referenceTotalMinor": 109200,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 5200,
+  "totalMinor": 109200,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-500g|JP|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 5200,
   "referenceTotalMinor": 109200,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 5200,
+  "totalMinor": 109200,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-500g|JP|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 5200,
   "referenceTotalMinor": 156000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 5200,
+  "totalMinor": 156000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-500g|JP|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 5200,
   "referenceTotalMinor": 156000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 5200,
+  "totalMinor": 156000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-500g|JP|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 5200,
   "referenceTotalMinor": 520000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 5200,
+  "totalMinor": 520000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-500g|JP|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "JPY",
   "referenceUnitMinor": 5200,
   "referenceTotalMinor": 520000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "JPY",
+  "unitMinor": 5200,
+  "totalMinor": 520000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "jp-general-delivered-2026-10-18"
  },
  "diffuser-500g|TH|listing": {
   "visible": true,
@@ -4012,108 +4012,108 @@
   "version": null
  },
  "diffuser-500g|TH|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 120000,
   "referenceTotalMinor": 2400000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 120000,
+  "totalMinor": 2400000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-500g|TH|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 120000,
   "referenceTotalMinor": 2400000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 120000,
+  "totalMinor": 2400000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-500g|TH|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 120000,
   "referenceTotalMinor": 2520000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 120000,
+  "totalMinor": 2520000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-500g|TH|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 120000,
   "referenceTotalMinor": 2520000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 120000,
+  "totalMinor": 2520000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-500g|TH|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 120000,
   "referenceTotalMinor": 3600000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 120000,
+  "totalMinor": 3600000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-500g|TH|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 120000,
   "referenceTotalMinor": 3600000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 120000,
+  "totalMinor": 3600000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-500g|TH|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 120000,
   "referenceTotalMinor": 12000000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 120000,
+  "totalMinor": 12000000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-500g|TH|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "THB",
   "referenceUnitMinor": 120000,
   "referenceTotalMinor": 12000000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "THB",
+  "unitMinor": 120000,
+  "totalMinor": 12000000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "th-general-delivered-2026-10-18"
  },
  "diffuser-500g|MY|listing": {
   "visible": true,
@@ -4600,108 +4600,108 @@
   "version": null
  },
  "diffuser-500g|BN|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 4600,
   "referenceTotalMinor": 92000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 92000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-500g|BN|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 4600,
   "referenceTotalMinor": 92000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 92000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-500g|BN|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 4600,
   "referenceTotalMinor": 96600,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 96600,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-500g|BN|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 4600,
   "referenceTotalMinor": 96600,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 96600,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-500g|BN|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 4600,
   "referenceTotalMinor": 138000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 138000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-500g|BN|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 4600,
   "referenceTotalMinor": 138000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 138000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-500g|BN|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 4600,
   "referenceTotalMinor": 460000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 460000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "diffuser-500g|BN|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 4600,
   "referenceTotalMinor": 460000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 460000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "bn-general-delivered-2026-10-18"
  },
  "foam-oil|SG|listing": {
   "visible": true,
@@ -5016,7 +5016,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|1|server": {
   "status": "request",
@@ -5029,7 +5029,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|5|storefront": {
   "status": "request",
@@ -5042,7 +5042,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|5|server": {
   "status": "request",
@@ -5055,7 +5055,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|9|storefront": {
   "status": "request",
@@ -5068,7 +5068,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|9|server": {
   "status": "request",
@@ -5081,7 +5081,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|10|storefront": {
   "status": "request",
@@ -5094,7 +5094,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|10|server": {
   "status": "request",
@@ -5107,7 +5107,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|11|storefront": {
   "status": "request",
@@ -5120,7 +5120,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|11|server": {
   "status": "request",
@@ -5133,7 +5133,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|15|storefront": {
   "status": "request",
@@ -5146,7 +5146,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|15|server": {
   "status": "request",
@@ -5159,7 +5159,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|19|storefront": {
   "status": "request",
@@ -5172,7 +5172,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|19|server": {
   "status": "request",
@@ -5185,7 +5185,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|20|storefront": {
   "status": "request",
@@ -5198,7 +5198,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|20|server": {
   "status": "request",
@@ -5211,7 +5211,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|21|storefront": {
   "status": "request",
@@ -5224,7 +5224,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|21|server": {
   "status": "request",
@@ -5237,37 +5237,37 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|100|storefront": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -5276,11 +5276,11 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|HK|100|server": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -5289,7 +5289,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|listing": {
   "visible": true,
@@ -5310,7 +5310,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|1|server": {
   "status": "request",
@@ -5323,7 +5323,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|5|storefront": {
   "status": "request",
@@ -5336,7 +5336,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|5|server": {
   "status": "request",
@@ -5349,7 +5349,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|9|storefront": {
   "status": "request",
@@ -5362,7 +5362,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|9|server": {
   "status": "request",
@@ -5375,7 +5375,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|10|storefront": {
   "status": "request",
@@ -5388,7 +5388,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|10|server": {
   "status": "request",
@@ -5401,7 +5401,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|11|storefront": {
   "status": "request",
@@ -5414,7 +5414,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|11|server": {
   "status": "request",
@@ -5427,7 +5427,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|15|storefront": {
   "status": "request",
@@ -5440,7 +5440,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|15|server": {
   "status": "request",
@@ -5453,7 +5453,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|19|storefront": {
   "status": "request",
@@ -5466,7 +5466,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|19|server": {
   "status": "request",
@@ -5479,7 +5479,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|20|storefront": {
   "status": "request",
@@ -5492,7 +5492,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|20|server": {
   "status": "request",
@@ -5505,7 +5505,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|21|storefront": {
   "status": "request",
@@ -5518,7 +5518,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|21|server": {
   "status": "request",
@@ -5531,37 +5531,37 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|100|storefront": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -5570,11 +5570,11 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|MO|100|server": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -5583,7 +5583,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foam-oil|TW|listing": {
   "visible": false,
@@ -7368,7 +7368,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|1|server": {
   "status": "request",
@@ -7381,7 +7381,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|5|storefront": {
   "status": "request",
@@ -7394,7 +7394,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|5|server": {
   "status": "request",
@@ -7407,7 +7407,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|9|storefront": {
   "status": "request",
@@ -7420,7 +7420,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|9|server": {
   "status": "request",
@@ -7433,7 +7433,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|10|storefront": {
   "status": "request",
@@ -7446,7 +7446,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|10|server": {
   "status": "request",
@@ -7459,7 +7459,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|11|storefront": {
   "status": "request",
@@ -7472,7 +7472,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|11|server": {
   "status": "request",
@@ -7485,7 +7485,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|15|storefront": {
   "status": "request",
@@ -7498,7 +7498,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|15|server": {
   "status": "request",
@@ -7511,7 +7511,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|19|storefront": {
   "status": "request",
@@ -7524,7 +7524,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|19|server": {
   "status": "request",
@@ -7537,7 +7537,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|20|storefront": {
   "status": "request",
@@ -7550,7 +7550,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|20|server": {
   "status": "request",
@@ -7563,7 +7563,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|21|storefront": {
   "status": "request",
@@ -7576,7 +7576,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|21|server": {
   "status": "request",
@@ -7589,37 +7589,37 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|100|storefront": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -7628,11 +7628,11 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|HK|100|server": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -7641,7 +7641,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|listing": {
   "visible": true,
@@ -7662,7 +7662,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|1|server": {
   "status": "request",
@@ -7675,7 +7675,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|5|storefront": {
   "status": "request",
@@ -7688,7 +7688,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|5|server": {
   "status": "request",
@@ -7701,7 +7701,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|9|storefront": {
   "status": "request",
@@ -7714,7 +7714,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|9|server": {
   "status": "request",
@@ -7727,7 +7727,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|10|storefront": {
   "status": "request",
@@ -7740,7 +7740,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|10|server": {
   "status": "request",
@@ -7753,7 +7753,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|11|storefront": {
   "status": "request",
@@ -7766,7 +7766,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|11|server": {
   "status": "request",
@@ -7779,7 +7779,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|15|storefront": {
   "status": "request",
@@ -7792,7 +7792,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|15|server": {
   "status": "request",
@@ -7805,7 +7805,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|19|storefront": {
   "status": "request",
@@ -7818,7 +7818,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|19|server": {
   "status": "request",
@@ -7831,7 +7831,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|20|storefront": {
   "status": "request",
@@ -7844,7 +7844,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|20|server": {
   "status": "request",
@@ -7857,7 +7857,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|21|storefront": {
   "status": "request",
@@ -7870,7 +7870,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|21|server": {
   "status": "request",
@@ -7883,37 +7883,37 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|100|storefront": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -7922,11 +7922,11 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|MO|100|server": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -7935,7 +7935,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "foaming-cleanser|TW|listing": {
   "visible": false,
@@ -9720,7 +9720,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|1|server": {
   "status": "request",
@@ -9733,7 +9733,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|5|storefront": {
   "status": "request",
@@ -9746,7 +9746,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|5|server": {
   "status": "request",
@@ -9759,7 +9759,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|9|storefront": {
   "status": "request",
@@ -9772,7 +9772,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|9|server": {
   "status": "request",
@@ -9785,7 +9785,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|10|storefront": {
   "status": "request",
@@ -9798,7 +9798,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|10|server": {
   "status": "request",
@@ -9811,7 +9811,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|11|storefront": {
   "status": "request",
@@ -9824,7 +9824,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|11|server": {
   "status": "request",
@@ -9837,7 +9837,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|15|storefront": {
   "status": "request",
@@ -9850,7 +9850,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|15|server": {
   "status": "request",
@@ -9863,7 +9863,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|19|storefront": {
   "status": "request",
@@ -9876,7 +9876,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|19|server": {
   "status": "request",
@@ -9889,7 +9889,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|20|storefront": {
   "status": "request",
@@ -9902,7 +9902,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|20|server": {
   "status": "request",
@@ -9915,7 +9915,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|21|storefront": {
   "status": "request",
@@ -9928,7 +9928,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|21|server": {
   "status": "request",
@@ -9941,37 +9941,37 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|100|storefront": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -9980,11 +9980,11 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|HK|100|server": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -9993,7 +9993,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "hk-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|listing": {
   "visible": true,
@@ -10014,7 +10014,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|1|server": {
   "status": "request",
@@ -10027,7 +10027,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|5|storefront": {
   "status": "request",
@@ -10040,7 +10040,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|5|server": {
   "status": "request",
@@ -10053,7 +10053,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|9|storefront": {
   "status": "request",
@@ -10066,7 +10066,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|9|server": {
   "status": "request",
@@ -10079,7 +10079,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|10|storefront": {
   "status": "request",
@@ -10092,7 +10092,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|10|server": {
   "status": "request",
@@ -10105,7 +10105,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|11|storefront": {
   "status": "request",
@@ -10118,7 +10118,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|11|server": {
   "status": "request",
@@ -10131,7 +10131,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|15|storefront": {
   "status": "request",
@@ -10144,7 +10144,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|15|server": {
   "status": "request",
@@ -10157,7 +10157,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|19|storefront": {
   "status": "request",
@@ -10170,7 +10170,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|19|server": {
   "status": "request",
@@ -10183,7 +10183,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|20|storefront": {
   "status": "request",
@@ -10196,7 +10196,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|20|server": {
   "status": "request",
@@ -10209,7 +10209,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|21|storefront": {
   "status": "request",
@@ -10222,7 +10222,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|21|server": {
   "status": "request",
@@ -10235,37 +10235,37 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 165000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 165000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|100|storefront": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -10274,11 +10274,11 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|MO|100|server": {
   "status": "request",
-  "reason": "conditions_pending",
+  "reason": "delivery_scope_missing",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
@@ -10287,7 +10287,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "version": "mo-moq-delivered-2026-10-18"
  },
  "cleansing-water|TW|listing": {
   "visible": false,

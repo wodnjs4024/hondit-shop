@@ -6,11 +6,31 @@ const cleansing=['foam-oil','foaming-cleanser','cleansing-water'];
 const diffusers=['diffuser-350g','diffuser-500g'];
 const allowed={SG:[...cleansing,...diffusers],HK:[...cleansing,...diffusers],MO:[...cleansing,...diffusers],JP:diffusers,TW:diffusers,TH:diffusers,MY:diffusers,BN:diffusers};
 const currencies={SG:'SGD',HK:'HKD',MO:'HKD',JP:'JPY',TW:'TWD',TH:'THB',MY:'MYR',BN:'SGD'};
+// Approved by the owner on 2026-10-18: the prices shown in these markets include EMS delivery.
+// PayPal minor units (JPY and TWD have none). Delivery scope mirrors Singapore: diffusers 20-9999 units,
+// cleansers exactly the 30-unit MOQ. Malaysia stays quote-only (PayPal settles MYR only for Malaysian accounts);
+// 10-unit trial prices outside Singapore remain proposals.
+const deliveredMarkets=Object.freeze({
+ HK:{'diffuser-350g':12800,'diffuser-500g':28000,'foam-oil':5500,'foaming-cleanser':5500,'cleansing-water':5500},
+ MO:{'diffuser-350g':12800,'diffuser-500g':28000,'foam-oil':5500,'foaming-cleanser':5500,'cleansing-water':5500},
+ TW:{'diffuser-350g':480,'diffuser-500g':1050},
+ JP:{'diffuser-350g':2400,'diffuser-500g':5200},
+ TH:{'diffuser-350g':55000,'diffuser-500g':120000},
+ BN:{'diffuser-350g':2100,'diffuser-500g':4600},
+});
+function generalTerms(market,sku){
+ if(market==='SG')return sgTerms({slug:sku});
+ const unitMinor=deliveredMarkets[market]?.[sku];
+ return unitMinor?{unitMinor,moq:cleansing.includes(sku)?30:20}:null;
+}
+const versions=(market)=>market==='SG'
+ ?{general:'sg-general-delivered-2026-10-15',generalDelivery:'sg-general-included-2026-10-15',moq:'sg-existing-moq-v1',moqDelivery:'sg-existing-moq-delivery-v1',payment:'existing-live-config'}
+ :{general:`${market.toLowerCase()}-general-delivered-2026-10-18`,generalDelivery:`${market.toLowerCase()}-general-included-2026-10-18`,moq:`${market.toLowerCase()}-moq-delivered-2026-10-18`,moqDelivery:`${market.toLowerCase()}-moq-delivery-2026-10-18`,payment:'confirmed'};
 export const checkoutConditions=Object.freeze(Object.entries(allowed).flatMap(([market,skus])=>skus.map(sku=>{
- const sg=market==='SG'?sgTerms({slug:sku}):null;
+ const sg=generalTerms(market,sku),v=versions(market),billing=currencies[market];
  const deliveredGeneral=Boolean(sg&&diffusers.includes(sku));
  // General unit prices cover 20+; delivery coverage is independently bounded.
- return Object.freeze({market,sku,channel:'international_bundle',version:deliveredGeneral?'sg-general-delivered-2026-10-15':sg?'sg-existing-moq-v1':'legacy-awaiting-confirmation-v1',priceApproval:sg?'approved':'pending',shippingApproval:deliveredGeneral?'confirmed':sg?'existing-moq-scope':'pending',paymentApproval:sg?'existing-live-config':'pending',unitMinor:sg?.unitMinor??null,billingCurrency:sg?'SGD':null,minimum:sg?.moq??(cleansing.includes(sku)?30:20),maximum:sg?9999:null,shippingIncluded:sg?true:null,deliveryRules:sg?[{minimum:sg.moq,maximum:deliveredGeneral?9999:sg.moq,approval:deliveredGeneral?'confirmed':'existing-moq-scope',mode:'included',currency:'SGD',version:deliveredGeneral?'sg-general-included-2026-10-15':'sg-existing-moq-delivery-v1'}]:[]});
+ return Object.freeze({market,sku,channel:'international_bundle',version:deliveredGeneral?v.general:sg?v.moq:'legacy-awaiting-confirmation-v1',priceApproval:sg?'approved':'pending',shippingApproval:deliveredGeneral?'confirmed':sg?'existing-moq-scope':'pending',paymentApproval:sg?v.payment:'pending',unitMinor:sg?.unitMinor??null,billingCurrency:sg?billing:null,minimum:sg?.moq??(cleansing.includes(sku)?30:20),maximum:sg?9999:null,shippingIncluded:sg?true:null,deliveryRules:sg?[{minimum:sg.moq,maximum:deliveredGeneral?9999:sg.moq,approval:deliveredGeneral?'confirmed':'existing-moq-scope',mode:'included',currency:billing,version:deliveredGeneral?v.generalDelivery:v.moqDelivery}]:[]});
 })).concat(Object.entries(allowed).flatMap(([market,skus])=>skus.filter(sku=>diffusers.includes(sku)).map(sku=>Object.freeze({market,sku,channel:'international_bundle',version:market==='SG'?'sg-trial-delivered-2026-10-15':'trial-proposed-2026-10-13',priceApproval:market==='SG'?'approved':'proposed',shippingApproval:market==='SG'?'confirmed':'pending',paymentApproval:market==='SG'?'existing-live-config':'pending',unitMinor:market==='SG'?sgTrialUnitMinor[sku]:null,billingCurrency:market==='SG'?'SGD':null,minimum:10,maximum:10,shippingIncluded:market==='SG'?true:null})))));
 export function paypalCurrencyDigits(currency){return ['JPY','TWD'].includes(currency)?0:currencyDigits(currency);}
 export function approvedUnitPrice(product,market,conditions=checkoutConditions){
