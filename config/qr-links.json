@@ -4,5 +4,15 @@
  {"id":"l0003","path":"/","market":"SG","language":"en","source":"instagram","medium":"social","campaign":"sg_online_202610","placement":"bio_main_v1","status":"DRAFT"},
  {"id":"l0004","path":"/partners","market":"SG","language":"en","source":"outreach","medium":"email","campaign":"sg_b2b_202610","placement":"first_email_v1","status":"DRAFT"},
  {"id":"l0005","path":"/partners","market":"SG","language":"en","source":"outreach","medium":"email","campaign":"sg_b2b_202610","placement":"followup_email_v1","status":"DRAFT"},
- {"id":"l0006","path":"/partners","market":"SG","language":"en","source":"catalog","medium":"pdf","campaign":"sg_b2b_202610","placement":"catalog_en_v1","status":"DRAFT"}
+ {"id":"l0006","path":"/partners","market":"SG","language":"en","source":"catalog","medium":"pdf","campaign":"sg_b2b_202610","placement":"catalog_en_v1","status":"DRAFT"},
+ {"id":"l0007","path":"/","market":"SG","language":"en","source":"instagram","medium":"social","campaign":"sg_online_202610","placement":"story_v1","status":"DRAFT"},
+ {"id":"l0008","path":"/","market":"SG","language":"en","source":"instagram","medium":"dm","campaign":"sg_online_202610","placement":"sales_dm_v1","status":"DRAFT"},
+ {"id":"l0009","path":"/","market":"SG","language":"en","source":"telegram","medium":"community","campaign":"sg_community_202610","placement":"student_council_post_v1","status":"DRAFT"},
+ {"id":"l0010","path":"/partners","market":"JP","language":"ja","source":"outreach","medium":"email","campaign":"jp_b2b_202610","placement":"first_email_v1","status":"DRAFT"},
+ {"id":"l0011","path":"/partners","market":"JP","language":"ja","source":"outreach","medium":"email","campaign":"jp_b2b_202610","placement":"followup_email_v1","status":"DRAFT"},
+ {"id":"l0012","path":"/partners","market":"JP","language":"ja","source":"catalog","medium":"pdf","campaign":"jp_b2b_202610","placement":"catalog_ja_v1","status":"DRAFT"},
+ {"id":"l0013","path":"/partners","market":"TW","language":"en","source":"outreach","medium":"email","campaign":"tw_b2b_202610","placement":"first_email_v1","status":"DRAFT"},
+ {"id":"l0014","path":"/partners","market":"HK","language":"zh-HK","source":"whatsapp","medium":"dm","campaign":"hk_groupbuy_202610","placement":"groupbuy_dm_v1","status":"DRAFT"},
+ {"id":"l0015","path":"/jeju/pickup","language":"en","source":"instagram","medium":"dm","campaign":"jeju_pickup_202610","placement":"pickup_dm_v1","status":"DRAFT"},
+ {"id":"l0016","path":"/jeju/pickup","language":"en","source":"airport","medium":"qr","campaign":"jeju_pickup_202610","placement":"airport_pickup_qr_v1","status":"DRAFT"}
 ]

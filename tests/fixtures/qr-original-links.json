@@ -1,0 +1,173 @@
+{
+  "links": [
+    {
+      "id": "l0001",
+      "path": "/",
+      "language": "en",
+      "source": "airport",
+      "medium": "qr",
+      "campaign": "jeju_gift_arrival_202610",
+      "placement": "airport_arrivals_letter_v1",
+      "status": "DRAFT",
+      "temporary": true
+    },
+    {
+      "id": "l0002",
+      "path": "/jeju/pickup",
+      "language": "en",
+      "source": "hotel",
+      "medium": "qr",
+      "campaign": "jeju_pickup_202610",
+      "placement": "hotel001_counter",
+      "status": "DRAFT"
+    },
+    {
+      "id": "l0003",
+      "path": "/",
+      "market": "SG",
+      "language": "en",
+      "source": "instagram",
+      "medium": "social",
+      "campaign": "sg_online_202610",
+      "placement": "bio_main_v1",
+      "status": "DRAFT"
+    },
+    {
+      "id": "l0004",
+      "path": "/partners",
+      "market": "SG",
+      "language": "en",
+      "source": "outreach",
+      "medium": "email",
+      "campaign": "sg_b2b_202610",
+      "placement": "first_email_v1",
+      "status": "DRAFT"
+    },
+    {
+      "id": "l0005",
+      "path": "/partners",
+      "market": "SG",
+      "language": "en",
+      "source": "outreach",
+      "medium": "email",
+      "campaign": "sg_b2b_202610",
+      "placement": "followup_email_v1",
+      "status": "DRAFT"
+    },
+    {
+      "id": "l0006",
+      "path": "/partners",
+      "market": "SG",
+      "language": "en",
+      "source": "catalog",
+      "medium": "pdf",
+      "campaign": "sg_b2b_202610",
+      "placement": "catalog_en_v1",
+      "status": "DRAFT"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/q/l0001",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/?lang=:qrLanguage&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0001",
+      "destination": "/?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0002",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/jeju/pickup?lang=:qrLanguage&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0002",
+      "destination": "/jeju/pickup?lang=en&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0003",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/?market=SG&lang=:qrLanguage&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0003",
+      "destination": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0004",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=SG&lang=:qrLanguage&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0004",
+      "destination": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0005",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=SG&lang=:qrLanguage&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0005",
+      "destination": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0006",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=SG&lang=:qrLanguage&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0006",
+      "destination": "/partners?market=SG&lang=en&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
+      "permanent": false
+    }
+  ]
+}

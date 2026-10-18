@@ -1,0 +1,62 @@
+[
+  {
+    "id": "l0007",
+    "url": "http://127.0.0.1:4211/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007",
+    "heading": "A piece of Jeju, chosen for your everyday.",
+    "htmlLang": "en"
+  },
+  {
+    "id": "l0008",
+    "url": "http://127.0.0.1:4211/?market=SG&lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008",
+    "heading": "A piece of Jeju, chosen for your everyday.",
+    "htmlLang": "en"
+  },
+  {
+    "id": "l0009",
+    "url": "http://127.0.0.1:4211/?market=SG&lang=en&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009",
+    "heading": "A piece of Jeju, chosen for your everyday.",
+    "htmlLang": "en"
+  },
+  {
+    "id": "l0010",
+    "url": "http://127.0.0.1:4211/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010",
+    "heading": "店舗・事業者向け購入案内",
+    "htmlLang": "ja"
+  },
+  {
+    "id": "l0011",
+    "url": "http://127.0.0.1:4211/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011",
+    "heading": "店舗・事業者向け購入案内",
+    "htmlLang": "ja"
+  },
+  {
+    "id": "l0012",
+    "url": "http://127.0.0.1:4211/partners?market=JP&lang=ja&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012",
+    "heading": "店舗・事業者向け購入案内",
+    "htmlLang": "ja"
+  },
+  {
+    "id": "l0013",
+    "url": "http://127.0.0.1:4211/partners?market=TW&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013",
+    "heading": "Store & business purchase guide",
+    "htmlLang": "en"
+  },
+  {
+    "id": "l0014",
+    "url": "http://127.0.0.1:4211/partners?market=HK&lang=zh-HK&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014",
+    "heading": "商店及企業採購指南",
+    "htmlLang": "zh-HK"
+  },
+  {
+    "id": "l0015",
+    "url": "http://127.0.0.1:4211/jeju/pickup?lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015",
+    "heading": "Collect at Jeju Airport",
+    "htmlLang": "en"
+  },
+  {
+    "id": "l0016",
+    "url": "http://127.0.0.1:4211/jeju/pickup?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016",
+    "heading": "Collect at Jeju Airport",
+    "htmlLang": "en"
+  }
+]
