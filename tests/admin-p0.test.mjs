@@ -171,8 +171,9 @@ test('payment server applies market overrides and records stock once after captu
   assert.match(create, /cartTermsFor\(body\.cart\.map/);
   assert.match(create, /const decision=cartTermsFor\(/);
   assert.doesNotMatch(create, /resolveCheckoutCart\(/);
-  assert.match(read('api/paypal/capture-order.js'), /rpc\/record_order_stock[^\n]*\.catch\(\(\) => \{\}\)/);
-  assert.match(read('api/paypal/webhook.js'), /rpc\/record_order_stock[^\n]*\.catch\(\(\) => \{\}\)/);
+  assert.match(read('api/paypal/capture-order.js'), /recordOrderStock\(order\.id\)\.catch\(\(\) => \{\}\)/);
+  assert.match(read('api/paypal/webhook.js'), /recordOrderStock\(order\.id\)\.catch\(\(\) => \{\}\)/);
+  assert.match(read('api/_utils.js'), /stock_units=not\.is\.null[\s\S]*rpc\/record_order_stock[^\n]*\.catch\(\(\) => \{\}\)/);
   // the approved price tables themselves are untouched by the admin rebuild
   assert.doesNotMatch(read('shared/checkout-terms.js'), /markets\?\.\[/);
   assert.match(read('supabase/migrations/008_admin_p0.sql'), /create unique index if not exists inventory_movements_order_once/);

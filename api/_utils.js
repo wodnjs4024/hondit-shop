@@ -403,3 +403,10 @@ export async function verifyAdmin(req) {
   if (!profiles.length) throw new Error("This account is not registered as a hondit admin");
   return { user, profile: profiles[0] };
 }
+
+/* Once-per-order stock deduction (008). Only runs when the database tracks stock, so older schemas never see an rpc call. */
+export async function recordOrderStock(orderId) {
+  const tracked = await supabase("/products?select=id,stock_units&stock_units=not.is.null&limit=1").catch(() => []);
+  if (!Array.isArray(tracked) || !tracked.some((row) => row && row.stock_units !== undefined && row.stock_units !== null)) return;
+  await supabase("/rpc/record_order_stock", { method: "POST", body: JSON.stringify({ p_order_id: orderId }) }).catch(() => {});
+}

@@ -1,7 +1,7 @@
 import {assertShippingMatches} from "../../shared/shipping.js";
 import {validateCapturedPayment} from '../_markets.js';
 import {paypal} from "../_utils.js";
-import { getPayPalAccessToken, json, notifyTelegramNewOrder, readBody, supabase } from "../_utils.js";
+import { getPayPalAccessToken, json, notifyTelegramNewOrder, readBody, recordOrderStock, supabase } from "../_utils.js";
 
 async function verifyWebhook(req, event) {
   if (!process.env.PAYPAL_WEBHOOK_ID) return false;
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
       });
 
       // Same once-per-order stock deduction as the capture route; never affects the webhook result.
-      await supabase("/rpc/record_order_stock", { method: "POST", body: JSON.stringify({ p_order_id: order.id }) }).catch(() => {});
+      await recordOrderStock(order.id).catch(() => {});
       if (order.payment_status !== "completed") {
         const items = await supabase(`/order_items?order_id=eq.${encodeURIComponent(order.id)}&select=product_name_snapshot,volume_snapshot,total_units,line_total_sgd`).catch(() => []);
         await notifyTelegramNewOrder(
