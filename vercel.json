@@ -244,6 +244,176 @@
       "source": "/q/l0006",
       "destination": "/partners?market=SG&lang=en&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006",
       "permanent": false
+    },
+    {
+      "source": "/q/l0007",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/?market=SG&lang=:qrLanguage&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0007",
+      "destination": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0008",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/?market=SG&lang=:qrLanguage&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0008",
+      "destination": "/?market=SG&lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0009",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/?market=SG&lang=:qrLanguage&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0009",
+      "destination": "/?market=SG&lang=en&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0010",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=JP&lang=:qrLanguage&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0010",
+      "destination": "/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0011",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=JP&lang=:qrLanguage&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0011",
+      "destination": "/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0012",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=JP&lang=:qrLanguage&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0012",
+      "destination": "/partners?market=JP&lang=ja&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0013",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=TW&lang=:qrLanguage&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0013",
+      "destination": "/partners?market=TW&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0014",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/partners?market=HK&lang=:qrLanguage&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0014",
+      "destination": "/partners?market=HK&lang=zh-HK&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0015",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/jeju/pickup?lang=:qrLanguage&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0015",
+      "destination": "/jeju/pickup?lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0016",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "(?<qrLanguage>en|ko|ja|zh-HK|ms|th)"
+        }
+      ],
+      "destination": "/jeju/pickup?lang=:qrLanguage&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016",
+      "permanent": false
+    },
+    {
+      "source": "/q/l0016",
+      "destination": "/jeju/pickup?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016",
+      "permanent": false
     }
   ]
 }

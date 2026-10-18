@@ -1,0 +1,925 @@
+{
+  "environment": "isolated local only",
+  "qr": [
+    {
+      "id": "l0001",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0001",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0001",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/?lang=ko&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0001",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/?lang=ja&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0001",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/?lang=zh-HK&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0001",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/?lang=ms&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0001",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/?lang=th&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0001",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_gift_arrival_202610&utm_content=l0001&link_id=l0001&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0002",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0002",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0002",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ko&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0002",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ja&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0002",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/jeju/pickup?lang=zh-HK&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0002",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ms&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0002",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/jeju/pickup?lang=th&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0002",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=hotel&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0002&link_id=l0002&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0003",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0003",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0003",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/?market=SG&lang=ko&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0003",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/?market=SG&lang=ja&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0003",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/?market=SG&lang=zh-HK&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0003",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/?market=SG&lang=ms&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0003",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/?market=SG&lang=th&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0003",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0003&link_id=l0003&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0004",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0004",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0004",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ko&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0004",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0004",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/partners?market=SG&lang=zh-HK&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0004",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ms&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0004",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/partners?market=SG&lang=th&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0004",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0004&link_id=l0004&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0005",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0005",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0005",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ko&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0005",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0005",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/partners?market=SG&lang=zh-HK&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0005",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ms&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0005",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/partners?market=SG&lang=th&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0005",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_b2b_202610&utm_content=l0005&link_id=l0005&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0006",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0006",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0006",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ko&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0006",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ja&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0006",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/partners?market=SG&lang=zh-HK&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0006",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/partners?market=SG&lang=ms&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0006",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/partners?market=SG&lang=th&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0006",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/partners?market=SG&lang=en&utm_source=catalog&utm_medium=pdf&utm_campaign=sg_b2b_202610&utm_content=l0006&link_id=l0006&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0007",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0007",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0007",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/?market=SG&lang=ko&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0007",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/?market=SG&lang=ja&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0007",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/?market=SG&lang=zh-HK&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0007",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/?market=SG&lang=ms&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0007",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/?market=SG&lang=th&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0007",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=social&utm_campaign=sg_online_202610&utm_content=l0007&link_id=l0007&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0008",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0008",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0008",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/?market=SG&lang=ko&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0008",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/?market=SG&lang=ja&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0008",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/?market=SG&lang=zh-HK&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0008",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/?market=SG&lang=ms&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0008",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/?market=SG&lang=th&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0008",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=sg_online_202610&utm_content=l0008&link_id=l0008&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0009",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0009",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0009",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/?market=SG&lang=ko&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0009",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/?market=SG&lang=ja&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0009",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/?market=SG&lang=zh-HK&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0009",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/?market=SG&lang=ms&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0009",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/?market=SG&lang=th&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0009",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/?market=SG&lang=en&utm_source=telegram&utm_medium=community&utm_campaign=sg_community_202610&utm_content=l0009&link_id=l0009&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0010",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0010",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/partners?market=JP&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0010",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ko&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0010",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0010",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/partners?market=JP&lang=zh-HK&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0010",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ms&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0010",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/partners?market=JP&lang=th&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0010",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0010&link_id=l0010&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0011",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0011",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/partners?market=JP&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0011",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ko&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0011",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0011",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/partners?market=JP&lang=zh-HK&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0011",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ms&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0011",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/partners?market=JP&lang=th&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0011",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=jp_b2b_202610&utm_content=l0011&link_id=l0011&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0012",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0012",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/partners?market=JP&lang=en&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0012",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ko&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0012",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0012",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/partners?market=JP&lang=zh-HK&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0012",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ms&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0012",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/partners?market=JP&lang=th&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0012",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/partners?market=JP&lang=ja&utm_source=catalog&utm_medium=pdf&utm_campaign=jp_b2b_202610&utm_content=l0012&link_id=l0012&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0013",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/partners?market=TW&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0013",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/partners?market=TW&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0013",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/partners?market=TW&lang=ko&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0013",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/partners?market=TW&lang=ja&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0013",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/partners?market=TW&lang=zh-HK&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0013",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/partners?market=TW&lang=ms&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0013",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/partners?market=TW&lang=th&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0013",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/partners?market=TW&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=tw_b2b_202610&utm_content=l0013&link_id=l0013&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0014",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/partners?market=HK&lang=zh-HK&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0014",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/partners?market=HK&lang=en&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0014",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/partners?market=HK&lang=ko&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0014",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/partners?market=HK&lang=ja&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0014",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/partners?market=HK&lang=zh-HK&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0014",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/partners?market=HK&lang=ms&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0014",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/partners?market=HK&lang=th&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0014",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/partners?market=HK&lang=zh-HK&utm_source=whatsapp&utm_medium=dm&utm_campaign=hk_groupbuy_202610&utm_content=l0014&link_id=l0014&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0015",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0015",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0015",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ko&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0015",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ja&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0015",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/jeju/pickup?lang=zh-HK&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0015",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ms&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0015",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/jeju/pickup?lang=th&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0015",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=instagram&utm_medium=dm&utm_campaign=jeju_pickup_202610&utm_content=l0015&link_id=l0015&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0016",
+      "inputLanguage": null,
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0016",
+      "inputLanguage": "en",
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0016",
+      "inputLanguage": "ko",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ko&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0016",
+      "inputLanguage": "ja",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ja&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0016",
+      "inputLanguage": "zh-HK",
+      "status": 307,
+      "location": "/jeju/pickup?lang=zh-HK&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0016",
+      "inputLanguage": "ms",
+      "status": 307,
+      "location": "/jeju/pickup?lang=ms&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0016",
+      "inputLanguage": "th",
+      "status": 307,
+      "location": "/jeju/pickup?lang=th&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    },
+    {
+      "id": "l0016",
+      "inputLanguage": "zh-TW",
+      "status": 307,
+      "location": "/jeju/pickup?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016&product=diffuser-500g&quantity=2&purpose=resale",
+      "finalStatus": 200
+    }
+  ],
+  "unknown": [
+    {
+      "id": "l0000",
+      "status": 404
+    },
+    {
+      "id": "l0017",
+      "status": 404
+    },
+    {
+      "id": "l9999",
+      "status": 404
+    },
+    {
+      "id": "l0007/extra",
+      "status": 404
+    },
+    {
+      "id": "L0007",
+      "status": 404
+    }
+  ],
+  "paymentDisabled": true,
+  "postBlocked": true
+}
