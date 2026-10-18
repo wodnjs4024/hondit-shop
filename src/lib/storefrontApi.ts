@@ -12,6 +12,7 @@ function managedFields(apiProduct: BulkProduct) {
     media: apiProduct.media,
     markets: apiProduct.markets,
     stockUnits: apiProduct.stockUnits,
+    prices: apiProduct.prices,
   };
 }
 

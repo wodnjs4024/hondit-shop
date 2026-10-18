@@ -24,6 +24,7 @@ const AdminLoginPage = lazy(() => import("./pages/AdminLoginPage").then((module)
 const AdminOrderDetailPage = lazy(() => import("./pages/AdminOrderDetailPage").then((module) => ({ default: module.AdminOrderDetailPage })));
 const AdminOrdersPage = lazy(() => import("./pages/AdminOrdersPage").then((module) => ({ default: module.AdminOrdersPage })));
 const AdminProductsPage = lazy(() => import("./pages/AdminProductsPage").then((module) => ({ default: module.AdminProductsPage })));
+const AdminPricesPage = lazy(() => import("./pages/AdminPricesPage").then((module) => ({ default: module.AdminPricesPage })));
 const AdminReviewsPage = lazy(() => import("./pages/AdminReviewsPage").then((module) => ({ default: module.AdminReviewsPage })));
 const AdminSettingsPage = lazy(() => import("./pages/AdminSettingsPage").then((module) => ({ default: module.AdminSettingsPage })));
 const BulkOrdersPage = lazy(() => import("./pages/BulkOrdersPage").then((module) => ({ default: module.BulkOrdersPage })));
@@ -310,6 +311,7 @@ export default function App() {
           <Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
           <Route path="inquiries" element={<AdminInquiriesPage />} />
           <Route path="products" element={<AdminProductsPage />} />
+          <Route path="products/prices" element={<AdminPricesPage />} />
           <Route path="reviews" element={<AdminReviewsPage />} />
           <Route path="campaign-links" element={<AdminCampaignLinksPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />

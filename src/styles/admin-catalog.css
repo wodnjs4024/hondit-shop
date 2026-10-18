@@ -81,3 +81,19 @@ a.admin-kpi:hover { border-color: #173d35; }
 .admin-manual-inquiry__wide { grid-column: 1 / -1; }
 @media (max-width: 900px) { .admin-kpis, .admin-insight-grid { grid-template-columns: minmax(0, 1fr); } }
 .admin-kpis { margin-bottom: 20px; }
+
+/* Price versions (phase 2) */
+.admin-prices__tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.admin-prices__tabs button { min-height: 40px; padding: 8px 14px; font: inherit; font-size: 14px; background: #fff; color: #161a17; border: 1px solid #dcd8ce; border-radius: 999px; cursor: pointer; }
+.admin-prices__tabs button.is-active { background: #173d35; border-color: #173d35; color: #f4f1ea; }
+.admin-prices tr.is-open td { background: #f3f6f4; }
+.admin-prices__source { display: block; font-size: 12px; color: #575e59; }
+.admin-prices__scheduled { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13px; }
+.admin-prices__editor { display: grid; gap: 14px; }
+.admin-prices__fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; align-items: start; }
+.admin-prices__fields fieldset { display: grid; gap: 6px; margin: 0; padding: 0; border: 0; }
+.admin-prices__fields legend { margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+.admin-catalog .admin-panel .admin-prices__radio { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 400; }
+.admin-catalog .admin-panel .admin-prices__radio input { min-height: 0; }
+.admin-prices caption { text-align: left; padding-bottom: 6px; font-size: 13px; color: #575e59; }
+.admin-prices .button--small { min-height: 34px; padding: 4px 12px; font-size: 13px; }

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type DragEvent, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { termsFor } from "../../shared/market-overrides.js";
 import { isDiffuser } from "../../shared/diffuser-quantity.js";
 import { cleanProductUsage } from "../../shared/page-sales.js";
@@ -188,7 +189,10 @@ export function AdminProductsPage() {
           <h1>상품</h1>
           <p className="admin-muted">문구·사진·국가별 판매·재고를 여기서 바꿉니다. 임시저장 → 미리보기 → 게시 순서로 진행하면 고객 사이트에 반영됩니다.</p>
         </div>
-        <button className="button button--primary" type="button" onClick={() => setCreating((v) => !v)}>새 상품 등록</button>
+        <div className="admin-row-actions">
+          <Link className="button button--ghost" to="/admin/products/prices">국가별 가격</Link>
+          <button className="button button--primary" type="button" onClick={() => setCreating((v) => !v)}>새 상품 등록</button>
+        </div>
       </div>
 
       {message && <p className={message.kind === "ok" ? "form-success" : "form-error"} role="status">{message.text}</p>}
@@ -200,7 +204,7 @@ export function AdminProductsPage() {
           <label>주소 이름 (영문)<input value={draftNew.slug || slugify(draftNew.name)} onChange={(e) => setDraftNew({ ...draftNew, slug: slugify(e.target.value) })} placeholder="volcanic-stone-candle" /><small>고객 주소가 /products/{draftNew.slug || slugify(draftNew.name) || "…"} 가 됩니다. 나중에 바꿀 수 없습니다.</small></label>
           <label>종류<select value={draftNew.category} onChange={(e) => setDraftNew({ ...draftNew, category: e.target.value })}><option value="diffuser">향 · 디퓨저</option><option value="cleansing">케어 · 클렌징</option></select></label>
           <label>용량 표기<input value={draftNew.volumeLabel} onChange={(e) => setDraftNew({ ...draftNew, volumeLabel: e.target.value })} placeholder="예: 300g" /></label>
-          <p className="admin-muted">새 상품은 우선 <strong>견적 문의 상품</strong>으로 판매됩니다(가격 미표시). 국가별 가격 설정은 2차 업데이트에서 추가됩니다.</p>
+          <p className="admin-muted">새 상품은 우선 <strong>견적 문의 상품</strong>으로 판매됩니다(가격 미표시). 기존 5개 상품의 가격은 <Link to="/admin/products/prices">국가별 가격</Link>에서 바꿉니다.</p>
           <div className="admin-row-actions"><button className="button button--primary" disabled={busy === "create"}>초안 만들기</button><button className="button button--ghost" type="button" onClick={() => setCreating(false)}>취소</button></div>
         </form>
       )}

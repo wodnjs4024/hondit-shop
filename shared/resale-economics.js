@@ -1,10 +1,11 @@
 import {resolveCheckoutTerms,paypalCurrencyDigits} from './checkout-terms.js';
 import {sgTerms} from './page-sales.js';
+import {conditionsFor} from './price-versions.js';
 import {purchaseRoute} from './purchase-context.js';
 import {parseMinor,currencyDigits} from './sales-tools.js';
 // Only explicitly approved SG terms are available in this schema-independent release.
 export function approvedResaleTerms(product,market,quantity){
- const d=resolveCheckoutTerms(product,market,quantity);
+ const d=resolveCheckoutTerms(product,market,quantity,conditionsFor(product,market));
  if(d.priceApproval!=='approved'||d.status==='unavailable'||d.referenceTotalMinor===null)return null;
  return {unitMinor:d.referenceUnitMinor,moq:Number(quantity),step:1,currency:d.displayCurrency,quantity:Number(quantity),totalMinor:d.referenceTotalMinor};
 }

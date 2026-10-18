@@ -27,6 +27,7 @@ export type StorefrontProduct = {
   contents?: Partial<Record<string, ProductContent>>;
   media?: ProductMedia[];
   markets?: Partial<Record<string, MarketMode>>;
+  prices?: import("../../shared/price-versions.js").ProductPrices;
   stockUnits?: number | null;
   /** Added in the admin without approved terms in code: enquiry only, no price shown. */
   quoteOnly?: boolean;

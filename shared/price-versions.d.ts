@@ -1,0 +1,13 @@
+import type { CheckoutCondition, CheckoutDecision } from './checkout-terms.js';
+export type PriceKind = 'general' | 'trial';
+export type PriceSlot = { sku: string; market: string; kind: PriceKind; currency: string; chargeable: boolean };
+export type PriceVersion = { amount: number; currency: string; version: string; effectiveFrom: string };
+export type ProductPrices = Partial<Record<string, Partial<Record<PriceKind, PriceVersion>>>>;
+export const priceKinds: readonly PriceKind[];
+export const priceSlots: readonly PriceSlot[];
+export function priceSlot(sku: string, market: string, kind: string): PriceSlot | null;
+export function amountToMinor(amount: number | string, digits: number): number | null;
+export function currentPrices(rows?: any[], now?: number | string | Date): ProductPrices;
+export function priceFor(product: any, market: string, kind: PriceKind): PriceVersion | null;
+export function conditionsFor(product: any, market: string): readonly CheckoutCondition[];
+export function applyReferencePrice(decision: CheckoutDecision, product: any, market: string): CheckoutDecision;

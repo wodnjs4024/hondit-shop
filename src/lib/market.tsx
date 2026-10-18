@@ -5,6 +5,7 @@ import {qaCopy} from '../../shared/qa-copy.js';
 import {diffuserCopy} from "../../shared/diffuser-copy.js";
 import {approvedUnitPrice} from "../../shared/checkout-terms.js";
 import {isVisibleInMarket,termsFor} from '../../shared/market-overrides.js';
+import {conditionsFor} from '../../shared/price-versions.js';
 import {buyerFlowCopy} from "../../shared/buyer-flow-copy.js";
 import {resaleCopy} from "../../shared/resale-copy.js";
 import {structureCopy} from "../../shared/structure-copy.js";
@@ -331,7 +332,7 @@ export function formatSgd(amount: number) {
 }
 
 export function getMarketUnitPrice(product: PricedItem, market: MarketConfig) {
-  const approved = approvedUnitPrice(product,market.code);
+  const approved = approvedUnitPrice(product,market.code,conditionsFor(product,market.code));
   if (approved!==null) return approved;
   const explicit = product.marketUnitPrices?.[market.code];
   if (typeof explicit === "number") return explicit;

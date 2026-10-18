@@ -1,4 +1,5 @@
 import { adminCatalog } from "./_admin-products.js";
+import { adminPrices } from "./_admin-prices.js";
 import {
   getPayPalMode,
   getProducts,
@@ -538,6 +539,7 @@ export default async function handler(req, res) {
     if (parts[0] === "orders" && parts[2] === "test") return await markTestOrder(req, res, parts[1]);
     if (parts[0] === "orders" && parts[1]) return await orderDetail(req, res, parts[1]);
     if (parts[0] === "catalog") return await adminCatalog(req, res, parts);
+    if (parts[0] === "prices") return await adminPrices(req, res, parts);
     if (parts[0] === "products") return await products(req, res);
     if (parts[0] === "settings") return await settings(req, res);
     if (parts[0] === "reviews" && parts.length === 1) return await reviewsIndex(req, res);

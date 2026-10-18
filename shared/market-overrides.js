@@ -3,6 +3,7 @@
 // narrow them: hide a product in a market, or turn direct payment into a quote request. It can never create a price
 // or enable direct payment where the approved terms do not already allow it.
 import { resolveCheckoutTerms, resolveCheckoutCart } from './checkout-terms.js';
+import { applyReferencePrice, conditionsFor } from './price-versions.js';
 
 export const marketModes = Object.freeze(['hidden', 'quote', 'direct']);
 
@@ -29,13 +30,16 @@ export function applyMarketOverride(decision, product, market) {
   return decision;
 }
 
+// Admin price versions (price-versions.js) apply only when the caller does not pass its own conditions.
 export function termsFor(product, market, quantity, conditions) {
-  return applyMarketOverride(resolveCheckoutTerms(product, market, quantity, conditions), product, market);
+  const decision = resolveCheckoutTerms(product, market, quantity, conditions ?? conditionsFor(product, market));
+  return applyMarketOverride(conditions ? decision : applyReferencePrice(decision, product, market), product, market);
 }
 
 export function cartTermsFor(lines, market, conditions) {
+  if (lines.length === 1) return termsFor(lines[0].product, market, lines[0].quantity, conditions);
   const decision = resolveCheckoutCart(lines, market, conditions);
-  return lines.length === 1 ? applyMarketOverride(decision, lines[0].product, market) : lines.some((line) => marketMode(line.product, market) === 'hidden') ? { ...decision, status: 'unavailable', reason: 'market_hidden_by_operator' } : decision;
+  return lines.some((line) => marketMode(line.product, market) === 'hidden') ? { ...decision, status: 'unavailable', reason: 'market_hidden_by_operator' } : decision;
 }
 
 /* Market visibility: an explicit operator setting wins; otherwise today's category rule decides. */

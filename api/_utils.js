@@ -1,4 +1,5 @@
 import {isDiffuser,diffuserQuantity} from '../shared/diffuser-quantity.js';
+import { currentPrices } from "../shared/price-versions.js";
 import {resolveCheckoutTerms} from '../shared/checkout-terms.js';
 import { cleanProductUsage } from "../shared/page-sales.js";
 import { defaultProducts } from "./_bulk-data.js";
@@ -88,9 +89,19 @@ export function toClientProduct(product) {
     detailImages: product.detail_images ?? product.detailImages ?? [],
     detailHighlights: product.detail_highlights ?? product.detailHighlights ?? [],
     detailHowToUse: cleanProductUsage(product.detail_how_to_use ?? product.detailHowToUse ?? []),
-    marketUnitPrices: product.market_unit_prices ?? product.marketUnitPrices ?? defaultProduct?.marketUnitPrices,
     ...productManagementFields(product),
+    ...productPriceFields(product, product.market_unit_prices ?? product.marketUnitPrices ?? defaultProduct?.marketUnitPrices),
   };
+}
+
+/* Admin price versions (migration 009). The version in force replaces the shown market price; checkout applies it
+   through shared/price-versions.js. Without 009 (or without versions) both fields are exactly what they were. */
+function productPriceFields(product, marketUnitPrices) {
+  const prices = product.prices ?? currentPrices(product.product_prices || []);
+  if (!Object.keys(prices).length) return { marketUnitPrices, prices };
+  const shown = { ...(marketUnitPrices || {}) };
+  for (const [market, kinds] of Object.entries(prices)) if (kinds.general) shown[market] = kinds.general.amount;
+  return { marketUnitPrices: shown, baseMarketUnitPrices: marketUnitPrices, prices };
 }
 
 /* Fields added by migration 008. Rows from before 008 (or the static fallback) produce today's behaviour:
@@ -148,11 +159,19 @@ export function toDbProduct(product) {
 
 /* Products with their per-language text, photos and market overrides (migration 008).
    Before 008 is applied the embedded tables do not exist, so the plain product rows are read exactly as before. */
+const PRICE_EMBED = ",product_prices(market,kind,currency,amount,version,effective_from,cancelled_at,created_at)&product_prices.cancelled_at=is.null";
 async function readProductRows(filter) {
+  const missing = (error) => /relationship|product_contents|product_media|product_markets|product_prices|schema cache/i.test(String(error.message || ""));
+  try {
+    return await supabase(`/products?select=*,product_contents(*),product_media(*),product_markets(*)${PRICE_EMBED}${filter}`);
+  } catch (error) {
+    if (!missing(error)) throw error;
+  }
+  // Before 009: the 008 tables without price versions.
   try {
     return await supabase(`/products?select=*,product_contents(*),product_media(*),product_markets(*)${filter}`);
   } catch (error) {
-    if (!/relationship|product_contents|product_media|product_markets|schema cache/i.test(String(error.message || ""))) throw error;
+    if (!missing(error)) throw error;
     return supabase(`/products?select=*${filter}`);
   }
 }

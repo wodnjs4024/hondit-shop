@@ -54,6 +54,7 @@ export type BulkProduct = {
   contents?: Partial<Record<string, ProductContent>>;
   media?: ProductMedia[];
   markets?: Partial<Record<string, MarketMode>>;
+  prices?: import("../../shared/price-versions.js").ProductPrices;
 };
 
 export const BULK_QTY_STEP = 10;
