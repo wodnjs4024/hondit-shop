@@ -19,6 +19,11 @@ import "./styles/order-flow.css";
 import App from "./App";
 import { initAnalytics } from "./lib/analytics";
 
+// A password reset link that lands on another page (Supabase falls back to the site address) still reaches the reset form.
+if (/(^|&|#)type=recovery(&|$)/.test(window.location.hash) && window.location.pathname !== "/admin/reset-password") {
+  window.location.replace(`/admin/reset-password${window.location.hash}`);
+}
+
 initAnalytics();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

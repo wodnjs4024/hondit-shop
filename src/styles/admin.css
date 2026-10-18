@@ -844,3 +844,11 @@
     grid-column: span 1;
   }
 }
+
+/* Login and password forms: label above a full-width field. */
+.admin-login form h1 { margin: 0; }
+.admin-login label { display: grid; gap: 6px; font-size: 14px; font-weight: 600; color: #161a17; }
+.admin-login label small { font-weight: 400; color: #575e59; line-height: 1.5; }
+.admin-login input { width: 100%; min-height: 44px; padding: 8px 12px; font: inherit; font-weight: 400; border: 1px solid #c9c4b8; border-radius: 6px; background: #fff; }
+.admin-forgot { display: grid; gap: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+.admin-forgot .form-success { line-height: 1.6; }

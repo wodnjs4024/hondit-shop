@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { adminFetch } from "../lib/bulkApi";
 import { AdminNotice } from "./AdminDashboardPage";
+import { AdminPasswordPanel } from "./AdminPasswordForms";
 
 type Settings = {
   legal_business_name: string;
@@ -118,6 +119,8 @@ export function AdminSettingsPage() {
           운영 설정 저장
         </button>
       </form>
+
+      <AdminPasswordPanel />
     </>
   );
 }

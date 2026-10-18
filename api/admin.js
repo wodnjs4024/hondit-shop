@@ -1,5 +1,6 @@
 import { adminCatalog } from "./_admin-products.js";
 import { adminPrices } from "./_admin-prices.js";
+import { adminPassword, adminPasswordReset } from "./_admin-password.js";
 import {
   getPayPalMode,
   getProducts,
@@ -532,6 +533,8 @@ export default async function handler(req, res) {
   try {
     const parts = segments(req);
     if (parts[0] === "login") return await login(req, res);
+    if (parts[0] === "password") return await adminPassword(req, res);
+    if (parts[0] === "password-reset") return await adminPasswordReset(req, res);
     if (parts[0] === "staging") return json(res, 200, { staging: isStagingPreview(), token: isStagingPreview() ? STAGING_ADMIN_TOKEN : null });
     if (parts[0] === "summary") return await summary(req, res);
     if (parts[0] === "orders" && parts.length === 1) return await ordersIndex(req, res);

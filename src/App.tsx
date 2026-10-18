@@ -26,6 +26,7 @@ const AdminOrdersPage = lazy(() => import("./pages/AdminOrdersPage").then((modul
 const AdminProductsPage = lazy(() => import("./pages/AdminProductsPage").then((module) => ({ default: module.AdminProductsPage })));
 const AdminPricesPage = lazy(() => import("./pages/AdminPricesPage").then((module) => ({ default: module.AdminPricesPage })));
 const AdminReviewsPage = lazy(() => import("./pages/AdminReviewsPage").then((module) => ({ default: module.AdminReviewsPage })));
+const AdminResetPasswordPage = lazy(() => import("./pages/AdminPasswordForms").then((module) => ({ default: module.AdminResetPasswordPage })));
 const AdminSettingsPage = lazy(() => import("./pages/AdminSettingsPage").then((module) => ({ default: module.AdminSettingsPage })));
 const BulkOrdersPage = lazy(() => import("./pages/BulkOrdersPage").then((module) => ({ default: module.BulkOrdersPage })));
 const BulkProductPage = lazy(() => import("./pages/BulkProductPage").then((module) => ({ default: module.BulkProductPage })));
@@ -305,6 +306,7 @@ export default function App() {
         <Route path="/order-complete/:orderNumber" element={<OrderCompletePage />} />
         <Route path="/payment-failed/:orderNumber" element={<PaymentFailedPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin/reset-password" element={<AdminResetPasswordPage />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
           <Route path="orders" element={<AdminOrdersPage />} />
