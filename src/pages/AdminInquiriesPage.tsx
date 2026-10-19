@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { adminFetch } from "../lib/bulkApi";
+import { AiReplyDraft } from "../components/AdminAiTools";
 import { AdminNotice } from "./AdminDashboardPage";
 
 type Inquiry = {
@@ -215,6 +216,7 @@ export function AdminInquiriesPage() {
               <form className="admin-reply-form" onSubmit={sendReply}>
                 <h3>관리자 답장</h3>
                 <p className="admin-muted">Resend 환경변수가 연결되어 있으면 바로 발송되고, 아니면 초안으로 저장됩니다.</p>
+                <AiReplyDraft inquiryId={selected.id} onUse={(text) => setReplyBody(text)} />
                 <label>제목<input required value={replySubject} onChange={(event) => setReplySubject(event.target.value)} /></label>
                 <label>답장 내용<textarea required rows={7} value={replyBody} onChange={(event) => setReplyBody(event.target.value)} /></label>
                 <div className="admin-row-actions">

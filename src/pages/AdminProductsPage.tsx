@@ -8,6 +8,7 @@ import { productFacts } from "../data/productFacts";
 import { productPhotoRoot, productPhotos } from "../data/productPhotos";
 import { v23Products, type MarketMode, type ProductContent, type ProductMedia, type ProductStatus } from "../data/v23SiteData";
 import { adminFetch } from "../lib/bulkApi";
+import { AiTranslateButton } from "../components/AdminAiTools";
 import { formatCurrency, marketCountryName, marketProductText, markets, type DisplayLanguage, type MarketCode } from "../lib/market";
 import { composeStorefrontProducts } from "../lib/storefrontApi";
 
@@ -298,6 +299,14 @@ export function AdminProductsPage() {
                 ))}
               </div>
               {missingLangs.length > 0 && <p className="admin-muted">● 표시 언어는 문구가 비어 있어 고객에게 영어로 보입니다.</p>}
+              <AiTranslateButton
+                source={snap.contents.ko as Parameters<typeof AiTranslateButton>[0]["source"]}
+                onResult={(translations) => edit((current) => {
+                  const next = { ...current.contents };
+                  for (const [key, value] of Object.entries(translations)) if (value.name || value.description) next[key as Lang] = value;
+                  return { ...current, contents: next };
+                })}
+              />
               <label>상품명<input value={content.name || ""} onChange={(e) => setContent({ name: e.target.value })} /></label>
               <label>짧은 설명 (목록 카드)<input value={content.shortDescription || ""} onChange={(e) => setContent({ shortDescription: e.target.value })} /></label>
               <label>상세 설명<textarea rows={4} value={content.description || ""} onChange={(e) => setContent({ description: e.target.value })} /></label>

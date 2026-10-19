@@ -16,6 +16,7 @@ import "./styles/sales-structure.css";
 import "./styles/home-redesign.css";
 import "./styles/site-redesign.css";
 import "./styles/order-flow.css";
+import "./styles/shop-assistant.css";
 import App from "./App";
 import { initAnalytics } from "./lib/analytics";
 

@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { json, notifyTelegramNewInquiry, readBody, supabase } from "./_utils.js";
 import { resolveMarket } from "./_markets.js";
+import { AiError, aiConfigured, assistantReply, chatAllowed } from "./_ai.js";
 
 const inquiryTypes = new Set(["General", "Product question", "Order support", "Bulk order", "Partnership"]);
 
@@ -70,7 +71,25 @@ async function notifyInquiryByEmail(inquiry) {
   return { sent: true, providerId: data.id };
 }
 
+/* Shop chat assistant (GPT). Lives in this function to stay inside the Vercel function limit. Stores nothing. */
+async function assistant(req, res) {
+  if (req.method === "GET") { res.setHeader("Cache-Control", "public, max-age=60"); return json(res, 200, { available: aiConfigured() }); }
+  if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
+  if (!aiConfigured()) return json(res, 503, { error: "assistant_unavailable" });
+  const ip = String(req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "").split(",")[0].trim();
+  if (!chatAllowed(ip)) return json(res, 429, { error: "Too many messages. Please try again in a few minutes." });
+  try {
+    const body = await readBody(req);
+    const reply = await assistantReply({ messages: body.messages, language: body.language, market: body.market });
+    res.setHeader("Cache-Control", "no-store");
+    return json(res, 200, { reply });
+  } catch (error) {
+    return json(res, error instanceof AiError ? error.status : 500, { error: "The assistant could not answer right now." });
+  }
+}
+
 export default async function handler(req, res) {
+  if (req.query?.assistant !== undefined) return assistant(req, res);
   if (process.env.VERCEL_ENV === "preview" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 

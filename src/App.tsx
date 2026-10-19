@@ -25,6 +25,7 @@ const AdminOrderDetailPage = lazy(() => import("./pages/AdminOrderDetailPage").t
 const AdminOrdersPage = lazy(() => import("./pages/AdminOrdersPage").then((module) => ({ default: module.AdminOrdersPage })));
 const AdminProductsPage = lazy(() => import("./pages/AdminProductsPage").then((module) => ({ default: module.AdminProductsPage })));
 const AdminPricesPage = lazy(() => import("./pages/AdminPricesPage").then((module) => ({ default: module.AdminPricesPage })));
+const ShopAssistant = lazy(() => import("./components/ShopAssistant").then((module) => ({ default: module.ShopAssistant })));
 const AdminReviewsPage = lazy(() => import("./pages/AdminReviewsPage").then((module) => ({ default: module.AdminReviewsPage })));
 const AdminResetPasswordPage = lazy(() => import("./pages/AdminPasswordForms").then((module) => ({ default: module.AdminResetPasswordPage })));
 const AdminSettingsPage = lazy(() => import("./pages/AdminSettingsPage").then((module) => ({ default: module.AdminSettingsPage })));
@@ -321,6 +322,7 @@ export default function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       </Suspense>
+      {!isAdmin && <Suspense fallback={null}><ShopAssistant /></Suspense>}
     </MarketProvider>
   );
 }
