@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"><channel>
+<title>HONDIT MY</title><link>https://hondit-shop.vercel.app/?market=MY</link><description>Approved minimum-quantity offers</description>
+    <item>
+      <g:id>diffuser-350g-q20</g:id>
+      <g:title>Volcanic Diffuser 350g — 20 units</g:title>
+      <g:description>Compact Jeju volcanic scoria diffuser with a glass vessel and 10mL citrus fragrance oil.</g:description>
+      <g:link>https://hondit-shop.vercel.app/merchant/MY/en/diffuser-350g?quantity=20</g:link>
+      <g:image_link>https://hondit-shop.vercel.app/images/diffuser-350g.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>420.00 SGD</g:price>
+      <g:brand>StoneJeju</g:brand>
+      <g:condition>new</g:condition>
+      <g:shipping><g:country>MY</g:country><g:price>0.00 SGD</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>diffuser-500g-q20</g:id>
+      <g:title>Volcanic Diffuser 500g — 20 units</g:title>
+      <g:description>Jeju volcanic scoria diffuser with Jeju onggi pottery and 10mL citrus fragrance oil.</g:description>
+      <g:link>https://hondit-shop.vercel.app/merchant/MY/en/diffuser-500g?quantity=20</g:link>
+      <g:image_link>https://hondit-shop.vercel.app/images/diffuser-500g.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>920.00 SGD</g:price>
+      <g:brand>StoneJeju</g:brand>
+      <g:condition>new</g:condition>
+      <g:shipping><g:country>MY</g:country><g:price>0.00 SGD</g:price></g:shipping>
+    </item>
+</channel></rss>

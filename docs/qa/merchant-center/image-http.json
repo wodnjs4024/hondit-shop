@@ -1,0 +1,27 @@
+[
+  {
+    "url": "https://hondit-shop.vercel.app/images/foam-oil.webp",
+    "status": 200,
+    "type": "image/webp"
+  },
+  {
+    "url": "https://hondit-shop.vercel.app/images/foaming-cleanser.webp",
+    "status": 200,
+    "type": "image/webp"
+  },
+  {
+    "url": "https://hondit-shop.vercel.app/images/cleansing-water.webp",
+    "status": 200,
+    "type": "image/webp"
+  },
+  {
+    "url": "https://hondit-shop.vercel.app/images/diffuser-350g.webp",
+    "status": 200,
+    "type": "image/webp"
+  },
+  {
+    "url": "https://hondit-shop.vercel.app/images/diffuser-500g.webp",
+    "status": 200,
+    "type": "image/webp"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "base": "c759e411babda09e77059b6f0a2f91533ceab938",
+  "catalogLiteralUnchanged": true,
+  "unchangedFiles": [
+    "shared/checkout-terms.js",
+    "shared/page-sales.js",
+    "shared/diffuser-quantity.js",
+    "shared/price-versions.js",
+    "shared/market-overrides.js",
+    "api/paypal/create-order.js",
+    "api/paypal/capture-order.js",
+    "api/paypal/webhook.js",
+    "api/paypal/config.js"
+  ],
+  "redirectsUnchanged": true,
+  "functionsUnchanged": true,
+  "existingRewritesPreserved": true
+}

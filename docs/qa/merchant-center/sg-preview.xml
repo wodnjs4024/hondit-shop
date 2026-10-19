@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"><channel>
+<title>HONDIT SG</title><link>https://hondit-shop.vercel.app/?market=SG</link><description>Approved minimum-quantity offers</description>
+    <item>
+      <g:id>foam-oil-q30</g:id>
+      <g:title>Vegan Foam Oil 150ml — 30 units</g:title>
+      <g:description>A vegan, pH 5.5 foam-oil cleanser designed for sunscreen, base makeup and a complete evening cleanse. Fragrance-free and made for a calm, simple routine.</g:description>
+      <g:link>https://hondit-shop.vercel.app/merchant/SG/en/foam-oil?quantity=30</g:link>
+      <g:image_link>https://hondit-shop.vercel.app/images/foam-oil.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>267.00 SGD</g:price>
+      <g:brand>J&apos;essence</g:brand>
+      <g:condition>new</g:condition>
+      <g:shipping><g:country>SG</g:country><g:price>0.00 SGD</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>foaming-cleanser-q30</g:id>
+      <g:title>Vegan Foaming Cleanser 200ml — 30 units</g:title>
+      <g:description>A fragrance-free vegan foaming cleanser with a pH 5.5 formula for a soft daily wash. The pump creates ready-to-use foam for a quick morning or evening routine.</g:description>
+      <g:link>https://hondit-shop.vercel.app/merchant/SG/en/foaming-cleanser?quantity=30</g:link>
+      <g:image_link>https://hondit-shop.vercel.app/images/foaming-cleanser.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>267.00 SGD</g:price>
+      <g:brand>J&apos;essence</g:brand>
+      <g:condition>new</g:condition>
+      <g:shipping><g:country>SG</g:country><g:price>0.00 SGD</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>cleansing-water-q30</g:id>
+      <g:title>Vegan Cleansing Water 300ml — 30 units</g:title>
+      <g:description>A fragrance-free vegan cleansing water for light makeup and quick resets. Its pH 5.5 formula offers a low-effort first cleansing step.</g:description>
+      <g:link>https://hondit-shop.vercel.app/merchant/SG/en/cleansing-water?quantity=30</g:link>
+      <g:image_link>https://hondit-shop.vercel.app/images/cleansing-water.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>267.00 SGD</g:price>
+      <g:brand>J&apos;essence</g:brand>
+      <g:condition>new</g:condition>
+      <g:shipping><g:country>SG</g:country><g:price>0.00 SGD</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>diffuser-350g-q10</g:id>
+      <g:title>Volcanic Diffuser 350g — 10 units</g:title>
+      <g:description>Compact Jeju volcanic scoria diffuser with a glass vessel and 10mL citrus fragrance oil.</g:description>
+      <g:link>https://hondit-shop.vercel.app/merchant/SG/en/diffuser-350g?quantity=10</g:link>
+      <g:image_link>https://hondit-shop.vercel.app/images/diffuser-350g.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>230.00 SGD</g:price>
+      <g:brand>StoneJeju</g:brand>
+      <g:condition>new</g:condition>
+      <g:shipping><g:country>SG</g:country><g:price>0.00 SGD</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>diffuser-500g-q10</g:id>
+      <g:title>Volcanic Diffuser 500g — 10 units</g:title>
+      <g:description>Jeju volcanic scoria diffuser with Jeju onggi pottery and 10mL citrus fragrance oil.</g:description>
+      <g:link>https://hondit-shop.vercel.app/merchant/SG/en/diffuser-500g?quantity=10</g:link>
+      <g:image_link>https://hondit-shop.vercel.app/images/diffuser-500g.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>500.00 SGD</g:price>
+      <g:brand>StoneJeju</g:brand>
+      <g:condition>new</g:condition>
+      <g:shipping><g:country>SG</g:country><g:price>0.00 SGD</g:price></g:shipping>
+    </item>
+</channel></rss>

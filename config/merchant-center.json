@@ -1,0 +1,63 @@
+{
+  "markets": {
+    "SG": {
+      "enabled": true,
+      "language": "en",
+      "currency": "SGD"
+    },
+    "JP": {
+      "enabled": true,
+      "language": "en",
+      "currency": "JPY"
+    },
+    "HK": {
+      "enabled": true,
+      "language": "en",
+      "currency": "HKD"
+    },
+    "TW": {
+      "enabled": true,
+      "language": "en",
+      "currency": "TWD"
+    },
+    "MO": {
+      "enabled": false,
+      "language": "en",
+      "currency": "HKD",
+      "disabledReason": "target_country_not_supported"
+    },
+    "TH": {
+      "enabled": true,
+      "language": "en",
+      "currency": "THB"
+    },
+    "MY": {
+      "enabled": true,
+      "language": "en",
+      "currency": "SGD"
+    },
+    "BN": {
+      "enabled": false,
+      "language": "en",
+      "currency": "SGD",
+      "disabledReason": "target_country_not_supported"
+    }
+  },
+  "products": {
+    "diffuser-350g": {
+      "brand": "StoneJeju"
+    },
+    "diffuser-500g": {
+      "brand": "StoneJeju"
+    },
+    "foam-oil": {
+      "brand": "J'essence"
+    },
+    "foaming-cleanser": {
+      "brand": "J'essence"
+    },
+    "cleansing-water": {
+      "brand": "J'essence"
+    }
+  }
+}

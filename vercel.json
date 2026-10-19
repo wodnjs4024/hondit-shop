@@ -14,6 +14,14 @@
       "destination": "/api/products?sitemap=1"
     },
     {
+      "source": "/merchant/:market/:lang/:merchantSlug",
+      "destination": "/api/products?merchantSlug=:merchantSlug&market=:market&lang=:lang"
+    },
+    {
+      "source": "/feeds/google/:market/:lang",
+      "destination": "/api/products?feed=google&market=:market&lang=:lang"
+    },
+    {
       "source": "/feeds/google/:market",
       "destination": "/api/products?feed=google&market=:market"
     },

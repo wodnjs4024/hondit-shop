@@ -1,0 +1,21 @@
+✔ merchant uses existing storefront default names and photos, not a separate copy (21.127869ms)
+✔ SG minimum payable quantity, price, brand, identifiers and XML validity (70.93588ms)
+✔ only reviewed market/language is active; no silent SG fallback (0.680163ms)
+✔ future market remains behind configuration AND actual checkout terms (1.115058ms)
+✔ HTML price, schema, image, name, quantity and checkout destination share the exact feed offer (91.210374ms)
+✔ live content overrides and price versions propagate together; no raw SKU as MPN (0.888727ms)
+✔ explicit stock overrides packs, zero/low stock disables checkout and unknown stock is excluded (24.48191ms)
+✔ non-public, quote-only, missing metadata/content and mismatched quantities fail closed (1.373407ms)
+✔ hostile XML, HTML, script terminators and image schemes cannot inject content (20.820221ms)
+✔ sitemap preserves published products and routes preserve existing QR configuration (0.645171ms)
+✔ API GET/HEAD XML and initial HTML, method restrictions, missing source and unavailable offers (46.140452ms)
+✔ read-only Preview and production without live payment prerequisites never advertise purchasable offers (1.946579ms)
+✔ HTTP feed destinations expose matching initial HTML and preserve checkout selections (252.722332ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 702.426888

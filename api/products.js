@@ -1,7 +1,8 @@
 import partnerGuide from "./_partner-guide.js";
 import pickupInfo from './_pickup.js';
 import { googleFeed, sitemap } from "./_feeds.js";
-import { applyProductSnapshot, getProducts, getStorefrontProducts, json, previewWritesBlocked, supabase, verifyAdmin } from "./_utils.js";
+import { merchantMarket, merchantOffer, merchantHtml } from "./_merchant.js";
+import { applyProductSnapshot, getProducts, getStorefrontProducts, getPayPalMode, json, previewWritesBlocked, requireEnv, supabase, verifyAdmin } from "./_utils.js";
 
 /* Admin-only: the product as it would look if the current draft were published. */
 async function draftPreview(req, res, slug) {
@@ -25,17 +26,51 @@ export default async function handler(req, res) {
     return json(res,404,{error:'QR link not registered',home:'/'});
   }
   if(req.query?.pickupInfo !== undefined) return pickupInfo(req,res);
-  // Google Merchant Center feed (/feeds/google/:market) and sitemap.xml, both from the live catalog.
-  if (req.method === "GET" && (req.query?.feed === "google" || req.query?.sitemap !== undefined)) {
+  // Read-only merchant routes: same product rows/terms, never static fallback inventory.
+  if (req.query?.feed === "google" || req.query?.merchantSlug !== undefined) {
+    res.setHeader("Cache-Control", "no-store");
+    if (!["GET", "HEAD"].includes(req.method)) { res.setHeader("Allow", "GET, HEAD"); return json(res,405,{error:"Method not allowed"}); }
+    if (["market", "lang", "quantity"].some(key => req.query[key] !== undefined && typeof req.query[key] !== "string")) return json(res,400,{error:"Invalid merchant parameters"});
+    const market = typeof req.query.market === "string" ? req.query.market.toUpperCase() : "SG";
+    const language = typeof req.query.lang === "string" ? req.query.lang : undefined;
+    if (!merchantMarket(market, language)) return json(res,404,{error:"Merchant market/language not enabled"});
+    try {
+      requireEnv(["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]);
+      if (process.env.VERCEL_ENV === "preview") return json(res,503,{error:"Merchant offers disabled in read-only Preview"});
+      if (process.env.VERCEL_ENV === "production") {
+        requireEnv(["PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET"]);
+        if (getPayPalMode() !== "live") return json(res,503,{error:"Live checkout unavailable"});
+      }
+      const settings = await supabase("/site_settings?id=eq.1&select=checkout_enabled");
+      if (settings?.[0]?.checkout_enabled === false) return json(res,503,{error:"Direct checkout temporarily unavailable"});
+      const products = await getStorefrontProducts();
+      res.setHeader("Cache-Control", "no-store");
+      if (req.query?.feed === "google") {
+        res.setHeader("Content-Type", "application/xml; charset=utf-8");
+        res.statusCode = 200;
+        return res.end(req.method === "HEAD" ? "" : googleFeed(products,market,language));
+      }
+      const product = products.find(p => p.slug === req.query.merchantSlug);
+      const result = merchantOffer(product,market,language,req.query.quantity);
+      if (!result.item) return json(res,404,{error:"Merchant offer unavailable"});
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      res.setHeader("Content-Security-Policy", "default-src 'none'; img-src https:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'");
+      return res.end(req.method === "HEAD" ? "" : merchantHtml(result.item));
+    } catch {
+      res.setHeader("Cache-Control", "no-store");
+      return json(res,503,{error:"Live merchant catalog unavailable"});
+    }
+  }
+  if (["GET", "HEAD"].includes(req.method) && req.query?.sitemap !== undefined) {
     try {
       const products = await getStorefrontProducts();
       res.setHeader("Content-Type", "application/xml; charset=utf-8");
       res.setHeader("Cache-Control", "public, max-age=0, s-maxage=600, stale-while-revalidate=3600");
       res.statusCode = 200;
-      return res.end(req.query?.feed === "google" ? googleFeed(products, String(req.query.market || "SG").toUpperCase()) : sitemap(products));
-    } catch (error) {
-      return json(res, 500, { error: "Could not build feed" });
-    }
+      return res.end(req.method === "HEAD" ? "" : sitemap(products));
+    } catch { return json(res,503,{error:"Could not build sitemap"}); }
   }
   if (req.query?.partnerSlug !== undefined) return partnerGuide({...req,query:{slug:req.query.partnerSlug}},res);
   if (previewWritesBlocked(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }

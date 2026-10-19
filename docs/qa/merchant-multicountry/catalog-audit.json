@@ -1,0 +1,730 @@
+{
+  "generatedAt": "2026-10-19T12:43:42.102Z",
+  "source": "Read-only public API snapshot supplied by file path; inventory is an application record, not a physical stock count.",
+  "products": [
+    {
+      "slug": "foam-oil",
+      "name": "J'essence Vegan Foam Oil",
+      "stockUnits": 600,
+      "active": true,
+      "purchaseEnabled": true,
+      "status": "published",
+      "rows": [
+        {
+          "market": "SG",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 26700,
+              "shippingIncluded": true,
+              "version": "sg-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "JP",
+          "quantities": []
+        },
+        {
+          "market": "HK",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 165000,
+              "shippingIncluded": true,
+              "version": "hk-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "TW",
+          "quantities": []
+        },
+        {
+          "market": "MO",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 165000,
+              "shippingIncluded": true,
+              "version": "mo-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "TH",
+          "quantities": []
+        },
+        {
+          "market": "MY",
+          "quantities": []
+        },
+        {
+          "market": "BN",
+          "quantities": []
+        }
+      ],
+      "merchant": {
+        "id": "foam-oil-q30",
+        "slug": "foam-oil",
+        "title": "Vegan Foam Oil 150ml — 30 units",
+        "description": "A vegan, pH 5.5 foam-oil cleanser designed for sunscreen, base makeup and a complete evening cleanse. Fragrance-free and made for a calm, simple routine.",
+        "brand": "J'essence",
+        "market": "SG",
+        "language": "en",
+        "quantity": 30,
+        "link": "https://hondit-shop.vercel.app/merchant/SG/en/foam-oil?quantity=30",
+        "checkoutLink": "https://hondit-shop.vercel.app/bulk-orders/foam-oil?market=SG&lang=en&product=foam-oil&quantity=30",
+        "detailsLink": "https://hondit-shop.vercel.app/products/foam-oil?market=SG&lang=en&product=foam-oil&quantity=30",
+        "image": "https://hondit-shop.vercel.app/images/foam-oil.webp",
+        "availability": "in_stock",
+        "currency": "SGD",
+        "priceAmount": "267.00",
+        "price": "267.00 SGD",
+        "totalAmount": "267.00",
+        "shippingAmount": "0.00",
+        "shippingPrice": "0.00 SGD",
+        "shippingIncluded": true,
+        "stock": 600,
+        "version": "sg-cleansing-delivered-2026-10-19"
+      }
+    },
+    {
+      "slug": "foaming-cleanser",
+      "name": "J'essence Vegan Foaming Cleanser",
+      "stockUnits": 600,
+      "active": true,
+      "purchaseEnabled": true,
+      "status": "published",
+      "rows": [
+        {
+          "market": "SG",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 26700,
+              "shippingIncluded": true,
+              "version": "sg-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "JP",
+          "quantities": []
+        },
+        {
+          "market": "HK",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 165000,
+              "shippingIncluded": true,
+              "version": "hk-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "TW",
+          "quantities": []
+        },
+        {
+          "market": "MO",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 165000,
+              "shippingIncluded": true,
+              "version": "mo-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "TH",
+          "quantities": []
+        },
+        {
+          "market": "MY",
+          "quantities": []
+        },
+        {
+          "market": "BN",
+          "quantities": []
+        }
+      ],
+      "merchant": {
+        "id": "foaming-cleanser-q30",
+        "slug": "foaming-cleanser",
+        "title": "Vegan Foaming Cleanser 200ml — 30 units",
+        "description": "A fragrance-free vegan foaming cleanser with a pH 5.5 formula for a soft daily wash. The pump creates ready-to-use foam for a quick morning or evening routine.",
+        "brand": "J'essence",
+        "market": "SG",
+        "language": "en",
+        "quantity": 30,
+        "link": "https://hondit-shop.vercel.app/merchant/SG/en/foaming-cleanser?quantity=30",
+        "checkoutLink": "https://hondit-shop.vercel.app/bulk-orders/foaming-cleanser?market=SG&lang=en&product=foaming-cleanser&quantity=30",
+        "detailsLink": "https://hondit-shop.vercel.app/products/foaming-cleanser?market=SG&lang=en&product=foaming-cleanser&quantity=30",
+        "image": "https://hondit-shop.vercel.app/images/foaming-cleanser.webp",
+        "availability": "in_stock",
+        "currency": "SGD",
+        "priceAmount": "267.00",
+        "price": "267.00 SGD",
+        "totalAmount": "267.00",
+        "shippingAmount": "0.00",
+        "shippingPrice": "0.00 SGD",
+        "shippingIncluded": true,
+        "stock": 600,
+        "version": "sg-cleansing-delivered-2026-10-19"
+      }
+    },
+    {
+      "slug": "cleansing-water",
+      "name": "J'essence Vegan Cleansing Water",
+      "stockUnits": 600,
+      "active": true,
+      "purchaseEnabled": true,
+      "status": "published",
+      "rows": [
+        {
+          "market": "SG",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 26700,
+              "shippingIncluded": true,
+              "version": "sg-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "JP",
+          "quantities": []
+        },
+        {
+          "market": "HK",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 165000,
+              "shippingIncluded": true,
+              "version": "hk-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "TW",
+          "quantities": []
+        },
+        {
+          "market": "MO",
+          "quantities": [
+            {
+              "quantity": 30,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 165000,
+              "shippingIncluded": true,
+              "version": "mo-cleansing-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "TH",
+          "quantities": []
+        },
+        {
+          "market": "MY",
+          "quantities": []
+        },
+        {
+          "market": "BN",
+          "quantities": []
+        }
+      ],
+      "merchant": {
+        "id": "cleansing-water-q30",
+        "slug": "cleansing-water",
+        "title": "Vegan Cleansing Water 300ml — 30 units",
+        "description": "A fragrance-free vegan cleansing water for light makeup and quick resets. Its pH 5.5 formula offers a low-effort first cleansing step.",
+        "brand": "J'essence",
+        "market": "SG",
+        "language": "en",
+        "quantity": 30,
+        "link": "https://hondit-shop.vercel.app/merchant/SG/en/cleansing-water?quantity=30",
+        "checkoutLink": "https://hondit-shop.vercel.app/bulk-orders/cleansing-water?market=SG&lang=en&product=cleansing-water&quantity=30",
+        "detailsLink": "https://hondit-shop.vercel.app/products/cleansing-water?market=SG&lang=en&product=cleansing-water&quantity=30",
+        "image": "https://hondit-shop.vercel.app/images/cleansing-water.webp",
+        "availability": "in_stock",
+        "currency": "SGD",
+        "priceAmount": "267.00",
+        "price": "267.00 SGD",
+        "totalAmount": "267.00",
+        "shippingAmount": "0.00",
+        "shippingPrice": "0.00 SGD",
+        "shippingIncluded": true,
+        "stock": 600,
+        "version": "sg-cleansing-delivered-2026-10-19"
+      }
+    },
+    {
+      "slug": "diffuser-350g",
+      "name": "Volcanic Stone Diffuser",
+      "stockUnits": 240,
+      "active": true,
+      "purchaseEnabled": true,
+      "status": "published",
+      "rows": [
+        {
+          "market": "SG",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 23000,
+              "shippingIncluded": true,
+              "version": "sg-trial-delivered-2026-10-15"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 42000,
+              "shippingIncluded": true,
+              "version": "sg-general-delivered-2026-10-15"
+            }
+          ]
+        },
+        {
+          "market": "JP",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "JPY",
+              "totalMinor": 48000,
+              "shippingIncluded": true,
+              "version": "jp-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "HK",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 256000,
+              "shippingIncluded": true,
+              "version": "hk-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "TW",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "TWD",
+              "totalMinor": 9600,
+              "shippingIncluded": true,
+              "version": "tw-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "MO",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 256000,
+              "shippingIncluded": true,
+              "version": "mo-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "TH",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "THB",
+              "totalMinor": 1100000,
+              "shippingIncluded": true,
+              "version": "th-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "MY",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 42000,
+              "shippingIncluded": true,
+              "version": "my-general-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "BN",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 42000,
+              "shippingIncluded": true,
+              "version": "bn-general-delivered-2026-10-18"
+            }
+          ]
+        }
+      ],
+      "merchant": {
+        "id": "diffuser-350g-q10",
+        "slug": "diffuser-350g",
+        "title": "Volcanic Diffuser 350g — 10 units",
+        "description": "Compact Jeju volcanic scoria diffuser with a glass vessel and 10mL citrus fragrance oil.",
+        "brand": "StoneJeju",
+        "market": "SG",
+        "language": "en",
+        "quantity": 10,
+        "link": "https://hondit-shop.vercel.app/merchant/SG/en/diffuser-350g?quantity=10",
+        "checkoutLink": "https://hondit-shop.vercel.app/bulk-orders/diffuser-350g?market=SG&lang=en&product=diffuser-350g&quantity=10",
+        "detailsLink": "https://hondit-shop.vercel.app/products/diffuser-350g?market=SG&lang=en&product=diffuser-350g&quantity=10",
+        "image": "https://hondit-shop.vercel.app/images/diffuser-350g.webp",
+        "availability": "in_stock",
+        "currency": "SGD",
+        "priceAmount": "230.00",
+        "price": "230.00 SGD",
+        "totalAmount": "230.00",
+        "shippingAmount": "0.00",
+        "shippingPrice": "0.00 SGD",
+        "shippingIncluded": true,
+        "stock": 240,
+        "version": "sg-trial-delivered-2026-10-15"
+      }
+    },
+    {
+      "slug": "diffuser-500g",
+      "name": "Volcanic Stone Diffuser",
+      "stockUnits": 200,
+      "active": true,
+      "purchaseEnabled": true,
+      "status": "published",
+      "rows": [
+        {
+          "market": "SG",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 50000,
+              "shippingIncluded": true,
+              "version": "sg-trial-delivered-2026-10-15"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 92000,
+              "shippingIncluded": true,
+              "version": "sg-general-delivered-2026-10-15"
+            }
+          ]
+        },
+        {
+          "market": "JP",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "JPY",
+              "totalMinor": 104000,
+              "shippingIncluded": true,
+              "version": "jp-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "HK",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 560000,
+              "shippingIncluded": true,
+              "version": "hk-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "TW",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "TWD",
+              "totalMinor": 21000,
+              "shippingIncluded": true,
+              "version": "tw-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "MO",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "HKD",
+              "totalMinor": 560000,
+              "shippingIncluded": true,
+              "version": "mo-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "TH",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "THB",
+              "totalMinor": 2400000,
+              "shippingIncluded": true,
+              "version": "th-general-delivered-2026-10-18"
+            }
+          ]
+        },
+        {
+          "market": "MY",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 92000,
+              "shippingIncluded": true,
+              "version": "my-general-delivered-2026-10-19"
+            }
+          ]
+        },
+        {
+          "market": "BN",
+          "quantities": [
+            {
+              "quantity": 10,
+              "status": "request",
+              "reason": "conditions_pending",
+              "currency": null,
+              "totalMinor": null,
+              "shippingIncluded": null,
+              "version": "trial-proposed-2026-10-13"
+            },
+            {
+              "quantity": 20,
+              "status": "direct",
+              "reason": "confirmed_scope",
+              "currency": "SGD",
+              "totalMinor": 92000,
+              "shippingIncluded": true,
+              "version": "bn-general-delivered-2026-10-18"
+            }
+          ]
+        }
+      ],
+      "merchant": {
+        "id": "diffuser-500g-q10",
+        "slug": "diffuser-500g",
+        "title": "Volcanic Diffuser 500g — 10 units",
+        "description": "Jeju volcanic scoria diffuser with Jeju onggi pottery and 10mL citrus fragrance oil.",
+        "brand": "StoneJeju",
+        "market": "SG",
+        "language": "en",
+        "quantity": 10,
+        "link": "https://hondit-shop.vercel.app/merchant/SG/en/diffuser-500g?quantity=10",
+        "checkoutLink": "https://hondit-shop.vercel.app/bulk-orders/diffuser-500g?market=SG&lang=en&product=diffuser-500g&quantity=10",
+        "detailsLink": "https://hondit-shop.vercel.app/products/diffuser-500g?market=SG&lang=en&product=diffuser-500g&quantity=10",
+        "image": "https://hondit-shop.vercel.app/images/diffuser-500g.webp",
+        "availability": "in_stock",
+        "currency": "SGD",
+        "priceAmount": "500.00",
+        "price": "500.00 SGD",
+        "totalAmount": "500.00",
+        "shippingAmount": "0.00",
+        "shippingPrice": "0.00 SGD",
+        "shippingIncluded": true,
+        "stock": 200,
+        "version": "sg-trial-delivered-2026-10-15"
+      }
+    }
+  ]
+}

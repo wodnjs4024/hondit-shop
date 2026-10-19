@@ -1,78 +1,25 @@
-// Search and shopping feeds, generated from the live catalog and checkout rules on every request:
-// - Google Merchant Center product feed per market (only items a customer can pay for directly there)
-// - sitemap.xml (published products included automatically)
-import { paypalCurrencyDigits } from "../shared/checkout-terms.js";
-import { termsFor } from "../shared/market-overrides.js";
-
-export const SITE = "https://hondit-shop.vercel.app";
-const MARKETS = ["SG", "HK", "MO", "TW", "JP", "TH", "MY", "BN"];
-const esc = (value) => String(value ?? "").replace(/[<>&'"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" }[c]));
-const abs = (url) => (!url ? "" : /^https:\/\//.test(url) ? url : `${SITE}${url.startsWith("/") ? "" : "/"}${url}`);
-
-function images(product) {
-  const media = (product.media || []).map((m) => ({ url: m.url, role: m.role }));
-  const main = media.find((m) => m.role === "main")?.url || product.imageUrl || product.galleryImages?.[0];
-  const rest = [...media.filter((m) => m.role !== "main").map((m) => m.url), ...(product.galleryImages || [])].filter((url) => url && url !== main);
-  return { main: abs(main), extra: [...new Set(rest)].slice(0, 5).map(abs) };
-}
-
-/* One purchasable offer: the minimum order, sold as a multipack, delivery included. */
-export function feedItem(product, market) {
-  if (["draft", "hidden"].includes(product.status)) return null;
-  const minimum = product.category === "diffuser" ? 20 : 30;
-  const d = termsFor(product, market, minimum);
-  if (d.status !== "direct" || !d.billingCurrency || d.totalMinor === null) return null;
-  const digits = paypalCurrencyDigits(d.billingCurrency);
-  const en = product.contents?.en;
-  const name = en?.name || product.name;
-  const description = en?.description || product.description || product.shortDescription || name;
-  const { main, extra } = images(product);
-  if (!main) return null;
-  const soldOut = product.status === "soldout" || (product.stockUnits !== null && product.stockUnits !== undefined && product.stockUnits < minimum);
-  return {
-    id: `${product.slug}-${market.toLowerCase()}`,
-    title: `HONDIT ${name} ${product.volumeLabel || ""} - ${minimum}-unit pack`.replace(/\s+/g, " ").trim(),
-    description: `${description} Pack of ${minimum} units. EMS delivery from Korea included; import tax and duties, if any, are paid by the recipient.`,
-    link: `${SITE}/products/${product.slug}?market=${market}&lang=en`,
-    image: main,
-    extraImages: extra,
-    availability: soldOut ? "out_of_stock" : "in_stock",
-    price: `${(d.totalMinor / 10 ** digits).toFixed(digits)} ${d.billingCurrency}`,
-    shippingPrice: `0 ${d.billingCurrency}`,
-    multipack: minimum,
-    productType: product.category === "diffuser" ? "Home Fragrance > Stone Diffusers" : "Skin Care > Face Cleansers",
-  };
-}
-
-export function googleFeed(products, market) {
-  const code = MARKETS.includes(market) ? market : "SG";
-  const items = products.map((product) => feedItem(product, code)).filter(Boolean);
-  const body = items.map((item) => `    <item>
-      <g:id>${esc(item.id)}</g:id>
-      <g:title>${esc(item.title)}</g:title>
-      <g:description>${esc(item.description)}</g:description>
-      <g:link>${esc(item.link)}</g:link>
-      <g:image_link>${esc(item.image)}</g:image_link>
-${item.extraImages.map((url) => `      <g:additional_image_link>${esc(url)}</g:additional_image_link>`).join("\n")}
-      <g:availability>${item.availability}</g:availability>
-      <g:price>${esc(item.price)}</g:price>
-      <g:multipack>${item.multipack}</g:multipack>
-      <g:brand>HONDIT</g:brand>
-      <g:condition>new</g:condition>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>${esc(item.productType)}</g:product_type>
-      <g:shipping><g:country>${code}</g:country><g:price>${esc(item.shippingPrice)}</g:price></g:shipping>
-    </item>`.replace(/\n\n/g, "\n")).join("\n");
+// XML and HTML use the same live, approved merchant offer. No fallback to guessed market data.
+import { SITE, merchantMarket, merchantOffer, escapeMarkup as esc } from './_merchant.js';
+export { SITE } from './_merchant.js';
+export function feedItem(product, market = 'SG', language) { return merchantOffer(product, market, language).item || null; }
+export function googleFeed(products, market = 'SG', language) {
+  const channel = merchantMarket(market, language);
+  if (!channel) throw new RangeError('Merchant market/language not enabled');
+  const items = products.map(p => feedItem(p, market, channel.language)).filter(Boolean);
+  const tag = (name, value) => `      <g:${name}>${esc(value)}</g:${name}>`;
+  const body = items.map(item => `    <item>\n${[
+    tag('id',item.id),tag('title',item.title),tag('description',item.description),tag('link',item.link),tag('image_link',item.image),
+    ...item.extraImages.map(url => tag('additional_image_link',url)),tag('availability',item.availability),tag('price',item.price),
+    tag('brand',item.brand),tag('condition','new'),
+    ...(item.gtin ? [tag('gtin',item.gtin)] : []),...(item.mpn ? [tag('mpn',item.mpn)] : []),
+    ...(item.identifierExists === false ? [tag('identifier_exists','no')] : []),
+    `      <g:shipping><g:country>${market}</g:country><g:price>${esc(item.shippingPrice)}</g:price></g:shipping>`
+  ].join('\n')}\n    </item>`).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
-  <channel>
-    <title>HONDIT ${code}</title>
-    <link>${SITE}/?market=${code}</link>
-    <description>HONDIT products payable directly in ${code}</description>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"><channel>
+<title>HONDIT ${market}</title><link>${SITE}/?market=${market}</link><description>Approved minimum-quantity offers</description>
 ${body}
-  </channel>
-</rss>
-`;
+</channel></rss>\n`;
 }
 
 const STATIC_PAGES = ["/", "/products", "/bulk-orders", "/jeju", "/partners", "/shipping", "/contact", "/policy/refund", "/policy/shipping", "/policy/privacy", "/policy/terms"];

@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-19T11:51:03.235248+00:00",
+  "results": [
+    {
+      "path": "/feeds/google/SG",
+      "status": 200,
+      "type": "application/xml; charset=utf-8",
+      "bytes": 5135,
+      "productJsonLdInRawHtml": false,
+      "spaRoot": false
+    },
+    {
+      "path": "/products/diffuser-350g?market=SG&lang=en",
+      "status": 200,
+      "type": "text/html; charset=utf-8",
+      "bytes": 1693,
+      "productJsonLdInRawHtml": false,
+      "spaRoot": true
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "bytes": 168,
+      "productJsonLdInRawHtml": false,
+      "spaRoot": false,
+      "body": "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /order-complete/\nDisallow: /payment-failed/\nDisallow: /partners/\n\nSitemap: https://hondit-shop.vercel.app/sitemap.xml\n"
+    },
+    {
+      "path": "/api/paypal/config",
+      "status": 200,
+      "type": "application/json",
+      "bytes": 132,
+      "productJsonLdInRawHtml": false,
+      "spaRoot": false,
+      "checkoutEnabled": true,
+      "mode": "live",
+      "clientIdPresent": true
+    }
+  ]
+}
