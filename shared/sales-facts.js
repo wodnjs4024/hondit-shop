@@ -48,7 +48,7 @@ export function salesFacts(products, onlyMarket) {
         continue;
       }
       const route = d.status === 'direct'
-        ? `pay directly by PayPal, EMS delivery included${diffuser ? `, any quantity from ${minimum} to 9999` : `, exactly ${minimum} units per order (other quantities by quote)`}`
+        ? `pay directly by PayPal, EMS delivery included${diffuser ? `, any quantity from ${minimum} to 9999` : `, ${minimum} units or more in steps of 10 (other quantities by quote)`}${market === 'MY' ? ', priced and paid in SGD' : ''}`
         : 'quote only: use /contact; the team confirms the total before payment';
       out.push(`- ${product.slug}: ${general.unit ? `${general.unit} per unit` : 'price on request'}, minimum ${minimum} units, ${route}. Link: /products/${product.slug}?market=${market}`);
       if (diffuser) {

@@ -1765,7 +1765,7 @@
  },
  "diffuser-350g|MY|listing": {
   "visible": true,
-  "unitPrice": "RM 68",
+  "unitPrice": "SGD 21",
   "moq": 20,
   "stock": 240,
   "active": true,
@@ -1774,7 +1774,7 @@
  "diffuser-350g|MY|1|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1787,7 +1787,7 @@
  "diffuser-350g|MY|1|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1800,7 +1800,7 @@
  "diffuser-350g|MY|5|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1813,7 +1813,7 @@
  "diffuser-350g|MY|5|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1826,7 +1826,7 @@
  "diffuser-350g|MY|9|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1839,7 +1839,7 @@
  "diffuser-350g|MY|9|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1878,7 +1878,7 @@
  "diffuser-350g|MY|11|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1891,7 +1891,7 @@
  "diffuser-350g|MY|11|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1904,7 +1904,7 @@
  "diffuser-350g|MY|15|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1917,7 +1917,7 @@
  "diffuser-350g|MY|15|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1930,7 +1930,7 @@
  "diffuser-350g|MY|19|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1943,7 +1943,7 @@
  "diffuser-350g|MY|19|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 6800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -1954,108 +1954,108 @@
   "version": null
  },
  "diffuser-350g|MY|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 6800,
-  "referenceTotalMinor": 136000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 2100,
+  "referenceTotalMinor": 42000,
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 42000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-350g|MY|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 6800,
-  "referenceTotalMinor": 136000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 2100,
+  "referenceTotalMinor": 42000,
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 42000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-350g|MY|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 6800,
-  "referenceTotalMinor": 142800,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 2100,
+  "referenceTotalMinor": 44100,
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 44100,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-350g|MY|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 6800,
-  "referenceTotalMinor": 142800,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 2100,
+  "referenceTotalMinor": 44100,
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 44100,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-350g|MY|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 6800,
-  "referenceTotalMinor": 204000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 2100,
+  "referenceTotalMinor": 63000,
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 63000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-350g|MY|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 6800,
-  "referenceTotalMinor": 204000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 2100,
+  "referenceTotalMinor": 63000,
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 63000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-350g|MY|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 6800,
-  "referenceTotalMinor": 680000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 2100,
+  "referenceTotalMinor": 210000,
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 210000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-350g|MY|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 6800,
-  "referenceTotalMinor": 680000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 2100,
+  "referenceTotalMinor": 210000,
+  "billingCurrency": "SGD",
+  "unitMinor": 2100,
+  "totalMinor": 210000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-350g|BN|listing": {
   "visible": true,
@@ -4117,7 +4117,7 @@
  },
  "diffuser-500g|MY|listing": {
   "visible": true,
-  "unitPrice": "RM 148",
+  "unitPrice": "SGD 46",
   "moq": 20,
   "stock": 200,
   "active": true,
@@ -4126,7 +4126,7 @@
  "diffuser-500g|MY|1|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4139,7 +4139,7 @@
  "diffuser-500g|MY|1|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4152,7 +4152,7 @@
  "diffuser-500g|MY|5|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4165,7 +4165,7 @@
  "diffuser-500g|MY|5|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4178,7 +4178,7 @@
  "diffuser-500g|MY|9|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4191,7 +4191,7 @@
  "diffuser-500g|MY|9|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4230,7 +4230,7 @@
  "diffuser-500g|MY|11|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4243,7 +4243,7 @@
  "diffuser-500g|MY|11|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4256,7 +4256,7 @@
  "diffuser-500g|MY|15|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4269,7 +4269,7 @@
  "diffuser-500g|MY|15|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4282,7 +4282,7 @@
  "diffuser-500g|MY|19|storefront": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4295,7 +4295,7 @@
  "diffuser-500g|MY|19|server": {
   "status": "unavailable",
   "reason": "invalid_quantity",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": 14800,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -4306,108 +4306,108 @@
   "version": null
  },
  "diffuser-500g|MY|20|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 14800,
-  "referenceTotalMinor": 296000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 4600,
+  "referenceTotalMinor": 92000,
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 92000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-500g|MY|20|server": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 14800,
-  "referenceTotalMinor": 296000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 4600,
+  "referenceTotalMinor": 92000,
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 92000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-500g|MY|21|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 14800,
-  "referenceTotalMinor": 310800,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 4600,
+  "referenceTotalMinor": 96600,
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 96600,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-500g|MY|21|server": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 14800,
-  "referenceTotalMinor": 310800,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 4600,
+  "referenceTotalMinor": 96600,
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 96600,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-500g|MY|30|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 14800,
-  "referenceTotalMinor": 444000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 4600,
+  "referenceTotalMinor": 138000,
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 138000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-500g|MY|30|server": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 14800,
-  "referenceTotalMinor": 444000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 4600,
+  "referenceTotalMinor": 138000,
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 138000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-500g|MY|100|storefront": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 14800,
-  "referenceTotalMinor": 1480000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 4600,
+  "referenceTotalMinor": 460000,
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 460000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-500g|MY|100|server": {
-  "status": "request",
-  "reason": "conditions_pending",
-  "displayCurrency": "MYR",
-  "referenceUnitMinor": 14800,
-  "referenceTotalMinor": 1480000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "legacy-awaiting-confirmation-v1"
+  "status": "direct",
+  "reason": "confirmed_scope",
+  "displayCurrency": "SGD",
+  "referenceUnitMinor": 4600,
+  "referenceTotalMinor": 460000,
+  "billingCurrency": "SGD",
+  "unitMinor": 4600,
+  "totalMinor": 460000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "my-general-delivered-2026-10-19"
  },
  "diffuser-500g|BN|listing": {
   "visible": true,
@@ -4722,7 +4722,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|1|server": {
   "status": "request",
@@ -4735,7 +4735,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|5|storefront": {
   "status": "request",
@@ -4748,7 +4748,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|5|server": {
   "status": "request",
@@ -4761,7 +4761,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|9|storefront": {
   "status": "request",
@@ -4774,7 +4774,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|9|server": {
   "status": "request",
@@ -4787,7 +4787,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|10|storefront": {
   "status": "request",
@@ -4800,7 +4800,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|10|server": {
   "status": "request",
@@ -4813,7 +4813,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|11|storefront": {
   "status": "request",
@@ -4826,7 +4826,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|11|server": {
   "status": "request",
@@ -4839,7 +4839,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|15|storefront": {
   "status": "request",
@@ -4852,7 +4852,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|15|server": {
   "status": "request",
@@ -4865,7 +4865,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|19|storefront": {
   "status": "request",
@@ -4878,7 +4878,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|19|server": {
   "status": "request",
@@ -4891,7 +4891,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|20|storefront": {
   "status": "request",
@@ -4904,7 +4904,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|20|server": {
   "status": "request",
@@ -4917,7 +4917,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|21|storefront": {
   "status": "request",
@@ -4930,7 +4930,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|21|server": {
   "status": "request",
@@ -4943,7 +4943,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|30|storefront": {
   "status": "direct",
@@ -4956,7 +4956,7 @@
   "totalMinor": 26700,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|30|server": {
   "status": "direct",
@@ -4969,33 +4969,33 @@
   "totalMinor": 26700,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 890,
   "referenceTotalMinor": 89000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 890,
+  "totalMinor": 89000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|SG|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 890,
   "referenceTotalMinor": 89000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 890,
+  "totalMinor": 89000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|listing": {
   "visible": true,
@@ -5016,7 +5016,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|1|server": {
   "status": "request",
@@ -5029,7 +5029,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|5|storefront": {
   "status": "request",
@@ -5042,7 +5042,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|5|server": {
   "status": "request",
@@ -5055,7 +5055,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|9|storefront": {
   "status": "request",
@@ -5068,7 +5068,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|9|server": {
   "status": "request",
@@ -5081,7 +5081,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|10|storefront": {
   "status": "request",
@@ -5094,7 +5094,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|10|server": {
   "status": "request",
@@ -5107,7 +5107,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|11|storefront": {
   "status": "request",
@@ -5120,7 +5120,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|11|server": {
   "status": "request",
@@ -5133,7 +5133,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|15|storefront": {
   "status": "request",
@@ -5146,7 +5146,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|15|server": {
   "status": "request",
@@ -5159,7 +5159,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|19|storefront": {
   "status": "request",
@@ -5172,7 +5172,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|19|server": {
   "status": "request",
@@ -5185,7 +5185,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|20|storefront": {
   "status": "request",
@@ -5198,7 +5198,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|20|server": {
   "status": "request",
@@ -5211,7 +5211,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|21|storefront": {
   "status": "request",
@@ -5224,7 +5224,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|21|server": {
   "status": "request",
@@ -5237,7 +5237,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|30|storefront": {
   "status": "direct",
@@ -5250,7 +5250,7 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|30|server": {
   "status": "direct",
@@ -5263,33 +5263,33 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|HK|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|listing": {
   "visible": true,
@@ -5310,7 +5310,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|1|server": {
   "status": "request",
@@ -5323,7 +5323,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|5|storefront": {
   "status": "request",
@@ -5336,7 +5336,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|5|server": {
   "status": "request",
@@ -5349,7 +5349,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|9|storefront": {
   "status": "request",
@@ -5362,7 +5362,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|9|server": {
   "status": "request",
@@ -5375,7 +5375,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|10|storefront": {
   "status": "request",
@@ -5388,7 +5388,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|10|server": {
   "status": "request",
@@ -5401,7 +5401,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|11|storefront": {
   "status": "request",
@@ -5414,7 +5414,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|11|server": {
   "status": "request",
@@ -5427,7 +5427,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|15|storefront": {
   "status": "request",
@@ -5440,7 +5440,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|15|server": {
   "status": "request",
@@ -5453,7 +5453,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|19|storefront": {
   "status": "request",
@@ -5466,7 +5466,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|19|server": {
   "status": "request",
@@ -5479,7 +5479,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|20|storefront": {
   "status": "request",
@@ -5492,7 +5492,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|20|server": {
   "status": "request",
@@ -5505,7 +5505,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|21|storefront": {
   "status": "request",
@@ -5518,7 +5518,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|21|server": {
   "status": "request",
@@ -5531,7 +5531,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|30|storefront": {
   "status": "direct",
@@ -5544,7 +5544,7 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|30|server": {
   "status": "direct",
@@ -5557,33 +5557,33 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|MO|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foam-oil|TW|listing": {
   "visible": false,
@@ -6469,7 +6469,7 @@
  },
  "foam-oil|MY|listing": {
   "visible": false,
-  "unitPrice": "RM 27.34",
+  "unitPrice": "SGD 8.50",
   "moq": 30,
   "stock": 600,
   "active": true,
@@ -6478,7 +6478,7 @@
  "foam-oil|MY|1|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6491,7 +6491,7 @@
  "foam-oil|MY|1|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6504,7 +6504,7 @@
  "foam-oil|MY|5|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6517,7 +6517,7 @@
  "foam-oil|MY|5|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6530,7 +6530,7 @@
  "foam-oil|MY|9|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6543,7 +6543,7 @@
  "foam-oil|MY|9|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6556,7 +6556,7 @@
  "foam-oil|MY|10|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6569,7 +6569,7 @@
  "foam-oil|MY|10|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6582,7 +6582,7 @@
  "foam-oil|MY|11|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6595,7 +6595,7 @@
  "foam-oil|MY|11|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6608,7 +6608,7 @@
  "foam-oil|MY|15|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6621,7 +6621,7 @@
  "foam-oil|MY|15|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6634,7 +6634,7 @@
  "foam-oil|MY|19|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6647,7 +6647,7 @@
  "foam-oil|MY|19|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6660,7 +6660,7 @@
  "foam-oil|MY|20|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6673,7 +6673,7 @@
  "foam-oil|MY|20|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6686,7 +6686,7 @@
  "foam-oil|MY|21|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6699,7 +6699,7 @@
  "foam-oil|MY|21|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6712,7 +6712,7 @@
  "foam-oil|MY|30|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6725,7 +6725,7 @@
  "foam-oil|MY|30|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6738,7 +6738,7 @@
  "foam-oil|MY|100|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -6751,7 +6751,7 @@
  "foam-oil|MY|100|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -7074,7 +7074,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|1|server": {
   "status": "request",
@@ -7087,7 +7087,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|5|storefront": {
   "status": "request",
@@ -7100,7 +7100,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|5|server": {
   "status": "request",
@@ -7113,7 +7113,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|9|storefront": {
   "status": "request",
@@ -7126,7 +7126,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|9|server": {
   "status": "request",
@@ -7139,7 +7139,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|10|storefront": {
   "status": "request",
@@ -7152,7 +7152,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|10|server": {
   "status": "request",
@@ -7165,7 +7165,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|11|storefront": {
   "status": "request",
@@ -7178,7 +7178,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|11|server": {
   "status": "request",
@@ -7191,7 +7191,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|15|storefront": {
   "status": "request",
@@ -7204,7 +7204,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|15|server": {
   "status": "request",
@@ -7217,7 +7217,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|19|storefront": {
   "status": "request",
@@ -7230,7 +7230,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|19|server": {
   "status": "request",
@@ -7243,7 +7243,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|20|storefront": {
   "status": "request",
@@ -7256,7 +7256,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|20|server": {
   "status": "request",
@@ -7269,7 +7269,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|21|storefront": {
   "status": "request",
@@ -7282,7 +7282,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|21|server": {
   "status": "request",
@@ -7295,7 +7295,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|30|storefront": {
   "status": "direct",
@@ -7308,7 +7308,7 @@
   "totalMinor": 26700,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|30|server": {
   "status": "direct",
@@ -7321,33 +7321,33 @@
   "totalMinor": 26700,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 890,
   "referenceTotalMinor": 89000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 890,
+  "totalMinor": 89000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|SG|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 890,
   "referenceTotalMinor": 89000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 890,
+  "totalMinor": 89000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|listing": {
   "visible": true,
@@ -7368,7 +7368,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|1|server": {
   "status": "request",
@@ -7381,7 +7381,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|5|storefront": {
   "status": "request",
@@ -7394,7 +7394,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|5|server": {
   "status": "request",
@@ -7407,7 +7407,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|9|storefront": {
   "status": "request",
@@ -7420,7 +7420,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|9|server": {
   "status": "request",
@@ -7433,7 +7433,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|10|storefront": {
   "status": "request",
@@ -7446,7 +7446,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|10|server": {
   "status": "request",
@@ -7459,7 +7459,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|11|storefront": {
   "status": "request",
@@ -7472,7 +7472,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|11|server": {
   "status": "request",
@@ -7485,7 +7485,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|15|storefront": {
   "status": "request",
@@ -7498,7 +7498,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|15|server": {
   "status": "request",
@@ -7511,7 +7511,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|19|storefront": {
   "status": "request",
@@ -7524,7 +7524,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|19|server": {
   "status": "request",
@@ -7537,7 +7537,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|20|storefront": {
   "status": "request",
@@ -7550,7 +7550,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|20|server": {
   "status": "request",
@@ -7563,7 +7563,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|21|storefront": {
   "status": "request",
@@ -7576,7 +7576,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|21|server": {
   "status": "request",
@@ -7589,7 +7589,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|30|storefront": {
   "status": "direct",
@@ -7602,7 +7602,7 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|30|server": {
   "status": "direct",
@@ -7615,33 +7615,33 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|HK|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|listing": {
   "visible": true,
@@ -7662,7 +7662,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|1|server": {
   "status": "request",
@@ -7675,7 +7675,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|5|storefront": {
   "status": "request",
@@ -7688,7 +7688,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|5|server": {
   "status": "request",
@@ -7701,7 +7701,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|9|storefront": {
   "status": "request",
@@ -7714,7 +7714,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|9|server": {
   "status": "request",
@@ -7727,7 +7727,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|10|storefront": {
   "status": "request",
@@ -7740,7 +7740,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|10|server": {
   "status": "request",
@@ -7753,7 +7753,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|11|storefront": {
   "status": "request",
@@ -7766,7 +7766,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|11|server": {
   "status": "request",
@@ -7779,7 +7779,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|15|storefront": {
   "status": "request",
@@ -7792,7 +7792,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|15|server": {
   "status": "request",
@@ -7805,7 +7805,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|19|storefront": {
   "status": "request",
@@ -7818,7 +7818,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|19|server": {
   "status": "request",
@@ -7831,7 +7831,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|20|storefront": {
   "status": "request",
@@ -7844,7 +7844,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|20|server": {
   "status": "request",
@@ -7857,7 +7857,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|21|storefront": {
   "status": "request",
@@ -7870,7 +7870,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|21|server": {
   "status": "request",
@@ -7883,7 +7883,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|30|storefront": {
   "status": "direct",
@@ -7896,7 +7896,7 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|30|server": {
   "status": "direct",
@@ -7909,33 +7909,33 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|MO|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "foaming-cleanser|TW|listing": {
   "visible": false,
@@ -8821,7 +8821,7 @@
  },
  "foaming-cleanser|MY|listing": {
   "visible": false,
-  "unitPrice": "RM 27.34",
+  "unitPrice": "SGD 8.50",
   "moq": 30,
   "stock": 600,
   "active": true,
@@ -8830,7 +8830,7 @@
  "foaming-cleanser|MY|1|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8843,7 +8843,7 @@
  "foaming-cleanser|MY|1|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8856,7 +8856,7 @@
  "foaming-cleanser|MY|5|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8869,7 +8869,7 @@
  "foaming-cleanser|MY|5|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8882,7 +8882,7 @@
  "foaming-cleanser|MY|9|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8895,7 +8895,7 @@
  "foaming-cleanser|MY|9|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8908,7 +8908,7 @@
  "foaming-cleanser|MY|10|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8921,7 +8921,7 @@
  "foaming-cleanser|MY|10|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8934,7 +8934,7 @@
  "foaming-cleanser|MY|11|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8947,7 +8947,7 @@
  "foaming-cleanser|MY|11|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8960,7 +8960,7 @@
  "foaming-cleanser|MY|15|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8973,7 +8973,7 @@
  "foaming-cleanser|MY|15|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8986,7 +8986,7 @@
  "foaming-cleanser|MY|19|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -8999,7 +8999,7 @@
  "foaming-cleanser|MY|19|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9012,7 +9012,7 @@
  "foaming-cleanser|MY|20|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9025,7 +9025,7 @@
  "foaming-cleanser|MY|20|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9038,7 +9038,7 @@
  "foaming-cleanser|MY|21|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9051,7 +9051,7 @@
  "foaming-cleanser|MY|21|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9064,7 +9064,7 @@
  "foaming-cleanser|MY|30|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9077,7 +9077,7 @@
  "foaming-cleanser|MY|30|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9090,7 +9090,7 @@
  "foaming-cleanser|MY|100|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9103,7 +9103,7 @@
  "foaming-cleanser|MY|100|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -9426,7 +9426,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|1|server": {
   "status": "request",
@@ -9439,7 +9439,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|5|storefront": {
   "status": "request",
@@ -9452,7 +9452,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|5|server": {
   "status": "request",
@@ -9465,7 +9465,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|9|storefront": {
   "status": "request",
@@ -9478,7 +9478,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|9|server": {
   "status": "request",
@@ -9491,7 +9491,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|10|storefront": {
   "status": "request",
@@ -9504,7 +9504,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|10|server": {
   "status": "request",
@@ -9517,7 +9517,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|11|storefront": {
   "status": "request",
@@ -9530,7 +9530,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|11|server": {
   "status": "request",
@@ -9543,7 +9543,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|15|storefront": {
   "status": "request",
@@ -9556,7 +9556,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|15|server": {
   "status": "request",
@@ -9569,7 +9569,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|19|storefront": {
   "status": "request",
@@ -9582,7 +9582,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|19|server": {
   "status": "request",
@@ -9595,7 +9595,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|20|storefront": {
   "status": "request",
@@ -9608,7 +9608,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|20|server": {
   "status": "request",
@@ -9621,7 +9621,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|21|storefront": {
   "status": "request",
@@ -9634,7 +9634,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|21|server": {
   "status": "request",
@@ -9647,7 +9647,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|30|storefront": {
   "status": "direct",
@@ -9660,7 +9660,7 @@
   "totalMinor": 26700,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|30|server": {
   "status": "direct",
@@ -9673,33 +9673,33 @@
   "totalMinor": 26700,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "sg-existing-moq-v1"
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 890,
   "referenceTotalMinor": 89000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 890,
+  "totalMinor": 89000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|SG|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "SGD",
   "referenceUnitMinor": 890,
   "referenceTotalMinor": 89000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "sg-existing-moq-v1"
+  "billingCurrency": "SGD",
+  "unitMinor": 890,
+  "totalMinor": 89000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "sg-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|listing": {
   "visible": true,
@@ -9720,7 +9720,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|1|server": {
   "status": "request",
@@ -9733,7 +9733,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|5|storefront": {
   "status": "request",
@@ -9746,7 +9746,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|5|server": {
   "status": "request",
@@ -9759,7 +9759,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|9|storefront": {
   "status": "request",
@@ -9772,7 +9772,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|9|server": {
   "status": "request",
@@ -9785,7 +9785,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|10|storefront": {
   "status": "request",
@@ -9798,7 +9798,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|10|server": {
   "status": "request",
@@ -9811,7 +9811,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|11|storefront": {
   "status": "request",
@@ -9824,7 +9824,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|11|server": {
   "status": "request",
@@ -9837,7 +9837,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|15|storefront": {
   "status": "request",
@@ -9850,7 +9850,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|15|server": {
   "status": "request",
@@ -9863,7 +9863,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|19|storefront": {
   "status": "request",
@@ -9876,7 +9876,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|19|server": {
   "status": "request",
@@ -9889,7 +9889,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|20|storefront": {
   "status": "request",
@@ -9902,7 +9902,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|20|server": {
   "status": "request",
@@ -9915,7 +9915,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|21|storefront": {
   "status": "request",
@@ -9928,7 +9928,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|21|server": {
   "status": "request",
@@ -9941,7 +9941,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|30|storefront": {
   "status": "direct",
@@ -9954,7 +9954,7 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|30|server": {
   "status": "direct",
@@ -9967,33 +9967,33 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "hk-moq-delivered-2026-10-18"
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|HK|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "hk-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "hk-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|listing": {
   "visible": true,
@@ -10014,7 +10014,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|1|server": {
   "status": "request",
@@ -10027,7 +10027,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|5|storefront": {
   "status": "request",
@@ -10040,7 +10040,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|5|server": {
   "status": "request",
@@ -10053,7 +10053,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|9|storefront": {
   "status": "request",
@@ -10066,7 +10066,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|9|server": {
   "status": "request",
@@ -10079,7 +10079,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|10|storefront": {
   "status": "request",
@@ -10092,7 +10092,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|10|server": {
   "status": "request",
@@ -10105,7 +10105,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|11|storefront": {
   "status": "request",
@@ -10118,7 +10118,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|11|server": {
   "status": "request",
@@ -10131,7 +10131,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|15|storefront": {
   "status": "request",
@@ -10144,7 +10144,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|15|server": {
   "status": "request",
@@ -10157,7 +10157,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|19|storefront": {
   "status": "request",
@@ -10170,7 +10170,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|19|server": {
   "status": "request",
@@ -10183,7 +10183,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|20|storefront": {
   "status": "request",
@@ -10196,7 +10196,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|20|server": {
   "status": "request",
@@ -10209,7 +10209,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|21|storefront": {
   "status": "request",
@@ -10222,7 +10222,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|21|server": {
   "status": "request",
@@ -10235,7 +10235,7 @@
   "totalMinor": null,
   "shippingMinor": null,
   "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|30|storefront": {
   "status": "direct",
@@ -10248,7 +10248,7 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|30|server": {
   "status": "direct",
@@ -10261,33 +10261,33 @@
   "totalMinor": 165000,
   "shippingMinor": 0,
   "shippingIncluded": true,
-  "version": "mo-moq-delivered-2026-10-18"
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|100|storefront": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|MO|100|server": {
-  "status": "request",
-  "reason": "delivery_scope_missing",
+  "status": "direct",
+  "reason": "confirmed_scope",
   "displayCurrency": "HKD",
   "referenceUnitMinor": 5500,
   "referenceTotalMinor": 550000,
-  "billingCurrency": null,
-  "unitMinor": null,
-  "totalMinor": null,
-  "shippingMinor": null,
-  "shippingIncluded": null,
-  "version": "mo-moq-delivered-2026-10-18"
+  "billingCurrency": "HKD",
+  "unitMinor": 5500,
+  "totalMinor": 550000,
+  "shippingMinor": 0,
+  "shippingIncluded": true,
+  "version": "mo-cleansing-delivered-2026-10-19"
  },
  "cleansing-water|TW|listing": {
   "visible": false,
@@ -11173,7 +11173,7 @@
  },
  "cleansing-water|MY|listing": {
   "visible": false,
-  "unitPrice": "RM 27.34",
+  "unitPrice": "SGD 8.50",
   "moq": 30,
   "stock": 600,
   "active": true,
@@ -11182,7 +11182,7 @@
  "cleansing-water|MY|1|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11195,7 +11195,7 @@
  "cleansing-water|MY|1|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11208,7 +11208,7 @@
  "cleansing-water|MY|5|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11221,7 +11221,7 @@
  "cleansing-water|MY|5|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11234,7 +11234,7 @@
  "cleansing-water|MY|9|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11247,7 +11247,7 @@
  "cleansing-water|MY|9|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11260,7 +11260,7 @@
  "cleansing-water|MY|10|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11273,7 +11273,7 @@
  "cleansing-water|MY|10|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11286,7 +11286,7 @@
  "cleansing-water|MY|11|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11299,7 +11299,7 @@
  "cleansing-water|MY|11|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11312,7 +11312,7 @@
  "cleansing-water|MY|15|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11325,7 +11325,7 @@
  "cleansing-water|MY|15|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11338,7 +11338,7 @@
  "cleansing-water|MY|19|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11351,7 +11351,7 @@
  "cleansing-water|MY|19|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11364,7 +11364,7 @@
  "cleansing-water|MY|20|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11377,7 +11377,7 @@
  "cleansing-water|MY|20|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11390,7 +11390,7 @@
  "cleansing-water|MY|21|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11403,7 +11403,7 @@
  "cleansing-water|MY|21|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11416,7 +11416,7 @@
  "cleansing-water|MY|30|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11429,7 +11429,7 @@
  "cleansing-water|MY|30|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11442,7 +11442,7 @@
  "cleansing-water|MY|100|storefront": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,
@@ -11455,7 +11455,7 @@
  "cleansing-water|MY|100|server": {
   "status": "unavailable",
   "reason": "market_product_not_enabled",
-  "displayCurrency": "MYR",
+  "displayCurrency": "SGD",
   "referenceUnitMinor": null,
   "referenceTotalMinor": null,
   "billingCurrency": null,

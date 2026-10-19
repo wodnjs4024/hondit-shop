@@ -40,13 +40,15 @@ test('an SG version becomes the charged price, with its version recorded; MOQ an
 });
 
 test('a version in a quote market changes only the reference price and never enables payment', () => {
-  const product = { ...base('diffuser-350g'), prices: { MY: { general: v(70, 'MYR') }, JP: { general: v(2600, 'JPY'), trial: v(3500, 'JPY') }, BN: { trial: v(30, 'BND') } } };
-  const d = termsFor(product, 'MY', 20);
+  const product = { ...base('diffuser-350g'), prices: { MO: { trial: v(180, 'MOP') }, MY: { trial: v(90, 'MYR') }, JP: { general: v(2600, 'JPY'), trial: v(3500, 'JPY') }, BN: { trial: v(30, 'BND') } } };
+  const d = termsFor(product, 'MO', 10);
   assert.equal(d.status, 'request');
-  assert.equal(d.referenceUnitMinor, 7000);
-  assert.equal(d.referenceTotalMinor, 140000);
+  assert.equal(d.referenceUnitMinor, 18000);
+  assert.equal(d.referenceTotalMinor, 180000);
   assert.equal(d.totalMinor, null);
-  assert.equal(termsFor({ ...product, markets: { MY: 'direct' } }, 'MY', 20).status, 'request');
+  assert.equal(termsFor({ ...product, markets: { MO: 'direct' } }, 'MO', 10).status, 'request');
+  assert.equal(termsFor(product, 'MY', 10).referenceUnitMinor, 9000, 'MY trial stays a MYR quote');
+  assert.equal(termsFor(product, 'MY', 20).billingCurrency, 'SGD', 'MY general is paid in SGD');
   // JP general is payable since 2026-10-18, so its version is the charged price; the JP trial stays a quote.
   assert.equal(termsFor(product, 'JP', 20).status, 'direct');
   assert.equal(termsFor(product, 'JP', 20).totalMinor, 52000);

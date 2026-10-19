@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { v23Products, type StorefrontProduct } from "../../data/v23SiteData";
 import { loadStorefrontProducts } from "../../lib/storefrontApi";
-import { isStorefrontProductAllowedForMarket, marketText, useMarket } from "../../lib/market";
+import { getMarketUnitPrice, isStorefrontProductAllowedForMarket, marketText, useMarket } from "../../lib/market";
 import { V23ProductCard } from "./SiteChrome";
 import { ProductTile } from "../home/ProductTile";
 import { trackEvent } from "../../lib/analytics";
@@ -69,7 +69,7 @@ export function V23CatalogGrid({
         item_name: product.name,
         item_category: product.category,
         index,
-        price: product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice,
+        price: getMarketUnitPrice(product, market),
         currency: market.currency,
       })),
     });

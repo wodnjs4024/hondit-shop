@@ -4,7 +4,7 @@ import {salesPresentationCopy} from '../../data/salesPresentationCopy';
 import {pickupRequestTotal} from '../../../shared/contact-copy.js';
 import { Link } from "react-router-dom";
 import type { StorefrontProduct } from "../../data/v23SiteData";
-import { marketText, useMarket } from "../../lib/market";
+import { getMarketUnitPrice, marketText, useMarket } from "../../lib/market";
 import { productDetail, productMainImage, productName, productPriceLabel } from "../../lib/productText";
 import { catalogCopy } from "../../data/catalogCopy";
 
@@ -20,7 +20,7 @@ export function ProductTile({ product, query }: { product: StorefrontProduct; qu
   const outOfStock = product.status === "soldout" || (typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq);
   return <li>
     <article className="hd-tile v23-product-card" data-item-id={product.slug} data-item-name={name} data-item-category={product.category}
-      data-item-price={product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice} data-currency={market.currency}>
+      data-item-price={getMarketUnitPrice(product, market)} data-currency={market.currency}>
       <Link className="hd-tile__media" to={detail} tabIndex={-1} aria-hidden="true">
         <img src={productMainImage(product)} alt="" width={880} height={1100} loading="lazy" decoding="async" sizes="(max-width: 639px) 70vw, 22vw" />
         {outOfStock && <span className="hd-tile__badge">{marketText(language, "OUT OF STOCK", "OUT OF STOCK")}</span>}

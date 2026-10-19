@@ -58,7 +58,7 @@ test('server rejects pending/invalid conditions before any DB write or PayPal ca
   if(options.method&&options.method!=='GET'){writes++;throw Error('Unexpected DB write')}
   return new Response(JSON.stringify(String(url).includes('site_settings')?[{checkout_enabled:true}]:defaultProducts),{status:200});
  };
- try {for(const [market,sku,q,countryCode] of [['SG','diffuser-350g',15,'SG'],['MY','diffuser-350g',20,'MY'],['JP','diffuser-350g',10,'JP'],['JP','foam-oil',30,'JP']]) {
+ try {for(const [market,sku,q,countryCode] of [['SG','diffuser-350g',15,'SG'],['MY','diffuser-350g',10,'MY'],['JP','diffuser-350g',10,'JP'],['JP','foam-oil',30,'JP'],['SG','foam-oil',35,'SG']]) {
   let status;let response;await handler({method:'POST',headers:{},body:{orderType:'Direct bulk order',market,countryCode,customerName:'Synthetic Test',customerEmail:'synthetic@example.invalid',customerPhone:'00000000',addressLine1:'1 Test Street',city:'Test',postalCode:countryCode==='SG'?'123456':'1234567',cart:[{slug:sku,packCount:q}],price:1,totalMinor:1,priceApproval:'approved'}},{status(n){status=n;return this},setHeader(){},end(s){response=JSON.parse(s)}});
   assert.equal(status,409,JSON.stringify(response));assert.equal(response.code,'PAYMENT_CONDITIONS_REQUIRED');
  }assert.equal(writes,0)}finally{globalThis.fetch=originalFetch;for(const k of keys)if(original[k]===undefined)delete process.env[k];else process.env[k]=original[k]}
@@ -67,7 +67,7 @@ test('markets opened on 2026-10-18 charge the approved delivered price in their 
  const {default:handler}=await import('../api/paypal/create-order.js');
  const keys=['VERCEL_ENV','SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','PAYPAL_CLIENT_ID','PAYPAL_CLIENT_SECRET'];const original=Object.fromEntries(keys.map(k=>[k,process.env[k]]));const originalFetch=globalThis.fetch;
  Object.assign(process.env,{VERCEL_ENV:'production',SUPABASE_URL:'https://mock.invalid',SUPABASE_SERVICE_ROLE_KEY:'mock-only',PAYPAL_CLIENT_ID:'mock-only',PAYPAL_CLIENT_SECRET:'mock-only'});
- const cases=[['HK','diffuser-350g',20,'HKD','2560.00',''],['MO','diffuser-500g',21,'HKD','5880.00',''],['HK','foam-oil',30,'HKD','1650.00',''],['TW','diffuser-500g',20,'TWD','21000','100'],['JP','diffuser-350g',21,'JPY','50400','100-0001'],['TH','diffuser-350g',100,'THB','55000.00','10110'],['BN','diffuser-500g',20,'SGD','920.00','BS8811']];
+ const cases=[['HK','diffuser-350g',20,'HKD','2560.00',''],['MO','diffuser-500g',21,'HKD','5880.00',''],['HK','foam-oil',30,'HKD','1650.00',''],['TW','diffuser-500g',20,'TWD','21000','100'],['JP','diffuser-350g',21,'JPY','50400','100-0001'],['TH','diffuser-350g',100,'THB','55000.00','10110'],['BN','diffuser-500g',20,'SGD','920.00','BS8811'],['MY','diffuser-350g',20,'SGD','420.00','50000'],['HK','foam-oil',100,'HKD','5500.00',''],['SG','foam-oil',60,'SGD','534.00','123456']];
  try{for(const [market,slug,quantity,currency,value,postal] of cases){
   let orderPayload;let paypalPayload;
   globalThis.fetch=async(url,options={})=>{
@@ -87,7 +87,7 @@ test('markets opened on 2026-10-18 charge the approved delivered price in their 
   assert.equal(paypalPayload.purchase_units[0].amount.currency_code,currency);
   assert.equal(paypalPayload.purchase_units[0].amount.value,value);
   assert.equal(orderPayload.currency,currency);
-  assert.match(orderPayload.internal_note,new RegExp(`\\[condition:${market.toLowerCase()}-(general|moq)-delivered-2026-10-18\\]`));
+  assert.match(orderPayload.internal_note,new RegExp(`\\[condition:${market.toLowerCase()}-(general|cleansing)-delivered-2026-10-1[89]\\]`));
  }}finally{globalThis.fetch=originalFetch;for(const k of keys)if(original[k]===undefined)delete process.env[k];else process.env[k]=original[k]}
 });
 test('approved SG trial and 20+ server creates only the authoritative amount using mocked DB and PayPal',async()=>{

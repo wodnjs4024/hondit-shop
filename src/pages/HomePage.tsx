@@ -13,7 +13,7 @@ import { discoveryText } from "../data/discoveryCopy";
 import { productFacts } from "../data/productFacts";
 import { shippingSummary } from "../../shared/shipping-summary.js";
 import { trackEvent } from "../lib/analytics";
-import { formatMarketUnitMoney, isStorefrontProductAllowedForMarket, marketCountryName, marketProductText, marketText, useMarket, type DisplayLanguage } from "../lib/market";
+import { formatMarketUnitMoney, getMarketUnitPrice, isStorefrontProductAllowedForMarket, marketCountryName, marketProductText, marketText, useMarket, type DisplayLanguage } from "../lib/market";
 import { loadStorefrontProducts } from "../lib/storefrontApi";
 import { ProductTile } from "../components/home/ProductTile";
 
@@ -73,7 +73,7 @@ export function HomePage() {
         item_name: product.name,
         item_category: product.category,
         index,
-        price: product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice,
+        price: getMarketUnitPrice(product, market),
         currency: market.currency,
       })),
     });

@@ -8,8 +8,8 @@ import { checkoutConditions, paypalCurrencyDigits } from './checkout-terms.js';
 import { currencyDigits } from './sales-tools.js';
 
 export const priceKinds = Object.freeze(['general', 'trial']);
-const generalCurrency = { SG: 'SGD', HK: 'HKD', MO: 'HKD', JP: 'JPY', TW: 'TWD', TH: 'THB', MY: 'MYR', BN: 'SGD' };
-const trialCurrency = { ...generalCurrency, BN: 'BND', MO: 'MOP' };
+const generalCurrency = { SG: 'SGD', HK: 'HKD', MO: 'HKD', JP: 'JPY', TW: 'TWD', TH: 'THB', MY: 'SGD', BN: 'SGD' };
+const trialCurrency = { ...generalCurrency, BN: 'BND', MO: 'MOP', MY: 'MYR' };
 
 const isTrial = (condition) => condition.minimum === 10 && condition.maximum === 10;
 

@@ -74,7 +74,8 @@ test("SG review permits delivered diffuser 20+ and preserves cleansing MOQ and m
     ["diffuser-500g", 20],
   ]) {
     assert.equal(reviewCheckout({ slug }, moq, "SG"), true);
-    assert.equal(reviewCheckout({ slug }, moq + 10, "SG"), slug.startsWith("diffuser-"));
+    assert.equal(reviewCheckout({ slug }, moq + 10, "SG"), true);
+    assert.equal(reviewCheckout({ slug }, moq + 5, "SG"), slug.startsWith("diffuser-"));
     assert.equal(reviewCheckout({ slug }, moq - 1, "SG"), false);
   }
   assert.equal(reviewCheckout({ slug: "cleansing-mix" }, 30, "SG"), false);

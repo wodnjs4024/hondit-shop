@@ -90,7 +90,9 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
     return () => document.body.classList.remove("is-menu-open");
   }, [menuOpen]);
 
-  const announcement = market.code !== "SG"
+  const announcement = market.code === "MY"
+    ? `${marketCountryName(market, language)} · ${marketText(language, "Prices and PayPal payment are in SGD. Card issuer conversion fees may apply.")}`
+    : market.code !== "SG"
     ? `${marketCountryName(market, language)} · ${marketText(language, "Confirm final amount and shipping before payment.")}`
     : notice ? marketText(language, notice) : marketText(language, market.announcement, market.announcement);
 

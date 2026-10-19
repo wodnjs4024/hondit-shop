@@ -42,8 +42,9 @@ test('sales facts come from the live checkout rules: payable markets, quote-only
   const facts = salesFacts(products);
   assert.match(facts, /MARKET JP[\s\S]*diffuser-350g: 2400 JPY per unit, minimum 20 units, pay directly by PayPal/);
   assert.match(facts, /MARKET SG[\s\S]*foam-oil: 8\.90 SGD per unit/);
-  assert.match(facts, /MARKET MY[\s\S]*diffuser-350g: 68\.00 MYR per unit, minimum 20 units, quote only/);
-  assert.doesNotMatch(facts.split('MARKET MY')[1].split('MARKET BN')[0], /pay directly/);
+  assert.match(facts, /MARKET MY[\s\S]*diffuser-350g: 21\.00 SGD per unit, minimum 20 units, pay directly by PayPal[^\n]*priced and paid in SGD/);
+  assert.match(facts, /MARKET MY[\s\S]*10-unit trial order: reference 83\.00 MYR per unit, quote only/);
+  assert.match(facts, /MARKET HK[\s\S]*foam-oil: 55\.00 HKD per unit, minimum 30 units, pay directly by PayPal, EMS delivery included, 30 units or more in steps of 10/);
   assert.doesNotMatch(facts, /MARKET JP[^\n]*\n[^M]*foam-oil/, 'cleansers are not offered in Japan');
   assert.match(facts, /never guess/);
 });

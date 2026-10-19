@@ -45,7 +45,7 @@ export const markets = {
   BN: { code: "BN", countryCode: "BN", countryName: "Brunei", currency: "SGD", sgdRate: 1, hasShopee: false, checkoutNote: "BND and SGD are valued at 1:1. PayPal checkout is processed in SGD; card issuer fees may apply.", allowedBulkCategories: ["diffuser"] },
   MO: { code: "MO", countryCode: "MO", countryName: "Macau", currency: "HKD", sgdRate: 6.08, hasShopee: false, checkoutNote: "Macau EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["cleansing", "diffuser"] },
   TH: { code: "TH", countryCode: "TH", countryName: "Thailand", currency: "THB", sgdRate: 26.05, hasShopee: false, checkoutNote: "Thailand EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
-  MY: { code: "MY", countryCode: "MY", countryName: "Malaysia", currency: "MYR", sgdRate: 3.217, hasShopee: false, checkoutNote: "Malaysia EMS shipping is included in the displayed bulk unit price.", allowedBulkCategories: ["diffuser"] },
+  MY: { code: "MY", countryCode: "MY", countryName: "Malaysia", currency: "SGD", sgdRate: 1, hasShopee: false, checkoutNote: "Malaysia orders are priced and paid in SGD through PayPal. EMS shipping is included; card issuer conversion fees may apply.", allowedBulkCategories: ["diffuser"] },
 };
 
 export function normalizeMarketCode(value) {

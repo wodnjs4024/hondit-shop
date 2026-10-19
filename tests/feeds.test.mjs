@@ -19,7 +19,8 @@ test('feed lists only what a customer can pay for directly, at the minimum-pack 
   assert.match(sg, /<g:id>foam-oil-sg<\/g:id>[\s\S]*?<g:price>267\.00 SGD<\/g:price>[\s\S]*?<g:multipack>30<\/g:multipack>/);
   assert.match(sg, /<g:id>diffuser-500g-sg<\/g:id>[\s\S]*?<g:price>920\.00 SGD<\/g:price>/);
   assert.match(googleFeed(products, 'TW'), /<g:price>9600 TWD<\/g:price>/);
-  assert.equal(items(googleFeed(products, 'MY')).length, 0, 'Malaysia is quote-only');
+  assert.match(googleFeed(products, 'MY'), /<g:id>diffuser-350g-my<\/g:id>[\s\S]*<g:price>420\.00 SGD<\/g:price>/, 'Malaysia is paid in SGD');
+  assert.equal(items(googleFeed(products, 'MY')).length, 2);
   assert.match(sg, /<g:link>https:\/\/hondit-shop\.vercel\.app\/products\/foam-oil\?market=SG&amp;lang=en<\/g:link>/);
   assert.match(sg, /<g:image_link>https:\/\/hondit-shop\.vercel\.app\/images\//);
   assert.match(sg, /<g:brand>HONDIT<\/g:brand>[\s\S]*<g:identifier_exists>no<\/g:identifier_exists>/);

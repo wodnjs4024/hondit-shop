@@ -13,6 +13,7 @@ export function sgCheckoutNeedsInquiry(lines, marketCode) {
     if (['diffuser-350g','diffuser-500g'].includes(sku)) {
       return !Number.isSafeInteger(quantity) || !(quantity===10 || quantity>=20 && quantity<=9999);
     }
-    return quantity!==sgTerms(line.product).moq;
+    const moq=sgTerms(line.product).moq;
+    return !Number.isSafeInteger(quantity)||quantity<moq||quantity>9999||(quantity-moq)%10!==0;
   }));
 }

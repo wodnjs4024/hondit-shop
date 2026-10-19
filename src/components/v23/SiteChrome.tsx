@@ -8,6 +8,7 @@ import { trackEvent, trackNavigationClick, trackOutboundClick } from "../../lib/
 import {
   displayLanguages,
   formatMarketUnitMoney,
+  getMarketUnitPrice,
   marketCountryName,
   marketProductText,
   marketText,
@@ -159,7 +160,7 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
       data-item-id={product.slug}
       data-item-name={productName}
       data-item-category={product.category}
-      data-item-price={product.marketUnitPrices?.[market.code] ?? product.bulkUnitPrice}
+      data-item-price={getMarketUnitPrice(product, market)}
       data-currency={market.currency}
     >
       <Link className={`v23-product-image${imageLoaded ? " is-loaded" : ""}`} to={selectionUrl(`/products/${product.slug}`,{slug:product.slug,market:market.code,language})}>
