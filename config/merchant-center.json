@@ -7,17 +7,20 @@
     },
     "JP": {
       "enabled": true,
-      "language": "en",
+      "language": "ja",
+      "legacyLanguages": ["en"],
       "currency": "JPY"
     },
     "HK": {
       "enabled": true,
-      "language": "en",
+      "language": "zh-HK",
+      "legacyLanguages": ["en"],
       "currency": "HKD"
     },
     "TW": {
       "enabled": true,
-      "language": "en",
+      "language": "zh-TW",
+      "legacyLanguages": ["en"],
       "currency": "TWD"
     },
     "MO": {
@@ -28,12 +31,14 @@
     },
     "TH": {
       "enabled": true,
-      "language": "en",
+      "language": "th",
+      "legacyLanguages": ["en"],
       "currency": "THB"
     },
     "MY": {
       "enabled": true,
-      "language": "en",
+      "language": "ms",
+      "legacyLanguages": ["en"],
       "currency": "SGD"
     },
     "BN": {

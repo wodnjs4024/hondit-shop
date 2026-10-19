@@ -51,10 +51,10 @@ test('only reviewed market/language is active; no silent SG fallback',()=>{
 test('future market remains behind configuration AND actual checkout terms',()=>{
  const previous={...merchantConfig.markets.JP};
  try {
-  assert.equal(feedItem(diffuser,'JP','en').price,'48000 JPY');
-  assert.equal(feedItem(diffuser,'JP','en').quantity,20);
-  assert.equal(feedItem(products[0],'JP','en'),null,'JP cleanser is not payable');
-  assert.equal(feedItem({...diffuser,markets:{JP:'quote'}},'JP','en'),null);
+  assert.equal(feedItem(diffuser,'JP','ja').price,'48000 JPY');
+  assert.equal(feedItem(diffuser,'JP','ja').quantity,20);
+  assert.equal(feedItem(products[0],'JP','ja'),null,'JP cleanser is not payable');
+  assert.equal(feedItem({...diffuser,markets:{JP:'quote'}},'JP','ja'),null);
  } finally {Object.assign(merchantConfig.markets.JP,previous);}
 });
 

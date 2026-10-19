@@ -28,13 +28,15 @@ test('HTTP feed destinations expose matching initial HTML and preserve checkout 
  });
  try {
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const origin=`http://127.0.0.1:${server.address().port}`;
+  const languages={SG:'en',JP:'ja',HK:'zh-HK',TW:'zh-TW',TH:'th',MY:'ms'};
   for(const market of ['SG','JP','HK','TW','TH','MY']) {
-  const response=await fetch(`${origin}/feeds/google/${market}/en`);assert.equal(response.status,200);
+  const response=await fetch(`${origin}/feeds/google/${market}/${languages[market]}`);assert.equal(response.status,200);
   const doc=new JSDOM(await response.text(),{contentType:'application/xml'}).window.document;
   for(const node of doc.querySelectorAll('item')){
    const field=name=>node.getElementsByTagNameNS('http://base.google.com/ns/1.0',name)[0]?.textContent;
    const url=new URL(field('link'));const page=await fetch(origin+url.pathname+url.search);
    assert.equal(page.status,200);const html=new JSDOM(await page.text()).window.document;
+   assert.equal(html.documentElement.lang,languages[market]);
    const schema=JSON.parse(html.querySelector('script').textContent);
    assert.equal(`${schema.offers.price} ${schema.offers.priceCurrency}`,field('price'));
    assert.equal(schema.name,field('title'));assert.equal(schema.image[0],field('image_link'));

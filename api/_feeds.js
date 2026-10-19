@@ -15,9 +15,14 @@ export function googleFeed(products, market = 'SG', language) {
     ...(item.identifierExists === false ? [tag('identifier_exists','no')] : []),
     `      <g:shipping><g:country>${market}</g:country><g:price>${esc(item.shippingPrice)}</g:price></g:shipping>`
   ].join('\n')}\n    </item>`).join('\n');
+  const feedCopy = {
+    en:['Approved minimum-quantity offers'], ja:['承認済みの最小注文数商品'],
+    'zh-HK':['已核准的最低訂購量商品'], 'zh-TW':['已核准的最低訂購量商品'],
+    th:['ข้อเสนอขั้นต่ำที่ได้รับอนุมัติ'], ms:['Tawaran kuantiti minimum yang diluluskan']
+  };
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"><channel>
-<title>HONDIT ${market}</title><link>${SITE}/?market=${market}</link><description>Approved minimum-quantity offers</description>
+<title>HONDIT ${market}</title><link>${SITE}/?market=${market}&amp;lang=${channel.language}</link><description>${esc(feedCopy[channel.language]?.[0] || feedCopy.en[0])}</description>
 ${body}
 </channel></rss>\n`;
 }
