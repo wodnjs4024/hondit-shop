@@ -3,6 +3,7 @@ import {DiffuserComparison,ProductCare} from "../components/ProductFactsDisplay"
 import {QuantityReview} from "../components/QuantityReview";
 import {productFacts} from "../data/productFacts";
 import { cleanProductUsage } from "../../shared/page-sales.js";
+import { termsFor } from "../../shared/market-overrides.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { orderPanelCopy } from "../data/orderPanelCopy";
 import { useEffect, useRef, useState } from "react";
@@ -94,6 +95,7 @@ export function ProductDetailPage() {
     });
   };
   const productUrl = `https://hondit-shop.vercel.app/products/${product.slug}`;
+  const schemaTerms = termsFor(product, market.code, product.bulkMoq);
   const mainImage = productMainImage(product);
   const adminGallery = productGallery(product);
   const absoluteImage = mainImage.startsWith("http") ? mainImage : `https://hondit-shop.vercel.app${mainImage}`;
@@ -108,14 +110,22 @@ export function ProductDetailPage() {
         : []),
     ],
     description: productDescription,
-    brand: { "@type": "Brand", name: "hondit" },
+    brand: { "@type": "Brand", name: "HONDIT" },
     sku: product.apiSlug || product.slug,
-    offers: product.quoteOnly ? undefined : {
+    // Only a price the visitor can actually pay here is published: unit price, minimum quantity, delivery included.
+    offers: schemaTerms.status !== "direct" || !schemaTerms.billingCurrency || schemaTerms.unitMinor === null ? undefined : {
       "@type": "Offer",
-      price: getMarketUnitPrice(product, market).toFixed(2),
-      priceCurrency: market.currency,
+      price: (schemaTerms.unitMinor / 10 ** schemaTerms.referenceDigits).toFixed(schemaTerms.referenceDigits),
+      priceCurrency: schemaTerms.billingCurrency,
+      eligibleQuantity: { "@type": "QuantitativeValue", minValue: product.bulkMoq, unitCode: "C62" },
       availability: outOfStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
-      url: productUrl,
+      itemCondition: "https://schema.org/NewCondition",
+      url: `${productUrl}?market=${market.code}`,
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: 0, currency: schemaTerms.billingCurrency },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: market.code },
+      },
     },
   };
 

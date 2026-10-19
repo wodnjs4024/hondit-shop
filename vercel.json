@@ -10,6 +10,14 @@
       "destination": "/api/products?qrNotFound=1"
     },
     {
+      "source": "/sitemap.xml",
+      "destination": "/api/products?sitemap=1"
+    },
+    {
+      "source": "/feeds/google/:market",
+      "destination": "/api/products?feed=google&market=:market"
+    },
+    {
       "source": "/api/pickup",
       "destination": "/api/products?pickupInfo=1"
     },

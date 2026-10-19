@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /order-complete/
+Disallow: /payment-failed/
+Disallow: /partners/
 
 Sitemap: https://hondit-shop.vercel.app/sitemap.xml

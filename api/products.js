@@ -1,5 +1,6 @@
 import partnerGuide from "./_partner-guide.js";
 import pickupInfo from './_pickup.js';
+import { googleFeed, sitemap } from "./_feeds.js";
 import { applyProductSnapshot, getProducts, getStorefrontProducts, json, previewWritesBlocked, supabase, verifyAdmin } from "./_utils.js";
 
 /* Admin-only: the product as it would look if the current draft were published. */
@@ -24,6 +25,18 @@ export default async function handler(req, res) {
     return json(res,404,{error:'QR link not registered',home:'/'});
   }
   if(req.query?.pickupInfo !== undefined) return pickupInfo(req,res);
+  // Google Merchant Center feed (/feeds/google/:market) and sitemap.xml, both from the live catalog.
+  if (req.method === "GET" && (req.query?.feed === "google" || req.query?.sitemap !== undefined)) {
+    try {
+      const products = await getStorefrontProducts();
+      res.setHeader("Content-Type", "application/xml; charset=utf-8");
+      res.setHeader("Cache-Control", "public, max-age=0, s-maxage=600, stale-while-revalidate=3600");
+      res.statusCode = 200;
+      return res.end(req.query?.feed === "google" ? googleFeed(products, String(req.query.market || "SG").toUpperCase()) : sitemap(products));
+    } catch (error) {
+      return json(res, 500, { error: "Could not build feed" });
+    }
+  }
   if (req.query?.partnerSlug !== undefined) return partnerGuide({...req,query:{slug:req.query.partnerSlug}},res);
   if (previewWritesBlocked(req.method)) { res.status(403).json({ error: "Read-only preview: payments and data changes are disabled." }); return; }
   if (req.method !== "GET") return json(res, 405, { error: "Method not allowed" });
