@@ -12,7 +12,7 @@ const bundle=buildSync({stdin:{contents:'export * from "./src/lib/market"; expor
 const runtime=new Module(path.join(root,'localization-runtime.cjs'));runtime.paths=Module._nodeModulePaths(root);runtime._compile(bundle.outputFiles[0].text,path.join(root,'localization-runtime.cjs'));
 const {marketText,marketProductText,markets,v23Products,ourJejuPlaces}=runtime.exports;
 const languages=['ko','zh-HK','ja','ms','th'];
-const pages=['HomePage','ContactPage','JejuPage','NotFoundPage','OrderCompletePage','PaymentFailedPage','ProductsPage','ProductDetailPage','BulkOrdersPage','BulkProductPage','ShippingPage','PartnersPage','PartnerGuidePage','JejuStoresPage','ProductGuidePage'];
+const pages=['HomePage','ContactPage','JejuPage','NotFoundPage','OrderCompletePage','PaymentFailedPage','ProductsPage','ProductDetailPage','BulkOrdersPage','BulkProductPage','ShippingPage','PartnersPage','PartnerGuidePage','ProductGuidePage'];
 const files=[...pages.map(p=>`src/pages/${p}.tsx`),'src/pages/JejuPickupPage.tsx','src/components/ResaleCalculator.tsx','src/components/RequestActions.tsx','src/components/PickupRequestPanel.tsx','src/components/ContactQrs.tsx','src/components/SalesDiscovery.tsx','src/components/v23/SiteChrome.tsx','src/components/v23/GeoJourney.tsx','src/components/ProductSalesSummary.tsx','src/components/ProductReviews.tsx','src/components/ConsultationPanel.tsx','src/components/BusinessPlanner.tsx','src/components/QuantityReview.tsx','src/components/ProductFactsDisplay.tsx'];
 const unchangedWords=new Set(['Menu','Minimum','minimum','Asia','Seoul','pH 5.5','Shopee ->','Instagram ->']);
 function source(file){return ts.createSourceFile(file,fs.readFileSync(path.join(root,file),'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX)}
