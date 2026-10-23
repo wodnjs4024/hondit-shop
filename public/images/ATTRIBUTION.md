@@ -21,3 +21,8 @@
 - Current pickup hero: `jeju-airport-sign-reference.png`, supplied by the user in this chat (`codex-clipboard-ce2a0bf5-174f-4630-a5dc-e8c898aba683.png`).
 - The supplied file is preserved unchanged. CSS displays only its left photograph (reference rectangle x=32,y=33,w=694,h=369), showing the existing JEJU INT'L AIRPORT lettering and tower. No synthetic lettering or architectural edits.
 - Original photographer and source were not supplied; do not attribute this asset to Kimhs5400 or to any of the Wikimedia candidates. The earlier Wikimedia photo and its metadata are preserved as a separate asset, but no longer displayed in this hero.
+
+## HONDIT Journal SG article crops — 2026-10-23
+- `journal/sg-01-diffuser-350-hero.webp`: crop of `hondit-pack/.../01_product_originals/04_diffuser_350_stone.webp` (StoneJeju official product photograph). Cropped to leave out the box's printed net-weight panel; no retouching.
+- `journal/sg-01-diffuser-350-vessel.webp`: crop of `01_product_originals/03_diffuser_350_window.webp` (StoneJeju official product photograph). Box left out of frame; no retouching.
+- Reuse of StoneJeju official product photographs was confirmed by the owner and recorded in the project Drive note `00_먼저읽기.txt` (2026-10-21). That record does not itemise use by channel; see the Journal handoff document before supplying these images to press.
