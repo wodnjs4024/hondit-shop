@@ -13,6 +13,8 @@ export function safePath(path = '/') {
     const [section, slug] = path.slice(1).split('/');
     return productIds.includes(slug) ? `/${section}/${slug}` : '/not-found';
   }
+  // Journal article slugs are public, editor-chosen words (never personal data).
+  if (/^\/journal(?:\/(?:en|ja|zh-hk|zh-tw)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?)?$/.test(path) && path.length <= 120) return path;
   return /^\/(?:|products|bulk-orders|partners|jeju|jeju\/pickup|shipping|contact|policy\/(?:terms|privacy|refund)|(?:sg|hk|jp|tw)\/(?:ig|fb|c01))$/.test(path) ? path : '/not-found';
 }
 export function functionalParams(input = '') {
