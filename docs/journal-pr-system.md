@@ -57,7 +57,7 @@
 ## 운영 반영 순서 (승인 필요)
 
 1. **백업**: Supabase 대시보드 → Database → Backups에서 최신 시점을 확인합니다. 010은 신규 테이블만 만들므로 기존 데이터는 바뀌지 않습니다.
-2. SQL Editor에서 `supabase/migrations/010_journal_pr.sql`을 실행합니다.
+2. SQL Editor에서 `supabase/migrations/010_journal_pr.sql`을 실행하고, 이어서 `011_journal_guard_search_path.sql`(가드 함수 search_path 고정, 데이터 변경 없음)을 실행합니다. 010을 이미 적용한 DB에는 011만 실행합니다.
 3. `/admin/journal`에서 "기존 4개국 초안 등록"을 누릅니다 (또는 `supabase/seeds/010_journal_seed.sql` 실행). 기사 4건은 검수 대기(비공개)로, 언론 후보 15곳은 승인 대기·미발송으로 들어갑니다.
 4. Vercel 환경변수:
    - `CRON_SECRET` (16자 이상, **필수**: 없으면 크론 발행 기록이 돌지 않음)

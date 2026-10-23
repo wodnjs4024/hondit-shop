@@ -45,7 +45,7 @@ create index if not exists journal_articles_due on public.journal_articles (stat
 create index if not exists journal_articles_public on public.journal_articles (language, published_at desc) where status = 'published';
 
 -- Approval guard in the database itself: a row can only become published with an approval and all three review checks.
-create or replace function public.journal_articles_guard() returns trigger language plpgsql as $$
+create or replace function public.journal_articles_guard() returns trigger language plpgsql set search_path = '' as $$
 begin
   new.updated_at := now();
   if new.status = 'published' then
