@@ -30,10 +30,10 @@ export const seedArticles = [
     slug: 'jeju-volcanic-stone-everyday-home',
     title: "From Jeju's volcanic landscape to the everyday home",
     dek: "StoneJeju's volcanic-stone diffuser turns a material from Jeju Island's landscape into a small, non-electric fragrance object. Here is what it is, how it is used and who is behind it.",
-    hero_image_url: `${PACK}/03_diffuser_350_window.webp`,
-    hero_image_alt: 'StoneJeju 350g volcanic-stone diffuser in its glass vessel by a window',
-    hero_image_caption: 'The 350g diffuser: porous Jeju scoria in a glass vessel.',
-    hero_image_credit: 'StoneJeju product photograph (use permission under review)',
+    hero_image_url: '/images/journal/sg-01-diffuser-350-hero.webp',
+    hero_image_alt: 'StoneJeju volcanic-stone diffuser 350: black glass vessel filled with Jeju scoria, with its citrus fragrance oil bottle',
+    hero_image_caption: 'Volcanic Diffuser 350: porous Jeju scoria in a black glass vessel, with 10mL of citrus oil.',
+    hero_image_credit: 'Photo: StoneJeju official product photograph, cropped. Used with permission.',
     related_products: ['diffuser-350g', 'diffuser-500g'],
     cta_type: 'product',
     seo_title: "Jeju volcanic-stone diffuser: a non-electric fragrance object | HONDIT Journal",
@@ -45,7 +45,7 @@ export const seedArticles = [
 
 The diffuser is a vessel filled with small pieces of Jeju volcanic scoria. The stone is porous, so it takes up fragrance oil and releases it slowly into the room. It needs no electricity and no open flame, and there are no reeds to replace. Each set comes with 10mL of citrus fragrance oil.
 
-![StoneJeju 350g diffuser photographed in the studio](${PACK}/02_diffuser_350_studio.webp "350g: 75 × 100 × 75 mm, glass vessel.")
+![StoneJeju Volcanic Diffuser 350 in its black glass vessel, with loose pieces of scoria beside it](/images/journal/sg-01-diffuser-350-vessel.webp "350 size: about 75 × 100 × 75 mm, glass vessel. Photo: StoneJeju, used with permission.")
 
 ## Two sizes for two kinds of space
 
@@ -66,7 +66,9 @@ StoneJeju is the maker and the product brand. HONDIT is a student-operated curat
 
 ## Ordering from Singapore
 
-The diffusers are sold in bundles, and the minimum quantity, price, payment and delivery terms depend on the market and the product. Check the current terms on the [350g diffuser page](/products/diffuser-350g) or the [500g diffuser page](/products/diffuser-500g), or [send an enquiry](/contact) for a gift or shop order.`,
+Orders from Singapore start at 10 units of one size, and international delivery to Singapore is included in the price shown on the product page. You can pay directly on the [350g diffuser page](/products/diffuser-350g) or the [500g diffuser page](/products/diffuser-500g) for exactly 10 units, or for 20 units or more, of one size per order.
+
+A quantity between 11 and 19, an order that mixes the two sizes, or a quantity above the stock shown is handled as a separate quote: [send an enquiry](/contact) with the sizes and quantities you need. Any import duties or taxes are paid by the recipient.`,
   },
   {
     ...BASE,
