@@ -124,7 +124,7 @@ values ('in_review', 'hondit_editorial', 'HONDIT editorial team', 'pending', '{"
 產品以整組數量販售，各市場的最低數量、付款與配送條件不同，也可能調整。請先查看[500g 商品頁](/products/diffuser-500g)與[350g 商品頁](/products/diffuser-350g)的最新條件，或[聯絡我們](/contact)討論送禮與店家採購。')
 on conflict (content_id) do nothing;
 
-insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body)
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body, outlet_url, notes)
 values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'CONTENT_PIPELINE / Gmail 초안 2026-10-23 (매체 공식 페이지 재확인 필요)', '7d1f0f0a-0002-4a10-9a01-000000000001', 'P-EMAIL-SG-01', 'SG', 'en', 'Home & Decor Singapore', '홈 데코·디퓨저 독립 기사 제안', 'djreubs@sph.com.sg', 'l0039', 'r1673051610796015869', 'Editorial idea: a Jeju volcanic-stone diffuser as a home design object', '정식 사진·사양·판매조건 검수 후 발송', '7d1f0f0a-0001-4a10-9a01-000000000001', 'Hello Home & Decor editorial team,
 
 I''m writing on behalf of HONDIT, a student-operated lifestyle-product curation team at Jeju National University''s GTEP programme.
@@ -141,10 +141,10 @@ https://hondit-shop.vercel.app/?market=SG&lang=en&utm_source=outreach&utm_medium
 Thank you for considering the idea.
 
 HONDIT | Jeju National University GTEP
-hondit.office@gmail.com')
+hondit.office@gmail.com', 'https://www.homeanddecor.com.sg/', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증) #1 A · 소비자 단품 판매 링크로 오인시키지 않기. 1차 발송 추천.')
 on conflict (content_id) do nothing;
 
-insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body)
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body, outlet_url, notes)
 values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'CONTENT_PIPELINE / Gmail 초안 2026-10-23 (매체 공식 페이지 재확인 필요)', '7d1f0f0a-0002-4a10-9a01-000000000002', 'P-EMAIL-SG-02', 'SG', 'en', 'Expat Living Singapore', '제주 생활 선물·홈 향기', 'editorial@expatliving.sg', 'l0040', 'r4313969471669529596', 'Story suggestion: bringing a little of Jeju''s volcanic landscape into the home', '최신 편집 정책·구매조건 확인', '7d1f0f0a-0001-4a10-9a01-000000000001', 'Dear Expat Living editorial team,
 
 I''m reaching out from HONDIT, a student-operated Jeju lifestyle-product curator based at Jeju National University''s GTEP programme.
@@ -160,10 +160,10 @@ https://hondit-shop.vercel.app/?market=SG&lang=en&utm_source=outreach&utm_medium
 
 Best regards,
 HONDIT | Jeju National University GTEP
-hondit.office@gmail.com')
+hondit.office@gmail.com', 'https://expatliving.sg/', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증) #2 A · 싱가포르 단품 구매 가능 여부 별도 확인. 2차 발송 추천.')
 on conflict (content_id) do nothing;
 
-insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body)
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body, outlet_url, notes)
 values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'CONTENT_PIPELINE / Gmail 초안 2026-10-23 (매체 공식 페이지 재확인 필요)', '7d1f0f0a-0002-4a10-9a01-000000000003', 'P-EMAIL-JP-01', 'JP', 'ja', 'Mynavi Woman', '無電源の香り雑貨・済州島', 'woman-p@mynavi.jp', 'l0041', 'r-612018064288113643', '【プレス情報】済州島の火山石を使った電源不要のディフューザー「StoneJeju」', '일본어 피치 검수', '7d1f0f0a-0001-4a10-9a01-000000000002', 'マイナビウーマン編集部 ご担当者様
 
 突然のご連絡失礼いたします。済州大学GTEPの学生チームが運営するHONDIT（ホンディット）です。
@@ -182,10 +182,10 @@ https://hondit-shop.vercel.app/?market=JP&lang=ja&utm_source=outreach&utm_medium
 お忙しいところ恐れ入りますが、どうぞよろしくお願い申し上げます。
 
 HONDIT｜済州大学GTEP
-hondit.office@gmail.com')
+hondit.office@gmail.com', 'https://woman.mynavi.jp/', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증) #6 A · 일본 단품 구매 가능 여부 확정 전 가격 미기재.')
 on conflict (content_id) do nothing;
 
-insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body)
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body, outlet_url, notes)
 values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'CONTENT_PIPELINE / Gmail 초안 2026-10-23 (매체 공식 페이지 재확인 필요)', '7d1f0f0a-0002-4a10-9a01-000000000004', 'P-EMAIL-HK-01', 'HK', 'en', 'Home Journal', '제주 화산석 소재·디자인', 'editorial@homejournal.com', 'l0042', 'r-5532602254262658802', 'Editorial idea for Home Journal: a Jeju volcanic-stone fragrance object', '실물 제품·공방 사진 검수', '7d1f0f0a-0001-4a10-9a01-000000000003', 'Dear Home Journal editorial team,
 
 I''m writing from HONDIT, a student-operated lifestyle-product curation team at Jeju National University''s GTEP programme in South Korea.
@@ -201,10 +201,10 @@ https://hondit-shop.vercel.app/?market=HK&lang=zh-HK&utm_source=outreach&utm_med
 
 Kind regards,
 HONDIT | Jeju National University GTEP
-hondit.office@gmail.com')
+hondit.office@gmail.com', 'https://homejournal.com/', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증) #10 A · 제작과정 이미지 실물·사용 승인 확인. 2차 발송 추천.')
 on conflict (content_id) do nothing;
 
-insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body)
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, angle, editorial_contact, link_id, gmail_draft_id, email_subject, next_action, article_id, email_body, outlet_url, notes)
 values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'CONTENT_PIPELINE / Gmail 초안 2026-10-23 (매체 공식 페이지 재확인 필요)', '7d1f0f0a-0002-4a10-9a01-000000000005', 'P-EMAIL-TW-01', 'TW', 'zh-TW', 'Womany 女人迷', '濟州火山石擴香與生活選物', 'news@womany.net', 'l0043', 'r-6566523252030743241', '品牌故事投稿｜濟州火山石擴香 StoneJeju × HONDIT', '대만 번체·배송조건 검수', '7d1f0f0a-0001-4a10-9a01-000000000004', '女人迷編輯團隊您好：
 
 我們是由韓國濟州大學 GTEP 學生團隊營運的 HONDIT，負責介紹濟州生活選物並處理海外商品資訊及銷售洽詢。
@@ -221,7 +221,107 @@ https://hondit-shop.vercel.app/?market=TW&lang=en&utm_source=outreach&utm_medium
 感謝您的閱讀。
 
 HONDIT｜濟州大學 GTEP
-hondit.office@gmail.com')
+hondit.office@gmail.com', 'https://womany.net/', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증) #13 A · 대만 B2C 구매·반품조건 미확정이면 구매 광고처럼 소개 금지. 2차 발송 추천.')
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000006', 'P-EMAIL-SG-03', 'SG', 'en', 'Honeycombers Singapore', 'https://thehoneycombers.com/singapore/about-us/', '자연 소재·홈 프래그런스·제주 생활 브랜드 스토리', 'hello@thehoneycombers.com', null, null, 'PR story tip: Jeju volcanic stone reimagined as a non-electric home-fragrance object', 'Hello Honeycombers team,
+
+I''m writing from HONDIT, a student-led Jeju National University GTEP team helping showcase Jeju lifestyle products in overseas markets. Our current product story is StoneJeju''s volcanic-stone diffusers (350g and 500g), decorative fragrance items used with oil, without electricity or a flame.
+
+If you are covering Asian design objects, distinctive Korean gifts, or home scents, would this be relevant as an editorial tip? We can provide licensed product photographs, product facts and a clear explanation of the maker (StoneJeju) versus the overseas seller (HONDIT).
+
+We understand you do not accept guest posts or backlink requests, and this is not one. Thank you for considering it.
+
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/', '#3 A / 제안 준비. 보내기 전: 백링크 요청·게스트 포스트 금지. 03_LINKS NEXT_LINK_ID로 link_id 지정 → 본문 링크를 Final URL로 교체 → 승인', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000007', 'P-FORM-JP-01', 'JP', 'ja', 'ESSEonline', 'https://esse-online.jp/', '무전원 아로마스톤·관리 간편성 (효능 표현 금지)', 'https://esse-online.jp/list/secure/contact-input', null, null, '【情報提供】済州島の火山石を使った電源不要のディフューザー／StoneJeju', 'ESSEonline編集部 ご担当者様
+
+済州大学GTEPの学生チームが運営するHONDITと申します。
+貴媒体でアロマストーンや暮らしの香りアイテムが紹介されていることを拝見し、情報提供いたします。
+
+私たちはStoneJejuの済州火山石ディフューザー（350g・500g）を海外向けにご案内しています。フレグランスオイルを使用し、電源や火を使わずに香りを楽しむ生活雑貨です。
+
+製品の正確な仕様、使用方法、利用許諾を得た写真をご提供できます。掲載・取材は編集部のご判断にお任せします。有料広告の依頼ではありません。
+
+ご検討いただけましたら幸いです。
+HONDIT（済州大学GTEP）
+hondit.office@gmail.com
+https://hondit-shop.vercel.app/', '#5 A / 제안 준비 · 편집부 폼 (필수 전화번호·담당자 수동 입력, 담당자 승인 필요). 1차 발송 추천. 03_LINKS NEXT_LINK_ID로 link_id 지정 → 본문 링크를 Final URL로 교체 → 승인', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000008', 'P-FORM-HK-01', 'HK', 'en', 'Sassy Hong Kong', 'https://www.sassyhongkong.com/', 'HK 홈 프래그런스 가이드 업데이트 검토', 'https://www.sassyhongkong.com/faqs/', null, null, 'Product tip for your Hong Kong home-fragrance guides: Jeju volcanic-stone diffuser', 'Hello Sassy Hong Kong editorial team,
+
+Your home scents and diffuser guides caught our attention. We''re HONDIT, a Jeju National University GTEP student-run curator representing StoneJeju''s volcanic-stone diffusers in overseas sales enquiries.
+
+The 350g/500g products are natural-stone home-fragrance objects used with oil, requiring neither electricity nor a flame. If your editors revisit Korean design gifts or home-scent options, we would be happy to share a factual product brief and original approved photos.
+
+We are affiliated with the seller HONDIT, and are not asking for a paid or guaranteed feature. We will verify Hong Kong purchasing and return conditions before making consumer availability claims.
+
+Thank you,
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/', '#9 A / 제안 준비 · FAQ의 실제 접수 링크 확인 (유료 featured listing과 별개). HK 구매·재고·배송조건 미확인 상태에서 구매처 주장 금지. 1차 발송 추천. 03_LINKS NEXT_LINK_ID로 link_id 지정 → 본문 링크를 Final URL로 교체 → 승인', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000009', 'P-EMAIL-HK-02', 'HK', 'zh-HK', 'U Lifestyle', 'https://www.ulifestyle.com.hk/', '제주 기념품·홍콩 생활공간 선물', 'press@ulifestyle.com.hk', null, null, '生活資訊提供｜濟州火山石擴香 StoneJeju（HONDIT 海外選物）', 'U Lifestyle 編輯團隊您好：
+
+我們是濟州大學 GTEP 學生團隊營運的 HONDIT，負責介紹及海外銷售濟州生活選物。希望向編輯部提供 StoneJeju 濟州火山石擴香產品的資訊，規格包括 350g 及 500g。
+
+產品使用香氛精油，無須插電或點火，亦可作為家居擺設。若貴平台日後製作韓國特色禮物、居家香氛或濟州旅遊手信相關專題，我們可提供已獲授權的實物照片及經核實的產品資料。
+
+本信只供獨立編採參考，並非付費廣告申請。產品品牌是 StoneJeju，HONDIT 為海外銷售窗口；香港購買及退換條款會以正式頁面資料為準。
+
+謝謝！
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/', '#11 A / 제안 준비. 보내기 전: 번체 HK 문안, 실제 배송조건 확인. 03_LINKS NEXT_LINK_ID로 link_id 지정 → 본문 링크를 Final URL로 교체 → 승인', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000010', 'P-EMAIL-HK-03', 'HK', 'en', 'Saucy Hong Kong', 'https://www.saucyhongkong.com/', '제주 대학생 무역팀의 현지화·브랜드 스토리', 'editor@saucyhongkong.com', null, null, 'Jeju student export story + design-led home fragrance product tip', 'Hello Saucy Hong Kong editor,
+
+I''m from HONDIT, a Jeju National University student GTEP project introducing Jeju lifestyle items overseas. We thought you might be interested in the people and place behind StoneJeju''s volcanic-stone fragrance diffuser — a design object used with scent oil but no electricity or flame.
+
+If this fits a broader Korean craft, travel or emerging-brand story, we can offer verified background notes and original licensed product images. We understand Saucy''s focus may be elsewhere, so a short ''not a fit'' response is absolutely fine.
+
+This is an editorial tip only, not a paid placement request.
+
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/', '#12 A- / 제안 준비 (음식 중심 매체라 적합도 낮음, 홈향기 독자층 미확인). 03_LINKS NEXT_LINK_ID로 link_id 지정 → 본문 링크를 Final URL로 교체 → 승인', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000011', 'P-EMAIL-HK-04', 'HK', 'zh-HK', 'HK Aromatherapy Development Association', 'https://hkadal.com/', '제품 특징 일반 정보·전문가 피드백 문의 (매체 아님)', 'hkaromada@gmail.com', null, null, '專業資訊交流｜濟州火山石擴香產品（非療效或認證申請）', '香港芳香療法發展協會您好：
+
+我們是濟州大學 GTEP 學生團隊營運的 HONDIT，介紹 StoneJeju 濟州火山石擴香產品（350g／500g）。產品使用香氛精油，無須插電或點火。
+
+想請教協會是否接受不涉及廣告費用的產品資料交流，或是否有適合的香氛用品專業交流渠道。我們希望聆聽使用與資訊呈現方面的專業意見，不要求推薦、認證或任何醫療／健康效果背書。
+
+如合作需要支付費用，請先告知，我們現階段不會參加任何收費服務。
+
+謝謝。
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/', '#47 B / 전문 교류. 유료 교육·건강 효능·제품 인증 연계 금지. 03_LINKS NEXT_LINK_ID로 link_id 지정 → 본문 링크를 Final URL로 교체 → 승인', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000012', 'P-DM-SG-01', 'SG', 'en', '@daysofahomebody', 'https://www.instagram.com/daysofahomebody/', '슬로우 리빙·홈데코', 'https://www.instagram.com/daysofahomebody/', null, null, null, null, '#31 보류: 계정 실제 활동·국가·DM 수신·유료 파트너십 여부 확인 전 접촉 금지 (제안문 없음)', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000013', 'P-DM-SG-02', 'SG', 'en', '@jklmnest', 'https://www.instagram.com/jklmnest/', '홈데코', 'https://www.instagram.com/jklmnest/', null, null, null, null, '#32 보류: 계정 실제 활동·국가·DM 수신·유료 파트너십 여부 확인 전 접촉 금지 (제안문 없음)', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000014', 'P-DM-SG-03', 'SG', 'en', '@tfthishouse', 'https://www.instagram.com/tfthishouse/', '실내공간 연출', 'https://www.instagram.com/tfthishouse/', null, null, null, null, '#33 보류: 계정 실제 활동·국가·DM 수신·유료 파트너십 여부 확인 전 접촉 금지 (제안문 없음)', null, null)
+on conflict (content_id) do nothing;
+
+insert into public.pr_outreach (approval_status, send_status, reply_status, materials_url, contact_source, id, content_id, market, language, outlet, outlet_url, angle, editorial_contact, link_id, gmail_draft_id, email_subject, email_body, next_action, article_id, notes)
+values ('pending', 'not_sent', 'none', 'https://docs.google.com/document/d/14ARAH6CKJbRcPKNeO87GMq6BBOyD_bxTLiPuJaVzHRg/edit', 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)', '7d1f0f0a-0002-4a10-9a01-000000000015', 'P-DM-JP-01', 'JP', 'ja', '@rie.brain', 'https://www.instagram.com/rie.brain/', '일본 향기생활 계정 여부 미확인', 'https://www.instagram.com/rie.brain/', null, null, null, null, '#34 보류: 계정 실제 활동·국가·DM 수신·유료 파트너십 여부 확인 전 접촉 금지 (제안문 없음)', null, null)
 on conflict (content_id) do nothing;
 
 insert into public.journal_publish_log (article_id, action, message, actor)

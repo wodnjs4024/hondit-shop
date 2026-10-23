@@ -73,6 +73,7 @@ function fakeDb({ tables = true } = {}) {
       const hits = rows.filter((r) => match(r, params));
       for (const row of hits) {
         const next = { ...row, ...patch, updated_at: new Date().toISOString() };
+        if (conflict(table, next, rows.filter((o) => o !== row))) return new Response(JSON.stringify({ message: 'duplicate key value violates unique constraint' }), { status: 409 });
         try { if (table === 'journal_articles') guard(row, next); } catch (error) { return new Response(JSON.stringify({ message: error.message }), { status: 400 }); }
         Object.assign(row, next);
       }
@@ -196,7 +197,7 @@ test('register drafts -> review -> approve -> schedule (KST) -> publish once -> 
   try {
     const A = await admin(), P = await products();
     const imported = await call(A, { method: 'POST', path: 'journal/import-seed' });
-    assert.deepEqual(imported.data, { articles: 4, press: 5 });
+    assert.deepEqual(imported.data, { articles: 4, press: 15 });
     const again = await call(A, { method: 'POST', path: 'journal/import-seed' });
     assert.deepEqual(again.data, { articles: 0, press: 0 }, 'importing twice adds nothing');
 
@@ -386,9 +387,10 @@ test('press outreach tracks approval, sending, replies and coverage without send
     const A = await admin();
     await call(A, { method: 'POST', path: 'journal/import-seed' });
     const list = await call(A, { path: 'press' });
-    assert.equal(list.data.outreach.length, 5);
-    assert.deepEqual(list.data.outreach.map((r) => r.link_id).sort(), ['l0039', 'l0040', 'l0041', 'l0042', 'l0043']);
-    assert.ok(list.data.outreach.every((r) => r.send_status === 'not_sent' && r.approval_status === 'pending' && r.email_body.includes(r.link_id)));
+    assert.equal(list.data.outreach.length, 15, 'the 15 priority candidates, each once');
+    assert.equal(new Set(list.data.outreach.map((r) => `${r.market}:${r.outlet}`)).size, 15);
+    assert.deepEqual(list.data.outreach.map((r) => r.link_id).filter(Boolean).sort(), ['l0039', 'l0040', 'l0041', 'l0042', 'l0043'], 'no new link_id is issued by the import');
+    assert.ok(list.data.outreach.every((r) => r.send_status === 'not_sent' && r.approval_status === 'pending' && (!r.link_id || r.email_body.includes(r.link_id))));
     const row = list.data.outreach.find((r) => r.content_id === 'P-EMAIL-JP-01');
     assert.equal((await call(A, { method: 'POST', path: `press/${row.id}/action`, body: { action: 'mark_sent' } })).status, 409, 'cannot mark unsent drafts as sent before approval');
     assert.equal((await call(A, { method: 'POST', path: 'press', body: { market: 'JP', outlet: 'Mynavi Woman' } })).status, 409, 'no duplicate outlet in a market');
@@ -404,6 +406,32 @@ test('press outreach tracks approval, sending, replies and coverage without send
   } finally { h.restore(); }
 });
 
+test('new candidates need a proposal, a fresh link_id and a Final URL before approval', async () => {
+  const h = harness({ env: 'production' });
+  try {
+    const A = await admin();
+    await call(A, { method: 'POST', path: 'journal/import-seed' });
+    const rows = (await call(A, { path: 'press' })).data.outreach;
+    const byId = (cid) => rows.find((r) => r.content_id === cid);
+    const ig = byId('P-DM-SG-01'), hc = byId('P-EMAIL-SG-03');
+    const approve = (row) => call(A, { method: 'POST', path: `press/${row.id}/action`, body: { action: 'approve' } });
+    assert.equal((await approve(ig)).status, 409, 'an account still on hold has no proposal to approve');
+    assert.equal((await approve(hc)).status, 409, 'no link_id yet');
+    assert.equal((await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { link_id: 'l0040' } })).status, 409, 'issued link IDs are never reused');
+    assert.equal((await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { link_id: 'l0044' } })).status, 200);
+    assert.equal((await call(A, { method: 'PATCH', path: `press/${byId('P-FORM-JP-01').id}`, body: { link_id: 'l0044' } })).status, 409, 'one link_id per proposal');
+    assert.equal((await approve(hc)).status, 409, 'the body still links to the bare site URL');
+    const url = 'https://hondit-shop.vercel.app/?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_pr_202610&utm_content=l0044&link_id=l0044';
+    await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { email_body: hc.email_body.replace('https://hondit-shop.vercel.app/', url) } });
+    const ok = await approve(hc);
+    assert.equal(ok.status, 200);
+    assert.equal(ok.data.outreach.approval_status, 'approved');
+    const moved = await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { link_id: 'l0045' } });
+    assert.equal(moved.data.outreach.approval_status, 'pending', 'changing the link_id needs approval again');
+    assert.equal(h.outbound.length, 0);
+  } finally { h.restore(); }
+});
+
 test('CONTENT_PIPELINE export matches the sheet columns and existing IDs', async () => {
   const h = harness({ env: 'production' });
   try {
@@ -415,7 +443,8 @@ test('CONTENT_PIPELINE export matches the sheet columns and existing IDs', async
     assert.ok(out.data.rows.every((r) => r.length === 13));
     const ids = out.data.rows.map((r) => r[0]);
     for (const id of ['S-JRN-SG-01', 'S-JRN-JP-01', 'S-JRN-HK-01', 'S-JRN-TW-01', 'P-EMAIL-SG-01', 'P-EMAIL-SG-02', 'P-EMAIL-JP-01', 'P-EMAIL-HK-01', 'P-EMAIL-TW-01']) assert.ok(ids.includes(id), id);
-    assert.equal(out.data.tsv.split('\n').length, 9);
+    assert.equal(out.data.tsv.split('\n').length, 19);
+    assert.equal(out.data.rows.find((r) => r[0] === 'P-DM-SG-01')[8], '후보(제안문 없음)');
     assert.equal(out.data.webhook, false);
   } finally { h.restore(); }
 });
@@ -436,7 +465,7 @@ test('seed data stays in sync with the generated SQL seed', async () => {
   const fs = await import('node:fs');
   const sql = fs.readFileSync(new URL('../supabase/seeds/010_journal_seed.sql', import.meta.url), 'utf8');
   for (const a of seedArticles) assert.ok(sql.includes(`'${a.slug}'`) && sql.includes(`'${a.content_id}'`));
-  for (const p of seedPress) assert.ok(sql.includes(`'${p.gmail_draft_id}'`));
+  for (const p of seedPress) assert.ok(sql.includes(`'${p.content_id}'`) && (!p.gmail_draft_id || sql.includes(`'${p.gmail_draft_id}'`)));
   const migration = fs.readFileSync(new URL('../supabase/migrations/010_journal_pr.sql', import.meta.url), 'utf8');
   assert.doesNotMatch(migration, /alter table public\.(orders|products|order_items|inquiries|product_prices)\b/i, '010 changes no existing table');
   assert.doesNotMatch(migration, /\bdrop\b(?! trigger if exists journal_articles_guard)/i);

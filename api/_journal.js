@@ -402,6 +402,12 @@ async function updateDistribution(id, body, actor) {
 }
 
 /* ---------- step 7: press outreach (status tracking only; nothing is sent from here) ---------- */
+function newPressLinkId(value) {
+  const id = String(value || '');
+  if (!linkIdOk(id)) throw new HttpError(422, 'link_id 형식은 l0044 처럼 l + 숫자 4자리입니다.');
+  if (ISSUED_LINK_IDS.includes(id)) throw new HttpError(409, `${id}는 이미 03_LINKS에 발급된 ID입니다. NEXT_LINK_ID부터 새로 발급하세요.`);
+  return id;
+}
 const PR_FIELDS = ['outlet', 'outlet_url', 'angle', 'editorial_contact', 'contact_source', 'materials_url', 'email_subject', 'email_body', 'gmail_draft_id', 'follow_up_notes', 'published_url', 'next_action', 'notes', 'language'];
 export async function adminPress(req, res, parts) {
   const admin = await verifyAdmin(req);
@@ -423,10 +429,7 @@ export async function adminPress(req, res, parts) {
       const row = { market: String(body.market || '').toUpperCase().slice(0, 2), outlet: String(body.outlet || '').trim().slice(0, 200), approval_status: 'pending', send_status: 'not_sent' };
       for (const k of PR_FIELDS) if (body[k] !== undefined) row[k] = String(body[k]).slice(0, k === 'email_body' ? 8000 : 600);
       if (!row.outlet || !/^(SG|JP|HK|TW|TH|MY|BN|MO)$/.test(row.market)) throw new HttpError(422, '매체명과 시장을 입력해 주세요.');
-      if (body.link_id) {
-        if (!linkIdOk(body.link_id)) throw new HttpError(422, 'link_id 형식이 올바르지 않습니다.');
-        row.link_id = body.link_id;
-      }
+      if (body.link_id) row.link_id = newPressLinkId(body.link_id);
       // The same outlet in the same market is one record (UNIQUE outlet, market): no duplicate registration.
       const created = await db('/pr_outreach', { method: 'POST', body: JSON.stringify(row) }).catch((error) => {
         if (/duplicate|unique/i.test(error.message)) throw new HttpError(409, '같은 시장에 같은 매체(또는 link_id)가 이미 등록되어 있습니다.');
@@ -442,12 +445,23 @@ export async function adminPress(req, res, parts) {
     if (req.method === 'PATCH' && !second) {
       for (const k of PR_FIELDS) if (body[k] !== undefined) patch[k] = String(body[k]).slice(0, k === 'email_body' ? 8000 : 600);
       if (body.metrics && typeof body.metrics === 'object') patch.metrics = { sessions: Number(body.metrics.sessions || 0), inquiries: Number(body.metrics.inquiries || 0), orders: Number(body.metrics.orders || 0), updated_at: new Date().toISOString() };
+      if (body.link_id !== undefined && (body.link_id || null) !== row.link_id) {
+        if (row.send_status === 'sent') throw new HttpError(409, '이미 발송된 제안의 link_id는 바꿀 수 없습니다.');
+        patch.link_id = body.link_id ? newPressLinkId(body.link_id) : null;
+      }
       if (body.follow_up_at !== undefined) patch.follow_up_at = body.follow_up_at ? kstToUtc(body.follow_up_at) : null;
       // An edited email needs a fresh approval.
       if ((patch.email_body !== undefined && patch.email_body !== row.email_body) || (patch.email_subject !== undefined && patch.email_subject !== row.email_subject)) Object.assign(patch, { approval_status: 'pending', approved_by: null, approved_at: null });
+      if (patch.link_id !== undefined) Object.assign(patch, { approval_status: 'pending', approved_by: null, approved_at: null });
     } else if (req.method === 'POST' && second === 'action') {
       const action = String(body.action || '');
-      if (action === 'approve') { if (row.send_status === 'sent') throw new HttpError(409, '이미 발송된 제안입니다.'); Object.assign(patch, { approval_status: 'approved', approved_by: actor, approved_at: new Date().toISOString() }); }
+      if (action === 'approve') {
+        if (row.send_status === 'sent') throw new HttpError(409, '이미 발송된 제안입니다.');
+        // Only a written proposal whose link carries its own link_id (Final URL) can be approved.
+        if (!String(row.email_body || '').trim()) throw new HttpError(409, '제안문이 없는 후보는 승인할 수 없습니다.');
+        if (!row.link_id) throw new HttpError(409, '03_LINKS에서 link_id를 먼저 지정해 주세요.');
+        if (!String(row.email_body).includes(`link_id=${row.link_id}`)) throw new HttpError(409, `본문 링크를 link_id=${row.link_id}가 들어간 Final URL로 바꾼 뒤 승인해 주세요.`);
+        Object.assign(patch, { approval_status: 'approved', approved_by: actor, approved_at: new Date().toISOString() }); }
       else if (action === 'reject') Object.assign(patch, { approval_status: 'rejected', approved_by: null, approved_at: null });
       else if (action === 'mark_sent') {
         if (row.approval_status !== 'approved') throw new HttpError(409, '발송 승인된 제안만 "발송함"으로 기록할 수 있습니다.');
@@ -462,7 +476,11 @@ export async function adminPress(req, res, parts) {
         Object.assign(patch, { published_url: String(body.url).slice(0, 500), published_at: new Date().toISOString() });
       } else throw new HttpError(400, '알 수 없는 작업입니다.');
     } else return json(res, 405, { error: 'Method not allowed' });
-    const updated = await db(`/pr_outreach?id=eq.${enc(id)}`, { method: 'PATCH', body: JSON.stringify(patch) });
+    if (patch.link_id && (await db(`/journal_distributions?select=id&link_id=eq.${enc(patch.link_id)}`)).length) throw new HttpError(409, `${patch.link_id}는 Journal 외부 배포에서 이미 사용 중입니다.`);
+    const updated = await db(`/pr_outreach?id=eq.${enc(id)}`, { method: 'PATCH', body: JSON.stringify(patch) }).catch((error) => {
+      if (/duplicate|unique/i.test(error.message)) throw new HttpError(409, '다른 제안에서 이미 쓰는 link_id입니다.');
+      throw error;
+    });
     return json(res, 200, { outreach: updated[0] });
   } catch (error) {
     if (error instanceof HttpError || error instanceof JournalNotReady) return json(res, error.status, { error: error.message, ...(error.extra || {}) });

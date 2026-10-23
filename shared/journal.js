@@ -245,7 +245,7 @@ export function articlePipelineRow(article) {
   const next = article.status === 'failed' ? `오류: ${article.last_error || ''}` : article.status === 'scheduled' ? '예약 시각 자동 발행' : article.status === 'approved' ? '발행 일시 지정' : article.status === 'published' ? '외부 채널 패키지·성과 확인' : '관리자 검수';
   return [article.content_id || '', '직접게재', lang?.market || '', 'HONDIT /journal', article.title, article.source_doc || '', `${SITE.replace('https://', '')}${articlePath(article)}`, '', articleStatusKo[article.status] || article.status, article.publish_at ? formatKst(article.publish_at).replace(' KST', '') : '', reviewed, article.public_url || '', next];
 }
-const prStatusKo = (row) => row.published_url ? '게재 확인' : row.reply_status && row.reply_status !== 'none' ? `회신: ${row.reply_status}` : row.send_status === 'sent' ? '발송완료' : row.approval_status === 'approved' ? '발송 승인' : '메일초안';
+const prStatusKo = (row) => !String(row.email_body || '').trim() ? '후보(제안문 없음)' : row.published_url ? '게재 확인' : row.reply_status && row.reply_status !== 'none' ? `회신: ${row.reply_status}` : row.send_status === 'sent' ? '발송완료' : row.approval_status === 'approved' ? '발송 승인' : '메일초안';
 export function prPipelineRow(row) {
   return [row.content_id || '', '언론제안', row.market, row.outlet, row.angle || '', row.materials_url || '', row.editorial_contact || '', row.link_id || '', prStatusKo(row), row.follow_up_at ? formatKst(row.follow_up_at).replace(' KST', '') : '', row.approval_status === 'approved' ? '발송 승인' : '발송 전 확인', row.published_url || '', row.next_action || ''];
 }

@@ -6,6 +6,7 @@ import { formatKst } from "../../shared/journal";
 type Outreach = {
   id: string; content_id?: string; market: string; language?: string; outlet: string; outlet_url?: string; angle?: string; editorial_contact?: string; contact_source?: string;
   materials_url?: string; email_subject?: string; email_body?: string; gmail_draft_id?: string; link_id?: string;
+  notes?: string;
   approval_status: string; approved_by?: string; approved_at?: string; send_status: string; sent_at?: string; gmail_message_id?: string;
   reply_status: string; replied_at?: string; follow_up_at?: string; follow_up_notes?: string; published_url?: string; published_at?: string;
   metrics?: { sessions?: number; inquiries?: number; orders?: number }; next_action?: string;
@@ -16,8 +17,8 @@ const approvalLabel: Record<string, string> = { pending: "발송 승인 대기",
 const sendLabel: Record<string, string> = { not_sent: "미발송", sent: "발송함", bounced: "반송" };
 const replyLabel: Record<string, string> = { none: "회신 없음", replied: "회신", interested: "관심", declined: "거절", no_reply: "무응답 종료" };
 
-async function call(path: string, body: unknown) {
-  const response = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("hondit_admin_token") || ""}` }, body: JSON.stringify(body) });
+async function call(path: string, body: unknown, method = "POST") {
+  const response = await fetch(path, { method, headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.localStorage.getItem("hondit_admin_token") || ""}` }, body: JSON.stringify(body) });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error || "요청에 실패했습니다.");
   return data;
@@ -30,6 +31,12 @@ export function AdminPressPage() {
   const load = () => adminFetch<Response>("/api/admin/press").then(setData).catch((err) => setError(err.message));
   useEffect(() => { load(); }, []);
   const act = (id: string, body: Record<string, unknown>) => call(`/api/admin/press/${id}/action`, body).then(load).catch((err) => setError(err.message));
+  const edit = (id: string, body: Record<string, unknown>) => call(`/api/admin/press/${id}`, body, "PATCH").then(load).catch((err) => setError(err.message));
+  const setLinkId = (row: Outreach) => {
+    const id = window.prompt("03_LINKS의 NEXT_LINK_ID를 입력하세요 (예: l0044). 시트에도 같은 행을 추가해야 합니다.", row.link_id || "");
+    if (id !== null) edit(row.id, { link_id: id.trim() });
+  };
+  const [draft, setDraft] = useState<{ id: string; text: string } | null>(null);
 
   if (error && !data) return <AdminNotice message={error} />;
   return (
@@ -37,9 +44,9 @@ export function AdminPressPage() {
       <div className="admin-heading">
         <p className="eyebrow">콘텐츠 · PR</p>
         <h1>해외 언론 제안</h1>
-        <p className="admin-muted">기존 Gmail 초안(hondit.office@gmail.com)과 CONTENT_PIPELINE 제안 행을 그대로 관리합니다. 이 화면은 메일을 보내지 않습니다. 발송은 승인 후 Gmail에서 직접 하고, 보낸 뒤 "발송함"으로 기록하세요. 같은 시장의 같은 매체는 한 번만 등록됩니다.</p>
+        <p className="admin-muted">무료 PR 우선 15곳(Gmail 초안 5건 포함)을 관리합니다. 이 화면은 메일을 보내지 않습니다. 발송은 승인 후 Gmail에서 직접 하고, 보낸 뒤 "발송함"으로 기록하세요. 같은 시장의 같은 매체는 한 번만 등록됩니다.</p>
       </div>
-      {data && !data.ready && <AdminNotice message={`${data.message} 아래 목록은 저장소에 준비된 5건(읽기 전용)입니다.`} />}
+      {data && !data.ready && <AdminNotice message={`${data.message} 아래 목록은 저장소에 준비된 우선 후보 15곳(읽기 전용)입니다.`} />}
       {data?.ready && !data.writable && <AdminNotice message="이 배포(Preview)는 읽기 전용입니다." />}
       {error && <AdminNotice message={error} />}
       <section className="admin-panel">
@@ -52,8 +59,8 @@ export function AdminPressPage() {
                   <td>{row.content_id}</td>
                   <td>{row.market}</td>
                   <td><button type="button" className="button button--ghost" onClick={() => setOpen(open === row.id ? "" : row.id)}>{row.outlet}</button><div className="admin-muted">{row.editorial_contact}</div></td>
-                  <td>{row.link_id}</td>
-                  <td>{approvalLabel[row.approval_status]}{row.approved_by && <div className="admin-muted">{row.approved_by}</div>}</td>
+                  <td>{row.link_id || "-"}</td>
+                  <td>{row.email_body ? approvalLabel[row.approval_status] : "후보 · 제안문 없음"}{row.approved_by && <div className="admin-muted">{row.approved_by}</div>}</td>
                   <td>{sendLabel[row.send_status]}{row.sent_at && <div className="admin-muted">{formatKst(row.sent_at)}</div>}</td>
                   <td>{replyLabel[row.reply_status]}{row.follow_up_at && <div className="admin-muted">후속 {formatKst(row.follow_up_at)}</div>}</td>
                   <td>{row.published_url ? <a href={row.published_url} target="_blank" rel="noreferrer">게재</a> : "-"}</td>
@@ -67,13 +74,25 @@ export function AdminPressPage() {
       {(data?.outreach || []).filter((row) => row.id === open).map((row) => (
         <section className="admin-panel admin-press-card" key={row.id}>
           <h2>{row.outlet} · {row.market}</h2>
-          <p className="admin-muted">연락처 출처: {row.contact_source || "-"} · 다음 실행: {row.next_action || "-"}</p>
-          <strong>{row.email_subject}</strong>
-          <pre>{row.email_body}</pre>
-          <p>{row.gmail_draft_id && <a href="https://mail.google.com/mail/#drafts" target="_blank" rel="noreferrer">Gmail 초안함 열기 (draft {row.gmail_draft_id})</a>} · <a href={row.materials_url} target="_blank" rel="noreferrer">제안 기사 자료</a></p>
+          <p className="admin-muted">연락처: {row.editorial_contact?.startsWith("https://") ? <a href={row.editorial_contact} target="_blank" rel="noreferrer">{row.editorial_contact}</a> : row.editorial_contact || "-"} · 출처: {row.contact_source || "-"}</p>
+          {row.notes && <p className="admin-muted">발송 전 확인: {row.notes}</p>}
+          <p className="admin-muted">다음 실행: {row.next_action || "-"}</p>
+          {draft?.id === row.id ? (
+            <>
+              <textarea className="admin-journal-tsv" value={draft.text} onChange={(e) => setDraft({ id: row.id, text: e.target.value })} />
+              <p className="admin-muted">링크는 link_id={row.link_id || "l0000"}가 들어간 Final URL이어야 승인됩니다. 저장하면 승인이 다시 필요합니다.</p>
+              <div className="admin-journal-actions">
+                <button className="button" type="button" onClick={() => edit(row.id, { email_body: draft.text }).then(() => setDraft(null))}>본문 저장</button>
+                <button className="button button--ghost" type="button" onClick={() => setDraft(null)}>취소</button>
+              </div>
+            </>
+          ) : row.email_body ? <><strong>{row.email_subject}</strong><pre>{row.email_body}</pre></> : <p>아직 제안문이 없습니다. 계정 검증이 끝나기 전에는 접촉하지 않습니다.</p>}
+          <p>{row.gmail_draft_id && <><a href="https://mail.google.com/mail/#drafts" target="_blank" rel="noreferrer">Gmail 초안함 열기 (draft {row.gmail_draft_id})</a> · </>}<a href={row.materials_url} target="_blank" rel="noreferrer">제안 기사 자료</a></p>
           {data?.writable && (
             <div className="admin-journal-actions">
-              {row.approval_status !== "approved" && row.send_status !== "sent" && <button className="button" type="button" onClick={() => act(row.id, { action: "approve" })}>발송 승인</button>}
+              {row.send_status !== "sent" && <button className="button button--ghost" type="button" onClick={() => setLinkId(row)}>{row.link_id ? "link_id 변경" : "link_id 지정"}</button>}
+              {row.send_status !== "sent" && <button className="button button--ghost" type="button" onClick={() => setDraft({ id: row.id, text: row.email_body || "" })}>본문 수정</button>}
+              {row.approval_status !== "approved" && row.send_status !== "sent" && <button className="button" type="button" disabled={!row.email_body || !row.link_id} onClick={() => act(row.id, { action: "approve" })}>발송 승인</button>}
               {row.approval_status === "approved" && row.send_status !== "sent" && <button className="button button--ghost" type="button" onClick={() => act(row.id, { action: "reject" })}>승인 취소</button>}
               {row.approval_status === "approved" && row.send_status === "not_sent" && <button className="button button--ghost" type="button" onClick={() => { const id = window.prompt("Gmail에서 실제로 보낸 뒤, 보낸 메일의 메시지 ID(선택)를 입력하세요"); if (id !== null) act(row.id, { action: "mark_sent", gmailMessageId: id }); }}>발송함으로 기록</button>}
               {row.send_status === "sent" && <select defaultValue="" onChange={(e) => e.target.value && act(row.id, { action: "record_reply", replyStatus: e.target.value })}><option value="">회신 기록…</option>{Object.entries(replyLabel).filter(([k]) => k !== "none").map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>}

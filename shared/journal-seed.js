@@ -311,3 +311,99 @@ HONDIT｜濟州大學 GTEP
 hondit.office@gmail.com`,
 };
 for (const row of seedPress) row.email_body = PR_BODIES[row.content_id];
+
+/* The other 10 of the "무료 PR 우선 15곳" list (HONDIT 무료 PR 15곳 최신 발송 준비.xlsx, 2026-10-21 re-check, sheets
+   15곳_재검증 · 개별_제안문11). Proposal text is copied as written there. These have no link_id yet: issue one from 03_LINKS
+   NEXT_LINK_ID, put the Final URL in the text, then approve. The four Instagram accounts failed account verification and
+   have no proposal, so they cannot be approved until one is written. */
+const PR_LIST = 'HONDIT 무료 PR 15곳 최신 발송 준비.xlsx (2026-10-21 재검증)';
+const LINK_FIRST = '03_LINKS NEXT_LINK_ID로 link_id 지정 → 본문 링크를 Final URL로 교체 → 승인';
+const IG_HOLD = '보류: 계정 실제 활동·국가·DM 수신·유료 파트너십 여부 확인 전 접촉 금지 (제안문 없음)';
+const more = [
+  ['P-EMAIL-SG-03', 'SG', 'en', 'Honeycombers Singapore', 'https://thehoneycombers.com/singapore/about-us/', 'hello@thehoneycombers.com', '자연 소재·홈 프래그런스·제주 생활 브랜드 스토리', `#3 A / 제안 준비. 보내기 전: 백링크 요청·게스트 포스트 금지. ${LINK_FIRST}`, 'PR story tip: Jeju volcanic stone reimagined as a non-electric home-fragrance object', `Hello Honeycombers team,
+
+I'm writing from HONDIT, a student-led Jeju National University GTEP team helping showcase Jeju lifestyle products in overseas markets. Our current product story is StoneJeju's volcanic-stone diffusers (350g and 500g), decorative fragrance items used with oil, without electricity or a flame.
+
+If you are covering Asian design objects, distinctive Korean gifts, or home scents, would this be relevant as an editorial tip? We can provide licensed product photographs, product facts and a clear explanation of the maker (StoneJeju) versus the overseas seller (HONDIT).
+
+We understand you do not accept guest posts or backlink requests, and this is not one. Thank you for considering it.
+
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/`],
+  ['P-FORM-JP-01', 'JP', 'ja', 'ESSEonline', 'https://esse-online.jp/', 'https://esse-online.jp/list/secure/contact-input', '무전원 아로마스톤·관리 간편성 (효능 표현 금지)', `#5 A / 제안 준비 · 편집부 폼 (필수 전화번호·담당자 수동 입력, 담당자 승인 필요). 1차 발송 추천. ${LINK_FIRST}`, '【情報提供】済州島の火山石を使った電源不要のディフューザー／StoneJeju', `ESSEonline編集部 ご担当者様
+
+済州大学GTEPの学生チームが運営するHONDITと申します。
+貴媒体でアロマストーンや暮らしの香りアイテムが紹介されていることを拝見し、情報提供いたします。
+
+私たちはStoneJejuの済州火山石ディフューザー（350g・500g）を海外向けにご案内しています。フレグランスオイルを使用し、電源や火を使わずに香りを楽しむ生活雑貨です。
+
+製品の正確な仕様、使用方法、利用許諾を得た写真をご提供できます。掲載・取材は編集部のご判断にお任せします。有料広告の依頼ではありません。
+
+ご検討いただけましたら幸いです。
+HONDIT（済州大学GTEP）
+hondit.office@gmail.com
+https://hondit-shop.vercel.app/`],
+  ['P-FORM-HK-01', 'HK', 'en', 'Sassy Hong Kong', 'https://www.sassyhongkong.com/', 'https://www.sassyhongkong.com/faqs/', 'HK 홈 프래그런스 가이드 업데이트 검토', `#9 A / 제안 준비 · FAQ의 실제 접수 링크 확인 (유료 featured listing과 별개). HK 구매·재고·배송조건 미확인 상태에서 구매처 주장 금지. 1차 발송 추천. ${LINK_FIRST}`, 'Product tip for your Hong Kong home-fragrance guides: Jeju volcanic-stone diffuser', `Hello Sassy Hong Kong editorial team,
+
+Your home scents and diffuser guides caught our attention. We're HONDIT, a Jeju National University GTEP student-run curator representing StoneJeju's volcanic-stone diffusers in overseas sales enquiries.
+
+The 350g/500g products are natural-stone home-fragrance objects used with oil, requiring neither electricity nor a flame. If your editors revisit Korean design gifts or home-scent options, we would be happy to share a factual product brief and original approved photos.
+
+We are affiliated with the seller HONDIT, and are not asking for a paid or guaranteed feature. We will verify Hong Kong purchasing and return conditions before making consumer availability claims.
+
+Thank you,
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/`],
+  ['P-EMAIL-HK-02', 'HK', 'zh-HK', 'U Lifestyle', 'https://www.ulifestyle.com.hk/', 'press@ulifestyle.com.hk', '제주 기념품·홍콩 생활공간 선물', `#11 A / 제안 준비. 보내기 전: 번체 HK 문안, 실제 배송조건 확인. ${LINK_FIRST}`, '生活資訊提供｜濟州火山石擴香 StoneJeju（HONDIT 海外選物）', `U Lifestyle 編輯團隊您好：
+
+我們是濟州大學 GTEP 學生團隊營運的 HONDIT，負責介紹及海外銷售濟州生活選物。希望向編輯部提供 StoneJeju 濟州火山石擴香產品的資訊，規格包括 350g 及 500g。
+
+產品使用香氛精油，無須插電或點火，亦可作為家居擺設。若貴平台日後製作韓國特色禮物、居家香氛或濟州旅遊手信相關專題，我們可提供已獲授權的實物照片及經核實的產品資料。
+
+本信只供獨立編採參考，並非付費廣告申請。產品品牌是 StoneJeju，HONDIT 為海外銷售窗口；香港購買及退換條款會以正式頁面資料為準。
+
+謝謝！
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/`],
+  ['P-EMAIL-HK-03', 'HK', 'en', 'Saucy Hong Kong', 'https://www.saucyhongkong.com/', 'editor@saucyhongkong.com', '제주 대학생 무역팀의 현지화·브랜드 스토리', `#12 A- / 제안 준비 (음식 중심 매체라 적합도 낮음, 홈향기 독자층 미확인). ${LINK_FIRST}`, 'Jeju student export story + design-led home fragrance product tip', `Hello Saucy Hong Kong editor,
+
+I'm from HONDIT, a Jeju National University student GTEP project introducing Jeju lifestyle items overseas. We thought you might be interested in the people and place behind StoneJeju's volcanic-stone fragrance diffuser — a design object used with scent oil but no electricity or flame.
+
+If this fits a broader Korean craft, travel or emerging-brand story, we can offer verified background notes and original licensed product images. We understand Saucy's focus may be elsewhere, so a short 'not a fit' response is absolutely fine.
+
+This is an editorial tip only, not a paid placement request.
+
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/`],
+  ['P-EMAIL-HK-04', 'HK', 'zh-HK', 'HK Aromatherapy Development Association', 'https://hkadal.com/', 'hkaromada@gmail.com', '제품 특징 일반 정보·전문가 피드백 문의 (매체 아님)', `#47 B / 전문 교류. 유료 교육·건강 효능·제품 인증 연계 금지. ${LINK_FIRST}`, '專業資訊交流｜濟州火山石擴香產品（非療效或認證申請）', `香港芳香療法發展協會您好：
+
+我們是濟州大學 GTEP 學生團隊營運的 HONDIT，介紹 StoneJeju 濟州火山石擴香產品（350g／500g）。產品使用香氛精油，無須插電或點火。
+
+想請教協會是否接受不涉及廣告費用的產品資料交流，或是否有適合的香氛用品專業交流渠道。我們希望聆聽使用與資訊呈現方面的專業意見，不要求推薦、認證或任何醫療／健康效果背書。
+
+如合作需要支付費用，請先告知，我們現階段不會參加任何收費服務。
+
+謝謝。
+HONDIT | hondit.office@gmail.com
+https://hondit-shop.vercel.app/`],
+  ['P-DM-SG-01', 'SG', 'en', '@daysofahomebody', 'https://www.instagram.com/daysofahomebody/', 'https://www.instagram.com/daysofahomebody/', '슬로우 리빙·홈데코', `#31 ${IG_HOLD}`],
+  ['P-DM-SG-02', 'SG', 'en', '@jklmnest', 'https://www.instagram.com/jklmnest/', 'https://www.instagram.com/jklmnest/', '홈데코', `#32 ${IG_HOLD}`],
+  ['P-DM-SG-03', 'SG', 'en', '@tfthishouse', 'https://www.instagram.com/tfthishouse/', 'https://www.instagram.com/tfthishouse/', '실내공간 연출', `#33 ${IG_HOLD}`],
+  ['P-DM-JP-01', 'JP', 'ja', '@rie.brain', 'https://www.instagram.com/rie.brain/', 'https://www.instagram.com/rie.brain/', '일본 향기생활 계정 여부 미확인', `#34 ${IG_HOLD}`],
+];
+more.forEach(([content_id, market, language, outlet, outlet_url, editorial_contact, angle, next_action, email_subject = null, email_body = null], i) => {
+  seedPress.push({ ...PR_BASE, id: `7d1f0f0a-0002-4a10-9a01-0000000000${String(i + 6).padStart(2, '0')}`, content_id, market, language, outlet, outlet_url, angle, editorial_contact, contact_source: PR_LIST, link_id: null, gmail_draft_id: null, email_subject, email_body, next_action, article_id: null });
+});
+/* Pre-send checks from the same sheet for the five rows that already have Gmail drafts. */
+const CHECKS = {
+  'P-EMAIL-SG-01': ['https://www.homeanddecor.com.sg/', '#1 A · 소비자 단품 판매 링크로 오인시키지 않기. 1차 발송 추천.'],
+  'P-EMAIL-SG-02': ['https://expatliving.sg/', '#2 A · 싱가포르 단품 구매 가능 여부 별도 확인. 2차 발송 추천.'],
+  'P-EMAIL-JP-01': ['https://woman.mynavi.jp/', '#6 A · 일본 단품 구매 가능 여부 확정 전 가격 미기재.'],
+  'P-EMAIL-HK-01': ['https://homejournal.com/', '#10 A · 제작과정 이미지 실물·사용 승인 확인. 2차 발송 추천.'],
+  'P-EMAIL-TW-01': ['https://womany.net/', '#13 A · 대만 B2C 구매·반품조건 미확정이면 구매 광고처럼 소개 금지. 2차 발송 추천.'],
+};
+for (const row of seedPress) {
+  const check = CHECKS[row.content_id];
+  row.outlet_url = row.outlet_url || check?.[0] || null;
+  row.notes = check ? `${PR_LIST} ${check[1]}` : null;
+}
