@@ -156,11 +156,13 @@ function reserveLink(id, row) {
   if (campaigns.indexOf(row[1]) < 0) return { ok: false, error: 'campaign_missing' };
   const sheet = ss.getSheetByName('03_LINKS');
   const n = lastIdRow(sheet) + 1;
-  row.forEach((v, c) => { if (FORMULA_COLS.indexOf(c + 1) < 0) sheet.getRange(n, c + 1).setValue(c === 13 ? v === true || v === 'TRUE' : v); });
-  SpreadsheetApp.flush();
+  const rollback = () => { row.forEach((v, c) => { if (FORMULA_COLS.indexOf(c + 1) < 0) sheet.getRange(n, c + 1).clearContent(); }); sheet.getRange(n, 14).setValue(false); };
+  try {
+    row.forEach((v, c) => { if (FORMULA_COLS.indexOf(c + 1) < 0) sheet.getRange(n, c + 1).setValue(c === 13 ? v === true || v === 'TRUE' : v); });
+    SpreadsheetApp.flush();
+  } catch (err) { rollback(); return { ok: false, error: 'write_failed' }; } // 중간에 실패하면 반쯤 쓴 행을 남기지 않음
   if (sheet.getRange(n, 1).getDisplayValue() !== id || sheet.getRange(n, 9).getDisplayValue() !== row[8]) {
-    row.forEach((v, c) => { if (FORMULA_COLS.indexOf(c + 1) < 0) sheet.getRange(n, c + 1).clearContent(); });
-    sheet.getRange(n, 14).setValue(false);
+    rollback();
     return { ok: false, error: 'final_url_mismatch' };
   }
   const next = nextId(ids.concat([id]));
