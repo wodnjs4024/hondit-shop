@@ -2,6 +2,7 @@ import partnerGuide from "./_partner-guide.js";
 import pickupInfo from './_pickup.js';
 import { googleFeed, sitemap } from "./_feeds.js";
 import { merchantMarket, merchantOffer, merchantHtml } from "./_merchant.js";
+import { journalRoute, journalArticlesForSitemap } from "./_journal-route.js";
 import { applyProductSnapshot, getProducts, getStorefrontProducts, getPayPalMode, json, previewWritesBlocked, requireEnv, supabase, verifyAdmin } from "./_utils.js";
 
 /* Admin-only: the product as it would look if the current draft were published. */
@@ -63,13 +64,16 @@ export default async function handler(req, res) {
       return json(res,503,{error:"Live merchant catalog unavailable"});
     }
   }
+  // HONDIT Journal: server-rendered pages, public JSON and the scheduled publisher (same function, no new slot).
+  if (req.query?.journalPage !== undefined || req.query?.journalApi !== undefined || req.query?.journalCron !== undefined) return journalRoute(req, res);
   if (["GET", "HEAD"].includes(req.method) && req.query?.sitemap !== undefined) {
     try {
       const products = await getStorefrontProducts();
+      const journal = await journalArticlesForSitemap();
       res.setHeader("Content-Type", "application/xml; charset=utf-8");
       res.setHeader("Cache-Control", "public, max-age=0, s-maxage=600, stale-while-revalidate=3600");
       res.statusCode = 200;
-      return res.end(req.method === "HEAD" ? "" : sitemap(products));
+      return res.end(req.method === "HEAD" ? "" : sitemap(products, undefined, journal));
     } catch { return json(res,503,{error:"Could not build sitemap"}); }
   }
   if (req.query?.partnerSlug !== undefined) return partnerGuide({...req,query:{slug:req.query.partnerSlug}},res);

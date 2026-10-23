@@ -1,6 +1,7 @@
 import { adminCatalog } from "./_admin-products.js";
 import { adminPrices } from "./_admin-prices.js";
 import { adminAi } from "./_admin-ai.js";
+import { adminJournal, adminPress } from "./_journal.js";
 import { adminPassword, adminPasswordReset } from "./_admin-password.js";
 import {
   getPayPalMode,
@@ -545,6 +546,8 @@ export default async function handler(req, res) {
     if (parts[0] === "catalog") return await adminCatalog(req, res, parts);
     if (parts[0] === "prices") return await adminPrices(req, res, parts);
     if (parts[0] === "ai") return await adminAi(req, res, parts);
+    if (parts[0] === "journal") return await adminJournal(req, res, parts);
+    if (parts[0] === "press") return await adminPress(req, res, parts);
     if (parts[0] === "products") return await products(req, res);
     if (parts[0] === "settings") return await settings(req, res);
     if (parts[0] === "reviews" && parts.length === 1) return await reviewsIndex(req, res);

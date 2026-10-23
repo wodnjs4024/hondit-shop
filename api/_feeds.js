@@ -1,6 +1,7 @@
 // XML and HTML use the same live, approved merchant offer. No fallback to guessed market data.
 import { SITE, merchantMarket, merchantOffer, escapeMarkup as esc } from './_merchant.js';
 export { SITE } from './_merchant.js';
+import { articlePath, isPublic, languageByCode } from '../shared/journal.js';
 export function feedItem(product, market = 'SG', language) { return merchantOffer(product, market, language).item || null; }
 export function googleFeed(products, market = 'SG', language) {
   const channel = merchantMarket(market, language);
@@ -29,16 +30,24 @@ ${body}
 
 const STATIC_PAGES = ["/", "/products", "/bulk-orders", "/jeju", "/partners", "/shipping", "/contact", "/policy/refund", "/policy/shipping", "/policy/privacy", "/policy/terms"];
 
-export function sitemap(products, today = new Date().toISOString().slice(0, 10)) {
+export function sitemap(products, today = new Date().toISOString().slice(0, 10), journal = []) {
   const live = products.filter((p) => !["draft", "hidden"].includes(p.status));
   const urls = [
     ...STATIC_PAGES,
     ...live.map((p) => `/products/${p.slug}`),
     ...live.filter((p) => ["foam-oil", "foaming-cleanser", "cleansing-water", "diffuser-350g", "diffuser-500g"].includes(p.slug)).map((p) => `/bulk-orders/${p.slug}`),
   ];
+  // Published Journal articles only (the caller passes nothing else). Translations of one story point at each other.
+  const articles = journal.filter(isPublic);
+  const articleEntries = articles.map((a) => {
+    const group = a.group_key ? articles.filter((t) => t.group_key === a.group_key) : [a];
+    const alternates = group.length > 1 ? group.map((t) => `\n    <xhtml:link rel="alternate" hreflang="${esc(languageByCode(t.language)?.hreflang || t.language)}" href="${esc(SITE + articlePath(t))}"/>`).join("") : "";
+    return `  <url><loc>${esc(SITE + articlePath(a))}</loc><lastmod>${String(a.updated_at || a.published_at).slice(0, 10)}</lastmod>${alternates}</url>`;
+  });
+  const journalIndex = articles.length ? [...new Set(["/journal", ...articles.map((a) => `/journal/${languageByCode(a.language)?.segment}`)])] : [];
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...new Set(urls)].map((url) => `  <url><loc>${esc(SITE + url)}</loc><lastmod>${today}</lastmod></url>`).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"${articleEntries.length ? ' xmlns:xhtml="http://www.w3.org/1999/xhtml"' : ""}>
+${[...new Set([...urls, ...journalIndex])].map((url) => `  <url><loc>${esc(SITE + url)}</loc><lastmod>${today}</lastmod></url>`).concat(articleEntries).join("\n")}
 </urlset>
 `;
 }

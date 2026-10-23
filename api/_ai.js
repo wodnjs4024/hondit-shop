@@ -140,3 +140,48 @@ export function chatAllowed(ip, now = Date.now()) {
   if (hits.size > 5000) hits.clear();
   return true;
 }
+
+/* ---------- admin: Journal article drafts (step 3). Drafts only: the caller stores them as status=draft. ---------- */
+const JOURNAL_LANGS = { en: "English (Singapore readers)", ja: "Japanese (Japan readers)", "zh-HK": "Traditional Chinese, Hong Kong usage", "zh-TW": "Traditional Chinese, Taiwan usage" };
+const JOURNAL_RULES = [
+  "You write a helpful magazine-style article for the HONDIT Journal. A human editor reviews and approves every draft; you never publish.",
+  "Use ONLY the FACTS below for product details (sizes, materials, contents, use, care, who makes and who sells). If a useful detail is missing, leave it out and list it in claims_to_verify.",
+  "Never claim health, medical, sleep, stress, air-purifying or deodorising effects; never state how many days a scent lasts; no guarantees, certifications, awards, superlatives (best, No.1, first) or testimonials; do not promise single-unit retail, free shipping or delivery dates.",
+  "StoneJeju is the maker; HONDIT is a student-run curator and overseas contact point, not the manufacturer. Say so plainly.",
+  "Write for real readers in the given market: practical, specific, calm. Do not pad. Do not repeat the same paragraph structure as other HONDIT articles; choose an angle suited to the topic.",
+  "Body format: Markdown subset only. Paragraphs separated by blank lines, '## ' section headings (4-6 of them), '- ' bullet lists, internal links like [label](/products/diffuser-350g) or [label](/contact). No HTML, no images, no external links.",
+  "Length: 450-700 words for English; 1,200-1,800 characters for Japanese or Chinese.",
+  "Return JSON: {\"slug\": lowercase-ascii-hyphenated (max 70 chars, English words even for CJK articles), \"title\", \"dek\" (1-2 sentences), \"body_md\", \"seo_title\" (max 65 chars, ends with ' | HONDIT Journal'), \"seo_description\" (max 155 chars), \"hero_image_alt\" (describes a product photo), \"claims_to_verify\": string[] (Korean)}.",
+];
+const factsText = (facts) => facts.map((f) => `- ${f.label} (${f.url}): ${f.facts.join("; ")}`).join("\n");
+const slugify = (value) => String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 70) || `journal-${Date.now().toString(36)}`;
+function journalOut(out) {
+  return {
+    slug: slugify(out.slug),
+    title: clip(out.title, 160),
+    dek: clip(out.dek, 400),
+    body_md: String(out.body_md || "").trim().slice(0, 30000),
+    seo_title: clip(out.seo_title, 90),
+    seo_description: clip(out.seo_description, 200),
+    hero_image_alt: clip(out.hero_image_alt, 200),
+    claims_to_verify: (Array.isArray(out.claims_to_verify) ? out.claims_to_verify : []).map((v) => clip(v, 200)).filter(Boolean).slice(0, 10),
+    model: MODEL(),
+  };
+}
+
+export async function draftJournalArticle({ topic, angle, language, market, facts }) {
+  const system = [...JOURNAL_RULES, `Language: ${JOURNAL_LANGS[language] || "English"}. Market: ${market}.`, "FACTS:", factsText(facts)].join("\n");
+  const user = `Topic: ${clip(topic, 300)}\nAngle / reader need: ${clip(angle || "practical guide for first-time readers", 300)}`;
+  return journalOut(await openai([{ role: "system", content: system }, { role: "user", content: user }], { json: true, maxTokens: 3000, temperature: 0.5 }));
+}
+
+/* Localisation adapts the article for another market's readers; it is not a literal translation and adds no facts. */
+export async function localizeJournalArticle({ article, language, market, facts }) {
+  const system = [
+    ...JOURNAL_RULES,
+    `Adapt the SOURCE article for ${JOURNAL_LANGS[language]} readers in ${market}. Keep every fact and number exactly; you may reorder sections, change examples and headings so it reads as written for this market, and remove details that do not matter there. Do not add facts that are not in FACTS.`,
+    "FACTS:", factsText(facts),
+  ].join("\n");
+  const user = JSON.stringify({ title: article.title, dek: article.dek, body_md: article.body_md });
+  return journalOut(await openai([{ role: "system", content: system }, { role: "user", content: user }], { json: true, maxTokens: 3000, temperature: 0.4 }));
+}

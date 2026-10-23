@@ -38,6 +38,10 @@ const PaymentFailedPage = lazy(() => import("./pages/PaymentFailedPage").then((m
 const PolicyPage = lazy(() => import("./pages/PolicyPage").then((module) => ({ default: module.PolicyPage })));
 const ProductDetailPage = lazy(() => import("./pages/ProductDetailPage").then((module) => ({ default: module.ProductDetailPage })));
 const ProductsPage = lazy(() => import("./pages/ProductsPage").then((module) => ({ default: module.ProductsPage })));
+const JournalIndexPage = lazy(() => import("./pages/JournalPages").then((module) => ({ default: module.JournalIndexPage })));
+const JournalArticlePage = lazy(() => import("./pages/JournalPages").then((module) => ({ default: module.JournalArticlePage })));
+const AdminJournalPage = lazy(() => import("./pages/AdminJournalPage").then((module) => ({ default: module.AdminJournalPage })));
+const AdminPressPage = lazy(() => import("./pages/AdminPressPage").then((module) => ({ default: module.AdminPressPage })));
 const ShippingPage = lazy(() => import("./pages/ShippingPage").then((module) => ({ default: module.ShippingPage })));
 
 const siteUrl = "https://hondit-shop.vercel.app";
@@ -110,6 +114,10 @@ function routeMeta(pathname: string): PageMeta {
   if(pathname.startsWith("/guide/"))return {title:"Product care & follow-up | hondit",description:"Product use, care and consultation.",robots:"noindex,follow",image:defaultOgImage};
   if(pathname==='/partners')return {title:'Store & business purchase guide | hondit',description:'Review products, approved bundle prices and sales support. Order eligible bundles directly or contact HONDIT for additional requests.',robots:'index,follow',image:defaultOgImage};
   if(pathname.startsWith('/partners/'))return {title:'Partner product guide | hondit',description:'Partner product information.',robots:'noindex,nofollow',image:defaultOgImage};
+  // Journal pages are server-rendered with their own meta; these values only cover the moment before data arrives.
+  if (pathname === "/journal" || pathname.startsWith("/journal/")) {
+    return { title: "HONDIT Journal", description: "Stories from Jeju behind the products HONDIT introduces overseas.", robots: "index,follow", image: defaultOgImage };
+  }
   if (pathname.startsWith("/admin")) {
     return {
       title: "Admin | hondit",
@@ -257,6 +265,16 @@ export default function App() {
     const path = `${location.pathname}${location.search}${location.hash}`;
     const meta = routeMeta(location.pathname);
     const canonical = `https://hondit-shop.vercel.app${location.pathname}`;
+    // Journal pages set their own title, description, image and robots (and the server already rendered them).
+    const journal = location.pathname === "/journal" || location.pathname.startsWith("/journal/");
+    if (journal) {
+      upsertMeta('meta[property="og:url"]', { property: "og:url" }, canonical);
+      upsertMeta('link[rel="canonical"]', { rel: "canonical" }, canonical);
+      trackPageView(path);
+      trackCampaignLanding();
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
     document.title = meta.title;
     upsertMeta('meta[name="description"]', { name: "description" }, meta.description);
     upsertMeta('meta[property="og:title"]', { property: "og:title" }, meta.title);
@@ -303,6 +321,9 @@ export default function App() {
         <Route path="/partners/:slug" element={<PartnerGuidePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/shipping" element={<ShippingPage />} />
+        <Route path="/journal" element={<JournalIndexPage />} />
+        <Route path="/journal/:lang" element={<JournalIndexPage />} />
+        <Route path="/journal/:lang/:slug" element={<JournalArticlePage />} />
         <Route path="/policy/:policy" element={<PolicyPage />} />
         <Route path="/order-complete/:orderNumber" element={<OrderCompletePage />} />
         <Route path="/payment-failed/:orderNumber" element={<PaymentFailedPage />} />
@@ -317,6 +338,9 @@ export default function App() {
           <Route path="products/prices" element={<AdminPricesPage />} />
           <Route path="reviews" element={<AdminReviewsPage />} />
           <Route path="campaign-links" element={<AdminCampaignLinksPage />} />
+          <Route path="journal" element={<AdminJournalPage />} />
+          <Route path="journal/:articleId" element={<AdminJournalPage />} />
+          <Route path="press" element={<AdminPressPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

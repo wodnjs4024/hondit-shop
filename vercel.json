@@ -54,6 +54,22 @@
       "destination": "/api/admin-handler?path=$1"
     },
     {
+      "source": "/api/journal",
+      "destination": "/api/products?journalApi=1"
+    },
+    {
+      "source": "/journal",
+      "destination": "/api/products?journalPage=list"
+    },
+    {
+      "source": "/journal/:lang",
+      "destination": "/api/products?journalPage=list&lang=:lang"
+    },
+    {
+      "source": "/journal/:lang/:slug",
+      "destination": "/api/products?journalPage=article&lang=:lang&slug=:slug"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/$1"
     },
@@ -430,6 +446,12 @@
       "source": "/q/l0016",
       "destination": "/jeju/pickup?lang=en&utm_source=airport&utm_medium=qr&utm_campaign=jeju_pickup_202610&utm_content=l0016&link_id=l0016",
       "permanent": false
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/products?journalCron=1",
+      "schedule": "0 0 * * *"
     }
   ]
 }
