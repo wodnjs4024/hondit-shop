@@ -32,7 +32,12 @@ export function formatDate(iso: string | null | undefined, language?: string): s
 export function parseBody(text: string): JournalBlock[];
 export function inlineSegments(text: string): { text: string; href?: string }[];
 export function reviewArticle(article: Partial<JournalArticle>, options?: { others?: Partial<JournalArticle>[]; publishing?: boolean }): ReviewResult;
-export function isPublic(article: Partial<JournalArticle> | null | undefined): boolean;
+export function isPublic(article: Partial<JournalArticle> | null | undefined, now?: Date | string): boolean;
+export function isDue(article: Partial<JournalArticle> | null | undefined, now?: Date | string): boolean;
+export function publicView<T extends Partial<JournalArticle>>(article: T): T;
 export const ISSUED_LINK_IDS: string[];
+export function nextLinkId(ids: string[]): string;
+export function pressLink(row: { market: string; outlet: string; content_id?: string | null }, linkId: string, now?: Date): { url: string; campaign: string; linksRow: string[] };
+export function withFinalUrl(body: string, url: string): string;
 export const CHANNELS: Record<string, { label: string; source: string; medium: string; titleMax: number; bodyMax: number; link: boolean }>;
 export const PIPELINE_COLUMNS: string[];

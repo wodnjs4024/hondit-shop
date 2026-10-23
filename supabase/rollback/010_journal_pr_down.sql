@@ -4,5 +4,6 @@ drop table if exists public.journal_distributions;
 drop table if exists public.journal_publish_log;
 drop table if exists public.pr_outreach;
 drop table if exists public.journal_articles;
+drop table if exists public.link_registry;
 drop function if exists public.journal_articles_guard();
 notify pgrst, 'reload schema';

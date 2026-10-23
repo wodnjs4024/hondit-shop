@@ -9,7 +9,20 @@ type AdminArticle = JournalArticle & { check?: ReviewResult };
 type LogRow = { id: number; action: string; ok: boolean; message?: string; actor?: string; created_at: string };
 type Distribution = { id: string; channel: string; title?: string; body: string; image_url?: string; final_url?: string; link_id?: string; status: string; external_id?: string; external_url?: string; scheduled_at?: string };
 type Detail = { article: AdminArticle; logs: LogRow[]; distributions: Distribution[]; check: ReviewResult; approvalBlockers: string[]; publishBlockers: string[] };
-type ListResponse = { ready: boolean; writable: boolean; message?: string; articles: AdminArticle[] };
+type ListResponse = { ready: boolean; writable: boolean; message?: string; sheetsHook?: boolean; articles: AdminArticle[] };
+type LinkStatus = { count: number; next: string; lastSheetSync: string | null; syncFresh: boolean; sheetsHook: boolean };
+
+/* What the scheduler can and cannot promise on the current (free) Vercel plan. Shown wherever a time is picked. */
+export function PublishTimingNote() {
+  return (
+    <p className="admin-muted admin-journal-timing">
+      예약 시각 안내: 예약한 기사는 예약 시각(Asia/Seoul)이 지나면 그 뒤 첫 요청부터 공개됩니다. 기사·목록 페이지는 최대 60초, 사이트맵은 최대 약 1시간 캐시됩니다.
+      다만 상태를 "공개 중"으로 바꾸고 발행 기록과 CONTENT_PIPELINE 시트를 남기는 작업은 정확한 시각에 돌지 않습니다.
+      이 작업은 Vercel Hobby 크론(하루 1회, 09:00–09:59 KST)이 처리하고, 관리자가 이 화면을 열거나 "예약 발행 지금 확인"을 누를 때도 처리됩니다.
+      분 단위로 정확한 기록이 필요하면 Vercel Pro(유료) 같은 별도 스케줄러가 필요합니다.
+    </p>
+  );
+}
 
 export const statusLabel: Record<string, string> = { draft: "초안", in_review: "검수 중", approved: "승인 완료", scheduled: "예약됨", published: "공개 중", failed: "발행 실패", archived: "보관(비공개)" };
 const authorLabel: Record<string, string> = { hondit_editorial: "HONDIT 편집", ai_assisted: "AI 초안 + 편집 검수", partner_supplied: "파트너 제공" };
@@ -38,9 +51,14 @@ function AdminJournalList() {
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState("");
   const [pipeline, setPipeline] = useState<{ tsv: string; columns: string[]; webhook: boolean } | null>(null);
+  const [links, setLinks] = useState<LinkStatus | null>(null);
+  const [linkPaste, setLinkPaste] = useState("");
   const [ai, setAi] = useState({ topic: "", angle: "", language: "en", products: ["diffuser-350g"] as string[] });
   const navigate = useNavigate();
-  const load = () => adminFetch<ListResponse>("/api/admin/journal").then(setData).catch((err) => setError(err.message));
+  const load = () => adminFetch<ListResponse>("/api/admin/journal").then((next) => {
+    setData(next);
+    if (next.ready) call<LinkStatus>("/api/admin/journal/links").then(setLinks).catch(() => setLinks(null));
+  }).catch((err) => setError(err.message));
   useEffect(() => { load(); }, []);
 
   const rows = useMemo(() => (data?.articles || []).filter((a) => (!language || a.language === language) && (!status || a.status === status)), [data, language, status]);
@@ -55,7 +73,8 @@ function AdminJournalList() {
       <div className="admin-heading">
         <p className="eyebrow">콘텐츠 · PR</p>
         <h1>Journal 기사 관리</h1>
-        <p className="admin-muted">작성 → 검수(사실·과장 표현·사진 사용권) → 관리자 승인 → 예약(Asia/Seoul) → 자동 공개. 승인되지 않은 기사는 어떤 경로로도 공개되지 않습니다.</p>
+        <p className="admin-muted">작성 → 검수(사실·과장 표현·사진 사용권) → 관리자 승인 → 예약(Asia/Seoul) → 자동 공개. 승인되지 않은 기사는 어떤 경로로도 공개되지 않으며, 공개 전 기사는 관리자 로그인 상태의 미리보기로만 볼 수 있습니다.</p>
+        <PublishTimingNote />
       </div>
       {data && !data.ready && <AdminNotice message={`${data.message} 아래 목록은 저장소에 준비된 초안(읽기 전용)입니다.`} />}
       {data?.ready && !data.writable && <AdminNotice message="이 배포(Preview)는 읽기 전용입니다. 작성·승인·예약은 운영 관리자에서 할 수 있습니다." />}
@@ -86,7 +105,7 @@ function AdminJournalList() {
                   <tr key={a.id}>
                     <td><span className="admin-journal-status" data-status={a.status}>{statusLabel[a.status]}</span></td>
                     <td>{languageByCode(a.language)?.label}</td>
-                    <td>{data?.ready ? <Link to={`/admin/journal/${a.id}`}>{a.title}</Link> : <a href={`/journal/${languageByCode(a.language)?.segment}/${a.slug}`} target="_blank" rel="noreferrer">{a.title}</a>}{a.last_error && <div className="admin-journal-issues is-error">{a.last_error}</div>}</td>
+                    <td>{data?.ready ? <Link to={`/admin/journal/${a.id}`}>{a.title}</Link> : <a href={`/journal/${languageByCode(a.language)?.segment}/${a.slug}?preview=1`} target="_blank" rel="noreferrer">{a.title}</a>}{a.last_error && <div className="admin-journal-issues is-error">{a.last_error}</div>}</td>
                     <td>{authorLabel[a.author_type]}</td>
                     <td>{check.errors.length ? `오류 ${check.errors.length}` : "자동검사 통과"} · 체크 {[a.review?.facts, a.review?.claims, a.review?.images].filter(Boolean).length}/3</td>
                     <td>{a.status === "published" ? formatKst(a.published_at) : formatKst(a.publish_at)}</td>
@@ -120,7 +139,28 @@ function AdminJournalList() {
         <p className="admin-muted">03_HONDIT_검색_AEO_성과측정 › CONTENT_PIPELINE 탭과 같은 13개 열입니다. {pipeline?.webhook ? "발행·실패 시 시트 웹훅으로 자동 전송됩니다." : "시트 자동 쓰기(웹훅)는 아직 설정되지 않았습니다. 아래 행을 복사해 붙여 넣거나, 운영 설정의 CONTENT_PIPELINE_WEBHOOK_URL을 등록하세요."}</p>
         <button className="button button--ghost" type="button" onClick={() => call<{ tsv: string; columns: string[]; webhook: boolean }>("/api/admin/journal/pipeline").then(setPipeline).catch((err) => setError(err.message))}>시트 행 만들기</button>
         {pipeline && <textarea className="admin-journal-tsv" readOnly value={`${pipeline.columns.join("\t")}\n${pipeline.tsv}`} />}
+        <p className="admin-muted">자동 기록은 시트가 저장한 값을 다시 읽어 돌려준 경우에만 성공으로 남습니다. 인증 실패·행 불일치·저장 실패는 기사별 기록에 "pipeline_failed"로 남고, 기사 화면에서 다시 보낼 수 있습니다.</p>
       </section>
+
+      {data?.ready && (
+        <section className="admin-panel">
+          <h2>03_LINKS link_id 중복 방지</h2>
+          <p className="admin-muted">
+            새 link_id는 03_LINKS 전체 발급 이력과 이 시스템이 쓴 ID를 모두 확인한 뒤에만 지정됩니다.
+            {links?.sheetsHook ? " 시트 연동이 켜져 있어 새 ID는 03_LINKS에도 바로 발급됩니다." : " 시트 연동이 없으므로 새 ID를 쓰기 전 24시간 안에 03_LINKS A열 전체를 아래에 붙여 넣어 동기화해야 합니다. 지정 후 화면에 나오는 03_LINKS 행을 시트에 바로 추가하세요."}
+          </p>
+          {links && <p>등록된 ID {links.count}개 · 다음 번호 <b>{links.next}</b> · 마지막 시트 동기화 {links.lastSheetSync ? formatKst(links.lastSheetSync) : "없음"} {links.syncFresh ? "(유효)" : "(동기화 필요)"}</p>}
+          {data.writable && (
+            <>
+              <textarea className="admin-journal-tsv" value={linkPaste} onChange={(e) => setLinkPaste(e.target.value)} placeholder={"03_LINKS A열(link_id) 전체를 복사해 붙여 넣으세요\nl0001\nl0002\n…"} />
+              <div className="admin-journal-actions">
+                <button className="button button--ghost" type="button" disabled={!!busy || !linkPaste.trim()} onClick={() => run("links", async () => { setLinks(await call<LinkStatus>("/api/admin/journal/links/sync", { method: "POST", body: JSON.stringify({ ids: linkPaste }) })); setLinkPaste(""); })}>붙여 넣은 목록으로 동기화</button>
+                {links?.sheetsHook && <button className="button button--ghost" type="button" disabled={!!busy} onClick={() => run("links", async () => setLinks(await call<LinkStatus>("/api/admin/journal/links/sync", { method: "POST", body: "{}" })))}>03_LINKS에서 바로 가져오기</button>}
+              </div>
+            </>
+          )}
+        </section>
+      )}
     </>
   );
 }
@@ -252,13 +292,14 @@ function AdminJournalEditor({ id }: { id: string }) {
               {status === "approved" && (
                 <>
                   <label>발행 일시 (Asia/Seoul)<input type="datetime-local" value={publishAt} onChange={(e) => setPublishAt(e.target.value)} /></label>
+                  <PublishTimingNote />
                   <div className="admin-journal-actions">
                     <button className="button" type="button" onClick={() => action("schedule", { publishAt }, "예약했습니다.")}>예약</button>
                     <button className="button button--ghost" type="button" onClick={() => window.confirm("지금 공개합니다. 계속할까요?") && action("schedule", { publishNow: true }, "공개했습니다.")}>지금 발행</button>
                   </div>
                 </>
               )}
-              {status === "scheduled" && <><p>예약: {formatKst(detail?.article.publish_at)}</p><button className="button button--ghost" type="button" onClick={() => action("cancel_schedule", {}, "예약을 취소했습니다.")}>예약 취소</button></>}
+              {status === "scheduled" && <><p>예약: {formatKst(detail?.article.publish_at)} (이 시각부터 공개, 상태 기록은 다음 크론·관리자 열람 때)</p><button className="button button--ghost" type="button" onClick={() => action("cancel_schedule", {}, "예약을 취소했습니다.")}>예약 취소</button></>}
               {status === "failed" && <><p className="admin-journal-issues is-error">{detail?.article.last_error}</p><button className="button" type="button" onClick={() => action("retry", {}, "재시도했습니다.")}>재시도</button></>}
               {status === "published" && <><p>공개: {formatKst(detail?.article.published_at)}<br /><a href={detail?.article.public_url || "#"} target="_blank" rel="noreferrer">{detail?.article.public_url}</a></p><button className="button button--ghost" type="button" onClick={() => window.confirm("공개를 중단하고 보관합니다.") && action("archive")}>비공개(보관)</button></>}
               {status === "archived" && <button className="button button--ghost" type="button" onClick={() => action("restore")}>초안으로 복원</button>}
@@ -269,9 +310,9 @@ function AdminJournalEditor({ id }: { id: string }) {
           {!isNew && status === "published" && (
             <section className="admin-panel">
               <h3>외부 채널 패키지 (Metricool)</h3>
-              <p className="admin-muted">승인된 기사 제목·요약·대표 이미지로 플랫폼별 문구와 Final URL을 만듭니다. link_id는 03_LINKS의 NEXT_LINK_ID에서 새로 발급하세요 (l0001–l0043 재사용 불가). 기사·채널당 1개만 만들 수 있어 중복 게시를 막습니다.</p>
+              <p className="admin-muted">승인된 기사 제목·요약·대표 이미지로 플랫폼별 문구와 Final URL을 만듭니다. link_id는 03_LINKS 전체 이력과 대조해 한 번만 쓸 수 있고, 기사·채널당 1개만 만들 수 있어 중복 게시를 막습니다.</p>
               <label>채널<select value={dist.channel} onChange={(e) => setDist({ ...dist, channel: e.target.value })}>{Object.entries(CHANNELS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}</select></label>
-              <label>새 link_id<input value={dist.linkId} onChange={(e) => setDist({ ...dist, linkId: e.target.value.trim() })} placeholder="l0044" /></label>
+              <label>새 link_id (Journal 목록의 "03_LINKS link_id 중복 방지"에서 다음 번호 확인)<input value={dist.linkId} onChange={(e) => setDist({ ...dist, linkId: e.target.value.trim() })} placeholder="l0044" /></label>
               <button className="button button--ghost" type="button" onClick={() => act(async () => { const out = await call<{ linksRow: string[] }>(`/api/admin/journal/${id}/distributions`, { method: "POST", body: JSON.stringify(dist) }); setLinksRow(out.linksRow.join("\t")); }, "패키지를 만들었습니다. 03_LINKS 행을 시트에 추가하세요.")}>패키지 만들기</button>
               {linksRow && <textarea className="admin-journal-tsv" readOnly value={linksRow} />}
               {(detail?.distributions || []).map((d) => (
@@ -294,6 +335,7 @@ function AdminJournalEditor({ id }: { id: string }) {
           {!isNew && (
             <section className="admin-panel">
               <h3>발행·오류 기록</h3>
+              {["published", "failed"].includes(status) && <button className="button button--ghost" type="button" onClick={() => act(() => call(`/api/admin/journal/${id}/pipeline-sync`, { method: "POST" }), "CONTENT_PIPELINE에 저장된 것을 확인했습니다.")}>CONTENT_PIPELINE 다시 보내기</button>}
               <ul className="admin-journal-log">
                 {(detail?.logs || []).map((l) => <li key={l.id}><b style={{ color: l.ok ? undefined : "#a8321f" }}>{l.action}</b> · {formatKst(l.created_at)} · {l.actor}{l.message && <div>{l.message}</div>}</li>)}
               </ul>

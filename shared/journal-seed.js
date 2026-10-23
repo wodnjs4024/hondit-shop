@@ -394,16 +394,34 @@ https://hondit-shop.vercel.app/`],
 more.forEach(([content_id, market, language, outlet, outlet_url, editorial_contact, angle, next_action, email_subject = null, email_body = null], i) => {
   seedPress.push({ ...PR_BASE, id: `7d1f0f0a-0002-4a10-9a01-0000000000${String(i + 6).padStart(2, '0')}`, content_id, market, language, outlet, outlet_url, angle, editorial_contact, contact_source: PR_LIST, link_id: null, gmail_draft_id: null, email_subject, email_body, next_action, article_id: null });
 });
-/* Pre-send checks from the same sheet for the five rows that already have Gmail drafts. */
-const CHECKS = {
-  'P-EMAIL-SG-01': ['https://www.homeanddecor.com.sg/', '#1 A · 소비자 단품 판매 링크로 오인시키지 않기. 1차 발송 추천.'],
-  'P-EMAIL-SG-02': ['https://expatliving.sg/', '#2 A · 싱가포르 단품 구매 가능 여부 별도 확인. 2차 발송 추천.'],
-  'P-EMAIL-JP-01': ['https://woman.mynavi.jp/', '#6 A · 일본 단품 구매 가능 여부 확정 전 가격 미기재.'],
-  'P-EMAIL-HK-01': ['https://homejournal.com/', '#10 A · 제작과정 이미지 실물·사용 승인 확인. 2차 발송 추천.'],
-  'P-EMAIL-TW-01': ['https://womany.net/', '#13 A · 대만 B2C 구매·반품조건 미확정이면 구매 광고처럼 소개 금지. 2차 발송 추천.'],
+
+/* Verification columns copied from the file, per candidate: 재선정50 번호·실행 등급 (A/B/C), 15곳_재검증 결과 등급,
+   확인된 무료 경로/한계, 보내기 전 확인, 공식 근거 URL, 관련 기사 URL, and the hold reason where the file says 보류. */
+const IG_FAIL = '원본 후보. 공식 활성 계정·최근 제품 분야 및 DM 수신 검증 실패';
+const FILE = {
+  'P-EMAIL-SG-01': [1, 'A', 'A / 제안 준비', '편집책임자 직접 문의 공개. 무료 편집 검토 가능, 게재 보장 없음', '소비자 단품 판매 링크로 오인시키지 않기', 'https://www.homeanddecor.com.sg/about-us', 'https://www.homeanddecor.com.sg/shopping/housewarming-gift-ideas', 'https://www.homeanddecor.com.sg/'],
+  'P-EMAIL-SG-02': [2, 'A', 'A / 제안 준비', 'Editorial & Media Releases 이메일 공개; 광고와 구분', '싱가포르 단품 구매 가능 여부 별도 확인', 'https://expatliving.sg/contact-us/', 'https://e-magazine.expatliving.sg/MediaKit/SG-Media-Kit.pdf', 'https://expatliving.sg/'],
+  'P-EMAIL-SG-03': [3, 'A', 'A / 제안 준비', 'PR and marketing pitches 공개; 게스트 포스트·백링크 요청 불허', '백링크 요청·게스트 포스트 금지', 'https://thehoneycombers.com/singapore/about-us/', 'https://thehoneycombers.com/singapore/'],
+  'P-FORM-JP-01': [5, 'A', 'A / 제안 준비', '정보 제공·보도자료 접수 명시; 필수 전화번호 입력 필요', '필수 전화번호·담당자 승인 필요', 'https://esse-online.jp/list/secure/contact-input', 'https://esse-online.jp/articles/-/36541'],
+  'P-EMAIL-JP-01': [6, 'A', 'A / 제안 준비', '공식 보도자료 이메일 게시', '일본 소비자 단품 구매 가능 여부 확정 전 가격 미기재', 'https://woman.mynavi.jp/inquiry_all/inquiry_company/inquiry_press/', 'https://woman.mynavi.jp/prmail/', 'https://woman.mynavi.jp/'],
+  'P-FORM-HK-01': [9, 'A', 'A / 제안 준비', '브랜드 관계를 공개하고 제품 제안 가능; 유료 featured listings 별도', 'URL/입점·재고·배송조건 미확인 상태에서는 소비자 구매처 주장 금지', 'https://www.sassyhongkong.com/faqs/', 'https://www.sassyhongkong.com/home-scents-fragrance-candles-diffusers-room-sprays/'],
+  'P-EMAIL-HK-01': [10, 'A', 'A / 제안 준비', 'Editorial과 Advertising 문의 명확 분리', '제작과정 이미지 실물/사용 승인 확인', 'https://homejournal.com/about-us/', 'https://homejournal.com/zh/%E5%85%B3%E4%BA%8E%E6%88%91%E4%BB%AC/', 'https://homejournal.com/'],
+  'P-EMAIL-HK-02': [11, 'A', 'A / 제안 준비', '활동 제보 공식 이메일 공개. 광고와 구분', '번체 HK 문안, 실제 배송조건 확인', 'https://www.ulifestyle.com.hk/aboutus', 'https://www.ulifestyle.com.hk/aboutus'],
+  'P-EMAIL-HK-03': [12, 'A', 'A- / 제안 준비', '제품/브랜드 스토리 제보 공개; 음식 중심 성격이 있어 적합도 낮춤', '홈향기 전용 독자층 여부 미확인', 'https://www.saucyhongkong.com/contact', 'https://www.saucyhongkong.com/contact'],
+  'P-EMAIL-TW-01': [13, 'A', 'A / 제안 준비', '뉴스稿/브랜드 스토리 공개 접수, 광고는 별도', '대만 B2C 구매조건/반품정책 미확정이면 구매 광고처럼 소개 금지', 'https://womany.net/about.html', 'https://womany.net/about.html', 'https://womany.net/'],
+  'P-DM-SG-01': [31, 'A', '보류 / 계정 검증', IG_FAIL, '계정 실제 활동, 본인 확인, 광고비 요구 여부 선확인', 'https://hello.storify.me/blog/7-singapore-home-owners-who-tell-good-stories-about-their-stylish-homes/', ''],
+  'P-DM-SG-02': [32, 'A', '보류 / 계정 검증', IG_FAIL, '계정 실제 활동, 유료 파트너십 여부 선확인', 'https://hello.storify.me/blog/7-singapore-home-owners-who-tell-good-stories-about-their-stylish-homes/', ''],
+  'P-DM-SG-03': [33, 'A', '보류 / 계정 검증', IG_FAIL, '계정 실제 활동, 실제 국가, DM 제한 선확인', 'https://pristinearoma.sg/blogs/pristine-homes/new-york-city-meets-bali-tfthishouse', ''],
+  'P-DM-JP-01': [34, 'A', '보류 / 계정 검증', IG_FAIL, '실제 제품 관련 게시물 확인 전 접촉 금지', 'https://influencer.codigital.co.jp/ja/insights/fragrance-perfume-influencers-japan/', ''],
+  'P-EMAIL-HK-04': [47, 'A', 'B / 전문 교류', '공식 협회 연락 가능; 독립 편집 매체 아님', '유료 교육·건강 효능·제품 인증 연계 금지', 'https://hkadal.com/', 'https://hkadal.com/'],
 };
+const FIRST_WAVE = { 'P-EMAIL-SG-01': '1차 발송 추천', 'P-FORM-JP-01': '1차 발송 추천', 'P-FORM-HK-01': '1차 발송 추천', 'P-EMAIL-SG-02': '2차 발송 추천', 'P-EMAIL-HK-01': '2차 발송 추천', 'P-EMAIL-TW-01': '2차 발송 추천' };
 for (const row of seedPress) {
-  const check = CHECKS[row.content_id];
-  row.outlet_url = row.outlet_url || check?.[0] || null;
-  row.notes = check ? `${PR_LIST} ${check[1]}` : null;
+  const [no, grade, recheck, route, check, evidence, related, site] = FILE[row.content_id];
+  Object.assign(row, {
+    grade, recheck_result: recheck, verified_route: route, pre_send_check: check, evidence_url: evidence, related_url: related || null,
+    hold_reason: recheck.startsWith('보류') ? `계정 검증 실패 (${route.replace('원본 후보. ', '')}). ${check}` : null,
+    outlet_url: row.outlet_url || site || null,
+    notes: `${PR_LIST} · 재선정50 #${no}${FIRST_WAVE[row.content_id] ? ` · ${FIRST_WAVE[row.content_id]}` : ''}`,
+  });
 }

@@ -129,19 +129,44 @@ create table if not exists public.pr_outreach (
   metrics jsonb not null default '{}'::jsonb,      -- {sessions, inquiries, orders} copied from GA4 / admin ledger
   next_action text,
   notes text,
+  -- From "HONDIT_무료PR_15곳_발송준비" (2026-10-21): 재선정50 grade A/B/C, 15곳_재검증 result, free route found, pre-send check.
+  grade text check (grade is null or grade in ('A','B','C')),
+  recheck_result text,
+  verified_route text,
+  pre_send_check text,
+  evidence_url text,
+  related_url text,
+  hold_reason text,                                 -- set = on hold; approval is refused until it is cleared
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   unique (outlet, market)
 );
 create unique index if not exists pr_outreach_link on public.pr_outreach (link_id) where link_id is not null;
 
+-- Every link_id ever issued (03_LINKS history + IDs reserved here). The primary key is what makes reuse impossible
+-- across 03_LINKS, Journal channel packages and press proposals. last_seen_in_sheet = last time 03_LINKS listed it.
+create table if not exists public.link_registry (
+  link_id text primary key check (link_id ~ '^l[0-9]{4}$'),
+  source text not null check (source in ('03_LINKS','journal_distribution','pr_outreach')),
+  ref text,
+  created_by text,
+  last_seen_in_sheet timestamptz,
+  created_at timestamptz not null default now()
+);
+-- 03_LINKS held l0001–l0043 on 2026-10-23 (read from the sheet). Later sheet IDs arrive through the admin sync.
+insert into public.link_registry (link_id, source, ref)
+select 'l' || lpad(n::text, 4, '0'), '03_LINKS', 'issued by 2026-10-23' from generate_series(1, 43) as n
+on conflict (link_id) do nothing;
+
 -- Server-only tables: the site reads them with the service role; the anon key gets nothing.
 alter table public.journal_articles enable row level security;
 alter table public.journal_publish_log enable row level security;
 alter table public.journal_distributions enable row level security;
 alter table public.pr_outreach enable row level security;
-revoke all on public.journal_articles, public.journal_publish_log, public.journal_distributions, public.pr_outreach from public, anon, authenticated;
+alter table public.link_registry enable row level security;
+revoke all on public.journal_articles, public.journal_publish_log, public.journal_distributions, public.pr_outreach, public.link_registry from public, anon, authenticated;
 grant select, insert, update, delete on public.journal_articles, public.journal_distributions, public.pr_outreach to service_role;
 grant select, insert on public.journal_publish_log to service_role;
+grant select, insert, update on public.link_registry to service_role;   -- no delete: an issued ID is never freed
 
 notify pgrst, 'reload schema';

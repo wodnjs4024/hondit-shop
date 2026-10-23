@@ -12,9 +12,11 @@ const UNIQUE = {
   journal_articles: [['language', 'slug'], ['content_id']],
   journal_distributions: [['article_id', 'channel'], ['link_id']],
   pr_outreach: [['outlet', 'market'], ['content_id'], ['link_id']],
+  link_registry: [['link_id']],
 };
 function fakeDb({ tables = true } = {}) {
-  const data = { journal_articles: [], journal_publish_log: [], journal_distributions: [], pr_outreach: [] };
+  const data = { journal_articles: [], journal_publish_log: [], journal_distributions: [], pr_outreach: [], link_registry: [] };
+  const writes = [];
   let seq = 0;
   const match = (row, params) => {
     for (const [key, raw] of params) {
@@ -25,6 +27,7 @@ function fakeDb({ tables = true } = {}) {
       if (op === 'eq' && String(cell) !== value) return false;
       if (op === 'neq' && String(cell) === value) return false;
       if (op === 'lte' && !(cell && new Date(cell) <= new Date(value))) return false;
+      if (op === 'in' && !value.replace(/^\(|\)$/g, '').split(',').includes(String(cell))) return false;
     }
     return true;
   };
@@ -44,6 +47,7 @@ function fakeDb({ tables = true } = {}) {
     const rows = data[table];
     const method = options.method || 'GET';
     const prefer = String(options.headers?.Prefer || '');
+    if (method !== 'GET') writes.push(`${method} ${table}`);
     if (method === 'GET') {
       let out = rows.filter((r) => match(r, params));
       const order = u.searchParams.get('order');
@@ -85,15 +89,19 @@ function fakeDb({ tables = true } = {}) {
     }
     return new Response('{}', { status: 405 });
   };
-  return { data, handle };
+  return { data, handle, writes };
 }
 
-const ENV_KEYS = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'VITE_SUPABASE_ANON_KEY', 'VERCEL_ENV', 'OPENAI_API_KEY', 'JOURNAL_AI_ENABLED', 'JOURNAL_ALLOW_WRITES', 'CRON_SECRET', 'HONDIT_STAGING', 'CONTENT_PIPELINE_WEBHOOK_URL'];
-function harness({ env = 'production', tables = true, openai = null } = {}) {
+const ENV_KEYS = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'VITE_SUPABASE_ANON_KEY', 'VERCEL_ENV', 'OPENAI_API_KEY', 'JOURNAL_AI_ENABLED', 'JOURNAL_ALLOW_WRITES', 'CRON_SECRET', 'HONDIT_STAGING', 'CONTENT_PIPELINE_WEBHOOK_URL', 'CONTENT_PIPELINE_WEBHOOK_SECRET'];
+const HOOK = 'https://script.google.com/macros/s/test-hook/exec';
+// hook: (payload) => Response, standing in for the Apps Script web app.
+function harness({ env = 'production', tables = true, openai = null, hook = null } = {}) {
   const keep = Object.fromEntries(ENV_KEYS.map((k) => [k, process.env[k]]));
   for (const k of ENV_KEYS) delete process.env[k];
   Object.assign(process.env, { SUPABASE_URL: 'https://mock.invalid', SUPABASE_SERVICE_ROLE_KEY: 'mock', VITE_SUPABASE_ANON_KEY: 'mock' });
   if (env) process.env.VERCEL_ENV = env;
+  if (hook) Object.assign(process.env, { CONTENT_PIPELINE_WEBHOOK_URL: HOOK, CONTENT_PIPELINE_WEBHOOK_SECRET: 'hook-secret' });
+  const hookCalls = [];
   const db = fakeDb({ tables });
   const original = globalThis.fetch;
   const outbound = [];
@@ -103,11 +111,12 @@ function harness({ env = 'production', tables = true, openai = null } = {}) {
     if (u.host === 'mock.invalid' && u.pathname === '/rest/v1/admin_profiles') return new Response(JSON.stringify([{ user_id: 'admin-1', email: 'owner@hondit.test', role: 'admin' }]), { status: 200 });
     if (u.host === 'mock.invalid' && u.pathname === '/rest/v1/products') return new Response(JSON.stringify(defaultProducts), { status: 200 });
     if (u.host === 'mock.invalid') return db.handle(url, options);
+    if (hook && url === HOOK) { const payload = JSON.parse(options.body); hookCalls.push(payload); return hook(payload); }
     if (u.host === 'api.openai.com' && openai) { outbound.push('openai'); return new Response(JSON.stringify({ choices: [{ message: { content: JSON.stringify(openai) } }] }), { status: 200 }); }
     throw new Error('unexpected outbound request ' + url);
   };
   const restore = () => { globalThis.fetch = original; for (const [k, v] of Object.entries(keep)) if (v === undefined) delete process.env[k]; else process.env[k] = v; };
-  return { db, outbound, restore };
+  return { db, outbound, hookCalls, restore };
 }
 
 async function call(handler, { method = 'GET', path = '', query = {}, body, token = 'admin-token', headers = {} } = {}) {
@@ -173,21 +182,40 @@ test('production before migration 010: no draft is public, the list is empty and
   } finally { h.restore(); }
 });
 
-test('Preview deployment shows the drafts for layout review, marked and never indexed, and cannot write', async () => {
+test('Preview deployment exposes no draft publicly; only a signed-in admin can preview, and nothing can be written', async () => {
   const h = harness({ env: 'preview', tables: false });
   try {
     const handler = await products();
     const page = await call(handler, { query: { journalPage: 'article', lang: 'ja', slug: seedArticles[1].slug }, token: '' });
-    assert.equal(page.status, 200);
-    const doc = new JSDOM(page.data).window.document;
-    assert.equal(doc.querySelector('meta[name=robots]').content, 'noindex,nofollow');
-    assert.ok(doc.querySelector('.journal-preview-flag'));
-    assert.equal(doc.querySelector('#root h1').textContent, seedArticles[1].title);
-    assert.equal(doc.querySelectorAll('script[type="application/ld+json"]').length, 0);
+    assert.equal(page.status, 404, 'no draft page on a Preview URL');
+    const list = await call(handler, { query: { journalPage: 'list' }, token: '' });
+    assert.doesNotMatch(list.data, new RegExp(seedArticles[1].title));
+    assert.match(list.data, /noindex,follow/);
+    const api = await call(handler, { query: { journalApi: '1', lang: 'ja', slug: seedArticles[1].slug, preview: '1' }, token: '' });
+    assert.equal(api.status, 404, 'preview=1 without an admin session shows nothing');
+    const adminView = await call(handler, { query: { journalApi: '1', lang: 'ja', slug: seedArticles[1].slug, preview: '1' } });
+    assert.equal(adminView.status, 200);
+    assert.equal(adminView.data.preview, true);
+    assert.equal(adminView.headers['cache-control'], 'private, no-store');
+    assert.equal(adminView.data.article.review, undefined, 'review notes never leave the admin API');
     const { runPublisher } = await import('../api/_journal.js');
     assert.ok((await runPublisher()).skipped);
-    const write = await call(await admin(), { method: 'POST', path: 'journal/import-seed' });
-    assert.equal(write.status, 403);
+    assert.equal((await call(await admin(), { method: 'POST', path: 'journal/import-seed' })).status, 403);
+    assert.equal(h.db.writes.length, 0);
+  } finally { h.restore(); }
+});
+
+test('unapproved and not-yet-due articles stay private in production, also through the JSON API and sitemap', async () => {
+  const h = harness({ env: 'production' });
+  try {
+    const A = await admin(), P = await products();
+    await call(A, { method: 'POST', path: 'journal/import-seed' });
+    const en = h.db.data.journal_articles.find((a) => a.language === 'en');
+    for (const query of [{ journalPage: 'article', lang: 'en', slug: en.slug }, { journalApi: '1', lang: 'en', slug: en.slug }, { journalApi: '1', lang: 'en', slug: en.slug, preview: '1' }]) {
+      assert.equal((await call(P, { query, token: '' })).status, 404, JSON.stringify(query));
+    }
+    assert.deepEqual((await call(P, { query: { journalApi: '1' }, token: '' })).data.articles, []);
+    assert.doesNotMatch((await call(P, { query: { sitemap: '1' }, token: '' })).data, /\/journal\//);
   } finally { h.restore(); }
 });
 
@@ -197,9 +225,9 @@ test('register drafts -> review -> approve -> schedule (KST) -> publish once -> 
   try {
     const A = await admin(), P = await products();
     const imported = await call(A, { method: 'POST', path: 'journal/import-seed' });
-    assert.deepEqual(imported.data, { articles: 4, press: 15 });
+    assert.deepEqual(imported.data, { articles: 4, press: 15, pressUpdated: 0 });
     const again = await call(A, { method: 'POST', path: 'journal/import-seed' });
-    assert.deepEqual(again.data, { articles: 0, press: 0 }, 'importing twice adds nothing');
+    assert.deepEqual(again.data, { articles: 0, press: 0, pressUpdated: 0 }, 'importing twice adds nothing');
 
     const en = h.db.data.journal_articles.find((a) => a.language === 'en');
     const ja = h.db.data.journal_articles.find((a) => a.language === 'ja');
@@ -353,6 +381,8 @@ test('channel packages use the approved article, a new link_id and the Final URL
     await call(A, { method: 'POST', path: `journal/${tw.id}/review`, body: { facts: true, claims: true, images: true, imageRights: 'confirmed' } });
     await call(A, { method: 'POST', path: `journal/${tw.id}/action`, body: { action: 'approve' } });
     await call(A, { method: 'POST', path: `journal/${tw.id}/action`, body: { action: 'schedule', publishNow: true } });
+    assert.equal((await call(A, { method: 'POST', path: `journal/${tw.id}/distributions`, body: { channel: 'pinterest', linkId: 'l0044' } })).status, 409, 'no new ID before 03_LINKS is synced');
+    await syncLinks(A);
     const reused = await call(A, { method: 'POST', path: `journal/${tw.id}/distributions`, body: { channel: 'pinterest', linkId: 'l0027' } });
     assert.equal(reused.status, 422, 'issued link IDs are never reused');
     const made = await call(A, { method: 'POST', path: `journal/${tw.id}/distributions`, body: { channel: 'pinterest', linkId: 'l0044' } });
@@ -406,29 +436,52 @@ test('press outreach tracks approval, sending, replies and coverage without send
   } finally { h.restore(); }
 });
 
-test('new candidates need a proposal, a fresh link_id and a Final URL before approval', async () => {
+test('the 15-candidate file: grades and hold reasons kept, the five existing rows not duplicated, holds and unlinked rows not approvable', async () => {
   const h = harness({ env: 'production' });
   try {
     const A = await admin();
-    await call(A, { method: 'POST', path: 'journal/import-seed' });
+    // Production already holds the five Gmail-draft rows (registered before the 15-candidate file existed).
+    const fileFields = ['grade', 'recheck_result', 'verified_route', 'pre_send_check', 'evidence_url', 'related_url', 'hold_reason'];
+    h.db.data.pr_outreach.push(...seedPress.slice(0, 5).map((p) => ({ ...Object.fromEntries(Object.entries(p).filter(([k]) => !fileFields.includes(k))), id: `old-${p.content_id}`, content_id: null, approval_status: 'approved', approved_by: 'owner@hondit.test', metrics: {} })));
+    const imported = await call(A, { method: 'POST', path: 'journal/import-seed' });
+    assert.equal(imported.data.press, 10, 'only the ten new candidates are added');
+    assert.equal(imported.data.pressUpdated, 5, 'the five existing rows get the file grades');
     const rows = (await call(A, { path: 'press' })).data.outreach;
+    assert.equal(rows.length, 15);
+    assert.equal(new Set(rows.map((r) => `${r.market}:${r.outlet}`)).size, 15);
+    const old = rows.find((r) => r.id === 'old-P-EMAIL-SG-01');
+    const ig0 = rows.find((r) => r.content_id === 'P-DM-SG-02');
+    await call(A, { method: 'PATCH', path: `press/${ig0.id}`, body: { hold_reason: '' } });
+    assert.equal((await call(A, { method: 'POST', path: 'journal/import-seed' })).data.press, 0);
+    assert.equal(h.db.data.pr_outreach.find((r) => r.id === ig0.id).hold_reason, '', 'a released hold is not put back by a re-import');
+    assert.equal(old.approval_status, 'approved', 'existing status is left alone');
+    assert.equal(old.grade, 'A');
+    assert.equal(old.recheck_result, 'A / 제안 준비');
     const byId = (cid) => rows.find((r) => r.content_id === cid);
-    const ig = byId('P-DM-SG-01'), hc = byId('P-EMAIL-SG-03');
+    assert.equal(byId('P-EMAIL-HK-03').recheck_result, 'A- / 제안 준비');
+    assert.equal(byId('P-EMAIL-HK-04').recheck_result, 'B / 전문 교류');
+    for (const cid of ['P-DM-SG-01', 'P-DM-SG-02', 'P-DM-SG-03', 'P-DM-JP-01']) {
+      assert.match(byId(cid).hold_reason, /계정 검증 실패/);
+      assert.equal(byId(cid).recheck_result, '보류 / 계정 검증');
+    }
+    assert.ok(rows.filter((r) => !r.id.startsWith('old-')).every((r) => r.send_status === 'not_sent' && r.approval_status === 'pending' && !r.link_id));
     const approve = (row) => call(A, { method: 'POST', path: `press/${row.id}/action`, body: { action: 'approve' } });
-    assert.equal((await approve(ig)).status, 409, 'an account still on hold has no proposal to approve');
+    const ig = byId('P-DM-SG-01'), hc = byId('P-EMAIL-SG-03');
+    assert.match((await approve(ig)).data.error, /보류/);
     assert.equal((await approve(hc)).status, 409, 'no link_id yet');
+    await syncLinks(A);
     assert.equal((await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { link_id: 'l0040' } })).status, 409, 'issued link IDs are never reused');
-    assert.equal((await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { link_id: 'l0044' } })).status, 200);
-    assert.equal((await call(A, { method: 'PATCH', path: `press/${byId('P-FORM-JP-01').id}`, body: { link_id: 'l0044' } })).status, 409, 'one link_id per proposal');
-    assert.equal((await approve(hc)).status, 409, 'the body still links to the bare site URL');
-    const url = 'https://hondit-shop.vercel.app/?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_pr_202610&utm_content=l0044&link_id=l0044';
-    await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { email_body: hc.email_body.replace('https://hondit-shop.vercel.app/', url) } });
-    const ok = await approve(hc);
+    const linked = await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { link_id: 'l0044' } });
+    assert.equal(linked.status, 200);
+    const ok = await approve(linked.data.outreach);
     assert.equal(ok.status, 200);
     assert.equal(ok.data.outreach.approval_status, 'approved');
     const moved = await call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { link_id: 'l0045' } });
     assert.equal(moved.data.outreach.approval_status, 'pending', 'changing the link_id needs approval again');
-    assert.equal(h.outbound.length, 0);
+    assert.match(moved.data.outreach.email_body, /link_id=l0045/);
+    assert.doesNotMatch(moved.data.outreach.email_body, /l0044/);
+    assert.equal(rows.filter((r) => r.send_status === 'sent').length, 0);
+    assert.equal(h.outbound.length, 0, 'nothing was sent');
   } finally { h.restore(); }
 });
 
@@ -449,15 +502,180 @@ test('CONTENT_PIPELINE export matches the sheet columns and existing IDs', async
   } finally { h.restore(); }
 });
 
-test('cron entry requires CRON_SECRET when it is set', async () => {
+async function dueArticle(h, A, language = 'en') {
+  await call(A, { method: 'POST', path: 'journal/import-seed' });
+  const a = h.db.data.journal_articles.find((x) => x.language === language);
+  await call(A, { method: 'POST', path: `journal/${a.id}/review`, body: { facts: true, claims: true, images: true, imageRights: 'confirmed' } });
+  await call(A, { method: 'POST', path: `journal/${a.id}/action`, body: { action: 'approve' } });
+  await call(A, { method: 'POST', path: `journal/${a.id}/action`, body: { action: 'schedule', publishAt: '2031-01-01T09:00' } });
+  // Time passes: the scheduled minute is now in the past and no publisher has run yet.
+  const row = h.db.data.journal_articles.find((x) => x.id === a.id);
+  row.publish_at = new Date(Date.now() - 5 * 60_000).toISOString();
+  return row;
+}
+
+test('the publisher endpoint refuses every request without the right CRON_SECRET and writes nothing', async () => {
   const h = harness({ env: 'production' });
   try {
-    process.env.CRON_SECRET = 'cron-test';
-    const P = await products();
-    assert.equal((await call(P, { query: { journalCron: '1' }, token: '' })).status, 401);
-    const ok = await call(P, { query: { journalCron: '1' }, token: '', headers: { authorization: 'Bearer cron-test' } });
+    const A = await admin(), P = await products();
+    const row = await dueArticle(h, A);
+    const before = h.db.writes.length;
+    const cron = (headers = {}) => call(P, { query: { journalCron: '1' }, token: '', headers });
+    assert.equal((await cron()).status, 503, 'no secret configured = closed');
+    process.env.CRON_SECRET = 'short';
+    assert.equal((await cron({ authorization: 'Bearer short' })).status, 503, 'a weak secret is treated as not configured');
+    process.env.CRON_SECRET = 'cron-secret-for-tests-0123456789';
+    assert.equal((await cron()).status, 401);
+    assert.equal((await cron({ authorization: 'Bearer wrong-secret-for-tests-012345678' })).status, 401);
+    assert.equal((await cron({ authorization: 'cron-secret-for-tests-0123456789' })).status, 401, 'scheme is required');
+    assert.equal(h.db.writes.length, before, 'refused calls changed nothing');
+    assert.equal(row.status, 'scheduled');
+    const ok = await cron({ authorization: 'Bearer cron-secret-for-tests-0123456789' });
     assert.equal(ok.status, 200);
-    assert.deepEqual(ok.data.published, []);
+    assert.equal(ok.data.published.length, 1);
+    assert.equal(row.status, 'published');
+    assert.equal(row.published_at, row.publish_at, 'recorded as published at its scheduled time');
+  } finally { h.restore(); }
+});
+
+test('a scheduled article is public from its exact time without any write, and public traffic never runs the publisher', async () => {
+  const h = harness({ env: 'production' });
+  try {
+    const A = await admin(), P = await products();
+    const row = await dueArticle(h, A);
+    const before = h.db.writes.length;
+    const page = await call(P, { query: { journalPage: 'article', lang: 'en', slug: row.slug }, token: '' });
+    assert.equal(page.status, 200, 'visible as soon as publish_at has passed');
+    const doc = new JSDOM(page.data).window.document;
+    assert.equal(JSON.parse(doc.querySelector('script[type="application/ld+json"]').textContent).datePublished, row.publish_at);
+    assert.equal(page.headers['cache-control'], 'public, max-age=0, s-maxage=60');
+    assert.match((await call(P, { query: { journalPage: 'list', lang: 'en' }, token: '' })).data, new RegExp(row.slug));
+    assert.match((await call(P, { query: { sitemap: '1' }, token: '' })).data, new RegExp(`/journal/en/${row.slug}`));
+    assert.equal((await call(P, { query: { journalApi: '1', lang: 'en', slug: row.slug }, token: '' })).status, 200);
+    assert.equal(h.db.writes.length, before, 'public reads wrote nothing');
+    assert.equal(row.status, 'scheduled');
+    // Not yet due, or no longer passing the publish checks: hidden again.
+    row.image_rights = 'restricted';
+    assert.equal((await call(P, { query: { journalPage: 'article', lang: 'en', slug: row.slug }, token: '' })).status, 404);
+    row.image_rights = 'confirmed';
+    row.publish_at = new Date(Date.now() + 60_000).toISOString();
+    assert.equal((await call(P, { query: { journalPage: 'article', lang: 'en', slug: row.slug }, token: '' })).status, 404);
+    // Opening the admin list records due articles (authenticated).
+    row.publish_at = new Date(Date.now() - 60_000).toISOString();
+    const list = await call(A, { path: 'journal' });
+    assert.equal(list.data.publisher.published.length, 1);
+    assert.equal(row.status, 'published');
+  } finally { h.restore(); }
+});
+
+/* ---------- CONTENT_PIPELINE bridge ---------- */
+const jsonResponse = (body, status = 200) => new Response(typeof body === 'string' ? body : JSON.stringify(body), { status });
+test('CONTENT_PIPELINE sync counts only a confirmed save; auth failure, wrong row, wrong values and non-JSON are failures', async () => {
+  let reply = () => jsonResponse('ok');
+  const h = harness({ env: 'production', hook: (payload) => reply(payload) });
+  try {
+    const A = await admin();
+    await call(A, { method: 'POST', path: 'journal/import-seed' });
+    const en = h.db.data.journal_articles.find((a) => a.language === 'en');
+    const sync = () => call(A, { method: 'POST', path: `journal/${en.id}/pipeline-sync` });
+    const lastLog = () => h.db.data.journal_publish_log.filter((l) => l.article_id === en.id && l.action.startsWith('pipeline_')).pop();
+    const cases = [
+      ['plain-text ok from an old script', () => jsonResponse('ok')],
+      ['auth failure', () => jsonResponse({ ok: false, error: 'forbidden' })],
+      ['auth failure as text', () => jsonResponse('forbidden')],
+      ['HTTP error', () => jsonResponse({ ok: true }, 500)],
+      ['row mismatch', (p) => jsonResponse({ ok: true, id: 'S-JRN-XX-99', result: 'updated', written: p.row.slice(8, 13) })],
+      ['no save result', (p) => jsonResponse({ ok: true, id: p.row[0], written: p.row.slice(8, 13) })],
+      ['values not stored', (p) => jsonResponse({ ok: true, id: p.row[0], result: 'updated', written: ['', '', '', '', ''] })],
+      ['sheet update failed', () => jsonResponse({ ok: false, error: 'Exception: range protected' })],
+    ];
+    for (const [name, fn] of cases) {
+      reply = fn;
+      const res = await sync();
+      assert.equal(res.status, 502, name);
+      assert.equal(res.data.ok, false, name);
+      assert.equal(lastLog().action, 'pipeline_failed', name);
+      assert.equal(lastLog().ok, false, name);
+    }
+    assert.equal(h.hookCalls[0].secret, 'hook-secret');
+    assert.equal(h.hookCalls[0].action, 'pipeline_row');
+    reply = (p) => jsonResponse({ ok: true, id: p.row[0], result: 'updated', row_number: 4, written: p.row.slice(8, 13) });
+    const ok = await sync();
+    assert.equal(ok.status, 200);
+    assert.equal(lastLog().action, 'pipeline_synced');
+    assert.equal(lastLog().ok, true);
+  } finally { h.restore(); }
+});
+
+test('a failed sheet sync after publishing is logged as a failure, not as success', async () => {
+  const h = harness({ env: 'production', hook: () => jsonResponse('ok') });
+  try {
+    const A = await admin();
+    const row = await dueArticle(h, A);
+    const { runPublisher } = await import('../api/_journal.js');
+    await runPublisher();
+    assert.equal(row.status, 'published', 'the article itself is published');
+    const logs = h.db.data.journal_publish_log.filter((l) => l.article_id === row.id);
+    assert.ok(logs.some((l) => l.action === 'pipeline_failed' && l.ok === false));
+    assert.ok(!logs.some((l) => l.action === 'pipeline_synced'));
+  } finally { h.restore(); }
+});
+
+/* ---------- link_id registry ---------- */
+const syncLinks = (A, extra = []) => call(A, { method: 'POST', path: 'journal/links/sync', body: { ids: [...ISSUED_LINK_IDS, ...extra].join('\n') } });
+test('new link IDs are checked against the whole 03_LINKS history, not only the IDs known when this was built', async () => {
+  const h = harness({ env: 'production' });
+  try {
+    const A = await admin();
+    await call(A, { method: 'POST', path: 'journal/import-seed' });
+    const hc = h.db.data.pr_outreach.find((r) => r.content_id === 'P-EMAIL-SG-03');
+    const setLink = (row, id) => call(A, { method: 'PATCH', path: `press/${row.id}`, body: { link_id: id } });
+    assert.equal((await setLink(hc, 'l0044')).status, 409, 'refused until 03_LINKS has been synced');
+    assert.equal((await call(A, { method: 'POST', path: 'journal/links/sync', body: { ids: 'l0001 l0002 l0044' } })).status, 422, 'a partial paste is not a sync');
+    // The team issued l0044 and l0045 in the sheet by hand after this system was built.
+    const synced = await syncLinks(A, ['l0044', 'l0045']);
+    assert.equal(synced.status, 200);
+    assert.equal(synced.data.next, 'l0046');
+    assert.equal(synced.data.syncFresh, true);
+    assert.equal((await setLink(hc, 'l0044')).status, 409, 'an ID issued in the sheet later is refused');
+    assert.equal((await setLink(hc, 'l0045')).status, 409);
+    const ok = await setLink(hc, 'l0046');
+    assert.equal(ok.status, 200);
+    assert.equal(ok.data.outreach.link_id, 'l0046');
+    assert.match(ok.data.outreach.email_body, /link_id=l0046/, 'the bare site link becomes the Final URL');
+    assert.equal(ok.data.linksRow[0], 'l0046');
+    assert.equal(ok.data.linksRow[8], 'https://hondit-shop.vercel.app/?market=SG&lang=en&utm_source=outreach&utm_medium=email&utm_campaign=sg_pr_202610&utm_content=l0046&link_id=l0046');
+    const other = h.db.data.pr_outreach.find((r) => r.content_id === 'P-EMAIL-HK-02');
+    assert.equal((await setLink(other, 'l0046')).status, 409, 'one ID, one placement');
+    assert.ok(h.db.data.link_registry.some((r) => r.link_id === 'l0046' && r.source === 'pr_outreach'));
+    // A stale sync is not trusted.
+    for (const r of h.db.data.link_registry) if (r.last_seen_in_sheet) r.last_seen_in_sheet = new Date(Date.now() - 25 * 3600 * 1000).toISOString();
+    assert.equal((await setLink(other, 'l0047')).status, 409);
+  } finally { h.restore(); }
+});
+
+test('with the sheet bridge, a link ID is issued in 03_LINKS itself and refused when the sheet already has it', async () => {
+  let reply = () => jsonResponse({ ok: false, error: 'taken' });
+  const h = harness({ env: 'production', hook: (p) => reply(p) });
+  try {
+    const A = await admin();
+    await call(A, { method: 'POST', path: 'journal/import-seed' });
+    const hc = h.db.data.pr_outreach.find((r) => r.content_id === 'P-EMAIL-SG-03');
+    const setLink = (id) => call(A, { method: 'PATCH', path: `press/${hc.id}`, body: { link_id: id } });
+    assert.equal((await setLink('l0044')).status, 409, 'the sheet says it is taken');
+    reply = () => jsonResponse('ok');
+    assert.equal((await setLink('l0045')).status, 502, 'an unconfirmed reservation is not accepted');
+    assert.equal(h.db.data.pr_outreach.find((r) => r.id === hc.id).link_id, null);
+    reply = (p) => jsonResponse({ ok: true, link_id: p.link_id, row_number: 46, next_link_id: 'l0047' });
+    const ok = await setLink('l0046');
+    assert.equal(ok.status, 200);
+    const call0 = h.hookCalls.filter((c) => c.action === 'reserve_link').pop();
+    assert.equal(call0.link_id, 'l0046');
+    assert.equal(call0.row.length, 20, '03_LINKS row A–T');
+    reply = () => jsonResponse({ ok: true, link_ids: [...ISSUED_LINK_IDS, 'l0044', 'l0046'], next_link_id: 'l0047' });
+    const pulled = await call(A, { method: 'POST', path: 'journal/links/sync', body: {} });
+    assert.equal(pulled.status, 200);
+    assert.equal(pulled.data.next, 'l0047');
   } finally { h.restore(); }
 });
 
@@ -469,4 +687,35 @@ test('seed data stays in sync with the generated SQL seed', async () => {
   const migration = fs.readFileSync(new URL('../supabase/migrations/010_journal_pr.sql', import.meta.url), 'utf8');
   assert.doesNotMatch(migration, /alter table public\.(orders|products|order_items|inquiries|product_prices)\b/i, '010 changes no existing table');
   assert.doesNotMatch(migration, /\bdrop\b(?! trigger if exists journal_articles_guard)/i);
+});
+
+test('the four country articles: real product photos on disk, valid internal links, and hreflang/translation links to each other', async () => {
+  const fs = await import('node:fs');
+  const h = harness({ env: 'production' });
+  try {
+    const A = await admin(), P = await products();
+    await call(A, { method: 'POST', path: 'journal/import-seed' });
+    for (const a of h.db.data.journal_articles) {
+      await call(A, { method: 'POST', path: `journal/${a.id}/review`, body: { facts: true, claims: true, images: true, imageRights: 'confirmed' } });
+      assert.equal((await call(A, { method: 'POST', path: `journal/${a.id}/action`, body: { action: 'approve' } })).status, 200, a.language);
+      assert.equal((await call(A, { method: 'POST', path: `journal/${a.id}/action`, body: { action: 'schedule', publishNow: true } })).data.article.status, 'published', a.language);
+    }
+    const urls = Object.fromEntries(seedArticles.map((a) => [a.language, `https://hondit-shop.vercel.app${articlePath(a)}`]));
+    const routes = ['/contact', '/partners', '/products/diffuser-350g', '/products/diffuser-500g'];
+    for (const a of seedArticles) {
+      const page = await call(P, { query: { journalPage: 'article', lang: articlePath(a).split('/')[2], slug: a.slug }, token: '' });
+      assert.equal(page.status, 200, a.language);
+      const doc = new JSDOM(page.data).window.document;
+      const alt = Object.fromEntries([...doc.querySelectorAll('link[rel=alternate][hreflang]')].map((l) => [l.getAttribute('hreflang'), l.href]));
+      assert.deepEqual({ en: alt.en, ja: alt.ja, 'zh-HK': alt['zh-HK'], 'zh-TW': alt['zh-TW'] }, urls, `${a.language} hreflang`);
+      const nav = [...doc.querySelectorAll('#root .journal-translations a')].map((x) => x.getAttribute('href')).sort();
+      assert.deepEqual(nav, seedArticles.filter((o) => o.id !== a.id).map(articlePath).sort(), `${a.language} translation links`);
+      for (const img of doc.querySelectorAll('#root img')) {
+        const src = img.getAttribute('src');
+        assert.ok(img.getAttribute('alt') !== null, `${a.language} alt ${src}`);
+        assert.ok(fs.existsSync(new URL(`../public${decodeURI(src)}`, import.meta.url)), `${a.language} missing image ${src}`);
+      }
+      for (const link of doc.querySelectorAll('#root .journal-body a[href^="/"], #root .journal-related a[href^="/"]')) assert.ok(routes.includes(link.getAttribute('href')), `${a.language} link ${link.getAttribute('href')}`);
+    }
+  } finally { h.restore(); }
 });

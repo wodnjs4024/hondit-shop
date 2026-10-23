@@ -182,8 +182,16 @@ export function publishBlockers(article, others = []) {
   return blockers;
 }
 
-/* The only rule the public pages use. Drafts, scheduled-but-not-yet-published and archived rows are never shown. */
-export const isPublic = (article) => article?.status === 'published' && Boolean(article.published_at);
+/* The only rule the public pages use. A published row is public. A scheduled row becomes public at its exact publish_at
+   (read-time check, no write and no cron needed) if it is still approved and passes the same publish checks the
+   publisher applies. Drafts, rows in review, not-yet-due schedules, failed and archived rows are never shown. */
+export function isDue(article, now = new Date()) {
+  return article?.status === 'scheduled' && Boolean(article.publish_at) && new Date(article.publish_at).getTime() <= new Date(now).getTime()
+    && publishBlockers(article).length === 0;
+}
+export const isPublic = (article, now = new Date()) => (article?.status === 'published' && Boolean(article.published_at)) || isDue(article, now);
+/* How a public row looks to readers: a due scheduled row is shown as published at its scheduled time. */
+export const publicView = (article) => (article.status === 'scheduled' ? { ...article, status: 'published', published_at: article.publish_at } : article);
 
 /* ---------- UTM / Final URL (single Final URL rule from 01_RULES) ---------- */
 // Link IDs already issued in 03_LINKS on 2026-10-23. New IDs continue from NEXT_LINK_ID; an issued ID is never reused.
@@ -231,8 +239,31 @@ export function buildDistribution(article, channel, linkId, now = new Date()) {
     utm_campaign: campaign,
     dedupe_key: `${article.id}:${channel}`,
     // The row to add to 03_LINKS before the post goes live (the sheet stays the single source of link IDs).
-    links_row: [linkId, campaign, spec.medium, spec.source, `journal_${article.slug}_v1`, articlePath(article), '', lang.market.toLowerCase(), url, '', `${spec.label} 기사 공유`, article.language, '', 'FALSE', 'draft', '', '', '', 'Journal 기사 외부 배포용 Final URL. 신규 /q/ 없음.', 'PENDING'],
+    links_row: [linkId, campaign, spec.medium, spec.source, `journal_${article.slug}_v1`, articlePath(article), '', lang.market.toLowerCase(), url, '', `${spec.label} 기사 공유`, lang.siteLang, '', 'FALSE', 'draft', '', '', '', 'Journal 기사 외부 배포용 Final URL. 신규 /q/ 없음.', 'PENDING'],
   };
+}
+
+/* ---------- press outreach links (same Final URL rule as the five existing drafts, l0039–l0043) ---------- */
+export const nextLinkId = (ids) => {
+  const max = (ids || []).reduce((m, id) => (linkIdOk(id) ? Math.max(m, Number(String(id).slice(1))) : m), 0);
+  return `l${String(max + 1).padStart(4, '0')}`;
+};
+export function pressLink(row, linkId, now = new Date()) {
+  const market = String(row.market || '').toUpperCase();
+  const siteLang = JOURNAL_LANGUAGES.find((l) => l.market === market)?.siteLang || 'en';
+  const ym = new Date(new Date(now).getTime() + 9 * 3600 * 1000).toISOString().slice(0, 7).replace('-', '');
+  const campaign = `${market.toLowerCase()}_pr_${ym}`;
+  const medium = String(row.content_id || '').startsWith('P-DM-') ? 'dm' : 'email';
+  const url = finalUrl({ path: '/', market, siteLang, source: 'outreach', medium, campaign, linkId });
+  const placement = `editorial_${String(row.outlet || 'outlet').toLowerCase().replace(/[^a-z0-9]+/g, '')}_v1`;
+  // 03_LINKS columns A–T, written the way rows l0039–l0043 were.
+  const linksRow = [linkId, campaign, medium, 'outreach', placement, '/', '', market.toLowerCase(), url, '', `${row.outlet} 편집부`, siteLang, '', 'FALSE', 'draft', '', '', '', '무료 편집부 제안용 Final URL. 신규 /q/ 없음. 실제 발송 전.', 'PENDING'];
+  return { url, campaign, linksRow };
+}
+/* Swaps the bare site link in a proposal for its Final URL; leaves the text alone when there is no bare link. */
+export function withFinalUrl(body, url) {
+  const text = String(body || '');
+  return text.replace(/https:\/\/hondit-shop\.vercel\.app\/(?=\s|$)/m, url);
 }
 
 /* ---------- CONTENT_PIPELINE (03_HONDIT_검색_AEO_성과측정) ---------- */
