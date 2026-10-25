@@ -62,6 +62,10 @@
       "destination": "/api/products?journalPage=list"
     },
     {
+      "source": "/journal/feed.xml",
+      "destination": "/api/products?journalPage=feed"
+    },
+    {
       "source": "/journal/:lang",
       "destination": "/api/products?journalPage=list&lang=:lang"
     },
