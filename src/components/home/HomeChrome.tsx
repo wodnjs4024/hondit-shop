@@ -150,6 +150,7 @@ export function HomeFooter() {
         {!partnerOnly && <Link to="/bulk-orders">{marketText(language, "Bulk Orders", "Bulk Orders")}</Link>}
         <Link to="/jeju/pickup">{salesPresentationCopy(language).pickupNav}</Link>
         <Link to="/jeju">{marketText(language, "Asia to Jeju", "Asia to Jeju")}</Link>
+        <Link to="/journal">Journal</Link>
       </div>
       <div>
         <h2>{copy.connect}</h2>
