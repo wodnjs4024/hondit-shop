@@ -3,37 +3,37 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { trackEvent } from "../lib/analytics";
 import { fetchJournalArticle, fetchJournalList, initialArticle, initialList, type JournalArticleResponse, type JournalListResponse } from "../lib/journal";
-import { JOURNAL_LANGUAGES, articlePath, formatDate, inlineSegments, languageByCode, languageBySegment, parseBody, type JournalArticle } from "../../shared/journal";
+import { JOURNAL_LANGUAGES, articlePath, formatDate, inlineSegments, languageByCode, languageBySegment, marketLink, parseBody, type JournalArticle } from "../../shared/journal";
 import { PRODUCT_IMAGES, PRODUCT_NAMES, copyFor } from "../../shared/journal-copy";
 import { NotFoundPage } from "./NotFoundPage";
 
-function Inline({ text }: { text: string }) {
+function Inline({ text, language }: { text: string; language?: string }) {
   return (
     <>
       {inlineSegments(text).map((segment, index) =>
         segment.href ? (
-          segment.href.startsWith("/") ? <Link key={index} to={segment.href}>{segment.text}</Link> : <a key={index} href={segment.href} rel="noopener">{segment.text}</a>
+          segment.href.startsWith("/") ? <Link key={index} to={language ? marketLink(segment.href, language) : segment.href}>{segment.text}</Link> : <a key={index} href={segment.href} rel="noopener">{segment.text}</a>
         ) : <Fragment key={index}>{segment.text}</Fragment>,
       )}
     </>
   );
 }
 
-export function JournalBody({ markdown }: { markdown: string }) {
+export function JournalBody({ markdown, language }: { markdown: string; language?: string }) {
   return (
     <div className="journal-body">
       {parseBody(markdown).map((block, index) => {
         if (block.type === "h2") return <h2 key={index}>{block.text}</h2>;
         if (block.type === "h3") return <h3 key={index}>{block.text}</h3>;
-        if (block.type === "quote") return <blockquote key={index}><Inline text={block.text} /></blockquote>;
-        if (block.type === "list") return <ul key={index}>{block.items.map((item, i) => <li key={i}><Inline text={item} /></li>)}</ul>;
+        if (block.type === "quote") return <blockquote key={index}><Inline text={block.text} language={language} /></blockquote>;
+        if (block.type === "list") return <ul key={index}>{block.items.map((item, i) => <li key={i}><Inline text={item} language={language} /></li>)}</ul>;
         if (block.type === "image") return (
           <figure key={index}>
             <img src={block.src} alt={block.alt} loading="lazy" decoding="async" width={1200} height={900} />
             {block.caption && <figcaption>{block.caption}</figcaption>}
           </figure>
         );
-        return <p key={index}><Inline text={block.text} /></p>;
+        return <p key={index}><Inline text={block.text} language={language} /></p>;
       })}
     </div>
   );
@@ -74,14 +74,14 @@ export function JournalArticleView({ article, translations = [], preview = false
           {(article.hero_image_caption || article.hero_image_credit) && <figcaption>{article.hero_image_caption} {article.hero_image_credit && <small>{article.hero_image_credit}</small>}</figcaption>}
         </figure>
       )}
-      <JournalBody markdown={article.body_md} />
+      <JournalBody markdown={article.body_md} language={article.language} />
       {article.related_products?.length > 0 && (
         <aside className="journal-related">
           <h2>{c.related}</h2>
           <ul>
             {article.related_products.map((slug) => (
               <li key={slug}>
-                <Link className="journal-product" to={`/products/${slug}`} onClick={() => track("journal_product_click", slug)}>
+                <Link className="journal-product" to={marketLink(`/products/${slug}`, article.language)} onClick={() => track("journal_product_click", slug)}>
                   <img src={PRODUCT_IMAGES[slug]} alt="" width={160} height={160} loading="lazy" />
                   <span>{PRODUCT_NAMES[slug] || slug}</span>
                   <b>{c.shop}</b>
@@ -89,7 +89,7 @@ export function JournalArticleView({ article, translations = [], preview = false
               </li>
             ))}
           </ul>
-          <Link className="journal-cta" to={cta.to} onClick={() => track(cta.to === "/contact" ? "journal_contact_click" : "journal_partners_click")}>{cta.label}</Link>
+          <Link className="journal-cta" to={marketLink(cta.to, article.language)} onClick={() => track(cta.to === "/contact" ? "journal_contact_click" : "journal_partners_click")}>{cta.label}</Link>
         </aside>
       )}
       {article.sources?.length > 0 && (

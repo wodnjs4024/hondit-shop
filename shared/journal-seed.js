@@ -82,7 +82,7 @@ A quantity between 11 and 19, an order that mixes the two sizes, or a quantity a
     hero_image_url: `${PACK}/07_diffuser_500_window.webp`,
     hero_image_alt: '窓辺に置かれた済州オンギの器のStoneJeju火山石ディフューザー500g',
     hero_image_caption: '500gは済州のオンギ（甕器）に火山石を収めています。',
-    hero_image_credit: 'StoneJeju 製品写真（使用許諾確認中）',
+    hero_image_credit: '写真：StoneJeju 公式製品写真（許諾を得て使用）',
     related_products: ['diffuser-500g', 'diffuser-350g'],
     cta_type: 'product',
     seo_title: '済州島の火山石ディフューザー｜電源不要・火を使わない香りの雑貨 | HONDIT Journal',
@@ -99,7 +99,7 @@ A quantity between 11 and 19, an order that mixes the two sizes, or a quantity a
 - 350g：約75×100×75mm。ガラスの器に石を収めた、デスクやベッドサイド向けのサイズです。
 - 500g：約100×105×100mm。器は済州のオンギ（甕器）。韓国で古くから使われてきた焼き物で、リビングなど広めの空間に向いています。
 
-![スタジオで撮影したStoneJeju火山石ディフューザー500g](${PACK}/06_diffuser_500_studio.webp "500g：済州のオンギの器。約100×105×100mm。")
+![スタジオで撮影したStoneJeju火山石ディフューザー500g](${PACK}/06_diffuser_500_studio.webp "500g：済州のオンギの器。約100×105×100mm。写真：StoneJeju（許諾を得て使用）")
 
 ## 使い方
 
@@ -109,13 +109,23 @@ A quantity between 11 and 19, an order that mixes the two sizes, or a quantity a
 
 天然の石なので、大きさや色は一つひとつ異なり、細かな粉が出ることがあります。別の香りに替えるときは、石をぬるま湯ですすぎ、完全に乾かしてから使ってください。敏感な肌や傷のある肌に長く触れないようにし、オイルの表示に従ってください。
 
+## インテリアとして置く
+
+黒い火山石と器だけの、文字の少ない見た目なので、本棚や玄関、窓辺に置いても主張しすぎません。350gは小さな棚やデスクに、500gはオンギの素朴な質感を生かしてリビングや受付カウンターに向いています。香りを足さない日は、済州の石をそのまま飾っておくオブジェになります。
+
+## ショップや宿泊施設でのご相談
+
+セレクトショップでの取り扱いや、小規模な宿泊施設のフロントでのご案内についてもご相談を受け付けています。フロントで香りを試していただき、QRコードから商品ページをご覧になったお客様が、ご自身でサイトからご購入いただく方法です。数量やご用途を[お問い合わせ](/contact)からお知らせください。
+
 ## つくり手と届け手
 
 製品ブランド・製造はStoneJejuです。HONDITは済州大学GTEPの学生チームで、海外向けの商品紹介と販売に関するお問い合わせを担当しています（製造元ではありません）。学生たちは多言語での説明や海外の購入条件の調査を通じて、済州ゆかりの商品を海外に届ける仕組みを学んでいます。
 
 ## 日本でのご注文
 
-日本向けはまとめ買いでの販売です。最小数量、価格、支払い・配送条件は商品ごとに異なり、変わることがあります。最新の条件は[500gの商品ページ](/products/diffuser-500g)と[350gの商品ページ](/products/diffuser-350g)でご確認ください。ギフトやお店でのお取り扱いのご相談は[お問い合わせ](/contact)からどうぞ。`,
+日本へは、1回のご注文につき1サイズ20個から、[500gの商品ページ](/products/diffuser-500g)または[350gの商品ページ](/products/diffuser-350g)で円建てのままお支払いいただけます。表示価格には韓国から日本までの国際配送料が含まれています。
+
+10個のお試し注文、2つのサイズを組み合わせたご注文、表示在庫を超える数量は個別のお見積もりになります。[お問い合わせ](/contact)からサイズと数量をお知らせください。関税や輸入時の税金がかかる場合は、受取人のご負担となります。`,
   },
   {
     ...BASE,
@@ -126,10 +136,10 @@ A quantity between 11 and 19, an order that mixes the two sizes, or a quantity a
     slug: 'jeju-volcanic-stone-home-fragrance',
     title: '把濟州火山石帶進日常空間：StoneJeju 無須插電的香氛擺設',
     dek: '濟州島以火山地貌聞名。StoneJeju 把多孔的火山石放進器皿，配合香氛精油使用，無須插電、毋須點火。以下整理兩款尺寸、使用與保養方法，以及在香港的訂購方式。',
-    hero_image_url: `${PACK}/04_diffuser_350_stone.webp`,
-    hero_image_alt: '放在石材上的 StoneJeju 350g 火山石擴香，玻璃器皿',
-    hero_image_caption: '350g：玻璃器皿，約 75 × 100 × 75 毫米。',
-    hero_image_credit: 'StoneJeju 產品照片（使用授權確認中）',
+    hero_image_url: '/images/journal/sg-01-diffuser-350-hero.webp',
+    hero_image_alt: 'StoneJeju 火山石擴香 350：黑色玻璃器皿盛滿濟州火山石，旁邊是柑橘香氛油',
+    hero_image_caption: '350 款：黑色玻璃器皿配濟州火山石及 10mL 柑橘香氛油。',
+    hero_image_credit: '相片：StoneJeju 官方產品相片（經裁切，已獲授權使用）',
     related_products: ['diffuser-350g', 'diffuser-500g'],
     cta_type: 'product',
     seo_title: '濟州火山石擴香：無須插電的香氛擺設 | HONDIT Journal',
@@ -146,7 +156,7 @@ A quantity between 11 and 19, an order that mixes the two sizes, or a quantity a
 - 350g：約 75 × 100 × 75 毫米，玻璃器皿，適合放在書桌、床頭或層架。
 - 500g：約 100 × 105 × 100 毫米，器皿是濟州甕器（韓國傳統陶器），適合客廳或較大的共用空間。
 
-![影樓拍攝的 StoneJeju 350g 火山石擴香](${PACK}/02_diffuser_350_studio.webp "350g 款式的玻璃器皿與火山石。")
+![影樓拍攝的 StoneJeju 500g 火山石擴香，濟州甕器](${PACK}/06_diffuser_500_studio.webp "500 款：濟州甕器，約 100 × 105 × 100 毫米。相片：StoneJeju（已獲授權使用）")
 
 ## 使用方法
 
@@ -156,13 +166,23 @@ A quantity between 11 and 19, an order that mixes the two sizes, or a quantity a
 
 每件都是天然石材，大小和顏色各有不同，亦可能有少量細粉。想轉用另一種香氛時，先用溫水沖洗石頭，待完全乾透再使用。避免長時間接觸敏感或受損的皮膚，並按香氛油標籤指示使用。
 
+## 作為禮物和擺設
+
+器皿上只有簡單的標記，黑色火山石本身就是一件擺設，放在書枱、玄關或店舖櫃位都不會顯得突兀。對想送一份來自韓國濟州、又不只是食品的禮物的人來說，它是一個實用的選擇：收禮的人不用電、不用點火，按自己喜好補香即可。
+
+## 團購和公司禮品
+
+我們亦接受團購、公司節日禮品和店舖採購查詢。請透過[聯絡我們](/contact)告訴我們數量、尺寸和用途，我們會按實際需要回覆。
+
 ## 誰在背後
 
 StoneJeju 是產品品牌及製造方。HONDIT 由濟州大學 GTEP 學生團隊營運，負責向海外介紹產品及處理銷售查詢，並非生產商。這個學生項目嘗試把地區文化、產品資料、語言溝通和實際海外貿易連結起來。
 
 ## 在香港訂購
 
-產品以整組數量出售，最低數量、價格、付款及配送條件按市場和產品而定，並可能調整。請在[350g 產品頁](/products/diffuser-350g)或[500g 產品頁](/products/diffuser-500g)查看最新條件；送禮或店舖採購可以[聯絡我們](/contact)。`,
+香港訂單以每張訂單一種尺寸、20 件起計，可直接在[350g 產品頁](/products/diffuser-350g)或[500g 產品頁](/products/diffuser-500g)以港幣付款。標示價格已包括由韓國寄往香港的國際運費。
+
+10 件試購、兩種尺寸混合訂購，或超過頁面所示庫存的數量，會另行報價：請[聯絡我們](/contact)並註明尺寸和數量。如有任何進口稅項，由收件人負責。`,
   },
   {
     ...BASE,
@@ -176,11 +196,11 @@ StoneJeju 是產品品牌及製造方。HONDIT 由濟州大學 GTEP 學生團隊
     hero_image_url: `${PACK}/08_diffuser_500_wood.webp`,
     hero_image_alt: '放在木質桌面上的 StoneJeju 500g 火山石擴香，濟州甕器容器',
     hero_image_caption: '500g：濟州甕器容器，約 100 × 105 × 100 公釐。',
-    hero_image_credit: 'StoneJeju 產品照片（使用授權確認中）',
+    hero_image_credit: '照片：StoneJeju 官方產品照片（已取得授權使用）',
     related_products: ['diffuser-500g', 'diffuser-350g'],
-    cta_type: 'contact',
+    cta_type: 'product',
     seo_title: '濟州火山石擴香的自然材質故事：不插電、不點火 | HONDIT Journal',
-    seo_description: 'StoneJeju 火山石擴香使用多孔濟州火山渣，350g 玻璃容器與 500g 濟州甕器兩種規格，附 10mL 柑橘香氛油。材質、使用、保養與台灣洽詢方式。',
+    seo_description: 'StoneJeju 火山石擴香使用多孔濟州火山渣，350g 玻璃容器與 500g 濟州甕器兩種規格，附 10mL 柑橘香氛油。材質、使用、保養、民宿與選物店應用，以及台灣訂購方式。',
     sources: SOURCES('diffuser-350g', 'diffuser-500g', 'care', 'brand'),
     body_md: `濟州島由火山活動形成，島上的石牆、海岸和傳統工藝都看得到黑色多孔的火山石。濟州品牌 StoneJeju 把這種火山渣做成居家香氛用品，讓自然材質從風景走進日常。
 
@@ -193,7 +213,7 @@ StoneJeju 是產品品牌及製造方。HONDIT 由濟州大學 GTEP 學生團隊
 - 350g：約 75 × 100 × 75 公釐，玻璃容器，適合書桌、床頭或層架。
 - 500g：約 100 × 105 × 100 公釐，容器為濟州甕器（韓國傳統陶器），適合客廳等較大的空間。
 
-![攝影棚拍攝的 StoneJeju 500g 火山石擴香](${PACK}/06_diffuser_500_studio.webp "500g 規格的濟州甕器容器。")
+![攝影棚拍攝的 StoneJeju 500g 火山石擴香](${PACK}/06_diffuser_500_studio.webp "500g 規格的濟州甕器容器。照片：StoneJeju（已取得授權使用）")
 
 ## 怎麼使用
 
@@ -203,13 +223,19 @@ StoneJeju 是產品品牌及製造方。HONDIT 由濟州大學 GTEP 學生團隊
 
 每一件都是天然石材，大小與顏色會有差異，也可能掉落少量細粉。要更換成其他香氛時，請先用溫水沖洗石頭並完全晾乾。避免長時間接觸敏感或受損的皮膚，並依照香氛油標示使用。
 
+## 放在民宿與選物店
+
+甕器的手作質感和黑紅色的火山石，帶著濟州島的氣氛，適合放在櫃檯或公共空間，也適合設計選物店作為居家香氛小物陳列。民宿可以在櫃檯讓旅客試聞香氣，並以 QR code 介紹商品頁，由旅客自行到網站購買；選物店則可以在店裡販售。歡迎[聯絡我們](/contact)告訴我們數量與用途。
+
 ## 學生團隊的海外推廣
 
 產品品牌與製造方是 StoneJeju。負責海外介紹的 HONDIT 由濟州大學 GTEP 學生團隊營運，處理海外商品資訊和銷售洽詢，並非製造商。學生們透過多語內容整理與海外市場調查，練習把地方商品、語言與實際貿易流程串在一起。
 
-## 在台灣洽詢
+## 在台灣訂購
 
-產品以整組數量販售，各市場的最低數量、付款與配送條件不同，也可能調整。請先查看[500g 商品頁](/products/diffuser-500g)與[350g 商品頁](/products/diffuser-350g)的最新條件，或[聯絡我們](/contact)討論送禮與店家採購。`,
+寄往台灣的訂單，每筆訂單選一種規格、20 件起，可以在[500g 商品頁](/products/diffuser-500g)或[350g 商品頁](/products/diffuser-350g)直接以新台幣付款。標示價格已包含從韓國寄到台灣的國際運費。
+
+10 件試購、兩種規格混合，或超過頁面顯示庫存的數量，需要另外報價：請[聯絡我們](/contact)並寫明規格與數量。如有關稅或進口稅費，由收件人負擔。`,
   },
 ];
 
