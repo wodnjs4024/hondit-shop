@@ -4,24 +4,24 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { JOURNAL_COPY, PRODUCT_IMAGES, PRODUCT_NAMES, copyFor } from '../shared/journal-copy.js';
-import { JOURNAL_LANGUAGES, SITE, articlePath, formatDate, inlineSegments, languageByCode, parseBody } from '../shared/journal.js';
+import { JOURNAL_LANGUAGES, SITE, articlePath, formatDate, inlineSegments, languageByCode, marketLink, parseBody } from '../shared/journal.js';
 
 export { JOURNAL_COPY, copyFor };
 export const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const abs = (url) => (!url ? '' : /^https?:\/\//.test(url) ? url : SITE + url);
 
 
-function inline(text) {
-  return inlineSegments(text).map((s) => (s.href ? `<a href="${esc(s.href)}">${esc(s.text)}</a>` : esc(s.text))).join('');
+function inline(text, language) {
+  return inlineSegments(text).map((s) => (s.href ? `<a href="${esc(language ? marketLink(s.href, language) : s.href)}">${esc(s.text)}</a>` : esc(s.text))).join('');
 }
-export function bodyHtml(md) {
+export function bodyHtml(md, language) {
   return parseBody(md).map((b) => {
     if (b.type === 'h2') return `<h2>${esc(b.text)}</h2>`;
     if (b.type === 'h3') return `<h3>${esc(b.text)}</h3>`;
-    if (b.type === 'quote') return `<blockquote>${inline(b.text)}</blockquote>`;
-    if (b.type === 'list') return `<ul>${b.items.map((i) => `<li>${inline(i)}</li>`).join('')}</ul>`;
+    if (b.type === 'quote') return `<blockquote>${inline(b.text, language)}</blockquote>`;
+    if (b.type === 'list') return `<ul>${b.items.map((i) => `<li>${inline(i, language)}</li>`).join('')}</ul>`;
     if (b.type === 'image') return `<figure><img src="${esc(b.src)}" alt="${esc(b.alt)}" loading="lazy" decoding="async" width="1200" height="900">${b.caption ? `<figcaption>${esc(b.caption)}</figcaption>` : ''}</figure>`;
-    return `<p>${inline(b.text)}</p>`;
+    return `<p>${inline(b.text, language)}</p>`;
   }).join('\n');
 }
 
@@ -57,7 +57,7 @@ export function articleJsonLd(article, translations = []) {
 export function articleMarkup(article, translations = [], { preview = false } = {}) {
   const c = copyFor(article.language);
   const updated = article.updated_at && article.published_at && new Date(article.updated_at) - new Date(article.published_at) > 3600 * 1000;
-  const products = (article.related_products || []).map((slug) => `<li><a class="journal-product" href="/products/${esc(slug)}"><img src="${PRODUCT_IMAGES[slug] || ''}" alt="" width="160" height="160" loading="lazy"><span>${esc(PRODUCT_NAMES[slug] || slug)}</span><b>${esc(c.shop)}</b></a></li>`).join('');
+  const products = (article.related_products || []).map((slug) => `<li><a class="journal-product" href="${esc(marketLink(`/products/${slug}`, article.language))}"><img src="${PRODUCT_IMAGES[slug] || ''}" alt="" width="160" height="160" loading="lazy"><span>${esc(PRODUCT_NAMES[slug] || slug)}</span><b>${esc(c.shop)}</b></a></li>`).join('');
   const cta = article.cta_type === 'partners' ? ['/partners', c.partners] : ['/contact', c.contact];
   return `<main class="journal-article" lang="${esc(article.language)}">
 ${preview ? `<p class="journal-preview-flag">${esc(c.preview)}</p>` : ''}
@@ -69,9 +69,9 @@ ${preview ? `<p class="journal-preview-flag">${esc(c.preview)}</p>` : ''}
 </header>
 ${article.hero_image_url ? `<figure class="journal-hero"><img src="${esc(article.hero_image_url)}" alt="${esc(article.hero_image_alt)}" width="1600" height="1100" fetchpriority="high">${article.hero_image_caption || article.hero_image_credit ? `<figcaption>${esc(article.hero_image_caption || '')}${article.hero_image_credit ? ` <small>${esc(article.hero_image_credit)}</small>` : ''}</figcaption>` : ''}</figure>` : ''}
 <div class="journal-body">
-${bodyHtml(article.body_md)}
+${bodyHtml(article.body_md, article.language)}
 </div>
-${products ? `<aside class="journal-related"><h2>${esc(c.related)}</h2><ul>${products}</ul><a class="journal-cta" href="${cta[0]}">${esc(cta[1])}</a></aside>` : ''}
+${products ? `<aside class="journal-related"><h2>${esc(c.related)}</h2><ul>${products}</ul><a class="journal-cta" href="${esc(marketLink(cta[0], article.language))}">${esc(cta[1])}</a></aside>` : ''}
 ${(article.sources || []).length ? `<section class="journal-sources"><h2>${esc(c.sources)}</h2><ol>${article.sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.label)}</a></li>`).join('')}</ol></section>` : ''}
 ${translations.length ? `<nav class="journal-translations"><span>${esc(c.other)}</span>${translations.map((t) => `<a href="${esc(articlePath(t))}" hreflang="${esc(t.language)}" lang="${esc(t.language)}">${esc(languageByCode(t.language)?.label)}</a>`).join('')}</nav>` : ''}
 </main>`;

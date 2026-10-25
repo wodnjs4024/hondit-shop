@@ -92,6 +92,13 @@ export function inlineSegments(text) {
   return out;
 }
 
+/* Shop links inside an article open in the article's market, so a Japanese reader sees JPY terms, not the SG default. */
+export function marketLink(path, language) {
+  const lang = languageByCode(language);
+  if (!lang || !String(path).startsWith('/') || /^\/(journal|images)(\/|$)/.test(path) || /[?#]/.test(path)) return path;
+  return `${path}?${new URLSearchParams({ market: lang.market, lang: lang.siteLang })}`;
+}
+
 export function plainText(article) {
   return [article.title, article.dek, ...parseBody(article.body_md).map((b) => b.text || (b.items || []).join(' ') || b.caption || '')].join(' ');
 }

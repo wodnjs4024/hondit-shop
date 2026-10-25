@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
-import { reviewArticle, similarity, plainText, buildDistribution, kstToUtc, articlePath, ISSUED_LINK_IDS, PIPELINE_COLUMNS } from '../shared/journal.js';
+import { reviewArticle, similarity, plainText, buildDistribution, kstToUtc, articlePath, ISSUED_LINK_IDS, PIPELINE_COLUMNS, SITE, languageByCode } from '../shared/journal.js';
 import { seedArticles, seedPress } from '../shared/journal-seed.js';
 import { defaultProducts } from '../api/_bulk-data.js';
 
@@ -282,7 +282,7 @@ test('register drafts -> review -> approve -> schedule (KST) -> publish once -> 
     assert.equal(ld.about[0]['@type'], 'Product');
     assert.ok(doc.querySelector('#root .journal-body h2'), 'article text is in the HTML');
     assert.ok([...doc.querySelectorAll('#root img')].every((img) => img.hasAttribute('alt')));
-    assert.ok(doc.querySelector('#root a[href="/products/diffuser-350g"]'), 'related product link');
+    assert.ok(doc.querySelector('#root a[href="/products/diffuser-350g?market=SG&lang=en"]'), 'related product link opens in the article market');
     assert.ok(doc.querySelector('#journal-ssr'));
 
     const sitemap = await call(P, { query: { sitemap: '1' }, token: '' });
@@ -715,7 +715,11 @@ test('the four country articles: real product photos on disk, valid internal lin
         assert.ok(img.getAttribute('alt') !== null, `${a.language} alt ${src}`);
         assert.ok(fs.existsSync(new URL(`../public${decodeURI(src)}`, import.meta.url)), `${a.language} missing image ${src}`);
       }
-      for (const link of doc.querySelectorAll('#root .journal-body a[href^="/"], #root .journal-related a[href^="/"]')) assert.ok(routes.includes(link.getAttribute('href')), `${a.language} link ${link.getAttribute('href')}`);
+      for (const link of doc.querySelectorAll('#root .journal-body a[href^="/"], #root .journal-related a[href^="/"]')) {
+        const href = new URL(link.getAttribute('href'), SITE);
+        assert.ok(routes.includes(href.pathname), `${a.language} link ${href.pathname}`);
+        if (!href.pathname.startsWith('/journal')) assert.equal(href.searchParams.get('market'), languageByCode(a.language).market, `${a.language} link market ${href}`);
+      }
     }
   } finally { h.restore(); }
 });
