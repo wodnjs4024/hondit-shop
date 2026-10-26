@@ -13,9 +13,9 @@ test('all existing policy headings and full clauses have JA and Traditional Chin
    assert.notEqual(translated,source,`${lang}: ${source}`);
   }
  }
- const damage='Report damaged, incorrect or missing items within 7 days after receiving the parcel.';
+ const damage='Report damaged, incorrect or missing items within 4 days after receiving the parcel.';
  const refund='After a refund is approved, the payment provider may take 5-10 business days to reflect the refund.';
- assert.match(policyTranslation(damage,'ja','日本','JPY'),/7日/);
+ assert.match(policyTranslation(damage,'ja','日本','JPY'),/4日/);
  assert.match(policyTranslation(refund,'zh-HK','日本','JPY'),/5至10個工作天/);
 });
 test('Traditional Chinese conversion covers reported simplified UI and customer terminology',()=>{

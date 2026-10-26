@@ -12,7 +12,7 @@ const copy:Record<string,string>={
 'This policy covers direct bulk orders placed on hondit and paid through PayPal.':'HONDIT 사이트에서 주문하고 PayPal로 결제한 직접 묶음 주문에 적용됩니다.',
 'Shopee purchases must be managed through Shopee support and Shopee order pages.':'Shopee 구매 관련 처리는 Shopee 고객지원과 주문 화면을 이용해주세요.',
 'A cancellation request can be reviewed before dispatch. Contact hondit as soon as possible with the order number and payment email.':'발송 전에는 취소 요청을 검토할 수 있습니다. 주문번호와 결제 이메일을 포함해 가능한 한 빨리 HONDIT에 연락해주세요.',
-'Report damaged, incorrect or missing items within 7 days after receiving the parcel.':'파손·오배송·상품 누락은 수령 후 7일 이내에 알려주세요.',
+'Report damaged, incorrect or missing items within 4 days after receiving the parcel.':'파손·오배송·상품 누락은 수령 후 4일 이내에 알려주세요.',
 'Include the order number, order email, a clear description of the issue and photos that show the parcel and product condition.':'주문번호·주문 이메일·문제 내용과 포장 및 상품 상태를 확인할 수 있는 사진을 함께 보내주세요.',
 'When hondit confirms that the issue is seller-side damage, incorrect shipment or missing items, hondit will arrange a suitable replacement, reshipment or refund route.':'판매자 책임의 파손·오배송·누락으로 확인되면 적절한 교환·재발송·환불 절차를 안내합니다.',
 'Change-of-mind returns after dispatch are generally not accepted because bulk orders are prepared for a specific shipment and market.':'묶음 주문은 특정 배송과 시장에 맞춰 준비하므로 발송 후 단순 변심 반품은 원칙적으로 받지 않습니다.',
