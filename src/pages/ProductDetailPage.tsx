@@ -1,4 +1,3 @@
-import { withoutUnverifiedPh } from "../../shared/product-claims.js";
 import { StoneJejuSceneGallery } from "../components/StoneJejuMedia";
 import {DiffuserComparison,ProductCare} from "../components/ProductFactsDisplay";
 import {QuantityReview} from "../components/QuantityReview";
@@ -110,7 +109,7 @@ export function ProductDetailPage() {
         ? singaporeDiffuser350Details.map((image) => `https://hondit-shop.vercel.app${image}`)
         : []),
     ],
-    description: withoutUnverifiedPh(product.slug, productDescription),
+    description: productDescription,
     // StoneJeju makes and brands the diffusers; HONDIT sells and curates them. Other products keep HONDIT as the brand.
     // Cleansing care is J’essence, made by 제주리퍼블릭; HONDIT only sells and curates it.
     brand: { "@type": "Brand", name: productFacts(product.slug) ? "StoneJeju" : product.category === "CARE" ? "J’essence" : "HONDIT" },

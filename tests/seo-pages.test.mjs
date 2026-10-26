@@ -149,7 +149,7 @@ test('zero-decimal currencies (TWD, JPY) are shown and marked up in whole units,
   }
 });
 
-test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, and the cleansing-water pH is not repeated', () => {
+test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, and pH 5.5 stays shown', () => {
   for (const slug of ['foam-oil', 'foaming-cleanser', 'cleansing-water']) {
     const product = products.find((p) => p.slug === slug);
     const page = buildSeoPage('product', { slug, products });
@@ -160,7 +160,10 @@ test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, 
     assert.match(page.html, /J’essence/);
     assert.match(page.html, /제주리퍼블릭/);
   }
-  const water = buildSeoPage('product', { slug: 'cleansing-water', products });
-  assert.doesNotMatch(JSON.stringify(water), /pH/i);
-  assert.doesNotMatch(buildSeoPage('home', { products }).html.match(/Cleansing care[\s\S]*$/)[0].match(/Cleansing Water[^<]*<\/a>: [^<]*/)[0], /pH/);
+  // JW confirmed pH 5.5 for the cleansing water and the foaming cleanser (the manufacturer's English material differs; kept as 5.5).
+  for (const slug of ['cleansing-water', 'foaming-cleanser']) {
+    const page = buildSeoPage('product', { slug, products });
+    assert.match(page.html, /pH 5\.5/);
+    assert.match(JSON.stringify(page.jsonLd), /pH 5\.5/);
+  }
 });
