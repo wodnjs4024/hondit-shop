@@ -5,7 +5,7 @@
 import { storefrontCatalog } from '../shared/storefront-catalog.js';
 import { termsFor } from '../shared/market-overrides.js'; // the same function the product page and checkout use (admin price versions and market modes included)
 import { getPolicyContent, EMAIL } from '../shared/policy-content.js';
-import { currencyDigits } from '../shared/sales-tools.js';
+import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
 import { escapeMarkup as esc } from './_merchant.js';
 

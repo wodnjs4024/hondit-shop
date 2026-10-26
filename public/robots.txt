@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /app.html
 Disallow: /order-complete/
 Disallow: /payment-failed/
 Disallow: /partners/

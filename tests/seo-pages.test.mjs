@@ -132,3 +132,15 @@ test('contact page lists the real public channels and the organisation names its
   assert.equal(org.contactPoint.email, 'hondit.office@gmail.com');
   assert.equal(org.contactPoint.telephone, '+82 10-3338-2694');
 });
+
+test('zero-decimal currencies (TWD, JPY) are shown and marked up in whole units, as PayPal charges them', () => {
+  for (const slug of ['diffuser-350g', 'diffuser-500g']) {
+    const rows = orderTerms(products.find((p) => p.slug === slug));
+    for (const r of rows.filter((x) => ['TWD', 'JPY'].includes(x.terms?.currency || x.currency))) {
+      assert.doesNotMatch(JSON.stringify(r), /\.\d\d"/, `${slug} ${JSON.stringify(r)}`);
+    }
+    const html = build(['bulkProduct', { slug }]).html;
+    assert.match(html, /TWD \d+(?!\.)/);
+    assert.doesNotMatch(html, /(TWD|JPY) \d+\.\d/);
+  }
+});

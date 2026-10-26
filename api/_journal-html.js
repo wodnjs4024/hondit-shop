@@ -92,7 +92,8 @@ ${cards ? `<ul class="journal-grid">${cards}</ul>` : `<p class="journal-empty">$
 let shellCache = null;
 export async function shell() {
   if (shellCache) return shellCache;
-  try { shellCache = await readFile(join(process.cwd(), 'dist', 'index.html'), 'utf8'); }
+  // On Vercel the build renames index.html to app.html so that "/" reaches the server-rendered home page (scripts/vercel-shell.mjs).
+  try { shellCache = await readFile(join(process.cwd(), 'dist', 'app.html'), 'utf8').catch(() => readFile(join(process.cwd(), 'dist', 'index.html'), 'utf8')); }
   catch { shellCache = '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>HONDIT</title></head><body><div id="root"></div></body></html>'; }
   return shellCache;
 }
