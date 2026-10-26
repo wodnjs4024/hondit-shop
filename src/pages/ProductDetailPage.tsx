@@ -1,3 +1,4 @@
+import { withoutUnverifiedPh } from "../../shared/product-claims.js";
 import { StoneJejuSceneGallery } from "../components/StoneJejuMedia";
 import {DiffuserComparison,ProductCare} from "../components/ProductFactsDisplay";
 import {QuantityReview} from "../components/QuantityReview";
@@ -109,10 +110,11 @@ export function ProductDetailPage() {
         ? singaporeDiffuser350Details.map((image) => `https://hondit-shop.vercel.app${image}`)
         : []),
     ],
-    description: productDescription,
+    description: withoutUnverifiedPh(product.slug, productDescription),
     // StoneJeju makes and brands the diffusers; HONDIT sells and curates them. Other products keep HONDIT as the brand.
-    brand: { "@type": "Brand", name: productFacts(product.slug) ? "StoneJeju" : "HONDIT" },
-    ...(productFacts(product.slug) ? { manufacturer: { "@type": "Organization", name: "StoneJeju", url: "https://stonejeju.com" } } : {}),
+    // Cleansing care is J’essence, made by 제주리퍼블릭; HONDIT only sells and curates it.
+    brand: { "@type": "Brand", name: productFacts(product.slug) ? "StoneJeju" : product.category === "CARE" ? "J’essence" : "HONDIT" },
+    ...(productFacts(product.slug) ? { manufacturer: { "@type": "Organization", name: "StoneJeju", url: "https://stonejeju.com" } } : product.category === "CARE" ? { manufacturer: { "@type": "Organization", name: "제주리퍼블릭" } } : {}),
     sku: product.apiSlug || product.slug,
     // Only a price the visitor can actually pay here is published: unit price, minimum quantity, delivery included.
     offers: schemaTerms.status !== "direct" || !schemaTerms.billingCurrency || schemaTerms.unitMinor === null ? undefined : {

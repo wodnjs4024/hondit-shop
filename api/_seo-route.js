@@ -24,8 +24,16 @@ export async function seoRoute(req, res) {
   // A chosen market or non-English language is a different view of the page: leave it exactly as before.
   const variant = Boolean(q(req, 'market')) || (lang && lang !== 'en');
   let live = [];
-  try { live = await getStorefrontProducts(); } catch { live = []; }
+  let liveOk = false;
+  try { live = await getStorefrontProducts(); liveOk = true; } catch { live = []; }
   const page = buildSeoPage(q(req, 'seoPage'), { slug: q(req, 'seoSlug'), policy: q(req, 'seoPolicy'), products: catalogProducts(live) });
+  // A product or policy that does not exist answers 404 (the app still draws its own not-found page). Products added in the admin
+  // exist only in the database, so a product slug is called unknown only when the database was read and does not list it.
+  const kind = q(req, 'seoPage');
+  const slug = q(req, 'seoSlug');
+  const missing = page.status === 404 && !variant
+    && (kind === 'policy' || (['product', 'bulkProduct'].includes(kind) && liveOk && !live.some((p) => p.slug === slug)));
+  if (missing) return send(res, 404, html, 'public, max-age=0, s-maxage=60');
   if (page.status !== 200 || variant) {
     // Unknown product or policy, or a market/language variant: the app shell, as it always was (React shows its own not-found page).
     return send(res, 200, html, variant ? PUBLIC_CACHE : 'no-store');

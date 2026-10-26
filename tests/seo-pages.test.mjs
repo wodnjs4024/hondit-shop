@@ -73,7 +73,7 @@ test('StoneJeju (maker) and HONDIT (seller, curator) are kept apart', () => {
   assert.match(home, /student team in the GTEP programme at Jeju National University/);
   assert.match(home, /StoneJeju is the maker/);
   assert.match(home, /HONDIT does not manufacture the diffusers/);
-  assert.equal(productSchema(products.find((p) => p.slug === 'foam-oil'), []).brand.name, 'HONDIT');
+  assert.equal(productSchema(products.find((p) => p.slug === 'foam-oil'), []).brand.name, 'J’essence');
 });
 
 test('server diffuser facts equal src/data/productFacts.ts and policy pages use the shared policy text', () => {
@@ -94,7 +94,7 @@ async function call(query, headers = {}) {
   return res;
 }
 
-test('every visitor and bot gets identical HTML; market/language variants and unknown slugs keep the plain app shell', async () => {
+test('every visitor and bot gets identical HTML; market/language variants and unknown slugs answer 404 with the plain app shell', async () => {
   const agents = ['Mozilla/5.0 Chrome/130', 'Googlebot/2.1', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; OAI-SearchBot/1.0', 'PerplexityBot/1.0', 'ClaudeBot/1.0'];
   const bodies = [];
   for (const ua of agents) bodies.push((await call({ seoPage: 'product', seoSlug: 'diffuser-500g' }, { 'user-agent': ua })).body);
@@ -108,8 +108,12 @@ test('every visitor and bot gets identical HTML; market/language variants and un
   assert.doesNotMatch(variant.body, /rel="canonical"/);
   assert.doesNotMatch(variant.body, /Jeju volcanic-stone diffusers and everyday care/);
   const unknown = await call({ seoPage: 'product', seoSlug: 'nope' });
-  assert.equal(unknown.statusCode, 200);
+  assert.equal(unknown.statusCode, 404);
   assert.doesNotMatch(unknown.body, /rel="canonical"/);
+  assert.match(unknown.body, /<script type="module"/, 'the app still loads to draw its own not-found page');
+  assert.equal((await call({ seoPage: 'policy', seoPolicy: 'nope' })).statusCode, 404);
+  assert.equal((await call({ seoPage: 'policy', seoPolicy: 'refund' })).statusCode, 200);
+  assert.equal((await call({ seoPage: 'product', seoSlug: 'nope', market: 'JP' })).statusCode, 200, 'variants keep their behaviour');
   const home = await call({ seoPage: 'home' });
   assert.match(home.body, /<div id="root"><header>/);
   assert.match(home.body, /<script type="module"/, 'the app bundle still loads');
@@ -143,4 +147,20 @@ test('zero-decimal currencies (TWD, JPY) are shown and marked up in whole units,
     assert.match(html, /TWD \d+(?!\.)/);
     assert.doesNotMatch(html, /(TWD|JPY) \d+\.\d/);
   }
+});
+
+test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, and the cleansing-water pH is not repeated', () => {
+  for (const slug of ['foam-oil', 'foaming-cleanser', 'cleansing-water']) {
+    const product = products.find((p) => p.slug === slug);
+    const page = buildSeoPage('product', { slug, products });
+    const schema = productSchema(product, orderTerms(product));
+    assert.equal(schema.brand.name, 'J’essence');
+    assert.equal(schema.manufacturer.name, '제주리퍼블릭');
+    assert.ok(schema.offers.every((o) => o.seller.name === 'HONDIT'));
+    assert.match(page.html, /J’essence/);
+    assert.match(page.html, /제주리퍼블릭/);
+  }
+  const water = buildSeoPage('product', { slug: 'cleansing-water', products });
+  assert.doesNotMatch(JSON.stringify(water), /pH/i);
+  assert.doesNotMatch(buildSeoPage('home', { products }).html.match(/Cleansing care[\s\S]*$/)[0].match(/Cleansing Water[^<]*<\/a>: [^<]*/)[0], /pH/);
 });
