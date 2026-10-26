@@ -69,7 +69,7 @@ export function getPolicyContent(policy: string, countryName: string, currency: 
         {
           heading: "Damaged, Incorrect or Missing Items",
           items: [
-            "Report damaged, incorrect or missing items within 4 days after receiving the parcel.",
+            "Report damaged, incorrect or missing items within 7 days after receiving the parcel.",
             "Include the order number, order email, a clear description of the issue and photos that show the parcel and product condition.",
             "When hondit confirms that the issue is seller-side damage, incorrect shipment or missing items, hondit will arrange a suitable replacement, reshipment or refund route.",
           ],

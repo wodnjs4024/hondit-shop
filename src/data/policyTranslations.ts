@@ -168,9 +168,9 @@ const copy:Record<string,Record<string,string>>={
     "ja": "発送前であればキャンセルのご依頼を検討できます。注文番号と決済に使用したメールアドレスを添えて、できるだけ早くHONDITにご連絡ください。",
     "zh-HK": "寄出前可提出取消申請供審核。請盡快提供訂單編號及付款電郵地址聯絡HONDIT。"
   },
-  "Report damaged, incorrect or missing items within 4 days after receiving the parcel.": {
-    "ja": "破損、誤配送、商品の不足がある場合は、商品到着後4日以内にご連絡ください。",
-    "zh-HK": "如有破損、錯誤或缺漏商品，請於收到包裹後4日內通知我們。"
+  "Report damaged, incorrect or missing items within 7 days after receiving the parcel.": {
+    "ja": "破損、誤配送、商品の不足がある場合は、商品到着後7日以内にご連絡ください。",
+    "zh-HK": "如有破損、錯誤或缺漏商品，請於收到包裹後7日內通知我們。"
   },
   "Include the order number, order email, a clear description of the issue and photos that show the parcel and product condition.": {
     "ja": "注文番号、注文時のメールアドレス、問題の詳しい説明、梱包と商品の状態が分かる写真をお送りください。",
