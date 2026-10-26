@@ -110,7 +110,9 @@ export function ProductDetailPage() {
         : []),
     ],
     description: productDescription,
-    brand: { "@type": "Brand", name: "HONDIT" },
+    // StoneJeju makes and brands the diffusers; HONDIT sells and curates them. Other products keep HONDIT as the brand.
+    brand: { "@type": "Brand", name: productFacts(product.slug) ? "StoneJeju" : "HONDIT" },
+    ...(productFacts(product.slug) ? { manufacturer: { "@type": "Organization", name: "StoneJeju", url: "https://stonejeju.com" } } : {}),
     sku: product.apiSlug || product.slug,
     // Only a price the visitor can actually pay here is published: unit price, minimum quantity, delivery included.
     offers: schemaTerms.status !== "direct" || !schemaTerms.billingCurrency || schemaTerms.unitMinor === null ? undefined : {
@@ -120,6 +122,7 @@ export function ProductDetailPage() {
       eligibleQuantity: { "@type": "QuantitativeValue", minValue: product.bulkMoq, unitCode: "C62" },
       availability: outOfStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
+      seller: { "@type": "Organization", name: "HONDIT" },
       url: `${productUrl}?market=${market.code}`,
       shippingDetails: {
         "@type": "OfferShippingDetails",

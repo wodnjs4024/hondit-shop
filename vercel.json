@@ -79,15 +79,19 @@
     },
     {
       "source": "/",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=home"
     },
     {
       "source": "/jeju",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=jeju"
     },
     {
       "source": "/products",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=products"
+    },
+    {
+      "source": "/products/:seoSlug",
+      "destination": "/api/products?seoPage=product&seoSlug=:seoSlug"
     },
     {
       "source": "/products/(.*)",
@@ -143,7 +147,11 @@
     },
     {
       "source": "/bulk-orders",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=bulk"
+    },
+    {
+      "source": "/bulk-orders/:seoSlug",
+      "destination": "/api/products?seoPage=bulkProduct&seoSlug=:seoSlug"
     },
     {
       "source": "/bulk-orders/(.*)",
@@ -151,11 +159,15 @@
     },
     {
       "source": "/shipping",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=shipping"
     },
     {
       "source": "/contact",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=contact"
+    },
+    {
+      "source": "/policy/:seoPolicy",
+      "destination": "/api/products?seoPage=policy&seoPolicy=:seoPolicy"
     },
     {
       "source": "/policy/(.*)",

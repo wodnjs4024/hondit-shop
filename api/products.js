@@ -3,6 +3,7 @@ import pickupInfo from './_pickup.js';
 import { googleFeed, sitemap } from "./_feeds.js";
 import { merchantMarket, merchantOffer, merchantHtml } from "./_merchant.js";
 import { journalRoute, journalArticlesForSitemap } from "./_journal-route.js";
+import { seoRoute } from "./_seo-route.js";
 import { applyProductSnapshot, getProducts, getStorefrontProducts, getPayPalMode, json, previewWritesBlocked, requireEnv, supabase, verifyAdmin } from "./_utils.js";
 
 /* Admin-only: the product as it would look if the current draft were published. */
@@ -66,6 +67,8 @@ export default async function handler(req, res) {
   }
   // HONDIT Journal: server-rendered pages, public JSON and the scheduled publisher (same function, no new slot).
   if (req.query?.journalPage !== undefined || req.query?.journalApi !== undefined || req.query?.journalCron !== undefined) return journalRoute(req, res);
+  // Server-rendered storefront pages (text for crawlers that do not run JavaScript; same function, no new slot).
+  if (req.query?.seoPage !== undefined) return seoRoute(req, res);
   if (["GET", "HEAD"].includes(req.method) && req.query?.sitemap !== undefined) {
     try {
       const products = await getStorefrontProducts();

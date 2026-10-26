@@ -90,21 +90,21 @@ ${cards ? `<ul class="journal-grid">${cards}</ul>` : `<p class="journal-empty">$
 }
 
 let shellCache = null;
-async function shell() {
+export async function shell() {
   if (shellCache) return shellCache;
   try { shellCache = await readFile(join(process.cwd(), 'dist', 'index.html'), 'utf8'); }
   catch { shellCache = '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>HONDIT</title></head><body><div id="root"></div></body></html>'; }
   return shellCache;
 }
 
-function setHead(html, { title, description, canonical, robots, image, type, locale, alternates = [], jsonLd = [], lang }) {
+export function setHead(html, { title, description, canonical, robots, image, type, locale, alternates = [], jsonLd = [], lang }) {
   const tag = (attr, key, value) => `<meta ${attr}="${key}" content="${esc(value)}" />`;
   let out = html
     .replace(/<html lang="[^"]*"/, `<html lang="${esc(lang)}"`)
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`)
     .replace(/<meta\s+name="description"[\s\S]*?\/>/, tag('name', 'description', description))
     .replace(/<meta\s+property="og:type"[\s\S]*?\/>/, tag('property', 'og:type', type))
-    .replace(/<meta\s+property="og:url"[\s\S]*?\/>/, tag('property', 'og:url', canonical))
+    .replace(/<meta\s+property="og:url"[\s\S]*?\/>/, canonical ? tag('property', 'og:url', canonical) : (m) => m)
     .replace(/<meta\s+property="og:title"[\s\S]*?\/>/, tag('property', 'og:title', title))
     .replace(/<meta\s+property="og:description"[\s\S]*?\/>/, tag('property', 'og:description', description))
     .replace(/<meta\s+property="og:image"[\s\S]*?\/>/, tag('property', 'og:image', image))
@@ -112,7 +112,7 @@ function setHead(html, { title, description, canonical, robots, image, type, loc
     .replace(/<meta\s+name="twitter:description"[\s\S]*?\/>/, tag('name', 'twitter:description', description))
     .replace(/<meta\s+name="twitter:image"[\s\S]*?\/>/, tag('name', 'twitter:image', image));
   const extra = [
-    `<link rel="canonical" href="${esc(canonical)}" />`,
+    ...(canonical ? [`<link rel="canonical" href="${esc(canonical)}" />`] : []),
     tag('name', 'robots', robots),
     tag('property', 'og:locale', locale),
     ...alternates.map((a) => `<link rel="alternate" hreflang="${esc(a.hreflang)}" href="${esc(a.href)}" />`),
