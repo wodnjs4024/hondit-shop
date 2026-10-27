@@ -79,17 +79,17 @@ export function productSchema(product, rows) {
   const facts = diffuserFacts[product.slug];
   const isCare = product.category === 'CARE';
   const brandName = facts ? 'StoneJeju' : isCare ? 'J’essence' : 'HONDIT'; // same as the product page (src/pages/ProductDetailPage.tsx)
-  // One offer per market, at its lowest eligible quantity. Higher tiers carry the same unit price, so listing them repeats the offer.
+  // One offer per market and unit price: the lowest quantity at each price. Tiers that share a price repeat the same offer,
+  // but a market can have two real prices (SG: 10 units at 23, 20+ units at 21), and both must stay visible.
   const offers = rows.flatMap((r) => {
-    const t = r.tiers.filter((x) => x.quantity >= 20 || r.market === 'SG').sort((a, b) => a.quantity - b.quantity)[0];
-    if (!t) return [];
-    return [{
+    const eligible = r.tiers.filter((x) => x.quantity >= 20 || r.market === 'SG').sort((a, b) => a.quantity - b.quantity);
+    return eligible.filter((t, i) => eligible.findIndex((u) => u.unitMinor === t.unitMinor) === i).map((t) => ({
       '@type': 'Offer', url: `${SITE}/products/${product.slug}?market=${r.market}`, price: (t.unitMinor / 10 ** currencyDigits(t.currency)).toFixed(currencyDigits(t.currency)), priceCurrency: t.currency,
       eligibleQuantity: { '@type': 'QuantitativeValue', minValue: t.quantity, unitCode: 'C62' },
       availability: product.stockQuantity !== undefined && product.stockQuantity < t.quantity ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
       itemCondition: 'https://schema.org/NewCondition', seller: { '@type': 'Organization', name: 'HONDIT' },
       shippingDetails: { '@type': 'OfferShippingDetails', shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: t.currency }, shippingDestination: { '@type': 'DefinedRegion', addressCountry: r.market } },
-    }];
+    }));
   });
   return { '@context': 'https://schema.org', '@type': 'Product', name: product.name, description: product.description, image: [abs(product.image)], sku: product.apiSlug || product.slug,
     brand: { '@type': 'Brand', name: brandName }, ...(facts ? { manufacturer: maker } : isCare ? { manufacturer: careMaker } : {}), ...(offers.length ? { offers } : {}) };

@@ -168,12 +168,15 @@ test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, 
   }
 });
 
-test('product structured data has one offer per market, and journal articles mark products as Thing (not Product)', async () => {
+test('product structured data has one offer per market price (SG keeps its 10-unit and 20-unit prices), and journal articles mark products as Thing (not Product)', async () => {
   for (const slug of ['diffuser-350g', 'diffuser-500g']) {
     const product = products.find((p) => p.slug === slug);
     const offers = productSchema(product, orderTerms(product)).offers;
-    const markets = offers.map((o) => o.url.split('market=')[1]);
-    assert.equal(new Set(markets).size, markets.length, `${slug} repeats a market: ${markets}`);
+    const markets = offers.map((o) => `${o.url.split('market=')[1]}:${o.price}`);
+    assert.equal(new Set(markets).size, markets.length, `${slug} repeats a market price: ${markets}`);
+    const prices = offers.map((o) => `${o.url.split('market=')[1]}:${o.price}:${o.eligibleQuantity.minValue}`);
+    if (slug === 'diffuser-350g') assert.ok(prices.includes('SG:23.00:10') && prices.includes('SG:21.00:20'), prices.join(' '));
+    assert.ok(!prices.some((p) => p.endsWith(':30')), 'the 30-unit tier only repeats the 20-unit price');
   }
   const { articleJsonLd } = await import('../api/_journal-html.js');
   const article = { title: 'T', language: 'en', related_products: ['diffuser-350g'], published_at: '2026-10-25T08:14:00Z', slug: 'x' };
