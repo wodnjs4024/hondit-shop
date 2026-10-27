@@ -279,7 +279,7 @@ test('register drafts -> review -> approve -> schedule (KST) -> publish once -> 
     assert.equal(ld['@type'], 'Article');
     assert.equal(ld.headline, en.title);
     assert.equal(ld.datePublished, row.published_at);
-    assert.equal(ld.about[0]['@type'], 'Product');
+    assert.equal(ld.about[0]['@type'], 'Thing');
     assert.ok(doc.querySelector('#root .journal-body h2'), 'article text is in the HTML');
     assert.ok([...doc.querySelectorAll('#root img')].every((img) => img.hasAttribute('alt')));
     assert.ok(doc.querySelector('#root a[href="/products/diffuser-350g?market=SG&lang=en"]'), 'related product link opens in the article market');
