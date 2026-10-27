@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/products.js": {
-      "includeFiles": "dist/index.html"
+      "includeFiles": "dist/*.html"
     }
   },
   "rewrites": [
@@ -31,19 +31,19 @@
     },
     {
       "source": "/jeju/pickup",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/jeju/stores",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/guide/(.*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/partners",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/partners/(.*)",
@@ -62,6 +62,10 @@
       "destination": "/api/products?journalPage=list"
     },
     {
+      "source": "/journal/feed.xml",
+      "destination": "/api/products?journalPage=feed"
+    },
+    {
       "source": "/journal/:lang",
       "destination": "/api/products?journalPage=list&lang=:lang"
     },
@@ -75,103 +79,115 @@
     },
     {
       "source": "/",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=home"
     },
     {
       "source": "/jeju",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=jeju"
     },
     {
       "source": "/products",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=products"
+    },
+    {
+      "source": "/products/:seoSlug",
+      "destination": "/api/products?seoPage=product&seoSlug=:seoSlug"
     },
     {
       "source": "/products/(.*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/sg/ig",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/sg/fb",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/sg/c01",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/hk/ig",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/hk/fb",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/hk/c01",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/jp/ig",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/jp/fb",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/jp/c01",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/tw/ig",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/tw/fb",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/tw/c01",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/bulk-orders",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=bulk"
+    },
+    {
+      "source": "/bulk-orders/:seoSlug",
+      "destination": "/api/products?seoPage=bulkProduct&seoSlug=:seoSlug"
     },
     {
       "source": "/bulk-orders/(.*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/shipping",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=shipping"
     },
     {
       "source": "/contact",
-      "destination": "/index.html"
+      "destination": "/api/products?seoPage=contact"
+    },
+    {
+      "source": "/policy/:seoPolicy",
+      "destination": "/api/products?seoPage=policy&seoPolicy=:seoPolicy"
     },
     {
       "source": "/policy/(.*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/order-complete/(.*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/payment-failed/(.*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/admin",
-      "destination": "/index.html"
+      "destination": "/app.html"
     },
     {
       "source": "/admin/(.*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     }
   ],
   "redirects": [
@@ -452,6 +468,17 @@
     {
       "path": "/api/products?journalCron=1",
       "schedule": "0 0 * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/app.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
     }
   ]
 }

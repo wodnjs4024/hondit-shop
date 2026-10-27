@@ -5,7 +5,7 @@ const dir=path.resolve('.qa-tools/isolated-preview'),out=path.join(dir,'.vercel/
 await fs.mkdir(pub,{recursive:true});await fs.cp('dist',pub,{recursive:true});await fs.mkdir(path.join(pub,'__preview'),{recursive:true});
 const config=JSON.parse(await fs.readFile('vercel.json','utf8'));
 const redirects=getTransformedRoutes({redirects:config.redirects});assert.equal(redirects.error,null);
-const spa=getTransformedRoutes({rewrites:config.rewrites.filter(x=>x.destination==='/index.html')});assert.equal(spa.error,null);
+const spa=getTransformedRoutes({rewrites:config.rewrites.filter(x=>x.destination==='/app.html')});assert.equal(spa.error,null);
 const csp="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self'; frame-src 'none'; form-action 'none'; base-uri 'self'; frame-ancestors 'none'";
 const routes=[{src:'/(.*)',headers:{'Content-Security-Policy':csp,'X-Robots-Tag':'noindex, nofollow','Cache-Control':'no-store'},continue:true},...redirects.routes,
  {src:'^/q/(.*)$',dest:'/__preview/qr-not-found.json',status:404},

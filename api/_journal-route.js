@@ -6,9 +6,9 @@
 // Public requests never write. A scheduled article is visible from its publish_at by a read-time check; the publisher
 // only records that (status, log, CONTENT_PIPELINE) and is reachable with CRON_SECRET or from the admin.
 import { timingSafeEqual } from 'node:crypto';
-import { languageBySegment, languageByCode } from '../shared/journal.js';
+import { languageBySegment, languageByCode, articleUrl, SITE } from '../shared/journal.js';
 import { getPublicArticle, listPublicArticles, runPublisher } from './_journal.js';
-import { renderArticlePage, renderListPage, renderNotFound } from './_journal-html.js';
+import { esc, renderArticlePage, renderListPage, renderNotFound } from './_journal-html.js';
 import { json, verifyAdmin } from './_utils.js';
 
 const q = (req, key) => (typeof req.query?.[key] === 'string' ? req.query[key] : '');
@@ -37,6 +37,18 @@ export function cronAuthorized(req) {
   const given = Buffer.from(String(req.headers?.authorization || req.headers?.Authorization || ''));
   const expected = Buffer.from(`Bearer ${secret}`);
   return given.length === expected.length && timingSafeEqual(given, expected);
+}
+export function renderFeed(articles) {
+  const type = (url) => (/\.png$/i.test(url) ? 'image/png' : /\.jpe?g$/i.test(url) ? 'image/jpeg' : 'image/webp');
+  const items = articles.slice(0, 30).map((a) => {
+    const image = a.hero_image_url ? (a.hero_image_url.startsWith('http') ? a.hero_image_url : SITE + a.hero_image_url) : '';
+    return `<item><title>${esc(a.title)}</title><link>${esc(articleUrl(a))}</link><guid isPermaLink="true">${esc(articleUrl(a))}</guid>`
+      + `<pubDate>${new Date(a.published_at).toUTCString()}</pubDate><description>${esc(a.dek || '')}</description>`
+      + (image ? `<enclosure url="${esc(image)}" length="0" type="${type(image)}"/><media:content url="${esc(image)}" medium="image" type="${type(image)}"/>` : '')
+      + '</item>';
+  }).join('');
+  return `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>HONDIT Journal</title>`
+    + `<link>${SITE}/journal</link><description>HONDIT Journal: Jeju scent objects and how to order them</description>${items}</channel></rss>`;
 }
 const PUBLIC_CACHE = 'public, max-age=0, s-maxage=60'; // a newly due article shows within a minute of its publish_at
 
@@ -67,6 +79,13 @@ export async function journalRoute(req, res) {
   const segment = q(req, 'lang');
   const lang = segment ? languageBySegment(segment) : null;
   try {
+    if (q(req, 'journalPage') === 'feed') {
+      const { articles, preview } = await listPublicArticles();
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/rss+xml; charset=utf-8');
+      res.setHeader('Cache-Control', preview ? 'no-store' : PUBLIC_CACHE);
+      return res.end(renderFeed(preview ? [] : articles));
+    }
     if (q(req, 'journalPage') === 'article') {
       const found = lang ? await getPublicArticle(lang.code, q(req, 'slug')) : null;
       if (!found) return send(res, 404, await renderNotFound(), { cache: 'no-store' });
