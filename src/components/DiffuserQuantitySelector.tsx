@@ -27,7 +27,7 @@ export function DiffuserQuantitySelector({value,onChange,disabled=false,optionPr
  const {language,market}=useMarket();const t=(s:string)=>marketText(language,s);const id=useId();
  const selection=diffuserQuantity(value),trial=selection.mode==='trial',starter=selection.mode==='starter';
  const five=product?termsFor(product,market.code,5):null;
- const starterLabel=({ko:'5개 · 선물·공동구매',ja:'5個・ギフト＆グループ', 'zh-HK':'5件・送禮及團購',th:'5 ชิ้น · ของขวัญและสั่งซื้อกลุ่ม',vi:'5 sản phẩm · Quà tặng và mua chung'} as Record<string,string>)[language]??'5 units · Gift & Group Pack';
+ const starterLabel=({ko:'5개 · 선물·공동구매',ja:'5個・ギフト＆グループ', 'zh-HK':'5件・送禮及團購',th:'5 ชิ้น · ของขวัญและสั่งซื้อกลุ่ม',ms:'5 unit · Pek Hadiah & Berkumpulan'} as Record<string,string>)[language]??'5 units · Gift & Group Pack';
  const change=(step:number)=>{if(selection.valid&&selection.quantity!==null)onChange(String(selection.quantity+step));};
  return <fieldset className="diffuser-quantity" disabled={disabled}>
   <legend>{t('Choose your order option')}</legend>
