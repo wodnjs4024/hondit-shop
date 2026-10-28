@@ -3,8 +3,8 @@
 // AI answer engines read the text without running JavaScript. React then mounts on top with the same data.
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { JOURNAL_COPY, PRODUCT_IMAGES, PRODUCT_NAMES, copyFor } from '../shared/journal-copy.js';
-import { JOURNAL_LANGUAGES, SITE, articlePath, formatDate, inlineSegments, languageByCode, marketLink, parseBody } from '../shared/journal.js';
+import { JOURNAL_COPY, JOURNAL_FEATURE_IMAGES, PRODUCT_IMAGES, PRODUCT_NAMES, copyFor, coverFor, isDiffuserStory } from '../shared/journal-copy.js';
+import { JOURNAL_LANGUAGES, SITE, articlePath, formatDate, inlineSegments, languageByCode, marketLink, parseBody, usageNote } from '../shared/journal.js';
 
 export { JOURNAL_COPY, copyFor };
 export const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -59,18 +59,29 @@ export function articleMarkup(article, translations = [], { preview = false } = 
   const updated = article.updated_at && article.published_at && new Date(article.updated_at) - new Date(article.published_at) > 3600 * 1000;
   const products = (article.related_products || []).map((slug) => `<li><a class="journal-product" href="${esc(marketLink(`/products/${slug}`, article.language))}"><img src="${PRODUCT_IMAGES[slug] || ''}" alt="" width="160" height="160" loading="lazy"><span>${esc(PRODUCT_NAMES[slug] || slug)}</span><b>${esc(c.shop)}</b></a></li>`).join('');
   const cta = article.cta_type === 'partners' ? ['/partners', c.partners] : ['/contact', c.contact];
+  const diffuser = isDiffuserStory(article);
+  const usage = usageNote(article.body_md);
+  const usageImage = JOURNAL_FEATURE_IMAGES.usage;
+  const cover = coverFor(article);
+  // The article's own hero photo: full-bleed at the top, or (under a group cover) the first picture of the story.
+  const heroFigure = (cls, top) => (article.hero_image_url ? `<figure class="${cls}"><img src="${esc(article.hero_image_url)}" alt="${esc(article.hero_image_alt)}" width="1600" height="1100"${top ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'}>${top && diffuser ? `<p class="journal-hero-tag" aria-hidden="true">${esc(c.heroTag)}</p>` : ''}${article.hero_image_caption || article.hero_image_credit ? `<figcaption>${esc(article.hero_image_caption || '')}${article.hero_image_credit ? ` <small>${esc(article.hero_image_credit)}</small>` : ''}</figcaption>` : ''}</figure>` : '');
   return `<main class="journal-article" lang="${esc(article.language)}">
 ${preview ? `<p class="journal-preview-flag">${esc(c.preview)}</p>` : ''}
-<nav class="journal-crumbs"><a href="/journal/${esc(languageByCode(article.language)?.segment || 'en')}">${esc(c.kicker)}</a></nav>
+${cover ? `<figure class="journal-hero is-cover"><img src="${esc(cover.src)}" alt="${esc(c.coverAlt)}" width="${cover.width}" height="${cover.height}" fetchpriority="high">${diffuser ? `<p class="journal-hero-tag" aria-hidden="true">${esc(c.heroTag)}</p>` : ''}<figcaption><small>${esc(c.coverCredit)}</small></figcaption></figure>` : heroFigure('journal-hero', true)}
+<div class="journal-lead${usage ? ' has-usage' : ''}">
 <header class="journal-article-head">
+<nav class="journal-crumbs"><a href="/journal/${esc(languageByCode(article.language)?.segment || 'en')}">${esc(c.kicker)}</a></nav>
 <h1>${esc(article.title)}</h1>
 <p class="journal-dek">${esc(article.dek)}</p>
 <p class="journal-byline"><span>${esc(c.by)} ${esc(c.authorTypes[article.author_type] || article.author_name || 'HONDIT')}</span>${article.published_at ? ` · <time datetime="${esc(article.published_at)}">${esc(c.published)} ${esc(formatDate(article.published_at, article.language))}</time>` : ''}${updated ? ` · <time datetime="${esc(article.updated_at)}">${esc(c.updated)} ${esc(formatDate(article.updated_at, article.language))}</time>` : ''}</p>
 </header>
-${article.hero_image_url ? `<figure class="journal-hero"><img src="${esc(article.hero_image_url)}" alt="${esc(article.hero_image_alt)}" width="1600" height="1100" fetchpriority="high">${article.hero_image_caption || article.hero_image_credit ? `<figcaption>${esc(article.hero_image_caption || '')}${article.hero_image_credit ? ` <small>${esc(article.hero_image_credit)}</small>` : ''}</figcaption>` : ''}</figure>` : ''}
+${usage ? `<aside class="journal-howto">${diffuser ? `<img src="${esc(usageImage.src)}" alt="${esc(c.usageAlt)}" width="${usageImage.width}" height="${usageImage.height}" decoding="async">` : ''}<h2>${esc(c.howTo)}</h2><p>${esc(usage)}</p></aside>` : ''}
+</div>
+${cover ? heroFigure('journal-lead-figure', false) : ''}
 <div class="journal-body">
 ${bodyHtml(article.body_md, article.language)}
 </div>
+${diffuser ? `<section class="journal-materials"><h2>${esc(c.materials)}</h2><div class="journal-materials-grid">${JOURNAL_FEATURE_IMAGES.materials.map((m) => `<figure class="journal-material is-${m.key}"><img src="${esc(m.src)}" alt="${esc(c.materialAlt[m.key])}" width="${m.width}" height="${m.height}" loading="lazy" decoding="async"><figcaption>${esc(c.materialCaption[m.key])}</figcaption></figure>`).join('')}</div><p class="journal-materials-credit">${esc(c.photoCredit)}</p></section>` : ''}
 ${products ? `<aside class="journal-related"><h2>${esc(c.related)}</h2><ul>${products}</ul><a class="journal-cta" href="${esc(marketLink(cta[0], article.language))}">${esc(cta[1])}</a></aside>` : ''}
 ${(article.sources || []).length ? `<section class="journal-sources"><h2>${esc(c.sources)}</h2><ol>${article.sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.label)}</a></li>`).join('')}</ol></section>` : ''}
 ${translations.length ? `<nav class="journal-translations"><span>${esc(c.other)}</span>${translations.map((t) => `<a href="${esc(articlePath(t))}" hreflang="${esc(t.language)}" lang="${esc(t.language)}">${esc(languageByCode(t.language)?.label)}</a>`).join('')}</nav>` : ''}

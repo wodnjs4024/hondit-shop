@@ -3,8 +3,8 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { V23Page } from "../components/v23/SiteChrome";
 import { trackEvent } from "../lib/analytics";
 import { fetchJournalArticle, fetchJournalList, initialArticle, initialList, type JournalArticleResponse, type JournalListResponse } from "../lib/journal";
-import { JOURNAL_LANGUAGES, articlePath, formatDate, inlineSegments, languageByCode, languageBySegment, marketLink, parseBody, type JournalArticle } from "../../shared/journal";
-import { PRODUCT_IMAGES, PRODUCT_NAMES, copyFor } from "../../shared/journal-copy";
+import { JOURNAL_LANGUAGES, articlePath, formatDate, inlineSegments, languageByCode, languageBySegment, marketLink, parseBody, usageNote, type JournalArticle } from "../../shared/journal";
+import { JOURNAL_FEATURE_IMAGES, PRODUCT_IMAGES, PRODUCT_NAMES, copyFor, coverFor, isDiffuserStory } from "../../shared/journal-copy";
 import { NotFoundPage } from "./NotFoundPage";
 
 function Inline({ text, language }: { text: string; language?: string }) {
@@ -55,26 +55,65 @@ export function JournalArticleView({ article, translations = [], preview = false
   const updated = article.updated_at && article.published_at && new Date(article.updated_at).getTime() - new Date(article.published_at).getTime() > 3600 * 1000;
   const cta = article.cta_type === "partners" ? { to: "/partners", label: c.partners } : { to: "/contact", label: c.contact };
   const track = (action: string, item?: string) => trackEvent("journal_cta_click", { action_name: action, placement_id: article.slug, item_id: item, page_type: "journal_article" });
+  const diffuser = isDiffuserStory(article);
+  const usage = usageNote(article.body_md);
+  const usageImage = JOURNAL_FEATURE_IMAGES.usage;
+  const cover = coverFor(article);
+  // The article's own hero photo: full-bleed at the top, or (under a group cover) the first picture of the story.
+  const heroFigure = (className: string, top: boolean) => article.hero_image_url && (
+    <figure className={className}>
+      {top
+        ? <img src={article.hero_image_url} alt={article.hero_image_alt || ""} width={1600} height={1100} fetchPriority="high" />
+        : <img src={article.hero_image_url} alt={article.hero_image_alt || ""} width={1600} height={1100} loading="lazy" decoding="async" />}
+      {top && diffuser && <p className="journal-hero-tag" aria-hidden="true">{c.heroTag}</p>}
+      {(article.hero_image_caption || article.hero_image_credit) && <figcaption>{article.hero_image_caption} {article.hero_image_credit && <small>{article.hero_image_credit}</small>}</figcaption>}
+    </figure>
+  );
   return (
     <main className="journal-article" lang={article.language}>
       {preview && <p className="journal-preview-flag">{c.preview}</p>}
-      <nav className="journal-crumbs"><Link to={`/journal/${languageByCode(article.language)?.segment || "en"}`}>{c.kicker}</Link></nav>
-      <header className="journal-article-head">
-        <h1>{article.title}</h1>
-        <p className="journal-dek">{article.dek}</p>
-        <p className="journal-byline">
-          <span>{c.by} {c.authorTypes[article.author_type] || article.author_name || "HONDIT"}</span>
-          {article.published_at && <> · <time dateTime={article.published_at}>{c.published} {formatDate(article.published_at, article.language)}</time></>}
-          {updated && <> · <time dateTime={article.updated_at}>{c.updated} {formatDate(article.updated_at, article.language)}</time></>}
-        </p>
-      </header>
-      {article.hero_image_url && (
-        <figure className="journal-hero">
-          <img src={article.hero_image_url} alt={article.hero_image_alt || ""} width={1600} height={1100} fetchPriority="high" />
-          {(article.hero_image_caption || article.hero_image_credit) && <figcaption>{article.hero_image_caption} {article.hero_image_credit && <small>{article.hero_image_credit}</small>}</figcaption>}
+      {cover ? (
+        <figure className="journal-hero is-cover">
+          <img src={cover.src} alt={c.coverAlt} width={cover.width} height={cover.height} fetchPriority="high" />
+          {diffuser && <p className="journal-hero-tag" aria-hidden="true">{c.heroTag}</p>}
+          <figcaption><small>{c.coverCredit}</small></figcaption>
         </figure>
-      )}
+      ) : heroFigure("journal-hero", true)}
+      <div className={`journal-lead${usage ? " has-usage" : ""}`}>
+        <header className="journal-article-head">
+          <nav className="journal-crumbs"><Link to={`/journal/${languageByCode(article.language)?.segment || "en"}`}>{c.kicker}</Link></nav>
+          <h1>{article.title}</h1>
+          <p className="journal-dek">{article.dek}</p>
+          <p className="journal-byline">
+            <span>{c.by} {c.authorTypes[article.author_type] || article.author_name || "HONDIT"}</span>
+            {article.published_at && <> · <time dateTime={article.published_at}>{c.published} {formatDate(article.published_at, article.language)}</time></>}
+            {updated && <> · <time dateTime={article.updated_at}>{c.updated} {formatDate(article.updated_at, article.language)}</time></>}
+          </p>
+        </header>
+        {usage && (
+          <aside className="journal-howto">
+            {diffuser && <img src={usageImage.src} alt={c.usageAlt} width={usageImage.width} height={usageImage.height} decoding="async" />}
+            <h2>{c.howTo}</h2>
+            <p>{usage}</p>
+          </aside>
+        )}
+      </div>
+      {cover && heroFigure("journal-lead-figure", false)}
       <JournalBody markdown={article.body_md} language={article.language} />
+      {diffuser && (
+        <section className="journal-materials">
+          <h2>{c.materials}</h2>
+          <div className="journal-materials-grid">
+            {JOURNAL_FEATURE_IMAGES.materials.map((m) => (
+              <figure key={m.key} className={`journal-material is-${m.key}`}>
+                <img src={m.src} alt={c.materialAlt[m.key || ""]} width={m.width} height={m.height} loading="lazy" decoding="async" />
+                <figcaption>{c.materialCaption[m.key || ""]}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="journal-materials-credit">{c.photoCredit}</p>
+        </section>
+      )}
       {article.related_products?.length > 0 && (
         <aside className="journal-related">
           <h2>{c.related}</h2>

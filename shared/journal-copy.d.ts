@@ -1,5 +1,10 @@
-export type JournalCopy = { journal: string; kicker: string; listTitle: string; listDek: string; published: string; updated: string; by: string; related: string; shop: string; contact: string; partners: string; sources: string; other: string; empty: string; read: string; authorTypes: Record<string, string>; preview: string };
+export type JournalCopy = { journal: string; kicker: string; listTitle: string; listDek: string; published: string; updated: string; by: string; related: string; shop: string; contact: string; partners: string; sources: string; other: string; empty: string; read: string; authorTypes: Record<string, string>; preview: string; heroTag: string; howTo: string; usageAlt: string; materials: string; photoCredit: string; materialAlt: Record<string, string>; materialCaption: Record<string, string>; coverAlt: string; coverCredit: string };
 export const PRODUCT_NAMES: Record<string, string>;
 export const PRODUCT_IMAGES: Record<string, string>;
 export const JOURNAL_COPY: Record<string, JournalCopy>;
 export function copyFor(language: string | null | undefined): JournalCopy;
+export type JournalFeatureImage = { key?: string; src: string; width: number; height: number };
+export const JOURNAL_FEATURE_IMAGES: { usage: JournalFeatureImage; materials: JournalFeatureImage[] };
+export function isDiffuserStory(article: { related_products?: string[] | null }): boolean;
+export const JOURNAL_COVERS: Record<string, JournalFeatureImage>;
+export function coverFor(article: { group_key?: string | null }): JournalFeatureImage | null;
