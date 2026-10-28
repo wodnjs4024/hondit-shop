@@ -465,7 +465,7 @@ export function BulkProductPage() {
   const displayCurrency=terms.displayCurrency?String(terms.displayCurrency):market.currency;
   const directTerms=selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision;
   const unitsText=Number.isSafeInteger(totalUnits)&&totalUnits>0?`${totalUnits} ${o.units}`:"—";
-  const totalText=invalidQuantity?"—":formatCurrency(marketTotal,displayCurrency,market.locale);
+  const totalText=invalidQuantity?"—":formatCurrency(marketTotal,directTerms?billingCurrency:displayCurrency,market.locale);
   const unitText=!isCleansingMix&&!invalidQuantity&&terms.referenceUnitMinor!=null?formatCurrency(terms.referenceUnitMinor/10**(terms.referenceDigits??2),displayCurrency,market.locale):null;
   const shippingText=directTerms?(terms.shippingIncluded?o.included:formatCurrency(terms.shippingMinor!/10**paypalCurrencyDigits(terms.billingCurrency!),terms.billingCurrency!,market.locale)):o.confirm;
   const summaryCta=soldOut||invalidQuantity?null:inquiryOnly?{href:"#payment-request",label:checkoutChargeCopy(language).quote}:deliveryChecked?{href:"#paypal-payment-step",label:o.toPay}:{href:"#shipping-step",label:o.toShipping};
@@ -560,7 +560,7 @@ export function BulkProductPage() {
                     </p>
                   </div>
                 ) : (
-                isDiffuser(product)?<DiffuserQuantitySelector value={quantityText} onChange={setQuantityText} disabled={soldOut} optionPrices={{trial:unitOption("10"),general:unitOption("20")}}/>:<div className="pack-stepper" aria-label="Order quantity">
+                isDiffuser(product)?<DiffuserQuantitySelector product={product} value={quantityText} onChange={setQuantityText} disabled={soldOut} optionPrices={{trial:unitOption("10"),general:unitOption("20")}}/>:<div className="pack-stepper" aria-label="Order quantity">
                   <span>{marketText(language, "Order quantity", "二쇰Ц ?섎웾")}</span>
                   <div>
                     <button

@@ -1,4 +1,5 @@
 import {resolveDeliveryCharge} from './delivery-charge.js';
+import {stonejejuPack,packBillingSnapshot} from './stonejeju-packs.js';
 import {isDiffuser,diffuserQuantity,sgTrialUnitMinor,proposedTrialPrices} from './diffuser-quantity.js';
 import {sgTerms} from './page-sales.js';
 import {parseMinor,currencyDigits} from './sales-tools.js';
@@ -58,6 +59,17 @@ export function resolveCheckoutTerms(product,market,quantity,conditions=checkout
  if(!product||product.active===false||product.purchaseEnabled===false)return {...result,status:'unavailable',reason:'product_not_available'};
  const stock=product.stockQuantity??(Number(product.inventoryPacks)>0?product.inventoryPacks*product.packQuantity:undefined);
  if(stock!==undefined&&q>stock)return {...result,status:'unavailable',reason:'stock_limit'};
+ // Restore only the approved five-piece option. Existing 10/20/custom conditions remain unchanged.
+ const pack=q===5?stonejejuPack(product,market,q):null;
+ if(pack?.checkoutEnabled){
+  if(pack.billingCurrency!==currency)return {...result,reason:'billing_currency_route_unconfirmed'};
+  const total=pack.fixedBilling?.totalMinor??pack.totalMinor;
+  if(!Number.isSafeInteger(total)||total<=0)return {...result,status:'unavailable',reason:'invalid_pack_amount'};
+  return {...result,priceApproval:'approved_new_order_price',status:'direct',reason:'owner_authorized_pack',version:pack.version,
+   displayCurrency:pack.currency,referenceDigits:pack.digits,referenceUnitMinor:pack.totalMinor/q,referenceTotalMinor:pack.totalMinor,
+   fixedBilling:pack.fixedBilling,billingSnapshot:packBillingSnapshot(pack),billingCurrency:pack.billingCurrency,unitMinor:total/q,totalMinor:total,
+   productTotalMinor:total,shippingMinor:0,shippingIncluded:true,shippingVersion:pack.version,classification:'immediate_payment',checkoutEnabled:true};
+ }
  const matches=conditions.filter(c=>c.market===market&&c.sku===sku&&c.channel==='international_bundle'&&(trial?c.minimum===10:c.minimum!==10));
  if(matches.length!==1)return {...result,reason:matches.length?'duplicate_conditions':'conditions_missing'};
  const c=matches[0];
