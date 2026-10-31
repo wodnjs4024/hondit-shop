@@ -42,6 +42,8 @@ const JournalIndexPage = lazy(() => import("./pages/JournalPages").then((module)
 const JournalArticlePage = lazy(() => import("./pages/JournalPages").then((module) => ({ default: module.JournalArticlePage })));
 const AdminJournalPage = lazy(() => import("./pages/AdminJournalPage").then((module) => ({ default: module.AdminJournalPage })));
 const AdminPressPage = lazy(() => import("./pages/AdminPressPage").then((module) => ({ default: module.AdminPressPage })));
+const AboutPage = lazy(() => import("./pages/InfoPage").then((module) => ({ default: module.AboutPage })));
+const FaqPage = lazy(() => import("./pages/InfoPage").then((module) => ({ default: module.FaqPage })));
 const ShippingPage = lazy(() => import("./pages/ShippingPage").then((module) => ({ default: module.ShippingPage })));
 
 const siteUrl = "https://hondit-shop.vercel.app";
@@ -321,6 +323,8 @@ export default function App() {
         <Route path="/partners/:slug" element={<PartnerGuidePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/shipping" element={<ShippingPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/faq" element={<FaqPage />} />
         <Route path="/journal" element={<JournalIndexPage />} />
         <Route path="/journal/:lang" element={<JournalIndexPage />} />
         <Route path="/journal/:lang/:slug" element={<JournalArticlePage />} />

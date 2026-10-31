@@ -158,6 +158,14 @@
       "destination": "/app.html"
     },
     {
+      "source": "/about",
+      "destination": "/api/products?seoPage=about"
+    },
+    {
+      "source": "/faq",
+      "destination": "/api/products?seoPage=faq"
+    },
+    {
       "source": "/shipping",
       "destination": "/api/products?seoPage=shipping"
     },

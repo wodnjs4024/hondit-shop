@@ -10,7 +10,7 @@ import handler from '../api/products.js';
 
 const products = catalogProducts([]);
 const PAGES = [
-  ['home'], ['products'], ['bulk'], ['jeju'], ['shipping'], ['contact'],
+  ['home'], ['products'], ['bulk'], ['jeju'], ['about'], ['faq'], ['shipping'], ['contact'],
   ...products.flatMap((p) => [['product', { slug: p.slug }], ['bulkProduct', { slug: p.slug }]]),
   ...['shipping', 'refund', 'privacy', 'terms'].map((policy) => ['policy', { policy }]),
 ];
@@ -166,4 +166,20 @@ test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, 
     assert.match(page.html, /pH 5\.5/);
     assert.match(JSON.stringify(page.jsonLd), /pH 5\.5/);
   }
+});
+
+test('About and FAQ pages carry the trust facts and FAQPage data from the shared content', () => {
+  const about = build(['about']);
+  const text = about.html.replace(/<[^>]+>/g, ' ');
+  assert.match(text, /StoneJeju/);
+  assert.match(text, /102 Jejudaehak-ro/);
+  assert.match(text, /hondit\.office@gmail\.com/);
+  assert.match(text, /637-12-03059/);
+  const faq = build(['faq']);
+  for (const page of [about, faq]) {
+    const ld = page.jsonLd.find((d) => d['@type'] === 'FAQPage');
+    assert.ok(ld.mainEntity.length >= 3);
+    for (const q of ld.mainEntity) assert.ok(page.html.includes(q.name.replace(/&/g, '&amp;')) || page.html.includes(q.name));
+  }
+  assert.equal(about.jsonLd.find((d) => d['@type'] === 'Organization')['@id'], 'https://hondit-shop.vercel.app/#organization');
 });
