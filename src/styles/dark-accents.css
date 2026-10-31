@@ -1,0 +1,95 @@
+/* =========================================================
+ * Dark accents: page openers and "how it works" bands sit on forest,
+ * so pages alternate dark and paper instead of running beige end to end.
+ * Reading-heavy surfaces (forms, tables, policy text) stay on paper.
+ * ========================================================= */
+:root {
+  --dk-bg: var(--v4-forest, #173d35);
+  --dk-ink: #f4f1ea;
+  --dk-soft: rgba(244, 241, 234, 0.78);
+  --dk-rule: rgba(244, 241, 234, 0.22);
+}
+
+/* Full-bleed dark bands */
+body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+body.hd-site main .pickup-introduction,
+body.hd-site main .hd-pdp__about,
+body.hd-site main.hd-home .hd-use,
+body.hd-site main .partner-flow {
+  background: var(--dk-bg) !important; box-shadow: 0 0 0 100vmax var(--dk-bg) !important; clip-path: inset(0 -100vmax) !important; color: var(--dk-ink) !important;
+}
+/* Boxed dark heads (contact, pickup form, policy) */
+body.hd-site main:is(.contact-simple, .pickup-simple) > header,
+body.hd-site main.v23-policy-page .v23-policy-head { background: var(--dk-bg) !important; color: var(--dk-ink) !important; }
+
+/* One selector list for everything painted dark */
+:is(
+  body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+  body.hd-site main .pickup-introduction,
+  body.hd-site main .hd-pdp__about,
+  body.hd-site main.hd-home .hd-use,
+  body.hd-site main .partner-flow,
+  body.hd-site main:is(.contact-simple, .pickup-simple) > header,
+  body.hd-site main.v23-policy-page .v23-policy-head
+) :is(h1, h2, h3, h4, strong, b, dt, dd, li, span, em, label, summary, td, th, ol, ul) { color: var(--dk-ink) !important; }
+:is(
+  body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+  body.hd-site main .pickup-introduction,
+  body.hd-site main .hd-pdp__about,
+  body.hd-site main.hd-home .hd-use,
+  body.hd-site main .partner-flow,
+  body.hd-site main:is(.contact-simple, .pickup-simple) > header,
+  body.hd-site main.v23-policy-page .v23-policy-head
+) :is(p, small, figcaption, .eyebrow, .v23-eyebrow) { color: var(--dk-soft) !important; }
+:is(
+  body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+  body.hd-site main .pickup-introduction,
+  body.hd-site main .hd-pdp__about,
+  body.hd-site main.hd-home .hd-use,
+  body.hd-site main .partner-flow,
+  body.hd-site main:is(.contact-simple, .pickup-simple) > header,
+  body.hd-site main.v23-policy-page .v23-policy-head
+) :is(*, *::before, *::after) { border-color: var(--dk-rule) !important; }
+:is(
+  body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+  body.hd-site main .pickup-introduction,
+  body.hd-site main .hd-pdp__about,
+  body.hd-site main.hd-home .hd-use,
+  body.hd-site main .partner-flow,
+  body.hd-site main:is(.contact-simple, .pickup-simple) > header,
+  body.hd-site main.v23-policy-page .v23-policy-head
+) a { color: var(--dk-ink) !important; text-decoration-color: var(--dk-rule) !important; }
+/* Filled actions turn to paper on forest; outline actions keep a light edge */
+:is(
+  body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+  body.hd-site main .pickup-introduction,
+  body.hd-site main .partner-flow
+) :is(.button--primary, .is-dark, .primary-button, .v23-button--dark, .v23-button:not(.v23-button--ghost):not(.v23-button--light), button[type="submit"]) {
+  background: var(--dk-ink) !important; color: #161a17 !important; border-color: var(--dk-ink) !important;
+}
+:is(
+  body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+  body.hd-site main .pickup-introduction,
+  body.hd-site main .partner-flow
+) :is(.button--primary, .is-dark, .primary-button, .v23-button--dark, .v23-button:not(.v23-button--ghost):not(.v23-button--light), button[type="submit"]) * { color: #161a17 !important; }
+:is(
+  body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+  body.hd-site main .pickup-introduction,
+  body.hd-site main .partner-flow
+) :is(.button--ghost, .secondary-button, .v23-button--ghost, .v23-button--light) { background: transparent !important; color: var(--dk-ink) !important; border: 1px solid var(--dk-soft) !important; }
+
+/* Bands that had no room of their own */
+body.hd-site main.hd-home .hd-use { padding-top: 56px !important; padding-bottom: 56px !important; }
+body.hd-site main .partner-flow { padding-top: 56px !important; padding-bottom: 56px !important; margin-bottom: 72px !important; }
+body.hd-site main .hd-pdp__about { padding-top: 56px !important; padding-bottom: 56px !important; }
+
+/* Photos keep their own colour on forest (some were multiplied into the beige) */
+:is(
+  body.hd-site main:not(.hd-home) :is(.hd-page-head, .bundle-entry__intro, .discovery-hero, .v23-page-hero),
+  body.hd-site main .pickup-introduction,
+  body.hd-site main .hd-pdp__about,
+  body.hd-site main.hd-home .hd-use,
+  body.hd-site main .partner-flow
+) img { mix-blend-mode: normal !important; }
+/* Partner guide: the first action is the filled one */
+body.hd-site main .discovery-hero a:first-of-type:not(.text-link) { background: var(--dk-ink) !important; color: #161a17 !important; border-color: var(--dk-ink) !important; }
