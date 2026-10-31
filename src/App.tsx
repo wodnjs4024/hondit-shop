@@ -6,6 +6,7 @@ if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.
  for(const key of Array.from(url.searchParams.keys()))if(!allowed.has(key))url.searchParams.delete(key);
  window.history.replaceState({},'',url);
 }
+import {INFO_PAGES} from "../shared/info-content.js";
 import {PartnersPage} from "./pages/PartnersPage";
 import {PartnerGuidePage} from "./pages/PartnerGuidePage";
 import { lazy, Suspense, useEffect } from "react";
@@ -171,6 +172,10 @@ function routeMeta(pathname: string): PageMeta {
       robots: "noindex,follow",
       image: defaultOgImage,
     };
+  }
+  if (pathname === "/about" || pathname === "/faq") {
+    const info = pathname === "/about" ? INFO_PAGES.about : INFO_PAGES.faq;
+    return { title: info.title, description: info.description, robots: "index,follow", image: `${siteUrl}/images/jeju-field-university.webp` };
   }
   if (pathname === "/shipping") {
     return {

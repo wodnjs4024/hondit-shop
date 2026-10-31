@@ -183,3 +183,9 @@ test('About and FAQ pages carry the trust facts and FAQPage data from the shared
   }
   assert.equal(about.jsonLd.find((d) => d['@type'] === 'Organization')['@id'], 'https://hondit-shop.vercel.app/#organization');
 });
+
+test('the app head logic keeps /about and /faq indexable instead of treating them as not found', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const source = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8');
+  assert.match(source, /pathname === "\/about" \|\| pathname === "\/faq"/);
+});
