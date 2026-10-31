@@ -275,6 +275,7 @@ body.hd-site main .diffuser-order-options label small { grid-column: 3; text-ali
 /* Product page: the photograph stays beside the buying column while it scrolls */
 @media (min-width: 1024px) {
   .hd-pdp__gallery { position: sticky; top: 88px; align-self: start; }
+  .hd-pdp__gallery .hd-pdp__media { width: 100%; aspect-ratio: auto; height: min(calc(100vh - 120px), 65vw); }
   .hd-pdp__info { position: static; }
 }
 
@@ -290,3 +291,18 @@ body.hd-site main .diffuser-order-options label small { grid-column: 3; text-ali
 
 /* Phone order bar: the action label was paper on paper */
 body.hd-site .order-bar .order-bar__cta { color: var(--hd-ink, #161a17) !important; }
+
+/* Checkout steps: one rule under the title, even spacing between steps, aligned fields */
+body.hd-site .checkout-flow .checkout-main > h2.order-step-heading:first-of-type { border-top: 0 !important; padding-top: 0 !important; }
+body.hd-site .checkout-flow .direct-order-form > h2.order-step-heading { margin-top: 32px !important; }
+body.hd-site .checkout-flow .direct-order-form label:has(> small:not([role=alert])) { position: relative; }
+body.hd-site .checkout-flow .direct-order-form label > small:not([role=alert]) { position: absolute; top: 0; right: 0; margin: 0 !important; padding: 0 !important; font-size: 13px; font-weight: 400; color: var(--hd-muted); }
+body.hd-site .checkout-flow .checkout-country { display: grid; gap: 8px; align-content: start; }
+body.hd-site .checkout-flow .checkout-country strong { display: flex; align-items: center; min-height: 48px; padding: 0 14px; background: var(--v4-stone); font-weight: 600; }
+body.hd-site .checkout-flow .direct-order-form > details > summary { display: flex; justify-content: space-between; align-items: center; min-height: 52px; border-top: 1px solid var(--of-rule-strong); border-bottom: 1px solid var(--of-rule-strong); font-weight: 600; cursor: pointer; list-style: none; }
+body.hd-site .checkout-flow .direct-order-form > details > summary::-webkit-details-marker { display: none; }
+body.hd-site .checkout-flow .direct-order-form > details > summary::after { content: "+"; font-size: 20px; font-weight: 400; }
+body.hd-site .checkout-flow .direct-order-form > details[open] > summary::after { content: "−"; }
+body.hd-site .checkout-flow .direct-payment-summary__details dd.is-empty { color: var(--hd-muted) !important; font-weight: 400 !important; }
+body.hd-site .checkout-flow .checkout-payment-step { margin-top: 24px; }
+body.hd-site .checkout-flow .checkout-payment-step > h2.order-step-heading { border-top: 0 !important; padding-top: 0 !important; }
