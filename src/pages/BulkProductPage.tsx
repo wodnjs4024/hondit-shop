@@ -466,6 +466,7 @@ export function BulkProductPage() {
   const directTerms=selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision;
   const unitsText=Number.isSafeInteger(totalUnits)&&totalUnits>0?`${totalUnits} ${o.units}`:"—";
   const totalText=invalidQuantity?"—":formatCurrency(marketTotal,directTerms?billingCurrency:displayCurrency,market.locale);
+  const totalCurrency=directTerms&&terms.billingCurrency?String(terms.billingCurrency):displayCurrency;
   const unitText=!isCleansingMix&&!invalidQuantity&&terms.referenceUnitMinor!=null?formatCurrency(terms.referenceUnitMinor/10**(terms.referenceDigits??2),displayCurrency,market.locale):null;
   const shippingText=directTerms?(terms.shippingIncluded?o.included:formatCurrency(terms.shippingMinor!/10**paypalCurrencyDigits(terms.billingCurrency!),terms.billingCurrency!,market.locale)):o.confirm;
   const summaryCta=soldOut||invalidQuantity?null:inquiryOnly?{href:"#payment-request",label:checkoutChargeCopy(language).quote}:deliveryChecked?{href:"#paypal-payment-step",label:o.toPay}:{href:"#shipping-step",label:o.toShipping};
@@ -747,6 +748,15 @@ export function BulkProductPage() {
                     </ul>
                   )}
                   <dl className="direct-payment-summary__details">
+                    {/* Order and amount first, so this box reads as a complete record on its own. */}
+                    <div className="direct-payment-summary__order">
+                      <dt>{productName}{!isCleansingMix&&productVolume?` ${productVolume}`:""}</dt>
+                      <dd>{unitsText}</dd>
+                    </div>
+                    <div className="direct-payment-summary__order">
+                      <dt>{o.total}</dt>
+                      <dd>{totalText} <small>{totalCurrency}</small></dd>
+                    </div>
                     <div>
                       <dt>{marketText(language, "Delivery recipient")}</dt>
                       <dd>{form.customerName || marketText(language, "Not entered", "미입력")}</dd>
@@ -816,7 +826,7 @@ export function BulkProductPage() {
                 ) : inquiryOnly ? (
                   <><a className="button button--primary" href={manualPaymentHref}>{marketText(language, "Open quantity & shipping email draft", "수량·배송 문의 이메일 초안 열기")}</a><p>{marketText(language, "Review and send the email yourself. Opening a draft does not confirm receipt.", "초안을 확인하고 직접 발송해주세요. 이메일 앱 실행은 문의 접수 완료가 아닙니다.")}</p></>
                 ) : (
-                  <section id="paypal-payment-step" className="checkout-payment-step" tabIndex={-1} aria-busy={paymentBusy}><h2 className="order-step-heading">{flowCopy.payment}</h2>{deliveryChecked&&<p role="status">{flowCopy.checked}</p>}{paymentBusy&&<p role="status">{flowCopy.busy}</p>}<p>{flowCopy.card}</p><p className="payment-status" role="status">{marketText(language,paymentDisplay==='loading'?'Preparing secure payment…':paymentDisplay==='failed'?'Payment could not load. Refresh or contact us.':paymentDisplay==='closed'?'Payment is currently closed. Contact us.':paymentDisplay==='preview'?'Payment is disabled in this read-only preview.':'Secure payment is ready.')}</p><div id="direct-paypal-buttons" className="paypal-buttons" hidden={paymentDisplay!=='ready'}/></section>
+                  <section id="paypal-payment-step" className="checkout-payment-step" tabIndex={-1} aria-busy={paymentBusy}><h2 className="order-step-heading">{flowCopy.payment}</h2><p className="checkout-payment-step__total"><span>{o.total} · {unitsText}</span><strong>{totalText} <small>{totalCurrency}</small></strong></p>{deliveryChecked&&<p role="status">{flowCopy.checked}</p>}{paymentBusy&&<p role="status">{flowCopy.busy}</p>}<p>{flowCopy.card}</p><p className="payment-status" role="status">{marketText(language,paymentDisplay==='loading'?'Preparing secure payment…':paymentDisplay==='failed'?'Payment could not load. Refresh or contact us.':paymentDisplay==='closed'?'Payment is currently closed. Contact us.':paymentDisplay==='preview'?'Payment is disabled in this read-only preview.':'Secure payment is ready.')}</p><div id="direct-paypal-buttons" className="paypal-buttons" hidden={paymentDisplay!=='ready'}/></section>
                 )}                </fieldset>
                 <div id="payment-request" hidden={!inquiryOnly||invalidQuantity}><PaymentRequestPanel lines={orderLines} purpose={purpose==='unspecified'?'':marketText(language,purposeLabels[purpose||'unspecified'])}/></div>
 

@@ -93,6 +93,14 @@ body.hd-site .checkout-flow .direct-payment-summary__header h2 { font-size: 18px
 body.hd-site .checkout-flow .checkout-confirm { background: var(--hd-white, #fff) !important; border: 1px solid var(--of-rule-strong); }
 body.hd-site .checkout-flow .checkout-review-button { min-height: 56px; font-size: 16px; }
 body.hd-site .checkout-flow .checkout-payment-step { padding: 28px; background: var(--hd-white, #fff); border: 1px solid var(--of-rule); }
+/* Order + amount restated inside the review box and the payment step, so each reads as a complete record on its own */
+body.hd-site .checkout-flow .direct-payment-summary__details .direct-payment-summary__order dt { color: var(--hd-ink); font-weight: 600; }
+body.hd-site .checkout-flow .direct-payment-summary__details .direct-payment-summary__order dd { font-variant-numeric: tabular-nums; }
+body.hd-site .checkout-flow .direct-payment-summary__order small,
+body.hd-site .checkout-flow .checkout-payment-step__total small { display: inline; font-size: 13px; font-weight: 500; color: var(--hd-muted); }
+body.hd-site .checkout-flow .checkout-payment-step__total { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin: 0 0 16px !important; padding: 0 0 16px; border-bottom: 1px solid var(--of-rule); }
+body.hd-site .checkout-flow .checkout-payment-step__total span { font-size: 15px; color: var(--hd-muted); }
+body.hd-site .checkout-flow .checkout-payment-step__total strong { font-size: 28px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; color: var(--hd-ink); }
 
 /* Notes after the flow: one stone field, quiet rows */
 body.hd-site .checkout-flow .checkout-notes { margin-top: 48px; padding: 28px 28px 12px; background: var(--v4-stone); }
