@@ -93,3 +93,24 @@ body.hd-site main .hd-pdp__about { padding-top: 56px !important; padding-bottom:
 ) img { mix-blend-mode: normal !important; }
 /* Partner guide: the first action is the filled one */
 body.hd-site main .discovery-hero a:first-of-type:not(.text-link) { background: var(--dk-ink) !important; color: #161a17 !important; border-color: var(--dk-ink) !important; }
+
+/* =========================================================
+ * Palette and type clean-up: one paper, one tile, one stone
+ * ========================================================= */
+/* Stray off-palette beiges and greys snap to the three surface tokens */
+body.hd-site main .request-message { background: var(--v4-stone) !important; }
+body.hd-site main .route-status { background: var(--v4-stone) !important; }
+body.hd-site main details.partner-tools { background: var(--v4-stone) !important; }
+body.hd-site main .product-sales-summary { background: var(--v4-stone) !important; }
+body.hd-site main .discovery-table thead { background: var(--v4-stone) !important; }
+/* Nothing a buyer has to read is smaller than 13px */
+body.hd-site main .contact-channel__qr figcaption { font-size: 13px !important; }
+body.hd-site main .pickup-message-panel label span small { font-size: 14px !important; }
+
+/* Product list: two products fill the row instead of leaving an empty third column */
+@media (min-width: 900px) {
+  body.hd-site main .hd-catalog .hd-grid:not(:has(> li:nth-child(3))) { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; max-width: 920px; margin-left: auto; margin-right: auto; }
+}
+
+/* Shipping: the dark head starts right under the site header, no paper strip above it */
+body.hd-site main:not(.hd-home) .v23-page-hero { margin-top: 0 !important; }

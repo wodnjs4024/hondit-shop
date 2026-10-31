@@ -138,7 +138,7 @@ export function V23PageHero({
           sizes="(max-width: 900px) 100vw, 50vw"
         />
         <figcaption>
-          <i />{marketText(language,"FROM JEJU - TO")}{marketCountryName(market, language).toUpperCase()}
+          <i />{marketText(language,"FROM JEJU - TO")}{" "}{marketCountryName(market, language).toUpperCase()}
         </figcaption>
       </figure>
     </section>
