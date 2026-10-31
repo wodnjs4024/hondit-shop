@@ -1,0 +1,18 @@
+/* About and FAQ pages: one readable column under the page hero. */
+.info-page__body {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 80px) 24px clamp(56px, 8vw, 110px);
+  color: var(--hd-ink, #243b32);
+}
+.info-page__body section { margin: 0 0 clamp(32px, 4vw, 52px); }
+.info-page__body h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin: 0 0 14px; }
+.info-page__body h3 { font-size: 18px; line-height: 1.4; margin: 0 0 6px; }
+.info-page__body p, .info-page__body li { font-size: 17px; line-height: 1.75; }
+.info-page__body ul { padding-left: 1.2em; margin: 0 0 14px; }
+.info-page__body li { margin-bottom: 8px; }
+.info-page__lead { font-size: 19px; }
+.info-page__qa { padding: 18px 0; border-top: 1px solid rgba(36, 59, 50, 0.18); }
+.info-page__qa p { margin: 0; }
+.info-page__links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.info-page__links a { text-decoration: underline; text-underline-offset: 4px; }

@@ -39,4 +39,5 @@ import "./styles/checkout-flow.css";
 import './styles/sales-presentation.css';
 import "./styles/commerce-v4.css";
 import "./styles/about.css";
+import "./styles/info-page.css";
 import "./styles/dark-accents.css";

@@ -5,6 +5,7 @@
 import { storefrontCatalog } from '../shared/storefront-catalog.js';
 import { termsFor } from '../shared/market-overrides.js'; // the same function the product page and checkout use (admin price versions and market modes included)
 import { getPolicyContent, EMAIL } from '../shared/policy-content.js';
+import { INFO_PAGES, SITE_FACTS } from '../shared/info-content.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
 import { escapeMarkup as esc } from './_merchant.js';
@@ -63,11 +64,13 @@ function termsHtml(rows) {
 }
 const TERMS_NOTE = '<p>Pay with PayPal at the quantities shown. Other quantities, mixed sizes or orders above available stock are handled as a quote, and import duties and taxes in the destination country are paid by the recipient.</p>';
 
-const NAV = [['/', 'Home'], ['/products', 'Products'], ['/bulk-orders', 'Bulk orders'], ['/jeju', 'Our Jeju'], ['/journal', 'Journal'], ['/shipping', 'Shipping'], ['/contact', 'Contact'], ['/policy/refund', 'Refund policy'], ['/policy/terms', 'Terms']];
+const NAV = [['/', 'Home'], ['/products', 'Products'], ['/bulk-orders', 'Bulk orders'], ['/jeju', 'Our Jeju'], ['/about', 'About'], ['/faq', 'FAQ'], ['/journal', 'Journal'], ['/shipping', 'Shipping'], ['/contact', 'Contact'], ['/policy/refund', 'Refund policy'], ['/policy/terms', 'Terms']];
 const nav = () => `<nav aria-label="Site"><ul>${NAV.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul></nav>`;
-const wrap = (body) => `<header><a href="/">HONDIT</a></header><main>${body}</main><footer>${nav()}<p>HONDIT · Jeju National University GTEP student team · <a href="mailto:${EMAIL}">${EMAIL}</a> · <a href="${INSTAGRAM}">Instagram</a></p></footer>`;
+const wrap = (body) => `<header><a href="/">HONDIT</a></header><main>${body}</main><footer>${nav()}<p>HONDIT · Jeju National University GTEP student team · Business registration no. ${SITE_FACTS.businessRegistration} · <a href="mailto:${EMAIL}">${EMAIL}</a> · <a href="${INSTAGRAM}">Instagram</a></p></footer>`;
 
-const org = () => ({ '@context': 'https://schema.org', '@type': 'Organization', name: 'HONDIT', url: SITE, email: EMAIL, sameAs: [INSTAGRAM],
+const org = () => ({ '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'HONDIT', alternateName: ['hondit', '혼딧'], url: SITE, email: EMAIL, sameAs: SITE_FACTS.profiles.map(([, url]) => url),
+  mainEntityOfPage: `${SITE}/about`,
+  identifier: { '@type': 'PropertyValue', name: 'Business registration number (Republic of Korea)', value: SITE_FACTS.businessRegistration },
   contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: EMAIL, telephone: PHONE },
   address: { '@type': 'PostalAddress', streetAddress: '102 Jejudaehak-ro', addressLocality: 'Jeju-si', postalCode: '63243', addressCountry: 'KR' },
   description: 'Selling and curation brand of a Jeju National University GTEP student team, introducing StoneJeju volcanic-stone diffusers to overseas customers.' });
@@ -146,6 +149,17 @@ export function buildSeoPage(path, { slug = '', policy = '', products = [] } = {
     return { status: 200, canonical: SITE + '/jeju', title: 'Our Jeju: a student project from Jeju National University | HONDIT', description: 'HONDIT began in Jeju. An independent student-led cross-border commerce project at Jeju National University that introduces StoneJeju volcanic-stone diffusers to overseas customers.',
       jsonLd: [org(), breadcrumb([['Home', '/'], ['Our Jeju', '/jeju']])],
       html: wrap(`<h1>Our Jeju</h1><p>HONDIT is an independent student-led cross-border commerce project based at Jeju National University (102 Jejudaehak-ro, Jeju-si, Jeju 63243, Republic of Korea). The campus is the working origin, not a product endorsement.</p><p>${esc(BRAND_LINE)}</p><p>${esc(WHO_LINE)}</p><p><a href="/jeju/pickup">Jeju pickup</a> · <a href="/jeju/stores">Stores in Jeju</a> · <a href="/products">Products</a> · <a href="/journal">Journal</a></p>`) };
+  }
+  if (path === 'about' || path === 'faq') {
+    const info = INFO_PAGES[path];
+    const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: info.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+    const links = (l = []) => (l.length ? `<p>${l.map(([label, href]) => `<a href="${esc(href)}">${esc(label)}</a>`).join(' · ')}</p>` : '');
+    const sections = info.sections.map((s) => `<section><h2>${esc(s.heading)}</h2>${(s.paragraphs || []).map((t) => `<p>${esc(t)}</p>`).join('')}${s.items ? `<ul>${s.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}${links(s.links)}</section>`).join('');
+    const profiles = path === 'about' ? `<section><h2>Our channels</h2><ul>${SITE_FACTS.profiles.map(([label, url]) => `<li><a href="${esc(url)}" rel="me">${esc(label)}</a></li>`).join('')}</ul></section>` : '';
+    const makers = path === 'about' ? `<section><h2>Maker pages</h2><ul>${SITE_FACTS.makerPages.map(([label, url]) => `<li><a href="${esc(url)}">${esc(label)}</a></li>`).join('')}</ul></section>` : '';
+    return { status: 200, canonical: SITE + info.path, title: info.title, description: info.description,
+      jsonLd: [org(), breadcrumb([['Home', '/'], [info.navLabel, info.path]]), { '@context': 'https://schema.org', '@type': path === 'about' ? 'AboutPage' : 'WebPage', name: info.h1, url: SITE + info.path, about: { '@id': `${SITE}/#organization` } }, faqLd],
+      html: wrap(`<h1>${esc(info.h1)}</h1>${info.intro.map((t) => `<p>${esc(t)}</p>`).join('')}${sections}${makers}${profiles}<section><h2>Questions and answers</h2>${info.faq.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join('')}</section>`) };
   }
   if (path === 'shipping') {
     return { status: 200, canonical: SITE + '/shipping', title: 'Shipping and delivery | HONDIT', description: 'HONDIT shipping: orders ship from Korea after payment is confirmed. Delivery timing, tracking, customs and returns of damaged items.',
