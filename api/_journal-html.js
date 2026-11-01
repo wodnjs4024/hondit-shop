@@ -40,7 +40,8 @@ export function articleJsonLd(article, translations = []) {
     publisher: { '@type': 'Organization', name: 'HONDIT', url: SITE, logo: { '@type': 'ImageObject', url: `${SITE}/images/hondit-logo.png` } },
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     isPartOf: { '@type': 'Blog', name: 'HONDIT Journal', url: `${SITE}/journal` },
-    about: (article.related_products || []).map((slug) => ({ '@type': 'Product', name: PRODUCT_NAMES[slug] || slug, url: `${SITE}/products/${slug}`, brand: { '@type': 'Brand', name: 'StoneJeju' } })),
+    // A Thing, not a Product: Product needs offers, reviews or ratings for rich results, and this article has none of those by design.
+    about: (article.related_products || []).map((slug) => ({ '@type': 'Thing', name: PRODUCT_NAMES[slug] || slug, url: `${SITE}/products/${slug}` })),
     citation: (article.sources || []).map((s) => s.url),
     ...(translations.length ? { workTranslation: translations.map((t) => ({ '@type': 'Article', inLanguage: t.language, url: SITE + articlePath(t) })) } : {}),
   }, {
