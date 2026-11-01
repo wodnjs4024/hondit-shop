@@ -30,6 +30,7 @@ export function utcToKstInput(iso: string | null | undefined): string;
 export function formatKst(iso: string | null | undefined): string;
 export function formatDate(iso: string | null | undefined, language?: string): string;
 export function parseBody(text: string): JournalBlock[];
+export function usageNote(text: string): string;
 export function inlineSegments(text: string): { text: string; href?: string }[];
 export function marketLink(path: string, language: string | null | undefined): string;
 export function reviewArticle(article: Partial<JournalArticle>, options?: { others?: Partial<JournalArticle>[]; publishing?: boolean }): ReviewResult;

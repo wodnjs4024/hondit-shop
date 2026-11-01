@@ -67,7 +67,7 @@ export function QuantityReview({product,purpose='unspecified'}:{product:Storefro
    <ol className="order-steps">
     <li className="order-step order-step--qty">
      <h3 className="order-step__title">{o.qty}</h3>
-     {diffuser?<DiffuserQuantitySelector value={quantity} onChange={setQuantity} optionPrices={{trial:optionPrice('10'),general:optionPrice('20')}}/>:<label className="order-qty-field">{t('Order quantity')}<input type="number" inputMode="numeric" min="1" max="9999" step="1" value={quantity} onChange={e=>setQuantity(e.target.value)}/></label>}
+     {diffuser?<DiffuserQuantitySelector product={product} value={quantity} onChange={setQuantity} optionPrices={{trial:optionPrice('10'),general:optionPrice('20')}}/>:<label className="order-qty-field">{t('Order quantity')}<input type="number" inputMode="numeric" min="1" max="9999" step="1" value={quantity} onChange={e=>setQuantity(e.target.value)}/></label>}
      {!valid&&!diffuser&&<p role="alert">{t('Quantity must be a whole number from 1 to 9999.')}</p>}
     </li>
     <li className="order-step order-step--price">
@@ -82,7 +82,8 @@ export function QuantityReview({product,purpose='unspecified'}:{product:Storefro
     <li className="order-step order-step--pay">
      <div className="order-commit" ref={commit}>
       <h3 className="order-step__title">{o.pay}</h3>
-      <div className="order-total"><span>{direct?o.total:o.estimate}{units&&<small>{units}</small>}</span><output aria-live="polite">{valid?money(total):'—'}</output></div>
+      <div className="order-total"><span>{direct?o.total:o.estimate}{units&&<small>{units}</small>}</span><output aria-live="polite">{valid?money(total,direct?d.billingCurrency??d.displayCurrency:d.displayCurrency):'—'}</output></div>
+      {direct&&d.fixedBilling&&<p className="order-note">{t('Reference display currency')}: {money(d.referenceTotalMinor)} · PayPal: {money(d.totalMinor,d.billingCurrency!)} · {d.fixedBilling.basisDate}</p>}
       {!direct&&valid&&<p className="order-note">{t('Reference display currency')}: {d.displayCurrency} · {t('Final billing currency')}: {t('To be confirmed before payment')}</p>}
       <CheckoutAvailability status={d.status} reason={d.reason}/>
       {valid&&<div className="v23-actions order-actions">

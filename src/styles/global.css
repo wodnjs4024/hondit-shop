@@ -25,7 +25,7 @@
 
 html {
   min-width: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--cream);
   color: var(--ink);
   scroll-behavior: smooth;
@@ -35,7 +35,8 @@ body {
   margin: 0;
   min-width: 0;
   max-width: 100%;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden makes body a scroll container and breaks every position: sticky column */
+  overflow-x: clip;
   background:
     radial-gradient(circle at top left, rgba(255,255,255,0.78), transparent 28rem),
     linear-gradient(180deg, #fbfaf5 0%, var(--cream) 55%, #f3ecdf 100%);

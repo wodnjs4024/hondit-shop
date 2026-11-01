@@ -10,7 +10,7 @@ import handler from '../api/products.js';
 
 const products = catalogProducts([]);
 const PAGES = [
-  ['home'], ['products'], ['bulk'], ['jeju'], ['shipping'], ['contact'],
+  ['home'], ['products'], ['bulk'], ['jeju'], ['about'], ['faq'], ['shipping'], ['contact'],
   ...products.flatMap((p) => [['product', { slug: p.slug }], ['bulkProduct', { slug: p.slug }]]),
   ...['shipping', 'refund', 'privacy', 'terms'].map((policy) => ['policy', { policy }]),
 ];
@@ -182,4 +182,26 @@ test('product structured data has one offer per market price (SG keeps its 10-un
   const article = { title: 'T', language: 'en', related_products: ['diffuser-350g'], published_at: '2026-10-25T08:14:00Z', slug: 'x' };
   const about = articleJsonLd(article)[0].about;
   assert.ok(about.every((a) => a['@type'] === 'Thing' && !('offers' in a) && !('review' in a) && !('aggregateRating' in a)));
+});
+
+test('About and FAQ pages carry the trust facts and FAQPage data from the shared content', () => {
+  const about = build(['about']);
+  const text = about.html.replace(/<[^>]+>/g, ' ');
+  assert.match(text, /StoneJeju/);
+  assert.match(text, /102 Jejudaehak-ro/);
+  assert.match(text, /hondit\.office@gmail\.com/);
+  assert.match(text, /637-12-03059/);
+  const faq = build(['faq']);
+  for (const page of [about, faq]) {
+    const ld = page.jsonLd.find((d) => d['@type'] === 'FAQPage');
+    assert.ok(ld.mainEntity.length >= 3);
+    for (const q of ld.mainEntity) assert.ok(page.html.includes(q.name.replace(/&/g, '&amp;')) || page.html.includes(q.name));
+  }
+  assert.equal(about.jsonLd.find((d) => d['@type'] === 'Organization')['@id'], 'https://hondit-shop.vercel.app/#organization');
+});
+
+test('the app head logic keeps /about and /faq indexable instead of treating them as not found', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const source = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8');
+  assert.match(source, /pathname === "\/about" \|\| pathname === "\/faq"/);
 });

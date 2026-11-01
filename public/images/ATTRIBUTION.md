@@ -26,3 +26,10 @@
 - `journal/sg-01-diffuser-350-hero.webp`: crop of `hondit-pack/.../01_product_originals/04_diffuser_350_stone.webp` (StoneJeju official product photograph). Cropped to leave out the box's printed net-weight panel; no retouching.
 - `journal/sg-01-diffuser-350-vessel.webp`: crop of `01_product_originals/03_diffuser_350_window.webp` (StoneJeju official product photograph). Box left out of frame; no retouching.
 - Reuse of StoneJeju official product photographs was confirmed by the owner and recorded in the project Drive note `00_먼저읽기.txt` (2026-10-21). That record does not itemise use by channel; see the Journal handoff document before supplying these images to press.
+
+## HONDIT Journal magazine layout — 2026-10-28
+- `journal/forest-onggi.webp`: frame at 20.2 s of StoneJeju's product film (Drive `StoneJeju_04_20.20s.jpg`, 1920 × 1080), re-encoded to WebP; no retouching. Full-bleed cover of the four "jeju-volcanic-stone-home-2026-10" stories.
+- `journal/usage-citrus-oil.webp`: crop of the citrus-oil flat lay in StoneJeju's official 350g detail page (Drive `StoneJeju_350g_공식_상세_사용허락확인.jpg`); text above the photo left out; no retouching.
+- `journal/material-jeju-scoria.webp`: crop of the hand-on-scoria photo in the same 350g detail page; no retouching.
+- `journal/material-jeju-onggi.webp`: crop of the onggi-making photo in StoneJeju's official 500g detail page (Drive `StoneJeju_500g_공식_상세_사용허락확인.jpg`); no retouching.
+- StoneJeju photographs are used with the owner-confirmed permission (all uses, confirmed by JW 2026-10-25). The Jusangjeolli photo in the same section is the existing CC0 asset `hondit-pack/.../03_jeju_real_photos/11_jusangjeolli_cliff.webp` (Bernard Gagnon), credited on the page.

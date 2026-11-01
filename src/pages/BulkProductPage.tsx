@@ -465,7 +465,7 @@ export function BulkProductPage() {
   const displayCurrency=terms.displayCurrency?String(terms.displayCurrency):market.currency;
   const directTerms=selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision;
   const unitsText=Number.isSafeInteger(totalUnits)&&totalUnits>0?`${totalUnits} ${o.units}`:"—";
-  const totalText=invalidQuantity?"—":formatCurrency(marketTotal,displayCurrency,market.locale);
+  const totalText=invalidQuantity?"—":formatCurrency(marketTotal,directTerms?billingCurrency:displayCurrency,market.locale);
   const unitText=!isCleansingMix&&!invalidQuantity&&terms.referenceUnitMinor!=null?formatCurrency(terms.referenceUnitMinor/10**(terms.referenceDigits??2),displayCurrency,market.locale):null;
   const shippingText=directTerms?(terms.shippingIncluded?o.included:formatCurrency(terms.shippingMinor!/10**paypalCurrencyDigits(terms.billingCurrency!),terms.billingCurrency!,market.locale)):o.confirm;
   const summaryCta=soldOut||invalidQuantity?null:inquiryOnly?{href:"#payment-request",label:checkoutChargeCopy(language).quote}:deliveryChecked?{href:"#paypal-payment-step",label:o.toPay}:{href:"#shipping-step",label:o.toShipping};
@@ -560,7 +560,7 @@ export function BulkProductPage() {
                     </p>
                   </div>
                 ) : (
-                isDiffuser(product)?<DiffuserQuantitySelector value={quantityText} onChange={setQuantityText} disabled={soldOut} optionPrices={{trial:unitOption("10"),general:unitOption("20")}}/>:<div className="pack-stepper" aria-label="Order quantity">
+                isDiffuser(product)?<DiffuserQuantitySelector product={product} value={quantityText} onChange={setQuantityText} disabled={soldOut} optionPrices={{trial:unitOption("10"),general:unitOption("20")}}/>:<div className="pack-stepper" aria-label="Order quantity">
                   <span>{marketText(language, "Order quantity", "二쇰Ц ?섎웾")}</span>
                   <div>
                     <button
@@ -749,15 +749,15 @@ export function BulkProductPage() {
                   <dl className="direct-payment-summary__details">
                     <div>
                       <dt>{marketText(language, "Delivery recipient")}</dt>
-                      <dd>{form.customerName || marketText(language, "Not entered", "미입력")}</dd>
+                      <dd className={form.customerName?undefined:"is-empty"}>{form.customerName || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
                       <dt>{marketText(language, "Email", "이메일")}</dt>
-                      <dd>{form.customerEmail || marketText(language, "Not entered", "미입력")}</dd>
+                      <dd className={form.customerEmail?undefined:"is-empty"}>{form.customerEmail || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     <div>
                       <dt>{marketText(language, "Delivery phone", "?꾪솕 / WhatsApp")}</dt>
-                      <dd>{form.customerPhone || marketText(language, "Not entered", "미입력")}</dd>
+                      <dd className={form.customerPhone?undefined:"is-empty"}>{form.customerPhone || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     {form.companyName&&<div>
                       <dt>{marketText(language, "Company", "회사명")}</dt>
@@ -765,7 +765,7 @@ export function BulkProductPage() {
                     </div>}
                     <div>
                       <dt>{marketText(language, "Shipping address", "諛곗넚 二쇱냼")}</dt>
-                      <dd>{[form.addressLine1, form.addressLine2, form.city, countryName, form.postalCode].filter(Boolean).join(", ") || marketText(language, "Not entered", "미입력")}</dd>
+                      <dd className={form.addressLine1?undefined:"is-empty"}>{[form.addressLine1, form.addressLine2, form.city, countryName, form.postalCode].filter(Boolean).join(", ") || marketText(language, "Not entered", "미입력")}</dd>
                     </div>
                     {form.customerNote&&<div>
                       <dt>{marketText(language, "Order note", "二쇰Ц 硫붾え")}</dt>

@@ -151,6 +151,8 @@ export function HomeFooter() {
         <Link to="/jeju/pickup">{salesPresentationCopy(language).pickupNav}</Link>
         <Link to="/jeju">{marketText(language, "Asia to Jeju", "Asia to Jeju")}</Link>
         <Link to="/journal">Journal</Link>
+        <Link to="/about">About</Link>
+        <Link to="/faq">FAQ</Link>
       </div>
       <div>
         <h2>{copy.connect}</h2>

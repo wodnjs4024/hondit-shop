@@ -92,6 +92,19 @@ export function inlineSegments(text) {
   return out;
 }
 
+/* The "How to use" card beside the headline quotes the first two sentences of the article's own usage section,
+   so it never says more than the reviewed text. Returns '' when the article has no such section. */
+const USAGE_HEADING = /^(how (it is|to) use|how to use|using it|使い方|使用方法|怎麼使用|如何使用)/i;
+export function usageNote(text) {
+  const blocks = parseBody(text);
+  const at = blocks.findIndex((b) => b.type === 'h2' && USAGE_HEADING.test(b.text));
+  const next = at >= 0 ? blocks[at + 1] : null;
+  if (!next || next.type !== 'p') return '';
+  const plain = inlineSegments(next.text).map((s) => s.text).join('');
+  const sentences = plain.match(/[^.。!?！？]+(?:[.。!?！？]+|$)/g) || [plain];
+  return sentences.slice(0, 2).join('').trim();
+}
+
 /* Shop links inside an article open in the article's market, so a Japanese reader sees JPY terms, not the SG default. */
 export function marketLink(path, language) {
   const lang = languageByCode(language);

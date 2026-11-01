@@ -28,7 +28,7 @@ ${body}
 </channel></rss>\n`;
 }
 
-const STATIC_PAGES = ["/", "/products", "/bulk-orders", "/jeju", "/partners", "/shipping", "/contact", "/policy/refund", "/policy/shipping", "/policy/privacy", "/policy/terms"];
+const STATIC_PAGES = ["/", "/products", "/bulk-orders", "/jeju", "/about", "/faq", "/partners", "/shipping", "/contact", "/policy/refund", "/policy/shipping", "/policy/privacy", "/policy/terms"];
 
 export function sitemap(products, today = new Date().toISOString().slice(0, 10), journal = []) {
   const live = products.filter((p) => !["draft", "hidden"].includes(p.status));

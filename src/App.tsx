@@ -6,6 +6,7 @@ if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.
  for(const key of Array.from(url.searchParams.keys()))if(!allowed.has(key))url.searchParams.delete(key);
  window.history.replaceState({},'',url);
 }
+import {INFO_PAGES} from "../shared/info-content.js";
 import {PartnersPage} from "./pages/PartnersPage";
 import {PartnerGuidePage} from "./pages/PartnerGuidePage";
 import { lazy, Suspense, useEffect } from "react";
@@ -42,6 +43,8 @@ const JournalIndexPage = lazy(() => import("./pages/JournalPages").then((module)
 const JournalArticlePage = lazy(() => import("./pages/JournalPages").then((module) => ({ default: module.JournalArticlePage })));
 const AdminJournalPage = lazy(() => import("./pages/AdminJournalPage").then((module) => ({ default: module.AdminJournalPage })));
 const AdminPressPage = lazy(() => import("./pages/AdminPressPage").then((module) => ({ default: module.AdminPressPage })));
+const AboutPage = lazy(() => import("./pages/InfoPage").then((module) => ({ default: module.AboutPage })));
+const FaqPage = lazy(() => import("./pages/InfoPage").then((module) => ({ default: module.FaqPage })));
 const ShippingPage = lazy(() => import("./pages/ShippingPage").then((module) => ({ default: module.ShippingPage })));
 
 const siteUrl = "https://hondit-shop.vercel.app";
@@ -169,6 +172,10 @@ function routeMeta(pathname: string): PageMeta {
       robots: "noindex,follow",
       image: defaultOgImage,
     };
+  }
+  if (pathname === "/about" || pathname === "/faq") {
+    const info = pathname === "/about" ? INFO_PAGES.about : INFO_PAGES.faq;
+    return { title: info.title, description: info.description, robots: "index,follow", image: `${siteUrl}/images/jeju-field-university.webp` };
   }
   if (pathname === "/shipping") {
     return {
@@ -321,6 +328,8 @@ export default function App() {
         <Route path="/partners/:slug" element={<PartnerGuidePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/shipping" element={<ShippingPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/faq" element={<FaqPage />} />
         <Route path="/journal" element={<JournalIndexPage />} />
         <Route path="/journal/:lang" element={<JournalIndexPage />} />
         <Route path="/journal/:lang/:slug" element={<JournalArticlePage />} />

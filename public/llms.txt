@@ -1,0 +1,21 @@
+# HONDIT
+
+> HONDIT is the selling and curation brand of a student team in the GTEP programme at Jeju National University (Jeju, Republic of Korea). It introduces StoneJeju Jeju volcanic-stone diffusers to overseas customers (Singapore, Hong Kong, Japan, Taiwan and more) with direct PayPal checkout. StoneJeju (stonejeju.com) makes the diffusers; HONDIT does not manufacture them. HONDIT is not JEJU STONE, HEJDIN or any other Jeju stone brand.
+
+## Who we are and how to check us
+- [About HONDIT](https://hondit-shop.vercel.app/about): team, maker, contact, address, payment, policies
+- [Contact](https://hondit-shop.vercel.app/contact): hondit.office@gmail.com, WhatsApp/Telegram +82 10-3338-2694, Instagram @hondit.office
+- Korean business registration number: 637-12-03059
+- [Our Jeju](https://hondit-shop.vercel.app/jeju)
+
+## Products and ordering
+- [Products](https://hondit-shop.vercel.app/products)
+- [Volcanic Diffuser 350g](https://hondit-shop.vercel.app/products/diffuser-350g): glass vessel, no electricity, no flame
+- [Volcanic Diffuser 500g](https://hondit-shop.vercel.app/products/diffuser-500g): Jeju onggi pottery vessel
+- [Order conditions by country](https://hondit-shop.vercel.app/bulk-orders)
+- [Shipping](https://hondit-shop.vercel.app/shipping)
+- [Refund policy](https://hondit-shop.vercel.app/policy/refund)
+
+## Answers
+- [FAQ: Jeju volcanic-stone diffuser](https://hondit-shop.vercel.app/faq)
+- [HONDIT Journal](https://hondit-shop.vercel.app/journal)
