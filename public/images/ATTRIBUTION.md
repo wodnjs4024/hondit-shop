@@ -32,4 +32,7 @@
 - `journal/usage-citrus-oil.webp`: crop of the citrus-oil flat lay in StoneJeju's official 350g detail page (Drive `StoneJeju_350g_공식_상세_사용허락확인.jpg`); text above the photo left out; no retouching.
 - `journal/material-jeju-scoria.webp`: crop of the hand-on-scoria photo in the same 350g detail page; no retouching.
 - `journal/material-jeju-onggi.webp`: crop of the onggi-making photo in StoneJeju's official 500g detail page (Drive `StoneJeju_500g_공식_상세_사용허락확인.jpg`); no retouching.
+- `journal/stonejeju-500-window.webp`: crop of the 500g window-light photo in StoneJeju's official 500g detail page (stonejeju.com product 41); heading text above the photo left out; no retouching. Journal batch 3 (2026-11-12).
+- `journal/stonejeju-350-linen.webp`: crop of the 350 linen photo in StoneJeju's official 350g detail page (stonejeju.com product 42); heading text left out; no retouching.
+- `journal/stonejeju-350-objet.webp`: crop of the "Daily Objet" photo (350 on a stone slab) in the same 350g detail page; text above the photo left out; no retouching.
 - StoneJeju photographs are used with the owner-confirmed permission (all uses, confirmed by JW 2026-10-25). The Jusangjeolli photo in the same section is the existing CC0 asset `hondit-pack/.../03_jeju_real_photos/11_jusangjeolli_cliff.webp` (Bernard Gagnon), credited on the page.

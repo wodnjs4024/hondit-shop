@@ -21,8 +21,8 @@ export const seedArticles3 = [
     slug: 'stone-diffuser-vs-reed-vs-electric',
     title: 'Stone, reed or electric? How a volcanic-stone diffuser is different',
     dek: 'A stone diffuser, also called an aroma stone or lava stone diffuser, works differently from a reed diffuser or an electric one. Here is what you set up, what you need and what you refill, using StoneJeju\'s Jeju scoria diffuser as the example.',
-    hero_image_url: `${PACK}/08_diffuser_500_wood.webp`,
-    hero_image_alt: 'StoneJeju Volcanic Diffuser 500g: Jeju scoria in a Jeju onggi pot on a wooden shelf, with its box and bottle of citrus fragrance oil',
+    hero_image_url: '/images/journal/stonejeju-500-window.webp',
+    hero_image_alt: 'StoneJeju Volcanic Diffuser 500g by a sunny window: red-brown Jeju scoria in a Jeju onggi pot, two loose stones, its box and a bottle of citrus fragrance oil on a linen cloth',
     hero_image_caption: 'A stone diffuser is the stone, a vessel and a bottle of oil.',
     hero_image_credit: 'Photo: StoneJeju official product photograph. Used with permission.',
     seo_title: 'Stone diffuser vs reed vs electric: what is the difference? | HONDIT Journal',
@@ -39,7 +39,7 @@ export const seedArticles3 = [
 
 The stone in StoneJeju's diffuser is Jeju volcanic scoria, called songi in Korean. It formed from lava on Jeju Island and is full of tiny holes, which is why people also call this kind of object a lava stone or lava rock diffuser. The holes are what hold the oil.
 
-![A hand picking up red-brown volcanic scoria on Jeju](/images/journal/material-jeju-scoria.webp "Jeju scoria: a porous volcanic rock. Photo: StoneJeju, used with permission.")
+![Black Jeju scoria heaped in the 350's black glass vessel, with loose stones, the box and a bottle of citrus oil on linen](/images/journal/stonejeju-350-linen.webp "Jeju scoria: a porous volcanic rock, here in the 350's glass vessel. Photo: StoneJeju, used with permission.")
 
 ## How it is used
 
@@ -82,9 +82,9 @@ Orders from Singapore can be paid directly for 5, 10 or 20 or more units of one 
     slug: 'jeju-non-food-souvenir-aroma-stone',
     title: '食べ物以外の済州島土産を探すなら：火山石のアロマストーン',
     dek: '済州島のお土産はお菓子や食品が中心です。そのなかで、済州の火山石を使った電気も火も使わないアロマストーン型ディフューザーは、食べ物以外の選択肢になります。大きさや使い方、日本からの注文方法をまとめました。',
-    hero_image_url: `${PACK}/06_diffuser_500_studio.webp`,
-    hero_image_alt: '済州オンギの器に火山石が入ったStoneJeju火山石ディフューザー500gと、箱、シトラスオイルのボトル',
-    hero_image_caption: '500gは済州のオンギ（甕器）に火山石を収めています。',
+    hero_image_url: `${PACK}/01_diffuser_350_package.webp`,
+    hero_image_alt: '木の棚に置かれたStoneJeju火山石ディフューザー500gの箱。「VOLCANIC DIFFUSER」の文字と火山石のイラスト',
+    hero_image_caption: '500gは済州のオンギ（甕器）、火山石、シトラスオイルが一つの箱に入っています。',
     hero_image_credit: '写真：StoneJeju 公式製品写真（許諾を得て使用）',
     seo_title: '食べ物以外の済州島お土産｜溶岩石のアロマストーン・電気不要 | HONDIT Journal',
     seo_description: '済州島の火山石（溶岩石）を使ったアロマストーン型ディフューザー。電池も電源も火も使わず、食べ物ではないお土産として。350gと500g、日本からのご注文方法。',
@@ -94,7 +94,7 @@ Orders from Singapore can be paid directly for 5, 10 or 20 or more units of one 
 
 済州島は火山の島で、黒く小さな穴の多い火山石（スコリア）が石垣や海岸のあちこちに見られます。StoneJejuは、この石を器に入れた香りの雑貨をつくっています。石の穴がフレグランスオイルを吸い込み、ゆっくりと香りを広げるため、アロマストーンや溶岩石のディフューザーとも呼ばれるタイプです。電池も電源も要らず、火も使いません。
 
-![済州の赤茶色の火山石を手に取る様子](/images/journal/material-jeju-scoria.webp "済州の火山石（スコリア）。写真：StoneJeju（許諾を得て使用）")
+![黒いガラスの器に火山石を入れたStoneJeju火山石ディフューザー350と、箱、シトラスオイル、いくつかの火山石](${PACK}/02_diffuser_350_studio.webp "350：黒いガラスの器、済州の火山石、シトラスオイル10mL。写真：StoneJeju（許諾を得て使用）")
 
 ## 贈りものとして考えるとき
 
@@ -136,9 +136,9 @@ Orders from Singapore can be paid directly for 5, 10 or 20 or more units of one 
     slug: 'small-space-no-flame-no-plug-diffuser',
     title: '空間不大，香氛也不用插電：濟州火山石擴香石擺哪裏',
     dek: '家裏地方有限，不想再多一條電線，也不想點火。濟州火山石擴香石只需要一個層架或一角書桌。這篇整理兩款尺寸、實際佔多少位置，以及在香港的訂購方式。',
-    hero_image_url: `${PACK}/08_diffuser_500_wood.webp`,
-    hero_image_alt: '木架上的 StoneJeju 火山石擴香 500g，濟州甕器內盛着火山石，旁邊是外盒和柑橘香氛油',
-    hero_image_caption: '500g 的容器是濟州甕器，約 100 × 105 × 100 mm。',
+    hero_image_url: `${PACK}/05_diffuser_350_shelf.webp`,
+    hero_image_alt: '窄木架上的 StoneJeju 火山石擴香 350，黑色玻璃容器內盛着火山石，旁邊是外盒和柑橘香氛油',
+    hero_image_caption: '350 的容器是黑色玻璃，約 75 × 100 × 75 mm。',
     hero_image_credit: '相片：StoneJeju 官方產品相片（已獲授權使用）',
     seo_title: '細空間香氛｜無火無插電的濟州火山石擴香石 | HONDIT Journal',
     seo_description: '濟州火山石擴香石不用插電、無火、無藤枝，350g 約 75 × 100 × 75 mm，適合書桌、層架與小空間。附 10mL 柑橘香氛油，說明用法、尺寸與香港訂購方式。',
@@ -148,7 +148,7 @@ Orders from Singapore can be paid directly for 5, 10 or 20 or more units of one 
 
 擴香裏面是多孔的濟州火山石（火山渣）。石上有很多細孔，可以吸住香氛油，再慢慢把香氣散到空氣裏。不需要插電，也不用點火，沒有藤枝要更換，亦沒有一瓶液體要提防打翻。每套附 10mL 柑橘香氛油。
 
-![濟州火山石擴香 350，黑色玻璃容器內盛滿火山石，旁邊散放着幾塊石頭](/images/journal/sg-01-diffuser-350-vessel.webp "350：玻璃容器，約 75 × 100 × 75 mm。相片：StoneJeju（已獲授權使用）")
+![亞麻布上的濟州火山石擴香 350，黑色玻璃容器內盛滿火山石，旁邊有外盒、香氛油和幾塊石頭](/images/journal/stonejeju-350-linen.webp "350：玻璃容器，約 75 × 100 × 75 mm。相片：StoneJeju（已獲授權使用）")
 
 ## 兩款尺寸，佔多少位置
 
@@ -189,9 +189,9 @@ Orders from Singapore can be paid directly for 5, 10 or 20 or more units of one 
     slug: 'jeju-volcanic-stone-desk-object',
     title: '桌面上的一塊濟州：火山石擴香石的擺件質感',
     dek: '喜歡簡單、有質感的桌面小物的人，可以看看這件黑色火山石擴香石。不需要插電，也不會有一堆說明書，靜靜放在桌上就是一件擺設。這篇整理它的外型、尺寸、使用與保養，以及台灣的訂購方式。',
-    hero_image_url: `${PACK}/06_diffuser_500_studio.webp`,
-    hero_image_alt: '濟州甕器容器中的 StoneJeju 火山石擴香 500g，旁邊是外盒、柑橘香氛油和兩塊火山石',
-    hero_image_caption: '500g：濟州甕器容器，約 100 × 105 × 100 mm。',
+    hero_image_url: '/images/journal/stonejeju-350-objet.webp',
+    hero_image_alt: '石板上的 StoneJeju 火山石擴香 350：黑色玻璃容器盛着火山石，旁邊是外盒、柑橘香氛油、幾塊火山石和枯枝',
+    hero_image_caption: '350：黑色玻璃容器，約 75 × 100 × 75 mm。',
     hero_image_credit: '照片：StoneJeju 官方產品照片（已獲授權使用）',
     seo_title: '桌面擺件｜濟州火山石擴香石，無需插電 | HONDIT Journal',
     seo_description: '黑色多孔的濟州火山石擴香石，不插電、不點火，350g 約 75 × 100 × 75 mm。當作桌面擺件也合適，附 10mL 柑橘香氛油，說明用法、保養與台灣訂購方式。',
@@ -201,7 +201,7 @@ Orders from Singapore can be paid directly for 5, 10 or 20 or more units of one 
 
 擴香裏面是濟州火山石（火山渣）。石頭是天然的，每一塊的形狀、大小和色澤都有一點不同，這也是它不像工業製品的地方。石上的細孔會吸住香氛油，再慢慢散出香氣。每套附 10mL 柑橘香氛油。
 
-![350 的黑色玻璃容器盛着火山石，旁邊是亞麻布和幾塊石頭](/images/journal/sg-01-diffuser-350-vessel.webp "350：玻璃容器，約 75 × 100 × 75 mm。照片：StoneJeju（已獲授權使用）")
+![窗邊亞麻布上的 StoneJeju 火山石擴香 500g：濟州甕器盛着紅褐色火山石，旁邊是外盒、香氛油和兩塊石頭](/images/journal/stonejeju-500-window.webp "500g：濟州甕器容器，約 100 × 105 × 100 mm。照片：StoneJeju（已獲授權使用）")
 
 ## 兩個尺寸
 
