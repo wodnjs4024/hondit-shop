@@ -4,7 +4,7 @@ import {
   diffuserCare,
   productFacts,
 } from "../data/productFacts";
-import { marketText, useMarket } from "../lib/market";
+import { marketProductText, marketText, useMarket } from "../lib/market";
 export function DiffuserComparison() {
   const { language } = useMarket();
   const t = (s: string) => marketText(language, s);
@@ -18,7 +18,7 @@ export function DiffuserComparison() {
               <th>{t("Product specifications")}</th>
               {Object.entries(diffuserFacts).map(([slug, f]) => (
                 <th key={slug}>
-                  <Link to={`/products/${slug}`}>{f.content}</Link>
+                  <Link to={`/products/${slug}`}>{marketProductText(language, slug === "diffuser-350g" ? "Volcanic Diffuser 350g" : "Volcanic Diffuser 500g")}</Link>
                 </th>
               ))}
             </tr>
@@ -65,7 +65,7 @@ export function DiffuserComparison() {
       <p>
         {Object.entries(diffuserFacts).map(([slug, f]) => (
           <a key={slug} href={f.source} target="_blank" rel="noreferrer">
-            {t("Supplier product source")} · {language==="ko"?f.officialName:f.content} ↗{" "}
+            {t("Supplier product source")} · {f.content.replace(" ±", "")} ↗{" "}
           </a>
         ))}
       </p>

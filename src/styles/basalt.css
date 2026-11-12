@@ -1,10 +1,11 @@
 /* =========================================================
- * Basalt & scoria (2026-11-12)
+ * Basalt & scoria (2026-11-12; red reduced the same day)
  * Jeju is black basalt and red scoria (송이석). The two diffusers are
  * literally those two stones. The site takes its colour from them
  * instead of the cream + forest green it had:
  *   mineral white ground, basalt ink and dark fields,
- *   scoria red for the order action and one full band (how to use).
+ *   scoria red only as a grain: the wordmark dot and text selection.
+ *   Order buttons are basalt; the photographs carry the colour.
  * Type: Pretendard for every script (Korean and Latin share one voice);
  * Cormorant stays only in the "hondit." wordmark.
  * Imported last in main.tsx.
@@ -41,7 +42,7 @@
   --dk-rule: rgba(246, 244, 242, 0.2);
   --hd-sans: "Pretendard Variable", Pretendard, Inter, "Helvetica Neue", Arial, sans-serif;
 }
-html { accent-color: var(--bs-scoria); }
+html { accent-color: var(--bs-basalt); }
 body { background: var(--bs-ground); }
 ::selection { background: var(--bs-scoria); color: #fff; }
 
@@ -58,18 +59,14 @@ body { background: var(--bs-ground); }
 /* Wordmark dot is a grain of scoria */
 .hd-header__brand span, .hd-footer__brand b span { color: var(--bs-scoria) !important; }
 
-/* The order action is the scoria colour everywhere on the home page */
-:is(.hd-home, .hd-page) .hd-btn--solid, .hd-mobile-bar .is-primary { background: var(--bs-scoria) !important; border-color: var(--bs-scoria) !important; color: #fff !important; }
-:is(.hd-home, .hd-page) .hd-btn--solid:hover, .hd-mobile-bar .is-primary:hover { background: var(--bs-scoria-deep) !important; border-color: var(--bs-scoria-deep) !important; }
-body.hd-site main.hd-home .hd-textlink--order { color: var(--bs-scoria) !important; text-decoration-color: currentColor !important; font-weight: 600; }
+/* Order actions are solid basalt; colour on the page comes from the photographs, not the interface */
+:is(.hd-home, .hd-page) .hd-btn--solid, .hd-mobile-bar .is-primary { background: var(--bs-basalt) !important; border-color: var(--bs-basalt) !important; color: var(--bs-on-dark) !important; }
+:is(.hd-home, .hd-page) .hd-btn--solid:hover, .hd-mobile-bar .is-primary:hover { background: #000 !important; border-color: #000 !important; }
+body.hd-site main.hd-home .hd-textlink--order { color: var(--bs-basalt) !important; text-decoration-color: currentColor !important; font-weight: 600; }
 
-/* How to use: a full scoria field, the one place colour owns a whole region */
-body.hd-site main.hd-home .hd-use {
-  background: var(--bs-scoria) !important; box-shadow: 0 0 0 100vmax var(--bs-scoria) !important; clip-path: inset(0 -100vmax) !important;
-  --dk-soft: rgba(255, 255, 255, 0.84); --dk-rule: rgba(255, 255, 255, 0.28);
-}
+/* How to use: a basalt band with large light step numbers */
 body.hd-site main.hd-home .hd-use li::before {
-  font-size: clamp(28px, 2.6vw, 40px) !important; font-weight: 300 !important; color: rgba(255, 255, 255, 0.9) !important; line-height: 1 !important;
+  font-size: clamp(28px, 2.6vw, 40px) !important; font-weight: 300 !important; color: var(--bs-on-dark-soft) !important; line-height: 1 !important;
 }
 
 /* Diffuser comparison sits on basalt dust instead of a beige tile */
@@ -98,3 +95,26 @@ body.hd-site .contact-channel__qr figcaption { font-size: 13px; }
 
 /* Page heroes (/jeju and the other about-style pages) use the same heading weight as the home hero */
 body.hd-site .about-hero h1, body.hd-site .about-hero h1 em { font-family: var(--hd-sans) !important; font-weight: 650 !important; font-style: normal !important; letter-spacing: -0.03em !important; }
+
+/* Phone order bar: the button label stays on one line */
+body.hd-site .order-bar .order-bar__cta { white-space: nowrap; }
+
+/* Product page sections share one left edge and width */
+body.hd-site .hd-pdp .stonejeju-scene-gallery { max-width: none !important; margin: 96px 0 0 !important; padding: 0 var(--hd-gutter) !important; }
+body.hd-site .hd-pdp .stonejeju-scene-gallery > div { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
+body.hd-site .hd-pdp .stonejeju-scene-gallery { width: auto !important; }
+body.hd-site .hd-pdp .stonejeju-scene-gallery h2,
+body.hd-site .hd-pdp .sales-tools-section h2 { font-size: clamp(24px, 2.2vw, 32px) !important; font-weight: 650 !important; letter-spacing: -0.025em; color: var(--bs-basalt) !important; }
+
+/* Diffuser table on the product page, phones: one row per spec, label above the two values (same as home) */
+@media (max-width: 639px) {
+  body.hd-site .hd-pdp .sales-tools-table { overflow: visible !important; }
+  body.hd-site .hd-pdp .sales-tools-table table { display: block; min-width: 0 !important; width: 100% !important; }
+  body.hd-site .hd-pdp .sales-tools-table :is(thead, tbody) { display: block; }
+  body.hd-site .hd-pdp .sales-tools-table tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; padding: 12px 0; border-top: 1px solid var(--hd-line); }
+  body.hd-site .hd-pdp .sales-tools-table :is(th, td) { padding: 0 !important; border: 0 !important; min-width: 0 !important; }
+  body.hd-site .hd-pdp .sales-tools-table tr > th:first-child { grid-column: 1 / -1; padding-bottom: 4px !important; color: var(--hd-muted); font-weight: 500; }
+  body.hd-site .hd-pdp .sales-tools-table thead tr > th:first-child { display: none; }
+  body.hd-site .hd-pdp .sales-tools-table thead tr { border-top: 0; }
+  body.hd-site .hd-pdp .sales-tools-table thead a { font-weight: 650; }
+}

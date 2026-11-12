@@ -1,7 +1,7 @@
 import type { DisplayLanguage } from "../lib/market";
 const copy = {
   "ko": {
-    "homeTitle": "StoneJeju를 가까이에서 만나보세요",
+    "homeTitle": "제주 숲에서 찍은 사진",
     "homeCaption": "숲 속에 놓인 제품과 포장을 영상으로 살펴보세요.",
     "homeCta": "상품 보기",
     "homeAlt": "숲 속 이끼 위에 놓인 옹기 형태 디퓨저와 포장 상자",
@@ -11,7 +11,7 @@ const copy = {
     "videoFallback": "영상을 불러올 수 없습니다. 상품 사진과 설명을 확인해주세요."
   },
   "en": {
-    "homeTitle": "Take a closer look at StoneJeju.",
+    "homeTitle": "Photographed in a Jeju forest",
     "homeCaption": "See the product and its packaging in a forest setting.",
     "homeCta": "View products",
     "homeAlt": "A pottery-style diffuser and its packaging on moss in a forest",

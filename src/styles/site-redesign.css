@@ -364,8 +364,8 @@ body.hd-site .v23-map-tabs button:not(.is-active) span { color: #f2c3a8; }
 /* Keyboard focus on scrollable rows is visible. */
 .hd-pdp__gallery:focus-visible, .hd-collection__rail:focus-visible { outline: 2px solid var(--hd-ink); outline-offset: 4px; }
 body.hd-site main .contact-channel > h2.contact-channel__name { font-size: var(--t-h3) !important; font-weight: 600 !important; margin: 0; }
-body.hd-site .v23-map-copy > span { color: #56645d; }
-body.hd-site .v23-asia-route-card small { color: #56645d; }
+body.hd-site .v23-map-copy > span { color: #585e61; }
+body.hd-site .v23-asia-route-card small { color: #585e61; }
 
 /* =====================================================================
  * Impeccable layout pass: one frame for every page

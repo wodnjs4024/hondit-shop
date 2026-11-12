@@ -201,7 +201,7 @@ export const qaCopy = {
   },
   "Resale economics review": {
     "en": "Resale economics review",
-    "ko": "재판매 경제성 검토",
+    "ko": "재판매 수익 계산하기",
     "zh-HK": "轉售收益試算",
     "ja": "再販売の収支を試算",
     "ms": "Semakan ekonomi jualan semula",

@@ -5,7 +5,7 @@
   border: 1px solid #d6d9d6;
   border-radius: 12px;
   background: #fbfcf7;
-  color: #243c34;
+  color: #1a1c1d;
 }
 .sales-tools-section h2,
 .sales-tools-section h3 {
@@ -123,7 +123,7 @@
   max-width: 1320px;
   margin: 0 auto;
   padding: 48px clamp(18px, 4vw, 56px) 90px;
-  color: #243c34;
+  color: #1a1c1d;
 }
 .stockist-page h1,
 .product-guide-page h1 {

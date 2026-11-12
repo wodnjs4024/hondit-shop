@@ -98,7 +98,7 @@ export const salesToolsCopy = {
     "th": "ล้างหินด้วยน้ำอุ่นและตากให้แห้งสนิทก่อนเปลี่ยนกลิ่น"
   },
   "Supplier product source": {
-    "ko": "공급사 제품 출처",
+    "ko": "제조사 StoneJeju 상품 페이지",
     "zh-HK": "供應商產品來源",
     "ja": "供給元の製品資料",
     "ms": "Sumber produk pembekal",

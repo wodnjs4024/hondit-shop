@@ -30,14 +30,14 @@ body.hd-site main.about-page .about-route h2 { margin: 0 !important; font-size: 
 .about-route__steps li:last-child b { color: var(--hd-brand, #1a1c1d); }
 .about-route__distance { margin: 0; font-size: 15px; color: var(--hd-muted); }
 .about-route__distance strong { margin-left: 4px; font-size: 22px; font-weight: 600; color: var(--hd-ink); font-variant-numeric: tabular-nums; }
-.about-route__map { margin: 0; aspect-ratio: 1; background: #e6e2d8; }
+.about-route__map { margin: 0; aspect-ratio: 1; background: #e6e8e5; }
 .about-route__map svg { display: block; width: 100%; height: 100%; }
-.about-map__sea { fill: #e6e2d8; }
+.about-map__sea { fill: #e6e8e5; }
 .about-route__map path { fill: #f4f5f3; stroke: rgba(26, 28, 29, 0.22); stroke-width: 0.25; }
 .about-route__map path.is-korea { fill: var(--hd-brand, #1a1c1d); stroke: none; }
 .about-route__map path.is-market { fill: #e2c3ab; stroke: rgba(122, 58, 28, 0.5); }
-.about-route__map path.about-map__route { fill: none; stroke: #8a3f1f; stroke-width: 0.7; stroke-dasharray: 2 1.6; stroke-linecap: round; }
-.about-map__market { fill: #8a3f1f; stroke: #fff; stroke-width: 0.7; }
+.about-route__map path.about-map__route { fill: none; stroke: #9f3b24; stroke-width: 0.7; stroke-dasharray: 2 1.6; stroke-linecap: round; }
+.about-map__market { fill: #9f3b24; stroke: #fff; stroke-width: 0.7; }
 .about-map__jeju { fill: var(--hd-brand, #1a1c1d); stroke: #fff; stroke-width: 1; }
 .about-map__label { font-family: var(--hd-sans), var(--hd-cjk, sans-serif); font-size: 5px; font-weight: 600; fill: var(--hd-ink); paint-order: stroke; stroke: #f4f5f3; stroke-width: 1.4px; }
 .about-map__label.is-strong { font-size: 6px; fill: var(--hd-brand, #1a1c1d); }
