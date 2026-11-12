@@ -29,7 +29,7 @@ export function ProductTile({ product, query }: { product: StorefrontProduct; qu
         <h3><Link to={detail}>{name}</Link></h3>
         <p className="hd-tile__price"><span>{productPriceLabel(product, market, language)}</span></p>
         <p className="hd-tile__desc">{productDetail(product, language)}</p>
-        <p className="hd-tile__terms">{product.quoteOnly ? catalogCopy(language).quoteTitle : marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)} · {marketText(language, "Minimum")} {product.bulkMoq} {marketText(language, "units")}</p>
+        <p className="hd-tile__terms">{product.quoteOnly ? catalogCopy(language).quoteTitle : marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)} · {marketText(language, "Minimum")} {product.bulkMoq}{language === "ko" ? "" : " "}{marketText(language, "units")}</p>
         <div className="hd-tile__links">
           <p className="hd-tile__primary">
             <Link className="hd-textlink hd-textlink--order" to={selectionUrl("/bulk-orders",input)}>{marketText(language, "Overseas bundle orders")} →</Link>
