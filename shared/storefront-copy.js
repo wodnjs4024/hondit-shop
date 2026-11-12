@@ -238,14 +238,14 @@ export const storefrontCopy = {
     "th": "สินค้าถัดไป"
   },
   "View all products ->": {
-    "ko": "전체 상품 보기 →",
+    "ko": "전체 상품 보기",
     "zh-HK": "查看全部商品 →",
     "ja": "すべての商品を見る →",
     "ms": "Lihat semua produk →",
     "th": "ดูสินค้าทั้งหมด →"
   },
   "Buy on Shopee ->": {
-    "ko": "Shopee에서 구매 →",
+    "ko": "Shopee에서 구매",
     "zh-HK": "在 Shopee 購買 →",
     "ja": "Shopeeで購入 →",
     "ms": "Beli di Shopee →",
@@ -315,7 +315,7 @@ export const storefrontCopy = {
     "th": "ยืนยันกำหนดส่ง การคืนสินค้า และข้อควรระวังก่อนสั่งซื้อ"
   },
   "Ask about this order →": {
-    "ko": "이 주문 조건 문의 →",
+    "ko": "이 주문 조건 문의",
     "zh-HK": "查詢此訂單條件 →",
     "ja": "注文条件を問い合わせる →",
     "ms": "Tanya tentang pesanan ini →",
@@ -371,7 +371,7 @@ export const storefrontCopy = {
     "th": "HONDIT เริ่มต้นที่เชจู สำรวจมหาวิทยาลัย ชายฝั่ง ป่า และภูเขาไฟเบื้องหลังการเลือกสินค้าของเรา"
   },
   "Open the Jeju field guide ->": {
-    "ko": "제주 안내 지도 보기 →",
+    "ko": "제주 안내 지도 보기",
     "zh-HK": "開啟濟州指南 →",
     "ja": "済州ガイドを見る →",
     "ms": "Buka panduan Jeju →",
@@ -420,7 +420,7 @@ export const storefrontCopy = {
     "th": "มหาวิทยาลัยแห่งชาติเชจู · วิทยาเขตอารา"
   },
   "Verify on the official JNU website ->": {
-    "ko": "제주대학교 공식 사이트에서 확인 →",
+    "ko": "제주대학교 공식 사이트에서 확인",
     "zh-HK": "在濟州大學官方網站確認 →",
     "ja": "済州大学公式サイトで確認 →",
     "ms": "Semak di laman rasmi JNU →",
@@ -756,14 +756,14 @@ export const storefrontCopy = {
     "th": "เลขทะเบียนธุรกิจ"
   },
   "JNU official site ->": {
-    "ko": "제주대학교 공식 사이트 →",
+    "ko": "제주대학교 공식 사이트",
     "zh-HK": "濟州大學官方網站 →",
     "ja": "済州大学公式サイト →",
     "ms": "Laman rasmi JNU →",
     "th": "เว็บไซต์ทางการ JNU →"
   },
   "FROM JEJU - TO": {
-    "ko": "제주 →",
+    "ko": "제주",
     "zh-HK": "來自濟州 · 目的地",
     "ja": "済州から・お届け先",
     "ms": "Dari Jeju · Destinasi",

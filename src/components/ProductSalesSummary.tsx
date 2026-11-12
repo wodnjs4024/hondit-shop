@@ -25,6 +25,6 @@ export function ProductSalesSummary({product,showContact=true,quantity}: {produc
   </dl>
   <div className="product-sales-summary__notes"><p><b>{t('Shipping','배송','配送')}</b> {selected?.status==='direct'&&selected.shippingIncluded?charges.included:marketText(language,selected&&selected.status!=='direct'?'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.':shippingSummary(market.code,product))}</p>
    <p><Link to="/shipping">{marketText(language,"Shipping")}</Link> · <Link to="/policy/refund">{marketText(language,"Refund Policy")}</Link></p>
-  </div>{showContact&&<Link to={`/contact?product=${product.slug}&quantity=${quantity??moq}&reason=product&market=${market.code}&lang=${language}`}>{t('Ask about this order →','이 주문 조건 문의 →','注文条件を問い合わせる →')}</Link>}
+  </div>{showContact&&<Link to={`/contact?product=${product.slug}&quantity=${quantity??moq}&reason=product&market=${market.code}&lang=${language}`}>{t('Ask about this order →','이 주문 조건 문의','注文条件を問い合わせる →')}</Link>}
  </aside>;
 }

@@ -333,3 +333,5 @@ body.hd-site .tile-info__spec dt { max-width: 58%; }
 body.hd-site .route-status { border-left: 0 !important; }
 body.hd-site .v23-page-hero-media figcaption { display: none !important; }
 body.hd-site :is(.hd-route-list, .about-route__steps, .v23-geo-journey) li > span:first-child:not(:only-child) { display: none; }
+/* Photos speak for themselves: no explanatory captions under the airport sign or the partners hero */
+body.hd-site .pickup-introduction figure > figcaption, body.hd-site .partner-spaces-visual > figcaption { display: none; }

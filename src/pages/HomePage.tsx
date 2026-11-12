@@ -100,7 +100,7 @@ export function HomePage() {
           <header className="hd-bar">
             <h2 id="hd-collection-title">{collection.title}</h2>
             <p>{collection.description} {t("{count} products").replace("{count}", String(marketProducts.length))}</p>
-            <Link className="hd-textlink" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기 →").replace(/\s*(->|→)$/, "")}</Link>
+            <Link className="hd-textlink" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기").replace(/\s*(->|→)$/, "")}</Link>
           </header>
           <ul ref={railRef} className="hd-collection__rail" data-count={marketProducts.length}>
             {marketProducts.map((product) => <ProductTile key={product.slug} product={product} query={pageQuery} />)}

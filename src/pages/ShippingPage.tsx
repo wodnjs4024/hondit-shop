@@ -41,7 +41,7 @@ export function ShippingPage() {
                 <li>{marketText(language, "Live vouchers and product availability", "실시간 쿠폰과 재고 확인")}</li>
                 <li>{marketText(language, "Order tracking inside Shopee", "Shopee 안에서 주문 추적")}</li>
               </ul>
-              <Link to="/products">{marketText(language, "Choose a product ->", "상품 선택하기 →")}</Link>
+              <Link to="/products">{marketText(language, "Choose a product ->", "상품 선택하기")}</Link>
             </article>
           )}
 
@@ -54,7 +54,7 @@ export function ShippingPage() {
               <li>{marketText(language, shippingSummary(market.code))}</li>
               <li>{marketText(language, "Tracking information is shared after dispatch.", "발송 후 배송 추적 정보를 안내합니다.")}</li>
             </ul>
-            <Link to="/bulk-orders">{marketText(language, "Open bulk checkout ->", "묶음 주문 열기 →")}</Link>
+            <Link to="/bulk-orders">{marketText(language, "Open bulk checkout ->", "묶음 주문 열기")}</Link>
           </article>
         </section>
 
@@ -118,7 +118,7 @@ export function ShippingPage() {
               ? marketText(language, "Use Shopee chat for a Shopee transaction, or prepare a message for the hondit team.", "Shopee 주문은 Shopee 채팅을, 묶음 주문은 hondit 문의를 이용해 주세요.")
               : marketText(language, "Send a message to hondit with your order number, product and delivery question.", "주문번호, 상품명, 배송 문의 내용을 hondit에 보내주세요.")}
           </p>
-          <Link to="/contact">{marketText(language, "Go to contact ->", "문의하기 →")}</Link>
+          <Link to="/contact">{marketText(language, "Go to contact ->", "문의하기")}</Link>
         </section>
       </main>
     </V23Page>
