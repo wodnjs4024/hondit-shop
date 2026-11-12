@@ -154,7 +154,7 @@ export const storefrontCopy = {
     "th": "คำแนะนำสินค้า"
   },
   "Product details": {
-    "ko": "상품 상세",
+    "ko": "상세 보기",
     "zh-HK": "商品詳情",
     "ja": "商品詳細",
     "ms": "Butiran produk",

@@ -1,0 +1,61 @@
+/* =========================================================
+ * Readability pass (2026-11-12)
+ * 1. Korean gets a real web font. Inter has no Hangul, and "Noto Sans KR"
+ *    was named but never loaded, so Korean fell back to whatever the
+ *    visitor's OS had (Malgun Gothic on Windows). Pretendard is drawn to
+ *    match Inter, so Latin and Hangul share one weight and rhythm.
+ * 2. Small print goes from 13px to 14px; Korean reads small at 13px.
+ * 3. Low-contrast step numbers on the dark band are lifted.
+ * 4. The diffuser table stacks on phones instead of squeezing three columns.
+ * Imported last in main.tsx.
+ * ========================================================= */
+
+:lang(ko) {
+  --hd-cjk: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --hd-sans: "Pretendard Variable", Pretendard, Inter, "Helvetica Neue", Arial, sans-serif;
+  --sans: "Pretendard Variable", Pretendard, Inter, ui-sans-serif, system-ui, sans-serif;
+}
+:lang(ko) body { font-family: var(--sans); }
+
+/* Korean display titles: the 400 weight read thin and loose in Hangul. */
+:lang(ko) :is(.hd-home, .hd-page) :is(h1, h2) { font-weight: 600; letter-spacing: -0.02em; }
+:lang(ko) :is(.hd-home, .hd-page) .hd-use h3 { font-weight: 600; letter-spacing: -0.02em; }
+:lang(ko) .hd-compare__name { font-weight: 600; letter-spacing: -0.01em; }
+
+/* Small print: 14px floor on the home page */
+body.hd-site main.hd-home .hd-tile__terms,
+body.hd-site main.hd-home .hd-tile__badge,
+body.hd-site main.hd-home .stonejeju-film figcaption,
+body.hd-site main.hd-home .hd-jeju__photo figcaption,
+body.hd-site main.hd-home .discovery-section :is(th, td, small),
+body.hd-site main.hd-home .hd-compare__detail,
+body.hd-site main.hd-home .hd-compare tbody :is(th, td) { font-size: 14px; }
+.hd-announce { font-size: 14px; }
+
+/* Step numbers on the dark band: muted grey on forest was about 1.5:1 */
+body.hd-site main.hd-home .hd-use li::before { color: var(--dk-soft, rgba(244, 241, 234, 0.78)) !important; }
+
+/* Diffuser table on phones: one row per spec, label above its two values */
+@media (max-width: 639px) {
+  body.hd-site main.hd-home .hd-compare,
+  body.hd-site main.hd-home .hd-compare :is(thead, tbody) { display: block; }
+  body.hd-site main.hd-home .hd-compare tr {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px;
+    padding: 0 var(--hd-gutter);
+  }
+  body.hd-site main.hd-home .hd-compare thead td:first-child,
+  body.hd-site main.hd-home .hd-compare__actions td:first-child { display: none; }
+  body.hd-site main.hd-home .hd-compare thead th { padding: 0 0 16px; }
+  body.hd-site main.hd-home .hd-compare tbody tr { border-top: 1px solid var(--hd-line); padding-top: 12px; padding-bottom: 12px; }
+  body.hd-site main.hd-home .hd-compare tbody :is(th, td) { padding: 0; border-top: 0; }
+  body.hd-site main.hd-home .hd-compare tbody th[scope="row"] { grid-column: 1 / -1; padding: 0 0 4px; }
+  body.hd-site main.hd-home .hd-compare tbody th:first-child { padding-left: 0; }
+  body.hd-site main.hd-home .hd-compare__actions { border-top: 1px solid var(--hd-line-strong) !important; padding-top: 16px !important; }
+  body.hd-site main.hd-home .hd-compare__actions td { border-top: 0 !important; padding: 0 !important; }
+  body.hd-site main.hd-home .hd-compare__actions .hd-btn { padding: 0 10px; white-space: nowrap; }
+}
+
+/* Product cards: the main order link stays strong; Shopee and airport pickup share one quieter line */
+body.hd-site main.hd-home .hd-tile__body > .hd-tile__links { display: flex !important; flex-wrap: wrap; align-items: center; gap: 0 20px !important; }
+body.hd-site main.hd-home .hd-tile__primary { flex: 1 0 100%; }
+body.hd-site main.hd-home .hd-tile__links .hd-tile__pickup { color: var(--hd-muted); text-decoration-color: var(--hd-line-strong); }
