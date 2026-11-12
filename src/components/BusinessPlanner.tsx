@@ -91,7 +91,7 @@ export function BusinessPlanner() {
       market.locale,
     );
   const summary = [
-    `${marketProductText(language,product.name)} · ${marketCountryName(market,language)} · ${quantity} ${t('units')}`,
+    `${marketProductText(language,product.name)} · ${marketCountryName(market,language)} · ${quantity}${language==='ko'?'':' '}${t('units')}`,
     `${t("Introduction summary")}: ${t(purpose)}`,
     `${t(approved?"Selected product amount":"Reference product amount")}: ${amount ? money(amount.totalMinor) : t("No confirmed amount")}`,
     t("Review only — not a confirmed quotation or purchase order."),

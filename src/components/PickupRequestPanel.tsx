@@ -24,8 +24,8 @@ export function PickupRequestPanel({initialQuantity=1,initialProduct='350g'}:{in
  <span><strong>{name(size)}</strong><small>{money(pickupRequestTotal(1,size))}</small></span>
  </label>)}
  </fieldset>
- <label className="pickup-quantity">{t('Order quantity')}<select value={quantity} onChange={e=>{const q=Number(e.target.value);if([1,2,3].includes(q))setQuantity(q)}}>{[1,2,3].map(q=><option key={q} value={q}>{q} {language==='en'&&q===1?'unit':t('units')} · {money(pickupRequestTotal(q,product))}</option>)}</select></label>
- <div className="pickup-total-summary"><span>{name(product)} · {quantity} {language==='en'&&quantity===1?'unit':t('units')}<small>{t('Product amount only. No quantity discount.')}</small></span><output className="pickup-request-total" aria-live="polite">{money(total)}</output></div>
+ <label className="pickup-quantity">{t('Order quantity')}<select value={quantity} onChange={e=>{const q=Number(e.target.value);if([1,2,3].includes(q))setQuantity(q)}}>{[1,2,3].map(q=><option key={q} value={q}>{q}{language==='ko'?'':' '}{language==='en'&&q===1?'unit':t('units')} · {money(pickupRequestTotal(q,product))}</option>)}</select></label>
+ <div className="pickup-total-summary"><span>{name(product)} · {quantity}{language==='ko'?'':' '}{language==='en'&&quantity===1?'unit':t('units')}<small>{t('Product amount only. No quantity discount.')}</small></span><output className="pickup-request-total" aria-live="polite">{money(total)}</output></div>
  <><p>{flowText}</p><RequestActions body={pickupRequestMessage(quantity,language,product)} purchase channels/></>
  <p>{t('Collect at Jeju Airport on arrival or departure day. Arrange the time and airport meeting point by message in advance.')}</p>
  </section>;

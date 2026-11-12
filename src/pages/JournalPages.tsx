@@ -186,7 +186,7 @@ export function JournalIndexPage() {
   useEffect(() => {
     if (data && initialList(language) === data) return;
     let live = true;
-    fetchJournalList(language).then((next) => live && setData(next)).catch(() => live && setData({ articles: [], preview: false }));
+    fetchJournalList(language).then((next) => live && setData(Array.isArray(next?.articles) ? next : { articles: [], preview: false })).catch(() => live && setData({ articles: [], preview: false }));
     return () => { live = false; };
   }, [language]); // eslint-disable-line react-hooks/exhaustive-deps
 

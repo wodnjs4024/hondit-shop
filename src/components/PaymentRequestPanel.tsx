@@ -20,7 +20,7 @@ export function PaymentRequestPanel({lines,purpose='',heading=true}:{lines:{prod
   <div className="order-panel quote-summary"><div className="order-panel__core">
    <h3 className="order-step__title">{o.request}</h3>
    {lines.map(({product,quantity},index)=>{const d=decisions[index];const unit=d.referenceUnitMinor===null||!d.displayCurrency?t('No confirmed amount'):formatCurrency(d.referenceUnitMinor/10**d.referenceDigits,d.displayCurrency,market.locale);
-    return <dl className="order-lines" key={product.slug??index}><div><dt>{o.product}</dt><dd>{marketProductText(language,product.name)}</dd></div><div><dt>{o.quantity}</dt><dd>{quantity} {o.units}</dd></div><div><dt>{o.unit}</dt><dd>{unit}</dd></div><div><dt>{o.shipping}</dt><dd className="is-pending">{o.confirm}</dd></div></dl>;})}
+    return <dl className="order-lines" key={product.slug??index}><div><dt>{o.product}</dt><dd>{marketProductText(language,product.name)}</dd></div><div><dt>{o.quantity}</dt><dd>{quantity}{language==='ko'?'':' '}{o.units}</dd></div><div><dt>{o.unit}</dt><dd>{unit}</dd></div><div><dt>{o.shipping}</dt><dd className="is-pending">{o.confirm}</dd></div></dl>;})}
    <div className="order-total"><span>{o.estimate}</span><output>{total}</output></div>
   </div></div>
   <h3 className="order-step__title quote-send-title">{o.send}</h3>

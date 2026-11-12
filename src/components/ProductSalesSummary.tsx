@@ -16,12 +16,12 @@ export function ProductSalesSummary({product,showContact=true,quantity}: {produc
  const diffuser=isDiffuser(product);
  const money=(n:number)=>new Intl.NumberFormat(market.locale,{style:"currency",currency:selected?.displayCurrency??market.currency,minimumFractionDigits:market.currency==="JPY"?0:2,maximumFractionDigits:market.currency==="JPY"?0:2}).format(n);
  const t=(en:string,ko:string,ja:string)=>language==='ja'?ja:marketText(language,en,ko);
- return <aside className="product-sales-summary" aria-label={t('Bulk purchase conditions','대량구매 조건','まとめ買い条件')}>
+ return <aside className="product-sales-summary" aria-label={t('Bulk purchase conditions','묶음구매 조건','まとめ買い条件')}>
   <div className="product-sales-summary__heading"><span>{marketCountryName(market,language)} · {selected?.displayCurrency??market.currency}</span><b>{marketText(language,customerConditionLabel(product,market.code,quantity))}</b></div>
   <dl><div><dt>{diffuser&&!quantity?marketText(language,'General order unit price (20+)'):t('Unit price','개당 단가','単価')}</dt><dd>{money(unit)}</dd></div>
-   <div><dt>{diffuser&&quantity!=='10'?marketText(language,'General order minimum'):t('Minimum quantity','최소 주문수량','最低注文数')}</dt><dd>{quantity==='10'?10:moq} {t('units','개','個')}</dd></div>
-   <div className="product-sales-summary__total"><dt>{quantity?marketText(language,'Selected product amount'):t('Minimum product amount','최소 상품금액','最低商品代金')}</dt><dd>{chosen!==null&&chosen!==undefined?money(chosen/10**selected!.referenceDigits):quantity?"—":money(approved ? approved.unitMinor*moq/100 : unit*moq)}</dd></div>
-   <div><dt>{t('Quantity increment','추가 주문단위','追加注文単位')}</dt><dd>{diffuser?<>1 {marketText(language,'unit')}</>:<>10 {t('units','개','個')}</>}</dd></div>
+   <div><dt>{diffuser&&quantity!=='10'?marketText(language,'General order minimum'):t('Minimum quantity','최소 주문 수량','最低注文数')}</dt><dd>{quantity==='10'?10:moq}{language==='ko'?'':' '}{t('units','개','個')}</dd></div>
+   <div className="product-sales-summary__total"><dt>{quantity?marketText(language,'Selected product amount'):t('Minimum product amount','최소 상품 금액','最低商品代金')}</dt><dd>{chosen!==null&&chosen!==undefined?money(chosen/10**selected!.referenceDigits):quantity?"—":money(approved ? approved.unitMinor*moq/100 : unit*moq)}</dd></div>
+   <div><dt>{t('Quantity increment','추가 주문 단위','追加注文単位')}</dt><dd>{diffuser?<>1{language==='ko'?'':' '}{marketText(language,'unit')}</>:<>10{language==='ko'?'':' '}{t('units','개','個')}</>}</dd></div>
   </dl>
   <div className="product-sales-summary__notes"><p><b>{t('Shipping','배송','配送')}</b> {selected?.status==='direct'&&selected.shippingIncluded?charges.included:marketText(language,selected&&selected.status!=='direct'?'Shipping and payment require confirmation. Extra freight may apply; your selection is kept in the payment request.':shippingSummary(market.code,product))}</p>
    <p><Link to="/shipping">{marketText(language,"Shipping")}</Link> · <Link to="/policy/refund">{marketText(language,"Refund Policy")}</Link></p>

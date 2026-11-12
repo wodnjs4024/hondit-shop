@@ -133,7 +133,7 @@ export const storefrontCopy = {
     "th": "เอกสารทางการ"
   },
   "DIRECT BULK ORDER": {
-    "ko": "직접 대량주문",
+    "ko": "직접 묶음 주문",
     "zh-HK": "直接批量訂購",
     "ja": "直接まとめ買い",
     "ms": "Pesanan pukal langsung",
@@ -252,35 +252,35 @@ export const storefrontCopy = {
     "th": "ซื้อบน Shopee →"
   },
   "Bulk purchase conditions": {
-    "ko": "대량구매 조건",
+    "ko": "묶음 주문 조건",
     "zh-HK": "批量購買條件",
     "ja": "まとめ買い条件",
     "ms": "Syarat pembelian pukal",
     "th": "เงื่อนไขซื้อจำนวนมาก"
   },
   "Direct bulk order": {
-    "ko": "직접 대량판매",
+    "ko": "직접 묶음 판매",
     "zh-HK": "直接批量訂購",
     "ja": "直接まとめ買い",
     "ms": "Pesanan pukal langsung",
     "th": "สั่งซื้อจำนวนมากโดยตรง"
   },
   "Minimum quantity": {
-    "ko": "최소 주문수량",
+    "ko": "최소 주문 수량",
     "zh-HK": "最低訂購量",
     "ja": "最低注文数",
     "ms": "Kuantiti minimum",
     "th": "จำนวนขั้นต่ำ"
   },
   "Minimum product amount": {
-    "ko": "최소 상품금액",
+    "ko": "최소 상품 금액",
     "zh-HK": "最低商品金額",
     "ja": "最低商品代金",
     "ms": "Jumlah produk minimum",
     "th": "มูลค่าสินค้าขั้นต่ำ"
   },
   "Quantity increment": {
-    "ko": "추가 주문단위",
+    "ko": "추가 주문 단위",
     "zh-HK": "追加數量單位",
     "ja": "追加注文単位",
     "ms": "Tambahan kuantiti",
@@ -483,7 +483,7 @@ export const storefrontCopy = {
     "th": "ของเชจูสู่ชีวิตประจำวัน"
   },
   "Explore the care and scent collection, or review direct PayPal checkout for larger orders.": {
-    "ko": "클렌징과 디퓨저 컬렉션을 살펴보거나 대량주문 조건을 확인하세요.",
+    "ko": "클렌징과 디퓨저 컬렉션을 살펴보거나 묶음 주문 조건을 확인하세요.",
     "zh-HK": "探索潔面與擴香系列，或查看批量訂購條件。",
     "ja": "ケアと香りのコレクション、またはまとめ買い条件をご覧ください。",
     "ms": "Terokai koleksi penjagaan dan haruman atau syarat pesanan pukal.",
@@ -497,7 +497,7 @@ export const storefrontCopy = {
     "th": "ดูสินค้า"
   },
   "Bulk orders": {
-    "ko": "대량주문",
+    "ko": "묶음 주문",
     "zh-HK": "批量訂購",
     "ja": "まとめ買い",
     "ms": "Pesanan pukal",
@@ -742,7 +742,7 @@ export const storefrontCopy = {
     "th": "นโยบาย HONDIT"
   },
   "Return to Bulk Orders": {
-    "ko": "대량주문으로 돌아가기",
+    "ko": "묶음 주문으로 돌아가기",
     "zh-HK": "返回批量訂購",
     "ja": "まとめ買いに戻る",
     "ms": "Kembali ke pesanan pukal",
@@ -791,7 +791,7 @@ export const storefrontCopy = {
     "th": "ตรวจสอบเงื่อนไขสั่งซื้อสินค้าดูแลและหินกระจายกลิ่น"
   },
   "The minimum order and quantity increments are checked automatically.": {
-    "ko": "최소 주문수량과 추가 단위를 자동으로 확인합니다.",
+    "ko": "최소 주문 수량과 추가 단위를 자동으로 확인합니다.",
     "zh-HK": "系統自動檢查最低訂購量及追加單位。",
     "ja": "最低数量と追加単位は自動で確認されます。",
     "ms": "Kuantiti minimum dan tambahan disemak secara automatik.",
@@ -2145,7 +2145,7 @@ export const storefrontCopy = {
     "th": "ฮันบกและพระราชวังประวัติศาสตร์ยังอยู่ในชีวิตทุกวันของโซล"
   },
   "Bulk orders are usually delivered within 3-5 business days after dispatch. Weekends, public holidays, customs inspections and carrier delays may affect the delivery date. Tracking information will be provided after dispatch.": {
-    "ko": "대량주문은 발송 후 보통 영업일 기준 3~5일이 소요됩니다. 주말·공휴일·통관 검사·운송사 지연에 따라 달라질 수 있으며 발송 후 추적 정보를 안내합니다.",
+    "ko": "묶음 주문은 발송 후 보통 영업일 기준 3~5일이 소요됩니다. 주말·공휴일·통관 검사·운송사 지연에 따라 달라질 수 있으며 발송 후 추적 정보를 안내합니다.",
     "zh-HK": "批量訂單通常在發貨後3至5個工作天送達。週末、公眾假期、海關檢查及運輸延誤可能影響日期。發貨後提供追蹤資料。",
     "ja": "まとめ買いは通常発送後3〜5営業日で届きます。週末・祝日・通関・配送会社の遅延で変わる場合があります。発送後に追跡情報をご案内します。",
     "ms": "Pesanan pukal biasanya tiba dalam 3–5 hari bekerja selepas penghantaran. Hujung minggu, cuti, kastam dan kelewatan pengangkut boleh mempengaruhi tarikh. Penjejakan diberikan selepas penghantaran.",

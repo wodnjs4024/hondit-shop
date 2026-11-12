@@ -107,7 +107,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     rateFromSgd: 6.0834,
     hasShopee: false,
     announcement: "HONG KONG BULK ORDER ONLY - PAYPAL HKD - SHIPS FROM KOREA",
-    announcementKo: "홍콩 대량주문 전용 - PayPal HKD - 한국 발송",
+    announcementKo: "홍콩 묶음 주문 전용 - PayPal HKD - 한국 발송",
     footerLine: "Pieces of Jeju Island,\narriving in Hong Kong.",
     footerLineKo: "제주에서 고른 상품을\n홍콩으로 보냅니다.",
     checkoutNote: "Hong Kong EMS shipping included",
@@ -130,7 +130,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     rateFromSgd: 23.5,
     hasShopee: false,
     announcement: "TAIWAN DIFFUSER BULK ORDER ONLY - PAYPAL TWD - SHIPS FROM KOREA",
-    announcementKo: "대만 디퓨저 대량주문 전용 - PayPal TWD - 한국 발송",
+    announcementKo: "대만 디퓨저 묶음 주문 전용 - PayPal TWD - 한국 발송",
     footerLine: "Pieces of Jeju Island,\narriving in Taiwan.",
     footerLineKo: "제주에서 고른 상품을\n대만으로 보냅니다.",
     checkoutNote: "Taiwan EMS shipping included",
@@ -153,7 +153,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     rateFromSgd: 115,
     hasShopee: false,
     announcement: "JAPAN DIFFUSER BULK ORDER ONLY - PAYPAL JPY - SHIPS FROM KOREA",
-    announcementKo: "일본 디퓨저 대량주문 전용 - PayPal JPY - 한국 발송",
+    announcementKo: "일본 디퓨저 묶음 주문 전용 - PayPal JPY - 한국 발송",
     footerLine: "Pieces of Jeju Island,\narriving in Japan.",
     footerLineKo: "제주에서 고른 상품을\n일본으로 보냅니다.",
     checkoutNote: "Japan EMS shipping included",
@@ -166,7 +166,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     countryCode: "BN", countryName: "Brunei", countryNameKo: "브루나이", currency: "SGD", defaultLanguage: "ms",
     locale: "en-BN", rateFromSgd: 1, hasShopee: false,
     announcement: "BRUNEI DIFFUSER BULK ORDER ONLY - PAYPAL SGD - SHIPS FROM KOREA",
-    announcementKo: "브루나이 디퓨저 대량주문 전용 - PayPal SGD - 한국 발송",
+    announcementKo: "브루나이 디퓨저 묶음 주문 전용 - PayPal SGD - 한국 발송",
     footerLine: "Pieces of Jeju Island,\narriving in Brunei.", footerLineKo: "제주에서 고른 상품을\n브루나이로 보냅니다.",
     checkoutNote: "BND and SGD are valued at 1:1. PayPal checkout is processed in SGD; card issuer fees may apply.",
     checkoutNoteKo: "BND와 SGD는 1:1 등가이며 PayPal 결제는 SGD로 처리됩니다. 카드사 수수료가 발생할 수 있습니다.",
@@ -177,7 +177,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     countryCode: "MO", countryName: "Macau", countryNameKo: "마카오", currency: "HKD", defaultLanguage: "zh-HK",
     locale: "zh-MO", rateFromSgd: 6.08, hasShopee: false,
     announcement: "MACAU BULK ORDER ONLY - PAYPAL HKD - SHIPS FROM KOREA",
-    announcementKo: "마카오 대량주문 전용 - PayPal HKD - 한국 발송",
+    announcementKo: "마카오 묶음 주문 전용 - PayPal HKD - 한국 발송",
     footerLine: "Pieces of Jeju Island,\narriving in Macau.", footerLineKo: "제주에서 고른 상품을\n마카오로 보냅니다.",
     checkoutNote: "Macau EMS shipping included", checkoutNoteKo: "마카오 EMS 배송비 포함",
     allowedProductCategories: ["CARE", "SCENT"], allowedBulkCategories: ["cleansing", "diffuser"],
@@ -187,7 +187,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     countryCode: "TH", countryName: "Thailand", countryNameKo: "태국", currency: "THB", defaultLanguage: "th",
     locale: "th-TH", rateFromSgd: 26.05, hasShopee: false,
     announcement: "THAILAND DIFFUSER BULK ORDER ONLY - PAYPAL THB - SHIPS FROM KOREA",
-    announcementKo: "태국 디퓨저 대량주문 전용 - PayPal THB - 한국 발송",
+    announcementKo: "태국 디퓨저 묶음 주문 전용 - PayPal THB - 한국 발송",
     footerLine: "Pieces of Jeju Island,\narriving in Thailand.", footerLineKo: "제주에서 고른 상품을\n태국으로 보냅니다.",
     checkoutNote: "Thailand EMS shipping included", checkoutNoteKo: "태국 EMS 배송비 포함",
     allowedProductCategories: ["SCENT"], allowedBulkCategories: ["diffuser"],
@@ -197,7 +197,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     countryCode: "MY", countryName: "Malaysia", countryNameKo: "말레이시아", currency: "SGD", defaultLanguage: "ms",
     locale: "en-MY", rateFromSgd: 1, hasShopee: false,
     announcement: "MALAYSIA DIFFUSER BULK ORDER ONLY - PAYPAL SGD - SHIPS FROM KOREA",
-    announcementKo: "말레이시아 디퓨저 대량주문 전용 - PayPal SGD 결제 - 한국 발송",
+    announcementKo: "말레이시아 디퓨저 묶음 주문 전용 - PayPal SGD 결제 - 한국 발송",
     footerLine: "Pieces of Jeju Island,\narriving in Malaysia.", footerLineKo: "제주에서 고른 상품을\n말레이시아로 보냅니다.",
     checkoutNote: "Malaysia EMS shipping included", checkoutNoteKo: "말레이시아 EMS 배송비 포함",
     allowedProductCategories: ["SCENT"], allowedBulkCategories: ["diffuser"],
@@ -385,7 +385,7 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     Home: "홈",
     "Explore Jeju": "제주 보기",
     Products: "상품",
-    "Bulk Orders": "대량주문",
+    "Bulk Orders": "묶음 주문",
     Shipping: "배송",
     Contact: "문의",
     Menu: "메뉴",
@@ -393,14 +393,14 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     Language: "언어",
     Singapore: "싱가포르",
     "Hong Kong": "홍콩",
-    "Shop on Shopee ->": "Shopee 구매 ->",
-    "Bulk checkout ->": "대량주문 ->",
+    "Shop on Shopee ->": "Shopee 구매 →",
+    "Bulk checkout ->": "묶음 주문 →",
     "View details": "상세 보기",
     "Buy on Shopee": "Shopee 구매",
-    "Bulk checkout": "대량주문",
+    "Bulk checkout": "묶음 주문",
     "Ask hondit": "문의하기",
-    "Ask hondit ->": "문의하기 ->",
-    "Bulk unavailable": "대량주문 불가",
+    "Ask hondit ->": "문의하기 →",
+    "Bulk unavailable": "묶음 주문 불가",
     ALL: "전체",
     CARE: "케어",
     SCENT: "향",
@@ -412,19 +412,19 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     "Low stock": "재고 적음",
     "Sold out": "품절",
     units: "개",
-    "Bulk MOQ": "대량주문 MOQ",
-    "Bulk unit": "대량주문 단가",
+    "Bulk MOQ": "묶음 주문 MOQ",
+    "Bulk unit": "묶음 주문 단가",
     Route: "구매 방식",
-    "Shopee retail or PayPal bulk checkout": "Shopee 개별구매 또는 PayPal 대량주문",
-    "PayPal bulk checkout only": "PayPal 대량주문 전용",
+    "Shopee retail or PayPal bulk checkout": "Shopee 개별구매 또는 PayPal 묶음 주문",
+    "PayPal bulk checkout only": "PayPal 묶음 주문 전용",
     "GOOD FOR": "추천 용도",
     HIGHLIGHTS: "특징",
     "HOW TO USE": "사용 방법",
     "Product not found.": "상품을 찾을 수 없습니다.",
     "Back to products": "상품 목록으로",
-    "Back to Bulk Orders": "대량주문으로 돌아가기",
-    "BULK ORDER": "대량주문",
-    "DIRECT BULK CHECKOUT": "직접 대량주문",
+    "Back to Bulk Orders": "묶음 주문으로 돌아가기",
+    "BULK ORDER": "묶음 주문",
+    "DIRECT BULK CHECKOUT": "직접 묶음 주문",
     "Build the order. Pay securely with PayPal.": "주문을 구성하고 PayPal로 결제하세요.",
     "Choose one product": "상품 선택",
     "MOQ and approved quantity increments are checked automatically.": "MOQ와 주문 단위가 자동으로 확인됩니다.",
@@ -435,12 +435,12 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     "Manage the order": "주문 관리",
     "Only completed paid orders appear in the protected admin console.": "결제 완료 주문만 관리자 페이지에 표시됩니다.",
     "01 - PRODUCT": "01 - 상품",
-    "Choose a bulk product.": "대량주문 상품을 선택하세요.",
+    "Choose a bulk product.": "묶음 주문 상품을 선택하세요.",
     "PAYPAL CHECKOUT": "PAYPAL 결제",
-    "Continue to delivery and PayPal ->": "배송 입력 및 PayPal 결제로 ->",
+    "Continue to delivery and PayPal ->": "배송 입력 및 PayPal 결제로 →",
     "Need a mixed commercial order?": "여러 상품을 묶어 주문해야 하나요?",
     "We can confirm product combinations, quantities and delivery details by email before payment.": "결제 전 이메일로 상품 조합, 수량, 배송 조건을 확인할 수 있습니다.",
-    "Go to contact ->": "문의하기 ->",
+    "Go to contact ->": "문의하기 →",
     "Unit price": "개당 가격",
     Minimum: "최소 수량",
     "Minimum total": "최소 결제액",
@@ -491,7 +491,7 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     "Asia to Jeju": "아시아에서 제주까지",
     "A student-led brand based at": "제주를 기반으로 한 학생 운영 브랜드",
     "Jeju National University.": "제주대학교.",
-    "JNU official site ->": "JNU 공식 사이트 ->",
+    "JNU official site ->": "JNU 공식 사이트 →",
     Refund: "환불",
     Privacy: "개인정보",
     Terms: "이용약관",
@@ -499,7 +499,7 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     "Page not found.": "페이지를 찾을 수 없습니다.",
     "Back to Home": "홈으로 돌아가기",
     "View Products": "상품 보기",
-    "Return to Bulk Orders": "대량주문으로 돌아가기",
+    "Return to Bulk Orders": "묶음 주문으로 돌아가기",
     "Shipping Policy": "배송 정책",
     "Refund Policy": "환불 정책",
     "Privacy Policy": "개인정보 처리방침",
@@ -507,37 +507,37 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     "FOR BUSINESSES AND GROUPS": "사업자 및 단체",
     "Jeju-based student team": "제주 기반 학생 운영팀",
     "Official Shopee route": "공식 Shopee 구매 경로",
-    "Direct bulk checkout": "직접 대량주문",
-    "Bulk only": "대량주문 전용",
-    "Bulk Checkout": "대량주문",
+    "Direct bulk checkout": "직접 묶음 주문",
+    "Bulk only": "묶음 주문 전용",
+    "Bulk Checkout": "묶음 주문",
     "Student-led and based in Jeju City.": "제주시에 기반을 둔 학생 운영 프로젝트입니다.",
-    "Bulk only direct route": "대량주문 전용 경로",
+    "Bulk only direct route": "묶음 주문 전용 경로",
     "Live price, vouchers and protected checkout.": "실시간 가격, 쿠폰, 보호된 결제.",
-    "Direct bulk orders dispatch from Korea after PayPal capture.": "직접 대량주문은 PayPal 결제 완료 후 한국에서 발송됩니다.",
+    "Direct bulk orders dispatch from Korea after PayPal capture.": "직접 묶음 주문은 PayPal 결제 완료 후 한국에서 발송됩니다.",
     "Two clear routes": "두 가지 명확한 구매 경로",
-    "Fixed market bulk prices": "판매 국가별 고정 대량주문가",
+    "Fixed market bulk prices": "판매 국가별 고정 묶음 주문가",
     "THE HONDIT EDIT": "hondit 셀렉션",
     "Care shaped by water. Scent grounded in stone.": "클렌징 제품과 화산석 디퓨저",
     "5 PRODUCTS": "상품 5종",
     "Focused care and scent edit": "케어와 향 제품 구성",
     PRICES: "가격",
     "2 ROUTES": "2가지 구매 방식",
-    "BULK ONLY": "대량주문 전용",
-    "Individual or bulk orders": "개별 구매 또는 대량주문",
+    "BULK ONLY": "묶음 주문 전용",
+    "Individual or bulk orders": "개별 구매 또는 묶음 주문",
     "Direct PayPal checkout": "PayPal 직접 결제",
     "SHOP BY RITUAL": "루틴별 상품",
     "Find your": "나에게 맞는",
     "everyday fit.": "일상 루틴.",
     "CHOOSE YOUR ROUTE": "구매 방식 선택",
-    "One item or a larger order?": "하나만 살까요, 대량으로 주문할까요?",
-    "Bulk orders only for this market.": "이 판매 국가는 대량주문만 운영합니다.",
+    "One item or a larger order?": "낱개로 살까요, 묶음으로 주문할까요?",
+    "Bulk orders only for this market.": "이 판매 국가는 묶음 주문만 운영합니다.",
     "INDIVIDUAL RETAIL": "개별 구매",
     "DIRECT MARKET": "직접 판매 국가",
     "No Shopee route": "Shopee 경로 없음",
-    "Start bulk checkout": "대량주문 시작",
+    "Start bulk checkout": "묶음 주문 시작",
     "BUSINESS AND GROUPS": "사업자 및 공동구매",
-    "Open bulk checkout": "대량주문 열기",
-    "Open bulk checkout ->": "대량주문 열기 ->",
+    "Open bulk checkout": "묶음 주문 열기",
+    "Open bulk checkout ->": "묶음 주문 열기 →",
     "CONTACT HONDIT": "HONDIT 문의",
     "A real inbox,\nwith a clear route for every question.": "운영팀으로 바로 닿는\n명확한 문의 경로.",
     "SEND A MESSAGE": "문의 보내기",
@@ -554,17 +554,17 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     "Your message has been saved. hondit will reply by email.": "문의가 저장되었습니다. hondit이 이메일로 답변드립니다.",
     "QUICK ROUTES": "빠른 경로",
     "Use the right channel.": "상황에 맞는 채널을 선택하세요.",
-    "Payment, voucher, delivery tracking or address changes for Shopee orders. ->": "Shopee 주문 결제, 쿠폰, 배송 추적, 주소 변경 문의. ->",
-    "Short product questions, social content and informal collaborations. ->": "간단한 상품 문의, 소셜 콘텐츠, 협업 문의. ->",
+    "Payment, voucher, delivery tracking or address changes for Shopee orders. ->": "Shopee 주문 결제, 쿠폰, 배송 추적, 주소 변경 문의. →",
+    "Short product questions, social content and informal collaborations. ->": "간단한 상품 문의, 소셜 콘텐츠, 협업 문의. →",
     "Attachments and formal records can still be sent by email.": "첨부파일이나 공식 문서는 이메일로 보낼 수 있습니다.",
     "INDIVIDUAL PURCHASE": "개별 구매",
     "Shop through Shopee Singapore": "Shopee 싱가포르에서 구매",
     "Marketplace delivery window and tracking": "마켓플레이스 배송 일정 및 추적",
     "Live vouchers and product availability": "실시간 쿠폰 및 재고 확인",
     "Order tracking inside Shopee": "Shopee 안에서 주문 추적",
-    "Choose a product ->": "상품 선택하기 ->",
-    "LARGER PURCHASE": "대량 구매",
-    "BULK PURCHASE ONLY": "대량주문 전용",
+    "Choose a product ->": "상품 선택하기 →",
+    "LARGER PURCHASE": "묶음 주문",
+    "BULK PURCHASE ONLY": "묶음 주문 전용",
     "Delivery begins after payment capture and preparation": "결제 완료 및 준비 후 배송 시작",
     "Product-specific MOQ and quantity steps": "상품별 최소 수량과 주문 단위 적용",
     "Server-verified PayPal capture before an admin order is confirmed": "서버에서 PayPal 결제 완료가 검증된 주문만 관리자 주문으로 확정",
@@ -574,11 +574,11 @@ const commonText: Partial<Record<NonEnglishLanguage, TextDictionary>> = {
     "Orders placed close to weekends or holidays may begin moving on the next working day.": "주말이나 공휴일 직전 주문은 다음 영업일부터 이동이 시작될 수 있습니다.",
     "Customs and carrier handover": "통관 및 배송사 인계",
     "Inspection, flight capacity and local handover can add time.": "검사, 항공편, 현지 인계 상황에 따라 시간이 추가될 수 있습니다.",
-    "Bulk size and stock": "대량 수량과 재고",
+    "Bulk size and stock": "묶음 수량과 재고",
     "Larger paid orders may require additional preparation before dispatch.": "큰 수량의 결제 완료 주문은 발송 전 준비 시간이 더 필요할 수 있습니다.",
     Tracking: "배송 추적",
     "Need help with an order?": "주문 도움이 필요하신가요?",
-    "Use Shopee chat for a Shopee transaction, or prepare a message for the hondit team.": "Shopee 주문은 Shopee 채팅을, 대량주문은 hondit 문의를 이용해주세요.",
+    "Use Shopee chat for a Shopee transaction, or prepare a message for the hondit team.": "Shopee 주문은 Shopee 채팅을, 묶음 주문은 hondit 문의를 이용해주세요.",
     "Send a message to hondit with your order number, product and delivery question.": "주문번호, 상품명, 배송 문의 내용을 hondit에 보내주세요.",
   },
   zh: {},
@@ -1437,7 +1437,7 @@ function dynamicText(language: DisplayLanguage, english: string) {
     const announcementMarket = announcementMarkets[announcement[1]];
     const name = country(announcementMarket);
     const only = announcementMarket !== "SG";
-    if (language === "ko") return only ? `${name} 대량주문 전용 - PayPal ${announcement[2]} - 한국 발송` : `${name} 묶음 주문 · PayPal ${announcement[2]} 결제 · 낱개 구매는 Shopee`;
+    if (language === "ko") return only ? `${name} 묶음 주문 전용 - PayPal ${announcement[2]} - 한국 발송` : `${name} 묶음 주문 · PayPal ${announcement[2]} 결제 · 낱개 구매는 Shopee`;
     if (language === "ja") return only ? `${name} 一括注文のみ - PayPal ${announcement[2]} - 韓国発送` : `${name} 一括注文 - PayPal ${announcement[2]} - Shopee 小売対応`;
     return only ? `${name}批量訂購專用 - PayPal ${announcement[2]} - 韓國發貨` : `${name}批量訂購 - PayPal ${announcement[2]} - 可使用 Shopee 零售`;
   }
@@ -1529,7 +1529,7 @@ function dynamicText(language: DisplayLanguage, english: string) {
     english ===
     "Bulk prices are lower because they exclude marketplace fees applied on Shopee. Ordering directly here passes those savings on to you."
   ) {
-    if (language === "ko") return "대량주문가는 Shopee 마켓 수수료를 제외해 구성합니다. 직접 주문하면 그 차액을 고객 가격에 반영합니다.";
+    if (language === "ko") return "묶음 주문가는 Shopee 마켓 수수료를 제외해 구성합니다. 직접 주문하면 그 차액을 고객 가격에 반영합니다.";
     if (language === "ja") return "一括注文価格は Shopee のマーケット手数料を除いて設定しています。直接注文ではその分を価格に反映します。";
     return zh(
       "批量价格不包含 Shopee 平台手续费。直接订购时，这部分差额会反映到客户价格中。",
@@ -1539,7 +1539,7 @@ function dynamicText(language: DisplayLanguage, english: string) {
 
   const fixedMarketPrice = english.match(/^This market uses direct bulk checkout only\. The displayed price is the fixed (SGD|HKD|USD|TWD|JPY|MYR|THB) bulk unit price\.$/);
   if (fixedMarketPrice) {
-    if (language === "ko") return `이 판매 지역은 직접 대량주문만 운영합니다. 표시 금액은 고정 ${fixedMarketPrice[1]} 대량주문 단가입니다.`;
+    if (language === "ko") return `이 판매 지역은 직접 묶음 주문만 운영합니다. 표시 금액은 고정 ${fixedMarketPrice[1]} 묶음 주문 단가입니다.`;
     if (language === "ja") return `この販売地域は直接一括注文のみ対応します。表示価格は固定の${fixedMarketPrice[1]}一括注文単価です。`;
     return zh(
       `此销售地区仅支持直接批量结账。显示价格为固定 ${fixedMarketPrice[1]} 批量单价。`,
@@ -1591,8 +1591,8 @@ const koCleanOverrides: TextDictionary = {
   Shipping: "배송",
   Contact: "문의",
   Menu: "메뉴",
-  "Shop on Shopee ->": "Shopee에서 구매 ->",
-  "Bulk checkout ->": "대량 결제 ->",
+  "Shop on Shopee ->": "Shopee에서 구매 →",
+  "Bulk checkout ->": "묶음 주문 결제 →",
   "A student-led brand based at": "제주대학교 기반 학생 운영 브랜드",
   "Jeju National University.": "제주대학교.",
   "Student-led project based at Jeju National University.": "제주대학교 기반 학생 운영 프로젝트.",
@@ -1613,11 +1613,11 @@ const koCleanOverrides: TextDictionary = {
   "FOR INDIVIDUALS": "개인 구매",
   "Buy on Shopee": "Shopee 구매",
   "FOR BUSINESSES AND GROUPS": "사업자 및 단체",
-  "Bulk Checkout": "대량 결제",
-  "Bulk only": "대량 주문 전용",
+  "Bulk Checkout": "묶음 주문 결제",
+  "Bulk only": "묶음 주문 전용",
   "Jeju-based student team": "제주 기반 학생팀",
   "Official Shopee route": "공식 Shopee 경로",
-  "Direct bulk checkout": "직접 대량 결제",
+  "Direct bulk checkout": "직접 묶음 주문",
   ORIGIN: "기원",
   RETAIL: "리테일",
   ROUTE: "경로",
@@ -1626,14 +1626,14 @@ const koCleanOverrides: TextDictionary = {
   "Jeju National University": "제주대학교",
   "Student-led and based in Jeju City.": "제주시 기반 학생 운영 프로젝트입니다.",
   "Live price, vouchers and protected checkout.": "실시간 가격, 바우처, 보호 결제를 이용합니다.",
-  "Bulk only direct route": "대량 주문 전용 직접 경로",
-  "Direct bulk orders dispatch from Korea after PayPal capture.": "대량 주문은 PayPal 결제 완료 후 한국에서 발송 준비됩니다.",
+  "Bulk only direct route": "묶음 주문 전용 직접 경로",
+  "Direct bulk orders dispatch from Korea after PayPal capture.": "묶음 주문은 PayPal 결제 완료 후 한국에서 발송 준비됩니다.",
   "Two clear routes": "두 가지 구매 경로",
   "SEA - STONE - WIND": "바다 · 돌 · 바람",
   "A place you can feel,": "느낄 수 있는 장소,",
   "before it becomes a ritual.": "리추얼이 되기 전에.",
   "Our edit begins with Jeju's quiet materials: moving water, porous volcanic stone and air that never quite stands still.": "hondit의 셀렉션은 움직이는 물, 다공성 화산석, 멈추지 않는 공기처럼 조용한 제주 소재에서 시작됩니다.",
-  "Explore our Jeju ->": "HONDIT 소개 보기 ->",
+  "Explore our Jeju ->": "HONDIT 소개 보기 →",
   "SHOP BY RITUAL": "리추얼별 보기",
   "Find your": "나에게 맞는",
   "everyday fit.": "일상의 선택.",
@@ -2290,7 +2290,7 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 
   const trackedMinimumOrder = english.match(/^Choose the minimum order quantity and create a tracked (SGD|HKD|USD|TWD|JPY|MYR|THB) order\. ->$/);
   if (trackedMinimumOrder) {
-    if (language === "ko") return `최소 주문 수량을 선택하고 추적 가능한 ${trackedMinimumOrder[1]} 주문을 생성합니다. ->`;
+    if (language === "ko") return `최소 주문 수량을 선택하고 추적 가능한 ${trackedMinimumOrder[1]} 주문을 생성합니다. →`;
     if (language === "ja") return `最低注文数を選択し、追跡可能な${trackedMinimumOrder[1]}注文を作成します。 ->`;
     return `選擇最低訂購數量並建立可追蹤的 ${trackedMinimumOrder[1]} 訂單。 ->`;
   }
@@ -2353,14 +2353,14 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 
   const directInbox = english.match(/^Send a message directly to the hondit admin inbox for (.+) bulk orders, or use Shopee Chat for an existing Shopee order\.$/);
   if (directInbox) {
-    if (language === "ko") return `${directInbox[1]} 대량주문 문의는 hondit 관리자 문의함으로 보내거나, 기존 Shopee 주문은 Shopee 채팅을 이용하세요.`;
+    if (language === "ko") return `${directInbox[1]} 묶음 주문 문의는 hondit 관리자 문의함으로 보내거나, 기존 Shopee 주문은 Shopee 채팅을 이용하세요.`;
     if (language === "ja") return `${directInbox[1]}の一括注文についてはhondit管理受信箱へお問い合わせください。既存のShopee注文はShopeeチャットをご利用ください。`;
     return `${directInbox[1]}批量訂單可直接傳送訊息至 hondit 管理收件箱；現有 Shopee 訂單請使用 Shopee 聊天。`;
   }
 
   const marketInboxOnly = english.match(/^(.+) orders are handled by hondit bulk checkout only\. Every question sent here is saved to the protected admin inbox\.$/);
   if (marketInboxOnly) {
-    if (language === "ko") return `${marketInboxOnly[1]} 주문은 hondit 대량주문 결제로만 처리됩니다. 이곳에서 보낸 문의는 보호된 관리자 문의함에 저장됩니다.`;
+    if (language === "ko") return `${marketInboxOnly[1]} 주문은 hondit 묶음 주문 결제로만 처리됩니다. 이곳에서 보낸 문의는 보호된 관리자 문의함에 저장됩니다.`;
     if (language === "ja") return `${marketInboxOnly[1]}の注文はhondit一括注文決済のみで対応します。ここから送信したお問い合わせは保護された管理受信箱に保存されます。`;
     return `${marketInboxOnly[1]}訂單僅透過 hondit 批量結帳處理。此處送出的查詢會儲存至受保護管理收件箱。`;
   }
@@ -2402,7 +2402,7 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 
   const fixedBulkPrice = english.match(/^Fixed (SGD|HKD|USD|TWD|JPY|MYR|THB) bulk price$/);
   if (fixedBulkPrice) {
-    if (language === "ko") return `고정 ${fixedBulkPrice[1]} 대량 주문가`;
+    if (language === "ko") return `고정 ${fixedBulkPrice[1]} 묶음 주문가`;
     if (language === "ja") return `固定${fixedBulkPrice[1]}一括注文価格`;
     return `固定 ${fixedBulkPrice[1]} 批量價格`;
   }
@@ -2423,7 +2423,7 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 
   const bulkPriced = english.match(/^Bulk orders are priced and captured in (SGD|HKD|USD|TWD|JPY|MYR|THB)\.$/);
   if (bulkPriced) {
-    if (language === "ko") return `대량 주문은 ${bulkPriced[1]}로 가격이 책정되고 결제됩니다.`;
+    if (language === "ko") return `묶음 주문은 ${bulkPriced[1]}로 가격이 책정되고 결제됩니다.`;
     if (language === "ja") return `一括注文は${bulkPriced[1]}で価格設定・決済されます。`;
     return `批量訂單以 ${bulkPriced[1]} 定價並扣款。`;
   }
