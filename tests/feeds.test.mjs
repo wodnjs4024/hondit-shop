@@ -48,6 +48,16 @@ test('only reviewed market/language is active; no silent SG fallback',()=>{
  assert.throws(()=>googleFeed(products,'SG','ja'),RangeError);
 });
 
+test('sitemap discovers exactly the canonical offers from the approved feeds when Live checkout is confirmed', () => {
+  const locations = (xml) => [...parse(xml).querySelectorAll('url > loc')].map((node) => node.textContent);
+  assert.equal(locations(sitemap(products)).filter((url) => new URL(url).pathname.startsWith('/merchant/')).length, 0);
+  const actual = locations(sitemap(products, [], { checkoutLive: true })).filter((url) => new URL(url).pathname.startsWith('/merchant/'));
+  const expected = ['SG', 'JP', 'HK', 'TW', 'TH', 'MY'].flatMap((market) =>
+    [...parse(googleFeed(products, market)).querySelectorAll('item')].map((item) => field(item, 'link')));
+  assert.ok(expected.length > 0);
+  assert.deepEqual([...actual].sort(), [...new Set(expected)].sort());
+});
+
 test('future market remains behind configuration AND actual checkout terms',()=>{
  const previous={...merchantConfig.markets.JP};
  try {

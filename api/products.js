@@ -3,7 +3,7 @@ import pickupInfo from './_pickup.js';
 import { googleFeed, sitemap } from "./_feeds.js";
 import { merchantMarket, merchantOffer, merchantHtml } from "./_merchant.js";
 import { journalRoute, journalArticlesForSitemap } from "./_journal-route.js";
-import { seoRoute } from "./_seo-route.js";
+import { confirmedLiveCheckout, seoRoute } from "./_seo-route.js";
 import { indexNowRoute } from "./_indexnow.js";
 import { applyProductSnapshot, getProducts, getStorefrontProducts, getPayPalMode, json, previewWritesBlocked, requireEnv, supabase, verifyAdmin } from "./_utils.js";
 
@@ -20,6 +20,15 @@ async function draftPreview(req, res, slug) {
   const drafts = await supabase(`/product_revisions?product_id=eq.${encodeURIComponent(product.id)}&state=eq.draft&select=snapshot&limit=1`).catch(() => []);
   const preview = applyProductSnapshot(product, drafts[0]?.snapshot || {});
   return json(res, 200, { products: [{ ...preview, status: "published", active: true }], preview: true, hasDraft: Boolean(drafts[0]) });
+}
+
+async function buildPublicSitemap() {
+  const [products, journal, checkoutLive] = await Promise.all([
+    getStorefrontProducts(),
+    journalArticlesForSitemap(),
+    confirmedLiveCheckout(),
+  ]);
+  return sitemap(products, journal, { checkoutLive });
 }
 
 export default async function handler(req, res) {
@@ -71,16 +80,15 @@ export default async function handler(req, res) {
   // Server-rendered storefront pages (text for crawlers that do not run JavaScript; same function, no new slot).
   if (req.query?.seoPage !== undefined) return seoRoute(req, res);
   if (req.query?.indexnow !== undefined) {
-    return indexNowRoute(req, res, async () => sitemap(await getStorefrontProducts(), undefined, await journalArticlesForSitemap()));
+    return indexNowRoute(req, res, buildPublicSitemap);
   }
   if (["GET", "HEAD"].includes(req.method) && req.query?.sitemap !== undefined) {
     try {
-      const products = await getStorefrontProducts();
-      const journal = await journalArticlesForSitemap();
+      const xml = await buildPublicSitemap();
       res.setHeader("Content-Type", "application/xml; charset=utf-8");
       res.setHeader("Cache-Control", "public, max-age=0, s-maxage=600, stale-while-revalidate=3600");
       res.statusCode = 200;
-      return res.end(req.method === "HEAD" ? "" : sitemap(products, journal));
+      return res.end(req.method === "HEAD" ? "" : xml);
     } catch { return json(res,503,{error:"Could not build sitemap"}); }
   }
   if (req.query?.partnerSlug !== undefined) return partnerGuide({...req,query:{slug:req.query.partnerSlug}},res);

@@ -1,5 +1,5 @@
 // XML and HTML use the same live, approved merchant offer. No fallback to guessed market data.
-import { SITE, merchantMarket, merchantOffer, escapeMarkup as esc } from './_merchant.js';
+import { SITE, merchantConfig, merchantMarket, merchantOffer, escapeMarkup as esc } from './_merchant.js';
 export { SITE } from './_merchant.js';
 import { articlePath, isPublic, languageByCode } from '../shared/journal.js';
 import { pickupAlternates } from '../shared/pickup-search.js';
@@ -34,12 +34,11 @@ ${body}
 
 const STATIC_PAGES = ["/", "/products", "/bulk-orders", "/jeju", "/about", "/faq", "/partners", "/shipping", "/contact", "/policy/refund", "/policy/shipping", "/policy/privacy", "/policy/terms"];
 
-export function sitemap(products, journal = []) {
+export function sitemap(products, journal = [], { checkoutLive = false } = {}) {
   const live = products.filter((p) => p.active !== false && !["draft", "hidden"].includes(p.status));
   const urls = [
     ...STATIC_PAGES,
     ...live.map((p) => `/products/${p.slug}`),
-    ...live.filter((p) => ["foam-oil", "foaming-cleanser", "cleansing-water", "diffuser-350g", "diffuser-500g"].includes(p.slug)).map((p) => `/bulk-orders/${p.slug}`),
   ];
   // Published Journal articles only (the caller passes nothing else). Translations of one story point at each other.
   const articles = journal.filter(isPublic);
@@ -58,6 +57,10 @@ export function sitemap(products, journal = []) {
     ...localEntries(pickupAlternates),
     ...localEntries(diffuserGuideAlternates()),
   ];
+  const merchantEntries = checkoutLive ? Object.keys(merchantConfig.markets)
+    .filter((market) => merchantMarket(market))
+    .flatMap((market) => live.map((product) => feedItem(product, market)).filter(Boolean))
+    .map(({ link, image }) => `  <url><loc>${esc(link)}</loc><image:image><image:loc>${esc(image)}</image:loc></image:image></url>`) : [];
   const pageEntries = [...new Set([...urls, ...journalIndex])].flatMap((url) => {
     const slug = url.startsWith('/products/') ? url.slice('/products/'.length) : '';
     const image = storefrontCatalog.find((product) => product.slug === slug)?.image;
@@ -70,7 +73,7 @@ export function sitemap(products, journal = []) {
   });
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-${pageEntries.concat(localized, articleEntries).join("\n")}
+${pageEntries.concat(localized, articleEntries, merchantEntries).join("\n")}
 </urlset>
 `;
 }

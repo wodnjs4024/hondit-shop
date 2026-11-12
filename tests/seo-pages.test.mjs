@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import Module from 'node:module';
 import { buildSync } from 'esbuild';
-import { buildSeoPage, catalogProducts, orderTerms, diffuserFacts, productSchema } from '../api/_seo-pages.js';
+import { buildSeoPage, catalogProducts, orderTerms, diffuserFacts } from '../api/_seo-pages.js';
 import { termsFor } from '../shared/market-overrides.js';
 import { getPolicyContent } from '../shared/policy-content.js';
 import { pickupAlternates } from '../shared/pickup-search.js';
@@ -14,7 +14,7 @@ import handler from '../api/products.js';
 
 const products = catalogProducts([]);
 const PAGES = [
-  ['home'], ['products'], ['bulk'], ['jeju'], ['pickup'], ['about'], ['faq'], ['shipping'], ['contact'],
+  ['home'], ['products'], ['bulk'], ['jeju'], ['pickup'], ['about'], ['faq'], ['shipping'], ['contact'], ['partners'],
   ...products.flatMap((p) => [['product', { slug: p.slug }], ['bulkProduct', { slug: p.slug }]]),
   ...['shipping', 'refund', 'privacy', 'terms'].map((policy) => ['policy', { policy }]),
 ];
@@ -69,16 +69,13 @@ test('prices, currencies and quantities are exactly the approved checkout terms'
 
 test('StoneJeju (maker) and HONDIT (seller, curator) are kept apart', () => {
   const page = build(['product', { slug: 'diffuser-350g' }]);
-  const schema = page.jsonLd.find((d) => d['@type'] === 'Product');
-  assert.equal(schema.brand.name, 'StoneJeju');
-  assert.equal(schema.manufacturer.name, 'StoneJeju');
-  assert.equal(schema.offers, undefined);
+  const schema = page.jsonLd.find((d) => d['@type'] === 'ItemPage');
+  assert.equal(schema.mainEntity.sameAs, diffuserFacts['diffuser-350g'].source);
   assert.match(page.html, /Maker and product brand: <a[^>]*>StoneJeju<\/a>\. Seller and curator: HONDIT/);
   const home = build(['home']).html;
   assert.match(home, /student team in the GTEP programme at Jeju National University/);
   assert.match(home, /StoneJeju is the maker/);
   assert.match(home, /HONDIT does not manufacture the diffusers/);
-  assert.equal(productSchema(products.find((p) => p.slug === 'foam-oil'), []).brand.name, 'J’essence');
 });
 
 test('server diffuser facts equal src/data/productFacts.ts and policy pages use the shared policy text', () => {
@@ -164,12 +161,8 @@ test('zero-decimal currencies (TWD, JPY) are shown and marked up in whole units,
 
 test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, and pH 5.5 stays shown', () => {
   for (const slug of ['foam-oil', 'foaming-cleanser', 'cleansing-water']) {
-    const product = products.find((p) => p.slug === slug);
     const page = buildSeoPage('product', { slug, products });
-    const schema = productSchema(product, orderTerms(product));
-    assert.equal(schema.brand.name, 'J’essence');
-    assert.equal(schema.manufacturer.name, '제주리퍼블릭');
-    assert.equal(schema.offers, undefined);
+    assert.equal(page.jsonLd.find((d) => d['@type'] === 'ItemPage').mainEntity.sameAs, undefined);
     assert.match(page.html, /J’essence/);
     assert.match(page.html, /제주리퍼블릭/);
   }
@@ -184,9 +177,10 @@ test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, 
 test('market-neutral product pages never publish a unit price as an Offer, and journal articles mark products as Thing', async () => {
   for (const slug of ['diffuser-350g', 'diffuser-500g']) {
     const product = products.find((p) => p.slug === slug);
-    assert.equal(productSchema(product).offers, undefined);
     const page = build(['product', { slug }]);
+    assert.ok(page.jsonLd.every((d) => d['@type'] !== 'Product' && !d.offers));
     const doc = new JSDOM(page.html).window.document;
+    assert.equal(doc.querySelector('main img').getAttribute('src'), product.image);
     const link = doc.querySelector(`a[href="/bulk-orders/${slug}?market=SG&lang=en&quantity=10"]`);
     const term = termsFor(product, 'SG', 10);
     assert.ok(link?.textContent.includes(`SGD ${(term.totalMinor / 100).toFixed(2)} total`));
@@ -341,8 +335,21 @@ test('sitemap lists each language version with hreflang links and product images
     assert.match(xml, new RegExp(`<loc>https://hondit-shop\\.vercel\\.app/products/diffuser-350g\\?lang=${lang}</loc>`));
   }
   assert.doesNotMatch(xml, /shipping\?lang=/);
+  assert.doesNotMatch(xml, /<loc>[^<]+\/bulk-orders\//);
   assert.match(xml, /<image:loc>https:\/\/hondit-shop\.vercel\.app\/images\/diffuser-350g\.webp<\/image:loc>/);
   assert.equal(new Set(xml.match(/<loc>[^<]+<\/loc>/g)).size, xml.match(/<loc>[^<]+<\/loc>/g).length, 'no duplicate URLs');
+});
+
+test('business guide has useful initial HTML and product order routes stay reachable without being indexed', async () => {
+  const partners = await call({ seoPage: 'partners', utm_source: 'instagram' });
+  const partnerDoc = new JSDOM(partners.body).window.document;
+  assert.equal(partners.statusCode, 200);
+  assert.equal(partnerDoc.querySelector('link[rel=canonical]').href, 'https://hondit-shop.vercel.app/partners');
+  assert.equal(partnerDoc.querySelector('main h1').textContent, 'Store & business purchase guide');
+  assert.ok(partnerDoc.querySelector('main a[href="/bulk-orders"]'));
+  const order = await call({ seoPage: 'bulkProduct', seoSlug: 'diffuser-350g', market: 'SG', quantity: '10' });
+  assert.equal(order.statusCode, 200);
+  assert.match(order.body, /<meta name="robots" content="noindex,follow"/);
 });
 
 test('the app keeps the server head on the first view and builds language canonicals the same way', async () => {

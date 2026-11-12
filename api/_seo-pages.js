@@ -11,7 +11,7 @@ import { salesPresentationCopy } from '../shared/sales-presentation-copy.js';
 import { PICKUP_IMAGE, pickupAlternates, pickupSearchLanguage, pickupSearchMeta, pickupSearchPath } from '../shared/pickup-search.js';
 import { diffuserCare as CARE, diffuserGuide, diffuserSpecs as diffuserFacts } from '../shared/diffuser-guide.js';
 import { diffuserGuideAlternates, diffuserGuideMarket, diffuserMarkets } from '../shared/diffuser-search-routes.js';
-import { LOCALES, SEO_LANGUAGES, HREFLANGS, LOCALIZED_PAGES } from '../shared/seo-locales.js';
+import { LOCALES, SEO_LANGUAGES, HREFLANGS, HTML_LANG, LOCALIZED_PAGES } from '../shared/seo-locales.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
 import { escapeMarkup as esc } from './_merchant.js';
@@ -82,19 +82,25 @@ const org = () => ({ '@context': 'https://schema.org', '@type': 'Organization', 
   contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: EMAIL, telephone: PHONE },
   address: { '@type': 'PostalAddress', streetAddress: '102 Jejudaehak-ro', addressLocality: 'Jeju-si', postalCode: '63243', addressCountry: 'KR' },
   description: 'Selling and curation brand of a Jeju National University GTEP student team, introducing StoneJeju volcanic-stone diffusers to overseas customers.' });
-const maker = { '@type': 'Organization', name: 'StoneJeju', url: 'https://stonejeju.com' };
-// Cleansing care: J’essence is the product brand and 제주리퍼블릭 the manufacturer; HONDIT only sells and curates (mirrors ProductDetailPage.tsx).
-const careMaker = { '@type': 'Organization', name: '제주리퍼블릭' };
-
-export function productSchema(product) {
+export function productOverviewSchema(product, {
+  url = `${SITE}/products/${product.slug}`,
+  name = product.name,
+  description = product.description,
+  language = 'en',
+} = {}) {
   const facts = diffuserFacts[product.slug];
-  const isCare = product.category === 'CARE';
-  const brandName = facts ? 'StoneJeju' : isCare ? 'J’essence' : 'HONDIT'; // same as the product page (src/pages/ProductDetailPage.tsx)
-  // A market-neutral product overview has no single payable offer. The existing Merchant URLs own bundle Offer markup.
-  const url = `${SITE}/products/${product.slug}`;
-  return { '@context': 'https://schema.org', '@type': 'Product', '@id': `${url}#product`, url, name: product.name, description: product.description, image: [abs(product.image)], sku: product.apiSlug || product.slug,
-    brand: { '@type': 'Brand', name: brandName }, ...(facts ? { manufacturer: maker } : isCare ? { manufacturer: careMaker } : {}) };
+  return {
+    '@context': 'https://schema.org', '@type': 'ItemPage', url, name, description, inLanguage: language,
+    primaryImageOfPage: { '@type': 'ImageObject', contentUrl: abs(product.image) },
+    mainEntity: {
+      '@type': 'Thing', '@id': `${SITE}/products/${product.slug}#product`, name,
+      ...(facts ? { sameAs: facts.source } : {}),
+    },
+  };
 }
+
+const productImage = (product, name = product.name) =>
+  `<img src="${esc(product.image)}" alt="${esc(name)}" width="880" height="1100" decoding="async">`;
 
 const breadcrumb = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: SITE + path })) });
 const hrefAlternates = (alternates) => alternates.map(({ hreflang, path }) => ({ hreflang, href: SITE + path }));
@@ -161,8 +167,9 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
     const care = facts ? `<section><h2>Care</h2><ul>${CARE.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></section>` : '';
     return { status: 200, canonical, image: abs(product.image), title: `${product.name}${path === 'bulkProduct' ? ' order conditions' : EN_TITLE_TAIL[product.slug] ? `: ${EN_TITLE_TAIL[product.slug]}` : ''} | HONDIT`,
       description: `${product.description} ${facts ? 'A non-electric aroma stone with no flame. Made by StoneJeju, introduced by HONDIT. ' : product.category === 'CARE' ? 'J’essence, made by 제주리퍼블릭, sold by HONDIT. ' : ''}Direct checkout quantities and prices by country.`.slice(0, 300),
-      jsonLd: [...(path === 'product' ? [productSchema(product)] : []), breadcrumb([['Home', '/'], [path === 'product' ? 'Products' : 'Bulk orders', path === 'product' ? '/products' : '/bulk-orders'], [product.name, new URL(canonical).pathname]])],
+      jsonLd: [...(path === 'product' ? [productOverviewSchema(product)] : []), breadcrumb([['Home', '/'], [path === 'product' ? 'Products' : 'Bulk orders', path === 'product' ? '/products' : '/bulk-orders'], [product.name, new URL(canonical).pathname]])],
       html: wrap(`<nav aria-label="Breadcrumb"><a href="/products">Products</a> / ${esc(product.name)}</nav><h1>${esc(product.name)}</h1><p>${esc(product.description)}</p>`
+        + (path === 'product' ? productImage(product) : '')
         + (facts ? `<ul><li>Content: ${esc(facts.content)} Jeju volcanic scoria</li><li>Container: ${esc(facts.container)}</li><li>Size: ${esc(facts.dimensions)}</li><li>Fragrance oil: ${esc(facts.oil)} citrus oil included</li></ul><p>Maker and product brand: <a href="${esc(facts.source)}">StoneJeju</a>. Seller and curator: HONDIT.</p>` : product.category === 'CARE' ? '<p>Brand: J’essence. Manufacturer: 제주리퍼블릭. Seller and curator: HONDIT.</p>' : '')
         + `<section><h2>Highlights</h2><ul>${product.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>How to use</h2><p>Follow the product label.</p><ol>${product.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
@@ -175,6 +182,19 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
     return { status: 200, canonical: SITE + '/bulk-orders', title: 'Bulk Orders and Corporate Gifts: Overseas Quantity Orders | HONDIT', description: 'How HONDIT overseas bundle orders work for corporate gifts, event giveaways and shops: direct PayPal checkout quantities, delivered prices and quote cases for each country.',
       jsonLd: [org(), breadcrumb([['Home', '/'], ['Bulk orders', '/bulk-orders']])],
       html: wrap(`<h1>Overseas bundle orders</h1><p>Choose a product and destination to see available quantities, payment options and delivery terms.</p>${list.map((p) => `<section><h2><a href="/bulk-orders/${esc(p.slug)}">${esc(p.name)}</a></h2>${showOrderTerms ? termsHtml(orderTerms(p), p.slug) : ''}</section>`).join('')}${showOrderTerms ? TERMS_NOTE : ''}<p><a href="/shipping">Shipping</a> · <a href="/policy/refund">Refunds</a> · <a href="/contact">Contact</a></p>`) };
+  }
+  if (path === 'partners') {
+    const path = '/partners';
+    const title = 'Store & business purchase guide';
+    const { businessBody, industries } = salesPresentationCopy('en');
+    const image = '/images/hondit-pack/hondit_codex_image_pack/01_product_originals/08_diffuser_500_wood.webp';
+    return {
+      status: 200, canonical: SITE + path, title: `${title} | HONDIT`, description: businessBody, image: abs(image),
+      jsonLd: [org(), breadcrumb([['HONDIT', '/'], [title, path]])],
+      html: wrap(`<h1>${esc(title)}</h1><p>${esc(businessBody)}</p><figure><img src="${image}" alt="Volcanic Diffuser 500g" width="1126" height="826" decoding="async"><figcaption>${esc(industries)}</figcaption></figure>`
+        + '<section><h2>How an order moves</h2><ol><li>Choose a product and quantity for your market.</li><li>Enter the recipient and delivery details.</li><li>Pay with PayPal when direct checkout is available.</li><li>Receive tracking details after dispatch.</li></ol><p>Send a message for quantities, combinations or support outside these terms.</p></section>'
+        + '<p><a href="/bulk-orders">Overseas bundle orders</a> · <a href="/diffusers">Compare the 350g and 500g diffusers</a> · <a href="/contact">Contact HONDIT</a></p>'),
+    };
   }
   if (path === 'pickup') {
     const copy = salesPresentationCopy(pickupSearchLanguage(language));
@@ -315,11 +335,11 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
     if (!product || !lp) return { status: 404 };
     const rows = showOrderTerms ? orderTerms(product) : [];
     const f = diffuserFacts[product.slug]; const lf = L.facts[product.slug];
-    const schema = { ...productSchema(product), name: lp.name, description: lp.body, inLanguage: lang, url: seoUrl(`/products/${product.slug}`, lang) };
+    const schema = productOverviewSchema(product, { url: seoUrl(`/products/${product.slug}`, lang), name: lp.name, description: lp.body, language: HTML_LANG[lang] });
     return page(`/products/${product.slug}`, { image: abs(product.image), title: lp.title, description: lp.description,
       jsonLd: [schema, breadcrumbL([[L.nav['/'], '/'], [L.nav['/products'], '/products'], [lp.name, `/products/${product.slug}`]])],
-      html: wrapL(`<nav aria-label="Breadcrumb">${a('/products', L.label.products)} / ${esc(lp.name)}</nav><h1>${esc(lp.name)}</h1><p>${esc(lp.body)}</p>`
-        + (f && lf ? `<ul><li>${esc(L.label.content)}${sep}${esc(lf.content)}</li><li>${esc(L.label.container)}${sep}${esc(lf.container)}</li><li>${esc(L.label.size)}${sep}${esc(f.dimensions)}</li><li>${esc(L.label.oil)}${sep}${esc(lf.oil)}</li></ul><p>${esc(L.label.maker)}${sep}<a href="https://stonejeju.com">StoneJeju</a>${stop}${esc(L.label.seller)}${sep}HONDIT${stop.trim()}</p>` : product.category === 'CARE' ? `<p>${esc(L.label.careBrand)}</p>` : '')
+      html: wrapL(`<nav aria-label="Breadcrumb">${a('/products', L.label.products)} / ${esc(lp.name)}</nav><h1>${esc(lp.name)}</h1><p>${esc(lp.body)}</p>${productImage(product, lp.name)}`
+        + (f && lf ? `<ul><li>${esc(L.label.content)}${sep}${esc(lf.content)}</li><li>${esc(L.label.container)}${sep}${esc(lf.container)}</li><li>${esc(L.label.size)}${sep}${esc(f.dimensions)}</li><li>${esc(L.label.oil)}${sep}${esc(lf.oil)}</li></ul><p>${esc(L.label.maker)}${sep}<a href="${esc(f.source)}">StoneJeju</a>${stop}${esc(L.label.seller)}${sep}HONDIT${stop.trim()}</p>` : product.category === 'CARE' ? `<p>${esc(L.label.careBrand)}</p>` : '')
         + `<section><h2>${esc(L.label.highlights)}</h2><ul>${lp.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>${esc(L.label.howTo)}</h2><p>${esc(L.label.followLabel)}</p><ol>${lp.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
         + `<section><h2>${esc(L.label.goodFor)}</h2><p>${esc(lp.goodFor)}</p></section>`

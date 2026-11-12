@@ -13,7 +13,7 @@ const catalogPages = new Set(['home', 'products', 'product', 'bulk', 'bulkProduc
 const orderPages = new Set(['product', 'bulk', 'bulkProduct']);
 const pickupLocales = { en: 'en_SG', ko: 'ko_KR', ja: 'ja_JP', 'zh-Hant': 'zh_HK', ms: 'ms_MY', th: 'th_TH' };
 
-async function confirmedLiveCheckout() {
+export async function confirmedLiveCheckout() {
   if (process.env.VERCEL_ENV !== 'production' || getPayPalMode() !== 'live'
     || !process.env.PAYPAL_CLIENT_ID || !process.env.PAYPAL_CLIENT_SECRET) return false;
   try {
@@ -73,7 +73,8 @@ export async function seoRoute(req, res) {
   const canonical = new URL(page.canonical);
   if (kind === 'home') res.setHeader('Link', `<${homeHeroPoster}>; rel=preload; as=image; fetchpriority=high`);
   const body = setHead(html, {
-    title: page.title, description: page.description, canonical: page.canonical, robots: preview ? 'noindex,follow' : 'index,follow,max-image-preview:large',
+    title: page.title, description: page.description, canonical: page.canonical,
+    robots: preview || kind === 'bulkProduct' ? 'noindex,follow' : 'index,follow,max-image-preview:large',
     image: page.image || html.match(/<meta\s+property="og:image"\s+content="([^"]*)"/)?.[1] || '', type: 'website',
     locale: page.locale || pickupLocales[page.lang] || (localized ? OG_LOCALE[indexedLang] : 'en_SG'),
     lang: page.lang || (localized ? HTML_LANG[indexedLang] : 'en'),

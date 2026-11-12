@@ -43,7 +43,7 @@
     },
     {
       "source": "/partners",
-      "destination": "/app.html"
+      "destination": "/api/products?seoPage=partners"
     },
     {
       "source": "/partners/(.*)",

@@ -179,7 +179,7 @@ function routeMeta(pathname: string, pickupLanguage?: string | null, productMark
         ...productMeta[slug],
         title: `Bulk ${productMeta[slug].title}`,
         description: `Review the minimum order, unit price, shipping details and PayPal checkout for ${productMeta[slug].title.replace(" | hondit", "")}.`,
-        robots: "index,follow",
+        robots: "noindex,follow",
       };
     }
     return {
