@@ -16,7 +16,7 @@
   line-height: 1.75;
 }
 .sales-tools-section a {
-  color: #24483e;
+  color: #1a1c1d;
   text-underline-offset: 4px;
 }
 .sales-tools-table {
@@ -52,7 +52,7 @@
   padding: 10px 12px;
   border: 1px solid #aeb8ac;
   border-radius: 5px;
-  color: #203c32;
+  color: #1a1c1d;
   background: white;
   font: inherit;
 }
@@ -196,7 +196,7 @@
 .stockist-list a {
   display: inline-block;
   padding: 12px 5px 0 0;
-  color: #24483e;
+  color: #1a1c1d;
 }
 .product-guide-page > img {
   max-width: 100%;

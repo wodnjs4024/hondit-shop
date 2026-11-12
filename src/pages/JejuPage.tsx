@@ -34,7 +34,7 @@ export function JejuPage() {
             <a href="https://www.jejunu.ac.kr/eng/intro/guide/directions/aracampus.htm" target="_blank" rel="noreferrer">{marketText(language,"Verify on the official JNU website ->")}</a>
           </div>
           <figure>
-            <img src="/images/jeju-field-university.webp" alt="Jeju National University Ara Campus." />
+            <img src="/images/jeju-field-university.webp" alt="Jeju National University Ara Campus." width={1024} height={683} loading="lazy" decoding="async" />
             <figcaption><b>hondit.</b><span>{marketText(language,"JEJU NATIONAL UNIVERSITY-BASED")}<br />{marketText(language,"Independent student project")}</span></figcaption>
           </figure>
         </section>

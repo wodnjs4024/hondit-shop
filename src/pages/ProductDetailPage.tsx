@@ -30,7 +30,7 @@ const originals = productPhotoRoot;
 
 const singaporeDiffuser350Details = Array.from(
   { length: 9 },
-  (_, index) => `/images/product-details/diffuser-350g-sg/${index + 1}.jpeg`,
+  (_, index) => `/images/product-details/diffuser-350g-sg/${index + 1}.webp`,
 );
 
 export function ProductDetailPage() {
@@ -155,7 +155,7 @@ export function ProductDetailPage() {
             </figure>
             {adminGallery.length
               ? adminGallery.map((url) => <figure className="hd-pdp__photo" key={url}><img src={url} alt={productName} loading="lazy" decoding="async" /></figure>)
-              : (productPhotos[product.slug] ?? []).map((photo) => <figure className="hd-pdp__photo" key={photo.file}>
+              : (productPhotos[product.slug] ?? []).map((photo) => <figure className={photo.width / photo.height < 0.75 ? "hd-pdp__photo is-tall" : "hd-pdp__photo"} key={photo.file}>
               <img src={originals + photo.file} alt={productName} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
             </figure>)}
           </div>

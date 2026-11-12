@@ -474,7 +474,7 @@ export function BulkProductPage() {
     <div className="checkout-summary__core">
       <h2 className="checkout-summary__title">{o.summary}</h2>
       <div className="checkout-summary__product">
-        <figure className="bulk-detail__image"><img src={isCleansingMix ? "/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp" : product.imageUrl} alt={productName}/></figure>
+        <figure className="bulk-detail__image"><img src={isCleansingMix ? "/images/hondit-pack/hondit_codex_image_pack/02_brand_lifestyle/03_cleansing_trio_ice.webp" : product.imageUrl} alt={productName} width={isCleansingMix ? 1448 : 880} height={isCleansingMix ? 1086 : 1100} decoding="async"/></figure>
         <p><strong>{productName}</strong>{!isCleansingMix&&productVolume&&<span>{productVolume}</span>}</p>
       </div>
       <dl className="order-lines">
