@@ -50,7 +50,7 @@ export function HomePage() {
   useRowAlign(railRef, ".hd-tile__body h3", [marketProducts, language]);
   const diffusers = marketProducts.filter((product) => product.category === "SCENT" && productFacts(product.slug));
   const collection = (() => {
-    if (language === "ko") return { title: "제주에서 고른 컬렉션", description: `${countryName}에서 구매 가능한 제품을 확인하세요.` };
+    if (language === "ko") return { title: "제주에서 고른 컬렉션", description: `${countryName}에서 주문할 수 있는` };
     if (language === "ja") return { title: "済州から選んだコレクション", description: `${countryName}で購入できる商品をご覧ください。` };
     if (language === "zh-HK" || language === "zh-TW" || language === "zh") return { title: "濟州精選系列", description: `查看可配送至${countryName}的產品。` };
     if (language === "ms") return { title: "Koleksi pilihan Jeju", description: `Terokai produk yang tersedia untuk ${countryName}.` };
@@ -173,7 +173,7 @@ export function HomePage() {
               {([["Container", (f: NonNullable<ReturnType<typeof productFacts>>) => t(f.container)], ["Declared content", (f: NonNullable<ReturnType<typeof productFacts>>) => f.content], ["Dimensions (W × H × D)", (f: NonNullable<ReturnType<typeof productFacts>>) => f.dimensions], ["Citrus fragrance oil", (f: NonNullable<ReturnType<typeof productFacts>>) => f.oil]] as const).map(([label, value]) =>
                 <tr key={label}><th scope="row">{t(label)}</th>{diffusers.map((product) => <td key={product.slug}>{value(productFacts(product.slug)!)}</td>)}</tr>)}
               <tr className="hd-compare__price"><th scope="row">{t(`${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)}</th>{diffusers.map((product) => <td key={product.slug}>{formatMarketUnitMoney(product, market)}</td>)}</tr>
-              <tr><th scope="row">{t("Minimum")}</th>{diffusers.map((product) => <td key={product.slug}>{product.bulkMoq} {t("units")}</td>)}</tr>
+              <tr><th scope="row">{t("Minimum")}</th>{diffusers.map((product) => <td key={product.slug}>{product.bulkMoq}{language === "ko" ? "" : " "}{t("units")}</td>)}</tr>
               <tr className="hd-compare__actions"><td />{diffusers.map((product) => <td key={product.slug}>
                 <Link className="hd-btn hd-btn--solid" to={selectionUrl("/bulk-orders",{slug:product.slug,quantity:product.bulkMoq,market:market.code,language})}>{t("Overseas bundle orders")}</Link>
                 <Link className="hd-textlink" to={`/products/${product.slug}${pageQuery}`}>{t("Product details", "상품 상세 설명")}</Link>

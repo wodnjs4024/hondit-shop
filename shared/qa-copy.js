@@ -153,7 +153,7 @@ export const qaCopy = {
   },
   "Choose delivery and pickup options, then your purchase purpose.": {
     "en": "Choose delivery and pickup options, then your purchase purpose.",
-    "ko": "배송·수령 방법과 구매 목적을 선택하세요.",
+    "ko": "주문 방법과 받는 곳을 고르세요.",
     "zh-HK": "請選擇運送或取貨方式及購買用途。",
     "ja": "配送・受取方法と購入目的を選んでください。",
     "ms": "Pilih cara penghantaran atau pengambilan dan tujuan pembelian.",
@@ -193,7 +193,7 @@ export const qaCopy = {
   },
   "Choose delivery separately from your purchase purpose.": {
     "en": "Choose delivery and pickup options, then your purchase purpose.",
-    "ko": "배송·수령 방법과 구매 목적을 선택하세요.",
+    "ko": "주문 방법과 받는 곳을 고르세요.",
     "zh-HK": "請選擇運送或取貨方式及購買用途。",
     "ja": "配送・受取方法と購入目的を選んでください。",
     "ms": "Pilih cara penghantaran atau pengambilan dan tujuan pembelian.",

@@ -392,7 +392,7 @@ export const salesToolsCopy = {
     "th": "ปรึกษาสั่งซื้ออีกครั้ง"
   },
   "Reorders require a new check of current prices, availability and delivery conditions.": {
-    "ko": "재주문은 현재 가격·공급 가능 여부·배송조건을 다시 확인합니다.",
+    "ko": "다시 주문할 때는 그 시점의 가격, 재고, 배송 조건을 새로 확인합니다.",
     "zh-HK": "再次訂購須重新確認現行價格、供貨及運輸條件。",
     "ja": "再注文は現在の価格・供給可否・配送条件を再確認します。",
     "ms": "Pesanan semula memerlukan semakan harga, stok dan syarat penghantaran semasa.",

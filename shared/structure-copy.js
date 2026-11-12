@@ -1,5 +1,5 @@
 export const structureCopy = {
-"SG diffuser orders of 10 or 20+ units and single cleansing product orders of 30+ units (in steps of 10) include international shipping. Mixed orders require confirmation.":{"ko": "SG 디퓨저 10개 또는 20개 이상, 클렌징 단일 상품 30개 이상(10개 단위) 주문은 국제배송비가 포함됩니다. 여러 상품을 섞은 주문은 별도 확인합니다.", "zh-HK": "SG擴香10件或20件以上、潔面單一產品30件以上（以10件為單位）訂單含國際運費。混合訂單須另行確認。", "ja": "SG向けディフューザー10個または20個以上、クレンジング単一商品30個以上（10個単位）の注文は国際送料込みです。複数商品の注文は別途確認します。", "ms": "Pesanan diffuser SG 10 atau 20+ unit dan satu produk pencuci 30+ unit (gandaan 10) termasuk penghantaran antarabangsa. Pesanan campuran perlu pengesahan.", "th": "ดิฟฟิวเซอร์ SG 10 ชิ้นหรือตั้งแต่ 20 ชิ้น และผลิตภัณฑ์ทำความสะอาดชนิดเดียวตั้งแต่ 30 ชิ้น (ทีละ 10 ชิ้น) รวมค่าจัดส่งระหว่างประเทศ คำสั่งซื้อแบบผสมต้องยืนยันแยกต่างหาก"},
+"SG diffuser orders of 10 or 20+ units and single cleansing product orders of 30+ units (in steps of 10) include international shipping. Mixed orders require confirmation.":{"ko": "싱가포르로 보내는 디퓨저는 10개(체험 주문) 또는 20개 이상, 클렌징은 한 상품을 30개 이상 10개 단위로 주문하면 국제배송비가 포함됩니다. 여러 상품을 섞은 주문은 따로 확인합니다.", "zh-HK": "SG擴香10件或20件以上、潔面單一產品30件以上（以10件為單位）訂單含國際運費。混合訂單須另行確認。", "ja": "SG向けディフューザー10個または20個以上、クレンジング単一商品30個以上（10個単位）の注文は国際送料込みです。複数商品の注文は別途確認します。", "ms": "Pesanan diffuser SG 10 atau 20+ unit dan satu produk pencuci 30+ unit (gandaan 10) termasuk penghantaran antarabangsa. Pesanan campuran perlu pengesahan.", "th": "ดิฟฟิวเซอร์ SG 10 ชิ้นหรือตั้งแต่ 20 ชิ้น และผลิตภัณฑ์ทำความสะอาดชนิดเดียวตั้งแต่ 30 ชิ้น (ทีละ 10 ชิ้น) รวมค่าจัดส่งระหว่างประเทศ คำสั่งซื้อแบบผสมต้องยืนยันแยกต่างหาก"},
 "EMS shipping is included for 30 or more units in steps of 10. Mixed products in one order require confirmation.":{"ko": "30개 이상 10개 단위 주문은 EMS 배송비가 포함됩니다. 여러 상품을 섞은 주문은 별도 확인합니다.", "zh-HK": "30件以上並以10件為單位的訂單包含EMS運費。混合產品訂單須另行確認。", "ja": "30個以上・10個単位のご注文はEMS送料込みです。複数商品を混ぜた注文は別途確認します。", "ms": "Kos EMS termasuk untuk 30 unit atau lebih dalam gandaan 10. Pesanan produk campuran perlu pengesahan.", "th": "สั่งตั้งแต่ 30 ชิ้นขึ้นไปทีละ 10 ชิ้น รวมค่าส่ง EMS แล้ว คำสั่งซื้อที่มีสินค้าหลายรายการต้องยืนยันแยกต่างหาก"},
 "Prices and PayPal payment are in SGD. Card issuer conversion fees may apply.":{"ko": "가격 표시와 PayPal 결제는 SGD(싱가포르 달러)입니다. 카드사 환전 수수료가 발생할 수 있습니다.", "zh-HK": "價格及PayPal付款均以新加坡元（SGD）計算，發卡機構可能收取兌換手續費。", "ja": "価格表示とPayPal決済はSGD（シンガポールドル）です。カード会社の為替手数料がかかる場合があります。", "ms": "Harga dan bayaran PayPal dalam SGD. Caj penukaran pengeluar kad mungkin dikenakan.", "th": "ราคาและการชำระเงินผ่าน PayPal เป็นสกุล SGD อาจมีค่าธรรมเนียมแลกเปลี่ยนจากผู้ออกบัตร"},
 "SG diffuser orders of 10 or 20+ units and single cleansing SKU orders of 30 units include international shipping. Mixed orders require confirmation.":{"ko":"SG 디퓨저 10개 또는 20개 이상, 클렌징 단일 SKU 30개 주문은 국제배송비가 포함됩니다. 다품목 주문은 별도 확인합니다.","zh-HK":"SG擴香10件或20件以上、潔面單一SKU 30件訂單含國際運費。混合訂單須另行確認。","ja":"SG向けディフューザー10個または20個以上、クレンジング単一SKU30個の注文は国際送料込みです。複数商品の注文は別途確認します。","ms":"Pesanan diffuser SG 10 atau 20+ unit dan satu SKU pencuci 30 unit termasuk penghantaran antarabangsa. Pesanan campuran perlu pengesahan.","th":"ดิฟฟิวเซอร์ SG 10 ชิ้นหรือตั้งแต่ 20 ชิ้น และผลิตภัณฑ์ทำความสะอาด SKU เดียว 30 ชิ้นรวมค่าจัดส่งระหว่างประเทศ คำสั่งซื้อผสมต้องยืนยันแยก"},
@@ -28,14 +28,14 @@ export const structureCopy = {
     "th": "การรับสินค้าที่เชจูยังไม่เปิดจองหรือชำระเงิน"
   },
   "Choose delivery separately from your purchase purpose.": {
-    "ko": "이행 방식과 구매 목적을 각각 선택하세요.",
+    "ko": "주문 방법과 받는 곳을 고르세요.",
     "zh-HK": "請分開選擇履約方式及購買目的。",
     "ja": "受取方法と購入目的は別々に選んでください。",
     "ms": "Pilih kaedah penyerahan berasingan daripada tujuan pembelian.",
     "th": "เลือกวิธีรับสินค้าแยกจากวัตถุประสงค์การซื้อ"
   },
   "International delivery is offered as MOQ bundles, not individual small-quantity shipping. Group purchases are welcome.": {
-    "ko": "해외 배송은 상품별 MOQ 묶음으로 운영하며 개인 소량배송은 제공하지 않습니다. 공동구매도 가능합니다.",
+    "ko": "해외 배송은 상품별 최소 수량(MOQ) 묶음으로만 보냅니다. 낱개 소량 배송은 하지 않으며, 여럿이 모아 함께 주문할 수 있습니다.",
     "zh-HK": "國際運送按產品最低數量組合提供，不提供個人少量運送，亦可團購。",
     "ja": "海外配送は商品別の最低数量セットです。個人向け少量配送は行わず、共同購入も可能です。",
     "ms": "Penghantaran antarabangsa dalam pakej MOQ, bukan kuantiti kecil individu. Pembelian berkumpulan dialu-alukan.",

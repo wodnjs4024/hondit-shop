@@ -91,7 +91,7 @@ export const buyerFlowCopy={
     "th": "คำถามอื่น"
   },
   "Order the listed MOQ bundle": {
-    "ko": "표시된 최소 수량 묶음으로 주문",
+    "ko": "최소 수량부터 주문",
     "zh-HK": "按所列最低數量組合下單",
     "ja": "表示の最低数量セットで注文",
     "ms": "Pesan pakej MOQ dipaparkan",

@@ -84,7 +84,7 @@ export const markets: Record<MarketCode, MarketConfig> = {
     rateFromSgd: 1,
     hasShopee: true,
     announcement: "SINGAPORE BULK ORDER - PAYPAL SGD - SHOPEE RETAIL AVAILABLE",
-    announcementKo: "싱가포르 대량주문 - PayPal SGD - Shopee 개별 구매 가능",
+    announcementKo: "싱가포르 묶음 주문 · PayPal SGD 결제 · 낱개 구매는 Shopee",
     footerLine: "Pieces of Jeju Island,\narriving in Singapore.",
     footerLineKo: "제주의 조각이\n싱가포르에 도착합니다.",
     checkoutNote: "Free Singapore EMS shipping included",
@@ -1435,7 +1435,7 @@ function dynamicText(language: DisplayLanguage, english: string) {
     const announcementMarket = announcementMarkets[announcement[1]];
     const name = country(announcementMarket);
     const only = announcementMarket !== "SG";
-    if (language === "ko") return only ? `${name} 대량주문 전용 - PayPal ${announcement[2]} - 한국 발송` : `${name} 대량주문 - PayPal ${announcement[2]} - Shopee 개별 구매 가능`;
+    if (language === "ko") return only ? `${name} 대량주문 전용 - PayPal ${announcement[2]} - 한국 발송` : `${name} 묶음 주문 · PayPal ${announcement[2]} 결제 · 낱개 구매는 Shopee`;
     if (language === "ja") return only ? `${name} 一括注文のみ - PayPal ${announcement[2]} - 韓国発送` : `${name} 一括注文 - PayPal ${announcement[2]} - Shopee 小売対応`;
     return only ? `${name}批量訂購專用 - PayPal ${announcement[2]} - 韓國發貨` : `${name}批量訂購 - PayPal ${announcement[2]} - 可使用 Shopee 零售`;
   }
@@ -1585,7 +1585,7 @@ const koCleanOverrides: TextDictionary = {
   Home: "홈",
   "Explore Jeju": "제주 보기",
   Products: "상품",
-  "Bulk Orders": "대량 주문",
+  "Bulk Orders": "묶음 주문",
   Shipping: "배송",
   Contact: "문의",
   Menu: "메뉴",
@@ -1631,23 +1631,23 @@ const koCleanOverrides: TextDictionary = {
   "A place you can feel,": "느낄 수 있는 장소,",
   "before it becomes a ritual.": "리추얼이 되기 전에.",
   "Our edit begins with Jeju's quiet materials: moving water, porous volcanic stone and air that never quite stands still.": "hondit의 셀렉션은 움직이는 물, 다공성 화산석, 멈추지 않는 공기처럼 조용한 제주 소재에서 시작됩니다.",
-  "Explore our Jeju ->": "우리의 제주 보기 ->",
+  "Explore our Jeju ->": "HONDIT 소개 보기 ->",
   "SHOP BY RITUAL": "리추얼별 보기",
   "Find your": "나에게 맞는",
   "everyday fit.": "일상의 선택.",
   "VOLCANIC DIFFUSER": "화산석 디퓨저",
-  "No flame. No electricity.": "불꽃 없이. 전기 없이.",
+  "No flame. No electricity.": "불도 전기도 쓰지 않습니다.",
   "Refresh the scent whenever you choose.": "원할 때 향을 다시 더하세요.",
-  "Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.": "시트러스 프래그런스 오일을 제주 화산석에 직접 떨어뜨립니다. 스틱, 열, 전기 없이 돌이 오일을 머금고 자연스럽게 향을 냅니다.",
+  "Apply the citrus fragrance oil directly to the porous Jeju volcanic stone. The stone absorbs the oil and releases the scent naturally-without reed sticks, heat or electricity.": "시트러스 프래그런스 오일을 제주 화산석에 바로 떨어뜨리면, 구멍이 많은 돌이 오일을 머금었다가 향을 냅니다. 리드 스틱도 필요 없습니다.",
   "Jeju Volcanic Stone Diffuser": "제주 화산석 디퓨저",
   "Volcanic stone / Citrus fragrance oil / Ceramic bowl": "화산석 / 시트러스 프래그런스 오일 / 세라믹 볼",
   "Flameless / No electricity / Refreshable scent": "무화염 / 무전기 / 다시 채우는 향",
-  "ADD 10-12 DROPS": "10-12방울 떨어뜨리기",
+  "ADD 10-12 DROPS": "10~12방울 떨어뜨리기",
   "Apply the fragrance oil directly onto the volcanic stone.": "프래그런스 오일을 화산석에 직접 떨어뜨립니다.",
-  "LET IT ABSORB": "흡수시키기",
-  "Allow the porous stone to absorb the oil naturally.": "다공성 돌이 오일을 자연스럽게 머금도록 둡니다.",
-  "REFRESH AS NEEDED": "필요할 때 보충",
-  "Add a few more drops when the scent becomes lighter.": "향이 옅어지면 몇 방울 더해 주세요.",
+  "LET IT ABSORB": "스며들 때까지 두기",
+  "Allow the porous stone to absorb the oil naturally.": "구멍이 많은 돌이 오일을 머금을 때까지 그대로 둡니다.",
+  "REFRESH AS NEEDED": "향이 옅어지면 보충하기",
+  "Add a few more drops when the scent becomes lighter.": "같은 방법으로 몇 방울 더 떨어뜨립니다.",
   "A REAL ROUTE TO OUR ORIGIN": "우리의 기원을 따라가는 실제 경로",
   "Asia to Korea.": "아시아에서 한국으로.",
   "Korea to Jeju.": "한국에서 제주로.",
@@ -2323,7 +2323,7 @@ function cleanDynamicText(language: DisplayLanguage, english: string) {
 
   const bulkUnitPrice = english.match(/^(SGD|HKD|USD|TWD|JPY|MYR|THB) BULK UNIT PRICE$/);
   if (bulkUnitPrice) {
-    if (language === "ko") return `${bulkUnitPrice[1]} 대량주문 개당 가격`;
+    if (language === "ko") return `${bulkUnitPrice[1]} 묶음 주문 개당 가격`;
     if (language === "ja") return `${bulkUnitPrice[1]} 一括注文単価`;
     return `${bulkUnitPrice[1]} 批量單價`;
   }
