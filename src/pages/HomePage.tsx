@@ -16,6 +16,8 @@ import { trackEvent } from "../lib/analytics";
 import { formatMarketUnitMoney, getMarketUnitPrice, isStorefrontProductAllowedForMarket, marketCountryName, marketProductText, marketText, useMarket, type DisplayLanguage } from "../lib/market";
 import { loadStorefrontProducts } from "../lib/storefrontApi";
 import { ProductTile } from "../components/home/ProductTile";
+import { diffuserMarket } from "../../shared/diffuser-search-routes.js";
+import { diffuserGuide } from "../../shared/diffuser-guide.js";
 
 const pick = (copy: Record<string, string>, language: DisplayLanguage) =>
   copy[language === "zh-HK" || language === "zh-TW" ? "zh" : language] ?? copy.en;
@@ -79,6 +81,7 @@ export function HomePage() {
     });
   }, [market, marketProducts,catalogLoaded]);
 
+  const searchMarket = diffuserMarket(market.code, language);
   return (
     <V23Page chrome="home">
       <main className="v23-home hd-home">
@@ -152,6 +155,7 @@ export function HomePage() {
         {diffusers.length > 0 && <section className="hd-sizes" aria-labelledby="hd-sizes-title">
           <header className="hd-bar">
             <h2 id="hd-sizes-title">{t("Compare the diffusers")}</h2>
+            {searchMarket && <Link className="hd-textlink" to={searchMarket.path}>{diffuserGuide(searchMarket).guide}</Link>}
           </header>
           <table className="hd-compare" data-count={diffusers.length}>
             <caption className="hd-visually-hidden">{t("Compare the diffusers")}</caption>

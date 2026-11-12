@@ -2,13 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { useMarket } from "../lib/market";
 import { stonejejuMediaCopy } from "../data/stonejejuMediaCopy";
 import { homeMediaCopy } from "../data/homeMediaCopy";
+import { homeHeroPoster } from "../../shared/storefront-catalog.js";
 
 type FilmKind = "product" | "forest" | "detail";
 const films = {
-  product: { file: "home_product.mp4", poster: "02_product_moss.jpg" },
-  forest: { file: "our_jeju_forest.mp4", poster: "04_forest.jpg" },
-  detail: { file: "detail_product.mp4", poster: "05_product_stone.webp" },
+  product: { file: "home_product.mp4", poster: homeHeroPoster },
+  forest: { file: "our_jeju_forest.mp4", poster: "/media/stonejeju/04_forest.jpg" },
+  detail: { file: "detail_product.mp4", poster: "/media/stonejeju/05_product_stone.webp" },
 };
+type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
 
 /*
  * Only one film plays at a time: the most visible film (at least 35% in view) is elected.
@@ -61,10 +63,12 @@ export function StoneJejuFilm({ kind, priority = false }: { kind: FilmKind; prio
   syncRef.current = sync;
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const connection = (navigator as Navigator & { connection?: Connection }).connection;
+    const allowsAutoplay = () => !connection?.saveData && !["slow-2g", "2g"].includes(connection?.effectiveType || "");
     reduced.current = motion.matches;
     const entry: FilmEntry = {
       ratio: 0,
-      eligible: () => !failedRef.current && !userPaused.current && (manual.current || (!reduced.current && !blocked.current)),
+      eligible: () => !failedRef.current && !userPaused.current && (manual.current || (!reduced.current && !blocked.current && allowsAutoplay())),
       manual: () => manual.current,
       sync: () => syncRef.current(),
     };
@@ -78,9 +82,11 @@ export function StoneJejuFilm({ kind, priority = false }: { kind: FilmKind; prio
     const onVisibility = () => syncRef.current();
     document.addEventListener("visibilitychange", onVisibility);
     motion.addEventListener("change", onMotion);
+    connection?.addEventListener("change", electFilm);
     return () => {
       observer.disconnect(); filmRegistry.delete(id); if (activeFilm === id) activeFilm = null;
       document.removeEventListener("visibilitychange", onVisibility); motion.removeEventListener("change", onMotion);
+      connection?.removeEventListener("change", electFilm);
       videoRef.current?.pause(); electFilm();
     };
   }, [id]);
@@ -95,7 +101,7 @@ export function StoneJejuFilm({ kind, priority = false }: { kind: FilmKind; prio
   const retry = () => { failedRef.current = false; setFailed(false); setPosterFailed(false); blocked.current = false; setAttempt((value) => value + 1); electFilm(); };
   const caption = kind === "product" ? copy.product : kind === "forest" ? copy.forest : copy.detail;
   const alt = kind === "forest" ? mediaCopy.forestAlt : kind === "detail" ? mediaCopy.detailStoneAlt : mediaCopy.homeAlt;
-  const poster = `/media/stonejeju/${films[kind].poster}`;
+  const poster = films[kind].poster;
   return <figure ref={figureRef} className={`stonejeju-film stonejeju-film--${kind}`} data-playing={playing || undefined}>
     {failed ? (posterFailed ? <div className="stonejeju-film__missing" role="img" aria-label={alt} /> :
       <img src={poster} alt={alt} width={1920} height={1080} onError={() => setPosterFailed(true)} />) :

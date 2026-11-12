@@ -18,6 +18,7 @@ export function safePath(path = '/') {
   }
   // Journal article slugs are public, editor-chosen words (never personal data).
   if (/^\/journal(?:\/(?:en|ja|zh-hk|zh-tw)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?)?$/.test(path) && path.length <= 120) return path;
+  if (/^\/diffusers(?:\/(?:japan|hong-kong|taiwan))?$/.test(path)) return path;
   return /^\/(?:|products|bulk-orders|partners|about|faq|jeju(?:\/(?:pickup|stores))?|shipping|contact|policy\/(?:terms|privacy|refund|shipping)|(?:sg|hk|jp|tw)\/(?:ig|fb|c01))$/.test(path) ? path : '/not-found';
 }
 export function functionalParams(input = '') {

@@ -1,0 +1,68 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { JSDOM } from 'jsdom';
+import handler from '../api/products.js';
+import { sitemap } from '../api/_feeds.js';
+import { defaultProducts } from '../api/_bulk-data.js';
+import { safeLanding } from '../shared/tracking-policy.js';
+import { diffuserGuide, diffuserSpecs } from '../shared/diffuser-guide.js';
+import { diffuserMarkets, diffuserProductPath, diffuserSlugs } from '../shared/diffuser-search-routes.js';
+
+const site = 'https://hondit-shop.vercel.app';
+async function request(query, method = 'GET') {
+  const res = { headers: {}, statusCode: 0, body: '', setHeader(k, v) { this.headers[k.toLowerCase()] = v; }, end(b) { this.body = b || ''; } };
+  await handler({ method, query, headers: {} }, res);
+  return res;
+}
+const documentOf = (body) => new JSDOM(body, { url: site }).window.document;
+const alternateMap = (doc) => Object.fromEntries([...doc.querySelectorAll('link[hreflang]')].map((node) => [node.hreflang, node.href]));
+
+test('four regional guides give bots and buyers the same localized answer, maker evidence and correct order links', async () => {
+  let alternate;
+  for (const option of Object.values(diffuserMarkets)) {
+    const query = { seoPage: 'diffuserGuide', seoGuide: option.path.split('/')[2], market: 'MY', utm_source: 'example', lang: 'ko' };
+    const response = await request(query);
+    assert.equal(response.statusCode, 200);
+    const doc = documentOf(response.body);
+    const guide = diffuserGuide(option);
+    assert.equal(doc.documentElement.lang, option.lang);
+    assert.equal(doc.querySelector('link[rel="canonical"]').href, site + option.path);
+    assert.equal(doc.querySelector('h1').textContent, guide.title);
+    assert.ok(doc.body.textContent.includes(guide.buying));
+    assert.equal(alternateMap(doc)[option.hreflang], site + option.path);
+    alternate ??= alternateMap(doc);
+    assert.deepEqual(alternateMap(doc), alternate);
+    for (const product of guide.products) {
+      const order = [...doc.querySelectorAll('a')].find((a) => a.getAttribute('href') === product.orderPath);
+      assert.ok(order);
+      assert.equal(new URL(order.href).searchParams.get('market'), option.market);
+      assert.ok(doc.querySelector(`a[href="${diffuserSpecs[product.slug].source}"]`));
+      assert.ok(doc.querySelector(`a[href="${product.detailsPath}"]`));
+    }
+    assert.ok(!response.body.includes('utm_source') && !response.body.includes('"@type":"Offer"'));
+    assert.equal(safeLanding(site + option.path), option.path);
+    assert.equal((await request(query, 'HEAD')).body, '');
+  }
+  assert.equal((await request({ seoPage: 'diffuserGuide', seoGuide: 'unsupported' })).statusCode, 404);
+});
+
+test('localized product variants self-canonicalize and the sitemap advertises each language once', async () => {
+  const xml = new JSDOM(sitemap(defaultProducts), { contentType: 'application/xml' }).window.document;
+  const urls = [...xml.querySelectorAll('loc')].map((loc) => loc.textContent);
+  assert.equal(new Set(urls).size, urls.length);
+  for (const slug of diffuserSlugs) {
+    for (const option of Object.values(diffuserMarkets)) {
+      const response = await request({ seoPage: 'product', seoSlug: slug, market: option.market, lang: option.lang, quantity: '20', utm_source: 'example' });
+      const doc = documentOf(response.body);
+      const url = site + diffuserProductPath(slug, option);
+      assert.equal(response.statusCode, 200);
+      assert.equal(doc.querySelector('link[rel="canonical"]').href, url);
+      assert.equal(alternateMap(doc)[option.hreflang], url);
+      assert.ok(urls.includes(url));
+      assert.match(doc.body.textContent, /StoneJeju/);
+      assert.doesNotMatch(response.body, /"@type":"Offer"|utm_source/);
+    }
+  }
+  assert.ok(Object.values(diffuserMarkets).every((option) => urls.includes(site + option.path)));
+  assert.doesNotMatch(sitemap([{ ...defaultProducts.find((product) => product.slug === 'diffuser-350g'), markets: { JP: 'hidden' } }]), /diffuser-350g\?market=JP/);
+});

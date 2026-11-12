@@ -3,8 +3,8 @@
 import fs from 'node:fs'; import vm from 'node:vm'; import assert from 'node:assert/strict'; import path from 'node:path'; import { fileURLToPath } from 'node:url';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-const J = await import(repo + '/shared/journal.js');
-const S = await import(repo + '/shared/journal-seed.js');
+const J = await import('../shared/journal.js');
+const S = await import('../shared/journal-seed.js');
 const doc = fs.readFileSync(repo + '/docs/journal-pr-system.md', 'utf8');
 const src = doc.slice(doc.indexOf('```js') + 5, doc.indexOf('```', doc.indexOf('```js') + 5));
 const BASE = 'https://hondit-shop.vercel.app';

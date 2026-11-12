@@ -5,6 +5,8 @@ import { trackEvent } from "../lib/analytics";
 import { fetchJournalArticle, fetchJournalList, initialArticle, initialList, type JournalArticleResponse, type JournalListResponse } from "../lib/journal";
 import { JOURNAL_LANGUAGES, articlePath, formatDate, inlineSegments, languageByCode, languageBySegment, marketLink, parseBody, usageNote, type JournalArticle } from "../../shared/journal";
 import { JOURNAL_FEATURE_IMAGES, PRODUCT_IMAGES, PRODUCT_NAMES, copyFor, coverFor, isDiffuserStory } from "../../shared/journal-copy";
+import { diffuserGuide } from "../../shared/diffuser-guide.js";
+import { diffuserMarket } from "../../shared/diffuser-search-routes.js";
 import { NotFoundPage } from "./NotFoundPage";
 
 function Inline({ text, language }: { text: string; language?: string }) {
@@ -56,6 +58,9 @@ export function JournalArticleView({ article, translations = [], preview = false
   const cta = article.cta_type === "partners" ? { to: "/partners", label: c.partners } : { to: "/contact", label: c.contact };
   const track = (action: string, item?: string) => trackEvent("journal_cta_click", { action_name: action, placement_id: article.slug, item_id: item, page_type: "journal_article" });
   const diffuser = isDiffuserStory(article);
+  const articleLocale = languageByCode(article.language);
+  const guideMarket = diffuser && articleLocale ? diffuserMarket(articleLocale.market, articleLocale.siteLang) : undefined;
+  const guide = guideMarket ? diffuserGuide(guideMarket) : undefined;
   const usage = usageNote(article.body_md);
   const usageImage = JOURNAL_FEATURE_IMAGES.usage;
   const cover = coverFor(article);
@@ -128,6 +133,7 @@ export function JournalArticleView({ article, translations = [], preview = false
               </li>
             ))}
           </ul>
+          {guide && guideMarket && <p><Link className="hd-textlink" to={guideMarket.path}>{guide.guide}</Link></p>}
           <Link className="journal-cta" to={marketLink(cta.to, article.language)} onClick={() => track(cta.to === "/contact" ? "journal_contact_click" : "journal_partners_click")}>{cta.label}</Link>
         </aside>
       )}

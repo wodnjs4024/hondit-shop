@@ -1,5 +1,6 @@
 // Existing storefront presentation data, moved unchanged from v23SiteData.ts.
 // Merchant pages and the React storefront now read the same names, descriptions and default images.
+export const homeHeroPoster = "/media/stonejeju/02_product_moss.jpg";
 export const storefrontCatalog = [
   {
     slug: "diffuser-350g",

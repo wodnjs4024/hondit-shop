@@ -17,6 +17,7 @@ import { sgTerms } from "../../shared/page-sales.js";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { setAnalyticsContext, trackEvent } from "./analytics";
 import { getShortCampaign } from "./shortCampaign";
+import { diffuserGuideMarket, diffuserMarkets } from "../../shared/diffuser-search-routes.js";
 
 export type MarketCode = "SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "TH" | "MY";
 export type DisplayLanguage = "en" | "ko" | "zh" | "zh-HK" | "zh-TW" | "ja" | "ms" | "th";
@@ -238,6 +239,8 @@ function getInitialMarket(): MarketCode {
   if (typeof window === "undefined") return "SG";
   const shortCampaign = getShortCampaign(window.location.pathname);
   if (shortCampaign) return shortCampaign.market;
+  const guide = diffuserGuideMarket(window.location.pathname);
+  if (guide) return guide.market;
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get("market");
   if (isMarketCode(fromUrl)) return fromUrl;
@@ -249,6 +252,8 @@ function getInitialLanguage(): DisplayLanguage {
   if (typeof window === "undefined") return "en";
   const shortCampaign = getShortCampaign(window.location.pathname);
   if (shortCampaign) return shortCampaign.language;
+  const guide = diffuserGuideMarket(window.location.pathname);
+  if (guide) return guide.lang;
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get("lang");
   if (isDisplayLanguage(fromUrl)) return fromUrl;
@@ -260,11 +265,19 @@ export function MarketProvider({ children }: { children: ReactNode }) {
   const location=useLocation(),navigate=useNavigate();
   const [storedMarket, setMarketCode] = useState<MarketCode>(getInitialMarket);
   const [storedLanguage, setLanguageState] = useState<DisplayLanguage>(getInitialLanguage);
-  const params=new URLSearchParams(location.search),short=getShortCampaign(location.pathname);
+  const params=new URLSearchParams(location.search),short=getShortCampaign(location.pathname),guide=diffuserGuideMarket(location.pathname);
   const urlMarket=params.get('market'),urlLanguage=params.get('lang');
-  const marketCode=isMarketCode(urlMarket)?urlMarket:short?.market??storedMarket;
-  const language=isDisplayLanguage(urlLanguage)?urlLanguage:short?.language??storedLanguage;
+  const marketCode=guide?.market??(isMarketCode(urlMarket)?urlMarket:short?.market??storedMarket);
+  const language=guide?.lang??(isDisplayLanguage(urlLanguage)?urlLanguage:short?.language??storedLanguage);
   const updateLocale=(key:'market'|'lang',value:string)=>{
+   if (guide) {
+    const selected = key === 'market' ? Object.values(diffuserMarkets).find((option) => option.market === value) : undefined;
+    if (selected) { navigate(selected.path); return; }
+    const next = new URLSearchParams({ market: marketCode, lang: language });
+    next.set(key, value);
+    navigate({ pathname: '/products', search: '?' + next });
+    return;
+   }
    const next=functionalParams(location.search);next.set('market',marketCode);next.set('lang',language);next.set(key,value);
    navigate({pathname:location.pathname,search:'?'+next,hash:location.hash});
   };

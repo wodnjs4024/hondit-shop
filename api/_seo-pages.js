@@ -9,6 +9,8 @@ import { INFO_PAGES, SITE_FACTS } from '../shared/info-content.js';
 import { pickupRequestTotal } from '../shared/contact-copy.js';
 import { salesPresentationCopy } from '../shared/sales-presentation-copy.js';
 import { PICKUP_IMAGE, pickupAlternates, pickupSearchLanguage, pickupSearchMeta, pickupSearchPath } from '../shared/pickup-search.js';
+import { diffuserCare as CARE, diffuserGuide, diffuserLocalizedMeta, diffuserSpecs as diffuserFacts } from '../shared/diffuser-guide.js';
+import { diffuserGuideAlternates, diffuserGuideMarket, diffuserMarketOptions, diffuserProductAlternates, diffuserProductPath } from '../shared/diffuser-search-routes.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
 import { escapeMarkup as esc } from './_merchant.js';
@@ -18,16 +20,7 @@ const INSTAGRAM = 'https://www.instagram.com/hondit.office/';
 const PHONE = '+82 10-3338-2694'; // WhatsApp and Telegram (src/components/ContactQrs.tsx)
 const MARKET_ORDER = ['SG', 'HK', 'JP', 'TW', 'TH', 'MY', 'BN', 'MO'];
 
-// Verified against the StoneJeju product pages on 2026-10-13 (mirrors src/data/productFacts.ts; a test keeps them equal).
-export const diffuserFacts = {
-  'diffuser-350g': { content: '350g ±', dimensions: '75 × 100 × 75 mm', container: 'Glass vessel', oil: '10mL', source: 'https://stonejeju.com/product/detail.html?product_no=42' },
-  'diffuser-500g': { content: '500g ±', dimensions: '100 × 105 × 100 mm', container: 'Jeju onggi pottery', oil: '10mL', source: 'https://stonejeju.com/product/detail.html?product_no=41' },
-};
-const CARE = [
-  'Natural stone varies in size and colour and may shed fine powder.',
-  'Avoid prolonged contact with sensitive or damaged skin. Follow the product label.',
-  'Rinse the stone in warm water and dry completely before changing the fragrance.',
-];
+export { diffuserFacts };
 const BRAND_LINE = 'HONDIT is the selling and curation brand of a student team in the GTEP programme at Jeju National University. StoneJeju is the maker and product brand of the volcanic-stone diffusers.';
 const WHO_LINE = 'HONDIT does not manufacture the diffusers. It introduces them to overseas customers and answers order questions.';
 
@@ -95,6 +88,46 @@ export function productSchema(product) {
 }
 
 const breadcrumb = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: SITE + path })) });
+const hrefAlternates = (alternates) => alternates.map(({ hreflang, path }) => ({ hreflang, href: SITE + path }));
+
+function comparisonPage(option) {
+  const data = diffuserGuide(option);
+  const models = data.products.map((item) => `<article><img src="${esc(item.image)}" alt="${esc(item.name)}" width="880" height="1100" decoding="async"><h3>${esc(item.name)}</h3><p>${esc(item.useCase)}</p><dl><div><dt>${esc(data.specs)}</dt><dd>${esc(item.dimensions)}</dd></div><div><dt>${esc(data.included)}</dt><dd>${esc(data.oil)}</dd></div></dl><p class="diffuser-guide__links"><a href="${esc(item.detailsPath)}">${esc(data.details)}</a><a href="${esc(item.orderPath)}">${esc(data.order)}</a><a href="${esc(item.source)}">${esc(data.source)}</a></p></article>`).join('');
+  const answers = [[data.how, data.use], [data.buy, data.buying], [data.pickup, data.pickupNote, data.pickupPath]]
+    .map(([question, answer, path]) => `<section><h2>${esc(question)}</h2><p>${esc(answer)}</p>${path ? `<a href="${esc(path)}">${esc(question)}</a>` : ''}</section>`).join('');
+  const other = data.otherMarkets.map((market) => `<a href="${market.path}" lang="${market.lang}" hreflang="${market.hreflang}">${esc(market.label)}</a>`).join('');
+  return {
+    status: 200, canonical: SITE + option.path, lang: option.lang, locale: option.locale,
+    title: data.title + ' | HONDIT', description: data.description, image: abs(data.products[0].image),
+    alternates: hrefAlternates(diffuserGuideAlternates()),
+    jsonLd: [org(), breadcrumb([['HONDIT', '/'], [data.title, option.path]]), {
+      '@context': 'https://schema.org', '@type': 'CollectionPage', url: SITE + option.path, name: data.title,
+      inLanguage: option.lang,
+      mainEntity: { '@type': 'ItemList', itemListElement: data.products.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, url: SITE + item.detailsPath })) },
+    }],
+    html: wrap(`<header class="diffuser-guide__intro"><h1>${esc(data.title)}</h1><p>${esc(data.description)}</p></header>`
+      + `<section class="diffuser-guide__comparison"><h2>${esc(data.compare)}</h2><div class="diffuser-guide__models">${models}</div><p>${esc(data.maker)}</p></section>`
+      + `<div class="diffuser-guide__answers">${answers}</div><nav class="diffuser-guide__markets" aria-label="${esc(data.other)}">${other}</nav>`, 'diffuser-guide'),
+  };
+}
+
+function localizedProductPage(product, option) {
+  if (!diffuserMarketOptions(product).some(({ market }) => market === option.market)) return { status: 404 };
+  const data = diffuserGuide(option);
+  const model = data.products.find((item) => item.slug === product.slug);
+  const { name, title, description } = diffuserLocalizedMeta(product.slug, option);
+  const path = diffuserProductPath(product.slug, option);
+  const canonical = SITE + path;
+  const schema = { ...productSchema(product), '@id': SITE + '/products/' + product.slug + '#product', url: canonical, name, description };
+  return {
+    status: 200, canonical, lang: option.lang, locale: option.locale, title,
+    description, image: abs(product.image), alternates: hrefAlternates(diffuserProductAlternates(product)),
+    jsonLd: [schema, breadcrumb([['HONDIT', '/'], [data.guide, option.path], [name, path]])],
+    html: wrap(`<h1>${esc(name)}</h1><p>${esc(description)}</p><p>${esc(data.maker)}</p><p><a href="${esc(model.source)}">${esc(data.source)}</a></p>`
+      + `<section><h2>${esc(data.how)}</h2><p>${esc(data.use)}</p></section><section><h2>${esc(data.buy)}</h2><p>${esc(data.buying)}</p><p><a href="${esc(model.orderPath)}">${esc(data.order)}</a></p></section>`
+      + `<p><a href="${option.path}">${esc(data.guide)}</a> · <a href="${esc(data.pickupPath)}">${esc(data.pickup)}</a></p>`, 'diffuser-guide'),
+  };
+}
 
 function productSection(product, { heading = 'h2' } = {}) {
   const facts = diffuserFacts[product.slug];
@@ -104,16 +137,20 @@ function productSection(product, { heading = 'h2' } = {}) {
 }
 
 /* A page = { status, title, description, canonical, jsonLd[], html }. `path` is one of the names below. */
-export function buildSeoPage(path, { slug = '', policy = '', language = 'en', products = [], showOrderTerms = true } = {}) {
+export function buildSeoPage(path, { slug = '', policy = '', language = 'en', products = [], showOrderTerms = true, guidePath, productMarket } = {}) {
   const list = products;
   const bySlug = (s) => list.find((p) => p.slug === s);
+  if (path === 'diffuserGuide') {
+    const option = diffuserGuideMarket(guidePath);
+    return option ? comparisonPage(option) : { status: 404 };
+  }
   if (path === 'home') {
     const diffusers = list.filter((p) => p.category === 'SCENT');
     return { status: 200, canonical: SITE + '/', title: 'HONDIT | Jeju volcanic-stone diffusers and care, by a Jeju student team',
       description: 'Jeju volcanic-stone diffusers made by StoneJeju and Jeju-inspired cleansing care, introduced by the HONDIT student team. Direct PayPal checkout for set quantities in Singapore, Hong Kong, Japan, Taiwan and more.',
       jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebSite', name: 'HONDIT', url: SITE }],
       html: wrap(`<h1>HONDIT: Jeju volcanic-stone diffusers and everyday care</h1><p>${esc(BRAND_LINE)}</p><p>${esc(WHO_LINE)}</p>`
-        + `<section><h2>Volcanic-stone diffusers</h2><p>Porous Jeju volcanic scoria in a vessel, scented with the 10mL citrus fragrance oil that comes with it. No electricity and no flame.</p>${diffusers.map((p) => productSection(p, { heading: 'h3' })).join('')}</section>`
+        + `<section><h2>Volcanic-stone diffusers</h2><p>Porous Jeju volcanic scoria in a vessel, scented with the 10mL citrus fragrance oil that comes with it. No electricity and no flame. <a href="/diffusers">Compare the 350g and 500g diffusers</a>.</p>${diffusers.map((p) => productSection(p, { heading: 'h3' })).join('')}</section>`
         + `<section><h2>Cleansing care</h2><ul>${list.filter((p) => p.category === 'CARE').map((p) => `<li><a href="/products/${esc(p.slug)}">${esc(p.name)}</a>: ${esc(p.description)}</li>`).join('')}</ul><p>Brand: J’essence. Manufacturer: 제주리퍼블릭. HONDIT sells and curates these products.</p></section>`
         + `<section><h2>How to order</h2><p>Choose a product and quantity, review the order conditions for your country, then pay with PayPal where direct checkout is open. <a href="/bulk-orders">Bulk order guide</a> · <a href="/shipping">Shipping</a> · <a href="/policy/refund">Refunds</a> · <a href="/contact">Contact</a></p></section>`
         + `<section><h2>From Jeju</h2><p><a href="/jeju">Our Jeju</a> · <a href="/journal">HONDIT Journal</a></p></section>`) };
@@ -126,12 +163,14 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
   if (path === 'product' || path === 'bulkProduct') {
     const product = bySlug(slug);
     if (!product) return { status: 404 };
+    if (path === 'product' && productMarket) return localizedProductPage(product, productMarket);
     const rows = showOrderTerms ? orderTerms(product) : [];
     const facts = diffuserFacts[product.slug];
     const canonical = `${SITE}/${path === 'product' ? 'products' : 'bulk-orders'}/${product.slug}`;
     const care = facts ? `<section><h2>Care</h2><ul>${CARE.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></section>` : '';
     const searchName = facts ? `Jeju Volcanic Stone Diffuser ${slug.endsWith('500g') ? '500g' : '350g'} by StoneJeju` : product.name;
     return { status: 200, canonical, image: abs(product.image), title: `${searchName}${path === 'bulkProduct' ? ' order conditions' : ''} | HONDIT`,
+      ...(path === 'product' && facts ? { alternates: hrefAlternates(diffuserProductAlternates(product)) } : {}),
       description: `${product.description} ${facts ? 'Made by StoneJeju, introduced by HONDIT. ' : product.category === 'CARE' ? 'J’essence, made by 제주리퍼블릭, sold by HONDIT. ' : ''}Check order options by country.`.slice(0, 300),
       jsonLd: [...(path === 'product' ? [productSchema(product)] : []), breadcrumb([['Home', '/'], [path === 'product' ? 'Products' : 'Bulk orders', path === 'product' ? '/products' : '/bulk-orders'], [product.name, new URL(canonical).pathname]])],
       html: wrap(`<nav aria-label="Breadcrumb"><a href="/products">Products</a> / ${esc(product.name)}</nav><h1>${esc(product.name)}</h1><p>${esc(product.description)}</p>`
@@ -140,7 +179,7 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
         + `<section><h2>How to use</h2><p>Follow the product label.</p><ol>${product.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
         + (product.goodFor ? `<section><h2>Good for</h2><p>${esc(product.goodFor)}</p></section>` : '') + care
         + `<section><h2>Order conditions by country</h2>${termsHtml(rows, product.slug)}${rows.length ? TERMS_NOTE : ''}</section>`
-        + (facts ? '<p><a href="/faq">Compare sizes and learn how to use a stone diffuser</a> · <a href="/jeju/pickup">Jeju Airport pickup</a></p>' : '')
+        + (facts ? '<p><a href="/diffusers">Compare the 350g and 500g diffusers</a> · <a href="/faq">Diffuser questions and answers</a> · <a href="/jeju/pickup">Jeju Airport pickup</a></p>' : '')
         + `<p><a href="/bulk-orders/${esc(product.slug)}">Choose quantity</a> · <a href="/policy/refund">Refund policy</a> · <a href="/shipping">Shipping</a> · <a href="/contact">Ask a question</a></p>`) };
   }
   if (path === 'bulk') {

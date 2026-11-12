@@ -7,6 +7,9 @@ if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.
 }
 import {INFO_PAGES} from "../shared/info-content.js";
 import {PICKUP_IMAGE, PICKUP_PATH, pickupSearchMeta, pickupSearchPath} from "../shared/pickup-search.js";
+import {diffuserGuideMarket, diffuserMarkets, diffuserProductLocale, diffuserProductPath, type DiffuserMarket, type DiffuserSlug} from "../shared/diffuser-search-routes.js";
+import {diffuserGuide, diffuserLocalizedMeta} from "../shared/diffuser-guide.js";
+import "./styles/diffuser-guide.css";
 import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { trackCampaignLanding, trackPageView } from "./lib/analytics";
@@ -44,6 +47,7 @@ const AdminPressPage = lazy(() => import("./pages/AdminPressPage").then((module)
 const AboutPage = lazy(() => import("./pages/InfoPage").then((module) => ({ default: module.AboutPage })));
 const FaqPage = lazy(() => import("./pages/InfoPage").then((module) => ({ default: module.FaqPage })));
 const ShippingPage = lazy(() => import("./pages/ShippingPage").then((module) => ({ default: module.ShippingPage })));
+const DiffuserGuidePage = lazy(() => import("./pages/DiffuserGuidePage").then((module) => ({ default: module.DiffuserGuidePage })));
 const JejuPickupPage = lazy(() => import("./pages/JejuPickupPage").then((module) => ({ default: module.JejuPickupPage })));
 const ProductGuidePage = lazy(() => import("./pages/ProductGuidePage").then((module) => ({ default: module.ProductGuidePage })));
 const PartnersPage = lazy(() => import("./pages/PartnersPage").then((module) => ({ default: module.PartnersPage })));
@@ -114,7 +118,16 @@ const policyMeta: Record<string, { title: string; description: string }> = {
   },
 };
 
-function routeMeta(pathname: string, pickupLanguage?: string | null): PageMeta {
+function routeMeta(pathname: string, pickupLanguage?: string | null, productMarket?: DiffuserMarket): PageMeta {
+  const guideMarket = diffuserGuideMarket(pathname);
+  if (guideMarket) {
+    const guide = diffuserGuide(guideMarket);
+    return { title: guide.title + " | HONDIT", description: guide.description, image: siteUrl + guide.products[0].image, robots: "index,follow,max-image-preview:large" };
+  }
+  if (productMarket) {
+    const data = diffuserLocalizedMeta(pathname.slice("/products/".length) as DiffuserSlug, productMarket);
+    return { title: data.title, description: data.description, image: siteUrl + data.image, robots: "index,follow,max-image-preview:large" };
+  }
   if (pathname === PICKUP_PATH) return { ...pickupSearchMeta(pickupLanguage), robots: "index,follow,max-image-preview:large", image: siteUrl + PICKUP_IMAGE };
   if(pathname.startsWith("/guide/"))return {title:"Product care & follow-up | hondit",description:"Product use, care and consultation.",robots:"noindex,follow",image:defaultOgImage};
   if(pathname==='/partners')return {title:'Store & business purchase guide | hondit',description:'Review products, approved bundle prices and sales support. Order eligible bundles directly or contact HONDIT for additional requests.',robots:'index,follow',image:defaultOgImage};
@@ -270,10 +283,14 @@ export default function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
   const pickupLanguage = location.pathname === PICKUP_PATH ? new URLSearchParams(location.search).get("lang") : null;
+  const localizedMarket = diffuserProductLocale(location.pathname, location.search)?.option.market;
+  const draftProduct = location.pathname.startsWith("/products/") && new URLSearchParams(location.search).get("preview") === "1";
 
   useEffect(() => {
-    const meta = routeMeta(location.pathname, pickupLanguage);
-    const canonical = siteUrl + (location.pathname === PICKUP_PATH ? pickupSearchPath(pickupLanguage) : location.pathname);
+    const productMarket = localizedMarket && localizedMarket !== "SG" ? diffuserMarkets[localizedMarket] : undefined;
+    const slug = location.pathname.slice("/products/".length) as DiffuserSlug;
+    const meta = routeMeta(location.pathname, pickupLanguage, productMarket);
+    const canonical = siteUrl + (location.pathname === PICKUP_PATH ? pickupSearchPath(pickupLanguage) : productMarket ? diffuserProductPath(slug, productMarket) : location.pathname);
     const serverPath = document.head.querySelector<HTMLMetaElement>('meta[name="hondit-ssr-path"]');
     const serverCanonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (serverPath?.content === location.pathname && serverCanonical?.href === canonical) return;
@@ -298,9 +315,9 @@ export default function App() {
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title" }, meta.title);
     upsertMeta('meta[name="twitter:description"]', { name: "twitter:description" }, meta.description);
     upsertMeta('meta[name="twitter:image"]', { name: "twitter:image" }, meta.image);
-    upsertMeta('meta[name="robots"]', { name: "robots" }, meta.robots);
+    upsertMeta('meta[name="robots"]', { name: "robots" }, draftProduct || import.meta.env.VITE_VERCEL_ENV === "preview" ? "noindex,follow" : meta.robots);
     upsertMeta('link[rel="canonical"]', { rel: "canonical" }, canonical);
-  }, [location.pathname, pickupLanguage]);
+  }, [location.pathname, pickupLanguage, localizedMarket, draftProduct]);
 
   useEffect(() => {
     trackPageView(`${location.pathname}${location.search}${location.hash}`);
@@ -316,6 +333,8 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/jeju" element={<JejuPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/diffusers" element={<DiffuserGuidePage />} />
+        <Route path="/diffusers/:region" element={<DiffuserGuidePage />} />
         <Route path="/sg/ig" element={<ProductsPage />} />
         <Route path="/sg/fb" element={<ProductsPage />} />
         <Route path="/sg/c01" element={<ProductsPage />} />

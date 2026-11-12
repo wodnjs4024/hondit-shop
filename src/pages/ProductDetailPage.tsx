@@ -23,6 +23,8 @@ import { getAdminToken } from "../lib/bulkApi";
 import { catalogCopy } from "../data/catalogCopy";
 import { productDescription as describeProduct, productGallery, productList, productMainImage, productName as nameOf, productPriceLabel } from "../lib/productText";
 import { salesPresentationCopy } from "../data/salesPresentationCopy";
+import { diffuserGuide, diffuserLocalizedMeta } from "../../shared/diffuser-guide.js";
+import { diffuserMarket, diffuserProductLocale } from "../../shared/diffuser-search-routes.js";
 import { NotFoundPage } from "./NotFoundPage";
 import { productPhotoRoot, productPhotos } from "../data/productPhotos";
 
@@ -95,6 +97,10 @@ export function ProductDetailPage() {
   };
   const mainImage = productMainImage(product);
   const adminGallery = productGallery(product);
+  const locale = diffuserProductLocale('/products/' + productId, params.toString());
+  const guideOption = previewMode ? undefined : locale?.option ?? diffuserMarket(market.code, language);
+  const searchGuide = guideOption && diffuserGuide(guideOption);
+  const localizedProduct = locale && locale.option.market !== "SG" ? diffuserLocalizedMeta(locale.slug, locale.option) : undefined;
   return (
     <V23Page>
       <main className="v23-product-detail hd-page hd-pdp">
@@ -155,12 +161,25 @@ export function ProductDetailPage() {
           <ProductCare slug={product.slug}/>
           {productFacts(product.slug) && (
             <p className="info-page__links">
+              {searchGuide && guideOption && <Link to={guideOption.path}>{searchGuide.guide}</Link>}
               <Link to={`/faq?${new URLSearchParams({ market: market.code, lang: language })}`}>{marketText(language, "FAQ", "자주 묻는 질문")}</Link>
               <Link to={`/jeju/pickup?${new URLSearchParams({ market: market.code, lang: language, product: product.slug })}`}>{salesPresentationCopy(language).pickupNav}</Link>
             </p>
           )}
           {!product.quoteOnly && <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>}
         </div>
+
+        {searchGuide && localizedProduct && (
+          <section className="info-page__body">
+            <h2>{localizedProduct.name}</h2>
+            <p>{localizedProduct.description}</p>
+            <p>{searchGuide.maker} <a href={productFacts(product.slug)?.source}>{searchGuide.source}</a></p>
+            <h3>{searchGuide.how}</h3>
+            <p>{searchGuide.use}</p>
+            <h3>{searchGuide.buy}</h3>
+            <p>{searchGuide.buying}</p>
+          </section>
+        )}
 
         {product.slug === "diffuser-500g" && <StoneJejuSceneGallery />}
 

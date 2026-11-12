@@ -139,7 +139,7 @@ test("published stockists have sources and no fabricated photos, inventory or co
   );
 });
 test("official container and 500g dimensions stay separate from prices", () => {
-  const facts = read("src/data/productFacts.ts");
+  const facts = read("shared/diffuser-guide.js").split("export const diffuserCare")[0];
   assert.match(facts, /75 × 100 × 75 mm/);
   assert.match(facts, /100 × 105 × 100 mm/);
   assert.match(facts, /Glass vessel/);

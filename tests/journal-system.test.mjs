@@ -623,7 +623,8 @@ test('a failed sheet sync after publishing is logged as a failure, not as succes
 
 /* ---------- link_id registry ---------- */
 const syncLinks = (A, extra = []) => call(A, { method: 'POST', path: 'journal/links/sync', body: { ids: [...ISSUED_LINK_IDS, ...extra].join('\n') } });
-test('new link IDs are checked against the whole 03_LINKS history, not only the IDs known when this was built', async () => {
+test('new link IDs are checked against the whole 03_LINKS history, not only the IDs known when this was built', async (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: new Date('2026-10-23T03:00:00Z') });
   const h = harness({ env: 'production' });
   try {
     const A = await admin();
@@ -702,6 +703,7 @@ test('the four country articles: real product photos on disk, valid internal lin
     }
     const urls = Object.fromEntries(seedArticles.map((a) => [a.language, `https://hondit-shop.vercel.app${articlePath(a)}`]));
     const routes = ['/contact', '/partners', '/products/diffuser-350g', '/products/diffuser-500g'];
+    const guides = { en: '/diffusers', ja: '/diffusers/japan', 'zh-HK': '/diffusers/hong-kong', 'zh-TW': '/diffusers/taiwan' };
     for (const a of seedArticles) {
       const page = await call(P, { query: { journalPage: 'article', lang: articlePath(a).split('/')[2], slug: a.slug }, token: '' });
       assert.equal(page.status, 200, a.language);
@@ -717,6 +719,10 @@ test('the four country articles: real product photos on disk, valid internal lin
       }
       for (const link of doc.querySelectorAll('#root .journal-body a[href^="/"], #root .journal-related a[href^="/"]')) {
         const href = new URL(link.getAttribute('href'), SITE);
+        if (href.pathname === guides[a.language]) {
+          assert.equal(href.search, '', 'related guide links do not start a new campaign');
+          continue;
+        }
         assert.ok(routes.includes(href.pathname), `${a.language} link ${href.pathname}`);
         if (!href.pathname.startsWith('/journal')) assert.equal(href.searchParams.get('market'), languageByCode(a.language).market, `${a.language} link market ${href}`);
       }

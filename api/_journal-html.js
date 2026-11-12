@@ -5,6 +5,8 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { JOURNAL_COPY, JOURNAL_FEATURE_IMAGES, PRODUCT_IMAGES, PRODUCT_NAMES, copyFor, coverFor, isDiffuserStory } from '../shared/journal-copy.js';
 import { JOURNAL_LANGUAGES, SITE, articlePath, formatDate, inlineSegments, languageByCode, marketLink, parseBody, usageNote } from '../shared/journal.js';
+import { diffuserGuide } from '../shared/diffuser-guide.js';
+import { diffuserMarket } from '../shared/diffuser-search-routes.js';
 
 export { JOURNAL_COPY, copyFor };
 export const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -61,6 +63,9 @@ export function articleMarkup(article, translations = [], { preview = false } = 
   const products = (article.related_products || []).map((slug) => `<li><a class="journal-product" href="${esc(marketLink(`/products/${slug}`, article.language))}"><img src="${PRODUCT_IMAGES[slug] || ''}" alt="" width="160" height="160" loading="lazy"><span>${esc(PRODUCT_NAMES[slug] || slug)}</span><b>${esc(c.shop)}</b></a></li>`).join('');
   const cta = article.cta_type === 'partners' ? ['/partners', c.partners] : ['/contact', c.contact];
   const diffuser = isDiffuserStory(article);
+  const articleLocale = languageByCode(article.language);
+  const guideMarket = diffuser && articleLocale ? diffuserMarket(articleLocale.market, articleLocale.siteLang) : undefined;
+  const guide = guideMarket ? diffuserGuide(guideMarket) : undefined;
   const usage = usageNote(article.body_md);
   const usageImage = JOURNAL_FEATURE_IMAGES.usage;
   const cover = coverFor(article);
@@ -83,7 +88,7 @@ ${cover ? heroFigure('journal-lead-figure', false) : ''}
 ${bodyHtml(article.body_md, article.language)}
 </div>
 ${diffuser ? `<section class="journal-materials"><h2>${esc(c.materials)}</h2><div class="journal-materials-grid">${JOURNAL_FEATURE_IMAGES.materials.map((m) => `<figure class="journal-material is-${m.key}"><img src="${esc(m.src)}" alt="${esc(c.materialAlt[m.key])}" width="${m.width}" height="${m.height}" loading="lazy" decoding="async"><figcaption>${esc(c.materialCaption[m.key])}</figcaption></figure>`).join('')}</div><p class="journal-materials-credit">${esc(c.photoCredit)}</p></section>` : ''}
-${products ? `<aside class="journal-related"><h2>${esc(c.related)}</h2><ul>${products}</ul><a class="journal-cta" href="${esc(marketLink(cta[0], article.language))}">${esc(cta[1])}</a></aside>` : ''}
+${products ? `<aside class="journal-related"><h2>${esc(c.related)}</h2><ul>${products}</ul>${guide && guideMarket ? `<p><a href="${esc(guideMarket.path)}">${esc(guide.guide)}</a></p>` : ''}<a class="journal-cta" href="${esc(marketLink(cta[0], article.language))}">${esc(cta[1])}</a></aside>` : ''}
 ${(article.sources || []).length ? `<section class="journal-sources"><h2>${esc(c.sources)}</h2><ol>${article.sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.label)}</a></li>`).join('')}</ol></section>` : ''}
 ${translations.length ? `<nav class="journal-translations"><span>${esc(c.other)}</span>${translations.map((t) => `<a href="${esc(articlePath(t))}" hreflang="${esc(t.language)}" lang="${esc(t.language)}">${esc(languageByCode(t.language)?.label)}</a>`).join('')}</nav>` : ''}
 </main>`;

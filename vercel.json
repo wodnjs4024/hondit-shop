@@ -90,6 +90,14 @@
       "destination": "/api/products?seoPage=products"
     },
     {
+      "source": "/diffusers",
+      "destination": "/api/products?seoPage=diffuserGuide"
+    },
+    {
+      "source": "/diffusers/:seoGuide",
+      "destination": "/api/products?seoPage=diffuserGuide&seoGuide=:seoGuide"
+    },
+    {
       "source": "/products/:seoSlug",
       "destination": "/api/products?seoPage=product&seoSlug=:seoSlug"
     },

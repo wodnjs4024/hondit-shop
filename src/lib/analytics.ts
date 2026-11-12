@@ -22,6 +22,7 @@ export function getPageType(pathname=typeof window==='undefined'?'/':window.loca
  if(pathname.startsWith('/bulk-orders/'))return 'checkout';
  if(pathname==='/jeju/pickup')return 'jeju_pickup';
  if(pathname==='/faq')return 'product_faq';
+ if(/^\/diffusers(?:\/(?:japan|hong-kong|taiwan))?$/.test(pathname))return 'diffuser_guide';
  if(pathname==='/about')return 'about';
  if(pathname==='/jeju')return 'brand_story';
  if(pathname==='/journal'||/^\/journal\/[a-z-]+$/.test(pathname))return 'journal_list';

@@ -1,0 +1,13 @@
+export type DiffuserMarketCode = 'SG' | 'JP' | 'HK' | 'TW';
+export type DiffuserSlug = 'diffuser-350g' | 'diffuser-500g';
+export type DiffuserMarket = { market: DiffuserMarketCode; lang: 'en' | 'ja' | 'zh-HK' | 'zh-TW'; hreflang: string; locale: string; path: string; label: string };
+export type SearchAlternate = { hreflang: string; path: string };
+export const diffuserSlugs: DiffuserSlug[];
+export const diffuserMarkets: Record<DiffuserMarketCode, DiffuserMarket>;
+export function diffuserMarket(market: string | null, lang: string | null): DiffuserMarket | undefined;
+export function diffuserGuideMarket(path: string): DiffuserMarket | undefined;
+export function diffuserProductPath(slug: DiffuserSlug, option?: DiffuserMarket): string;
+export function diffuserProductLocale(path: string, search: string): { slug: DiffuserSlug; option: DiffuserMarket } | undefined;
+export function diffuserMarketOptions(product?: { markets?: Partial<Record<string, string>> }): DiffuserMarket[];
+export function diffuserGuideAlternates(): SearchAlternate[];
+export function diffuserProductAlternates(product: { slug: DiffuserSlug; markets?: Partial<Record<string, string>> }): SearchAlternate[];
