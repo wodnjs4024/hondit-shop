@@ -95,3 +95,6 @@ body.hd-site .contact-channel__qr figcaption { font-size: 13px; }
 @media (max-width: 639px) {
   body.hd-site .hd-tile__body > .hd-tile__links { grid-row: 5 !important; }
 }
+
+/* Page heroes (/jeju and the other about-style pages) use the same heading weight as the home hero */
+body.hd-site .about-hero h1, body.hd-site .about-hero h1 em { font-family: var(--hd-sans) !important; font-weight: 650 !important; font-style: normal !important; letter-spacing: -0.03em !important; }

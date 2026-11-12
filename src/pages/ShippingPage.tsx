@@ -18,7 +18,7 @@ export function ShippingPage() {
           eyebrow={marketText(language, `SHIPPING TO ${market.label.toUpperCase()}`, `${market.koreanLabel} 배송`)}
           title={
             market.hasShopee
-              ? marketText(language, "Shopee retail and bulk checkout.", "Shopee 개별구매와 대량주문")
+              ? marketText(language, "Shopee retail and bulk checkout.", "Shopee 낱개 구매와 묶음 주문")
               : marketText(language, "Bulk checkout. Dispatch from Korea.", "대량주문 전용, 한국 발송")
           }
           description={marketText(

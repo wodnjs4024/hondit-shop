@@ -17,7 +17,6 @@ export function JejuPage() {
             <source src="/images/jeju-sea-motion.mp4" type="video/mp4" />
           </video>
           <div className="about-hero__copy">
-            <p className="about-hero__coords">33.4580 N - 126.9425 E · {marketText(language,"Sea rhythm, Jeju Island")}</p>
             <h1>{marketText(language,"Not a theme.")}<br /><em>{marketText(language,"A real place.")}</em></h1>
             <p>{marketText(language,"hondit began in Jeju. This page shows the campus, coast, forest and volcanic landscapes behind the way we select and present everyday care and scent.")}</p>
             <a href="#field-guide">{marketText(language,"Open the Jeju field guide ->")}</a>

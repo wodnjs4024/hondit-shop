@@ -1,6 +1,6 @@
 // Customer-facing copy in the six selectable storefront languages.
 const copy = {
-  intro: ['A piece of Jeju, chosen for your everyday.', '일상과 공간에 들이는, 제주의 한 조각.', '為日常與空間挑選一片濟州。', '日常と空間に、済州のひとかけら。', 'Secebis Jeju untuk rutin dan ruang anda.', 'เลือกส่วนหนึ่งของเชจูสำหรับชีวิตและพื้นที่ของคุณ'],
+  intro: ['Jeju volcanic stone that holds scent.', '향을 머금는 제주 화산석', '為日常與空間挑選一片濟州。', '日常と空間に、済州のひとかけら。', 'Secebis Jeju untuk rutin dan ruang anda.', 'เลือกส่วนหนึ่งของเชจูสำหรับชีวิตและพื้นที่ของคุณ'],
   lead: ['Explore volcanic-stone diffusers and cleansing care. Choose a product, review the conditions, then buy or discuss your plans.', '화산석 디퓨저와 클렌징 제품을 살펴보세요. 상품과 거래조건을 확인한 뒤 구매하거나 도입을 상담할 수 있습니다.', '探索火山石擴香與潔面產品。確認商品及交易條件，再購買或洽談導入。', '火山石ディフューザーとクレンジングをご紹介。商品と取引条件を確認し、購入または導入をご相談ください。', 'Terokai penyebar batu gunung berapi dan penjagaan pembersihan. Semak syarat sebelum membeli atau berbincang.', 'สำรวจหินกระจายกลิ่นและผลิตภัณฑ์ทำความสะอาด ตรวจสอบเงื่อนไขก่อนซื้อหรือปรึกษา'],
   choose: ['How will you use HONDIT?', '어떤 목적으로 찾으셨나요?', '您想如何使用 HONDIT？', 'HONDITをどのように使いますか？', 'Bagaimana anda ingin menggunakan HONDIT?', 'คุณต้องการใช้ HONDIT อย่างไร'],
   personal: ['For yourself or a gift', '개인 사용·선물', '自用或送禮', '自分用・ギフト', 'Untuk diri atau hadiah', 'ใช้เองหรือเป็นของขวัญ'],
