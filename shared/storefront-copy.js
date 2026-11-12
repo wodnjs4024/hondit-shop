@@ -350,21 +350,21 @@ export const storefrontCopy = {
     "th": "เชจูของเรา · จุดเริ่มต้น"
   },
   "Not a theme.": {
-    "ko": "테마가 아닌,",
+    "ko": "HONDIT이 지내는",
     "zh-HK": "不只是主題。",
     "ja": "テーマではなく、",
     "ms": "Bukan sekadar tema.",
     "th": "ไม่ใช่เพียงธีม"
   },
   "A real place.": {
-    "ko": "실제로 살아가는 곳.",
+    "ko": "제주의 실제 장소들",
     "zh-HK": "而是真實的地方。",
     "ja": "実在する場所。",
     "ms": "Tempat yang sebenar.",
     "th": "แต่เป็นสถานที่จริง"
   },
   "hondit began in Jeju. This page shows the campus, coast, forest and volcanic landscapes behind the way we select and present everyday care and scent.": {
-    "ko": "HONDIT는 제주에서 시작했습니다. 상품을 고르고 소개하는 바탕이 된 캠퍼스·해안·숲·화산 지형을 만나보세요.",
+    "ko": "HONDIT은 제주에서 시작했습니다. 상품을 고르고 소개하는 바탕이 된 캠퍼스·해안·숲·화산 지형을 만나보세요.",
     "zh-HK": "HONDIT 始於濟州。探索影響我們挑選日常護理與香氛商品的校園、海岸、森林及火山地貌。",
     "ja": "HONDITは済州で始まりました。ケアと香りを選び紹介する背景にあるキャンパス・海岸・森・火山の風景をご覧ください。",
     "ms": "HONDIT bermula di Jeju. Terokai kampus, pantai, hutan dan landskap gunung berapi di sebalik pilihan penjagaan dan haruman kami.",
@@ -392,14 +392,14 @@ export const storefrontCopy = {
     "th": "จุดเริ่มต้น HONDIT · วิทยาเขตอารา"
   },
   "Built by students,": {
-    "ko": "학생들이 만들고,",
+    "ko": "제주대학교 학생들이",
     "zh-HK": "由學生建立，",
     "ja": "学生がつくり、",
     "ms": "Dibina oleh pelajar,",
     "th": "สร้างโดยนักศึกษา"
   },
   "grounded in Jeju.": {
-    "ko": "제주에 뿌리내립니다.",
+    "ko": "운영합니다.",
     "zh-HK": "紮根於濟州。",
     "ja": "済州に根ざす。",
     "ms": "berakar di Jeju.",
@@ -448,14 +448,14 @@ export const storefrontCopy = {
     "th": "สามแรงบันดาลใจ"
   },
   "What Jeju contributes": {
-    "ko": "제주에서 발견한",
+    "ko": "상품에 담은",
     "zh-HK": "濟州帶來的",
     "ja": "済州がもたらす",
     "ms": "Sumbangan Jeju",
     "th": "สิ่งที่เชจูมอบให้"
   },
   "to the hondit language.": {
-    "ko": "HONDIT의 감각.",
+    "ko": "제주의 세 풍경",
     "zh-HK": "HONDIT 的語言。",
     "ja": "HONDITの表現。",
     "ms": "kepada bahasa HONDIT.",
@@ -469,14 +469,14 @@ export const storefrontCopy = {
     "th": "จากสถานที่สู่กิจวัตร"
   },
   "Bring a quieter piece": {
-    "ko": "조용한 제주의 한 조각을",
+    "ko": "HONDIT 상품을",
     "zh-HK": "將一片寧靜",
     "ja": "静かな済州のひとかけらを",
     "ms": "Bawa secebis ketenangan",
     "th": "นำความสงบส่วนหนึ่ง"
   },
   "of Jeju into everyday life.": {
-    "ko": "일상에 들여보세요.",
+    "ko": "둘러보세요.",
     "zh-HK": "濟州帶入日常。",
     "ja": "日常に。",
     "ms": "Jeju ke kehidupan harian.",
@@ -763,7 +763,7 @@ export const storefrontCopy = {
     "th": "เว็บไซต์ทางการ JNU →"
   },
   "FROM JEJU - TO": {
-    "ko": "제주에서 · 목적지",
+    "ko": "제주 →",
     "zh-HK": "來自濟州 · 目的地",
     "ja": "済州から・お届け先",
     "ms": "Dari Jeju · Destinasi",
@@ -784,7 +784,7 @@ export const storefrontCopy = {
     "th": "เนื้อหานโยบายมีเป็นภาษาอังกฤษ ข้อความต้นฉบับแสดงด้านล่าง"
   },
   "hondit care and volcanic diffuser collection prepared for ordering.": {
-    "ko": "클렌징·화산석 디퓨저의 주문조건을 확인하세요.",
+    "ko": "클렌징·화산석 디퓨저의 주문 조건을 확인하세요.",
     "zh-HK": "查看潔面及火山石擴香的訂購條件。",
     "ja": "ケア・火山石ディフューザーの注文条件をご確認ください。",
     "ms": "Semak syarat pesanan penjagaan dan penyebar batu gunung berapi.",

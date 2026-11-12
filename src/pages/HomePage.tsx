@@ -119,7 +119,7 @@ export function HomePage() {
           </div>
           <figure className="hd-jeju__photo">
             <img src={stonePhoto} alt={marketProductText(language, "Volcanic Diffuser 350g")} width={1266} height={1186} loading="lazy" decoding="async" />
-            <figcaption>StoneJeju 350g</figcaption>
+            <figcaption>{marketProductText(language, "Volcanic Diffuser 350g")}</figcaption>
           </figure>
         </section>
 
@@ -163,7 +163,7 @@ export function HomePage() {
                   const photo = sizePhotos[product.slug] ?? { src: product.image, width: 880, height: 1100 };
                   return <th key={product.slug} scope="col">
                     <img src={photo.src} alt={marketProductText(language, product.name)} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
-                    <span className="hd-compare__name">StoneJeju {size}</span>
+                    <span className="hd-compare__name">{marketProductText(language, `Volcanic Diffuser ${size}`)}</span>
                     <span className="hd-compare__detail">{marketProductText(language, product.detail)}</span>
                   </th>;
                 })}

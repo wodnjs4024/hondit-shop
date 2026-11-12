@@ -89,7 +89,7 @@ export const qaCopy = {
   },
   "Vegan cleansing care and Jeju volcanic-stone diffusers for {country}. Choose a product and quantity to review the applicable order conditions.": {
     "en": "Vegan cleansing care and Jeju volcanic-stone diffusers for {country}. Choose a product and quantity to review the applicable order conditions.",
-    "ko": "{country}에서 구매할 수 있는 비건 클렌징과 제주 화산석 디퓨저입니다. 상품과 수량을 선택해 주문조건을 확인하세요.",
+    "ko": "{country}에서 구매할 수 있는 비건 클렌징과 제주 화산석 디퓨저입니다. 상품과 수량을 선택해 주문 조건을 확인하세요.",
     "zh-HK": "為{country}提供純素潔面及濟州火山石擴香商品。請選擇商品和數量，查看適用的訂購條件。",
     "ja": "{country}向けにヴィーガンクレンジングと済州の火山石ディフューザーをご紹介します。商品と数量を選び、注文条件をご確認ください。",
     "ms": "Penjagaan vegan dan penyebar Jeju untuk {country}. Pilih produk dan kuantiti untuk melihat syarat pesanan.",
@@ -105,7 +105,7 @@ export const qaCopy = {
   },
   "Review order conditions": {
     "en": "Review order conditions",
-    "ko": "주문조건 확인",
+    "ko": "주문 조건 확인",
     "zh-HK": "查看訂購條件",
     "ja": "注文条件を確認",
     "ms": "Semak syarat pesanan",
@@ -137,7 +137,7 @@ export const qaCopy = {
   },
   "Overseas bundle order conditions": {
     "en": "Overseas bundle order conditions",
-    "ko": "해외 묶음 주문조건",
+    "ko": "해외 묶음 주문 조건",
     "zh-HK": "海外批量訂購條件",
     "ja": "海外まとめ注文の条件",
     "ms": "Syarat pesanan pukal luar negara",
@@ -217,7 +217,7 @@ export const qaCopy = {
   },
   "Care shaped by water. Scent grounded in stone.": {
     "en": "Care shaped by water. Scent grounded in stone.",
-    "ko": "물에서 시작한 케어. 돌에 머무는 향.",
+    "ko": "클렌징 제품과 화산석 디퓨저",
     "zh-HK": "源自濟州的日常護理與火山石香氛。",
     "ja": "水から生まれるケア。石に宿る香り。",
     "ms": "Penjagaan daripada air. Wangian daripada batu.",
