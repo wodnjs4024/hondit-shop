@@ -17,8 +17,8 @@ function InfoPage({ info: english, kind }: { info: Info; kind: "about" | "faq" }
           eyebrow={kind === "about" ? "ABOUT HONDIT" : "QUESTIONS AND ANSWERS"}
           title={info.h1}
           description={info.intro[0]}
-          image="/images/jeju-field-university.webp"
-          imageAlt={label("Jeju National University Ara Campus.", "제주대학교 아라캠퍼스")}
+          image={kind === "about" ? "/images/jeju-field-university.webp" : "/images/hondit-pack/hondit_codex_image_pack/01_product_originals/07_diffuser_500_window.webp"}
+          imageAlt={kind === "about" ? label("Jeju National University Ara Campus.", "제주대학교 아라캠퍼스") : label("Volcanic Diffuser 500g by a sunlit window.", "창가에 둔 볼캐닉 디퓨저 500g")}
         />
         <article className="info-page__body">
           {info.intro.slice(1).map((text) => <p key={text} className="info-page__lead">{text}</p>)}

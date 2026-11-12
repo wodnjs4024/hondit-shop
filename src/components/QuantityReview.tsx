@@ -67,13 +67,13 @@ export function QuantityReview({product,purpose='unspecified'}:{product:Storefro
    <ol className="order-steps">
     <li className="order-step order-step--qty">
      <h3 className="order-step__title">{o.qty}</h3>
-     {diffuser?<DiffuserQuantitySelector product={product} value={quantity} onChange={setQuantity} optionPrices={{trial:optionPrice('10'),general:optionPrice('20')}}/>:<label className="order-qty-field">{t('Order quantity')}<input type="number" inputMode="numeric" min="1" max="9999" step="1" value={quantity} onChange={e=>setQuantity(e.target.value)}/></label>}
+     {diffuser?<DiffuserQuantitySelector product={product} value={quantity} onChange={setQuantity} optionPrices={{trial:optionPrice('10'),general:optionPrice('20')}}/>:<div className="order-qty-field"><label htmlFor="order-qty-input">{t('Order quantity')}</label><div className="diffuser-quantity__stepper"><button type="button" aria-label={`${t('Order quantity')} −10`} disabled={Number(quantity)<=(product.bulkMoq??1)} onClick={()=>setQuantity(String(Math.max(product.bulkMoq??1,(Number(quantity)||0)-10)))}>−</button><input id="order-qty-input" type="text" inputMode="numeric" autoComplete="off" value={quantity} onChange={e=>setQuantity(e.target.value)}/><button type="button" aria-label={`${t('Order quantity')} +10`} disabled={Number(quantity)>=9999} onClick={()=>setQuantity(String(Math.min(9999,(Number(quantity)||0)+10)))}>+</button></div>{product.bulkMoq&&<small>{language==='ko'?`최소 ${product.bulkMoq}개, 10개 단위로 늘릴 수 있습니다.`:`Minimum ${product.bulkMoq}, in steps of 10.`}</small>}</div>}
      {!valid&&!diffuser&&<p role="alert">{t('Quantity must be a whole number from 1 to 9999.')}</p>}
     </li>
     <li className="order-step order-step--price">
      <h3 className="order-step__title">{o.price}</h3>
      <dl className="order-lines">
-      <div><dt>{o.unit}{units&&<small> × {units}</small>}</dt><dd>{money(d.referenceUnitMinor)}</dd></div>
+      <div><dt>{o.unit}</dt><dd>{money(d.referenceUnitMinor)}{units&&<small> × {units}</small>}</dd></div>
       {direct&&!d.shippingIncluded&&<div><dt>{o.subtotal}</dt><dd>{money(d.productTotalMinor)}</dd></div>}
       <div><dt>{o.shipping}</dt><dd className={direct&&d.shippingIncluded?'is-included':'is-pending'}>{direct?(d.shippingIncluded?o.included:money(d.shippingMinor)):o.confirm}</dd></div>
       <div><dt>{o.tax}</dt><dd className="is-note">{o.taxValue}</dd></div>

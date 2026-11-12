@@ -119,7 +119,7 @@ export const resaleCopy = {
     "th": "กรอกราคาขายที่คาดเอง ไม่ใช่ราคาขายปลีกแนะนำ"
   },
   "Use the same currency and pre-tax basis. Included SG MOQ EMS freight must not be counted twice. Taxes, duties, clearance and overheads may be missing; tax recovery is not assumed.": {
-    "ko": "동일 통화·세전 기준으로 비교하세요. SG MOQ 가격에 포함된 EMS 운임을 중복 입력하지 마세요. 세금·관세·통관비·고정 운영비가 누락될 수 있으며 매입세액 회수를 가정하지 않습니다.",
+    "ko": "동일 통화·세전 기준으로 비교하세요. 싱가포르 묶음 가격에 포함된 EMS 운임을 중복 입력하지 마세요. 세금·관세·통관비·고정 운영비가 누락될 수 있으며 매입세액 회수를 가정하지 않습니다.",
     "zh-HK": "請使用相同貨幣及稅前基準。勿重複計入SG最低數量已含EMS運費。可能未含稅款、關稅、清關及營運費，不假設可退稅。",
     "ja": "同一通貨・税抜基準で比較してください。SG最低数量価格に含むEMS送料は重複計上しないでください。税・関税・通関・固定費は不足する場合があり税還付を仮定しません。",
     "ms": "Gunakan mata wang dan asas sebelum cukai sama. Jangan kira dua kali EMS SG MOQ. Cukai, duti, pelepasan dan overhed mungkin tiada; pemulihan cukai tidak diandaikan.",

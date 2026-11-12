@@ -47,7 +47,7 @@ export function HomePage() {
     [catalog, market],
   );
   const railRef = useRef<HTMLUListElement>(null);
-  useRowAlign(railRef, ".hd-tile__body h3", [marketProducts, language]);
+  useRowAlign(railRef, ".tile-info__head h3", [marketProducts, language]);
   const diffusers = marketProducts.filter((product) => product.category === "SCENT" && productFacts(product.slug));
   const collection = (() => {
     if (language === "ko") return { title: "제주에서 고른 컬렉션", description: `${countryName}에서 주문할 수 있는` };
@@ -100,7 +100,7 @@ export function HomePage() {
           <header className="hd-bar">
             <h2 id="hd-collection-title">{collection.title}</h2>
             <p>{collection.description} {t("{count} products").replace("{count}", String(marketProducts.length))}</p>
-            <Link className="hd-textlink" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기 →").replace(/\s*(->|→)$/, "")}</Link>
+            <Link className="hd-textlink" to={`/products${pageQuery}`}>{t("View all products ->", "전체 상품 보기").replace(/\s*(->|→)$/, "")}</Link>
           </header>
           <ul ref={railRef} className="hd-collection__rail" data-count={marketProducts.length}>
             {marketProducts.map((product) => <ProductTile key={product.slug} product={product} query={pageQuery} />)}
@@ -170,7 +170,7 @@ export function HomePage() {
               </tr>
             </thead>
             <tbody>
-              {([["Container", (f: NonNullable<ReturnType<typeof productFacts>>) => t(f.container)], ["Declared content", (f: NonNullable<ReturnType<typeof productFacts>>) => f.content], ["Dimensions (W × H × D)", (f: NonNullable<ReturnType<typeof productFacts>>) => f.dimensions], ["Citrus fragrance oil", (f: NonNullable<ReturnType<typeof productFacts>>) => f.oil]] as const).map(([label, value]) =>
+              {([["Container", (f: NonNullable<ReturnType<typeof productFacts>>) => t(f.container)], ["Declared content", (f: NonNullable<ReturnType<typeof productFacts>>) => language === "ko" ? `약 ${f.content.replace(" ±", "")}` : f.content], ["Dimensions (W × H × D)", (f: NonNullable<ReturnType<typeof productFacts>>) => f.dimensions], ["Citrus fragrance oil", (f: NonNullable<ReturnType<typeof productFacts>>) => f.oil]] as const).map(([label, value]) =>
                 <tr key={label}><th scope="row">{t(label)}</th>{diffusers.map((product) => <td key={product.slug}>{value(productFacts(product.slug)!)}</td>)}</tr>)}
               <tr className="hd-compare__price"><th scope="row">{t(`${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)}</th>{diffusers.map((product) => <td key={product.slug}>{formatMarketUnitMoney(product, market)}</td>)}</tr>
               <tr><th scope="row">{t("Minimum")}</th>{diffusers.map((product) => <td key={product.slug}>{product.bulkMoq}{language === "ko" ? "" : " "}{t("units")}</td>)}</tr>

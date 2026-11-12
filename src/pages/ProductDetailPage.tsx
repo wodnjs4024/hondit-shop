@@ -191,7 +191,7 @@ export function ProductDetailPage() {
         <div className="hd-pdp__specs">
           {productFacts(product.slug)&&<DiffuserComparison/>}
           <ProductCare slug={product.slug}/>
-          {!product.quoteOnly && <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>}
+          {!product.quoteOnly && <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Open the full use guide")} →</Link>}
         </div>
 
         {product.slug === "diffuser-500g" && <StoneJejuSceneGallery />}

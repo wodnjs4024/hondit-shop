@@ -39,7 +39,7 @@ export function DiffuserComparison() {
             <tr>
               <th>{t("Declared content")}</th>
               {Object.values(diffuserFacts).map((f) => (
-                <td key={f.content}>{f.content}</td>
+                <td key={f.content}>{language === "ko" ? `약 ${f.content.replace(" ±", "")}` : f.content}</td>
               ))}
             </tr>
             <tr>

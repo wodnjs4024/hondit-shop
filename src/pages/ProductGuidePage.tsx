@@ -31,7 +31,6 @@ export function ProductGuidePage() {
           width="480"
           height="480"
         />
-        <button type="button" onClick={async()=>{const url=new URL('/guide/'+p.slug,window.location.origin);url.searchParams.set('market',market.code);url.searchParams.set('lang',language);try{if(navigator.share)await navigator.share({title:marketProductText(language,p.name),url:url.href});else {await navigator.clipboard.writeText(url.href);setShareStatus('Copied.')}}catch(issue){if((issue as Error).name!=='AbortError')setShareStatus('Copy unavailable. Select the text below to copy.')}}}>{t("Share this product guide")}</button><p role="status">{t(shareStatus)}</p>{shareStatus.startsWith('Copy unavailable')&&<p>{window.location.origin+'/guide/'+p.slug+'?market='+market.code+'&lang='+language}</p>}
         <h2>{t("HOW TO USE")}</h2>
         <ol>
           {cleanProductUsage(p.howTo).map((s) => (
@@ -49,6 +48,7 @@ export function ProductGuidePage() {
         >
           {t("Reorder consultation")} →
         </Link>
+        <button type="button" className="product-guide-share" onClick={async()=>{const url=new URL('/guide/'+p.slug,window.location.origin);url.searchParams.set('market',market.code);url.searchParams.set('lang',language);try{if(navigator.share)await navigator.share({title:marketProductText(language,p.name),url:url.href});else {await navigator.clipboard.writeText(url.href);setShareStatus('Copied.')}}catch(issue){if((issue as Error).name!=='AbortError')setShareStatus('Copy unavailable. Select the text below to copy.')}}}>{t("Share this product guide")}</button><p role="status">{t(shareStatus)}</p>{shareStatus.startsWith('Copy unavailable')&&<p>{window.location.origin+'/guide/'+p.slug+'?market='+market.code+'&lang='+language}</p>}
       </main>
     </V23Page>
   );

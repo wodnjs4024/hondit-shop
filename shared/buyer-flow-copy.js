@@ -77,7 +77,7 @@ export const buyerFlowCopy={
     "th": "ดำเนินการตามจำนวนที่เลือก ตรวจสอบสต็อกและการชำระเงินในหน้าคำสั่งซื้อ"
   },
   "Consultation required before payment. No new quantity or combination is approved here.": {
-    "ko": "추가 수량·구성은 문의 후 가격과 배송조건을 확인해주세요.",
+    "ko": "추가 수량·구성은 문의 후 가격과 배송 조건을 확인해주세요.",
     "zh-HK": "額外數量及組合請先確認價格與配送條件。",
     "ja": "追加数量・組み合わせは価格と配送条件をお問い合わせください。",
     "ms": "Sahkan harga dan penghantaran bagi kuantiti atau gabungan tambahan.",
@@ -126,7 +126,7 @@ export const buyerFlowCopy={
     "th": "มูลค่าสินค้าอ้างอิง"
   },
   "These are reference prices, not a confirmed invoice. Confirm billing currency, final amount and shipping, then send a PayPal payment link.": {
-    "ko": "위 금액은 참고가격이며 확정 청구금액이 아닙니다. 청구통화·최종금액·배송조건을 확인한 후 PayPal 결제 링크를 보내주세요.",
+    "ko": "위 금액은 참고가격이며 확정 청구금액이 아닙니다. 청구통화·최종 금액·배송 조건을 확인한 후 PayPal 결제 링크를 보내주세요.",
     "zh-HK": "以上為參考價格，並非確定帳單。請確認付款貨幣、最終金額及配送條件後提供PayPal付款連結。",
     "ja": "上記は参考価格で確定請求額ではありません。請求通貨・最終金額・配送条件を確認しPayPal決済リンクをお送りください。",
     "ms": "Harga ini ialah rujukan, bukan invois disahkan. Sahkan mata wang, jumlah akhir dan penghantaran sebelum menghantar pautan PayPal.",

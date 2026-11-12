@@ -527,7 +527,7 @@ export function BulkProductPage() {
                     ? `Mix any cleansing products in steps of ${BULK_QTY_STEP}. Combined minimum: ${moq} units.`
                     : `Order from ${moq} units, in steps of ${BULK_QTY_STEP}.${maxUnits ? ` Available up to ${maxUnits} units.` : ""}`,
                   isDiffuser(product) ? "체험 주문 10개 · 일반 주문 20개 이상. 배송 범위는 수량별로 확인합니다." : market.code === "SG"
-                    ? "단일 상품 MOQ 묶음만 직접결제 가능합니다. 추가 수량·혼합 구성은 문의해주세요."
+                    ? "한 상품을 최소 수량 이상 고르면 바로 결제할 수 있습니다. 여러 상품을 섞으려면 문의해 주세요."
                     : isCleansingMix
                     ? `클렌징 3종을 ${BULK_QTY_STEP}개 단위로 자유롭게 섞을 수 있습니다. 합계 최소 ${moq}개입니다.`
                     : `최소 ${moq}개부터 ${BULK_QTY_STEP}개 단위로 주문합니다.${maxUnits ? ` 최대 ${maxUnits}개까지 가능합니다.` : ""}`,
