@@ -1,14 +1,12 @@
-import {JejuPickupPage} from "./pages/JejuPickupPage";
-import {ProductGuidePage} from "./pages/ProductGuidePage";
+import {publicLandingParams} from "../shared/tracking-policy.js";
 // Consultation URLs accept only public identifiers. Never retain free text or contact details.
 if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.location.pathname===path || window.location.pathname.startsWith(path+'/'))) {
- const url=new URL(window.location.href);const allowed=new Set(['product','quantity','market','lang','reason','utm_source','utm_medium','utm_campaign','utm_content','utm_term','purpose','fulfillment']);
- for(const key of Array.from(url.searchParams.keys()))if(!allowed.has(key))url.searchParams.delete(key);
+ const url=new URL(window.location.href);
+ url.search=publicLandingParams(url.searchParams).toString();
  window.history.replaceState({},'',url);
 }
 import {INFO_PAGES} from "../shared/info-content.js";
-import {PartnersPage} from "./pages/PartnersPage";
-import {PartnerGuidePage} from "./pages/PartnerGuidePage";
+import {PICKUP_IMAGE, PICKUP_PATH, pickupSearchMeta, pickupSearchPath} from "../shared/pickup-search.js";
 import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { trackCampaignLanding, trackPageView } from "./lib/analytics";
@@ -46,6 +44,10 @@ const AdminPressPage = lazy(() => import("./pages/AdminPressPage").then((module)
 const AboutPage = lazy(() => import("./pages/InfoPage").then((module) => ({ default: module.AboutPage })));
 const FaqPage = lazy(() => import("./pages/InfoPage").then((module) => ({ default: module.FaqPage })));
 const ShippingPage = lazy(() => import("./pages/ShippingPage").then((module) => ({ default: module.ShippingPage })));
+const JejuPickupPage = lazy(() => import("./pages/JejuPickupPage").then((module) => ({ default: module.JejuPickupPage })));
+const ProductGuidePage = lazy(() => import("./pages/ProductGuidePage").then((module) => ({ default: module.ProductGuidePage })));
+const PartnersPage = lazy(() => import("./pages/PartnersPage").then((module) => ({ default: module.PartnersPage })));
+const PartnerGuidePage = lazy(() => import("./pages/PartnerGuidePage").then((module) => ({ default: module.PartnerGuidePage })));
 
 const siteUrl = "https://hondit-shop.vercel.app";
 const defaultOgImage = `${siteUrl}/images/hondit-collection-hero.webp`;
@@ -112,8 +114,8 @@ const policyMeta: Record<string, { title: string; description: string }> = {
   },
 };
 
-function routeMeta(pathname: string): PageMeta {
-  if(pathname==="/jeju/pickup")return {title:"Jeju pickup information | HONDIT",description:"StoneJeju 350g pickup requests by message; confirm time, place and payment method before collecting.",robots:"noindex,follow",image:defaultOgImage};
+function routeMeta(pathname: string, pickupLanguage?: string | null): PageMeta {
+  if (pathname === PICKUP_PATH) return { ...pickupSearchMeta(pickupLanguage), robots: "index,follow,max-image-preview:large", image: siteUrl + PICKUP_IMAGE };
   if(pathname.startsWith("/guide/"))return {title:"Product care & follow-up | hondit",description:"Product use, care and consultation.",robots:"noindex,follow",image:defaultOgImage};
   if(pathname==='/partners')return {title:'Store & business purchase guide | hondit',description:'Review products, approved bundle prices and sales support. Order eligible bundles directly or contact HONDIT for additional requests.',robots:'index,follow',image:defaultOgImage};
   if(pathname.startsWith('/partners/'))return {title:'Partner product guide | hondit',description:'Partner product information.',robots:'noindex,nofollow',image:defaultOgImage};
@@ -267,19 +269,24 @@ function upsertMeta(selector: string, attrs: Record<string, string>, value: stri
 export default function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
+  const pickupLanguage = location.pathname === PICKUP_PATH ? new URLSearchParams(location.search).get("lang") : null;
 
   useEffect(() => {
-    const path = `${location.pathname}${location.search}${location.hash}`;
-    const meta = routeMeta(location.pathname);
-    const canonical = `https://hondit-shop.vercel.app${location.pathname}`;
+    const meta = routeMeta(location.pathname, pickupLanguage);
+    const canonical = siteUrl + (location.pathname === PICKUP_PATH ? pickupSearchPath(pickupLanguage) : location.pathname);
+    const serverPath = document.head.querySelector<HTMLMetaElement>('meta[name="hondit-ssr-path"]');
+    const serverCanonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (serverPath?.content === location.pathname && serverCanonical?.href === canonical) return;
+    if (serverPath) {
+      document.head.querySelectorAll('[data-storefront-seo]').forEach((tag) => tag.remove());
+      document.head.querySelector('meta[property="og:locale"]')?.remove();
+      serverPath.remove();
+    }
     // Journal pages set their own title, description, image and robots (and the server already rendered them).
     const journal = location.pathname === "/journal" || location.pathname.startsWith("/journal/");
     if (journal) {
       upsertMeta('meta[property="og:url"]', { property: "og:url" }, canonical);
       upsertMeta('link[rel="canonical"]', { rel: "canonical" }, canonical);
-      trackPageView(path);
-      trackCampaignLanding();
-      window.scrollTo({ top: 0, behavior: "auto" });
       return;
     }
     document.title = meta.title;
@@ -293,7 +300,10 @@ export default function App() {
     upsertMeta('meta[name="twitter:image"]', { name: "twitter:image" }, meta.image);
     upsertMeta('meta[name="robots"]', { name: "robots" }, meta.robots);
     upsertMeta('link[rel="canonical"]', { rel: "canonical" }, canonical);
-    trackPageView(path);
+  }, [location.pathname, pickupLanguage]);
+
+  useEffect(() => {
+    trackPageView(`${location.pathname}${location.search}${location.hash}`);
     trackCampaignLanding();
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname]);

@@ -21,6 +21,8 @@ export function getPageType(pathname=typeof window==='undefined'?'/':window.loca
  if(pathname==='/bulk-orders')return 'bulk_product_list';
  if(pathname.startsWith('/bulk-orders/'))return 'checkout';
  if(pathname==='/jeju/pickup')return 'jeju_pickup';
+ if(pathname==='/faq')return 'product_faq';
+ if(pathname==='/about')return 'about';
  if(pathname==='/jeju')return 'brand_story';
  if(pathname==='/journal'||/^\/journal\/[a-z-]+$/.test(pathname))return 'journal_list';
  if(pathname.startsWith('/journal/'))return 'journal_article';

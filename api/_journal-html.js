@@ -110,7 +110,7 @@ export async function shell() {
   return shellCache;
 }
 
-export function setHead(html, { title, description, canonical, robots, image, type, locale, alternates = [], jsonLd = [], lang }) {
+export function setHead(html, { title, description, canonical, robots, image, type, locale, alternates = [], jsonLd = [], lang, storefrontPath }) {
   const tag = (attr, key, value) => `<meta ${attr}="${key}" content="${esc(value)}" />`;
   let out = html
     .replace(/<html lang="[^"]*"/, `<html lang="${esc(lang)}"`)
@@ -128,8 +128,9 @@ export function setHead(html, { title, description, canonical, robots, image, ty
     ...(canonical ? [`<link rel="canonical" href="${esc(canonical)}" />`] : []),
     tag('name', 'robots', robots),
     tag('property', 'og:locale', locale),
-    ...alternates.map((a) => `<link rel="alternate" hreflang="${esc(a.hreflang)}" href="${esc(a.href)}" />`),
-    ...jsonLd.map((data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`),
+    ...(storefrontPath ? [`<meta name="hondit-ssr-path" content="${esc(storefrontPath)}" />`] : []),
+    ...alternates.map((a) => `<link rel="alternate" hreflang="${esc(a.hreflang)}" href="${esc(a.href)}"${storefrontPath ? ' data-storefront-seo' : ''} />`),
+    ...jsonLd.map((data) => `<script type="application/ld+json"${storefrontPath ? ' data-storefront-seo' : ''}>${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`),
   ].join('\n    ');
   return out.replace('</head>', `    ${extra}\n  </head>`);
 }

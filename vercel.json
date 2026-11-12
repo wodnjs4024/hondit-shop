@@ -31,7 +31,7 @@
     },
     {
       "source": "/jeju/pickup",
-      "destination": "/app.html"
+      "destination": "/api/products?seoPage=pickup"
     },
     {
       "source": "/jeju/stores",

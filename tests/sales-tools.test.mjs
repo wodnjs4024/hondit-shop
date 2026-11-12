@@ -170,7 +170,7 @@ test("new routes preserve old routes and campaign attribution without migrations
     "/jp/c01",
   ])
     assert.ok(app.includes(route));
-  assert.match(app, /utm_source/);
+  assert.match(app, /publicLandingParams\(url\.searchParams\)/);
   assert.doesNotMatch(
     read("src/components/BusinessPlanner.tsx"),
     /sales_conditions|\/api\/quotes|POST/,

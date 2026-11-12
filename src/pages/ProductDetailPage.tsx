@@ -3,7 +3,6 @@ import {DiffuserComparison,ProductCare} from "../components/ProductFactsDisplay"
 import {QuantityReview} from "../components/QuantityReview";
 import {productFacts} from "../data/productFacts";
 import { cleanProductUsage } from "../../shared/page-sales.js";
-import { termsFor } from "../../shared/market-overrides.js";
 import { ProductSalesSummary } from "../components/ProductSalesSummary";
 import { orderPanelCopy } from "../data/orderPanelCopy";
 import { useEffect, useRef, useState } from "react";
@@ -23,6 +22,7 @@ import { composeStorefrontProducts, loadStorefrontProduct } from "../lib/storefr
 import { getAdminToken } from "../lib/bulkApi";
 import { catalogCopy } from "../data/catalogCopy";
 import { productDescription as describeProduct, productGallery, productList, productMainImage, productName as nameOf, productPriceLabel } from "../lib/productText";
+import { salesPresentationCopy } from "../data/salesPresentationCopy";
 import { NotFoundPage } from "./NotFoundPage";
 import { productPhotoRoot, productPhotos } from "../data/productPhotos";
 
@@ -93,51 +93,13 @@ export function ProductDetailPage() {
       market_code: market.code,
     });
   };
-  const productUrl = `https://hondit-shop.vercel.app/products/${product.slug}`;
-  const schemaTerms = termsFor(product, market.code, product.bulkMoq);
   const mainImage = productMainImage(product);
   const adminGallery = productGallery(product);
-  const absoluteImage = mainImage.startsWith("http") ? mainImage : `https://hondit-shop.vercel.app${mainImage}`;
-  const productSchema = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: productName,
-    image: [
-      absoluteImage,
-      ...(showSingaporeDiffuserDetails
-        ? singaporeDiffuser350Details.map((image) => `https://hondit-shop.vercel.app${image}`)
-        : []),
-    ],
-    description: productDescription,
-    // StoneJeju makes and brands the diffusers; HONDIT sells and curates them. Other products keep HONDIT as the brand.
-    // Cleansing care is J’essence, made by 제주리퍼블릭; HONDIT only sells and curates it.
-    brand: { "@type": "Brand", name: productFacts(product.slug) ? "StoneJeju" : product.category === "CARE" ? "J’essence" : "HONDIT" },
-    ...(productFacts(product.slug) ? { manufacturer: { "@type": "Organization", name: "StoneJeju", url: "https://stonejeju.com" } } : product.category === "CARE" ? { manufacturer: { "@type": "Organization", name: "제주리퍼블릭" } } : {}),
-    sku: product.apiSlug || product.slug,
-    // Only a price the visitor can actually pay here is published: unit price, minimum quantity, delivery included.
-    offers: schemaTerms.status !== "direct" || !schemaTerms.billingCurrency || schemaTerms.unitMinor === null ? undefined : {
-      "@type": "Offer",
-      price: (schemaTerms.unitMinor / 10 ** schemaTerms.referenceDigits).toFixed(schemaTerms.referenceDigits),
-      priceCurrency: schemaTerms.billingCurrency,
-      eligibleQuantity: { "@type": "QuantitativeValue", minValue: product.bulkMoq, unitCode: "C62" },
-      availability: outOfStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
-      itemCondition: "https://schema.org/NewCondition",
-      seller: { "@type": "Organization", name: "HONDIT" },
-      url: `${productUrl}?market=${market.code}`,
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingRate: { "@type": "MonetaryAmount", value: 0, currency: schemaTerms.billingCurrency },
-        shippingDestination: { "@type": "DefinedRegion", addressCountry: market.code },
-      },
-    },
-  };
-
   return (
     <V23Page>
       <main className="v23-product-detail hd-page hd-pdp">
         {previewMode && <p className="hd-preview-banner" role="status">{previewError ? catalogCopy(language).previewMissing : catalogCopy(language).previewBanner}</p>}
         <nav className="hd-crumbs" aria-label="Breadcrumb"><Link to="/products">{marketText(language,"Collection","제품 목록")}</Link><span aria-hidden="true">/</span><span>{productName}</span></nav>
-        <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
         <section className="hd-pdp__hero">
           <div className="hd-pdp__gallery" role="group" aria-label={productName} tabIndex={0}>
             <figure className="hd-pdp__media">
@@ -191,6 +153,12 @@ export function ProductDetailPage() {
         <div className="hd-pdp__specs">
           {productFacts(product.slug)&&<DiffuserComparison/>}
           <ProductCare slug={product.slug}/>
+          {productFacts(product.slug) && (
+            <p className="info-page__links">
+              <Link to={`/faq?${new URLSearchParams({ market: market.code, lang: language })}`}>{marketText(language, "FAQ", "자주 묻는 질문")}</Link>
+              <Link to={`/jeju/pickup?${new URLSearchParams({ market: market.code, lang: language, product: product.slug })}`}>{salesPresentationCopy(language).pickupNav}</Link>
+            </p>
+          )}
           {!product.quoteOnly && <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>}
         </div>
 

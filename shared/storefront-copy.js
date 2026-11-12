@@ -1,4 +1,11 @@
 export const storefrontCopy = {
+  "FAQ": {
+    "ko": "자주 묻는 질문",
+    "zh-HK": "常見問題",
+    "ja": "よくある質問",
+    "ms": "Soalan lazim",
+    "th": "คำถามที่พบบ่อย"
+  },
   "Market": {
     "ko": "국가·시장",
     "zh-HK": "國家／市場",

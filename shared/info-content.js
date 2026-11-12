@@ -96,8 +96,20 @@ export const FAQ_PAGE = {
   intro: [
     'Short answers about the StoneJeju volcanic-stone diffusers that HONDIT introduces to overseas customers.',
   ],
-  sections: [],
+  sections: [{
+    heading: 'Compare sizes and choose how to buy',
+    paragraphs: ['Both sizes use Jeju volcanic scoria and include 10 mL of citrus fragrance oil. Choose by vessel and available space: glass for the 350g or Jeju onggi pottery for the 500g.'],
+    links: [['350g glass vessel', '/products/diffuser-350g'], ['500g Jeju onggi vessel', '/products/diffuser-500g'], ['Jeju Airport pickup', '/jeju/pickup'], ['Overseas bundle orders', '/bulk-orders']],
+  }],
   faq: [
+    {
+      q: 'How does a stone diffuser differ from a reed or electric diffuser?',
+      a: 'A stone diffuser takes fragrance oil directly on the porous stones. A reed diffuser draws oil up through reeds, and an electric diffuser needs a power source. The StoneJeju models use neither reeds nor power. Refresh the fragrance by adding oil according to the label.',
+    },
+    {
+      q: 'Can I pick up a Jeju souvenir at Jeju Airport?',
+      a: 'You can request pickup for a StoneJeju 350g or 500g diffuser by message. Send your arrival or departure date and preferred time. Wait for HONDIT to confirm the handover time, meeting point and payment method before making plans to collect it.',
+    },
     {
       q: 'Is there a home fragrance diffuser that needs no electricity and no flame?',
       a: 'Yes. The StoneJeju volcanic-stone diffuser is porous Jeju volcanic scoria in a vessel. You drop the citrus fragrance oil that comes with it onto the stones. It needs no electricity and no flame, so it can sit on a shelf, desk or counter.',
@@ -205,7 +217,20 @@ export const FAQ_PAGE_KO = {
   ...FAQ_PAGE,
   h1: '제주 화산석 디퓨저, 자주 묻는 질문',
   intro: ['HONDIT이 해외 고객에게 소개하는 StoneJeju 화산석 디퓨저에 대한 짧은 답변입니다.'],
+  sections: [{
+    heading: '용기와 수령 방법 고르기',
+    paragraphs: ['두 제품 모두 제주 송이석과 시트러스 향 오일 10mL로 구성됩니다. 놓을 공간과 원하는 용기에 맞춰 350g 유리 용기 또는 500g 제주 옹기를 고르세요.'],
+    links: [['350g 유리 용기', '/products/diffuser-350g'], ['500g 제주 옹기', '/products/diffuser-500g'], ['제주공항 수령', '/jeju/pickup?lang=ko'], ['해외 묶음 주문', '/bulk-orders']],
+  }],
   faq: [
+    {
+      q: '화산석 디퓨저는 리드 디퓨저나 전기 디퓨저와 어떻게 다른가요?',
+      a: '화산석 디퓨저는 구멍이 많은 돌에 향 오일을 직접 떨어뜨립니다. 리드 디퓨저는 스틱이 오일을 흡수하고, 전기 디퓨저는 전원이 필요합니다. StoneJeju 제품에는 스틱과 전원이 필요 없으며 향을 보충할 때는 제품 라벨의 사용법을 따르세요.',
+    },
+    {
+      q: '제주공항에서 제주 기념품을 받아볼 수 있나요?',
+      a: 'StoneJeju 디퓨저 350g 또는 500g의 공항 수령을 메시지로 요청할 수 있습니다. 제주 도착일 또는 출발일과 희망 시간을 보내고, HONDIT과 전달 시간·만남 장소·결제 방법을 확인한 뒤 방문해 주세요.',
+    },
     {
       q: '전기도 불도 쓰지 않는 디퓨저가 있나요?',
       a: '네. StoneJeju 화산석 디퓨저는 용기에 구멍이 많은 제주 송이석을 담은 제품입니다. 함께 들어 있는 시트러스 향 오일을 돌 위에 떨어뜨리면 됩니다. 전기도 불도 필요 없어서 선반, 책상, 카운터 어디에나 둘 수 있습니다.',

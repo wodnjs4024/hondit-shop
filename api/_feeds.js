@@ -2,6 +2,7 @@
 import { SITE, merchantMarket, merchantOffer, escapeMarkup as esc } from './_merchant.js';
 export { SITE } from './_merchant.js';
 import { articlePath, isPublic, languageByCode } from '../shared/journal.js';
+import { pickupAlternates } from '../shared/pickup-search.js';
 export function feedItem(product, market = 'SG', language) { return merchantOffer(product, market, language).item || null; }
 export function googleFeed(products, market = 'SG', language) {
   const channel = merchantMarket(market, language);
@@ -30,8 +31,8 @@ ${body}
 
 const STATIC_PAGES = ["/", "/products", "/bulk-orders", "/jeju", "/about", "/faq", "/partners", "/shipping", "/contact", "/policy/refund", "/policy/shipping", "/policy/privacy", "/policy/terms"];
 
-export function sitemap(products, today = new Date().toISOString().slice(0, 10), journal = []) {
-  const live = products.filter((p) => !["draft", "hidden"].includes(p.status));
+export function sitemap(products, journal = []) {
+  const live = products.filter((p) => p.active !== false && !["draft", "hidden"].includes(p.status));
   const urls = [
     ...STATIC_PAGES,
     ...live.map((p) => `/products/${p.slug}`),
@@ -45,9 +46,12 @@ export function sitemap(products, today = new Date().toISOString().slice(0, 10),
     return `  <url><loc>${esc(SITE + articlePath(a))}</loc><lastmod>${String(a.updated_at || a.published_at).slice(0, 10)}</lastmod>${alternates}</url>`;
   });
   const journalIndex = articles.length ? [...new Set(["/journal", ...articles.map((a) => `/journal/${languageByCode(a.language)?.segment}`)])] : [];
+  const pickupLinks = pickupAlternates.map(({ hreflang, path }) => `\n    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${esc(SITE + path)}"/>`).join("");
+  const pickupEntries = pickupAlternates.filter(({ hreflang }) => hreflang !== "x-default")
+    .map(({ path }) => `  <url><loc>${esc(SITE + path)}</loc>${pickupLinks}\n  </url>`);
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"${articleEntries.length ? ' xmlns:xhtml="http://www.w3.org/1999/xhtml"' : ""}>
-${[...new Set([...urls, ...journalIndex])].map((url) => `  <url><loc>${esc(SITE + url)}</loc><lastmod>${today}</lastmod></url>`).concat(articleEntries).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${[...new Set([...urls, ...journalIndex])].map((url) => `  <url><loc>${esc(SITE + url)}</loc></url>`).concat(pickupEntries, articleEntries).join("\n")}
 </urlset>
 `;
 }

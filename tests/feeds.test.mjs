@@ -121,7 +121,10 @@ test('hostile XML, HTML, script terminators and image schemes cannot inject cont
 });
 
 test('sitemap preserves published products and routes preserve existing QR configuration',()=>{
- const xml=sitemap([...products,{...products[0],slug:'new-live',status:'published'},{...products[0],slug:'secret',status:'draft'}],'2026-10-19');
+ const xml=sitemap([...products,{...products[0],slug:'new-live',status:'published'},{...products[0],slug:'secret',status:'draft'}]);
+ assert.match(xml,/\/jeju\/pickup\?lang=ja<\/loc>/);
+ assert.match(xml,/hreflang="zh-Hant"/);
+ assert.doesNotMatch(xml,/<lastmod>/);
  assert.match(xml,/\/products\/new-live/); assert.doesNotMatch(xml,/secret/);
  const config=JSON.parse(fs.readFileSync('vercel.json','utf8'));
  assert.ok(config.rewrites.some(r=>r.source==='/merchant/:market/:lang/:merchantSlug'));

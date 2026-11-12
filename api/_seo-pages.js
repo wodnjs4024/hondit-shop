@@ -6,6 +6,9 @@ import { storefrontCatalog } from '../shared/storefront-catalog.js';
 import { termsFor } from '../shared/market-overrides.js'; // the same function the product page and checkout use (admin price versions and market modes included)
 import { getPolicyContent, EMAIL } from '../shared/policy-content.js';
 import { INFO_PAGES, SITE_FACTS } from '../shared/info-content.js';
+import { pickupRequestTotal } from '../shared/contact-copy.js';
+import { salesPresentationCopy } from '../shared/sales-presentation-copy.js';
+import { PICKUP_IMAGE, pickupAlternates, pickupSearchLanguage, pickupSearchMeta, pickupSearchPath } from '../shared/pickup-search.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
 import { escapeMarkup as esc } from './_merchant.js';
@@ -35,10 +38,10 @@ const money = (minor, currency) => {
 };
 
 /* Live sale state from the database, laid over the static catalog (as src/lib/storefrontApi.ts does). */
-export function catalogProducts(live = []) {
+export function catalogProducts(live = [], { liveOnly = false } = {}) {
   return storefrontCatalog.map((item) => {
     const row = live.find((p) => p.slug === item.slug);
-    const hidden = row && (row.status === 'draft' || row.status === 'hidden');
+    const hidden = row ? row.status === 'draft' || row.status === 'hidden' : liveOnly;
     const stock = row ? (row.stockUnits === undefined ? (Number.isFinite(row.inventoryPacks) ? row.inventoryPacks * row.packQuantity : undefined) : row.stockUnits ?? undefined) : undefined;
     return { ...item, active: row ? row.active !== false : true, purchaseEnabled: row ? row.purchaseEnabled !== false : true, stockQuantity: stock, markets: row?.markets, prices: row?.prices, hidden: Boolean(hidden), live: Boolean(row) };
   }).filter((p) => !p.hidden && p.active !== false);
@@ -49,24 +52,27 @@ export function orderTerms(product) {
   const rows = [];
   for (const code of MARKET_ORDER) {
     const tiers = [];
-    for (const quantity of [10, 20, 30]) {
+    for (const quantity of [5, 10, 20, 30]) {
       const t = termsFor(product, code, quantity);
-      if (t.status === 'direct' && t.billingCurrency && t.unitMinor > 0) tiers.push({ quantity, currency: t.billingCurrency, unitMinor: t.unitMinor, shippingMinor: t.shippingMinor || 0 });
+      if (t.status === 'direct' && t.billingCurrency && t.unitMinor > 0) tiers.push({ quantity, currency: t.billingCurrency, unitMinor: t.unitMinor, totalMinor: t.totalMinor, shippingMinor: t.shippingMinor || 0 });
     }
     if (tiers.length) rows.push({ market: code, country: markets[code]?.countryName || code, tiers });
   }
   return rows;
 }
-const tierText = (tier) => `${tier.quantity} units: ${money(tier.unitMinor, tier.currency)} per unit${tier.shippingMinor === 0 ? ', delivery included' : ''}`;
-function termsHtml(rows) {
-  if (!rows.length) return '<p>Direct checkout is not open for this product. Contact HONDIT for a quote.</p>';
-  return `<ul>${rows.map((r) => `<li><strong>${esc(r.country)}</strong>: ${r.tiers.map((t) => esc(tierText(t))).join('; ')}</li>`).join('')}</ul>`;
+function termsHtml(rows, slug) {
+  if (!rows.length) return '<p>Check current purchase options on the order page or contact HONDIT for a quote.</p>';
+  return `<ul>${rows.map((row) => `<li><strong>${esc(row.country)}</strong>: ${row.tiers.map((tier) => {
+    const label = `${tier.quantity} units: ${money(tier.totalMinor, tier.currency)} total (${money(tier.unitMinor, tier.currency)} per unit)${tier.shippingMinor === 0 ? ', delivery included' : ''}`;
+    const href = `/bulk-orders/${slug}?${new URLSearchParams({ market: row.market, lang: 'en', quantity: String(tier.quantity) })}`;
+    return `<a href="${esc(href)}">${esc(label)}</a>`;
+  }).join('; ')}</li>`).join('')}</ul>`;
 }
 const TERMS_NOTE = '<p>Pay with PayPal at the quantities shown. Other quantities, mixed sizes or orders above available stock are handled as a quote, and import duties and taxes in the destination country are paid by the recipient.</p>';
 
-const NAV = [['/', 'Home'], ['/products', 'Products'], ['/bulk-orders', 'Bulk orders'], ['/jeju', 'Our Jeju'], ['/about', 'About'], ['/faq', 'FAQ'], ['/journal', 'Journal'], ['/shipping', 'Shipping'], ['/contact', 'Contact'], ['/policy/refund', 'Refund policy'], ['/policy/terms', 'Terms']];
+const NAV = [['/', 'Home'], ['/products', 'Products'], ['/bulk-orders', 'Bulk orders'], ['/jeju/pickup', 'Jeju Airport pickup'], ['/jeju', 'Our Jeju'], ['/about', 'About'], ['/faq', 'FAQ'], ['/journal', 'Journal'], ['/shipping', 'Shipping'], ['/contact', 'Contact'], ['/policy/refund', 'Refund policy'], ['/policy/terms', 'Terms']];
 const nav = () => `<nav aria-label="Site"><ul>${NAV.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul></nav>`;
-const wrap = (body) => `<header><a href="/">HONDIT</a></header><main>${body}</main><footer>${nav()}<p>HONDIT · Jeju National University GTEP student team · Business registration no. ${SITE_FACTS.businessRegistration} · <a href="mailto:${EMAIL}">${EMAIL}</a> · <a href="${INSTAGRAM}">Instagram</a></p></footer>`;
+const wrap = (body, mainClass = '') => `<header><a href="/">HONDIT</a></header><main${mainClass ? ` class="${esc(mainClass)}"` : ''}>${body}</main><footer>${nav()}<p>HONDIT · Jeju National University GTEP student team · Business registration no. ${SITE_FACTS.businessRegistration} · <a href="mailto:${EMAIL}">${EMAIL}</a> · <a href="${INSTAGRAM}">Instagram</a></p></footer>`;
 
 const org = () => ({ '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'HONDIT', alternateName: ['hondit', '혼딧'], url: SITE, email: EMAIL, sameAs: SITE_FACTS.profiles.map(([, url]) => url),
   mainEntityOfPage: `${SITE}/about`,
@@ -78,24 +84,14 @@ const maker = { '@type': 'Organization', name: 'StoneJeju', url: 'https://stonej
 // Cleansing care: J’essence is the product brand and 제주리퍼블릭 the manufacturer; HONDIT only sells and curates (mirrors ProductDetailPage.tsx).
 const careMaker = { '@type': 'Organization', name: '제주리퍼블릭' };
 
-export function productSchema(product, rows) {
+export function productSchema(product) {
   const facts = diffuserFacts[product.slug];
   const isCare = product.category === 'CARE';
   const brandName = facts ? 'StoneJeju' : isCare ? 'J’essence' : 'HONDIT'; // same as the product page (src/pages/ProductDetailPage.tsx)
-  // One offer per market and unit price: the lowest quantity at each price. Tiers that share a price repeat the same offer,
-  // but a market can have two real prices (SG: 10 units at 23, 20+ units at 21), and both must stay visible.
-  const offers = rows.flatMap((r) => {
-    const eligible = r.tiers.filter((x) => x.quantity >= 20 || r.market === 'SG').sort((a, b) => a.quantity - b.quantity);
-    return eligible.filter((t, i) => eligible.findIndex((u) => u.unitMinor === t.unitMinor) === i).map((t) => ({
-      '@type': 'Offer', url: `${SITE}/products/${product.slug}?market=${r.market}`, price: (t.unitMinor / 10 ** currencyDigits(t.currency)).toFixed(currencyDigits(t.currency)), priceCurrency: t.currency,
-      eligibleQuantity: { '@type': 'QuantitativeValue', minValue: t.quantity, unitCode: 'C62' },
-      availability: product.stockQuantity !== undefined && product.stockQuantity < t.quantity ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
-      itemCondition: 'https://schema.org/NewCondition', seller: { '@type': 'Organization', name: 'HONDIT' },
-      shippingDetails: { '@type': 'OfferShippingDetails', shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: t.currency }, shippingDestination: { '@type': 'DefinedRegion', addressCountry: r.market } },
-    }));
-  });
-  return { '@context': 'https://schema.org', '@type': 'Product', name: product.name, description: product.description, image: [abs(product.image)], sku: product.apiSlug || product.slug,
-    brand: { '@type': 'Brand', name: brandName }, ...(facts ? { manufacturer: maker } : isCare ? { manufacturer: careMaker } : {}), ...(offers.length ? { offers } : {}) };
+  // A market-neutral product overview has no single payable offer. The existing Merchant URLs own bundle Offer markup.
+  const url = `${SITE}/products/${product.slug}`;
+  return { '@context': 'https://schema.org', '@type': 'Product', '@id': `${url}#product`, url, name: product.name, description: product.description, image: [abs(product.image)], sku: product.apiSlug || product.slug,
+    brand: { '@type': 'Brand', name: brandName }, ...(facts ? { manufacturer: maker } : isCare ? { manufacturer: careMaker } : {}) };
 }
 
 const breadcrumb = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: SITE + path })) });
@@ -108,7 +104,7 @@ function productSection(product, { heading = 'h2' } = {}) {
 }
 
 /* A page = { status, title, description, canonical, jsonLd[], html }. `path` is one of the names below. */
-export function buildSeoPage(path, { slug = '', policy = '', products = [] } = {}) {
+export function buildSeoPage(path, { slug = '', policy = '', language = 'en', products = [], showOrderTerms = true } = {}) {
   const list = products;
   const bySlug = (s) => list.find((p) => p.slug === s);
   if (path === 'home') {
@@ -130,25 +126,43 @@ export function buildSeoPage(path, { slug = '', policy = '', products = [] } = {
   if (path === 'product' || path === 'bulkProduct') {
     const product = bySlug(slug);
     if (!product) return { status: 404 };
-    const rows = orderTerms(product);
+    const rows = showOrderTerms ? orderTerms(product) : [];
     const facts = diffuserFacts[product.slug];
     const canonical = `${SITE}/${path === 'product' ? 'products' : 'bulk-orders'}/${product.slug}`;
     const care = facts ? `<section><h2>Care</h2><ul>${CARE.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></section>` : '';
-    return { status: 200, canonical, image: abs(product.image), title: `${product.name}${path === 'bulkProduct' ? ' order conditions' : ''} | HONDIT`,
-      description: `${product.description} ${facts ? 'Made by StoneJeju, introduced by HONDIT. ' : product.category === 'CARE' ? 'J’essence, made by 제주리퍼블릭, sold by HONDIT. ' : ''}Direct checkout quantities and prices by country.`.slice(0, 300),
-      jsonLd: [productSchema(product, rows), breadcrumb([['Home', '/'], ['Products', '/products'], [product.name, `/products/${product.slug}`]])],
+    const searchName = facts ? `Jeju Volcanic Stone Diffuser ${slug.endsWith('500g') ? '500g' : '350g'} by StoneJeju` : product.name;
+    return { status: 200, canonical, image: abs(product.image), title: `${searchName}${path === 'bulkProduct' ? ' order conditions' : ''} | HONDIT`,
+      description: `${product.description} ${facts ? 'Made by StoneJeju, introduced by HONDIT. ' : product.category === 'CARE' ? 'J’essence, made by 제주리퍼블릭, sold by HONDIT. ' : ''}Check order options by country.`.slice(0, 300),
+      jsonLd: [...(path === 'product' ? [productSchema(product)] : []), breadcrumb([['Home', '/'], [path === 'product' ? 'Products' : 'Bulk orders', path === 'product' ? '/products' : '/bulk-orders'], [product.name, new URL(canonical).pathname]])],
       html: wrap(`<nav aria-label="Breadcrumb"><a href="/products">Products</a> / ${esc(product.name)}</nav><h1>${esc(product.name)}</h1><p>${esc(product.description)}</p>`
-        + (facts ? `<ul><li>Content: ${esc(facts.content)} Jeju volcanic scoria</li><li>Container: ${esc(facts.container)}</li><li>Size: ${esc(facts.dimensions)}</li><li>Fragrance oil: ${esc(facts.oil)} citrus oil included</li></ul><p>Maker and product brand: <a href="https://stonejeju.com">StoneJeju</a>. Seller and curator: HONDIT.</p>` : product.category === 'CARE' ? '<p>Brand: J’essence. Manufacturer: 제주리퍼블릭. Seller and curator: HONDIT.</p>' : '')
+        + (facts ? `<ul><li>Content: ${esc(facts.content)} Jeju volcanic scoria</li><li>Container: ${esc(facts.container)}</li><li>Size: ${esc(facts.dimensions)}</li><li>Fragrance oil: ${esc(facts.oil)} citrus oil included</li></ul><p>Maker and product brand: <a href="${esc(facts.source)}">StoneJeju</a>. Seller and curator: HONDIT.</p>` : product.category === 'CARE' ? '<p>Brand: J’essence. Manufacturer: 제주리퍼블릭. Seller and curator: HONDIT.</p>' : '')
         + `<section><h2>Highlights</h2><ul>${product.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>How to use</h2><p>Follow the product label.</p><ol>${product.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
         + (product.goodFor ? `<section><h2>Good for</h2><p>${esc(product.goodFor)}</p></section>` : '') + care
-        + `<section><h2>Order conditions by country</h2>${termsHtml(rows)}${TERMS_NOTE}</section>`
+        + `<section><h2>Order conditions by country</h2>${termsHtml(rows, product.slug)}${rows.length ? TERMS_NOTE : ''}</section>`
+        + (facts ? '<p><a href="/faq">Compare sizes and learn how to use a stone diffuser</a> · <a href="/jeju/pickup">Jeju Airport pickup</a></p>' : '')
         + `<p><a href="/bulk-orders/${esc(product.slug)}">Choose quantity</a> · <a href="/policy/refund">Refund policy</a> · <a href="/shipping">Shipping</a> · <a href="/contact">Ask a question</a></p>`) };
   }
   if (path === 'bulk') {
     return { status: 200, canonical: SITE + '/bulk-orders', title: 'Bulk and overseas bundle orders | HONDIT', description: 'How HONDIT overseas bundle orders work: direct PayPal checkout quantities, delivered prices and quote cases for each country.',
       jsonLd: [org(), breadcrumb([['Home', '/'], ['Bulk orders', '/bulk-orders']])],
-      html: wrap(`<h1>Overseas bundle orders</h1><p>Direct checkout is open only for the quantities listed for each country. Delivery is included in those prices. Anything else is a quote: contact HONDIT.</p>${list.map((p) => `<section><h2><a href="/bulk-orders/${esc(p.slug)}">${esc(p.name)}</a></h2>${termsHtml(orderTerms(p))}</section>`).join('')}${TERMS_NOTE}<p><a href="/shipping">Shipping</a> · <a href="/policy/refund">Refunds</a> · <a href="/contact">Contact</a></p>`) };
+      html: wrap(`<h1>Overseas bundle orders</h1><p>Choose a product and destination to see available quantities, payment options and delivery terms.</p>${list.map((p) => `<section><h2><a href="/bulk-orders/${esc(p.slug)}">${esc(p.name)}</a></h2>${showOrderTerms ? termsHtml(orderTerms(p), p.slug) : ''}</section>`).join('')}${showOrderTerms ? TERMS_NOTE : ''}<p><a href="/shipping">Shipping</a> · <a href="/policy/refund">Refunds</a> · <a href="/contact">Contact</a></p>`) };
+  }
+  if (path === 'pickup') {
+    const copy = salesPresentationCopy(pickupSearchLanguage(language));
+    const canonical = SITE + pickupSearchPath(language);
+    const { lang, title, description } = pickupSearchMeta(language);
+    const productLinks = ['350g', '500g'].map((size) => `<li><a href="/products/diffuser-${size}">StoneJeju ${size}</a> · KRW ${pickupRequestTotal(1, size).toLocaleString('en-US')}</li>`).join('');
+    return {
+      status: 200, canonical, lang, title, description, image: SITE + PICKUP_IMAGE,
+      alternates: pickupAlternates.map((item) => ({ hreflang: item.hreflang, href: SITE + item.path })),
+      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebPage', name: copy.pickupTitle, url: canonical, inLanguage: lang, about: { '@id': `${SITE}/#organization` } }, breadcrumb([['HONDIT', '/'], [copy.pickupNav, pickupSearchPath(language)]])],
+      html: wrap(`<section class="pickup-introduction"><div><h1>${esc(copy.pickupTitle)}</h1><p>${esc(copy.pickupBody)}</p><a class="hd-textlink" href="mailto:${EMAIL}">${esc(copy.pickupAction)}</a></div>`
+        + `<figure><div class="pickup-airport-sign-frame"><img src="${PICKUP_IMAGE}" alt="${esc(copy.pickupImageAlt)}" width="1504" height="418" fetchpriority="high"></div><figcaption>${esc(copy.pickupShort)}</figcaption></figure>`
+        + `<ul class="pickup-intro-facts">${productLinks}</ul><div class="pickup-arrangements">`
+        + `<article><h2>${esc(copy.pickupSchedule)}</h2><p>${esc(copy.pickupScheduleBody)}</p></article>`
+        + `<article><h2>${esc(copy.pickupMethod)}</h2><p>${esc(copy.pickupMethodBody)}</p></article></div></section>`, 'pickup-page pickup-simple pickup-travel'),
+    };
   }
   if (path === 'jeju') {
     return { status: 200, canonical: SITE + '/jeju', title: 'Our Jeju: a student project from Jeju National University | HONDIT', description: 'HONDIT began in Jeju. An independent student-led cross-border commerce project at Jeju National University that introduces StoneJeju volcanic-stone diffusers to overseas customers.',

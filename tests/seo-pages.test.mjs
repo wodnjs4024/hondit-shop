@@ -6,11 +6,15 @@ import { buildSync } from 'esbuild';
 import { buildSeoPage, catalogProducts, orderTerms, diffuserFacts, productSchema } from '../api/_seo-pages.js';
 import { termsFor } from '../shared/market-overrides.js';
 import { getPolicyContent } from '../shared/policy-content.js';
+import { pickupAlternates } from '../shared/pickup-search.js';
+import { pickupRequestTotal } from '../shared/contact-copy.js';
+import { JSDOM } from 'jsdom';
+import { defaultProducts } from '../api/_bulk-data.js';
 import handler from '../api/products.js';
 
 const products = catalogProducts([]);
 const PAGES = [
-  ['home'], ['products'], ['bulk'], ['jeju'], ['about'], ['faq'], ['shipping'], ['contact'],
+  ['home'], ['products'], ['bulk'], ['jeju'], ['pickup'], ['about'], ['faq'], ['shipping'], ['contact'],
   ...products.flatMap((p) => [['product', { slug: p.slug }], ['bulkProduct', { slug: p.slug }]]),
   ...['shipping', 'refund', 'privacy', 'terms'].map((policy) => ['policy', { policy }]),
 ];
@@ -50,14 +54,15 @@ test('prices, currencies and quantities are exactly the approved checkout terms'
       const t = termsFor(product, row.market, tier.quantity);
       assert.equal(t.status, 'direct');
       assert.equal(t.unitMinor, tier.unitMinor);
+      assert.equal(t.totalMinor, tier.totalMinor);
       assert.equal(t.billingCurrency, tier.currency);
     }
   }
   const d500 = products.find((p) => p.slug === 'diffuser-500g');
   const html = build(['product', { slug: 'diffuser-500g' }]).html;
-  assert.match(html, /Japan<\/strong>: 20 units: JPY 5200 per unit, delivery included/);
-  assert.match(html, /Hong Kong<\/strong>: 20 units: HKD 280\.00 per unit/);
-  assert.match(html, /Malaysia<\/strong>: 20 units: SGD 46\.00 per unit/);
+  assert.match(html, /20 units: JPY 104000 total \(JPY 5200 per unit\), delivery included/);
+  assert.match(html, /20 units: HKD 5600\.00 total \(HKD 280\.00 per unit\)/);
+  assert.match(html, /20 units: SGD 920\.00 total \(SGD 46\.00 per unit\)/);
   assert.ok(orderTerms(d500).every((r) => !r.tiers.some((t) => t.quantity === 10) || r.market === 'SG'), 'only Singapore sells the 10-unit trial directly');
   assert.doesNotMatch(build(['bulkProduct', { slug: 'foam-oil' }]).html, /Japan|Taiwan/, 'cleansers are not offered in JP/TW');
 });
@@ -67,7 +72,7 @@ test('StoneJeju (maker) and HONDIT (seller, curator) are kept apart', () => {
   const schema = page.jsonLd.find((d) => d['@type'] === 'Product');
   assert.equal(schema.brand.name, 'StoneJeju');
   assert.equal(schema.manufacturer.name, 'StoneJeju');
-  assert.ok(schema.offers.length > 5 && schema.offers.every((o) => o.seller.name === 'HONDIT' && Number(o.price) > 0));
+  assert.equal(schema.offers, undefined);
   assert.match(page.html, /Maker and product brand: <a[^>]*>StoneJeju<\/a>\. Seller and curator: HONDIT/);
   const home = build(['home']).html;
   assert.match(home, /student team in the GTEP programme at Jeju National University/);
@@ -94,7 +99,7 @@ async function call(query, headers = {}) {
   return res;
 }
 
-test('every visitor and bot gets identical HTML; market/language variants and unknown slugs answer 404 with the plain app shell', async () => {
+test('every visitor and bot gets identical HTML; English market links render with a clean canonical, unsupported translations retain the app shell', async () => {
   const agents = ['Mozilla/5.0 Chrome/130', 'Googlebot/2.1', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; OAI-SearchBot/1.0', 'PerplexityBot/1.0', 'ClaudeBot/1.0'];
   const bodies = [];
   for (const ua of agents) bodies.push((await call({ seoPage: 'product', seoSlug: 'diffuser-500g' }, { 'user-agent': ua })).body);
@@ -104,6 +109,8 @@ test('every visitor and bot gets identical HTML; market/language variants and un
   assert.match(bodies[0], /application\/ld\+json/);
   assert.match(bodies[0], /<title>[^<]*500g[^<]*HONDIT<\/title>/);
   assert.match(bodies[0], /name="robots" content="index,follow/);
+  const englishMarket = await call({ seoPage: 'product', seoSlug: 'diffuser-500g', market: 'SG', lang: 'en', quantity: '20', utm_source: 'instagram' });
+  assert.equal(englishMarket.body, bodies[0]);
   const variant = await call({ seoPage: 'home', market: 'JP', lang: 'ja' });
   assert.doesNotMatch(variant.body, /rel="canonical"/);
   assert.doesNotMatch(variant.body, /Jeju volcanic-stone diffusers and everyday care/);
@@ -113,7 +120,7 @@ test('every visitor and bot gets identical HTML; market/language variants and un
   assert.match(unknown.body, /<script type="module"/, 'the app still loads to draw its own not-found page');
   assert.equal((await call({ seoPage: 'policy', seoPolicy: 'nope' })).statusCode, 404);
   assert.equal((await call({ seoPage: 'policy', seoPolicy: 'refund' })).statusCode, 200);
-  assert.equal((await call({ seoPage: 'product', seoSlug: 'nope', market: 'JP' })).statusCode, 200, 'variants keep their behaviour');
+  assert.equal((await call({ seoPage: 'product', seoSlug: 'nope', market: 'JP' })).statusCode, 404);
   const home = await call({ seoPage: 'home' });
   assert.match(home.body, /<div id="root"><header>/);
   assert.match(home.body, /<script type="module"/, 'the app bundle still loads');
@@ -156,7 +163,7 @@ test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, 
     const schema = productSchema(product, orderTerms(product));
     assert.equal(schema.brand.name, 'J’essence');
     assert.equal(schema.manufacturer.name, '제주리퍼블릭');
-    assert.ok(schema.offers.every((o) => o.seller.name === 'HONDIT'));
+    assert.equal(schema.offers, undefined);
     assert.match(page.html, /J’essence/);
     assert.match(page.html, /제주리퍼블릭/);
   }
@@ -168,20 +175,79 @@ test('cleansing care is J’essence made by 제주리퍼블릭, sold by HONDIT, 
   }
 });
 
-test('product structured data has one offer per market price (SG keeps its 10-unit and 20-unit prices), and journal articles mark products as Thing (not Product)', async () => {
+test('market-neutral product pages never publish a unit price as an Offer, and journal articles mark products as Thing', async () => {
   for (const slug of ['diffuser-350g', 'diffuser-500g']) {
     const product = products.find((p) => p.slug === slug);
-    const offers = productSchema(product, orderTerms(product)).offers;
-    const markets = offers.map((o) => `${o.url.split('market=')[1]}:${o.price}`);
-    assert.equal(new Set(markets).size, markets.length, `${slug} repeats a market price: ${markets}`);
-    const prices = offers.map((o) => `${o.url.split('market=')[1]}:${o.price}:${o.eligibleQuantity.minValue}`);
-    if (slug === 'diffuser-350g') assert.ok(prices.includes('SG:23.00:10') && prices.includes('SG:21.00:20'), prices.join(' '));
-    assert.ok(!prices.some((p) => p.endsWith(':30')), 'the 30-unit tier only repeats the 20-unit price');
+    assert.equal(productSchema(product).offers, undefined);
+    const page = build(['product', { slug }]);
+    const doc = new JSDOM(page.html).window.document;
+    const link = doc.querySelector(`a[href="/bulk-orders/${slug}?market=SG&lang=en&quantity=10"]`);
+    const term = termsFor(product, 'SG', 10);
+    assert.ok(link?.textContent.includes(`SGD ${(term.totalMinor / 100).toFixed(2)} total`));
   }
   const { articleJsonLd } = await import('../api/_journal-html.js');
   const article = { title: 'T', language: 'en', related_products: ['diffuser-350g'], published_at: '2026-10-25T08:14:00Z', slug: 'x' };
   const about = articleJsonLd(article)[0].about;
   assert.ok(about.every((a) => a['@type'] === 'Thing' && !('offers' in a) && !('review' in a) && !('aggregateRating' in a)));
+});
+
+test('pickup initial HTML matches its public language and pricing, and campaign variants point to a clean canonical', async () => {
+  for (const { hreflang, path } of pickupAlternates.filter(item => item.hreflang !== 'x-default')) {
+    const url = new URL(path, 'https://hondit-shop.vercel.app');
+    const lang = url.searchParams.get('lang') || 'en';
+    const response = await call({ seoPage: 'pickup', lang, market: 'SG', utm_source: 'instagram', quantity: '2' });
+    const doc = new JSDOM(response.body).window.document;
+    assert.equal(response.statusCode, 200);
+    assert.equal(doc.documentElement.lang, hreflang);
+    assert.equal(doc.querySelector('link[rel="canonical"]').href, url.href);
+    assert.equal(doc.querySelectorAll('link[hreflang]').length, 7);
+    assert.match(doc.querySelector('h1').textContent, /\S/);
+    for (const size of ['350g', '500g']) assert.ok(doc.body.textContent.includes(pickupRequestTotal(1, size).toLocaleString('en-US')));
+    assert.doesNotMatch(response.body, /"@type":"Offer"|utm_source/);
+  }
+});
+
+test('public price text requires confirmed live checkout; pickup has no catalog dependency', async () => {
+  const keys = ['VERCEL_ENV', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'PAYPAL_MODE', 'PAYPAL_CLIENT_ID', 'PAYPAL_CLIENT_SECRET'];
+  const original = Object.fromEntries(keys.map(key => [key, process.env[key]]));
+  const fetchBefore = globalThis.fetch;
+  try {
+    Object.assign(process.env, {
+      VERCEL_ENV: 'production', SUPABASE_URL: 'https://mock.invalid', SUPABASE_SERVICE_ROLE_KEY: 'synthetic',
+      PAYPAL_MODE: 'live', PAYPAL_CLIENT_ID: 'synthetic', PAYPAL_CLIENT_SECRET: 'synthetic',
+    });
+    let enabled = true;
+    let failed = false;
+    let requests = 0;
+    globalThis.fetch = async (url) => {
+      requests++;
+      const path = new URL(url).pathname;
+      if (path.endsWith('/site_settings')) return Response.json([{ checkout_enabled: enabled }]);
+      if (failed) throw new Error('Mock catalog unavailable');
+      return Response.json(defaultProducts);
+    };
+    const query = { seoPage: 'product', seoSlug: 'diffuser-350g', market: 'SG', lang: 'en' };
+    assert.match((await call(query)).body, /SGD 230\.00 total/);
+    enabled = false;
+    assert.doesNotMatch((await call(query)).body, /SGD 230\.00 total/);
+    failed = true;
+    const product = await call(query);
+    assert.equal(product.statusCode, 503);
+    assert.equal(product.headers['cache-control'], 'no-store');
+    const before = requests;
+    assert.equal((await call({ seoPage: 'pickup', lang: 'ja' })).statusCode, 200);
+    assert.equal(requests, before);
+    process.env.VERCEL_ENV = 'preview';
+    const preview = await call({ seoPage: 'pickup' });
+    assert.equal(preview.headers['x-robots-tag'], 'noindex, follow');
+    assert.match(preview.body, /name="robots" content="noindex,follow"/);
+  } finally {
+    globalThis.fetch = fetchBefore;
+    for (const key of keys) {
+      if (original[key] === undefined) delete process.env[key];
+      else process.env[key] = original[key];
+    }
+  }
 });
 
 test('About and FAQ pages carry the trust facts and FAQPage data from the shared content', () => {

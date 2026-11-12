@@ -76,7 +76,7 @@ export default async function handler(req, res) {
       res.setHeader("Content-Type", "application/xml; charset=utf-8");
       res.setHeader("Cache-Control", "public, max-age=0, s-maxage=600, stale-while-revalidate=3600");
       res.statusCode = 200;
-      return res.end(req.method === "HEAD" ? "" : sitemap(products, undefined, journal));
+      return res.end(req.method === "HEAD" ? "" : sitemap(products, journal));
     } catch { return json(res,503,{error:"Could not build sitemap"}); }
   }
   if (req.query?.partnerSlug !== undefined) return partnerGuide({...req,query:{slug:req.query.partnerSlug}},res);

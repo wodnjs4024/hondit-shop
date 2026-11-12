@@ -6,6 +6,9 @@ export const languageIds = ['en','ko','ja','zh','zh-HK','zh-TW','ms','th'];
 export function publicToken(value, max = 100) {
   return typeof value === 'string' && value.length <= max && /^[a-z0-9][a-z0-9_-]*$/i.test(value) ? value : '';
 }
+export function publicLinkId(value) {
+  return typeof value === 'string' && /^l\d{4,12}$/.test(value) ? value : '';
+}
 export function safePath(path = '/') {
   if (/^\/(order-complete|payment-failed)\//.test(path)) return '/' + path.split('/')[1] + '/receipt';
   if (/^\/admin(?:\/|$)/.test(path)) return '/admin';
@@ -15,7 +18,7 @@ export function safePath(path = '/') {
   }
   // Journal article slugs are public, editor-chosen words (never personal data).
   if (/^\/journal(?:\/(?:en|ja|zh-hk|zh-tw)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?)?$/.test(path) && path.length <= 120) return path;
-  return /^\/(?:|products|bulk-orders|partners|jeju|jeju\/pickup|shipping|contact|policy\/(?:terms|privacy|refund)|(?:sg|hk|jp|tw)\/(?:ig|fb|c01))$/.test(path) ? path : '/not-found';
+  return /^\/(?:|products|bulk-orders|partners|about|faq|jeju(?:\/(?:pickup|stores))?|shipping|contact|policy\/(?:terms|privacy|refund|shipping)|(?:sg|hk|jp|tw)\/(?:ig|fb|c01))$/.test(path) ? path : '/not-found';
 }
 export function functionalParams(input = '') {
   const source = new URLSearchParams(input), out = new URLSearchParams();
@@ -25,11 +28,21 @@ export function functionalParams(input = '') {
   if (/^[1-9]\d{0,3}$/.test(q || '')) out.set('quantity',q);
   return out;
 }
+export function publicLandingParams(input = '') {
+  const source = new URLSearchParams(input);
+  const params = functionalParams(source);
+  for (const key of campaignKeys) {
+    const value = publicToken(source.get(key));
+    if (value) params.set(key, value);
+  }
+  const linkId = publicLinkId(source.get('link_id'));
+  if (linkId) params.set('link_id', linkId);
+  return params;
+}
 export function safeLanding(input) {
   try {
     const url = new URL(input, 'https://hondit-shop.vercel.app');
-    const params = functionalParams(url.search);
-    for (const key of campaignKeys) { const v=publicToken(url.searchParams.get(key)); if(v)params.set(key,v); }
+    const params = publicLandingParams(url.search);
     return safePath(url.pathname)+(params.size?'?'+params:'');
   } catch { return '/'; }
 }
@@ -52,7 +65,7 @@ export function safeEventParams(input = {}) {
     if (enumValues[key]?.includes(value)) out[key]=value;
     else if (tokenKeys.has(key) && publicToken(value)) out[key]=value;
     else if (['item_id','product_id'].includes(key) && productIds.includes(value)) out[key]=value;
-    else if (key==='link_id' && /^l\d{4,}$/.test(value)) out[key]=value;
+    else if (key==='link_id' && publicLinkId(value)) out[key]=value;
     else if (['quantity','image_number','value','price'].includes(key) && typeof value==='number' && Number.isFinite(value) && value>=0) out[key]=value;
     else if (key==='destination_path' && typeof value==='string') out[key]=safePath(value);
     else if (key==='transaction_id' && /^HD-[A-Z0-9-]{5,50}$/.test(value)) out[key]=value;

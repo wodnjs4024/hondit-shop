@@ -1,4 +1,4 @@
-import {campaignKeys, publicToken, safeLanding, safeReferrer} from './tracking-policy.js';
+import {campaignKeys, publicLinkId, publicToken, safeLanding, safeReferrer} from './tracking-policy.js';
 export function cleanCheckoutAttribution(input={}) {
   if(!input||typeof input!=='object')return {};
   const aliases={utm_source:'traffic_source',utm_medium:'traffic_medium',utm_campaign:'traffic_campaign',utm_content:'traffic_content',utm_term:'traffic_term'};
@@ -31,7 +31,7 @@ export function createAttributionStore({storage, now=()=>Date.now()} = {}) {
     touch.utm_source ||= touch.referrer?'referral':'direct';
     touch.utm_medium ||= touch.referrer?'referral':'none';
     touch.community_id=publicToken(url.searchParams.get('community'));
-    touch.link_id=/^l\d{4,}$/.test(touch.utm_content)?touch.utm_content:'';
+    touch.link_id=publicLinkId(touch.utm_content) || publicLinkId(url.searchParams.get('link_id'));
     return touch;
   }
   function capture({url,referrer='',short=null}) {
@@ -44,12 +44,12 @@ export function createAttributionStore({storage, now=()=>Date.now()} = {}) {
       try {const old=JSON.parse(raw || 'null');if(old && now()-Date.parse(old.captured_at)>=0 && now()-Date.parse(old.captured_at)<30*DAY){
         const legacy=snapshot(new URL(old.landing_page || '/',u.origin),old.referrer || '',null);
         for(const k of campaignKeys)legacy[k]=publicToken(old[k]);
-        legacy.captured_at=Date.parse(old.captured_at);legacy.link_id=/^l\d{4,}$/.test(legacy.utm_content)?legacy.utm_content:'';data.legacy=legacy;
+        legacy.captured_at=Date.parse(old.captured_at);legacy.link_id=publicLinkId(legacy.utm_content);data.legacy=legacy;
       }}catch{}
     }
     entry=snapshot(u,referrer,short);
     if(!data.first)data.first=entry;
-    const tagged=!!short || campaignKeys.some(k=>publicToken(u.searchParams.get(k)));
+    const tagged=!!short || Boolean(entry.link_id) || campaignKeys.some(k=>publicToken(u.searchParams.get(k)));
     if(tagged || entry.referrer)data.last=entry;
     write();return entry;
   }

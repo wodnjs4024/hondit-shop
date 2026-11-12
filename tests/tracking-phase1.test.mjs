@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createAttributionStore,cleanCheckoutAttribution} from '../shared/attribution.js';
-import {analyticsTarget,safeEventParams,safeLanding,functionalParams} from '../shared/tracking-policy.js';
+import {analyticsTarget,safeEventParams,safeLanding,functionalParams,publicLandingParams} from '../shared/tracking-policy.js';
 import {selectionUrl} from '../shared/sales-tools.js';
 import {checkoutAnalytics} from '../shared/checkout-analytics.js';
 import {defaultProducts} from '../api/_bulk-data.js';
@@ -48,6 +48,18 @@ test('analytics strips PII, receipt IDs, arbitrary parameters and invalid item m
  assert.deepEqual(data,{channel:'whatsapp',quantity:2,items:[{item_id:'diffuser-500g',quantity:2,price:46}]});
  const url=safeLanding('https://hondit-shop.vercel.app/order-complete/HD-PRIVATE?token=secret&email=a@example.com&utm_content=l0001');
  assert.equal(url,'/order-complete/receipt?utm_content=l0001');
+});
+test('organic landing paths stay distinct and inquiry campaigns retain only public link metadata',()=>{
+ for (const path of ['/faq','/about','/jeju/stores','/policy/shipping']) assert.equal(safeLanding(path),path);
+ const params=publicLandingParams('market=JP&lang=ja&utm_source=outreach&utm_medium=email&link_id=l0074&email=private@example.com&message=hi');
+ assert.equal(params.get('link_id'),'l0074');
+ assert.equal(params.get('utm_source'),'outreach');
+ assert.equal(params.get('email'),null);
+ assert.equal(params.get('message'),null);
+ assert.equal(publicLandingParams('link_id=private@example.com').get('link_id'),null);
+ const store=createAttributionStore();
+ store.capture({url:'https://hondit-shop.vercel.app/contact?'+params});
+ assert.equal(store.current().link_id,'l0074');
 });
 test('production analytics is impossible in default local, Preview, and a foreign hostname; tests require separate ID',()=>{
  assert.equal(analyticsTarget({PROD:true},'localhost'),'');assert.equal(analyticsTarget({PROD:true,VITE_VERCEL_ENV:'preview'},'hondit-shop.vercel.app'),'');
