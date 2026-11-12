@@ -103,6 +103,14 @@ export const FAQ_PAGE = {
       a: 'Yes. The StoneJeju volcanic-stone diffuser is porous Jeju volcanic scoria in a vessel. You drop the citrus fragrance oil that comes with it onto the stones. It needs no electricity and no flame, so it can sit on a shelf, desk or counter.',
     },
     {
+      q: 'What is a stone diffuser (aroma stone), and how is it different from a reed diffuser or an electric diffuser?',
+      a: 'A stone diffuser, also called an aroma stone, is a porous stone that holds a few drops of fragrance oil and lets the scent spread on its own. The StoneJeju diffuser uses Jeju volcanic scoria. Unlike a reed diffuser, it has no reeds and no open bottle of liquid. Unlike an electric or ultrasonic diffuser, it needs no water, cable or power. You add drops only when you want scent.',
+    },
+    {
+      q: 'Is Jeju scoria the same as lava stone or lava rock?',
+      a: 'Jeju scoria, called songi (송이) in Korean, is a porous volcanic rock from Jeju Island, formed from lava. Diffusers made from this kind of rock are often called lava stone or lava rock diffusers. Its many small holes are what hold the fragrance oil.',
+    },
+    {
       q: 'What is a Jeju volcanic-stone (scoria) diffuser and how do you use it?',
       a: 'Jeju scoria is a porous volcanic rock. The stone is arranged in its vessel and 10-12 drops of the 10mL citrus fragrance oil are added onto the stones. Add a few drops again whenever you want to refresh the scent.',
     },
@@ -121,6 +129,10 @@ export const FAQ_PAGE = {
     {
       q: 'Can a small shop, studio or guesthouse use it at a front desk?',
       a: 'Yes, that is the use the 500g is recommended for: reception desks, studios and hospitality spaces. It has no flame and no cable, so it only needs a shelf or counter. Quantity orders for businesses are listed on the order conditions page.',
+    },
+    {
+      q: 'Can I order diffusers as corporate gifts or event giveaways in Singapore?',
+      a: 'Yes. HONDIT takes quantity orders for teams, events, shops and guesthouses. In Singapore, direct PayPal checkout is open at set quantities with delivery included. Other quantities or mixed sizes are handled as a quote. See the order conditions page, or contact HONDIT with the quantity and the date you need it by.',
     },
     {
       q: 'How do I look after the stone?',
@@ -143,6 +155,9 @@ const WHO_KO = 'HONDIT은 제주대학교 GTEP 과정 학생팀이 운영하는 
 
 export const ABOUT_PAGE_KO = {
   ...ABOUT_PAGE,
+  navLabel: 'HONDIT 소개',
+  title: 'HONDIT 소개: 제주대학교 학생팀이 운영하는 제주 화산석 디퓨저 판매처 | HONDIT',
+  description: 'HONDIT은 제주대학교 GTEP 학생팀이 운영하는 판매·큐레이션 브랜드입니다. 제조사 StoneJeju, 사업자등록번호, 연락처, PayPal 결제와 배송·환불 정책을 한곳에서 확인하세요.',
   h1: 'HONDIT 소개',
   intro: [
     WHO_KO,
@@ -203,12 +218,23 @@ export const ABOUT_PAGE_KO = {
 
 export const FAQ_PAGE_KO = {
   ...FAQ_PAGE,
+  navLabel: '자주 묻는 질문',
+  title: '제주 화산송이 디퓨저 FAQ: 전기·불 없는 스톤 디퓨저 사용법과 해외 주문 | HONDIT',
+  description: '제주 화산송이 스톤 디퓨저(아로마 스톤)에 대한 짧은 답변. 리드·전기 디퓨저와의 차이, 350g·500g 고르기, 사용법과 관리, 제주 기념품·기업 선물, 해외 주문과 배송.',
   h1: '제주 화산석 디퓨저, 자주 묻는 질문',
   intro: ['HONDIT이 해외 고객에게 소개하는 StoneJeju 화산석 디퓨저에 대한 짧은 답변입니다.'],
   faq: [
     {
       q: '전기도 불도 쓰지 않는 디퓨저가 있나요?',
       a: '네. StoneJeju 화산석 디퓨저는 용기에 구멍이 많은 제주 송이석을 담은 제품입니다. 함께 들어 있는 시트러스 향 오일을 돌 위에 떨어뜨리면 됩니다. 전기도 불도 필요 없어서 선반, 책상, 카운터 어디에나 둘 수 있습니다.',
+    },
+    {
+      q: '스톤 디퓨저(아로마 스톤)는 리드 디퓨저나 전기 디퓨저와 무엇이 다른가요?',
+      a: '스톤 디퓨저는 구멍이 많은 돌에 향 오일을 몇 방울 떨어뜨려 향이 스스로 퍼지게 하는 방식입니다. StoneJeju 디퓨저는 제주 화산송이를 씁니다. 리드 디퓨저처럼 막대나 열린 액체 병이 없고, 전기·초음파 디퓨저처럼 물이나 전선, 전원이 필요 없습니다. 향이 필요할 때만 오일을 더하면 됩니다.',
+    },
+    {
+      q: '제주 송이석은 용암석(라바 스톤)과 같은 건가요?',
+      a: '제주 송이(스코리아)는 용암에서 생긴, 구멍이 많은 제주의 화산암입니다. 이런 돌로 만든 디퓨저를 해외에서는 흔히 lava stone, lava rock 디퓨저라고 부릅니다. 작은 구멍들이 향 오일을 머금습니다.',
     },
     {
       q: '제주 화산석(송이석) 디퓨저는 무엇이고 어떻게 쓰나요?',
@@ -231,6 +257,10 @@ export const FAQ_PAGE_KO = {
       a: '네. 500g을 추천하는 용도가 안내 데스크, 스튜디오, 숙박 공간입니다. 불도 전선도 없어서 선반이나 카운터만 있으면 됩니다. 사업자용 수량 주문은 주문 조건 페이지에 있습니다.',
     },
     {
+      q: '싱가포르에서 기업 선물이나 행사 기념품으로 주문할 수 있나요?',
+      a: '네. HONDIT은 팀, 행사, 가게, 게스트하우스의 수량 주문을 받습니다. 싱가포르는 정해진 수량에서 배송비 포함 PayPal 바로 결제가 열려 있고, 그 밖의 수량이나 크기 섞기는 견적으로 안내합니다. 주문 조건 페이지를 보거나, 필요한 수량과 받을 날짜를 적어 HONDIT에 문의해 주세요.',
+    },
+    {
       q: '돌은 어떻게 관리하나요?',
       a: '자연석이라 크기와 색이 조금씩 다르고 고운 가루가 나올 수 있습니다. 민감하거나 상처 난 피부에 오래 닿지 않게 하고 제품 라벨을 따라 주세요. 향을 바꾸려면 먼저 돌을 따뜻한 물에 헹군 뒤 완전히 말려 주세요.',
     },
@@ -244,5 +274,262 @@ export const FAQ_PAGE_KO = {
     },
   ],
 };
+
+
+// Japanese and Traditional Chinese versions (same facts as the English pages). Used by the React pages and by the
+// server-rendered language versions (/about?lang=ja, /faq?lang=zh-HK ...). Keyword choices follow how people search in
+// each market: アロマストーン・溶岩石・済州島 お土産 (JP), 擴香石・火山石擴香・濟州島手信/伴手禮 (HK, TW, MO).
+const WHO_JA = 'HONDITは、済州大学校（チェジュ大学）GTEPプログラムの学生チームが運営する販売・キュレーションブランドです。火山石ディフューザーのメーカー兼製品ブランドはStoneJejuで、HONDITは製造していません。';
+const WHO_ZH = 'HONDIT 是濟州大學 GTEP 課程學生團隊經營的銷售與選品品牌。火山石擴香的製造商及產品品牌是 StoneJeju，HONDIT 並不生產這些產品。';
+
+export const ABOUT_PAGE_JA = {
+  ...ABOUT_PAGE,
+  navLabel: 'HONDITについて',
+  title: 'HONDITについて：済州大学の学生チームが届ける済州島の火山石ディフューザー | HONDIT',
+  description: 'HONDITは済州大学GTEPの学生チームが運営する販売ブランドです。メーカーStoneJeju、事業者登録番号、連絡先、PayPal決済、配送・返金ポリシーを確認できます。',
+  h1: 'HONDITについて',
+  intro: [
+    WHO_JA,
+    '大手ショップではなく、学生が運営する小さな越境販売プロジェクトです。このページでは、ご自身で確かめられる情報をまとめています。',
+  ],
+  sections: [
+    {
+      heading: '私たちについて',
+      paragraphs: [
+        `HONDITは済州大学校（${SITE_FACTS.address}）を拠点とする独立した学生プロジェクトです。キャンパスは活動の拠点であり、大学が製品を保証するものではありません。`,
+        'シンガポール、香港、日本、台湾などアジアのお客様に済州島の製品を紹介し、注文のご質問に直接お答えしています。',
+      ],
+      links: [['私たちの済州', '/jeju?lang=ja']],
+    },
+    {
+      heading: '販売している製品とメーカー',
+      items: [
+        'ボルカニックディフューザー 350g・500g：StoneJeju（stonejeju.com）が製造し、HONDITが販売・紹介しています。',
+        'クレンジングケア（ヴィーガンフォームオイル、フォーミングクレンザー、クレンジングウォーター）：ブランドはJ’essence、製造は제주리퍼블릭（Jeju Republic）。HONDITが販売・キュレーションしています。',
+      ],
+      links: [['製品一覧', '/products?lang=ja']],
+    },
+    {
+      heading: '確認できる情報',
+      items: [
+        'メーカーページ：同じディフューザーがStoneJejuのサイト（stonejeju.com）にも掲載されています。下の「メーカーページ」から開けます。',
+        `連絡先：${SITE_FACTS.email}、WhatsApp・Telegram ${SITE_FACTS.phone}、WeChat ${SITE_FACTS.wechat}、Instagram @hondit.office`,
+        `所在地：${SITE_FACTS.address}`,
+        `韓国の事業者登録番号：${SITE_FACTS.businessRegistration}（サイト下部にも表示）`,
+        '配送・返金・個人情報・利用規約を公開しており、下にリンクがあります。',
+        '運営チャンネル：Instagram、Blogger、WordPress、Tumblr（下の一覧）',
+      ],
+      links: [['お問い合わせ', '/contact'], ['配送案内', '/shipping'], ['返金ポリシー', '/policy/refund'], ['利用規約', '/policy/terms'], ['個人情報', '/policy/privacy']],
+    },
+    {
+      heading: '注文と支払い',
+      paragraphs: [
+        '製品と数量を選び、お住まいの国の注文条件を確認してからPayPalでお支払いください。HONDITがカード情報を見ることはありません。お支払いの確認後に韓国から発送し、発送後に追跡情報をお送りします。表示以外の数量はお見積もりでご案内します。',
+      ],
+      links: [['国別の注文条件', '/bulk-orders?lang=ja']],
+    },
+  ],
+  faq: [
+    {
+      q: 'HONDITは信頼できるショップですか？',
+      a: `HONDITは済州大学の学生が運営する小さなプロジェクトで、大手ショップではありません。確認できること：韓国の事業者登録番号${SITE_FACTS.businessRegistration}で運営し、製品はStoneJeju（stonejeju.com）が製造、決済はPayPalが処理します。配送・返金・個人情報・利用規約は公開されており、${SITE_FACTS.email}またはWhatsApp ${SITE_FACTS.phone}で連絡できます。`,
+    },
+    {
+      q: 'HONDITのディフューザーは誰が作っていますか？',
+      a: 'StoneJejuが火山石ディフューザーを製造しています。HONDITは海外のお客様に紹介・販売する販売者です。クレンジングケアはJ’essenceブランドで、제주리퍼블릭（Jeju Republic）が製造しています。',
+    },
+    {
+      q: 'HONDITはJEJU STONEやHEJDINなど、ほかの済州ストーンブランドと同じですか？',
+      a: 'いいえ。HONDITは別の販売者で、ディフューザーはStoneJeju（stonejeju.com）が製造しています。ほかの済州の石や香りのブランドは、HONDITとは関係のない別ブランドです。',
+    },
+  ],
+};
+
+export const FAQ_PAGE_JA = {
+  ...FAQ_PAGE,
+  navLabel: 'よくある質問',
+  title: '済州島の溶岩石アロマストーン FAQ：電気も火も使わないディフューザー | HONDIT',
+  description: '済州島の火山石（溶岩石）を使ったアロマストーン型ディフューザーのよくある質問。リードディフューザーとの違い、350gと500gの選び方、使い方とお手入れ、お土産・ギフト、日本への注文と配送。',
+  h1: '済州島の火山石ディフューザー（アロマストーン）よくある質問',
+  intro: ['HONDITが海外のお客様に紹介しているStoneJejuの火山石ディフューザーについての短い回答です。'],
+  faq: [
+    {
+      q: '電気も火も使わないルームフレグランスはありますか？',
+      a: 'はい。StoneJejuの火山石ディフューザーは、多孔質の済州島の火山石（スコリア）を器に入れたものです。付属のシトラスのフレグランスオイルを石に垂らすだけで、電気も火も使いません。棚、デスク、カウンターに置けます。',
+    },
+    {
+      q: 'アロマストーン（ストーンディフューザー）は、リードディフューザーや電動ディフューザーと何が違いますか？',
+      a: 'アロマストーンは、多孔質の石にオイルを数滴含ませ、香りを自然に広げるタイプです。StoneJejuのディフューザーは済州島の火山石を使っています。リードディフューザーのようなスティックや開いた液体ボトルがなく、電動・超音波式のような水やコード、電源も不要です。香りがほしいときだけオイルを足します。',
+    },
+    {
+      q: '済州島の火山石は溶岩石（ラバストーン）と同じですか？',
+      a: '済州島のスコリア（韓国語で「ソンイ」）は、溶岩からできた穴の多い済州島の火山岩です。この種の石を使ったディフューザーは、溶岩石やラバストーンのディフューザーとも呼ばれます。小さな穴がフレグランスオイルを含みます。',
+    },
+    {
+      q: '済州島の火山石ディフューザーの使い方は？',
+      a: '器に入った石に、付属の10mLシトラスオイルを10〜12滴垂らします。香りが弱くなったら、数滴足してください。',
+    },
+    {
+      q: '350gと500g、どちらを選べばいいですか？',
+      a: '350gはガラスの器（75 × 100 × 75 mm）で、寝室、洗面所、デスクなど小さな個人の空間に向いています。500gは済州島の甕器（オンギ）の器（100 × 105 × 100 mm）で、リビング、受付、スタジオ、宿泊施設に向いています。どちらも10mLのシトラスオイル付きです。',
+    },
+    {
+      q: '日本から済州島の火山石ディフューザーを買えますか？',
+      a: 'HONDITは日本、シンガポール、香港、台湾などのお客様に、決まった数量でPayPal直接決済と韓国からの発送を行っています。国ごとの数量と価格は注文条件のページに載っています。',
+    },
+    {
+      q: '食べ物以外の済州島のお土産・ギフトになりますか？',
+      a: '済州島のお土産は食べ物が多いですが、済州島の火山石を使ったディフューザーは電池も電源もいらない、食べ物以外の選択肢です。韓国から海外の住所へ届けられるので、済州島に来られない方への贈り物にもなります。',
+    },
+    {
+      q: '会社の記念品やイベントのギフトとしてまとめて注文できますか？',
+      a: 'はい。HONDITはチーム、イベント、店舗、ゲストハウス向けの数量注文を受け付けています。決められた数量ならPayPalで直接決済でき、送料は価格に含まれます。それ以外の数量やサイズの組み合わせはお見積もりでご案内します。注文条件のページを見るか、必要な数量とお届け希望日をお知らせください。',
+    },
+    {
+      q: 'お店、スタジオ、ゲストハウスの受付に置けますか？',
+      a: 'はい。500gのおすすめの用途が、受付、スタジオ、宿泊施設です。火もコードもないので、棚かカウンターがあれば置けます。事業者向けの数量注文は注文条件のページにあります。',
+    },
+    {
+      q: '石のお手入れはどうすればいいですか？',
+      a: '天然石のため大きさや色に個体差があり、細かい粉が出ることがあります。敏感な肌や傷のある肌に長く触れないようにし、製品ラベルに従ってください。香りを変えるときは、石をぬるま湯ですすぎ、完全に乾かしてから使ってください。',
+    },
+    {
+      q: '注文、支払い、配送はどうなりますか？',
+      a: 'お住まいの国に決められた数量でPayPal決済をします。お支払いの確認後に韓国から発送します。通常、発送後3〜5営業日で届き、発送後に追跡情報をお送りします。通関、祝日、配送会社の事情で遅れることがあります。',
+    },
+    {
+      q: 'HONDITとは？ディフューザーは誰が作っていますか？',
+      a: WHO_JA,
+    },
+  ],
+};
+
+export const ABOUT_PAGE_ZH = {
+  ...ABOUT_PAGE,
+  navLabel: '關於 HONDIT',
+  title: '關於 HONDIT：濟州大學學生團隊帶來的濟州火山石擴香 | HONDIT',
+  description: 'HONDIT 是濟州大學 GTEP 學生團隊經營的銷售品牌。可查看製造商 StoneJeju、韓國商業登記號碼、聯絡方式、PayPal 付款及運送與退款政策。',
+  h1: '關於 HONDIT',
+  intro: [
+    WHO_ZH,
+    '我們不是大型網店，而是學生經營的小型跨境銷售項目。本頁整理了可以自行查證的資料。',
+  ],
+  sections: [
+    {
+      heading: '我們是誰',
+      paragraphs: [
+        `HONDIT 是以濟州大學（${SITE_FACTS.address}）為據點的獨立學生項目。校園只是工作據點，並不代表大學為任何產品背書。`,
+        '我們向新加坡、香港、日本、台灣等亞洲顧客介紹濟州產品，並直接回覆訂購查詢。',
+      ],
+      links: [['我們的濟州', '/jeju?lang=zh-HK']],
+    },
+    {
+      heading: '我們賣甚麼、由誰製造',
+      items: [
+        '火山石擴香 350g・500g：由 StoneJeju（stonejeju.com）製造，HONDIT 負責銷售與介紹。',
+        '潔面護理（純素泡沫油、純素泡沫潔面、純素卸妝水）：品牌 J’essence，由 제주리퍼블릭（Jeju Republic）製造，HONDIT 負責銷售與選品。',
+      ],
+      links: [['產品', '/products?lang=zh-HK']],
+    },
+    {
+      heading: '可以查證的資料',
+      items: [
+        '製造商頁面：同一款擴香也刊登在 StoneJeju 網站（stonejeju.com），可從下方「製造商頁面」直接打開。',
+        `聯絡方式：${SITE_FACTS.email}、WhatsApp・Telegram ${SITE_FACTS.phone}、WeChat ${SITE_FACTS.wechat}、Instagram @hondit.office`,
+        `地址：${SITE_FACTS.address}`,
+        `韓國商業登記號碼：${SITE_FACTS.businessRegistration}（網站底部亦有顯示）`,
+        '運送、退款、私隱及使用條款均已公開，連結在下方。',
+        '官方渠道：Instagram、Blogger、WordPress、Tumblr（見下方列表）',
+      ],
+      links: [['聯絡我們', '/contact'], ['運送說明', '/shipping'], ['退款政策', '/policy/refund'], ['使用條款', '/policy/terms'], ['私隱政策', '/policy/privacy']],
+    },
+    {
+      heading: '訂購與付款',
+      paragraphs: [
+        '選擇產品和數量，確認所在地區的訂購條件後，以 PayPal 付款。HONDIT 不會看到你的信用卡資料。確認付款後由韓國發貨，發貨後提供追蹤資料。列表以外的數量會以報價方式處理。',
+      ],
+      links: [['各地區訂購條件', '/bulk-orders?lang=zh-HK']],
+    },
+  ],
+  faq: [
+    {
+      q: 'HONDIT 可信嗎？',
+      a: `HONDIT 是濟州大學學生經營的小型項目，並非大型網店。可以查證的是：以韓國商業登記號碼 ${SITE_FACTS.businessRegistration} 營運，產品由 StoneJeju（stonejeju.com）製造，付款由 PayPal 處理；運送、退款、私隱及使用條款均已公開，亦可透過 ${SITE_FACTS.email} 或 WhatsApp ${SITE_FACTS.phone} 聯絡我們。`,
+    },
+    {
+      q: 'HONDIT 的擴香由誰製造？',
+      a: '火山石擴香由 StoneJeju 製造。HONDIT 是向海外顧客介紹及銷售的賣家。潔面護理產品的品牌是 J’essence，由 제주리퍼블릭（Jeju Republic）製造。',
+    },
+    {
+      q: 'HONDIT 和 JEJU STONE、HEJDIN 等其他濟州石品牌是同一家嗎？',
+      a: '不是。HONDIT 是獨立賣家，擴香由 StoneJeju（stonejeju.com）製造。其他濟州石或香氛品牌都是與 HONDIT 無關的獨立品牌。',
+    },
+  ],
+};
+
+export const FAQ_PAGE_ZH = {
+  ...FAQ_PAGE,
+  navLabel: '常見問題',
+  title: '濟州火山石擴香石 FAQ：無需插電、無火的擴香 | HONDIT',
+  description: '關於濟州火山石擴香石的常見問題：與藤枝擴香、電動擴香機的分別，350g 與 500g 怎樣選，用法與保養，濟州島手信／伴手禮、公司禮品，以及寄往香港、台灣的訂購與運送。',
+  h1: '濟州火山石擴香（擴香石）常見問題',
+  intro: ['關於 HONDIT 向海外顧客介紹的 StoneJeju 火山石擴香的簡短解答。'],
+  faq: [
+    {
+      q: '有沒有無需插電、也不用點火的居家香氛？',
+      a: '有。StoneJeju 火山石擴香是把多孔的濟州火山石（火山渣）放進容器裏，只要把附送的柑橘香氛油滴在石上便可，無需電力，也不用火，可以放在層架、書桌或櫃枱上。',
+    },
+    {
+      q: '擴香石和藤枝擴香、電動擴香機有甚麼分別？',
+      a: '擴香石是讓多孔石頭吸收幾滴香氛油，讓香氣自然散發的方式。StoneJeju 擴香使用濟州火山石。它沒有藤枝擴香的竹枝和開口的液體瓶，也不像電動或超聲波擴香機那樣需要水、電線或電源。想要香氣時才加油即可。',
+    },
+    {
+      q: '濟州火山石和火山岩、熔岩石是同一種東西嗎？',
+      a: '濟州的火山渣（韓文叫「송이」songi）是由熔岩形成、佈滿細孔的濟州火山岩。用這類石頭做的擴香，常被稱為火山岩擴香石或熔岩石擴香。石上的細孔就是吸住香氛油的地方。',
+    },
+    {
+      q: '濟州火山石擴香怎樣使用？',
+      a: '在容器內的石上滴 10 至 12 滴附送的 10mL 柑橘香氛油。香氣變淡時，再補幾滴即可。',
+    },
+    {
+      q: '350g 和 500g 應該選哪一款？',
+      a: '350g 配玻璃容器（75 × 100 × 75 mm），適合細小的睡房、浴室、書桌等個人空間。500g 配濟州甕器（100 × 105 × 100 mm），適合客廳、接待處、工作室和住宿空間。兩款都附 10mL 柑橘香氛油。',
+    },
+    {
+      q: '在香港或台灣可以買到濟州火山石擴香嗎？',
+      a: 'HONDIT 為香港、台灣、新加坡、日本等地的顧客提供指定數量的 PayPal 直接付款，並由韓國發貨。各地區的數量與價格列在訂購條件頁面。',
+    },
+    {
+      q: '適合做濟州島手信或伴手禮嗎？',
+      a: '濟州島手信多是食品。用濟州火山石製成的擴香是不用電池或電源的非食品選擇。由於可以從韓國寄到海外地址，也適合送給未能來濟州的人。',
+    },
+    {
+      q: '可以訂購作公司禮品或活動禮物嗎？',
+      a: '可以。HONDIT 接受團隊、活動、店舖和民宿的數量訂單。指定數量可直接以 PayPal 付款，運費已包含在價格內；其他數量或混合尺寸會以報價處理。請查看訂購條件頁面，或告訴我們所需數量和收貨日期。',
+    },
+    {
+      q: '小店、工作室或民宿的接待處可以擺放嗎？',
+      a: '可以。500g 推薦的用途正是接待處、工作室和住宿空間。沒有火也沒有電線，只需要一個層架或櫃枱。商家的數量訂購列在訂購條件頁面。',
+    },
+    {
+      q: '石頭要怎樣保養？',
+      a: '天然石的大小和顏色各有不同，可能會有細粉。請避免長時間接觸敏感或受損的皮膚，並依照產品標籤使用。想換香味時，先用溫水沖洗石頭，完全乾透後再使用。',
+    },
+    {
+      q: '訂購、付款和運送是怎樣的？',
+      a: '按所在地區指定的數量以 PayPal 付款。確認付款後由韓國發貨，一般在發貨後 3 至 5 個工作天送達，發貨後會提供追蹤資料。清關、公眾假期或速遞公司情況可能令時間延長。',
+    },
+    {
+      q: 'HONDIT 是誰？擴香由誰製造？',
+      a: WHO_ZH,
+    },
+  ],
+};
+
+/* The info page for a display language (Traditional Chinese covers zh-HK and zh-TW). */
+export function infoPageFor(kind, language) {
+  const set = { ko: [ABOUT_PAGE_KO, FAQ_PAGE_KO], ja: [ABOUT_PAGE_JA, FAQ_PAGE_JA], 'zh-HK': [ABOUT_PAGE_ZH, FAQ_PAGE_ZH], 'zh-TW': [ABOUT_PAGE_ZH, FAQ_PAGE_ZH] }[language] || [ABOUT_PAGE, FAQ_PAGE];
+  return kind === 'about' ? set[0] : set[1];
+}
 
 export const INFO_PAGES = { about: ABOUT_PAGE, faq: FAQ_PAGE };

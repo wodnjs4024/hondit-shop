@@ -94,7 +94,7 @@ async function call(query, headers = {}) {
   return res;
 }
 
-test('every visitor and bot gets identical HTML; market/language variants and unknown slugs answer 404 with the plain app shell', async () => {
+test('every visitor and bot gets identical HTML; market variants point at the clean URL and unknown slugs answer 404 with the plain app shell', async () => {
   const agents = ['Mozilla/5.0 Chrome/130', 'Googlebot/2.1', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; OAI-SearchBot/1.0', 'PerplexityBot/1.0', 'ClaudeBot/1.0'];
   const bodies = [];
   for (const ua of agents) bodies.push((await call({ seoPage: 'product', seoSlug: 'diffuser-500g' }, { 'user-agent': ua })).body);
@@ -104,16 +104,22 @@ test('every visitor and bot gets identical HTML; market/language variants and un
   assert.match(bodies[0], /application\/ld\+json/);
   assert.match(bodies[0], /<title>[^<]*500g[^<]*HONDIT<\/title>/);
   assert.match(bodies[0], /name="robots" content="index,follow/);
+  // A market choice is the same page: same text, canonical at the language version, so it is not indexed separately.
   const variant = await call({ seoPage: 'home', market: 'JP', lang: 'ja' });
-  assert.doesNotMatch(variant.body, /rel="canonical"/);
-  assert.doesNotMatch(variant.body, /Jeju volcanic-stone diffusers and everyday care/);
+  assert.match(variant.body, /<link rel="canonical" href="https:\/\/hondit-shop\.vercel\.app\/\?lang=ja"/);
+  assert.match(variant.body, /<html lang="ja"/);
+  const sgVariant = await call({ seoPage: 'product', seoSlug: 'diffuser-350g', market: 'SG', utm_source: 'instagram' });
+  assert.match(sgVariant.body, /<link rel="canonical" href="https:\/\/hondit-shop\.vercel\.app\/products\/diffuser-350g"/);
+  const shipJa = await call({ seoPage: 'shipping', lang: 'ja' });
+  assert.match(shipJa.body, /<link rel="canonical" href="https:\/\/hondit-shop\.vercel\.app\/shipping"/, 'a page without a Japanese version points at the English one');
+  assert.doesNotMatch(shipJa.body, /hreflang/);
   const unknown = await call({ seoPage: 'product', seoSlug: 'nope' });
   assert.equal(unknown.statusCode, 404);
   assert.doesNotMatch(unknown.body, /rel="canonical"/);
   assert.match(unknown.body, /<script type="module"/, 'the app still loads to draw its own not-found page');
   assert.equal((await call({ seoPage: 'policy', seoPolicy: 'nope' })).statusCode, 404);
   assert.equal((await call({ seoPage: 'policy', seoPolicy: 'refund' })).statusCode, 200);
-  assert.equal((await call({ seoPage: 'product', seoSlug: 'nope', market: 'JP' })).statusCode, 200, 'variants keep their behaviour');
+  assert.equal((await call({ seoPage: 'product', seoSlug: 'nope', market: 'JP' })).statusCode, 404, 'an unknown product is unknown in every market');
   const home = await call({ seoPage: 'home' });
   assert.match(home.body, /<div id="root"><header>/);
   assert.match(home.body, /<script type="module"/, 'the app bundle still loads');
@@ -204,4 +210,78 @@ test('the app head logic keeps /about and /faq indexable instead of treating the
   const { readFile } = await import('node:fs/promises');
   const source = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8');
   assert.match(source, /pathname === "\/about" \|\| pathname === "\/faq"/);
+});
+
+import { buildLocalizedSeoPage, seoAlternates } from '../api/_seo-pages.js';
+import { LOCALES, SEO_LANGUAGES } from '../shared/seo-locales.js';
+import { sitemap } from '../api/_feeds.js';
+
+const LOCAL_PAGES = [['home'], ['products'], ['bulk'], ['jeju'], ['about'], ['faq'], ...products.map((p) => ['product', { slug: p.slug }])];
+
+test('Korean, Japanese and Traditional Chinese versions: own title, self canonical, hreflang to every version, one h1, no claims', () => {
+  for (const lang of ['ko', 'ja', 'zh-HK']) {
+    const titles = new Set();
+    for (const [path, extra = {}] of LOCAL_PAGES) {
+      const page = buildLocalizedSeoPage(path, lang, { ...extra, products });
+      assert.equal(page.status, 200, `${lang} ${path}`);
+      assert.ok(!titles.has(page.title), `duplicate ${lang} title ${page.title}`);
+      titles.add(page.title);
+      assert.ok(page.canonical.endsWith(`?lang=${lang}`), page.canonical);
+      assert.equal((page.html.match(/<h1[ >]/g) || []).length, 1);
+      assert.ok(page.description.length > 30 && page.description.length <= 300, `${lang} ${path} description`);
+      const text = page.html.replace(/<[^>]+>/g, ' ');
+      assert.doesNotMatch(text, FORBIDDEN, `${lang} ${path}`);
+      assert.doesNotMatch(text, /(정화|淨化|浄化|除濕|除湿|제습|殺菌|살균|治療|치료|効果|功效|효능)/, `${lang} ${path} health wording`);
+      const hreflangs = page.alternates.map((a) => a.hreflang);
+      for (const h of ['en', 'ko', 'ja', 'zh-Hant', 'zh-HK', 'zh-TW', 'x-default']) assert.ok(hreflangs.includes(h), `${lang} ${path} ${h}`);
+      assert.ok(page.alternates.some((a) => a.href === page.canonical), 'self reference');
+      // internal links stay in the language
+      assert.match(page.html, new RegExp(`href="/products\\?lang=${lang}"|href="/\\?lang=${lang}"`));
+    }
+  }
+  // Facts stay identical: dimensions and prices come from the same sources as the English page.
+  const ja = buildLocalizedSeoPage('product', 'ja', { slug: 'diffuser-500g', products }).html;
+  assert.match(ja, /100 × 105 × 100 mm/);
+  assert.match(ja, /日本<\/strong>：20個：1個あたり JPY 5200（送料込み）/);
+  const zh = buildLocalizedSeoPage('faq', 'zh-HK', { products }).html;
+  assert.match(zh, /擴香石/);
+  assert.match(zh, /手信/);
+});
+
+test('every language has copy for every catalog product, and the English pages list the language versions', () => {
+  for (const lang of ['ko', 'ja', 'zh-HK']) for (const p of products) assert.ok(LOCALES[lang].products[p.slug], `${lang} ${p.slug}`);
+  assert.deepEqual(SEO_LANGUAGES, ['en', 'ko', 'ja', 'zh-HK']);
+  assert.equal(seoAlternates('product', 'admin-only-product').length, 0, 'a product without translated copy has no language versions');
+  assert.equal(seoAlternates('shipping').length, 0);
+});
+
+test('served language version: localized head, html lang and server marker for the app', async () => {
+  const res = await call({ seoPage: 'faq', lang: 'zh-HK' });
+  assert.equal(res.statusCode, 200);
+  assert.match(res.body, /<html lang="zh-Hant"/);
+  assert.match(res.body, /<link rel="canonical" href="https:\/\/hondit-shop\.vercel\.app\/faq\?lang=zh-HK"/);
+  assert.match(res.body, /hreflang="ja" href="https:\/\/hondit-shop\.vercel\.app\/faq\?lang=ja"/);
+  assert.match(res.body, /<title>濟州火山石擴香石 FAQ/);
+  assert.match(res.body, /<meta name="hondit-ssr" content="\/faq\?lang=zh-HK"/);
+  assert.match(res.body, /"@type":"FAQPage"/);
+  const en = await call({ seoPage: 'home' });
+  assert.match(en.body, /hreflang="x-default" href="https:\/\/hondit-shop\.vercel\.app\/"/);
+});
+
+test('sitemap lists each language version with hreflang links and product images', () => {
+  const xml = sitemap(products.map((p) => ({ ...p, status: 'published' })), '2026-11-12', []);
+  for (const lang of ['ko', 'ja', 'zh-HK']) {
+    assert.match(xml, new RegExp(`<loc>https://hondit-shop\\.vercel\\.app/faq\\?lang=${lang}</loc>`));
+    assert.match(xml, new RegExp(`<loc>https://hondit-shop\\.vercel\\.app/products/diffuser-350g\\?lang=${lang}</loc>`));
+  }
+  assert.doesNotMatch(xml, /shipping\?lang=/);
+  assert.match(xml, /<image:loc>https:\/\/hondit-shop\.vercel\.app\/images\/diffuser-350g\.webp<\/image:loc>/);
+  assert.equal(new Set(xml.match(/<loc>[^<]+<\/loc>/g)).size, xml.match(/<loc>[^<]+<\/loc>/g).length, 'no duplicate URLs');
+});
+
+test('the app keeps the server head on the first view and builds language canonicals the same way', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const source = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8');
+  assert.match(source, /meta\[name="hondit-ssr"\]/);
+  assert.match(source, /INDEXED_LANGUAGES = new Set\(\["ko", "ja", "zh-HK"\]\)/);
 });
