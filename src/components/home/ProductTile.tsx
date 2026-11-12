@@ -39,8 +39,8 @@ export function ProductTile({ product, query }: { product: StorefrontProduct; qu
           <Link className="tile-btn tile-btn--line" to={detail}>{marketText(language, "View details", "View details")}</Link>
         </div>
         {((market.hasShopee && product.shopee) || pickupSize) && <div className="tile-info__alt">
-          {market.hasShopee && product.shopee && <a className="tile-alt" href={product.shopee} target="_blank" rel="noreferrer"><small>{marketText(language, "Retail")}</small>{marketText(language, "Buy on Shopee")} ↗</a>}
-          {pickupSize&&<Link className="tile-alt" to={selectionUrl("/jeju/pickup",{...input,quantity:1,fulfillment:"jeju_pickup"})}><small>{salesPresentationCopy(language).pickupNav}</small>{`KRW\u00a0${pickupRequestTotal(1,pickupSize).toLocaleString('en-US')}`} →</Link>}
+          {market.hasShopee && product.shopee && <a className="tile-alt tile-alt--shopee" href={product.shopee} target="_blank" rel="noreferrer"><small>{marketText(language, "Retail")}</small>{marketText(language, "Buy on Shopee")} ↗</a>}
+          {pickupSize&&<Link className="tile-alt tile-alt--pickup" to={selectionUrl("/jeju/pickup",{...input,quantity:1,fulfillment:"jeju_pickup"})}><small>{salesPresentationCopy(language).pickupNav}</small>{`KRW\u00a0${pickupRequestTotal(1,pickupSize).toLocaleString('en-US')}`} →</Link>}
         </div>}
       </div>
     </article>

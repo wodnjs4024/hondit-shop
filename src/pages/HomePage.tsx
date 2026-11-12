@@ -47,7 +47,7 @@ export function HomePage() {
     [catalog, market],
   );
   const railRef = useRef<HTMLUListElement>(null);
-  useRowAlign(railRef, ".hd-tile__body h3", [marketProducts, language]);
+  useRowAlign(railRef, ".tile-info__head h3", [marketProducts, language]);
   const diffusers = marketProducts.filter((product) => product.category === "SCENT" && productFacts(product.slug));
   const collection = (() => {
     if (language === "ko") return { title: "제주에서 고른 컬렉션", description: `${countryName}에서 주문할 수 있는` };

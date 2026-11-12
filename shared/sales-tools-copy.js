@@ -440,6 +440,20 @@ export const salesToolsCopy = {
     "ms": "Kira syarat pengenalan",
     "th": "คำนวณเงื่อนไขการนำเข้า"
   },
+  "Scent · volcanic diffusers": {
+    "ko": "향 · 화산석 디퓨저",
+    "zh-HK": "香氛 · 火山石擴香",
+    "ja": "香り · 火山石ディフューザー",
+    "ms": "Haruman · penyebar batu gunung berapi",
+    "th": "กลิ่น · ดิฟฟิวเซอร์หินภูเขาไฟ"
+  },
+  "Care · vegan cleansing": {
+    "ko": "케어 · 비건 클렌징",
+    "zh-HK": "護理 · 純素潔面",
+    "ja": "ケア · ヴィーガンクレンジング",
+    "ms": "Penjagaan · pencuci muka vegan",
+    "th": "ดูแลผิว · คลีนซิ่งวีแกน"
+  },
   "Open the full use guide": {
     "ko": "전체 사용 가이드 보기",
     "zh-HK": "查看完整使用指南",

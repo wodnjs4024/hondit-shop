@@ -335,3 +335,56 @@ body.hd-site .v23-page-hero-media figcaption { display: none !important; }
 body.hd-site :is(.hd-route-list, .about-route__steps, .v23-geo-journey) li > span:first-child:not(:only-child) { display: none; }
 /* Photos speak for themselves: no explanatory captions under the airport sign or the partners hero */
 body.hd-site .pickup-introduction figure > figcaption, body.hd-site .partner-spaces-visual > figcaption { display: none; }
+
+/* ---- Catalog: diffusers large on top, cleansers in three below ---- */
+body.hd-site .catalog-groups { display: grid; gap: 72px; }
+body.hd-site .catalog-group__title { margin: 0 0 24px; padding-bottom: 14px; border-bottom: 1px solid var(--hd-line-strong); font-size: clamp(20px, 1.8vw, 26px); font-weight: 650; letter-spacing: -0.025em; }
+body.hd-site .catalog-group .hd-grid { gap: 28px 24px; }
+body.hd-site .hd-grid--scent { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+body.hd-site .hd-grid--care { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (min-width: 1100px) {
+  body.hd-site .hd-grid--scent .hd-tile { flex-direction: row; align-items: stretch; }
+  body.hd-site .hd-grid--scent .hd-tile__media { flex: 0 0 46%; aspect-ratio: auto; min-height: 100%; }
+  body.hd-site .hd-grid--scent .hd-tile__media img { position: absolute; inset: 0; }
+  body.hd-site .hd-grid--scent .tile-info { flex: 1; border-top: 1px solid var(--hd-line-strong); border-left: 0; justify-content: space-between; }
+  body.hd-site .hd-grid--scent .tile-info__head { padding: 28px 28px 20px; }
+  body.hd-site .hd-grid--scent .tile-info__head h3 { font-size: 22px; }
+  body.hd-site .hd-grid--scent .tile-info__desc { font-size: 15px; }
+  body.hd-site .hd-grid--scent .tile-info__spec > div { padding: 12px 28px; }
+  body.hd-site .hd-grid--scent .tile-info__buy, body.hd-site .hd-grid--scent .tile-info__alt { padding-left: 28px; padding-right: 28px; }
+  body.hd-site .hd-grid--scent .tile-info__buy { grid-template-columns: 1fr auto !important; }
+  body.hd-site .hd-grid--scent .tile-info__alt { grid-template-columns: 1fr 1fr !important; padding-bottom: 28px; }
+}
+@media (max-width: 1023px) { body.hd-site .hd-grid--care { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+@media (max-width: 759px) {
+  body.hd-site .hd-grid--care { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.hd-site .hd-grid--care > li:nth-child(3):last-child { grid-column: 1 / -1; }
+  body.hd-site .hd-grid--care > li:nth-child(3):last-child .hd-tile { flex-direction: row; }
+  body.hd-site .hd-grid--care > li:nth-child(3):last-child .hd-tile__media { flex: 0 0 42%; aspect-ratio: auto; }
+  body.hd-site .hd-grid--care > li:nth-child(3):last-child .hd-tile__media img { position: absolute; inset: 0; }
+  body.hd-site .hd-grid--care > li:nth-child(3):last-child .tile-info { flex: 1; border-top: 1px solid var(--hd-line-strong); border-left: 0; }
+  body.hd-site .catalog-groups { gap: 48px; }
+}
+/* Channel colours: Shopee warm, airport pickup sky, details neutral */
+body.hd-site .tile-alt { position: relative; padding-left: 28px; }
+body.hd-site .tile-alt::before { content: ""; position: absolute; left: 12px; top: 14px; width: 8px; height: 8px; border-radius: 50%; }
+body.hd-site .tile-alt--shopee { background: #fff4ef; border-color: #f1c9bb; }
+body.hd-site .tile-alt--shopee small { color: #a8321a; font-weight: 600; }
+body.hd-site .tile-alt--shopee::before { background: #ee4d2d; }
+body.hd-site .tile-alt--shopee:hover { background: #ffe9e0; }
+body.hd-site .tile-alt--pickup { background: #eef5fa; border-color: #b9d2e4; }
+body.hd-site .tile-alt--pickup small { color: #1d5a85; font-weight: 600; }
+body.hd-site .tile-alt--pickup::before { background: #2f7fb5; }
+body.hd-site .tile-alt--pickup:hover { background: #dfecf6; }
+body.hd-site .tile-info__spec .tile-info__price { color: var(--hd-ink); }
+body.hd-site main .hd-catalog .catalog-group .hd-grid { max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; }
+body.hd-site main .hd-catalog .hd-grid--scent { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+body.hd-site main .hd-catalog .hd-grid--care { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+@media (max-width: 759px) { body.hd-site main .hd-catalog .hd-grid--care { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+body.hd-site .hd-grid--care .hd-tile__media { aspect-ratio: 1 / 1; }
+body.hd-site .tile-info__spec dd { white-space: nowrap; flex: 0 0 auto; }
+body.hd-site .tile-info__spec dt { flex: 1 1 auto; max-width: none; }
+@media (max-width: 639px) {
+  body.hd-site .tile-alt { padding: 8px 8px 8px 22px; font-size: 13.5px; }
+  body.hd-site .tile-alt::before { left: 8px; top: 13px; }
+}
