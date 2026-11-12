@@ -76,7 +76,7 @@ export function MaterialBand() {
         onMouseEnter={() => setActive(index)} onFocus={() => setActive(index)} onClick={() => setActive(index)}>
         {panel.film
           ? <video ref={(element) => { videos.current[index] = element; }} poster={panel.poster} style={panel.focus ? { objectPosition: panel.focus } : undefined} muted loop playsInline preload="none" aria-label={panel.alt} />
-          : <img src={panel.poster} alt={panel.alt} loading="lazy" decoding="async" />}
+          : <img src={panel.poster} alt={panel.alt} width={1536} height={1024} loading="lazy" decoding="async" />}
         <figcaption>
           <button type="button" className="material-band__select" aria-pressed={isActive} onClick={() => setActive(index)}><b>{panel.title}</b></button>
           {panel.text && <span>{panel.text}</span>}

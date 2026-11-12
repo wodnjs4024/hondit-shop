@@ -118,3 +118,43 @@ body.hd-site .hd-pdp .sales-tools-section h2 { font-size: clamp(24px, 2.2vw, 32p
   body.hd-site .hd-pdp .sales-tools-table thead tr { border-top: 0; }
   body.hd-site .hd-pdp .sales-tools-table thead a { font-weight: 650; }
 }
+
+/* =========================================================
+ * Image pass (2026-11-12): measured every image on every public page
+ * ========================================================= */
+/* Product page gallery: extra photos are square (landscape room shots and tall pack shots both keep the product); tall pack shots sit whole on white */
+body.hd-site .hd-pdp__gallery .hd-pdp__photo { grid-column: auto !important; aspect-ratio: 1 / 1 !important; overflow: hidden; }
+body.hd-site .hd-pdp__gallery .hd-pdp__photo img { width: 100%; height: 100% !important; object-fit: cover; }
+body.hd-site .hd-pdp__gallery .hd-pdp__photo.is-tall { background: #fff; }
+body.hd-site .hd-pdp__gallery .hd-pdp__photo.is-tall img { object-fit: contain !important; }
+@media (max-width: 1023px) {
+  /* Phones and tablets: the main shot keeps its 4:5 frame instead of a square that cut off bottle caps */
+  body.hd-site .hd-pdp__gallery > .hd-pdp__media { aspect-ratio: 4 / 5 !important; }
+  body.hd-site .hd-pdp__gallery { align-items: center; }
+}
+
+/* Detail image strip under the 350g page: square thumbnails for square images */
+body.hd-site .v23-product-gallery__thumbnails button { aspect-ratio: 1 / 1; height: auto !important; }
+body.hd-site .v23-product-gallery__thumbnails img { width: 100%; height: 100% !important; object-fit: cover; }
+
+/* Sales support examples: the photo fills its card (it sat small in a wide grey box) */
+body.hd-site .support-examples a { display: grid !important; gap: 12px; padding: 0 0 16px !important; background: transparent !important; }
+body.hd-site .support-examples img { width: 100% !important; height: auto !important; aspect-ratio: 4 / 3; object-fit: cover; max-height: none !important; }
+
+/* Order panel: no grey outer frame; the white card and the dark pay block stand on their own */
+body.hd-site main .quantity-review.order-panel { background: transparent !important; padding: 0 !important; box-shadow: none !important; }
+
+/* One heading voice on every page, not only home and product pages */
+body.hd-site main :is(h1, h2) { font-family: var(--hd-sans); font-weight: 650; letter-spacing: -0.025em; }
+body.hd-site main :is(h1, h2) em { font-style: normal; }
+:lang(en) body.hd-site main :is(h1, h2), :lang(ms) body.hd-site main :is(h1, h2) { font-family: var(--hd-sans); font-weight: 650; letter-spacing: -0.025em; }
+:lang(en) .hd-pdp__goodfor, :lang(ms) .hd-pdp__goodfor { font-family: var(--hd-sans) !important; font-size: 24px !important; }
+/* Step numbers (/partners order flow, /jeju route) in the sans, light, like the home how-to numbers */
+body.hd-site main.partner-discovery .partner-flow li span, .about-route__steps span { font-family: var(--hd-sans) !important; font-weight: 300; letter-spacing: -0.02em; }
+
+/* Images that carry width/height attributes keep their CSS frame */
+.about-origin > figure img, .about-field__place img { height: auto !important; }
+@media (max-width: 639px) {
+  /* /bulk-orders phone: the product photo keeps its 4:5 frame instead of a letterbox crop */
+  body.hd-site .bundle-entry__review figure img { aspect-ratio: 4 / 5; height: auto !important; max-height: none !important; object-fit: cover; background: transparent; border-radius: 0; }
+}

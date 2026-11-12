@@ -12,7 +12,7 @@ body.hd-site {
   --v4-on-forest: #faf8f7;
   --v4-on-forest-soft: rgba(250, 248, 247, 0.78);
   --v4-forest-rule: rgba(250, 248, 247, 0.18);
-  --v4-ok: #a8dcc0;
+  --v4-ok: #f6f4f2;
   --v4-wait: #f3c9aa;
   --v4-ease: cubic-bezier(0.32, 0.72, 0, 1);
 }

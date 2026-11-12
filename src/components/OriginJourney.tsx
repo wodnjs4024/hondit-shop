@@ -93,7 +93,7 @@ export function JejuFieldGuide() {
         </li>)}
       </ol>
       <article className="about-field__place" aria-live="polite">
-        <img src={active.image} alt={t(active.alt)} loading="lazy" />
+        <img src={active.image} alt={t(active.alt)} width={1600} height={1200} loading="lazy" decoding="async" />
         <div>
           <small>{formatPlaceCoordinates(active)}</small>
           <h3>{t(active.name)}</h3>
