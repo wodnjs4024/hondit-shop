@@ -315,7 +315,7 @@ export const salesToolsCopy = {
     "th": "ระบุจำนวนเงินตั้งแต่ศูนย์ขึ้นไปตามสกุลเงินที่แสดง"
   },
   "Selected product amount": {
-    "ko": "선택 수량 상품금액",
+    "ko": "선택 수량 상품 금액",
     "zh-HK": "所選數量商品金額",
     "ja": "選択数量の商品代金",
     "ms": "Amaun produk dipilih",

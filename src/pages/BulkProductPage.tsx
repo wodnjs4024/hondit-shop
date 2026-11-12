@@ -464,7 +464,7 @@ export function BulkProductPage() {
   const terms=selectionDecision as {shippingIncluded?:boolean;shippingMinor?:number|null;billingCurrency?:string|null;referenceUnitMinor?:number|null;referenceDigits?:number;displayCurrency?:string|null};
   const displayCurrency=terms.displayCurrency?String(terms.displayCurrency):market.currency;
   const directTerms=selectionDecision.status==="direct"&&"shippingMinor" in selectionDecision;
-  const unitsText=Number.isSafeInteger(totalUnits)&&totalUnits>0?`${totalUnits} ${o.units}`:"—";
+  const unitsText=Number.isSafeInteger(totalUnits)&&totalUnits>0?`${totalUnits}${language === 'ko' ? '' : ' '}${o.units}`:"—";
   const totalText=invalidQuantity?"—":formatCurrency(marketTotal,directTerms?billingCurrency:displayCurrency,market.locale);
   const unitText=!isCleansingMix&&!invalidQuantity&&terms.referenceUnitMinor!=null?formatCurrency(terms.referenceUnitMinor/10**(terms.referenceDigits??2),displayCurrency,market.locale):null;
   const shippingText=directTerms?(terms.shippingIncluded?o.included:formatCurrency(terms.shippingMinor!/10**paypalCurrencyDigits(terms.billingCurrency!),terms.billingCurrency!,market.locale)):o.confirm;
@@ -497,10 +497,10 @@ export function BulkProductPage() {
           <div className="section-inner section-inner--wide bulk-detail__grid checkout-grid">
             <header className="checkout-head">
               <Link className="text-link" to="/bulk-orders">
-                {marketText(language, "Back to Bulk Orders", "대량주문으로 돌아가기")}
+                {marketText(language, "Back to Bulk Orders", "묶음 주문으로 돌아가기")}
               </Link>
               <p className="eyebrow">
-                {productCategory.toUpperCase()} {marketText(language, "BULK ORDER", "대량주문")}
+                {productCategory.toUpperCase()} {marketText(language, "BULK ORDER", "묶음 주문")}
               </p>
               <h1>{productName}</h1>
               {!isCleansingMix && productVolume && <p className="bulk-detail__volume">{productVolume}</p>}
@@ -741,7 +741,7 @@ export function BulkProductPage() {
                       {orderLines.map((line) => (
                         <li key={line.product.slug}>
                           <span>{marketProductText(language, line.product.name)}</span>
-                          <strong>{line.quantity} {marketText(language, "units", "개")}</strong>
+                          <strong>{line.quantity}{language === "ko" ? "" : " "}{marketText(language, "units", "개")}</strong>
                         </li>
                       ))}
                     </ul>

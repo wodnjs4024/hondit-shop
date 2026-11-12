@@ -43,7 +43,7 @@ export function PaymentFailedPage(){
    <div><dt>{marketText(language,'Payment status')}</dt><dd>{order.payment_status}</dd></div>
    {order.currency&&<div><dt>{c.total}</dt><dd>{formatCurrency(order.total_sgd,order.currency)}</dd></div>}
    {order.country_code&&<div><dt>{c.market}</dt><dd>{order.country_code}</dd></div>}
-  </dl><ul>{order.items.map((i,index)=><li key={index}>{i.product_name_snapshot} {i.volume_snapshot} · {i.total_units} {marketText(language,'units')}</li>)}</ul></div>
+  </dl><ul>{order.items.map((i,index)=><li key={index}>{i.product_name_snapshot} {i.volume_snapshot} · {i.total_units}{language==='ko'?'':' '}{marketText(language,'units')}</li>)}</ul></div>
   {checking?<p role="status">{c.checking}</p>:!retry.href&&<p role="status">{c.changed}</p>}
   {(!order.retry_context?.language||!order.retry_context?.purpose)&&<p>{c.missing}</p>}
   <div className="bulk-card__actions">

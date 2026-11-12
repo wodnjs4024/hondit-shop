@@ -1,7 +1,7 @@
 export const salesCopy = {
   "Bulk orders & consultation": {
     "en": "Bulk orders & consultation",
-    "ko": "대량주문·맞춤 상담",
+    "ko": "묶음 주문·맞춤 상담",
     "zh": "批量訂購與諮詢",
     "zh-HK": "批量訂購與諮詢",
     "zh-TW": "批量訂購與諮詢",

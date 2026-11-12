@@ -38,7 +38,7 @@ function InfoPage({ info: english, kind }: { info: Info; kind: "about" | "faq" }
             <>
               <section>
                 <h2>{label("Maker pages", "제조사 페이지")}</h2>
-                <ul>{SITE_FACTS.makerPages.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{label}</a></li>)}</ul>
+                <ul>{SITE_FACTS.makerPages.map(([label, url]) => <li key={url}><a href={url} target="_blank" rel="noreferrer">{ko ? `StoneJeju 볼캐닉 디퓨저 ${label.match(/\d+g/)?.[0] ?? ""} (제조사 페이지)` : label}</a></li>)}</ul>
               </section>
               <section>
                 <h2>{label("Our channels", "운영 채널")}</h2>

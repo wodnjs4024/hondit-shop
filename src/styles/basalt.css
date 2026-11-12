@@ -86,7 +86,7 @@ body.hd-site main.hd-home .hd-use h3 { font-size: var(--hd-size-section) !import
 
 /* Contact channels: brand colour stays in the app mark only; the cards share one basalt top rule */
 body.hd-site .contact-channels .contact-channel { border-top-color: var(--bs-basalt) !important; }
-body.hd-site .contact-channel__qr figcaption { font-size: 13px; }
+body.hd-site .contact-channel__qr figcaption { font-size: 14px; }
 
 /* Phone product cards: order terms sit under the description, before the links */
 @media (max-width: 639px) {
@@ -158,3 +158,18 @@ body.hd-site main.partner-discovery .partner-flow li span, .about-route__steps s
   /* /bulk-orders phone: the product photo keeps its 4:5 frame instead of a letterbox crop */
   body.hd-site .bundle-entry__review figure img { aspect-ratio: 4 / 5; height: auto !important; max-height: none !important; object-fit: cover; background: transparent; border-radius: 0; }
 }
+
+/* =========================================================
+ * Small-print pass (2026-11-12): measured every text node under 14px on every public page
+ * Korean reads small below 14px, so body-level small print gets a 14px floor;
+ * tight UI labels (counters, captions on photos, phone bars) get 13px.
+ * ========================================================= */
+body.hd-site :is(.hd-tile__terms, .request-notice, .checkout-policy-link, .about-field__links a, .about-field__place small, .about-field__place span) { font-size: 14px !important; }
+body.hd-site .product-sales-summary :is(dt, dd, p, b, a, small) { font-size: 14px !important; }
+body.hd-site .discovery-section :is(th, td, small, td span, td p) { font-size: 14px !important; }
+body.hd-site :is(.about-route__places small, .about-field small) { font-size: 14px !important; }
+body.hd-site :is(.v23-page-hero-media figcaption, .v23-product-gallery__count, .pack-stepper > span) { font-size: 13px !important; }
+body.hd-site .order-bar small { font-size: 13px !important; }
+@media (max-width: 639px) { body.hd-site .hd-header :is(a, button, span) { font-size: 13px; } }
+/* 350g detail thumbnails: the 1-9 labels were the same colour as their background; the counter above already says which image is shown */
+body.hd-site .v23-product-gallery__thumbnails button > span { display: none; }

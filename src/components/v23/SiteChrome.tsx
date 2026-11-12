@@ -186,7 +186,7 @@ export function V23ProductCard({ product }: { product: StorefrontProduct }) {
         <Link className="is-dark" to={selectionUrl("/bulk-orders",{slug:product.slug,quantity:product.bulkMoq,market:market.code,language})}>{marketText(language,"Overseas bundle orders")} →</Link>
         <Link to={selectionUrl(`/products/${product.slug}`,{slug:product.slug,market:market.code,language})}>{marketText(language, "View details", "View details")}</Link>
       </div>
-      <p className="product-moq">{marketText(language,"Minimum")}: {product.bulkMoq} {marketText(language,"units")}</p>
+      <p className="product-moq">{marketText(language,"Minimum")}: {product.bulkMoq}{language==='ko'?'':' '}{marketText(language,"units")}</p>
       {market.hasShopee && <details className="retail-alternative"><summary>Shopee</summary><a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"Buy on Shopee")} ↗</a></details>}
     </article>
   );
