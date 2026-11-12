@@ -54,7 +54,7 @@ export const ABOUT_PAGE = {
     {
       heading: 'How you can check us',
       items: [
-        'Maker pages: the same diffusers are listed by StoneJeju at stonejeju.com (350g: product_no=42, 500g: product_no=41).',
+        'Maker pages: the same diffusers are listed by StoneJeju at stonejeju.com. The "Maker pages" list below links to both.',
         `Contact: ${SITE_FACTS.email}, WhatsApp and Telegram ${SITE_FACTS.phone}, WeChat ${SITE_FACTS.wechat}, Instagram @hondit.office.`,
         `Address: ${SITE_FACTS.address}.`,
         `Korean business registration number: ${SITE_FACTS.businessRegistration} (also shown in the site footer).`,
@@ -180,7 +180,7 @@ export const ABOUT_PAGE_KO = {
     {
       heading: '확인할 수 있는 정보',
       items: [
-        '제조사 페이지: 같은 디퓨저가 StoneJeju 사이트에도 올라와 있습니다(350g: product_no=42, 500g: product_no=41).',
+        '제조사 페이지: 같은 디퓨저가 StoneJeju 사이트(stonejeju.com)에도 올라와 있습니다. 아래 "제조사 페이지" 목록에서 바로 열 수 있습니다.',
         `연락처: ${SITE_FACTS.email}, WhatsApp·Telegram ${SITE_FACTS.phone}, WeChat ${SITE_FACTS.wechat}, Instagram @hondit.office`,
         `주소: ${SITE_FACTS.address}`,
         `사업자등록번호: ${SITE_FACTS.businessRegistration} (사이트 하단에도 표시)`,

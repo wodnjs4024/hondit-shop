@@ -166,7 +166,7 @@ export function ProductDetailPage() {
               <Link to={`/jeju/pickup?${new URLSearchParams({ market: market.code, lang: language, product: product.slug })}`}>{salesPresentationCopy(language).pickupNav}</Link>
             </p>
           )}
-          {!product.quoteOnly && <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Product care & follow-up")} →</Link>}
+          {!product.quoteOnly && <Link className="hd-textlink" to={`/guide/${product.slug}`}>{marketText(language,"Open the full use guide")} →</Link>}
         </div>
 
         {searchGuide && localizedProduct && (

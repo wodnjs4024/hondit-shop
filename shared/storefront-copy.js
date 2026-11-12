@@ -245,14 +245,14 @@ export const storefrontCopy = {
     "th": "สินค้าถัดไป"
   },
   "View all products ->": {
-    "ko": "전체 상품 보기 →",
+    "ko": "전체 상품 보기",
     "zh-HK": "查看全部商品 →",
     "ja": "すべての商品を見る →",
     "ms": "Lihat semua produk →",
     "th": "ดูสินค้าทั้งหมด →"
   },
   "Buy on Shopee ->": {
-    "ko": "Shopee에서 구매 →",
+    "ko": "Shopee에서 구매",
     "zh-HK": "在 Shopee 購買 →",
     "ja": "Shopeeで購入 →",
     "ms": "Beli di Shopee →",
@@ -294,7 +294,7 @@ export const storefrontCopy = {
     "th": "จำนวนที่เพิ่มต่อครั้ง"
   },
   "Singapore delivery included for this single-product MOQ bundle. Additional quantities or combinations require an enquiry.": {
-    "ko": "싱가포르 단일 상품 MOQ 묶음 배송비 포함. 추가 수량·다품목은 문의 후 확인합니다.",
+    "ko": "한 상품을 최소 수량 이상 주문하면 싱가포르 배송비가 포함됩니다. 여러 상품을 섞은 주문은 문의 후 확인합니다.",
     "zh-HK": "包含此單一商品最低數量組合的新加坡運費。額外數量或組合需諮詢。",
     "ja": "この商品の最低数量セットのシンガポール送料込みです。追加数量・組み合わせはお問い合わせください。",
     "ms": "Penghantaran Singapura termasuk untuk set MOQ produk tunggal ini. Kuantiti tambahan atau gabungan perlu pertanyaan.",
@@ -322,7 +322,7 @@ export const storefrontCopy = {
     "th": "ยืนยันกำหนดส่ง การคืนสินค้า และข้อควรระวังก่อนสั่งซื้อ"
   },
   "Ask about this order →": {
-    "ko": "이 주문 조건 문의 →",
+    "ko": "이 주문 조건 문의",
     "zh-HK": "查詢此訂單條件 →",
     "ja": "注文条件を問い合わせる →",
     "ms": "Tanya tentang pesanan ini →",
@@ -378,7 +378,7 @@ export const storefrontCopy = {
     "th": "HONDIT เริ่มต้นที่เชจู สำรวจมหาวิทยาลัย ชายฝั่ง ป่า และภูเขาไฟเบื้องหลังการเลือกสินค้าของเรา"
   },
   "Open the Jeju field guide ->": {
-    "ko": "제주 안내 지도 보기 →",
+    "ko": "제주 안내 지도 보기",
     "zh-HK": "開啟濟州指南 →",
     "ja": "済州ガイドを見る →",
     "ms": "Buka panduan Jeju →",
@@ -427,7 +427,7 @@ export const storefrontCopy = {
     "th": "มหาวิทยาลัยแห่งชาติเชจู · วิทยาเขตอารา"
   },
   "Verify on the official JNU website ->": {
-    "ko": "제주대학교 공식 사이트에서 확인 →",
+    "ko": "제주대학교 공식 사이트에서 확인",
     "zh-HK": "在濟州大學官方網站確認 →",
     "ja": "済州大学公式サイトで確認 →",
     "ms": "Semak di laman rasmi JNU →",
@@ -462,7 +462,7 @@ export const storefrontCopy = {
     "th": "สิ่งที่เชจูมอบให้"
   },
   "to the hondit language.": {
-    "ko": "제주의 세 풍경",
+    "ko": "제주의 네 풍경",
     "zh-HK": "HONDIT 的語言。",
     "ja": "HONDITの表現。",
     "ms": "kepada bahasa HONDIT.",
@@ -623,7 +623,7 @@ export const storefrontCopy = {
     "th": "ได้รับชำระผ่าน PayPal แล้ว โปรดเก็บเลขคำสั่งซื้อ"
   },
   "If your email, phone number or shipping address is incorrect, contact hondit immediately with your order number before shipment.": {
-    "ko": "이메일·전화번호·배송주소가 잘못되었다면 발송 전에 주문번호와 함께 HONDIT에 문의해주세요.",
+    "ko": "이메일·전화번호·배송 주소가 잘못되었다면 발송 전에 주문번호와 함께 HONDIT에 문의해주세요.",
     "zh-HK": "如電郵、電話或配送地址不正確，請在發貨前附上訂單編號聯絡 HONDIT。",
     "ja": "メール・電話・配送先に誤りがある場合、発送前に注文番号を添えてご連絡ください。",
     "ms": "Jika e-mel, telefon atau alamat salah, hubungi HONDIT dengan nombor pesanan sebelum penghantaran.",
@@ -658,7 +658,7 @@ export const storefrontCopy = {
     "th": "จำนวนรวม"
   },
   "Total payment": {
-    "ko": "총 결제금액",
+    "ko": "총 결제 금액",
     "zh-HK": "付款總額",
     "ja": "支払総額",
     "ms": "Jumlah bayaran",
@@ -693,7 +693,7 @@ export const storefrontCopy = {
     "th": "โทรศัพท์"
   },
   "Shipping address": {
-    "ko": "배송주소",
+    "ko": "배송 주소",
     "zh-HK": "配送地址",
     "ja": "配送先住所",
     "ms": "Alamat penghantaran",
@@ -763,14 +763,14 @@ export const storefrontCopy = {
     "th": "เลขทะเบียนธุรกิจ"
   },
   "JNU official site ->": {
-    "ko": "제주대학교 공식 사이트 →",
+    "ko": "제주대학교 공식 사이트",
     "zh-HK": "濟州大學官方網站 →",
     "ja": "済州大学公式サイト →",
     "ms": "Laman rasmi JNU →",
     "th": "เว็บไซต์ทางการ JNU →"
   },
   "FROM JEJU - TO": {
-    "ko": "제주 →",
+    "ko": "제주",
     "zh-HK": "來自濟州 · 目的地",
     "ja": "済州から・お届け先",
     "ms": "Dari Jeju · Destinasi",
@@ -889,7 +889,7 @@ export const storefrontCopy = {
     "th": "หากชำระ PayPal หรือบัตรไม่ได้ โปรดอีเมลเงื่อนไขซื้อ เราจะตอบกลับพร้อมลิงก์ PayPal"
   },
   "Review the product, quantity and total payment.": {
-    "ko": "상품·수량·총 결제금액을 확인하세요.",
+    "ko": "상품·수량·총 결제 금액을 확인하세요.",
     "zh-HK": "確認商品、數量及付款總額。",
     "ja": "商品・数量・支払総額をご確認ください。",
     "ms": "Semak produk, kuantiti dan jumlah bayaran.",
@@ -931,7 +931,7 @@ export const storefrontCopy = {
     "th": "อีเมลเงื่อนไขซื้อ"
   },
   "Use Shopee for live retail prices, vouchers, familiar checkout and order tracking.": {
-    "ko": "Shopee에서 현재 소매가격·쿠폰·결제·배송 조회를 확인하세요.",
+    "ko": "Shopee에서 현재 판매가, 쿠폰, 결제, 배송 추적을 확인하세요.",
     "zh-HK": "在 Shopee 查看即時零售價格、優惠券、付款及追蹤。",
     "ja": "Shopeeで小売価格・クーポン・決済・配送追跡をご確認ください。",
     "ms": "Gunakan Shopee untuk harga runcit semasa, baucar, bayaran dan penjejakan.",
@@ -1057,14 +1057,14 @@ export const storefrontCopy = {
     "th": "เส้นทางสู่ต้นกำเนิด"
   },
   "Market connection": {
-    "ko": "시장 연결",
+    "ko": "받는 곳",
     "zh-HK": "市場連結",
     "ja": "市場とのつながり",
     "ms": "Hubungan pasaran",
     "th": "การเชื่อมโยงตลาด"
   },
   "Country context": {
-    "ko": "국가 위치",
+    "ko": "발송하는 나라",
     "zh-HK": "國家位置",
     "ja": "国の位置",
     "ms": "Kedudukan negara",

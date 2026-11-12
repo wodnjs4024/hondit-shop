@@ -26,7 +26,7 @@ export function V23CatalogGrid({
   const [catalog, setCatalog] = useState<StorefrontProduct[]>(v23Products);
   const [filter, setFilter] = useState<"ALL" | "CARE" | "SCENT">("ALL");
   const lastTrackedList = useRef("");
-  const gridRef = useRef<HTMLUListElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
   const filterLabels = {
     ALL: marketText(language, "ALL", "전체"),
     CARE: marketText(language, "CARE", "케어"),
@@ -55,7 +55,7 @@ export function V23CatalogGrid({
       );
     return typeof limit === "number" ? filtered.slice(0, limit) : filtered;
   }, [catalog, featuredOnly, filter, limit, market]);
-  useRowAlign(gridRef, ".hd-tile__body h3", [visible, language, tiles]);
+  useRowAlign(gridRef, ".tile-info__head h3", [visible, language, tiles]);
 
   useEffect(() => {
     const signature = `${market.code}:${filter}:${visible.map((product) => product.slug).join(",")}`;
@@ -87,9 +87,18 @@ export function V23CatalogGrid({
           </button>
         ))}
       </div>}
-      {tiles ? <ul ref={gridRef} className="hd-grid" key={`${filter}-${market.code}`} aria-live="polite">
-        {visible.map((product) => <ProductTile product={product} key={product.slug} query={query} />)}
-      </ul> : <div className="v23-product-grid" key={`${filter}-${market.code}`} aria-live="polite">
+      {tiles ? <div ref={gridRef} className="catalog-groups" key={`${filter}-${market.code}`} aria-live="polite">
+        {(["SCENT", "CARE"] as const).map((group) => {
+          const items = visible.filter((product) => product.category === group);
+          if (!items.length) return null;
+          return <section key={group} className={`catalog-group catalog-group--${group.toLowerCase()}`} aria-label={group === "SCENT" ? marketText(language, "Scent · volcanic diffusers") : marketText(language, "Care · vegan cleansing")}>
+            {filter === "ALL" && <h2 className="catalog-group__title">{group === "SCENT" ? marketText(language, "Scent · volcanic diffusers") : marketText(language, "Care · vegan cleansing")}</h2>}
+            <ul className={`hd-grid hd-grid--${group.toLowerCase()}`}>
+              {items.map((product) => <ProductTile product={product} key={product.slug} query={query} />)}
+            </ul>
+          </section>;
+        })}
+      </div> : <div className="v23-product-grid" key={`${filter}-${market.code}`} aria-live="polite">
         {visible.map((product) => <V23ProductCard product={product} key={product.slug} />)}
       </div>}
     </>

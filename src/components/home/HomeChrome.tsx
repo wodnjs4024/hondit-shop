@@ -156,7 +156,7 @@ export function HomeFooter() {
       </div>
       <div>
         <h2>{copy.connect}</h2>
-        {!partnerOnly && market.hasShopee && <a href={SHOPEE} target="_blank" rel="noreferrer">{marketText(language, "Shopee ->")}</a>}
+        {!partnerOnly && market.hasShopee && <a href={SHOPEE} target="_blank" rel="noreferrer">{"Shopee ↗"}</a>}
         <a href={INSTAGRAM} target="_blank" rel="noreferrer">Instagram ↗</a>
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
         <Link to="/contact">{marketText(language, "Contact", "Contact")}</Link>
@@ -171,7 +171,7 @@ export function HomeFooter() {
       <div>
         <h2>{copy.seller}</h2>
         <p>{marketText(language, "Student-led project based at Jeju National University.", "Student-led project based at Jeju National University.")}</p>
-        <p>{marketText(language, "Business registration no.")} 637-12-03059</p>
+        <p>{marketText(language, "Business registration no.")} <span style={{ whiteSpace: "nowrap" }}>637-12-03059</span></p>
         <a href="https://www.jejunu.ac.kr/eng/" target="_blank" rel="noreferrer">{marketText(language, "JNU official site ->")}</a>
       </div>
     </nav>

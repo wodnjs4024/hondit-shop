@@ -56,7 +56,7 @@ export const diffuserCopy = {
     "th": "เลือกทดลอง 10 ชิ้น หรือกรอกจำนวนเต็ม 20–9,999"
   },
   "Approved product price": {
-    "ko": "승인된 상품가격",
+    "ko": "승인된 상품 가격",
     "zh-HK": "已批准的商品價格",
     "ja": "承認済みの商品価格",
     "ms": "Harga produk diluluskan",

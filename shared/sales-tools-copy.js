@@ -224,7 +224,7 @@ export const salesToolsCopy = {
     "th": "เปรียบเทียบสกุลเงินเดียวกัน ไม่รวมขนส่ง ภาษี อากร ค่าธรรมเนียม ส่วนลด สต็อกแสดงและการสูญเสีย ไม่ใช่กำไรสุทธิหรือการรับประกันรายได้"
   },
   "Sales support materials": {
-    "ko": "판매 지원자료",
+    "ko": "판매 지원 자료",
     "zh-HK": "銷售支援資料",
     "ja": "販売支援資料",
     "ms": "Bahan sokongan jualan",
@@ -383,6 +383,83 @@ export const salesToolsCopy = {
     "ja": "使用・お手入れ・購入後案内",
     "ms": "Penjagaan & susulan produk",
     "th": "การใช้ ดูแล และคำแนะนำหลังซื้อ"
+  },
+  "Retail": {
+    "ko": "낱개 구매",
+    "zh-HK": "零售",
+    "ja": "単品購入",
+    "ms": "Runcit",
+    "th": "ซื้อปลีก"
+  },
+  "Choose purpose, market and product": {
+    "ko": "용도·국가·상품 고르기",
+    "zh-HK": "選擇用途、市場及商品",
+    "ja": "用途・国・商品を選ぶ",
+    "ms": "Pilih tujuan, pasaran dan produk",
+    "th": "เลือกวัตถุประสงค์ ตลาด และสินค้า"
+  },
+  "Choose quantity": {
+    "ko": "수량 정하기",
+    "zh-HK": "選擇數量",
+    "ja": "数量を決める",
+    "ms": "Pilih kuantiti",
+    "th": "เลือกจำนวน"
+  },
+  "Add notes (optional)": {
+    "ko": "메모 남기기 (선택)",
+    "zh-HK": "補充備註（選填）",
+    "ja": "メモを追加（任意）",
+    "ms": "Tambah nota (pilihan)",
+    "th": "เพิ่มหมายเหตุ (ไม่บังคับ)"
+  },
+  "Tool": {
+    "ko": "도구",
+    "zh-HK": "工具",
+    "ja": "ツール",
+    "ms": "Alat",
+    "th": "เครื่องมือ"
+  },
+  "Introduction planner": {
+    "ko": "도입 조건 계산기",
+    "zh-HK": "引入條件計算器",
+    "ja": "導入条件シミュレーター",
+    "ms": "Perancang pengenalan",
+    "th": "ตัวคำนวณเงื่อนไขการนำเข้า"
+  },
+  "Pick a purpose, country, product and quantity to see the amount and the next step.": {
+    "ko": "용도, 국가, 상품, 수량을 고르면 금액과 다음 단계를 바로 보여드려요.",
+    "zh-HK": "選擇用途、國家、商品及數量，即可查看金額與下一步。",
+    "ja": "用途・国・商品・数量を選ぶと、金額と次の手順が表示されます。",
+    "ms": "Pilih tujuan, negara, produk dan kuantiti untuk melihat jumlah dan langkah seterusnya.",
+    "th": "เลือกวัตถุประสงค์ ประเทศ สินค้า และจำนวน เพื่อดูยอดเงินและขั้นตอนถัดไป"
+  },
+  "Calculate introduction terms": {
+    "ko": "도입 조건 계산하기",
+    "zh-HK": "計算引入條件",
+    "ja": "導入条件を計算する",
+    "ms": "Kira syarat pengenalan",
+    "th": "คำนวณเงื่อนไขการนำเข้า"
+  },
+  "Scent · volcanic diffusers": {
+    "ko": "향 · 화산석 디퓨저",
+    "zh-HK": "香氛 · 火山石擴香",
+    "ja": "香り · 火山石ディフューザー",
+    "ms": "Haruman · penyebar batu gunung berapi",
+    "th": "กลิ่น · ดิฟฟิวเซอร์หินภูเขาไฟ"
+  },
+  "Care · vegan cleansing": {
+    "ko": "케어 · 비건 클렌징",
+    "zh-HK": "護理 · 純素潔面",
+    "ja": "ケア · ヴィーガンクレンジング",
+    "ms": "Penjagaan · pencuci muka vegan",
+    "th": "ดูแลผิว · คลีนซิ่งวีแกน"
+  },
+  "Open the full use guide": {
+    "ko": "전체 사용 가이드 보기",
+    "zh-HK": "查看完整使用指南",
+    "ja": "使い方ガイドを見る",
+    "ms": "Buka panduan penggunaan penuh",
+    "th": "เปิดคู่มือการใช้งานฉบับเต็ม"
   },
   "Reorder consultation": {
     "ko": "재주문 상담",

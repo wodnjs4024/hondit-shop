@@ -34,9 +34,9 @@ export function OriginRoute() {
       <h2 id="about-route-title">{c.route(country)}</h2>
       <p>{c.routeBody}</p>
       <ol className="about-route__steps">
-        <li><span>01</span><b>{country}</b><small>{t("Market connection")}</small></li>
-        <li><span>02</span><b>{c.korea}</b><small>{t("Country context")}</small></li>
-        <li><span>03</span><b>{c.jeju}</b><small>{c.origin}</small></li>
+        <li><b>{country}</b><small>{t("Market connection")}</small></li>
+        <li><b>{c.korea}</b><small>{t("Country context")}</small></li>
+        <li><b>{c.jeju}</b><small>{c.origin}</small></li>
       </ol>
       <p className="about-route__distance">{c.distance} <strong>{km.toLocaleString("en-US")} km</strong></p>
     </div>

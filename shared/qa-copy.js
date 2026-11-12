@@ -1,7 +1,7 @@
 export const qaCopy = {
   "Reference product price. Please contact us to confirm the final amount and shipping terms.": {
     "en": "Reference product price. Please contact us to confirm the final amount and shipping terms.",
-    "ko": "참고 상품가격입니다. 최종 금액과 배송조건은 문의 후 확인합니다.",
+    "ko": "참고 상품 가격입니다. 최종 금액과 배송 조건은 문의 후 확인합니다.",
     "zh-HK": "參考商品價格。請聯絡我們確認最終金額及運送條件。",
     "ja": "参考商品価格です。最終金額と配送条件はお問い合わせください。",
     "ms": "Harga rujukan produk. Hubungi kami untuk mengesahkan jumlah akhir dan penghantaran.",
@@ -17,7 +17,7 @@ export const qaCopy = {
   },
   "Please confirm the billing currency, final amount and shipping terms, and send me a PayPal payment link.": {
     "en": "Please confirm the billing currency, final amount and shipping terms, and send me a PayPal payment link.",
-    "ko": "청구통화·최종 금액·배송조건을 확인한 뒤 PayPal 결제 링크를 보내주세요.",
+    "ko": "청구통화·최종 금액·배송 조건을 확인한 뒤 PayPal 결제 링크를 보내주세요.",
     "zh-HK": "請確認付款貨幣、最終金額及運送條件，並向我提供PayPal付款連結。",
     "ja": "請求通貨・最終金額・配送条件を確認のうえ、PayPal決済リンクをお送りください。",
     "ms": "Sila sahkan mata wang bil, jumlah akhir dan syarat penghantaran, lalu hantarkan pautan pembayaran PayPal kepada saya.",
@@ -65,7 +65,7 @@ export const qaCopy = {
   },
   "Confirm final amount and shipping before payment.": {
     "en": "Confirm final amount and shipping before payment.",
-    "ko": "결제 전 최종 금액과 배송조건을 확인하세요.",
+    "ko": "결제 전 최종 금액과 배송 조건을 확인하세요.",
     "zh-HK": "付款前請確認最終金額及運送條件。",
     "ja": "決済前に最終金額と配送条件をご確認ください。",
     "ms": "Sahkan jumlah akhir dan penghantaran sebelum membayar.",
@@ -81,7 +81,7 @@ export const qaCopy = {
   },
   "Jeju volcanic-stone diffusers for {country}. Select quantity and confirm the final amount and shipping terms.": {
     "en": "Jeju volcanic-stone diffusers for {country}. Select quantity and confirm the final amount and shipping terms.",
-    "ko": "{country}에는 제주 화산석 디퓨저를 제공합니다. 수량을 선택하고 최종 금액과 배송조건을 확인하세요.",
+    "ko": "{country}에는 제주 화산석 디퓨저를 제공합니다. 수량을 선택하고 최종 금액과 배송 조건을 확인하세요.",
     "zh-HK": "{country}目前提供濟州火山石擴香商品。請選擇數量後確認最終金額及運送條件。",
     "ja": "{country}向けに済州の火山石ディフューザーをご案内します。数量を選び、最終金額と配送条件をご確認ください。",
     "ms": "Penyebar batu gunung berapi Jeju untuk {country}. Pilih kuantiti dan sahkan jumlah akhir serta penghantaran.",
@@ -97,7 +97,7 @@ export const qaCopy = {
   },
   "Product and quantity determine the checkout route. Eligible bundles can proceed directly; other selections require final price and shipping confirmation.": {
     "en": "Product and quantity determine the checkout route. Eligible bundles can proceed directly; other selections require final price and shipping confirmation.",
-    "ko": "상품·수량에 따라 주문 경로가 달라집니다. 조건이 확인된 묶음은 바로 주문하고, 그 외 선택은 최종 금액과 배송조건을 확인합니다.",
+    "ko": "상품·수량에 따라 주문 경로가 달라집니다. 조건이 확인된 묶음은 바로 주문하고, 그 외 선택은 최종 금액과 배송 조건을 확인합니다.",
     "zh-HK": "訂購方式依商品及數量而定。符合條件的組合可直接訂購，其他選擇須先確認最終金額及運送條件。",
     "ja": "商品と数量により注文経路が変わります。条件が確認済みのセットは直接注文でき、それ以外は最終金額と配送条件の確認が必要です。",
     "ms": "Laluan pesanan bergantung pada produk dan kuantiti. Pakej layak boleh terus dipesan; pilihan lain memerlukan pengesahan harga dan penghantaran.",
@@ -113,7 +113,7 @@ export const qaCopy = {
   },
   "Reference product prices": {
     "en": "Reference product prices",
-    "ko": "참고 상품가격",
+    "ko": "참고 상품 가격",
     "zh-HK": "商品參考價格",
     "ja": "参考商品価格",
     "ms": "Harga rujukan produk",
@@ -169,7 +169,7 @@ export const qaCopy = {
   },
   "Proposed or legacy reference price — confirmation required": {
     "en": "Reference product price. Please contact us to confirm the final amount and shipping terms.",
-    "ko": "참고 상품가격입니다. 최종 금액과 배송조건은 문의 후 확인합니다.",
+    "ko": "참고 상품 가격입니다. 최종 금액과 배송 조건은 문의 후 확인합니다.",
     "zh-HK": "參考商品價格。請聯絡我們確認最終金額及運送條件。",
     "ja": "参考商品価格です。最終金額と配送条件はお問い合わせください。",
     "ms": "Harga rujukan produk. Hubungi kami untuk mengesahkan jumlah akhir dan penghantaran.",
