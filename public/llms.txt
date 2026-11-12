@@ -18,6 +18,15 @@
 - [Shipping](https://hondit-shop.vercel.app/shipping)
 - [Refund policy](https://hondit-shop.vercel.app/policy/refund)
 
+## Other languages
+Each page below also exists in Korean (?lang=ko), Japanese (?lang=ja) and Traditional Chinese for Hong Kong, Taiwan and Macau (?lang=zh-HK):
+- [ホーム（日本語）](https://hondit-shop.vercel.app/?lang=ja), [よくある質問](https://hondit-shop.vercel.app/faq?lang=ja)
+- [首頁（繁體中文）](https://hondit-shop.vercel.app/?lang=zh-HK), [常見問題](https://hondit-shop.vercel.app/faq?lang=zh-HK)
+- [홈（한국어）](https://hondit-shop.vercel.app/?lang=ko), [자주 묻는 질문](https://hondit-shop.vercel.app/faq?lang=ko)
+
+## What the product is called
+A non-electric stone diffuser (aroma stone): porous Jeju volcanic scoria (lava stone, 송이 songi) in a glass vessel (350g) or Jeju onggi pottery (500g), with 10mL citrus fragrance oil. No electricity, no flame, no water, no reeds. Also searched as: lava stone diffuser, lava rock diffuser, waterless diffuser, reed diffuser alternative, Jeju souvenir, Korean gift; アロマストーン, 溶岩石 ディフューザー, 済州島 お土産; 擴香石, 火山石擴香, 濟州島手信, 伴手禮; 화산송이 디퓨저, 스톤 디퓨저, 제주 기념품.
+
 ## Answers
 - [FAQ: Jeju volcanic-stone diffuser](https://hondit-shop.vercel.app/faq)
 - [HONDIT Journal](https://hondit-shop.vercel.app/journal)

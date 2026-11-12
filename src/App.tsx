@@ -7,8 +7,9 @@ if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.
 }
 import {INFO_PAGES} from "../shared/info-content.js";
 import {PICKUP_IMAGE, PICKUP_PATH, pickupSearchMeta, pickupSearchPath} from "../shared/pickup-search.js";
-import {diffuserGuideMarket, diffuserMarkets, diffuserProductLocale, diffuserProductPath, type DiffuserMarket, type DiffuserSlug} from "../shared/diffuser-search-routes.js";
+import {diffuserGuideMarket, diffuserMarkets, diffuserProductLocale, type DiffuserMarket, type DiffuserSlug} from "../shared/diffuser-search-routes.js";
 import {diffuserGuide, diffuserLocalizedMeta} from "../shared/diffuser-guide.js";
+import {canonicalSeoLanguage} from "../shared/seo-locales.js";
 import "./styles/diffuser-guide.css";
 import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
@@ -268,6 +269,13 @@ function routeMeta(pathname: string, pickupLanguage?: string | null, productMark
   };
 }
 
+// Pages with their own indexable language versions (?lang=ko|ja|zh-HK), as served by api/_seo-route.js.
+const hasLanguageVersions = (pathname: string) => ["/", "/products", "/bulk-orders", "/jeju", "/about", "/faq"].includes(pathname)
+  || (pathname.startsWith("/products/") && Object.hasOwn(productMeta, pathname.slice("/products/".length)));
+function canonicalFor(pathname: string, language: ReturnType<typeof canonicalSeoLanguage>) {
+  return siteUrl + pathname + (language !== "en" && hasLanguageVersions(pathname) ? `?lang=${language}` : "");
+}
+
 function upsertMeta(selector: string, attrs: Record<string, string>, value: string) {
   let element = document.head.querySelector(selector) as HTMLMetaElement | HTMLLinkElement | null;
   if (!element) {
@@ -282,18 +290,19 @@ function upsertMeta(selector: string, attrs: Record<string, string>, value: stri
 export default function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
-  const pickupLanguage = location.pathname === PICKUP_PATH ? new URLSearchParams(location.search).get("lang") : null;
+  const searchLanguage = new URLSearchParams(location.search).get("lang");
+  const pickupLanguage = location.pathname === PICKUP_PATH ? searchLanguage : null;
+  const indexedLanguage = canonicalSeoLanguage(searchLanguage);
   const localizedMarket = diffuserProductLocale(location.pathname, location.search)?.option.market;
   const draftProduct = location.pathname.startsWith("/products/") && new URLSearchParams(location.search).get("preview") === "1";
 
   useEffect(() => {
     const productMarket = localizedMarket && localizedMarket !== "SG" ? diffuserMarkets[localizedMarket] : undefined;
-    const slug = location.pathname.slice("/products/".length) as DiffuserSlug;
     const meta = routeMeta(location.pathname, pickupLanguage, productMarket);
-    const canonical = siteUrl + (location.pathname === PICKUP_PATH ? pickupSearchPath(pickupLanguage) : productMarket ? diffuserProductPath(slug, productMarket) : location.pathname);
-    const serverPath = document.head.querySelector<HTMLMetaElement>('meta[name="hondit-ssr-path"]');
+    const canonical = location.pathname === PICKUP_PATH ? siteUrl + pickupSearchPath(pickupLanguage) : canonicalFor(location.pathname, indexedLanguage);
+    const serverPath = document.head.querySelector<HTMLMetaElement>('meta[name="hondit-ssr"]');
     const serverCanonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (serverPath?.content === location.pathname && serverCanonical?.href === canonical) return;
+    if (serverPath && serverCanonical?.href === canonical && !draftProduct) return;
     if (serverPath) {
       document.head.querySelectorAll('[data-storefront-seo]').forEach((tag) => tag.remove());
       document.head.querySelector('meta[property="og:locale"]')?.remove();
@@ -317,7 +326,7 @@ export default function App() {
     upsertMeta('meta[name="twitter:image"]', { name: "twitter:image" }, meta.image);
     upsertMeta('meta[name="robots"]', { name: "robots" }, draftProduct || import.meta.env.VITE_VERCEL_ENV === "preview" ? "noindex,follow" : meta.robots);
     upsertMeta('link[rel="canonical"]', { rel: "canonical" }, canonical);
-  }, [location.pathname, pickupLanguage, localizedMarket, draftProduct]);
+  }, [location.pathname, pickupLanguage, indexedLanguage, localizedMarket, draftProduct]);
 
   useEffect(() => {
     trackPageView(`${location.pathname}${location.search}${location.hash}`);

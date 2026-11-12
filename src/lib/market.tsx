@@ -17,7 +17,7 @@ import { sgTerms } from "../../shared/page-sales.js";
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { setAnalyticsContext, trackEvent } from "./analytics";
 import { getShortCampaign } from "./shortCampaign";
-import { diffuserGuideMarket, diffuserMarkets } from "../../shared/diffuser-search-routes.js";
+import { diffuserGuideMarket, diffuserMarkets, diffuserProductLocale } from "../../shared/diffuser-search-routes.js";
 
 export type MarketCode = "SG" | "HK" | "TW" | "JP" | "BN" | "MO" | "TH" | "MY";
 export type DisplayLanguage = "en" | "ko" | "zh" | "zh-HK" | "zh-TW" | "ja" | "ms" | "th";
@@ -244,6 +244,8 @@ function getInitialMarket(): MarketCode {
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get("market");
   if (isMarketCode(fromUrl)) return fromUrl;
+  const productLanding = diffuserProductLocale(window.location.pathname, params.toString());
+  if (productLanding) return productLanding.option.market;
   let fromStorage:string|null=null;try{fromStorage=window.localStorage.getItem("hondit-market");}catch{}
   return isMarketCode(fromStorage) ? fromStorage : "SG";
 }
@@ -267,7 +269,8 @@ export function MarketProvider({ children }: { children: ReactNode }) {
   const [storedLanguage, setLanguageState] = useState<DisplayLanguage>(getInitialLanguage);
   const params=new URLSearchParams(location.search),short=getShortCampaign(location.pathname),guide=diffuserGuideMarket(location.pathname);
   const urlMarket=params.get('market'),urlLanguage=params.get('lang');
-  const marketCode=guide?.market??(isMarketCode(urlMarket)?urlMarket:short?.market??storedMarket);
+  const productLanding=diffuserProductLocale(location.pathname,location.search);
+  const marketCode=guide?.market??(isMarketCode(urlMarket)?urlMarket:short?.market??productLanding?.option.market??storedMarket);
   const language=guide?.lang??(isDisplayLanguage(urlLanguage)?urlLanguage:short?.language??storedLanguage);
   const updateLocale=(key:'market'|'lang',value:string)=>{
    if (guide) {

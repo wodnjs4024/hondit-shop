@@ -6,7 +6,7 @@ import { sitemap } from '../api/_feeds.js';
 import { defaultProducts } from '../api/_bulk-data.js';
 import { safeLanding } from '../shared/tracking-policy.js';
 import { diffuserGuide, diffuserSpecs } from '../shared/diffuser-guide.js';
-import { diffuserMarkets, diffuserProductPath, diffuserSlugs } from '../shared/diffuser-search-routes.js';
+import { diffuserMarkets, diffuserSlugs } from '../shared/diffuser-search-routes.js';
 
 const site = 'https://hondit-shop.vercel.app';
 async function request(query, method = 'GET') {
@@ -46,7 +46,7 @@ test('four regional guides give bots and buyers the same localized answer, maker
   assert.equal((await request({ seoPage: 'diffuserGuide', seoGuide: 'unsupported' })).statusCode, 404);
 });
 
-test('localized product variants self-canonicalize and the sitemap advertises each language once', async () => {
+test('localized product market aliases share the live language canonical and the sitemap advertises it once', async () => {
   const xml = new JSDOM(sitemap(defaultProducts), { contentType: 'application/xml' }).window.document;
   const urls = [...xml.querySelectorAll('loc')].map((loc) => loc.textContent);
   assert.equal(new Set(urls).size, urls.length);
@@ -54,15 +54,16 @@ test('localized product variants self-canonicalize and the sitemap advertises ea
     for (const option of Object.values(diffuserMarkets)) {
       const response = await request({ seoPage: 'product', seoSlug: slug, market: option.market, lang: option.lang, quantity: '20', utm_source: 'example' });
       const doc = documentOf(response.body);
-      const url = site + diffuserProductPath(slug, option);
+      const lang = option.lang === 'zh-TW' ? 'zh-HK' : option.lang;
+      const url = site + '/products/' + slug + (lang === 'en' ? '' : '?lang=' + lang);
       assert.equal(response.statusCode, 200);
       assert.equal(doc.querySelector('link[rel="canonical"]').href, url);
-      assert.equal(alternateMap(doc)[option.hreflang], url);
+      assert.equal(alternateMap(doc)[lang], url);
       assert.ok(urls.includes(url));
       assert.match(doc.body.textContent, /StoneJeju/);
       assert.doesNotMatch(response.body, /"@type":"Offer"|utm_source/);
     }
   }
   assert.ok(Object.values(diffuserMarkets).every((option) => urls.includes(site + option.path)));
-  assert.doesNotMatch(sitemap([{ ...defaultProducts.find((product) => product.slug === 'diffuser-350g'), markets: { JP: 'hidden' } }]), /diffuser-350g\?market=JP/);
+  assert.ok(urls.every(url => !url.includes('market=') && !url.includes('utm_')));
 });

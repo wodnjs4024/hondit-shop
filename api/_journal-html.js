@@ -133,7 +133,7 @@ export function setHead(html, { title, description, canonical, robots, image, ty
     ...(canonical ? [`<link rel="canonical" href="${esc(canonical)}" />`] : []),
     tag('name', 'robots', robots),
     tag('property', 'og:locale', locale),
-    ...(storefrontPath ? [`<meta name="hondit-ssr-path" content="${esc(storefrontPath)}" />`] : []),
+    ...(storefrontPath ? [`<meta name="hondit-ssr" content="${esc(storefrontPath)}" />`] : []),
     ...alternates.map((a) => `<link rel="alternate" hreflang="${esc(a.hreflang)}" href="${esc(a.href)}"${storefrontPath ? ' data-storefront-seo' : ''} />`),
     ...jsonLd.map((data) => `<script type="application/ld+json"${storefrontPath ? ' data-storefront-seo' : ''}>${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`),
   ].join('\n    ');

@@ -24,25 +24,15 @@ export function diffuserProductLocale(path, search) {
   if (!diffuserSlugs.includes(slug)) return undefined;
   const query = new URLSearchParams(search);
   if (query.has('preview')) return undefined;
-  const option = diffuserMarket(query.get('market'), query.get('lang'));
+  const language = query.get('lang');
+  const inferred = language !== 'en' ? Object.values(diffuserMarkets).find((market) => market.lang === language)?.market : undefined;
+  const option = diffuserMarket(query.get('market') ?? inferred, language);
   return option ? { slug, option } : undefined;
-}
-
-export function diffuserMarketOptions(product) {
-  return Object.values(diffuserMarkets).filter((option) => product?.markets?.[option.market] !== 'hidden');
 }
 
 export function diffuserGuideAlternates() {
   return [
     ...Object.values(diffuserMarkets).map(({ hreflang, path }) => ({ hreflang, path })),
     { hreflang: 'x-default', path: diffuserMarkets.SG.path },
-  ];
-}
-
-export function diffuserProductAlternates(product) {
-  const options = diffuserMarketOptions(product);
-  return [
-    ...options.map((option) => ({ hreflang: option.hreflang, path: diffuserProductPath(product.slug, option) })),
-    ...(options.some((option) => option.market === 'SG') ? [{ hreflang: 'x-default', path: diffuserProductPath(product.slug) }] : []),
   ];
 }

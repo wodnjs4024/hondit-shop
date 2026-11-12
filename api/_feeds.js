@@ -3,7 +3,9 @@ import { SITE, merchantMarket, merchantOffer, escapeMarkup as esc } from './_mer
 export { SITE } from './_merchant.js';
 import { articlePath, isPublic, languageByCode } from '../shared/journal.js';
 import { pickupAlternates } from '../shared/pickup-search.js';
-import { diffuserGuideAlternates, diffuserProductAlternates, diffuserSlugs } from '../shared/diffuser-search-routes.js';
+import { diffuserGuideAlternates } from '../shared/diffuser-search-routes.js';
+import { SEO_LANGUAGES, HREFLANGS, LOCALES } from '../shared/seo-locales.js';
+import { storefrontCatalog } from '../shared/storefront-catalog.js';
 export function feedItem(product, market = 'SG', language) { return merchantOffer(product, market, language).item || null; }
 export function googleFeed(products, market = 'SG', language) {
   const channel = merchantMarket(market, language);
@@ -36,7 +38,7 @@ export function sitemap(products, journal = []) {
   const live = products.filter((p) => p.active !== false && !["draft", "hidden"].includes(p.status));
   const urls = [
     ...STATIC_PAGES,
-    ...live.filter((p) => !diffuserSlugs.includes(p.slug)).map((p) => `/products/${p.slug}`),
+    ...live.map((p) => `/products/${p.slug}`),
     ...live.filter((p) => ["foam-oil", "foaming-cleanser", "cleansing-water", "diffuser-350g", "diffuser-500g"].includes(p.slug)).map((p) => `/bulk-orders/${p.slug}`),
   ];
   // Published Journal articles only (the caller passes nothing else). Translations of one story point at each other.
@@ -47,19 +49,28 @@ export function sitemap(products, journal = []) {
     return `  <url><loc>${esc(SITE + articlePath(a))}</loc><lastmod>${String(a.updated_at || a.published_at).slice(0, 10)}</lastmod>${alternates}</url>`;
   });
   const journalIndex = articles.length ? [...new Set(["/journal", ...articles.map((a) => `/journal/${languageByCode(a.language)?.segment}`)])] : [];
-  const localEntries = (alternates) => {
+  const localEntries = (alternates, imageEntry = '') => {
     const links = alternates.map(({ hreflang, path }) => `\n    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${esc(SITE + path)}"/>`).join("");
-    return alternates.filter(({ hreflang }) => hreflang !== "x-default")
-      .map(({ path }) => `  <url><loc>${esc(SITE + path)}</loc>${links}\n  </url>`);
+    const paths = new Set(alternates.filter(({ hreflang }) => hreflang !== "x-default").map(({ path }) => path));
+    return [...paths].map((path) => `  <url><loc>${esc(SITE + path)}</loc>${links}${imageEntry}\n  </url>`);
   };
   const localized = [
     ...localEntries(pickupAlternates),
     ...localEntries(diffuserGuideAlternates()),
-    ...live.filter((product) => diffuserSlugs.includes(product.slug)).flatMap((product) => localEntries(diffuserProductAlternates(product))),
   ];
+  const pageEntries = [...new Set([...urls, ...journalIndex])].flatMap((url) => {
+    const slug = url.startsWith('/products/') ? url.slice('/products/'.length) : '';
+    const image = storefrontCatalog.find((product) => product.slug === slug)?.image;
+    const imageEntry = image ? `<image:image><image:loc>${esc(SITE + image)}</image:loc></image:image>` : '';
+    const hasLocales = ['/', '/products', '/bulk-orders', '/jeju', '/about', '/faq'].includes(url) || Boolean(LOCALES.ja.products[slug]);
+    if (!hasLocales) return [`  <url><loc>${esc(SITE + url)}</loc>${imageEntry}</url>`];
+    const relative = (lang) => url + (lang === 'en' ? '' : '?lang=' + lang);
+    const alternates = [...SEO_LANGUAGES.flatMap(lang => HREFLANGS[lang].map(hreflang => ({ hreflang, path: relative(lang) }))), { hreflang: 'x-default', path: url }];
+    return localEntries(alternates, imageEntry);
+  });
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${[...new Set([...urls, ...journalIndex])].map((url) => `  <url><loc>${esc(SITE + url)}</loc></url>`).concat(localized, articleEntries).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${pageEntries.concat(localized, articleEntries).join("\n")}
 </urlset>
 `;
 }
