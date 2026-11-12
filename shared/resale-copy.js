@@ -1,6 +1,6 @@
 export const resaleCopy = {
   "Resale economics review": {
-    "ko": "재판매 경제성 검토",
+    "ko": "재판매 수익 계산하기",
     "zh-HK": "轉售經濟性檢視",
     "ja": "再販売の採算検討",
     "ms": "Semakan ekonomi jualan semula",

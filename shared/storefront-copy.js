@@ -182,7 +182,7 @@ export const storefrontCopy = {
     "th": "คอลเลกชัน"
   },
   "Follow the product label. Supplier-approved precautions are required before use.": {
-    "ko": "제품 라벨을 따르세요. 사용 전 공급사가 승인한 주의사항을 확인해야 합니다.",
+    "ko": "사용 전 제품 라벨의 주의사항을 확인하세요.",
     "zh-HK": "請遵照產品標籤，使用前須確認供應商核准的注意事項。",
     "ja": "製品表示に従い、使用前に供給元が承認した注意事項を確認してください。",
     "ms": "Ikut label produk. Sahkan langkah berjaga-jaga yang diluluskan pembekal sebelum penggunaan.",

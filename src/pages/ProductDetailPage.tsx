@@ -80,7 +80,6 @@ export function ProductDetailPage() {
 
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
   const productName = nameOf(product, language);
-  const productCategory = marketProductText(language, product.category);
   const productDescription = describeProduct(product, language, productFacts(product.slug)?.description||product.description);
   const productGoodFor = product.goodFor ? marketProductText(language, product.goodFor) : "";
   const showSingaporeDiffuserDetails = market.code === "SG" && product.slug === "diffuser-350g";
@@ -161,7 +160,6 @@ export function ProductDetailPage() {
             </figure>)}
           </div>
           <div className="hd-pdp__info">
-            <p className="hd-pdp__category">{productCategory}</p>
             <h1>{productName}</h1>
             <p className="hd-pdp__lead">{productDescription}</p>
             <p className="hd-pdp__price"><strong>{productPriceLabel(product, market, language)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}</p>

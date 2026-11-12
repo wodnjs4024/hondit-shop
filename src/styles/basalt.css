@@ -98,3 +98,29 @@ body.hd-site .contact-channel__qr figcaption { font-size: 13px; }
 
 /* Page heroes (/jeju and the other about-style pages) use the same heading weight as the home hero */
 body.hd-site .about-hero h1, body.hd-site .about-hero h1 em { font-family: var(--hd-sans) !important; font-weight: 650 !important; font-style: normal !important; letter-spacing: -0.03em !important; }
+
+/* Product page: the pay action is scoria, like every other order action */
+body.hd-site main :is(.order-commit, .checkout-summary__core, .order-step--pay) .order-cta { background: var(--bs-scoria) !important; color: #fff !important; }
+body.hd-site main :is(.order-commit, .checkout-summary__core, .order-step--pay) .order-cta:hover { background: var(--bs-scoria-deep) !important; }
+body.hd-site main :is(.order-commit, .checkout-summary__core, .order-step--pay) .order-cta i { background: rgba(255, 255, 255, 0.16) !important; color: #fff !important; }
+body.hd-site .order-bar .order-bar__cta { background: var(--bs-scoria) !important; color: #fff !important; white-space: nowrap; }
+
+/* Product page sections share one left edge and width */
+body.hd-site .hd-pdp .stonejeju-scene-gallery { max-width: none !important; margin: 96px 0 0 !important; padding: 0 var(--hd-gutter) !important; }
+body.hd-site .hd-pdp .stonejeju-scene-gallery > div { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
+body.hd-site .hd-pdp .stonejeju-scene-gallery { width: auto !important; }
+body.hd-site .hd-pdp .stonejeju-scene-gallery h2,
+body.hd-site .hd-pdp .sales-tools-section h2 { font-size: clamp(24px, 2.2vw, 32px) !important; font-weight: 650 !important; letter-spacing: -0.025em; color: var(--bs-basalt) !important; }
+
+/* Diffuser table on the product page, phones: one row per spec, label above the two values (same as home) */
+@media (max-width: 639px) {
+  body.hd-site .hd-pdp .sales-tools-table { overflow: visible !important; }
+  body.hd-site .hd-pdp .sales-tools-table table { display: block; min-width: 0 !important; width: 100% !important; }
+  body.hd-site .hd-pdp .sales-tools-table :is(thead, tbody) { display: block; }
+  body.hd-site .hd-pdp .sales-tools-table tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; padding: 12px 0; border-top: 1px solid var(--hd-line); }
+  body.hd-site .hd-pdp .sales-tools-table :is(th, td) { padding: 0 !important; border: 0 !important; min-width: 0 !important; }
+  body.hd-site .hd-pdp .sales-tools-table tr > th:first-child { grid-column: 1 / -1; padding-bottom: 4px !important; color: var(--hd-muted); font-weight: 500; }
+  body.hd-site .hd-pdp .sales-tools-table thead tr > th:first-child { display: none; }
+  body.hd-site .hd-pdp .sales-tools-table thead tr { border-top: 0; }
+  body.hd-site .hd-pdp .sales-tools-table thead a { font-weight: 650; }
+}

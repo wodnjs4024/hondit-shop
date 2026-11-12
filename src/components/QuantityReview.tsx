@@ -31,7 +31,7 @@ export function QuantityReview({product,purpose='unspecified'}:{product:Storefro
  const diffuser=isDiffuser(product);
  const optionPrice=(q:string)=>{const r=termsFor(product,market.code,q);return r.referenceUnitMinor===null||!r.displayCurrency?undefined:`${o.perUnit} ${formatCurrency(r.referenceUnitMinor/10**r.referenceDigits,r.displayCurrency,market.locale)}`;};
  const total=direct?d.totalMinor:d.referenceTotalMinor;
- const units=valid&&d.quantity?`${d.quantity} ${o.units}`:'';
+ const sep=language==='ko'?'':' ';const units=valid&&d.quantity?`${d.quantity}${sep}${o.units}`:'';
  const ctaTo=selectionUrl(direct?`/bulk-orders/${product.slug}`:'/contact',input);
  const ctaLabel=direct?c.pay:charges.quote;
  const commit=useRef<HTMLDivElement>(null);
@@ -46,14 +46,14 @@ export function QuantityReview({product,purpose='unspecified'}:{product:Storefro
      <li className="order-step order-step--qty">
       <h3 className="order-step__title">{o.qty}</h3>
       <label className="order-qty-field">{t('Order quantity')}<input type="number" inputMode="numeric" min={product.bulkMoq} max="9999" step="1" value={quantity} onChange={e=>setQuantity(e.target.value)}/></label>
-      <p className="order-note">{t('Minimum')} {product.bulkMoq} {o.units}</p>
+      <p className="order-note">{t('Minimum')} {product.bulkMoq}{language==='ko'?'':' '}{o.units}</p>
      </li>
      <li className="order-step order-step--pay">
       <div className="order-commit" ref={commit}>
        <h3 className="order-step__title">{k.quoteTitle}</h3>
        <p className="order-note">{k.quoteNote}</p>
        {valid?<div className="v23-actions order-actions"><Link className="button button--primary order-cta" to={quoteTo}><span>{k.quoteCta}</span><i aria-hidden="true"><Arrow/></i></Link></div>
-        :<p role="alert">{d.reason==='quantity_condition_scope'?`${t('Minimum')} ${product.bulkMoq} ${o.units}`:t('Quantity must be a whole number from 1 to 9999.')}</p>}
+        :<p role="alert">{d.reason==='quantity_condition_scope'?`${t('Minimum')} ${product.bulkMoq}${language==='ko'?'':' '}${o.units}`:t('Quantity must be a whole number from 1 to 9999.')}</p>}
       </div>
      </li>
     </ol>
