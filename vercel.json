@@ -484,6 +484,10 @@
     {
       "path": "/api/products?journalCron=1",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/products?indexnow=run",
+      "schedule": "0 1 * * 1"
     }
   ],
   "headers": [
