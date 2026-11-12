@@ -6,7 +6,7 @@ import { sitemap } from '../api/_feeds.js';
 import { defaultProducts } from '../api/_bulk-data.js';
 import { safeLanding } from '../shared/tracking-policy.js';
 import { diffuserGuide, diffuserSpecs } from '../shared/diffuser-guide.js';
-import { diffuserMarkets, diffuserSlugs } from '../shared/diffuser-search-routes.js';
+import { diffuserMarkets, diffuserProductLocale, diffuserSlugs } from '../shared/diffuser-search-routes.js';
 import { canonicalSeoLanguage } from '../shared/seo-locales.js';
 
 const site = 'https://hondit-shop.vercel.app';
@@ -55,7 +55,7 @@ test('localized product market aliases share the live language canonical and the
     for (const option of Object.values(diffuserMarkets)) {
       const response = await request({ seoPage: 'product', seoSlug: slug, market: option.market, lang: option.lang, quantity: '20', utm_source: 'example' });
       const doc = documentOf(response.body);
-      const lang = canonicalSeoLanguage(option.lang);
+      const lang = canonicalSeoLanguage(option.lang, '/products/' + slug);
       const url = site + '/products/' + slug + (lang === 'en' ? '' : '?lang=' + lang);
       assert.equal(response.statusCode, 200);
       assert.equal(doc.querySelector('link[rel="canonical"]').href, url);
@@ -67,4 +67,23 @@ test('localized product market aliases share the live language canonical and the
   }
   assert.ok(Object.values(diffuserMarkets).every((option) => urls.includes(site + option.path)));
   assert.ok(urls.every(url => !url.includes('market=') && !url.includes('utm_')));
+});
+
+test('Thai product canonicals reciprocate with the English page and route visitors to the Thai storefront', async () => {
+  for (const slug of diffuserSlugs) {
+    const path = '/products/' + slug;
+    const thai = documentOf((await request({ seoPage: 'product', seoSlug: slug, lang: 'th' })).body);
+    const english = documentOf((await request({ seoPage: 'product', seoSlug: slug })).body);
+    assert.equal(thai.documentElement.lang, 'th');
+    assert.match(thai.querySelector('h1').textContent, /ดิฟฟิวเซอร์หินภูเขาไฟเชจู/);
+    assert.equal(alternateMap(english)['th-TH'], site + path + '?lang=th');
+    assert.deepEqual(alternateMap(thai), alternateMap(english));
+    assert.ok(thai.querySelector('main a[href="/diffusers/thailand"]'));
+    assert.ok(thai.querySelector(`main a[href="/bulk-orders/${slug}?market=TH&lang=th"]`));
+    assert.equal(diffuserProductLocale(path, '?lang=th')?.option.market, 'TH');
+    assert.equal(diffuserProductLocale(path, '?market=SG&lang=th'), undefined);
+  }
+  const cleanser = documentOf((await request({ seoPage: 'product', seoSlug: 'foam-oil', lang: 'th' })).body);
+  assert.equal(alternateMap(cleanser)['th-TH'], undefined);
+  assert.equal(cleanser.querySelector('link[rel="canonical"]').href, site + '/products/foam-oil');
 });

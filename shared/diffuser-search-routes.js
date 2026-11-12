@@ -27,7 +27,7 @@ export function diffuserProductLocale(path, search) {
   const query = new URLSearchParams(search);
   if (query.has('preview')) return undefined;
   const language = query.get('lang');
-  const indexedProductMarkets = { ja: 'JP', 'zh-HK': 'HK', 'zh-TW': 'TW' };
+  const indexedProductMarkets = { ja: 'JP', 'zh-HK': 'HK', 'zh-TW': 'TW', th: 'TH' };
   const inferred = Object.hasOwn(indexedProductMarkets, language) ? indexedProductMarkets[language] : undefined;
   const option = diffuserMarket(query.get('market') ?? inferred, language);
   return option ? { slug, option } : undefined;

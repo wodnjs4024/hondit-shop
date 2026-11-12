@@ -12,12 +12,22 @@
 /* Display languages that have their own indexable server-rendered version (?lang=<code>). English is the default URL. */
 export const SEO_LANGUAGES = ['en', 'ko', 'ja', 'zh-HK'];
 /* hreflang values each version answers for. The Traditional Chinese page serves Hong Kong, Taiwan and Macau readers. */
-export const HREFLANGS = { en: ['en'], ko: ['ko'], ja: ['ja'], 'zh-HK': ['zh-Hant', 'zh-HK', 'zh-TW', 'zh-MO'] };
-export const HTML_LANG = { en: 'en', ko: 'ko', ja: 'ja', 'zh-HK': 'zh-Hant' };
-export const OG_LOCALE = { en: 'en_SG', ko: 'ko_KR', ja: 'ja_JP', 'zh-HK': 'zh_HK' };
+export const HREFLANGS = { en: ['en'], ko: ['ko'], ja: ['ja'], 'zh-HK': ['zh-Hant', 'zh-HK', 'zh-TW', 'zh-MO'], th: ['th', 'th-TH'] };
+export const HTML_LANG = { en: 'en', ko: 'ko', ja: 'ja', 'zh-HK': 'zh-Hant', th: 'th' };
+export const OG_LOCALE = { en: 'en_SG', ko: 'ko_KR', ja: 'ja_JP', 'zh-HK': 'zh_HK', th: 'th_TH' };
 /* Storefront paths that have language versions. */
 export const LOCALIZED_PAGES = ['home', 'products', 'product', 'bulk', 'jeju', 'about', 'faq'];
-export function canonicalSeoLanguage(lang) {
+const localizedPaths = new Set(['/', '/products', '/bulk-orders', '/jeju', '/about', '/faq']);
+const thaiProductPath = /^\/products\/diffuser-(350|500)g$/;
+const translatedCleansingPath = /^\/products\/(foam-oil|foaming-cleanser|cleansing-water)$/;
+
+export function seoLanguagesFor(pathname) {
+  if (thaiProductPath.test(pathname)) return [...SEO_LANGUAGES, 'th'];
+  return localizedPaths.has(pathname) || translatedCleansingPath.test(pathname) ? SEO_LANGUAGES : [];
+}
+
+export function canonicalSeoLanguage(lang, pathname = '') {
+  if (lang === 'th' && thaiProductPath.test(pathname)) return 'th';
   if (lang === 'zh-TW' || lang === 'zh') return 'zh-HK';
   return SEO_LANGUAGES.includes(lang) ? lang : 'en';
 }
@@ -26,6 +36,23 @@ const P350 = 'diffuser-350g';
 const P500 = 'diffuser-500g';
 
 export const LOCALES = {
+  th: {
+    nav: { '/': 'หน้าแรก', '/products': 'สินค้า', '/bulk-orders': 'สั่งซื้อแบบชุด', '/jeju': 'รู้จักเชจู', '/about': 'เกี่ยวกับ HONDIT', '/faq': 'คำถามที่พบบ่อย', '/journal': 'บทความ', '/shipping': 'การจัดส่ง', '/contact': 'ติดต่อ' },
+    footer: (reg) => `HONDIT · ทีมนักศึกษา GTEP มหาวิทยาลัยแห่งชาติเชจู · เลขทะเบียนธุรกิจเกาหลี ${reg}`,
+    countries: { TH: 'ประเทศไทย' },
+    tier: (q, price, included) => `${q} ชิ้น: ${price} ต่อชิ้น${included ? ' รวมค่าจัดส่ง' : ''}`,
+    termsNote: 'ชำระผ่าน PayPal สำหรับจำนวนที่รองรับ หากต้องการคละรุ่น สั่งจำนวนอื่น หรือสั่งเกินสต็อก โปรดขอใบเสนอราคา ภาษีและอากรนำเข้าเรียกเก็บแยกจากยอดชำระ',
+    label: { content: 'วัสดุ', container: 'ภาชนะ', size: 'ขนาดภาชนะ', oil: 'น้ำมันหอม', maker: 'ผู้ผลิตและแบรนด์', seller: 'ผู้ขาย', highlights: 'จุดเด่น', howTo: 'วิธีใช้', followLabel: 'ปฏิบัติตามฉลากผลิตภัณฑ์', goodFor: 'เหมาะสำหรับ', care: 'การดูแล', terms: 'สั่งซื้อและจัดส่งมายังไทย', chooseQty: 'เลือกจำนวนสั่งซื้อ', refund: 'นโยบายคืนเงิน', shipping: 'การจัดส่ง', ask: 'สอบถาม HONDIT', orderConditions: 'ดูเงื่อนไขสั่งซื้อ', products: 'สินค้า' },
+    facts: {
+      [P350]: { content: 'หินภูเขาไฟเชจูประมาณ 350 กรัม', container: 'แก้ว', oil: 'น้ำมันหอมกลิ่นซิตรัส 10 มล.' },
+      [P500]: { content: 'หินภูเขาไฟเชจูประมาณ 500 กรัม', container: 'เครื่องปั้นดินเผาองกีจากเชจู', oil: 'น้ำมันหอมกลิ่นซิตรัส 10 มล.' },
+    },
+    care: ['หินธรรมชาติมีสีและขนาดแตกต่างกันและอาจมีผงละเอียด', 'หลีกเลี่ยงการสัมผัสเป็นเวลานานกับผิวที่บอบบางหรือมีบาดแผล', 'หากต้องการเปลี่ยนกลิ่น ให้ล้างหินด้วยน้ำอุ่นและผึ่งให้แห้งสนิท'],
+    products: {
+      [P350]: { name: 'ดิฟฟิวเซอร์หินภูเขาไฟเชจู 350 กรัม', title: 'ดิฟฟิวเซอร์หินภูเขาไฟเชจู 350 กรัม รุ่นแก้ว | HONDIT ไทย', description: 'StoneJeju รุ่นแก้ว 350 กรัมสำหรับโต๊ะทำงานหรือโต๊ะข้างเตียง มาพร้อมน้ำมันหอมกลิ่นซิตรัส 10 มล. ดูวิธีใช้และเงื่อนไขสั่งซื้อจากไทย', body: 'หินภูเขาไฟเชจูเนื้อพรุนประมาณ 350 กรัมในภาชนะแก้วขนาดกะทัดรัด หยดน้ำมันหอมลงบนหินเพื่อให้กลิ่นค่อย ๆ กระจายโดยไม่ต้องใช้น้ำ ก้านไม้ ไฟ หรือไฟฟ้า', highlights: ['ภาชนะแก้วขนาดกะทัดรัด', 'น้ำมันหอมกลิ่นซิตรัส 10 มล.'], howTo: ['วางหินลงในภาชนะบนพื้นผิวที่มั่นคง', 'หยดน้ำมันหอมบนหินตามปริมาณที่ระบุบนฉลาก'], goodFor: 'โต๊ะทำงาน โต๊ะข้างเตียง และมุมเล็ก ๆ ที่มีพื้นที่จำกัด' },
+      [P500]: { name: 'ดิฟฟิวเซอร์หินภูเขาไฟเชจู 500 กรัม', title: 'ดิฟฟิวเซอร์หินภูเขาไฟเชจู 500 กรัม รุ่นองกี | HONDIT ไทย', description: 'StoneJeju รุ่นองกี 500 กรัม ใช้เครื่องปั้นดินเผาจากเชจูและน้ำมันหอมกลิ่นซิตรัส 10 มล. สำหรับห้องนั่งเล่นหรือเคาน์เตอร์ ดูวิธีสั่งซื้อจากไทย', body: 'หินภูเขาไฟเชจูประมาณ 500 กรัมในภาชนะองกี เครื่องปั้นดินเผาจากเชจู ภาชนะมีขนาดใหญ่กว่ารุ่นแก้ว 350 กรัม ใช้น้ำมันหอมที่ให้มาและกระจายกลิ่นโดยไม่ต้องใช้ไฟฟ้าหรือเปลวไฟ', highlights: ['ภาชนะองกีจากเชจู', 'น้ำมันหอมกลิ่นซิตรัส 10 มล.'], howTo: ['จัดหินในภาชนะแล้ววางบนพื้นผิวที่มั่นคง', 'หยดน้ำมันหอมบนหินตามปริมาณที่ระบุบนฉลาก'], goodFor: 'ห้องนั่งเล่น เคาน์เตอร์ต้อนรับ หรือชั้นวางที่มีพื้นที่สำหรับภาชนะขนาดใหญ่' },
+    },
+  },
   ko: {
     nav: { '/': '홈', '/products': '상품', '/bulk-orders': '묶음 주문', '/jeju': '우리의 제주', '/about': 'HONDIT 소개', '/faq': '자주 묻는 질문', '/journal': '저널', '/shipping': '배송 안내', '/contact': '문의' },
     footer: (reg) => `HONDIT · 제주대학교 GTEP 학생팀 · 사업자등록번호 ${reg}`,

@@ -9,7 +9,7 @@ import {INFO_PAGES} from "../shared/info-content.js";
 import {PICKUP_IMAGE, PICKUP_PATH, pickupSearchMeta, pickupSearchPath} from "../shared/pickup-search.js";
 import {diffuserGuideMarket, diffuserMarkets, diffuserProductLocale, type DiffuserMarket, type DiffuserSlug} from "../shared/diffuser-search-routes.js";
 import {diffuserGuide, diffuserLocalizedMeta} from "../shared/diffuser-guide.js";
-import {canonicalSeoLanguage} from "../shared/seo-locales.js";
+import {canonicalSeoLanguage, seoLanguagesFor} from "../shared/seo-locales.js";
 import "./styles/diffuser-guide.css";
 import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
@@ -269,11 +269,8 @@ function routeMeta(pathname: string, pickupLanguage?: string | null, productMark
   };
 }
 
-// Pages with their own indexable language versions (?lang=ko|ja|zh-HK), as served by api/_seo-route.js.
-const hasLanguageVersions = (pathname: string) => ["/", "/products", "/bulk-orders", "/jeju", "/about", "/faq"].includes(pathname)
-  || (pathname.startsWith("/products/") && Object.hasOwn(productMeta, pathname.slice("/products/".length)));
 function canonicalFor(pathname: string, language: ReturnType<typeof canonicalSeoLanguage>) {
-  return siteUrl + pathname + (language !== "en" && hasLanguageVersions(pathname) ? `?lang=${language}` : "");
+  return siteUrl + pathname + (language !== "en" && seoLanguagesFor(pathname).includes(language) ? `?lang=${language}` : "");
 }
 
 function upsertMeta(selector: string, attrs: Record<string, string>, value: string) {
@@ -292,7 +289,7 @@ export default function App() {
   const isAdmin = location.pathname.startsWith("/admin");
   const searchLanguage = new URLSearchParams(location.search).get("lang");
   const pickupLanguage = location.pathname === PICKUP_PATH ? searchLanguage : null;
-  const indexedLanguage = canonicalSeoLanguage(searchLanguage);
+  const indexedLanguage = canonicalSeoLanguage(searchLanguage, location.pathname);
   const localizedMarket = diffuserProductLocale(location.pathname, location.search)?.option.market;
   const draftProduct = location.pathname.startsWith("/products/") && new URLSearchParams(location.search).get("preview") === "1";
 

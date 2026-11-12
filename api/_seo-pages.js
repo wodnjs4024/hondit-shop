@@ -11,7 +11,7 @@ import { salesPresentationCopy } from '../shared/sales-presentation-copy.js';
 import { PICKUP_IMAGE, pickupAlternates, pickupSearchLanguage, pickupSearchMeta, pickupSearchPath } from '../shared/pickup-search.js';
 import { diffuserCare as CARE, diffuserGuide, diffuserSpecs as diffuserFacts } from '../shared/diffuser-guide.js';
 import { diffuserGuideAlternates, diffuserGuideMarket, diffuserMarkets } from '../shared/diffuser-search-routes.js';
-import { LOCALES, SEO_LANGUAGES, HREFLANGS, HTML_LANG, LOCALIZED_PAGES } from '../shared/seo-locales.js';
+import { LOCALES, SEO_LANGUAGES, HREFLANGS, HTML_LANG, LOCALIZED_PAGES, seoLanguagesFor } from '../shared/seo-locales.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
 import { escapeMarkup as esc } from './_merchant.js';
@@ -264,10 +264,11 @@ export function seoUrl(pathname, lang) {
 }
 /* hreflang links for a page that has language versions (empty when it has none). */
 export function seoAlternates(path, slug = '') {
-  if (!LOCALIZED_PAGES.includes(path) || (path === 'product' && !SEO_LANGUAGES.slice(1).every((l) => LOCALES[l].products[slug]))) return [];
   const pathname = seoPath(path, slug);
+  const languages = seoLanguagesFor(pathname);
+  if (!languages.length) return [];
   return [
-    ...SEO_LANGUAGES.flatMap((lang) => HREFLANGS[lang].map((hreflang) => ({ hreflang, href: seoUrl(pathname, lang) }))),
+    ...languages.flatMap((lang) => HREFLANGS[lang].map((hreflang) => ({ hreflang, href: seoUrl(pathname, lang) }))),
     { hreflang: 'x-default', href: seoUrl(pathname, 'en') },
   ];
 }
@@ -276,30 +277,36 @@ export const isSeoLanguage = (lang) => SEO_LANGUAGES.includes(lang) && lang !== 
 /* Internal links in a language version stay in that language where the target has one. */
 const hrefIn = (href, lang) => {
   const [pathname] = href.split('?');
+  if (lang === 'th' && !href.includes('?')) {
+    if (seoLanguagesFor(pathname).includes(lang)) return pathname + '?lang=th';
+    if (pathname === '/products' || pathname === '/contact' || pathname.startsWith('/bulk-orders')) {
+      return pathname + '?market=TH&lang=th';
+    }
+  }
   const localized = LOCALIZED_HREFS.has(pathname) || (pathname.startsWith('/products/') && Boolean(LOCALES[lang].products[pathname.slice(10)]));
   return localized ? `${pathname}?lang=${lang}` : href;
 };
 
 export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], showOrderTerms = true } = {}) {
   const L = LOCALES[lang];
-  if (!L || !LOCALIZED_PAGES.includes(path)) return { status: 404 };
+  if (!L || !LOCALIZED_PAGES.includes(path) || !seoLanguagesFor(seoPath(path, slug)).includes(lang)) return { status: 404 };
   const list = products;
   const a = (href, text) => `<a href="${esc(hrefIn(href, lang))}">${esc(text)}</a>`;
-  const sep = lang === 'ko' ? ': ' : '：';
-  const stop = lang === 'ko' ? '. ' : '。';
+  const sep = lang === 'ko' || lang === 'th' ? ': ' : '：';
+  const stop = lang === 'ko' || lang === 'th' ? '. ' : '。';
   const navOrder = ['/', '/products', '/bulk-orders', '/jeju', '/about', '/faq', '/journal', '/shipping', '/contact'];
   const navL = `<nav aria-label="Site"><ul>${navOrder.map((h) => `<li>${a(h, L.nav[h])}</li>`).join('')}</ul></nav>`;
   const wrapL = (body) => `<header>${a('/', 'HONDIT')}</header><main>${body}</main><footer>${navL}<p>${esc(L.footer(SITE_FACTS.businessRegistration))} · <a href="mailto:${EMAIL}">${EMAIL}</a> · <a href="${INSTAGRAM}">Instagram</a></p></footer>`;
   const name = (p) => L.products[p.slug]?.name || p.name;
   const desc = (p) => L.products[p.slug]?.body || p.description;
-  const totalLabel = { ko: '총액', ja: '合計', 'zh-HK': '總額' }[lang];
+  const totalLabel = { ko: '총액', ja: '合計', 'zh-HK': '總額', th: 'ยอดรวม' }[lang];
   const termsL = (rows, itemSlug) => (!rows.length ? `<p>${a('/bulk-orders/' + itemSlug, L.label.orderConditions)} · ${a('/contact', L.label.ask)}</p>`
     : `<ul>${rows.map((r) => `<li><strong>${esc(L.countries[r.market] || r.country)}</strong>${sep}${r.tiers.map((t) => {
       const query = new URLSearchParams({ market: r.market, lang, quantity: String(t.quantity) });
       const label = L.tier(t.quantity, money(t.unitMinor, t.currency), t.shippingMinor === 0) + ' · ' + totalLabel + ' ' + money(t.totalMinor, t.currency);
       return `<a href="${esc('/bulk-orders/' + itemSlug + '?' + query)}">${esc(label)}</a>`;
     }).join(' / ')}</li>`).join('')}</ul>`);
-  const localGuides = lang === 'ja' ? [diffuserMarkets.JP] : lang === 'zh-HK' ? [diffuserMarkets.HK, diffuserMarkets.TW] : [];
+  const localGuides = lang === 'ja' ? [diffuserMarkets.JP] : lang === 'zh-HK' ? [diffuserMarkets.HK, diffuserMarkets.TW] : lang === 'th' ? [diffuserMarkets.TH] : [];
   const guideLinks = localGuides.map((option) => `<a href="${option.path}" lang="${option.lang}">${esc(option.label + ' · ' + diffuserGuide(option).guide)}</a>`);
   const pickup = salesPresentationCopy(lang);
   const related = `<p>${[...guideLinks, a(pickupSearchPath(lang), pickup.pickupNav)].join(' · ')}</p>`;
@@ -309,7 +316,10 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
   };
   const card = (p, h = 'h2') => `<article><${h}>${a(`/products/${p.slug}`, name(p))}</${h}><p>${esc(desc(p))}</p>${factLine(p)}<p>${a(`/bulk-orders/${p.slug}`, L.label.orderConditions)}</p></article>`;
   const page = (pathname, data) => ({ status: 200, canonical: seoUrl(pathname, lang), alternates: seoAlternates(path, slug), ...data });
-  const crumbs = (items) => breadcrumb(items.map(([n, pth]) => [n, pth])).itemListElement.map((it) => ({ ...it, item: seoUrl(items[it.position - 1][1], lang) }));
+  const crumbs = (items) => breadcrumb(items.map(([n, pth]) => [n, pth])).itemListElement.map((it) => {
+    const pathname = items[it.position - 1][1];
+    return { ...it, item: seoUrl(pathname, seoLanguagesFor(pathname).includes(lang) ? lang : 'en') };
+  });
   const breadcrumbL = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbs(items) });
 
   if (path === 'home') {
@@ -333,7 +343,7 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
     const product = list.find((p) => p.slug === slug);
     const lp = product && L.products[product.slug];
     if (!product || !lp) return { status: 404 };
-    const rows = showOrderTerms ? orderTerms(product) : [];
+    const rows = showOrderTerms ? orderTerms(product).filter((row) => lang !== 'th' || row.market === 'TH') : [];
     const f = diffuserFacts[product.slug]; const lf = L.facts[product.slug];
     const schema = productOverviewSchema(product, { url: seoUrl(`/products/${product.slug}`, lang), name: lp.name, description: lp.body, language: HTML_LANG[lang] });
     return page(`/products/${product.slug}`, { image: abs(product.image), title: lp.title, description: lp.description,

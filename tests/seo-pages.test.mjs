@@ -228,8 +228,12 @@ test('public price text requires confirmed live checkout; pickup has no catalog 
     };
     const query = { seoPage: 'product', seoSlug: 'diffuser-350g', market: 'SG', lang: 'en' };
     assert.match((await call(query)).body, /SGD 230\.00 total/);
+    const thaiQuery = { seoPage: 'product', seoSlug: 'diffuser-350g', lang: 'th' };
+    assert.match((await call(thaiQuery)).body, /ยอดรวม THB [\d.]+/);
+    assert.doesNotMatch((await call({ ...thaiQuery, market: 'SG' })).body, /ยอดรวม THB/);
     enabled = false;
     assert.doesNotMatch((await call(query)).body, /SGD 230\.00 total/);
+    assert.doesNotMatch((await call(thaiQuery)).body, /ยอดรวม THB/);
     failed = true;
     const product = await call(query);
     assert.equal(product.statusCode, 503);
@@ -356,5 +360,5 @@ test('the app keeps the server head on the first view and builds language canoni
   const { readFile } = await import('node:fs/promises');
   const source = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8');
   assert.match(source, /meta\[name="hondit-ssr"\]/);
-  assert.match(source, /canonicalSeoLanguage\(searchLanguage\)/);
+  assert.match(source, /canonicalSeoLanguage\(searchLanguage, location\.pathname\)/);
 });

@@ -1,7 +1,7 @@
 // Server-rendered storefront pages (home, products, bulk orders, OUR JEJU, shipping, contact, policies).
 // Dispatched from api/products.js as ?seoPage=<name>. Read-only: no orders, payments, prices or stock are touched.
 // Everyone gets the same HTML. Market and campaign parameters do not create additional canonical URLs.
-import { buildSeoPage, buildLocalizedSeoPage, catalogProducts, seoAlternates } from './_seo-pages.js';
+import { buildSeoPage, buildLocalizedSeoPage, catalogProducts, seoAlternates, seoPath } from './_seo-pages.js';
 import { canonicalSeoLanguage, HTML_LANG, OG_LOCALE, LOCALIZED_PAGES } from '../shared/seo-locales.js';
 import { setHead, shell } from './_journal-html.js';
 import { getPayPalMode, getStorefrontProducts, supabase } from './_utils.js';
@@ -55,8 +55,9 @@ export async function seoRoute(req, res) {
   ]);
   if (productionCatalog && !live) return send(res, 503, req.method === 'HEAD' ? '' : html, 'no-store');
   const products = catalogProducts(live || [], { liveOnly: productionCatalog });
-  const showOrderTerms = Boolean(live && checkoutLive);
-  const indexedLang = canonicalSeoLanguage(lang);
+  const indexedLang = canonicalSeoLanguage(lang, seoPath(kind, slug));
+  const requestedMarket = q(req, 'market').toUpperCase();
+  const showOrderTerms = Boolean(live && checkoutLive) && (indexedLang !== 'th' || !requestedMarket || requestedMarket === 'TH');
   const localized = indexedLang !== 'en' && LOCALIZED_PAGES.includes(kind);
   const page = localized
     ? buildLocalizedSeoPage(kind, indexedLang, { slug, products, showOrderTerms })

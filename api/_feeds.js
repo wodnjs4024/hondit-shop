@@ -4,7 +4,7 @@ export { SITE } from './_merchant.js';
 import { articlePath, isPublic, languageByCode } from '../shared/journal.js';
 import { pickupAlternates } from '../shared/pickup-search.js';
 import { diffuserGuideAlternates } from '../shared/diffuser-search-routes.js';
-import { SEO_LANGUAGES, HREFLANGS, LOCALES } from '../shared/seo-locales.js';
+import { seoLanguagesFor, HREFLANGS } from '../shared/seo-locales.js';
 import { storefrontCatalog } from '../shared/storefront-catalog.js';
 export function feedItem(product, market = 'SG', language) { return merchantOffer(product, market, language).item || null; }
 export function googleFeed(products, market = 'SG', language) {
@@ -65,10 +65,10 @@ export function sitemap(products, journal = [], { checkoutLive = false } = {}) {
     const slug = url.startsWith('/products/') ? url.slice('/products/'.length) : '';
     const image = storefrontCatalog.find((product) => product.slug === slug)?.image;
     const imageEntry = image ? `<image:image><image:loc>${esc(SITE + image)}</image:loc></image:image>` : '';
-    const hasLocales = ['/', '/products', '/bulk-orders', '/jeju', '/about', '/faq'].includes(url) || Boolean(LOCALES.ja.products[slug]);
-    if (!hasLocales) return [`  <url><loc>${esc(SITE + url)}</loc>${imageEntry}</url>`];
+    const languages = seoLanguagesFor(url);
+    if (!languages.length) return [`  <url><loc>${esc(SITE + url)}</loc>${imageEntry}</url>`];
     const relative = (lang) => url + (lang === 'en' ? '' : '?lang=' + lang);
-    const alternates = [...SEO_LANGUAGES.flatMap(lang => HREFLANGS[lang].map(hreflang => ({ hreflang, path: relative(lang) }))), { hreflang: 'x-default', path: url }];
+    const alternates = [...languages.flatMap(lang => HREFLANGS[lang].map(hreflang => ({ hreflang, path: relative(lang) }))), { hreflang: 'x-default', path: url }];
     return localEntries(alternates, imageEntry);
   });
   return `<?xml version="1.0" encoding="UTF-8"?>
