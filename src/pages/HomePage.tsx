@@ -170,7 +170,7 @@ export function HomePage() {
               </tr>
             </thead>
             <tbody>
-              {([["Container", (f: NonNullable<ReturnType<typeof productFacts>>) => t(f.container)], ["Declared content", (f: NonNullable<ReturnType<typeof productFacts>>) => f.content], ["Dimensions (W × H × D)", (f: NonNullable<ReturnType<typeof productFacts>>) => f.dimensions], ["Citrus fragrance oil", (f: NonNullable<ReturnType<typeof productFacts>>) => f.oil]] as const).map(([label, value]) =>
+              {([["Container", (f: NonNullable<ReturnType<typeof productFacts>>) => t(f.container)], ["Declared content", (f: NonNullable<ReturnType<typeof productFacts>>) => language === "ko" ? `약 ${f.content.replace(" ±", "")}` : f.content], ["Dimensions (W × H × D)", (f: NonNullable<ReturnType<typeof productFacts>>) => f.dimensions], ["Citrus fragrance oil", (f: NonNullable<ReturnType<typeof productFacts>>) => f.oil]] as const).map(([label, value]) =>
                 <tr key={label}><th scope="row">{t(label)}</th>{diffusers.map((product) => <td key={product.slug}>{value(productFacts(product.slug)!)}</td>)}</tr>)}
               <tr className="hd-compare__price"><th scope="row">{t(`${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)}</th>{diffusers.map((product) => <td key={product.slug}>{formatMarketUnitMoney(product, market)}</td>)}</tr>
               <tr><th scope="row">{t("Minimum")}</th>{diffusers.map((product) => <td key={product.slug}>{product.bulkMoq}{language === "ko" ? "" : " "}{t("units")}</td>)}</tr>

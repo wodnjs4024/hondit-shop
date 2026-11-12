@@ -173,3 +173,58 @@ body.hd-site .order-bar small { font-size: 13px !important; }
 @media (max-width: 639px) { body.hd-site .hd-header :is(a, button, span) { font-size: 13px; } }
 /* 350g detail thumbnails: the 1-9 labels were the same colour as their background; the counter above already says which image is shown */
 body.hd-site .v23-product-gallery__thumbnails button > span { display: none; }
+
+/* ---- Detail pass (page-by-page visual check) ---- */
+/* Page heroes (shipping, about, FAQ) start on the same left edge as the header and every other page */
+body.hd-site main:not(.hd-home) .v23-page-hero { padding: 56px var(--hd-gutter) !important; column-gap: 56px !important; align-items: center !important; }
+body.hd-site main:not(.hd-home) .v23-page-hero .v23-page-hero-copy { padding: 0 !important; }
+body.hd-site main:not(.hd-home) .v23-page-hero .v23-page-hero-media { margin: 0 !important; width: 100%; }
+/* Bulk-order head: no light strip above the dark band, even spacing inside it */
+body.hd-site main.bundle-entry { padding-top: 0 !important; }
+body.hd-site main.bundle-entry .bundle-entry__intro { max-width: none !important; padding: 48px 0 44px !important; gap: 10px !important; margin-bottom: 32px !important; }
+body.hd-site main.bundle-entry .bundle-entry__intro > * { margin: 0 !important; max-width: 760px; }
+body.hd-site main.bundle-entry .bundle-entry__intro h1 { margin-bottom: 6px !important; }
+/* Jeju page: scenes heading on the page edge */
+body.hd-site .v23-jeju-notes--band > header { margin: 0 0 40px !important; padding: 0 var(--hd-gutter) !important; }
+/* Shipping timeline labels: no red */
+body.hd-site .v23-shipping-page .v23-delivery-timeline small { color: var(--hd-muted) !important; }
+/* Home order paths: the pickup note sits inside its row, not under the rule */
+body.hd-site .hd-paths li.hd-paths__pickup { border-bottom: 1px solid var(--hd-line); }
+body.hd-site .hd-paths li.hd-paths__pickup > a { border-bottom: 0; }
+body.hd-site .hd-paths li.hd-paths__pickup > p { margin: -6px 0 16px !important; color: var(--hd-muted); }
+/* Product cards: Shopee is a real, quieter link */
+body.hd-site .hd-tile__retail { display: inline-flex; align-items: center; min-height: 44px; color: var(--hd-muted) !important; font-size: 14px; }
+/* Jeju six places list: breathing room between rows */
+body.hd-site .about-field__list li > button { padding-top: 10px !important; padding-bottom: 10px !important; height: auto !important; }
+/* Product detail: the extra-detail gallery keeps the page edge on phones */
+@media (max-width: 639px) { body.hd-site .hd-pdp .v23-product-story { margin-left: 0 !important; margin-right: 0 !important; padding-left: var(--hd-gutter) !important; padding-right: var(--hd-gutter) !important; } }
+/* Product detail: when only the guide link is left, no empty band */
+body.hd-site .hd-pdp__specs:has(> a:only-child) { margin-top: 40px !important; }
+/* Checkout confirmation box: text uses the full box width */
+body.hd-site .direct-payment-summary__header, body.hd-site .direct-payment-summary__header p, body.hd-site .direct-payment-summary > p { max-width: none !important; }
+/* Pickup airport photo: crop a little more so the source's rounded corners never show */
+body.hd-site .pickup-introduction figure .pickup-airport-sign-frame img { transform: scale(1.06); transform-origin: 25.2% 52%; }
+/* Partners hero on phones: no double gap before the next section */
+@media (max-width: 760px) { body.hd-site main.partner-discovery .discovery-hero { margin-bottom: 0 !important; } }
+/* Order-conditions table on phones: fits the screen without sideways scrolling */
+@media (max-width: 639px) {
+  body.hd-site .discovery-table th, body.hd-site .discovery-table td { padding: 12px 6px !important; font-size: 13px !important; white-space: normal !important; }
+  body.hd-site .discovery-table tbody th { min-width: 0 !important; }
+  body.hd-site .discovery-table :is(img, small) { display: none !important; }
+  body.hd-site .discovery-table thead th { font-weight: 500; line-height: 1.35; }
+  body.hd-site .discovery-table td { white-space: nowrap !important; }
+}
+/* Product guide: title across the top, photo left, steps right; share button at the end */
+body.hd-site main.product-guide-page > header { grid-column: 1 / -1 !important; grid-row: 1 !important; max-width: 760px !important; margin-bottom: 32px !important; }
+body.hd-site main.product-guide-page > header h1 { margin: 0 !important; }
+body.hd-site main.product-guide-page > img { grid-row: 2 / span 14 !important; margin-top: 0 !important; }
+body.hd-site main.product-guide-page > h2:first-of-type { margin-top: 0 !important; }
+body.hd-site main.product-guide-page :is(ol, ul) li { line-height: 1.7 !important; margin-bottom: 4px; }
+body.hd-site main.product-guide-page > .product-guide-share { justify-self: start; min-height: 44px; }
+@media (max-width: 900px) { body.hd-site main.product-guide-page > img { grid-row: auto !important; } }
+/* Headings break between words and balance their lines (no single-word last lines) */
+body.hd-site main :is(h1, h2, h3) { text-wrap: balance; }
+html:lang(ko) body.hd-site { word-break: keep-all; overflow-wrap: break-word; }
+body.hd-site main:not(.hd-home) .v23-page-hero h1 { white-space: pre-line; text-wrap: wrap; }
+body.hd-site main.product-guide-page > .product-guide-share { padding: 0 18px; border: 1px solid var(--hd-ink); background: transparent; color: var(--hd-ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+body.hd-site .order-qty-field > small { display: block; margin-top: 8px; font-size: 14px; color: var(--hd-muted); }

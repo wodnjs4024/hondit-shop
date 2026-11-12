@@ -224,7 +224,7 @@ export const salesToolsCopy = {
     "th": "เปรียบเทียบสกุลเงินเดียวกัน ไม่รวมขนส่ง ภาษี อากร ค่าธรรมเนียม ส่วนลด สต็อกแสดงและการสูญเสีย ไม่ใช่กำไรสุทธิหรือการรับประกันรายได้"
   },
   "Sales support materials": {
-    "ko": "판매 지원자료",
+    "ko": "판매 지원 자료",
     "zh-HK": "銷售支援資料",
     "ja": "販売支援資料",
     "ms": "Bahan sokongan jualan",
@@ -383,6 +383,13 @@ export const salesToolsCopy = {
     "ja": "使用・お手入れ・購入後案内",
     "ms": "Penjagaan & susulan produk",
     "th": "การใช้ ดูแล และคำแนะนำหลังซื้อ"
+  },
+  "Open the full use guide": {
+    "ko": "전체 사용 가이드 보기",
+    "zh-HK": "查看完整使用指南",
+    "ja": "使い方ガイドを見る",
+    "ms": "Buka panduan penggunaan penuh",
+    "th": "เปิดคู่มือการใช้งานฉบับเต็ม"
   },
   "Reorder consultation": {
     "ko": "재주문 상담",

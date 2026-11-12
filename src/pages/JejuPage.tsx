@@ -35,7 +35,7 @@ export function JejuPage() {
           </div>
           <figure>
             <img src="/images/jeju-field-university.webp" alt="Jeju National University Ara Campus." width={1024} height={683} loading="lazy" decoding="async" />
-            <figcaption><b>hondit.</b><span>{marketText(language,"JEJU NATIONAL UNIVERSITY-BASED")}<br />{marketText(language,"Independent student project")}</span></figcaption>
+            <figcaption><b>hondit.</b><span>{marketText(language,"JEJU NATIONAL UNIVERSITY-BASED")}{" "}<br />{marketText(language,"Independent student project")}</span></figcaption>
           </figure>
         </section>
 

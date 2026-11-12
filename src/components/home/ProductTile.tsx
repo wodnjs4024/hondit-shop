@@ -35,8 +35,8 @@ export function ProductTile({ product, query }: { product: StorefrontProduct; qu
             <Link className="hd-textlink hd-textlink--order" to={selectionUrl("/bulk-orders",input)}>{marketText(language, "Overseas bundle orders")} →</Link>
             <Link className="hd-textlink" to={detail}>{marketText(language, "View details", "View details")}</Link>
           </p>
-          {market.hasShopee && product.shopee && <details className="hd-tile__retail"><summary>Shopee</summary><a href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee")} ↗</a></details>}
-          {pickupSize&&<Link className="hd-textlink hd-tile__pickup" to={selectionUrl("/jeju/pickup",{...input,quantity:1,fulfillment:"jeju_pickup"})}>{salesPresentationCopy(language).pickupNav} · KRW {pickupRequestTotal(1,pickupSize).toLocaleString('en-US')} →</Link>}
+          {market.hasShopee && product.shopee && <a className="hd-textlink hd-tile__retail" href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee")} ↗</a>}
+          {pickupSize&&<Link className="hd-textlink hd-tile__pickup" to={selectionUrl("/jeju/pickup",{...input,quantity:1,fulfillment:"jeju_pickup"})}>{salesPresentationCopy(language).pickupNav} · {`KRW\u00a0${pickupRequestTotal(1,pickupSize).toLocaleString('en-US')}\u00a0→`}</Link>}
         </div>
       </div>
     </article>

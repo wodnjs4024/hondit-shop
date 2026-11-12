@@ -35,14 +35,14 @@ export const structureCopy = {
     "th": "เลือกวิธีรับสินค้าแยกจากวัตถุประสงค์การซื้อ"
   },
   "International delivery is offered as MOQ bundles, not individual small-quantity shipping. Group purchases are welcome.": {
-    "ko": "해외 배송은 상품별 최소 수량(MOQ) 묶음으로만 보냅니다. 낱개 소량 배송은 하지 않으며, 여럿이 모아 함께 주문할 수 있습니다.",
+    "ko": "해외 배송은 상품별 최소 수량 이상 묶음으로만 보냅니다. 낱개 소량 배송은 하지 않으며, 여럿이 모아 함께 주문할 수 있습니다.",
     "zh-HK": "國際運送按產品最低數量組合提供，不提供個人少量運送，亦可團購。",
     "ja": "海外配送は商品別の最低数量セットです。個人向け少量配送は行わず、共同購入も可能です。",
     "ms": "Penghantaran antarabangsa dalam pakej MOQ, bukan kuantiti kecil individu. Pembelian berkumpulan dialu-alukan.",
     "th": "จัดส่งต่างประเทศเป็นชุดตามขั้นต่ำ ไม่รับส่งจำนวนน้อยรายบุคคล และสามารถซื้อแบบกลุ่มได้"
   },
   "EMS shipping is included only for the approved reference MOQ bundle. Additional quantities and combinations require confirmation.": {
-    "ko": "승인된 기준 MOQ 묶음의 EMS 배송비가 표시가격에 포함됩니다. 추가 수량·다품목은 별도 확인합니다.",
+    "ko": "최소 수량 이상 묶음은 EMS 배송비가 표시 가격에 포함됩니다. 추가 수량·다품목은 별도 확인합니다.",
     "zh-HK": "僅核准的最低數量組合包含 EMS 運費。額外數量及組合須另行確認。",
     "ja": "承認済み基準セットのみEMS送料を表示価格に含みます。追加数量・組合せは別途確認します。",
     "ms": "Kos EMS termasuk hanya untuk pakej MOQ rujukan diluluskan. Kuantiti tambahan dan gabungan perlu pengesahan.",
@@ -112,7 +112,7 @@ export const structureCopy = {
     "th": "สอบถามความเป็นไปได้ในการรับสินค้า"
   },
   "Reference price only: KRW 18,000 per unit, 1–3 units. No international MOQ applies.": {
-    "ko": "기준가격은 개당 18,000원, 1~3개입니다. 국제배송 MOQ를 적용하지 않습니다.",
+    "ko": "기준 가격은 개당 18,000원, 1~3개입니다. 해외 배송 최소 수량은 적용하지 않습니다.",
     "zh-HK": "參考價每件 KRW 18,000，1至3件，不適用國際運送最低數量。",
     "ja": "参考価格は1個18,000ウォン、1〜3個です。海外配送の最低数量は適用しません。",
     "ms": "Harga rujukan KRW 18,000 seunit, 1–3 unit. Tiada MOQ antarabangsa.",
