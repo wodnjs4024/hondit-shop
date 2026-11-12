@@ -140,9 +140,9 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
 
       {!compact && (
         <div className="v23-map-tabs" aria-label={t("Map navigation")}>
-          <button data-stage="asia" className={stage === "asia" ? "is-active" : ""} type="button" onClick={() => selectStage("asia", "map_tabs")}><span>01</span><b>{t("Asia")}</b><small>{t("Regional context")}</small></button>
-          <button data-stage="korea" className={stage === "korea" ? "is-active" : ""} type="button" onClick={() => selectStage("korea", "map_tabs")}><span>02</span><b>{t("South Korea")}</b><small>{t("Find Jeju below")}</small></button>
-          <button data-stage="jeju" className={stage === "jeju" ? "is-active" : ""} type="button" onClick={() => selectStage("jeju", "map_tabs")}><span>03</span><b>{t("Jeju Island")}</b><small>{t("Explore six places")}</small></button>
+          <button data-stage="asia" className={stage === "asia" ? "is-active" : ""} type="button" onClick={() => selectStage("asia", "map_tabs")}><b>{t("Asia")}</b><small>{t("Regional context")}</small></button>
+          <button data-stage="korea" className={stage === "korea" ? "is-active" : ""} type="button" onClick={() => selectStage("korea", "map_tabs")}><b>{t("South Korea")}</b><small>{t("Find Jeju below")}</small></button>
+          <button data-stage="jeju" className={stage === "jeju" ? "is-active" : ""} type="button" onClick={() => selectStage("jeju", "map_tabs")}><b>{t("Jeju Island")}</b><small>{t("Explore six places")}</small></button>
         </div>
       )}
 
@@ -150,7 +150,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
         {stage === "asia" && (
           <div className="v23-map-stage">
             <div className="v23-map-copy">
-              <span>01</span>
+              
               <p>{t("REGIONAL CONTEXT")}</p>
               <h3>{t("Find South Korea without losing Asia.")}</h3>
               <p>{t("Country boundaries remain neutral. South Korea is the only highlighted country and is selectable.")}</p>
@@ -186,9 +186,9 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
                 <small>{t("ROUTE TO ORIGIN")}</small>
                 <h3>{marketCountryName(market,language)} {t("to Jeju")}</h3>
                 <ol>
-                  <li><span>01</span><div><b>{marketCountryName(market,language)}</b><small>{t("Market connection")}</small></div></li>
-                  <li><span>02</span><div><b>{t("South Korea")}</b><small>{t("Country context")}</small></div></li>
-                  <li><span>03</span><div><b>{t("Jeju Island")}</b><small>{t("hondit origin")}</small></div></li>
+                  <li><div><b>{marketCountryName(market,language)}</b><small>{t("Market connection")}</small></div></li>
+                  <li><div><b>{t("South Korea")}</b><small>{t("Country context")}</small></div></li>
+                  <li><div><b>{t("Jeju Island")}</b><small>{t("hondit origin")}</small></div></li>
                 </ol>
                 <button type="button" onClick={() => selectStage("korea", "asia_continue_button")}>{t("Continue to South Korea")}</button>
               </div>
@@ -199,7 +199,7 @@ export function V23GeoJourney({ initialStage = "asia", compact = false }: { init
         {stage === "korea" && (
           <div className="v23-map-stage is-korea">
             <div className="v23-map-copy">
-              <span>02</span>
+              
               <p>{t("A CLOSER VIEW")}</p>
               <h3>{t("Jeju sits below the peninsula.")}</h3>
               <p>{t("The province outline is real map data. Select the orange Jeju Island shape to continue.")}</p>

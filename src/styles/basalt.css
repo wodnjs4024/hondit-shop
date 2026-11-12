@@ -319,3 +319,17 @@ body.hd-site .partner-tools .consultation-panel, body.hd-site .partner-tools .bu
 body.hd-site .partner-tools .consultation-panel pre, body.hd-site .partner-tools .consultation-panel .request-preview { max-height: 220px; overflow: auto; font-size: 14px; line-height: 1.7; }
 body.hd-site .partner-tools .planner-result .planner-summary .route-status { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.55) !important; }
 body.hd-site .partner-tools .planner-result .planner-result__actions .button.button--ghost { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.55) !important; }
+
+/* Tile must never overflow its column: buttons stack, long labels wrap */
+body.hd-site .tile-info, body.hd-site .tile-info * { min-width: 0; }
+body.hd-site .tile-info__buy { grid-template-columns: 1fr !important; }
+body.hd-site .tile-btn { white-space: normal; text-align: center; line-height: 1.3; padding-top: 10px; padding-bottom: 10px; }
+body.hd-site .tile-info__alt { grid-template-columns: 1fr !important; }
+body.hd-site .tile-alt { grid-template-columns: 1fr; }
+body.hd-site .tile-info__spec dt { max-width: 58%; }
+
+/* Quieter, less templated: no tag above the tool heading, no side-stripe callouts, no chip on page photos */
+.partner-tools__tag { display: none; }
+body.hd-site .route-status { border-left: 0 !important; }
+body.hd-site .v23-page-hero-media figcaption { display: none !important; }
+body.hd-site :is(.hd-route-list, .about-route__steps, .v23-geo-journey) li > span:first-child:not(:only-child) { display: none; }
