@@ -42,6 +42,12 @@ test('regional guides give bots and buyers the same localized answer, maker evid
     }
     assert.ok(!response.body.includes('utm_source') && !response.body.includes('"@type":"Offer"'));
     assert.equal(safeLanding(site + option.path), option.path);
+    const actions = doc.querySelector('.diffuser-guide__intro .thai-diffuser-actions');
+    if (option.market === 'TH') {
+      assert.ok(actions.querySelector('a[href="#compare-diffusers"]'));
+      assert.ok(doc.getElementById('compare-diffusers'));
+      assert.equal(new URL(actions.querySelector('a[href^="/jeju/pickup"]').href).searchParams.get('lang'), 'th');
+    } else assert.equal(actions, null);
     assert.equal((await request(query, 'HEAD')).body, '');
   }
   assert.equal((await request({ seoPage: 'diffuserGuide', seoGuide: 'unsupported' })).statusCode, 404);
@@ -80,6 +86,10 @@ test('Thai product canonicals reciprocate with the English page and route visito
     assert.deepEqual(alternateMap(thai), alternateMap(english));
     assert.ok(thai.querySelector('main a[href="/diffusers/thailand"]'));
     assert.ok(thai.querySelector(`main a[href="/bulk-orders/${slug}?market=TH&lang=th"]`));
+    const pickup = new URL(thai.querySelector('.thai-diffuser-actions a[href^="/jeju/pickup"]').href);
+    assert.equal(pickup.searchParams.get('product'), slug);
+    assert.equal(pickup.searchParams.get('quantity'), '1');
+    assert.ok(thai.getElementById('thai-delivery'));
     assert.equal(diffuserProductLocale(path, '?lang=th')?.option.market, 'TH');
     assert.equal(diffuserProductLocale(path, '?market=SG&lang=th'), undefined);
   }

@@ -60,7 +60,7 @@ export async function seoRoute(req, res) {
   const showOrderTerms = Boolean(live && checkoutLive) && (indexedLang !== 'th' || !requestedMarket || requestedMarket === 'TH');
   const localized = indexedLang !== 'en' && LOCALIZED_PAGES.includes(kind);
   const page = localized
-    ? buildLocalizedSeoPage(kind, indexedLang, { slug, products, showOrderTerms })
+    ? buildLocalizedSeoPage(kind, indexedLang, { slug, products, showOrderTerms, market: requestedMarket })
     : buildSeoPage(kind, { slug, policy: q(req, 'seoPolicy'), language: lang, guidePath, products, showOrderTerms });
   // A product or policy that does not exist answers 404 (the app still draws its own not-found page). Products added in the admin
   // exist only in the database, so a product slug is called unknown only when the database was read and does not list it.

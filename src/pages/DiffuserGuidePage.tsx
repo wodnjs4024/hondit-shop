@@ -3,6 +3,7 @@ import { V23Page } from "../components/v23/SiteChrome";
 import { diffuserGuide } from "../../shared/diffuser-guide.js";
 import { diffuserGuideMarket } from "../../shared/diffuser-search-routes.js";
 import { NotFoundPage } from "./NotFoundPage";
+import { ThaiDiffuserActions } from "../components/ThaiDiffuserActions";
 
 export function DiffuserGuidePage() {
   const option = diffuserGuideMarket(useLocation().pathname);
@@ -14,8 +15,9 @@ export function DiffuserGuidePage() {
         <header className="diffuser-guide__intro">
           <h1>{content.title}</h1>
           <p>{content.description}</p>
+          {option.market === "TH" && <ThaiDiffuserActions />}
         </header>
-        <section className="diffuser-guide__comparison" aria-labelledby="diffuser-guide-comparison">
+        <section id="compare-diffusers" className="diffuser-guide__comparison" aria-labelledby="diffuser-guide-comparison">
           <h2 id="diffuser-guide-comparison">{content.compare}</h2>
           <div className="diffuser-guide__models">
             {content.products.map((product) => (

@@ -24,6 +24,7 @@ import { catalogCopy } from "../data/catalogCopy";
 import { productDescription as describeProduct, productGallery, productList, productMainImage, productName as nameOf, productPriceLabel } from "../lib/productText";
 import { salesPresentationCopy } from "../data/salesPresentationCopy";
 import { diffuserGuide, diffuserLocalizedMeta } from "../../shared/diffuser-guide.js";
+import { ThaiDiffuserActions } from "../components/ThaiDiffuserActions";
 import { diffuserMarket, diffuserProductLocale } from "../../shared/diffuser-search-routes.js";
 import { NotFoundPage } from "./NotFoundPage";
 import { productPhotoRoot, productPhotos } from "../data/productPhotos";
@@ -131,7 +132,10 @@ export function ProductDetailPage() {
             <h1>{productName}</h1>
             <p className="hd-pdp__lead">{productDescription}</p>
             <p className="hd-pdp__price"><strong>{productPriceLabel(product, market, language)}</strong>{productFacts(product.slug)&&<small>{marketText(language,"General order unit price (20+)")}</small>}</p>
-            <QuantityReview key={product.slug} product={product} purpose={new URLSearchParams(window.location.search).get("purpose")??"unspecified"}/>
+            {guideOption?.market === "TH" && market.code === "TH" && <ThaiDiffuserActions slug={product.slug} />}
+            <div id="thai-delivery">
+              <QuantityReview key={product.slug} product={product} purpose={new URLSearchParams(window.location.search).get("purpose")??"unspecified"}/>
+            </div>
             <details className="pdp-conditions">
               <summary>{orderPanelCopy(language).conditions}</summary>
               <ProductSalesSummary product={product} showContact={false}/>

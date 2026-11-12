@@ -9,7 +9,7 @@ import { INFO_PAGES, SITE_FACTS, infoPageFor } from '../shared/info-content.js';
 import { pickupRequestTotal } from '../shared/contact-copy.js';
 import { salesPresentationCopy } from '../shared/sales-presentation-copy.js';
 import { PICKUP_IMAGE, pickupAlternates, pickupSearchLanguage, pickupSearchMeta, pickupSearchPath } from '../shared/pickup-search.js';
-import { diffuserCare as CARE, diffuserGuide, diffuserSpecs as diffuserFacts } from '../shared/diffuser-guide.js';
+import { diffuserCare as CARE, diffuserGuide, diffuserSpecs as diffuserFacts, thaiDiffuserActions } from '../shared/diffuser-guide.js';
 import { diffuserGuideAlternates, diffuserGuideMarket, diffuserMarkets } from '../shared/diffuser-search-routes.js';
 import { LOCALES, SEO_LANGUAGES, HREFLANGS, HTML_LANG, LOCALIZED_PAGES, seoLanguagesFor } from '../shared/seo-locales.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
@@ -105,6 +105,11 @@ const productImage = (product, name = product.name) =>
 const breadcrumb = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: SITE + path })) });
 const hrefAlternates = (alternates) => alternates.map(({ hreflang, path }) => ({ hreflang, href: SITE + path }));
 
+function renderThaiActions(slug) {
+  const actions = thaiDiffuserActions(slug);
+  return `<div class="thai-diffuser-actions"><a class="button button--primary" href="${esc(actions.deliveryPath)}">${esc(actions.deliveryLabel)}</a><a class="button button--outline-dark" href="${esc(actions.pickupPath)}">${esc(actions.pickupLabel)}</a></div>`;
+}
+
 function comparisonPage(option) {
   const data = diffuserGuide(option);
   const models = data.products.map((item) => `<article><img src="${esc(item.image)}" alt="${esc(item.name)}" width="880" height="1100" decoding="async"><h3>${esc(item.name)}</h3><p>${esc(item.useCase)}</p><dl><div><dt>${esc(data.specs)}</dt><dd>${esc(item.dimensions)}</dd></div><div><dt>${esc(data.included)}</dt><dd>${esc(data.oil)}</dd></div></dl><p class="diffuser-guide__links"><a href="${esc(item.detailsPath)}">${esc(data.details)}</a><a href="${esc(item.orderPath)}">${esc(data.order)}</a><a href="${esc(item.source)}">${esc(data.source)}</a></p></article>`).join('');
@@ -120,8 +125,8 @@ function comparisonPage(option) {
       inLanguage: option.lang,
       mainEntity: { '@type': 'ItemList', itemListElement: data.products.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, url: SITE + item.detailsPath })) },
     }],
-    html: wrap(`<header class="diffuser-guide__intro"><h1>${esc(data.title)}</h1><p>${esc(data.description)}</p></header>`
-      + `<section class="diffuser-guide__comparison"><h2>${esc(data.compare)}</h2><div class="diffuser-guide__models">${models}</div><p>${esc(data.maker)}</p></section>`
+    html: wrap(`<header class="diffuser-guide__intro"><h1>${esc(data.title)}</h1><p>${esc(data.description)}</p>${option.market === 'TH' ? renderThaiActions() : ''}</header>`
+      + `<section id="compare-diffusers" class="diffuser-guide__comparison"><h2>${esc(data.compare)}</h2><div class="diffuser-guide__models">${models}</div><p>${esc(data.maker)}</p></section>`
       + `<div class="diffuser-guide__answers">${answers}</div><nav class="diffuser-guide__markets" aria-label="${esc(data.other)}">${other}</nav>`, 'diffuser-guide'),
   };
 }
@@ -287,7 +292,7 @@ const hrefIn = (href, lang) => {
   return localized ? `${pathname}?lang=${lang}` : href;
 };
 
-export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], showOrderTerms = true } = {}) {
+export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], showOrderTerms = true, market = '' } = {}) {
   const L = LOCALES[lang];
   if (!L || !LOCALIZED_PAGES.includes(path) || !seoLanguagesFor(seoPath(path, slug)).includes(lang)) return { status: 404 };
   const list = products;
@@ -348,13 +353,13 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
     const schema = productOverviewSchema(product, { url: seoUrl(`/products/${product.slug}`, lang), name: lp.name, description: lp.body, language: HTML_LANG[lang] });
     return page(`/products/${product.slug}`, { image: abs(product.image), title: lp.title, description: lp.description,
       jsonLd: [schema, breadcrumbL([[L.nav['/'], '/'], [L.nav['/products'], '/products'], [lp.name, `/products/${product.slug}`]])],
-      html: wrapL(`<nav aria-label="Breadcrumb">${a('/products', L.label.products)} / ${esc(lp.name)}</nav><h1>${esc(lp.name)}</h1><p>${esc(lp.body)}</p>${productImage(product, lp.name)}`
+      html: wrapL(`<nav aria-label="Breadcrumb">${a('/products', L.label.products)} / ${esc(lp.name)}</nav><h1>${esc(lp.name)}</h1><p>${esc(lp.body)}</p>${lang === 'th' && (!market || market === 'TH') ? renderThaiActions(product.slug) : ''}${productImage(product, lp.name)}`
         + (f && lf ? `<ul><li>${esc(L.label.content)}${sep}${esc(lf.content)}</li><li>${esc(L.label.container)}${sep}${esc(lf.container)}</li><li>${esc(L.label.size)}${sep}${esc(f.dimensions)}</li><li>${esc(L.label.oil)}${sep}${esc(lf.oil)}</li></ul><p>${esc(L.label.maker)}${sep}<a href="${esc(f.source)}">StoneJeju</a>${stop}${esc(L.label.seller)}${sep}HONDIT${stop.trim()}</p>` : product.category === 'CARE' ? `<p>${esc(L.label.careBrand)}</p>` : '')
         + `<section><h2>${esc(L.label.highlights)}</h2><ul>${lp.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>${esc(L.label.howTo)}</h2><p>${esc(L.label.followLabel)}</p><ol>${lp.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
         + `<section><h2>${esc(L.label.goodFor)}</h2><p>${esc(lp.goodFor)}</p></section>`
         + (f ? `<section><h2>${esc(L.label.care)}</h2><ul>${L.care.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></section>` : '')
-        + `<section><h2>${esc(L.label.terms)}</h2>${termsL(rows, product.slug)}${rows.length ? '<p>' + esc(L.termsNote) + '</p>' : ''}</section>`
+        + `<section${lang === 'th' ? ' id="thai-delivery"' : ''}><h2>${esc(L.label.terms)}</h2>${termsL(rows, product.slug)}${rows.length ? '<p>' + esc(L.termsNote) + '</p>' : ''}</section>`
         + (f ? related : '')
         + `<p>${a(`/bulk-orders/${product.slug}`, L.label.chooseQty)} · ${a('/policy/refund', L.label.refund)} · ${a('/shipping', L.label.shipping)} · ${a('/contact', L.label.ask)}</p>`) });
   }

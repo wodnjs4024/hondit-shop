@@ -13,6 +13,20 @@ export const diffuserCare = [
   'Rinse the stone in warm water and dry completely before changing the fragrance.',
 ];
 
+export function thaiDiffuserActions(slug) {
+  const pickup = new URLSearchParams({ market: 'TH', lang: 'th' });
+  if (slug) {
+    pickup.set('product', slug);
+    pickup.set('quantity', '1');
+  }
+  return {
+    deliveryLabel: 'สั่งซื้อแบบชุด ส่งถึงไทย',
+    deliveryPath: slug ? '#thai-delivery' : '#compare-diffusers',
+    pickupLabel: 'สอบถามรับสินค้าที่สนามบินเชจู',
+    pickupPath: '/jeju/pickup?' + pickup,
+  };
+}
+
 const copy = {
   SG: {
     title: 'Jeju volcanic stone diffusers in Singapore',
