@@ -228,3 +228,94 @@ html:lang(ko) body.hd-site { word-break: keep-all; overflow-wrap: break-word; }
 body.hd-site main:not(.hd-home) .v23-page-hero h1 { white-space: pre-line; text-wrap: wrap; }
 body.hd-site main.product-guide-page > .product-guide-share { padding: 0 18px; border: 1px solid var(--hd-ink); background: transparent; color: var(--hd-ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
 body.hd-site .order-qty-field > small { display: block; margin-top: 8px; font-size: 14px; color: var(--hd-muted); }
+
+/* ---- Product tile: name / spec / buy / alternatives as separate blocks ---- */
+body.hd-site .hd-tile { background: transparent; }
+body.hd-site .tile-info { display: flex; flex-direction: column; flex: 1; border: 1px solid var(--hd-line-strong); border-top: 0; background: #fff; }
+body.hd-site .tile-info__head { padding: 18px 20px 16px; }
+body.hd-site .tile-info__head h3 { font-family: var(--hd-text); font-size: 18px; font-weight: 650; line-height: 1.35; letter-spacing: -0.02em; margin: 0; }
+body.hd-site .tile-info__head h3 a { text-decoration: none; color: var(--hd-ink); }
+body.hd-site .tile-info__desc { margin: 6px 0 0 !important; font-size: 14px; line-height: 1.5; color: var(--hd-muted); min-height: 3em; }
+body.hd-site .tile-info__spec { margin: 0; border-top: 1px solid var(--hd-line); background: var(--hd-ground, #f4f5f3); }
+body.hd-site .tile-info__spec > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 20px; }
+body.hd-site .tile-info__spec > div + div { border-top: 1px solid var(--hd-line); }
+body.hd-site .tile-info__spec dt { font-size: 13px; color: var(--hd-muted); }
+body.hd-site .tile-info__spec dd { margin: 0; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+body.hd-site .tile-info__spec .tile-info__price { font-size: 18px; font-weight: 700; }
+body.hd-site .tile-info__buy { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 16px 20px 0; }
+body.hd-site .tile-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 16px; font-size: 14px; font-weight: 600; text-decoration: none; border: 1px solid var(--bs-basalt, #1a1c1d); white-space: nowrap; }
+body.hd-site .tile-btn--solid { background: var(--bs-basalt, #1a1c1d); color: #fff; }
+body.hd-site .tile-btn--solid:hover { background: #000; }
+body.hd-site .tile-btn--line { background: transparent; color: var(--hd-ink); }
+body.hd-site .tile-btn--line:hover { background: var(--hd-tile); }
+body.hd-site .tile-info__alt { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 20px 18px; margin-top: auto; }
+body.hd-site .tile-info__alt:has(> :only-child) { grid-template-columns: 1fr; }
+body.hd-site .tile-alt { display: grid; gap: 2px; padding: 9px 12px; border: 1px solid var(--hd-line-strong); color: var(--hd-ink); font-size: 14px; font-weight: 600; text-decoration: none; line-height: 1.35; }
+body.hd-site .tile-alt small { font-size: 12.5px; font-weight: 400; color: var(--hd-muted); }
+body.hd-site .tile-alt:hover { background: var(--hd-tile); }
+body.hd-site .tile-info__buy { padding-bottom: 12px; }
+body.hd-site .tile-info:not(:has(.tile-info__alt)) .tile-info__buy { padding-bottom: 18px; }
+@media (max-width: 639px) {
+  body.hd-site .tile-info__head, body.hd-site .tile-info__spec > div, body.hd-site .tile-info__buy { padding-left: 14px; padding-right: 14px; }
+  body.hd-site .tile-info__alt { padding: 10px 14px 14px; grid-template-columns: 1fr; }
+  body.hd-site .tile-info__buy { grid-template-columns: 1fr; }
+  body.hd-site .tile-info__head h3 { font-size: 16px; }
+  body.hd-site .tile-info__spec .tile-info__price { font-size: 16px; }
+}
+
+/* ---- Partner tools: a visible, structured calculator instead of a hidden fold ---- */
+body.hd-site main.partner-discovery .partner-tools { max-width: none !important; margin: var(--section-gap) 0 0 !important; padding: 72px var(--hd-gutter) !important; border: 0 !important; border-radius: 0 !important; background: var(--hd-tile) !important; box-shadow: 0 0 0 100vmax var(--hd-tile) !important; clip-path: inset(0 -100vmax); }
+.partner-tools__head { display: grid; gap: 10px; max-width: 760px; margin-bottom: 36px; }
+.partner-tools__tag { justify-self: start; padding: 4px 10px; background: var(--bs-basalt, #1a1c1d); color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; }
+.partner-tools__head h2 { margin: 0; font-size: clamp(28px, 3vw, 40px); font-weight: 650; letter-spacing: -0.03em; }
+.partner-tools__head p { margin: 0; font-size: 16px; color: var(--hd-muted); }
+body.hd-site .partner-tools .business-planner { margin: 0 !important; padding: 0 !important; border: 0 !important; background: transparent !important; }
+body.hd-site .partner-tools .planner-head { display: none; }
+body.hd-site .partner-tools .planner-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; align-items: start; }
+body.hd-site .partner-tools .planner-inputs { display: grid; gap: 16px; }
+body.hd-site .partner-tools .planner-step { margin: 0; padding: 24px 28px 28px; border: 1px solid var(--hd-line-strong); background: #fff; min-width: 0; }
+body.hd-site .partner-tools .planner-step legend { display: flex; align-items: center; gap: 12px; padding: 0 8px; margin-left: -8px; font-size: 17px; font-weight: 650; }
+body.hd-site .partner-tools .planner-step legend b { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--bs-basalt, #1a1c1d); color: #fff; font-size: 14px; font-weight: 600; }
+body.hd-site .partner-tools .planner-step .business-planner__fields { margin-top: 8px; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+body.hd-site .partner-tools .planner-step .business-planner__fields > label:nth-child(3) { grid-column: 1 / -1; }
+body.hd-site .partner-tools .planner-step .business-planner__fields > .diffuser-quantity { grid-column: 1 / -1; }
+body.hd-site .partner-tools .planner-step label { font-size: 14px; font-weight: 600; color: var(--hd-ink); }
+body.hd-site .partner-tools .planner-result { position: sticky; top: 96px; display: grid; gap: 0; background: var(--bs-basalt, #1a1c1d); color: #fff; padding: 28px; }
+body.hd-site .partner-tools .planner-result :is(h3, p, dt, dd, output, small, b, span, a) { color: inherit; }
+body.hd-site .partner-tools .planner-result .product-sales-summary { background: transparent !important; border: 0 !important; padding: 0 0 20px !important; margin: 0 !important; border-bottom: 1px solid rgba(255,255,255,0.22) !important; }
+body.hd-site .partner-tools .planner-result .product-sales-summary :is(dt, span, small) { color: rgba(255,255,255,0.7) !important; }
+body.hd-site .partner-tools .planner-result .product-sales-summary :is(dd, b) { color: #fff !important; }
+body.hd-site .partner-tools .planner-result .planner-summary { background: transparent !important; border: 0 !important; padding: 20px 0 0 !important; margin: 0 !important; }
+body.hd-site .partner-tools .planner-result .planner-summary h3 { font-size: 14px; font-weight: 600; opacity: 0.7; margin: 0 0 6px; }
+body.hd-site .partner-tools .planner-result .planner-summary output { display: block; font-size: 44px; font-weight: 700; letter-spacing: -0.03em; margin: 8px 0 12px; color: #fff; }
+body.hd-site .partner-tools .planner-result .route-status { display: inline-block; padding: 3px 10px; border: 1px solid rgba(255,255,255,0.5); font-size: 13px; font-weight: 600; margin: 0 0 14px; }
+body.hd-site .partner-tools .planner-result a { color: #fff; }
+body.hd-site .partner-tools .planner-result .planner-summary p:not(.route-status) { font-size: 14px; line-height: 1.6; opacity: 0.85; }
+body.hd-site .partner-tools .planner-result :is(a.button, button, .button) { background: #fff !important; color: var(--bs-basalt, #1a1c1d) !important; border-color: #fff !important; }
+body.hd-site .partner-tools .business-planner > section:not(.planner-summary) { margin-top: 16px; padding: 24px 28px; background: #fff; border: 1px solid var(--hd-line-strong); }
+@media (max-width: 960px) {
+  body.hd-site .partner-tools .planner-layout { grid-template-columns: 1fr; }
+  body.hd-site .partner-tools .planner-result { position: static; }
+}
+@media (max-width: 639px) {
+  body.hd-site main.partner-discovery .partner-tools { padding: 48px var(--hd-gutter) !important; }
+  body.hd-site .partner-tools .planner-step { padding: 20px 16px 22px; }
+  body.hd-site .partner-tools .planner-step .business-planner__fields { grid-template-columns: 1fr; }
+  body.hd-site .partner-tools .planner-result { padding: 22px 18px; }
+}
+body.hd-site .partner-tools .planner-result * { color: inherit; }
+body.hd-site .partner-tools .planner-result .product-sales-summary dt { opacity: 0.75; }
+body.hd-site .partner-tools .planner-result .product-sales-summary__heading b { color: #fff !important; }
+body.hd-site .partner-tools .planner-result .product-sales-summary__notes { font-size: 14px; line-height: 1.7; margin-top: 12px; }
+body.hd-site .partner-tools .planner-result .product-sales-summary__notes a { text-decoration: underline; text-underline-offset: 3px; }
+body.hd-site .partner-tools .planner-result > .planner-result__actions { display: grid; gap: 10px; margin-top: 22px; }
+body.hd-site .partner-tools .planner-result__actions .button { display: flex; align-items: center; justify-content: center; min-height: 50px; width: 100%; font-weight: 650; }
+body.hd-site .partner-tools .planner-result__actions .button--primary { background: #fff !important; color: var(--bs-basalt, #1a1c1d) !important; border: 1px solid #fff !important; }
+body.hd-site .partner-tools .planner-result__actions .button--ghost { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.5) !important; }
+body.hd-site .partner-tools .planner-result .route-status { background: transparent; }
+body.hd-site .partner-tools .planner-summary-actions { display: contents; }
+/* Inquiry block under the calculator: clear heading, readable message box */
+body.hd-site .partner-tools .consultation-panel, body.hd-site .partner-tools .business-planner > .consultation-panel { margin-top: 32px; padding: 28px; background: #fff; border: 1px solid var(--hd-line-strong); }
+body.hd-site .partner-tools .consultation-panel pre, body.hd-site .partner-tools .consultation-panel .request-preview { max-height: 220px; overflow: auto; font-size: 14px; line-height: 1.7; }
+body.hd-site .partner-tools .planner-result .planner-summary .route-status { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.55) !important; }
+body.hd-site .partner-tools .planner-result .planner-result__actions .button.button--ghost { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.55) !important; }

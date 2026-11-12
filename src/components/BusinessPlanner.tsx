@@ -114,10 +114,13 @@ export function BusinessPlanner() {
       id="partner-consultation"
       className="business-planner sales-tools-section"
     >
-      <header>
+      <header className="planner-head">
         <h2>{t("Plan your introduction")}</h2>
         <p>{t("Review only — not a confirmed quotation or purchase order.")}</p>
       </header>
+      <div className="planner-layout">
+      <div className="planner-inputs">
+      <fieldset className="planner-step"><legend><b>1</b>{t("Choose purpose, market and product")}</legend>
       <div className="business-planner__fields">
         <label>
           {t("Purpose")}
@@ -165,6 +168,10 @@ export function BusinessPlanner() {
             ))}
           </select>
         </label>
+      </div>
+      </fieldset>
+      <fieldset className="planner-step"><legend><b>2</b>{t("Choose quantity")}</legend>
+      <div className="business-planner__fields">
         {isDiffuser(product)?<DiffuserQuantitySelector value={quantity} onChange={setQuantity}/>:<label>
           {t("Order quantity")}
           <input
@@ -177,7 +184,10 @@ export function BusinessPlanner() {
           />
         </label>}
       </div>
-      {purpose!=="Resale" && <div className="business-planner__fields"><label>{t("Placement / requirements")}<textarea maxLength={1000} value={requirements} onChange={e=>setRequirements(e.target.value)}/></label>{["Gifts","Group purchase"].includes(purpose)&&<label>{t("Preferred timing")}<input type="date" value={timing} onChange={e=>setTiming(e.target.value)}/></label>}</div>}
+      </fieldset>
+      {purpose!=="Resale" && <fieldset className="planner-step"><legend><b>3</b>{t("Add notes (optional)")}</legend><div className="business-planner__fields"><label>{t("Placement / requirements")}<textarea maxLength={1000} value={requirements} onChange={e=>setRequirements(e.target.value)}/></label>{["Gifts","Group purchase"].includes(purpose)&&<label>{t("Preferred timing")}<input type="date" value={timing} onChange={e=>setTiming(e.target.value)}/></label>}</div></fieldset>}
+      </div>
+      <aside className="planner-result">
       {approved ? <ProductSalesSummary product={product} quantity={quantity}/> : <p role="status">{t("Approved terms unavailable for this selection. Contact us to confirm.")}</p>}
       <section className="planner-summary" aria-live="polite">
         <p className="route-status">{t(route==='direct'?'Direct order candidate':route==='confirmation'?'Confirmation required':'Consultation required')}</p>
@@ -202,6 +212,12 @@ export function BusinessPlanner() {
           )}
         </p>
       </section>
+<div className="planner-result__actions">
+      {approved&&route==='direct'&&<Link className="button button--primary" to={selectionUrl('/bulk-orders/'+product.slug,{slug:product.slug,quantity,market:market.code,language,reason:'partner',purpose:purpose==='Resale'?'resale':purpose==='Display / space'?'business_use':purpose==='Group purchase'?'group_purchase':'personal_gift'})}>{t('Continue to delivery and PayPal ->')}</Link>}
+      <div className="planner-summary-actions"><button type="button" className="button button--ghost" onClick={()=>{document.body.dataset.printReview='1';try{window.print()}finally{delete document.body.dataset.printReview}}}>{t("Print / save as PDF")}</button></div>
+</div>
+      </aside>
+      </div>
       {!allocation && (
         <p role="alert">
           {t("Quantity must be a whole number from 1 to 9999.")}
@@ -372,8 +388,6 @@ export function BusinessPlanner() {
       </section>
 </>}
       <article className="introduction-print"><h3>{t('Introduction summary')}</h3><pre>{summary}</pre></article>
-      {approved&&route==='direct'&&<Link className="button button--primary" to={selectionUrl('/bulk-orders/'+product.slug,{slug:product.slug,quantity,market:market.code,language,reason:'partner',purpose:purpose==='Resale'?'resale':purpose==='Display / space'?'business_use':purpose==='Group purchase'?'group_purchase':'personal_gift'})}>{t('Continue to delivery and PayPal ->')}</Link>}
-      <div className="planner-summary-actions"><button type="button" className="button button--ghost" onClick={()=>{document.body.dataset.printReview='1';try{window.print()}finally{delete document.body.dataset.printReview}}}>{t("Print / save as PDF")}</button></div>
       {allocation && saleDecision.status!=='unavailable' && (
         <ConsultationPanel
           key={`${product.slug}-${market.code}`}

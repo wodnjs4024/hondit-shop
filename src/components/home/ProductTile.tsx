@@ -25,19 +25,23 @@ export function ProductTile({ product, query }: { product: StorefrontProduct; qu
         <img src={productMainImage(product)} alt="" width={880} height={1100} loading="lazy" decoding="async" sizes="(max-width: 639px) 70vw, 22vw" />
         {outOfStock && <span className="hd-tile__badge">{marketText(language, "OUT OF STOCK", "OUT OF STOCK")}</span>}
       </Link>
-      <div className="hd-tile__body">
-        <h3><Link to={detail}>{name}</Link></h3>
-        <p className="hd-tile__price"><span>{productPriceLabel(product, market, language)}</span></p>
-        <p className="hd-tile__desc">{productDetail(product, language)}</p>
-        <p className="hd-tile__terms">{product.quoteOnly ? catalogCopy(language).quoteTitle : marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)} · {marketText(language, "Minimum")} {product.bulkMoq}{language === "ko" ? "" : " "}{marketText(language, "units")}</p>
-        <div className="hd-tile__links">
-          <p className="hd-tile__primary">
-            <Link className="hd-textlink hd-textlink--order" to={selectionUrl("/bulk-orders",input)}>{marketText(language, "Overseas bundle orders")} →</Link>
-            <Link className="hd-textlink" to={detail}>{marketText(language, "View details", "View details")}</Link>
-          </p>
-          {market.hasShopee && product.shopee && <a className="hd-textlink hd-tile__retail" href={product.shopee} target="_blank" rel="noreferrer">{marketText(language, "Buy on Shopee")} ↗</a>}
-          {pickupSize&&<Link className="hd-textlink hd-tile__pickup" to={selectionUrl("/jeju/pickup",{...input,quantity:1,fulfillment:"jeju_pickup"})}>{salesPresentationCopy(language).pickupNav} · {`KRW\u00a0${pickupRequestTotal(1,pickupSize).toLocaleString('en-US')}\u00a0→`}</Link>}
+      <div className="tile-info">
+        <div className="tile-info__head">
+          <h3><Link to={detail}>{name}</Link></h3>
+          <p className="tile-info__desc">{productDetail(product, language)}</p>
         </div>
+        <dl className="tile-info__spec">
+          <div><dt>{product.quoteOnly ? catalogCopy(language).quoteTitle : marketText(language, `${market.currency} BULK UNIT PRICE`, `${market.currency} BULK UNIT PRICE`)}</dt><dd className="tile-info__price">{productPriceLabel(product, market, language)}</dd></div>
+          <div><dt>{marketText(language, "Minimum")}</dt><dd>{product.bulkMoq}{language === "ko" ? "" : " "}{marketText(language, "units")}</dd></div>
+        </dl>
+        <div className="tile-info__buy">
+          <Link className="tile-btn tile-btn--solid" to={selectionUrl("/bulk-orders",input)}>{marketText(language, "Overseas bundle orders")} →</Link>
+          <Link className="tile-btn tile-btn--line" to={detail}>{marketText(language, "View details", "View details")}</Link>
+        </div>
+        {((market.hasShopee && product.shopee) || pickupSize) && <div className="tile-info__alt">
+          {market.hasShopee && product.shopee && <a className="tile-alt" href={product.shopee} target="_blank" rel="noreferrer"><small>{marketText(language, "Retail")}</small>{marketText(language, "Buy on Shopee")} ↗</a>}
+          {pickupSize&&<Link className="tile-alt" to={selectionUrl("/jeju/pickup",{...input,quantity:1,fulfillment:"jeju_pickup"})}><small>{salesPresentationCopy(language).pickupNav}</small>{`KRW\u00a0${pickupRequestTotal(1,pickupSize).toLocaleString('en-US')}`} →</Link>}
+        </div>}
       </div>
     </article>
   </li>;
