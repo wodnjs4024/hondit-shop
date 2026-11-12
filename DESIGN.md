@@ -1,7 +1,7 @@
 ---
 name: HONDIT storefront design direction
 version: "3.0"
-updated: "2026-10-15"
+updated: "2026-11-12"
 primary_reference: "https://nonfiction.com/"
 secondary_reference: "https://www.aesop.com/"
 scope: "HOME first; expand after explicit visual approval"
@@ -217,3 +217,20 @@ StoneJeju 영상의 존재감을 높이되 HONDIT이 500g 단일 상품 공식�
 - **상자 대신 면**: 가격 요약·합계·결제 확인은 테두리 상자가 아니라 한 단계 어두운 바탕(#f1efea)으로 구분한다. 표의 행 구분선과 입력칸 테두리는 유지한다.
 - **구매 화면은 상품 옆에서**: 상품 상세·해외 묶음 주문·주문서 모두 왼쪽에 실제 상품 사진, 오른쪽에 가격·수량·입력을 둔다. 모바일은 사진 → 정보 순서.
 - **상품 상세 사진**: 기본 사진 아래에 `01_product_originals`의 실제 사진만 추가한다. 생성형 보조 이미지(`02_brand_lifestyle`)는 쓰지 않는다.
+
+## 15. 색과 서체: 현무암과 송이석 (2026-11-12)
+
+JW가 미색 배경 + 짙은 숲 초록 + Cormorant 조합을 "AI가 기본으로 쓰는 색"이라고 판단해 교체했다. 색은 제품 실물에서 가져온다. 350g은 검은 현무암, 500g은 붉은 송이석이고, 제주 땅도 이 두 돌로 되어 있다.
+
+| 역할 | 값 | 쓰는 곳 |
+| --- | --- | --- |
+| 바탕 (mineral) | `#f4f5f3` | 페이지 바탕. 누런기 없는 돌가루 흰색 |
+| 면 (dust) | `#e6e8e5` | 비교표 띠, 표 머리 |
+| 현무암 (basalt) | `#1a1c1d` | 글자, 어두운 띠, 푸터, 기본 버튼 |
+| 보조 글자 | `#585e61` | 조건·메타 정보 |
+| 송이석 (scoria) | `#9f3b24` | 주문 행동(해외 묶음 주문 버튼·링크), 홈 "사용 방법" 띠 전체, 로고 점, 텍스트 선택 |
+
+- 초록과 크림/베이지 계열은 다시 쓰지 않는다. 송이석 빨강은 흩뿌리지 않고 주문 행동과 한 개의 면에만 쓴다.
+- 서체: 모든 언어의 본문·제목은 Pretendard(한글과 라틴이 한 목소리). Cormorant Garamond는 "hondit." 워드마크에만 남긴다.
+- 섹션 제목은 `--hd-size-section` (clamp 30–48px, 굵기 650, 자간 -0.025em) 하나로 통일.
+- 토큰과 규칙: `src/styles/basalt.css`(색·제목), `src/styles/readability.css`(폰트 로딩, 14px 하한, 모바일 비교표). 둘 다 `main.tsx` 맨 끝에서 불러온다.

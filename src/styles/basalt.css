@@ -1,0 +1,97 @@
+/* =========================================================
+ * Basalt & scoria (2026-11-12)
+ * Jeju is black basalt and red scoria (송이석). The two diffusers are
+ * literally those two stones. The site takes its colour from them
+ * instead of the cream + forest green it had:
+ *   mineral white ground, basalt ink and dark fields,
+ *   scoria red for the order action and one full band (how to use).
+ * Type: Pretendard for every script (Korean and Latin share one voice);
+ * Cormorant stays only in the "hondit." wordmark.
+ * Imported last in main.tsx.
+ * ========================================================= */
+:root {
+  --bs-ground: #f4f5f3;
+  --bs-raised: #fafaf9;
+  --bs-dust: #e6e8e5;
+  --bs-basalt: #1a1c1d;
+  --bs-basalt-2: #2a2d2e;
+  --bs-muted: #585e61;
+  --bs-scoria: #9f3b24;
+  --bs-scoria-deep: #7e2c19;
+  --bs-on-dark: #f6f4f2;
+  --bs-on-dark-soft: rgba(246, 244, 242, 0.76);
+
+  --hd-paper: var(--bs-ground);
+  --hd-tile: var(--bs-dust);
+  --hd-ink: var(--bs-basalt);
+  --hd-muted: var(--bs-muted);
+  --hd-line: rgba(26, 28, 29, 0.13);
+  --hd-line-strong: rgba(26, 28, 29, 0.42);
+  --hd-brand: var(--bs-basalt);
+  --hd-brand-hover: #000000;
+  --hd-film: #111314;
+  --v4-forest: var(--bs-basalt);
+  --v4-stone: var(--bs-dust);
+  --v4-on-forest: var(--bs-on-dark);
+  --v4-on-forest-soft: var(--bs-on-dark-soft);
+  --v23-orange: var(--bs-scoria);
+  --dk-bg: var(--bs-basalt);
+  --dk-ink: var(--bs-on-dark);
+  --dk-soft: var(--bs-on-dark-soft);
+  --dk-rule: rgba(246, 244, 242, 0.2);
+  --hd-sans: "Pretendard Variable", Pretendard, Inter, "Helvetica Neue", Arial, sans-serif;
+}
+html { accent-color: var(--bs-scoria); }
+body { background: var(--bs-ground); }
+::selection { background: var(--bs-scoria); color: #fff; }
+
+/* One voice for display type in every language; the serif is kept for the wordmark only */
+:lang(en) :is(.hd-home, .hd-page, .hd-footer), :lang(ms) :is(.hd-home, .hd-page, .hd-footer) { --hd-display: var(--hd-sans); }
+:is(.hd-home, .hd-page) :is(h1, h2) { font-weight: 650; letter-spacing: -0.025em; }
+.hd-hero h1 { font-weight: 700; letter-spacing: -0.035em; line-height: 1.12; }
+
+/* Section titles: bigger and heavier, so each section starts with a clear statement */
+:root { --hd-size-section: clamp(30px, 3.4vw, 48px); }
+@media (max-width: 639px) { :root { --hd-size-section: 28px; } }
+.hd-bar { border-bottom-color: var(--bs-basalt) !important; }
+
+/* Wordmark dot is a grain of scoria */
+.hd-header__brand span, .hd-footer__brand b span { color: var(--bs-scoria) !important; }
+
+/* The order action is the scoria colour everywhere on the home page */
+:is(.hd-home, .hd-page) .hd-btn--solid, .hd-mobile-bar .is-primary { background: var(--bs-scoria) !important; border-color: var(--bs-scoria) !important; color: #fff !important; }
+:is(.hd-home, .hd-page) .hd-btn--solid:hover, .hd-mobile-bar .is-primary:hover { background: var(--bs-scoria-deep) !important; border-color: var(--bs-scoria-deep) !important; }
+body.hd-site main.hd-home .hd-textlink--order { color: var(--bs-scoria) !important; text-decoration-color: currentColor !important; font-weight: 600; }
+
+/* How to use: a full scoria field, the one place colour owns a whole region */
+body.hd-site main.hd-home .hd-use {
+  background: var(--bs-scoria) !important; box-shadow: 0 0 0 100vmax var(--bs-scoria) !important; clip-path: inset(0 -100vmax) !important;
+  --dk-soft: rgba(255, 255, 255, 0.84); --dk-rule: rgba(255, 255, 255, 0.28);
+}
+body.hd-site main.hd-home .hd-use li::before {
+  font-size: clamp(28px, 2.6vw, 40px) !important; font-weight: 300 !important; color: rgba(255, 255, 255, 0.9) !important; line-height: 1 !important;
+}
+
+/* Diffuser comparison sits on basalt dust instead of a beige tile */
+.hd-home > .hd-sizes { background: var(--bs-dust); }
+
+/* The page closes on basalt: footer becomes a dark field with the wordmark */
+.hd-footer { background: var(--bs-basalt) !important; color: var(--bs-on-dark) !important; }
+.hd-footer :is(h2, a, b, strong) { color: var(--bs-on-dark) !important; }
+.hd-footer :is(p, small, .hd-footer__base, .hd-footer__base *) { color: var(--bs-on-dark-soft) !important; }
+.hd-footer__base { border-top-color: rgba(246, 244, 242, 0.2) !important; }
+.hd-footer :is(select, button) { color: var(--bs-on-dark) !important; border-color: rgba(246, 244, 242, 0.4) !important; background: transparent !important; }
+.hd-footer a:focus-visible { outline-color: var(--bs-on-dark) !important; }
+
+/* Secondary section titles follow the same scale */
+.hd-home > .discovery-section .discovery-heading h2 { font-size: var(--hd-size-section) !important; font-weight: 650 !important; letter-spacing: -0.025em; }
+body.hd-site main.hd-home .hd-use h3 { font-size: var(--hd-size-section) !important; font-weight: 650 !important; letter-spacing: -0.025em; }
+
+/* Contact channels: brand colour stays in the app mark only; the cards share one basalt top rule */
+body.hd-site .contact-channels .contact-channel { border-top-color: var(--bs-basalt) !important; }
+body.hd-site .contact-channel__qr figcaption { font-size: 13px; }
+
+/* Phone product cards: order terms sit under the description, before the links */
+@media (max-width: 639px) {
+  body.hd-site .hd-tile__body > .hd-tile__links { grid-row: 5 !important; }
+}

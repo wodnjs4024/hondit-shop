@@ -13,7 +13,7 @@ body.hd-site {
   --v23-paper: var(--hd-paper);
   --v23-sand: var(--hd-tile);
   --v23-blue: var(--hd-tile);
-  --v23-orange: #a4532f;
+  --v23-orange: #9f3b24;
   --v23-line: var(--hd-line);
   --v23-sans: var(--hd-sans), var(--hd-cjk, sans-serif);
   background: var(--hd-paper);
@@ -343,7 +343,7 @@ body.hd-site .v23-jeju-page .v23-soft-cta { max-width: 1600px; margin: 0 auto !i
  * Stage 2 (UI/UX Pro Max): buying journey, mobile and accessibility
  * ===================================================================== */
 /* Map stage numbers read at AA on both tab states. */
-body.hd-site .v23-map-tabs span { color: #a4532f; }
+body.hd-site .v23-map-tabs span { color: #9f3b24; }
 body.hd-site .v23-map-tabs button:not(.is-active) span { color: #f2c3a8; }
 
 /* Phone product detail: a square gallery so name and price arrive on the first screen. */
@@ -440,18 +440,18 @@ body.hd-site .checkout-flow .bulk-detail__volume { margin: 0 !important; }
 
 /* =====================================================================
  * Impeccable colorize: colour by role, drawn from Jeju's materials
- *   forest  #173d35  brand, primary action, the closing field of every page
- *   basalt  #161a17  ink
+ *   forest  #1a1c1d  brand, primary action, the closing field of every page
+ *   basalt  #1a1c1d  ink
  *   paper / stone tile  canvas and raised surfaces
- *   clay    #a4532f  the single accent (wordmark dot, "needs confirmation")
+ *   clay    #9f3b24  the single accent (wordmark dot, "needs confirmation")
  *   moss tint / clay tint / ember tint  state fields: ready / confirm / unavailable
  * ===================================================================== */
 :root {
-  --hd-forest: #173d35;
-  --hd-forest-ink: #fbfaf7;
+  --hd-forest: #1a1c1d;
+  --hd-forest-ink: #f4f5f3;
   --hd-forest-muted: #b9c9c1;
-  --hd-clay: #a4532f;
-  --hd-state-ready-bg: #e3ece6;   --hd-state-ready-fg: #134a3a;
+  --hd-clay: #9f3b24;
+  --hd-state-ready-bg: #e6e8e5;   --hd-state-ready-fg: #1a1c1d;
   --hd-state-confirm-bg: #f6e6db; --hd-state-confirm-fg: #7a3a1c;
   --hd-state-stop-bg: #f5e1df;    --hd-state-stop-fg: #8a1f1f;
 }
@@ -489,7 +489,7 @@ body.hd-site { caret-color: var(--hd-forest); }
  * ===================================================================== */
 body.hd-site .v23-jeju-page .v23-jeju-notes--band { max-width: none !important; padding: var(--section-gap) 0 0 !important; background: var(--hd-paper) !important; }
 body.hd-site .v23-jeju-notes--band > header { max-width: 1600px; margin: 0 auto 40px; padding: 0 var(--hd-gutter); }
-.material-band { display: flex; height: 72svh; min-height: 480px; background: #121612; }
+.material-band { display: flex; height: 72svh; min-height: 480px; background: #111314; }
 .material-band__panel { position: relative; flex-basis: 0; min-width: 0; margin: 0; overflow: hidden; cursor: pointer; transition: flex-grow 700ms cubic-bezier(0.2, 0, 0, 1); }
 .material-band__panel :is(img, video) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 60%; }
 .material-band__panel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10, 12, 10, 0.7) 0%, rgba(10, 12, 10, 0) 45%); pointer-events: none; }
@@ -497,14 +497,14 @@ body.hd-site .v23-jeju-notes--band > header { max-width: 1600px; margin: 0 auto 
 /* Stills drift slowly while their panel is active, so every panel can move. */
 @keyframes material-drift { from { transform: scale(1.04) translate3d(-1.5%, 0, 0); } to { transform: scale(1.12) translate3d(1.5%, -1%, 0); } }
 .material-band[data-moving="true"] .material-band__panel.is-active img { animation: material-drift 14s ease-in-out infinite alternate; }
-.material-band__panel figcaption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; margin: 0; padding: 0 24px 24px; display: grid; gap: 8px; color: #fbfaf7; }
+.material-band__panel figcaption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; margin: 0; padding: 0 24px 24px; display: grid; gap: 8px; color: #f4f5f3; }
 .material-band__select { justify-self: start; min-height: 44px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; text-align: left; }
 .material-band__select b { font-size: 20px; font-weight: 600; }
 .material-band__panel figcaption span { max-width: 38ch; font-size: 16px; line-height: 1.55; color: rgba(251, 250, 247, 0.92); opacity: 0; transform: translateY(8px); transition: opacity 400ms ease 150ms, transform 400ms cubic-bezier(0.2, 0, 0, 1) 150ms; }
 .material-band__panel.is-active figcaption span { opacity: 1; transform: none; }
-.material-band__toggle { position: absolute; top: 16px; right: 16px; z-index: 3; display: inline-grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 999px; background: rgba(18, 22, 18, 0.55); color: #fff; cursor: pointer; }
-.material-band__toggle:hover { background: rgba(18, 22, 18, 0.8); }
-.material-band :is(button):focus-visible { outline: 2px solid #fbfaf7; outline-offset: 3px; }
+.material-band__toggle { position: absolute; top: 16px; right: 16px; z-index: 3; display: inline-grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 999px; background: rgba(17, 19, 20, 0.55); color: #fff; cursor: pointer; }
+.material-band__toggle:hover { background: rgba(17, 19, 20, 0.8); }
+.material-band :is(button):focus-visible { outline: 2px solid #f4f5f3; outline-offset: 3px; }
 @media (max-width: 639px) {
   .material-band { display: grid; grid-template-columns: 64fr 36fr; grid-template-rows: 1fr 1fr; height: 84svh; min-height: 540px; }
   .material-band__panel:nth-child(3) { grid-column: 2; grid-row: 2; }

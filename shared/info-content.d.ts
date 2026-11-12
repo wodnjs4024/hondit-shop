@@ -3,4 +3,6 @@ export type InfoPageContent = { path: string; navLabel: string; title: string; d
 export const SITE_FACTS: { address: string; businessRegistration: string; email: string; phone: string; wechat: string; instagram: string; profiles: string[][]; makerPages: string[][] };
 export const ABOUT_PAGE: InfoPageContent;
 export const FAQ_PAGE: InfoPageContent;
+export const ABOUT_PAGE_KO: InfoPageContent;
+export const FAQ_PAGE_KO: InfoPageContent;
 export const INFO_PAGES: { about: InfoPageContent; faq: InfoPageContent };

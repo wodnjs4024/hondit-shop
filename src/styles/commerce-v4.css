@@ -1,17 +1,17 @@
 /*
  * Commerce v4 — a tonal ladder instead of a pile of cards.
- *   paper  #fbfaf7  reading
+ *   paper  #f4f5f3  reading
  *   white  #ffffff  input (fields, option tiles, the order tray core)
- *   stone  #ece8df  context (page heads, notes, policy)
- *   forest #173d35  decision — one per page: the total and the action that follows it
+ *   stone  #e2e4e1  context (page heads, notes, policy)
+ *   forest #1a1c1d  decision — one per page: the total and the action that follows it
  * Loaded last; brand type, square geometry and the home page are untouched.
  */
 body.hd-site {
-  --v4-stone: #ece8df;
-  --v4-forest: #173d35;
-  --v4-on-forest: #f4f1ea;
-  --v4-on-forest-soft: rgba(244, 241, 234, 0.78);
-  --v4-forest-rule: rgba(244, 241, 234, 0.18);
+  --v4-stone: #e2e4e1;
+  --v4-forest: #1a1c1d;
+  --v4-on-forest: #faf8f7;
+  --v4-on-forest-soft: rgba(250, 248, 247, 0.78);
+  --v4-forest-rule: rgba(250, 248, 247, 0.18);
   --v4-ok: #a8dcc0;
   --v4-wait: #f3c9aa;
   --v4-ease: cubic-bezier(0.32, 0.72, 0, 1);
@@ -119,14 +119,14 @@ body.hd-site .checkout-flow .checkout-notes > details > summary { min-height: 56
 @media (max-width: 767px) {
   .order-bar {
     position: fixed; inset: auto 0 0 0; z-index: 40; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px;
-    padding: 10px var(--hd-gutter, 16px) calc(10px + env(safe-area-inset-bottom)); background: var(--v4-forest, #173d35); color: var(--v4-on-forest, #f4f1ea);
+    padding: 10px var(--hd-gutter, 16px) calc(10px + env(safe-area-inset-bottom)); background: var(--v4-forest, #1a1c1d); color: var(--v4-on-forest, #faf8f7);
     transform: translateY(110%); visibility: hidden; transition: transform 420ms var(--v4-ease, ease), visibility 0s linear 420ms;
   }
   .order-bar.is-shown { transform: translateY(0); visibility: visible; transition: transform 420ms var(--v4-ease, ease), visibility 0s; }
   .order-bar__sum { display: grid; gap: 0; margin: 0; min-width: 0; }
-  .order-bar__sum span { font-size: 13px; color: var(--v4-on-forest-soft, rgba(244, 241, 234, 0.78)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .order-bar__sum span { font-size: 13px; color: var(--v4-on-forest-soft, rgba(250, 248, 247, 0.78)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .order-bar__sum strong { font-size: 22px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; }
-  .order-bar__cta { display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px; background: var(--v4-on-forest, #f4f1ea); color: var(--hd-ink, #161a17); font-size: 15px; font-weight: 600; text-decoration: none; text-align: center; max-width: 52vw; line-height: 1.25; }
+  .order-bar__cta { display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px; background: var(--v4-on-forest, #faf8f7); color: var(--hd-ink, #1a1c1d); font-size: 15px; font-weight: 600; text-decoration: none; text-align: center; max-width: 52vw; line-height: 1.25; }
   body.has-order-bar .hd-footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) { .order-bar { transition: none; } }
@@ -187,7 +187,7 @@ body.hd-site main.partner-discovery .partner-flow h2 { margin: 0 0 24px !importa
 body.hd-site main.partner-discovery .partner-flow ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; border-top: 2px solid var(--hd-ink); }
 body.hd-site main.partner-discovery .partner-flow li { display: grid; align-content: start; gap: 8px; padding: 20px 24px 24px 0; }
 body.hd-site main.partner-discovery .partner-flow li + li { padding-left: 24px; border-left: 1px solid var(--of-rule); }
-body.hd-site main.partner-discovery .partner-flow li span { font-family: var(--hd-serif); font-size: 44px; line-height: 1; color: var(--hd-brand, #173d35); }
+body.hd-site main.partner-discovery .partner-flow li span { font-family: var(--hd-serif); font-size: 44px; line-height: 1; color: var(--hd-brand, #1a1c1d); }
 body.hd-site main.partner-discovery .partner-flow li strong { font-size: 18px; font-weight: 600; line-height: 1.35; }
 body.hd-site main.partner-discovery .partner-flow li p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--hd-muted); }
 body.hd-site main.partner-discovery .partner-flow__other { margin: 20px 0 0; font-size: 15px; }
@@ -208,8 +208,8 @@ body.hd-site main.partner-discovery .discovery-table-wrap { background: var(--hd
 /* Long labels (en, ms, th) wrap inside the action instead of pushing past it */
 body.hd-site main .order-cta { min-width: 0; max-width: 100%; height: auto; padding-top: 8px !important; padding-bottom: 8px !important; }
 body.hd-site main .order-cta span { min-width: 0; white-space: normal; line-height: 1.3; }
-body.hd-site .order-bar .order-bar__sum strong { color: var(--v4-on-forest, #f4f1ea) !important; }
-body.hd-site .order-bar .order-bar__sum span, body.hd-site .order-bar .order-bar__sum small { color: var(--v4-on-forest-soft, rgba(244, 241, 234, 0.78)) !important; }
+body.hd-site .order-bar .order-bar__sum strong { color: var(--v4-on-forest, #faf8f7) !important; }
+body.hd-site .order-bar .order-bar__sum span, body.hd-site .order-bar .order-bar__sum small { color: var(--v4-on-forest-soft, rgba(250, 248, 247, 0.78)) !important; }
 
 /* =========================================================
  * Product tiles: every tile shares the same rows, so names, terms and links line up across a row.
@@ -290,7 +290,7 @@ body.hd-site main .diffuser-order-options label small { grid-column: 3; text-ali
 }
 
 /* Phone order bar: the action label was paper on paper */
-body.hd-site .order-bar .order-bar__cta { color: var(--hd-ink, #161a17) !important; }
+body.hd-site .order-bar .order-bar__cta { color: var(--hd-ink, #1a1c1d) !important; }
 
 /* Checkout steps: one rule under the title, even spacing between steps, aligned fields */
 body.hd-site .checkout-flow .checkout-main > h2.order-step-heading:first-of-type { border-top: 0 !important; padding-top: 0 !important; }

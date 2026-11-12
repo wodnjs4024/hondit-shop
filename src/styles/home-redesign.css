@@ -3,16 +3,16 @@
  * Scoped to the home chrome (.hd-*) so other pages are untouched until the home is approved.
  */
 :root {
-  --hd-paper: #fbfaf7;
-  --hd-tile: #f1efea;
-  --hd-ink: #161a17;
-  --hd-muted: #575e59;
-  --hd-line: rgba(22, 26, 23, 0.14);
-  --hd-line-strong: rgba(22, 26, 23, 0.45);
-  --hd-brand: #173d35;
-  --hd-brand-hover: #0f2b25;
+  --hd-paper: #f4f5f3;
+  --hd-tile: #e6e8e5;
+  --hd-ink: #1a1c1d;
+  --hd-muted: #585e61;
+  --hd-line: rgba(26, 28, 29, 0.14);
+  --hd-line-strong: rgba(26, 28, 29, 0.45);
+  --hd-brand: #1a1c1d;
+  --hd-brand-hover: #000000;
   --hd-white: #ffffff;
-  --hd-film: #121612;
+  --hd-film: #111314;
   --hd-serif: "Cormorant Garamond", Georgia, serif;
   --hd-sans: Inter, "Helvetica Neue", Arial, sans-serif;
   --hd-gutter: 48px;
@@ -158,11 +158,11 @@
 .hd-home .stonejeju-film__toggle,
 .hd-home .stonejeju-film__retry {
   display: inline-grid; place-items: center; flex: none; min-width: 44px; min-height: 44px; padding: 0;
-  border: 0; border-radius: 999px; background: rgba(18, 22, 18, 0.55); color: var(--hd-white);
+  border: 0; border-radius: 999px; background: rgba(17, 19, 20, 0.55); color: var(--hd-white);
   cursor: pointer; transition: background-color var(--hd-fast) var(--hd-ease), transform 120ms var(--hd-ease);
 }
 .hd-home .stonejeju-film__retry { padding: 0 16px; font: inherit; font-size: 14px; }
-.hd-home .stonejeju-film__toggle:hover, .hd-home .stonejeju-film__retry:hover { background: rgba(18, 22, 18, 0.8); }
+.hd-home .stonejeju-film__toggle:hover, .hd-home .stonejeju-film__retry:hover { background: rgba(17, 19, 20, 0.8); }
 .hd-home .stonejeju-film__toggle:active { transform: scale(0.94); }
 .hd-home .stonejeju-film [role="status"] { max-width: 260px; }
 
@@ -461,7 +461,7 @@
 
 /* Film captions sit on the same dark chip as the pause control instead of a text shadow. */
 .hd-home .stonejeju-film figcaption { text-shadow: none; }
-.hd-home .stonejeju-film figcaption > span:first-child { padding: 6px 10px; background: rgba(18, 22, 18, 0.55); }
+.hd-home .stonejeju-film figcaption > span:first-child { padding: 6px 10px; background: rgba(17, 19, 20, 0.55); }
 
 /* Focus is never hidden under the sticky header or the mobile bar. */
 html:has(body.hd-site) { scroll-padding-top: 80px; scroll-padding-bottom: 88px; }
