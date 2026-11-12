@@ -9,7 +9,7 @@ if (typeof window !== 'undefined' && ['/contact','/partners'].some(path=>window.
 import {INFO_PAGES} from "../shared/info-content.js";
 import {PartnersPage} from "./pages/PartnersPage";
 import {PartnerGuidePage} from "./pages/PartnerGuidePage";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { trackCampaignLanding, trackPageView } from "./lib/analytics";
 import { MarketProvider, MarketSelectionDialog } from "./lib/market";
@@ -253,6 +253,15 @@ function routeMeta(pathname: string): PageMeta {
   };
 }
 
+// Pages with their own indexable language versions (?lang=ko|ja|zh-HK), as served by api/_seo-route.js.
+const INDEXED_LANGUAGES = new Set(["ko", "ja", "zh-HK"]);
+const hasLanguageVersions = (pathname: string) => ["/", "/products", "/bulk-orders", "/jeju", "/about", "/faq"].includes(pathname) || /^\/products\/[a-z0-9-]+$/.test(pathname);
+function canonicalFor(pathname: string, search: string) {
+  const lang = new URLSearchParams(search).get("lang") || "";
+  const suffix = INDEXED_LANGUAGES.has(lang) && hasLanguageVersions(pathname) ? `?lang=${lang}` : "";
+  return `https://hondit-shop.vercel.app${pathname}${suffix}`;
+}
+
 function upsertMeta(selector: string, attrs: Record<string, string>, value: string) {
   let element = document.head.querySelector(selector) as HTMLMetaElement | HTMLLinkElement | null;
   if (!element) {
@@ -267,11 +276,26 @@ function upsertMeta(selector: string, attrs: Record<string, string>, value: stri
 export default function App() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
+  const firstView = useRef(true);
 
   useEffect(() => {
     const path = `${location.pathname}${location.search}${location.hash}`;
     const meta = routeMeta(location.pathname);
-    const canonical = `https://hondit-shop.vercel.app${location.pathname}`;
+    const canonical = canonicalFor(location.pathname, location.search);
+    // On the first view of a server-rendered page the server head (localized title, description, canonical, hreflang,
+    // JSON-LD) is the one search engines should read after rendering, so it is left exactly as served.
+    const serverHead = document.head.querySelector('meta[name="hondit-ssr"]');
+    if (firstView.current && serverHead) {
+      firstView.current = false;
+      trackPageView(path);
+      trackCampaignLanding();
+      return;
+    }
+    if (!firstView.current) {
+      // After an in-app navigation the server's page-specific tags describe the previous page.
+      document.head.querySelectorAll('link[rel="alternate"][hreflang], meta[name="hondit-ssr"], script[type="application/ld+json"]').forEach((node) => node.remove());
+    }
+    firstView.current = false;
     // Journal pages set their own title, description, image and robots (and the server already rendered them).
     const journal = location.pathname === "/journal" || location.pathname.startsWith("/journal/");
     if (journal) {

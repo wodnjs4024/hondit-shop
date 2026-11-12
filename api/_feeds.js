@@ -2,6 +2,8 @@
 import { SITE, merchantMarket, merchantOffer, escapeMarkup as esc } from './_merchant.js';
 export { SITE } from './_merchant.js';
 import { articlePath, isPublic, languageByCode } from '../shared/journal.js';
+import { SEO_LANGUAGES, HREFLANGS, LOCALES } from '../shared/seo-locales.js';
+import { storefrontCatalog } from '../shared/storefront-catalog.js';
 export function feedItem(product, market = 'SG', language) { return merchantOffer(product, market, language).item || null; }
 export function googleFeed(products, market = 'SG', language) {
   const channel = merchantMarket(market, language);
@@ -30,6 +32,19 @@ ${body}
 
 const STATIC_PAGES = ["/", "/products", "/bulk-orders", "/jeju", "/about", "/faq", "/partners", "/shipping", "/contact", "/policy/refund", "/policy/shipping", "/policy/privacy", "/policy/terms"];
 
+// Pages with language versions (?lang=ko|ja|zh-HK). Each version is listed with hreflang links to all of them.
+const isLocalized = (url) => ["/", "/products", "/bulk-orders", "/jeju", "/about", "/faq"].includes(url) || (url.startsWith("/products/") && Boolean(LOCALES.ja.products[url.slice(10)]));
+const langUrl = (url, lang) => SITE + url + (lang === "en" ? "" : `?lang=${lang}`);
+const languageLinks = (url) => [
+  ...SEO_LANGUAGES.flatMap((lang) => HREFLANGS[lang].map((h) => `\n    <xhtml:link rel="alternate" hreflang="${h}" href="${esc(langUrl(url, lang))}"/>`)),
+  `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(langUrl(url, "en"))}"/>`,
+].join("");
+const imageFor = (url) => {
+  const slug = url.startsWith("/products/") ? url.slice(10) : "";
+  const image = storefrontCatalog.find((p) => p.slug === slug)?.image;
+  return image ? `\n    <image:image><image:loc>${esc(SITE + image)}</image:loc></image:image>` : "";
+};
+
 export function sitemap(products, today = new Date().toISOString().slice(0, 10), journal = []) {
   const live = products.filter((p) => !["draft", "hidden"].includes(p.status));
   const urls = [
@@ -45,9 +60,12 @@ export function sitemap(products, today = new Date().toISOString().slice(0, 10),
     return `  <url><loc>${esc(SITE + articlePath(a))}</loc><lastmod>${String(a.updated_at || a.published_at).slice(0, 10)}</lastmod>${alternates}</url>`;
   });
   const journalIndex = articles.length ? [...new Set(["/journal", ...articles.map((a) => `/journal/${languageByCode(a.language)?.segment}`)])] : [];
+  const pageEntries = [...new Set([...urls, ...journalIndex])].flatMap((url) => (isLocalized(url)
+    ? SEO_LANGUAGES.map((lang) => `  <url><loc>${esc(langUrl(url, lang))}</loc><lastmod>${today}</lastmod>${languageLinks(url)}${imageFor(url)}</url>`)
+    : [`  <url><loc>${esc(SITE + url)}</loc><lastmod>${today}</lastmod>${imageFor(url)}</url>`]));
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"${articleEntries.length ? ' xmlns:xhtml="http://www.w3.org/1999/xhtml"' : ""}>
-${[...new Set([...urls, ...journalIndex])].map((url) => `  <url><loc>${esc(SITE + url)}</loc><lastmod>${today}</lastmod></url>`).concat(articleEntries).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${pageEntries.concat(articleEntries).join("\n")}
 </urlset>
 `;
 }
