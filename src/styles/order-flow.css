@@ -4,10 +4,10 @@
  * from the product story: quantity → price → how to pay. Brand palette and square geometry kept.
  */
 body.hd-site {
-  --of-tray: #ece8df;
+  --of-tray: #e2e4e1;
   --of-core: #fdfcf9;
-  --of-rule: rgba(22, 26, 23, 0.12);
-  --of-rule-strong: rgba(22, 26, 23, 0.32);
+  --of-rule: rgba(26, 28, 29, 0.12);
+  --of-rule-strong: rgba(26, 28, 29, 0.32);
   --of-ease: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
@@ -45,7 +45,7 @@ body.hd-site main .diffuser-order-options label {
   transition: border-color 260ms var(--of-ease), background-color 260ms var(--of-ease);
 }
 body.hd-site main .diffuser-order-options label:hover { border-color: var(--hd-ink); }
-body.hd-site main .diffuser-order-options label.is-selected { border-color: var(--hd-ink); box-shadow: inset 0 0 0 1px var(--hd-ink); background: var(--hd-state-ready-bg, #e3ece6); }
+body.hd-site main .diffuser-order-options label.is-selected { border-color: var(--hd-ink); box-shadow: inset 0 0 0 1px var(--hd-ink); background: var(--hd-state-ready-bg, #e6e8e5); }
 body.hd-site main .diffuser-order-options input[type=radio] { grid-row: 1 / span 2; margin: 0; }
 body.hd-site main .diffuser-order-options label span { font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--hd-ink); }
 body.hd-site main .diffuser-order-options label small { grid-column: 2; font-size: 14px; color: var(--hd-muted); font-variant-numeric: tabular-nums; }
@@ -57,7 +57,7 @@ body.hd-site main .diffuser-quantity__stepper button {
 }
 body.hd-site main .diffuser-quantity__stepper button:hover:not(:disabled) { background: var(--hd-tile); }
 body.hd-site main .diffuser-quantity__stepper button:active:not(:disabled) { transform: scale(0.94); }
-body.hd-site main .diffuser-quantity__stepper button:disabled { color: rgba(22, 26, 23, 0.25); cursor: not-allowed; }
+body.hd-site main .diffuser-quantity__stepper button:disabled { color: rgba(26, 28, 29, 0.25); cursor: not-allowed; }
 body.hd-site main .diffuser-quantity__stepper input {
   min-height: 52px; padding: 0 8px; border: 0; border-left: 1px solid var(--of-rule); border-right: 1px solid var(--of-rule); border-radius: 0;
   text-align: center; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; background: transparent;
@@ -74,7 +74,7 @@ body.hd-site main .order-qty-field input { min-height: 52px; font-size: 20px; fo
 .order-lines dt { font-size: 15px; color: var(--hd-muted); }
 .order-lines dt small { font-size: 14px; }
 .order-lines dd { margin: 0; font-size: 16px; font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; color: var(--hd-ink); }
-.order-lines dd.is-included { color: var(--hd-state-ready-fg, #134a3a); font-weight: 600; }
+.order-lines dd.is-included { color: var(--hd-state-ready-fg, #1a1c1d); font-weight: 600; }
 .order-lines dd.is-included::before { content: "✓ "; }
 .order-lines dd.is-pending { color: var(--hd-state-confirm-fg, #7a3a1c); }
 .order-lines dd.is-note { font-size: 14px; font-weight: 400; color: var(--hd-muted); }
@@ -120,7 +120,7 @@ body.hd-site .checkout-flow .bulk-total-box > span { font-size: 15px; color: var
 body.hd-site .checkout-flow .bulk-total-box > strong { text-align: right; font-variant-numeric: tabular-nums; }
 body.hd-site .checkout-flow .bulk-total-box > strong:nth-of-type(2) { font-size: 30px; }
 body.hd-site .checkout-flow .bulk-total-box > p { grid-column: 1 / -1; margin: 6px 0 0; padding-top: 10px; border-top: 1px solid var(--of-rule); font-size: 14px; color: var(--hd-muted); }
-body.hd-site .checkout-flow .checkout-charge-breakdown { margin: 8px 0 0; font-size: 15px; color: var(--hd-state-ready-fg, #134a3a); font-weight: 500; }
+body.hd-site .checkout-flow .checkout-charge-breakdown { margin: 8px 0 0; font-size: 15px; color: var(--hd-state-ready-fg, #1a1c1d); font-weight: 500; }
 body.hd-site .checkout-flow .checkout-step-links { padding: 0; }
 body.hd-site .checkout-flow .checkout-step-links a { font-size: 14px; color: var(--hd-muted); }
 body.hd-site .checkout-flow .checkout-review-button { width: 100%; min-height: 56px; border-radius: 0; background: var(--hd-brand); border: 0; color: var(--hd-white); font-size: 16px; font-weight: 600; }
@@ -202,7 +202,7 @@ body.hd-site main.partner-discovery .discovery-number { font-size: 13px; font-we
  * ===================================================================== */
 body.hd-site .contact-channels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 28px 0 8px; }
 body.hd-site .contact-channels .contact-channel {
-  --channel-tone: var(--hd-brand, #173d35);
+  --channel-tone: var(--hd-brand, #1a1c1d);
   display: grid; grid-template-columns: minmax(0, 1fr) 136px; grid-template-areas: "head qr" "desc qr" "actions qr" "status qr"; column-gap: 24px; align-content: start;
   margin: 0; padding: 22px 22px 22px 24px !important; background: var(--hd-white, #fff); border: 1px solid var(--of-rule) !important; border-top: 3px solid var(--channel-tone) !important;
 }
@@ -221,7 +221,7 @@ body.hd-site .contact-channel__desc { grid-area: desc; margin: 14px 0 18px; font
 body.hd-site .contact-channel__actions { grid-area: actions; display: flex; flex-wrap: wrap; gap: 8px; }
 body.hd-site .contact-channel__actions .button { min-height: 46px; margin: 0 !important; padding: 0 18px; font-size: 15px; white-space: normal; }
 body.hd-site .contact-channel__actions .button--ghost { border: 1px solid var(--of-rule-strong) !important; background: transparent !important; text-decoration: none !important; }
-body.hd-site .contact-channel__status { grid-area: status; margin: 8px 0 0; font-size: 13px; color: var(--hd-state-ready-fg, #134a3a); }
+body.hd-site .contact-channel__status { grid-area: status; margin: 8px 0 0; font-size: 13px; color: var(--hd-state-ready-fg, #1a1c1d); }
 body.hd-site .contact-channel__status:empty { display: none; }
 body.hd-site .contact-channel__fallback { grid-column: 1; font-size: 13px; overflow-wrap: anywhere; }
 body.hd-site .contact-channel__qr { grid-area: qr; margin: 0; align-self: start; text-align: center; }

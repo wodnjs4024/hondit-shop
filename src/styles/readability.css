@@ -33,7 +33,7 @@ body.hd-site main.hd-home .hd-compare tbody :is(th, td) { font-size: 14px; }
 .hd-announce { font-size: 14px; }
 
 /* Step numbers on the dark band: muted grey on forest was about 1.5:1 */
-body.hd-site main.hd-home .hd-use li::before { color: var(--dk-soft, rgba(244, 241, 234, 0.78)) !important; }
+body.hd-site main.hd-home .hd-use li::before { color: var(--dk-soft, rgba(250, 248, 247, 0.78)) !important; }
 
 /* Diffuser table on phones: one row per spec, label above its two values */
 @media (max-width: 639px) {

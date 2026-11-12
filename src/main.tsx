@@ -43,3 +43,4 @@ import "./styles/about.css";
 import "./styles/info-page.css";
 import "./styles/dark-accents.css";
 import "./styles/readability.css";
+import "./styles/basalt.css";
