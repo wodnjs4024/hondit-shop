@@ -7,6 +7,7 @@ import { defaultProducts } from '../api/_bulk-data.js';
 import { safeLanding } from '../shared/tracking-policy.js';
 import { diffuserGuide, diffuserSpecs } from '../shared/diffuser-guide.js';
 import { diffuserMarkets, diffuserSlugs } from '../shared/diffuser-search-routes.js';
+import { canonicalSeoLanguage } from '../shared/seo-locales.js';
 
 const site = 'https://hondit-shop.vercel.app';
 async function request(query, method = 'GET') {
@@ -17,7 +18,7 @@ async function request(query, method = 'GET') {
 const documentOf = (body) => new JSDOM(body, { url: site }).window.document;
 const alternateMap = (doc) => Object.fromEntries([...doc.querySelectorAll('link[hreflang]')].map((node) => [node.hreflang, node.href]));
 
-test('four regional guides give bots and buyers the same localized answer, maker evidence and correct order links', async () => {
+test('regional guides give bots and buyers the same localized answer, maker evidence and correct order links', async () => {
   let alternate;
   for (const option of Object.values(diffuserMarkets)) {
     const query = { seoPage: 'diffuserGuide', seoGuide: option.path.split('/')[2], market: 'MY', utm_source: 'example', lang: 'ko' };
@@ -54,7 +55,7 @@ test('localized product market aliases share the live language canonical and the
     for (const option of Object.values(diffuserMarkets)) {
       const response = await request({ seoPage: 'product', seoSlug: slug, market: option.market, lang: option.lang, quantity: '20', utm_source: 'example' });
       const doc = documentOf(response.body);
-      const lang = option.lang === 'zh-TW' ? 'zh-HK' : option.lang;
+      const lang = canonicalSeoLanguage(option.lang);
       const url = site + '/products/' + slug + (lang === 'en' ? '' : '?lang=' + lang);
       assert.equal(response.statusCode, 200);
       assert.equal(doc.querySelector('link[rel="canonical"]').href, url);

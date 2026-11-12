@@ -1,4 +1,6 @@
 // Public campaign metadata only. Never retain free text, contact details, or receipt URLs.
+import { diffuserGuideMarket } from './diffuser-search-routes.js';
+
 export const campaignKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
 export const productIds = ['diffuser-350g','diffuser-500g','foam-oil','foaming-cleanser','cleansing-water','cleansing-mix'];
 export const marketIds = ['SG','HK','JP','TW','TH','MY','BN','MO'];
@@ -18,7 +20,7 @@ export function safePath(path = '/') {
   }
   // Journal article slugs are public, editor-chosen words (never personal data).
   if (/^\/journal(?:\/(?:en|ja|zh-hk|zh-tw)(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?)?$/.test(path) && path.length <= 120) return path;
-  if (/^\/diffusers(?:\/(?:japan|hong-kong|taiwan))?$/.test(path)) return path;
+  if (diffuserGuideMarket(path)) return path;
   return /^\/(?:|products|bulk-orders|partners|about|faq|jeju(?:\/(?:pickup|stores))?|shipping|contact|policy\/(?:terms|privacy|refund|shipping)|(?:sg|hk|jp|tw)\/(?:ig|fb|c01))$/.test(path) ? path : '/not-found';
 }
 export function functionalParams(input = '') {

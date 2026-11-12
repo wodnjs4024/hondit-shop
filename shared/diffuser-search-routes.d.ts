@@ -1,6 +1,6 @@
-export type DiffuserMarketCode = 'SG' | 'JP' | 'HK' | 'TW';
+export type DiffuserMarketCode = 'SG' | 'JP' | 'HK' | 'TW' | 'TH' | 'MY';
 export type DiffuserSlug = 'diffuser-350g' | 'diffuser-500g';
-export type DiffuserMarket = { market: DiffuserMarketCode; lang: 'en' | 'ja' | 'zh-HK' | 'zh-TW'; hreflang: string; locale: string; path: string; label: string };
+export type DiffuserMarket = { market: DiffuserMarketCode; lang: 'en' | 'ja' | 'zh-HK' | 'zh-TW' | 'th' | 'ms'; hreflang: string; locale: string; path: string; label: string };
 export type SearchAlternate = { hreflang: string; path: string };
 export const diffuserSlugs: DiffuserSlug[];
 export const diffuserMarkets: Record<DiffuserMarketCode, DiffuserMarket>;

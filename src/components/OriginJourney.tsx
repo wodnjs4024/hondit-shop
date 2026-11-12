@@ -1,10 +1,34 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { aboutCopy } from "../data/aboutCopy";
 import { formatPlaceCoordinates, ourJejuPlaces } from "../data/v23JejuData";
 import { marketCountryName, marketText, useMarket } from "../lib/market";
 import { asiaIds, jejuViewBox, marketRoutes, projectJeju } from "./v23/GeoJourney";
 
 type SvgMap = { viewBox: string; locations: { id: string; path: string }[] };
+const loadWorldMap = () => import("@svg-maps/world").then((module) => module.default as SvgMap);
+const loadKoreaMap = () => import("@svg-maps/south-korea").then((module) => module.default as SvgMap);
+
+function useMapNearViewport(load: () => Promise<SvgMap>) {
+  const figureRef = useRef<HTMLElement>(null);
+  const [map, setMap] = useState<SvgMap | null>(null);
+  useEffect(() => {
+    const figure = figureRef.current;
+    if (!figure) return;
+    let active = true;
+    const loadMap = () => load().then((value) => {
+      if (active) setMap(value);
+    }).catch(() => undefined);
+    const observer = typeof IntersectionObserver === "undefined" ? null : new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer?.disconnect();
+      void loadMap();
+    }, { rootMargin: "240px 0px" });
+    if (observer) observer.observe(figure);
+    else void loadMap();
+    return () => { active = false; observer?.disconnect(); };
+  }, [load]);
+  return { figureRef, map };
+}
 
 /* Jeju on the same projection the market markers were verified against (@svg-maps/world). */
 const jejuPoint = { x: 829.3, y: 367.4 };
@@ -22,8 +46,7 @@ export function OriginRoute() {
   const { market, language } = useMarket();
   const t = (s: string) => marketText(language, s);
   const c = aboutCopy(language);
-  const [world, setWorld] = useState<SvgMap | null>(null);
-  useEffect(() => { import("@svg-maps/world").then((m) => setWorld(m.default as SvgMap)).catch(() => undefined); }, []);
+  const { figureRef, map: world } = useMapNearViewport(loadWorldMap);
   const route = marketRoutes[market.code];
   const country = marketCountryName(market, language);
   const km = kilometres(marketCities[market.code] ?? marketCities.SG, JEJU);
@@ -40,7 +63,7 @@ export function OriginRoute() {
       </ol>
       <p className="about-route__distance">{c.distance} <strong>{km.toLocaleString("en-US")} km</strong></p>
     </div>
-    <figure className="about-route__map">
+    <figure ref={figureRef} className="about-route__map">
       <svg viewBox="700 290 190 190" role="img" aria-label={c.route(country)}>
         <rect x="700" y="290" width="190" height="190" className="about-map__sea" />
         {asia.map((l) => <path key={l.id} d={l.path} className={l.id === "kr" ? "is-korea" : l.id === route.mapId ? "is-market" : ""} />)}
@@ -60,9 +83,8 @@ export function JejuFieldGuide() {
   const { language } = useMarket();
   const t = (s: string) => marketText(language, s);
   const c = aboutCopy(language);
-  const [korea, setKorea] = useState<SvgMap | null>(null);
+  const { figureRef, map: korea } = useMapNearViewport(loadKoreaMap);
   const [activeId, setActiveId] = useState(ourJejuPlaces[0].id);
-  useEffect(() => { import("@svg-maps/south-korea").then((m) => setKorea(m.default as SvgMap)).catch(() => undefined); }, []);
   const shape = korea?.locations.find((l) => l.id === "jeju");
   const active = ourJejuPlaces.find((p) => p.id === activeId) ?? ourJejuPlaces[0];
   const mark = (index: number) => String(index + 1).padStart(2, "0");
@@ -72,7 +94,7 @@ export function JejuFieldGuide() {
       <p>{c.fieldBody}</p>
     </header>
     <div className="about-field__grid">
-      <figure className="about-field__map">
+      <figure ref={figureRef} className="about-field__map">
         <svg viewBox={`${jejuViewBox.x + 6} ${jejuViewBox.y + 3} ${jejuViewBox.width - 12} ${jejuViewBox.height - 12}`} role="group" aria-label={t("Jeju Island outline")}>
           {shape && <path d={shape.path} className="about-field__island" />}
           {ourJejuPlaces.map((place, index) => {
