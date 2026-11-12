@@ -86,3 +86,12 @@ body.hd-site main.hd-home .hd-use li::before {
 /* Secondary section titles follow the same scale */
 .hd-home > .discovery-section .discovery-heading h2 { font-size: var(--hd-size-section) !important; font-weight: 650 !important; letter-spacing: -0.025em; }
 body.hd-site main.hd-home .hd-use h3 { font-size: var(--hd-size-section) !important; font-weight: 650 !important; letter-spacing: -0.025em; }
+
+/* Contact channels: brand colour stays in the app mark only; the cards share one basalt top rule */
+body.hd-site .contact-channels .contact-channel { border-top-color: var(--bs-basalt) !important; }
+body.hd-site .contact-channel__qr figcaption { font-size: 13px; }
+
+/* Phone product cards: order terms sit under the description, before the links */
+@media (max-width: 639px) {
+  body.hd-site .hd-tile__body > .hd-tile__links { grid-row: 5 !important; }
+}
