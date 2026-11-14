@@ -15,7 +15,7 @@ export function googleFeed(products, market = 'SG', language) {
   const body = items.map(item => `    <item>\n${[
     tag('id',item.id),tag('title',item.title),tag('description',item.description),tag('link',item.link),tag('image_link',item.image),
     ...item.extraImages.map(url => tag('additional_image_link',url)),tag('availability',item.availability),tag('price',item.price),
-    tag('brand',item.brand),tag('condition','new'),
+    tag('brand',item.brand),tag('condition','new'),...(item.productType ? [tag('product_type',item.productType)] : []),
     ...(item.gtin ? [tag('gtin',item.gtin)] : []),...(item.mpn ? [tag('mpn',item.mpn)] : []),
     ...(item.identifierExists === false ? [tag('identifier_exists','no')] : []),
     `      <g:shipping><g:country>${market}</g:country><g:price>${esc(item.shippingPrice)}</g:price></g:shipping>`

@@ -76,7 +76,8 @@ const NAV = [['/', 'Home'], ['/products', 'Products'], ['/bulk-orders', 'Bulk or
 const nav = () => `<nav aria-label="Site"><ul>${NAV.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul></nav>`;
 const wrap = (body, mainClass = '') => `<header><a href="/">HONDIT</a></header><main${mainClass ? ` class="${esc(mainClass)}"` : ''}>${body}</main><footer>${nav()}<p>HONDIT · Jeju National University GTEP student team · Business registration no. ${SITE_FACTS.businessRegistration} · <a href="mailto:${EMAIL}">${EMAIL}</a> · <a href="${INSTAGRAM}">Instagram</a></p></footer>`;
 
-const org = () => ({ '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'HONDIT', alternateName: ['hondit', '혼딧'], url: SITE, email: EMAIL, sameAs: SITE_FACTS.profiles.map(([, url]) => url),
+const org = () => ({ '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'HONDIT', alternateName: ['hondit', '혼딧'], url: SITE, email: EMAIL,
+  logo: { '@type': 'ImageObject', url: `${SITE}/images/hondit-logo.png`, width: 1080, height: 1080 }, sameAs: SITE_FACTS.profiles.map(([, url]) => url),
   mainEntityOfPage: `${SITE}/about`,
   identifier: { '@type': 'PropertyValue', name: 'Business registration number (Republic of Korea)', value: SITE_FACTS.businessRegistration },
   contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: EMAIL, telephone: PHONE },
@@ -150,7 +151,7 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
     const diffusers = list.filter((p) => p.category === 'SCENT');
     return { status: 200, canonical: SITE + '/', title: 'Jeju Volcanic Stone Diffuser, No Electricity | Aroma Stone and Jeju Gifts | HONDIT',
       description: 'Jeju volcanic-stone (lava stone) diffusers made by StoneJeju: a waterless aroma stone with no electricity, no flame and no reeds, plus Jeju cleansing care. Delivered from Korea to Singapore, Hong Kong, Japan and Taiwan.',
-      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebSite', name: 'HONDIT', url: SITE }],
+      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebSite', name: 'HONDIT', alternateName: ['hondit', '혼딧'], url: SITE, publisher: { '@id': `${SITE}/#organization` } }],
       html: wrap(`<h1>HONDIT: Jeju volcanic-stone diffusers and everyday care</h1><p>${esc(BRAND_LINE)}</p><p>${esc(WHO_LINE)}</p>`
         + `<section><h2>Volcanic-stone diffusers (aroma stones)</h2><p>Porous Jeju volcanic scoria, the island's lava stone, in a vessel, scented with the 10mL citrus fragrance oil that comes with it. No electricity, no flame, no water and no reeds: add a few drops when you want scent. <a href="/diffusers">Compare the 350g and 500g diffusers</a>.</p>${diffusers.map((p) => productSection(p, { heading: 'h3' })).join('')}</section>`
         + `<section><h2>Cleansing care</h2><ul>${list.filter((p) => p.category === 'CARE').map((p) => `<li><a href="/products/${esc(p.slug)}">${esc(p.name)}</a>: ${esc(p.description)}</li>`).join('')}</ul><p>Brand: J’essence. Manufacturer: 제주리퍼블릭. HONDIT sells and curates these products.</p></section>`
@@ -330,7 +331,7 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
   if (path === 'home') {
     const c = L.pages.home;
     return page('/', { title: c.title, description: c.description,
-      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebSite', name: 'HONDIT', url: SITE, inLanguage: lang }],
+      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebSite', name: 'HONDIT', alternateName: ['hondit', '혼딧'], url: SITE, inLanguage: lang, publisher: { '@id': `${SITE}/#organization` } }],
       html: wrapL(`<h1>${esc(c.h1)}</h1><p>${esc(L.brandLine)}</p><p>${esc(L.whoLine)}</p>`
         + `<section><h2>${esc(c.scentH2)}</h2><p>${esc(c.scentP)}</p>${list.filter((p) => p.category === 'SCENT').map((p) => card(p, 'h3')).join('')}${related}</section>`
         + `<section><h2>${esc(c.giftH2)}</h2><p>${esc(c.giftP)}</p><p>${a('/bulk-orders', L.nav['/bulk-orders'])} · ${a('/faq', L.nav['/faq'])}</p></section>`

@@ -97,6 +97,7 @@ export function getPolicyContent(policy, countryName, currency, hasShopee) {
           heading: "Service Providers",
           items: [
             "Information may be processed by payment services such as PayPal, delivery carriers such as EMS or local carriers, hosting services, database and authentication services, email services, support tools and analytics services such as Google Analytics where enabled.",
+            "Page visits are counted with Vercel Web Analytics, which uses no cookies and keeps no visitor identifier. Only the page address and campaign source are counted; order, payment and account pages are excluded. Google Analytics runs only after you allow it in Analytics settings.",
           ],
         },
         {
