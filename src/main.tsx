@@ -21,6 +21,7 @@ import "./styles/shop-assistant.css";
 import "./styles/journal.css";
 import App from "./App";
 import { initAnalytics } from "./lib/analytics";
+import { initVisitCount } from "./lib/visitCount";
 
 // A password reset link that lands on another page (Supabase falls back to the site address) still reaches the reset form.
 if (/(^|&|#)type=recovery(&|$)/.test(window.location.hash) && window.location.pathname !== "/admin/reset-password") {
@@ -28,6 +29,7 @@ if (/(^|&|#)type=recovery(&|$)/.test(window.location.hash) && window.location.pa
 }
 
 initAnalytics();
+initVisitCount();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

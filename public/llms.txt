@@ -13,7 +13,7 @@
 - [Volcanic Diffuser 350g](https://hondit-shop.vercel.app/products/diffuser-350g): glass vessel, no electricity, no flame
 - [Volcanic Diffuser 500g](https://hondit-shop.vercel.app/products/diffuser-500g): Jeju onggi pottery vessel
 - [Order conditions by country](https://hondit-shop.vercel.app/bulk-orders)
-- StoneJeju comparison and ordering guide: [Singapore](https://hondit-shop.vercel.app/diffusers), [Japan](https://hondit-shop.vercel.app/diffusers/japan), [Hong Kong](https://hondit-shop.vercel.app/diffusers/hong-kong), [Taiwan](https://hondit-shop.vercel.app/diffusers/taiwan)
+- StoneJeju comparison and ordering guide: [Singapore](https://hondit-shop.vercel.app/diffusers), [Japan](https://hondit-shop.vercel.app/diffusers/japan), [Hong Kong](https://hondit-shop.vercel.app/diffusers/hong-kong), [Taiwan](https://hondit-shop.vercel.app/diffusers/taiwan), [Malaysia](https://hondit-shop.vercel.app/diffusers/malaysia), [Thailand](https://hondit-shop.vercel.app/diffusers/thailand)
 - [Jeju Airport pickup by prior arrangement](https://hondit-shop.vercel.app/jeju/pickup): request a 350g or 500g diffuser by message and confirm the handover time, meeting point and payment method.
 - [Shipping](https://hondit-shop.vercel.app/shipping)
 - [Refund policy](https://hondit-shop.vercel.app/policy/refund)
@@ -29,4 +29,8 @@ A non-electric stone diffuser (aroma stone): porous Jeju volcanic scoria (lava s
 
 ## Answers
 - [FAQ: Jeju volcanic-stone diffuser](https://hondit-shop.vercel.app/faq)
-- [HONDIT Journal](https://hondit-shop.vercel.app/journal)
+- [HONDIT Journal](https://hondit-shop.vercel.app/journal): articles in English, Japanese and Traditional Chinese, for example
+  - [Stone vs reed vs electric diffuser](https://hondit-shop.vercel.app/journal/en/stone-diffuser-vs-reed-vs-electric)
+  - [済州島の食べ物以外のお土産：アロマストーン](https://hondit-shop.vercel.app/journal/ja/jeju-non-food-souvenir-aroma-stone)
+  - [細小空間的免插電擴香](https://hondit-shop.vercel.app/journal/zh-hk/small-space-no-flame-no-plug-diffuser)
+  - [濟州火山石桌面擺設](https://hondit-shop.vercel.app/journal/zh-tw/jeju-volcanic-stone-desk-object)

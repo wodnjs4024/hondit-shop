@@ -208,6 +208,10 @@ const copy:Record<string,Record<string,string>>={
     "ja": "PayPalなどの決済サービス、EMSや現地配送業者、ホスティング、データベース・認証、メール、サポートツール、有効な場合はGoogle Analyticsなどの分析サービスが情報を処理することがあります。",
     "zh-HK": "資料可能由PayPal等付款服務、EMS或當地承運商、網站託管、資料庫及驗證服務、電郵服務、支援工具，以及啟用時的Google Analytics等分析服務處理。"
   },
+  "Page visits are counted with Vercel Web Analytics, which uses no cookies and keeps no visitor identifier. Only the page address and campaign source are counted; order, payment and account pages are excluded. Google Analytics runs only after you allow it in Analytics settings.": {
+    "ja": "ページの訪問数はVercel Web Analyticsで集計します。Cookieを使わず、訪問者を識別する値も保存しません。集計するのはページのアドレスと流入元のみで、注文・決済・アカウントのページは対象外です。Google Analyticsは分析設定で許可した場合にのみ動作します。",
+    "zh-HK": "頁面瀏覽次數以Vercel Web Analytics統計，不使用Cookie，亦不保存訪客識別資料。只統計頁面地址及來源，訂單、付款及帳戶頁面不在統計範圍內。Google Analytics只會在你於分析設定中允許後運作。"
+  },
   "Because hondit handles cross-border orders, information may be processed in more than one country for payment, delivery, hosting and support purposes.": {
     "ja": "HONDITは国際注文を扱うため、決済・配送・ホスティング・サポートの目的で複数の国で情報を処理する場合があります。",
     "zh-HK": "由於HONDIT處理跨境訂單，資料可能因付款、運送、網站託管及支援需要而在多個國家處理。"
