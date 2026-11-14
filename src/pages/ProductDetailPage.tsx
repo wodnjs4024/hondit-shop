@@ -21,6 +21,7 @@ import {
 import { composeStorefrontProducts, loadStorefrontProduct } from "../lib/storefrontApi";
 import { getAdminToken } from "../lib/bulkApi";
 import { catalogCopy } from "../data/catalogCopy";
+import { productStory } from "../../shared/product-story.js";
 import { productDescription as describeProduct, productGallery, productList, productMainImage, productName as nameOf, productPriceLabel } from "../lib/productText";
 import { salesPresentationCopy } from "../data/salesPresentationCopy";
 import { diffuserGuide, diffuserLocalizedMeta } from "../../shared/diffuser-guide.js";
@@ -84,6 +85,7 @@ export function ProductDetailPage() {
   const outOfStock = typeof product.stockQuantity === "number" && product.stockQuantity < product.bulkMoq;
   const productName = nameOf(product, language);
   const productDescription = describeProduct(product, language, productFacts(product.slug)?.description||product.description);
+  const story = productStory(product.slug, language);
   const productGoodFor = product.goodFor ? marketProductText(language, product.goodFor) : "";
   const showSingaporeDiffuserDetails = market.code === "SG" && product.slug === "diffuser-350g";
   const selectDetailImage = (nextIndex: number, source: "arrow" | "thumbnail" | "keyboard") => {
@@ -143,6 +145,18 @@ export function ProductDetailPage() {
             {market.hasShopee&&product.shopee&&<a className="hd-textlink" href={product.shopee} target="_blank" rel="noreferrer">{marketText(language,"View Shopee store ↗")}</a>}
           </div>
         </section>
+
+        {story && <section className="hd-pdp__story" aria-labelledby="product-story-title" lang={story.language === "zh-HK" ? "zh-Hant-HK" : story.language}>
+          <h2 id="product-story-title">{story.labels.heading}</h2>
+          <div className="hd-pdp__story-body">
+            <div className="hd-pdp__story-text">{story.paragraphs.map((text: string) => <p key={text.slice(0, 24)}>{text}</p>)}</div>
+            <aside className="hd-pdp__story-box">
+              <h3>{story.labels.box}</h3>
+              <ul>{story.box.map((item: string) => <li key={item}>{item}</li>)}</ul>
+              <p><span>{story.labels.maker}</span> {story.maker}</p>
+            </aside>
+          </div>
+        </section>}
 
         <section className="hd-pdp__about">
           {productGoodFor && <article>
