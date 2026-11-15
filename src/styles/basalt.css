@@ -429,3 +429,22 @@ body.hd-site .catalog-group__title { border-bottom-color: var(--hd-line); }
   body.hd-site .hd-hero__copy > p { font-size: clamp(18px, 1.05vw, 26px); }
   body.hd-site .hd-hero .hd-btn { min-height: 56px; padding: 0 28px; font-size: 17px; }
 }
+
+/* Product story: a long description in the reading width, with the box contents beside it */
+body.hd-site .hd-pdp__story { max-width: var(--frame, 1600px); margin: 112px auto 0; padding: 0 var(--hd-gutter); }
+body.hd-site .hd-pdp__story > h2 { font-size: var(--hd-size-section); font-weight: 650; letter-spacing: -0.025em; line-height: 1.2; margin: 0 0 32px; padding-top: 20px; border-top: 1px solid var(--bs-basalt); }
+body.hd-site .hd-pdp__story-body { display: grid; grid-template-columns: minmax(0, 68ch) minmax(220px, 320px); justify-content: start; gap: 48px 72px; align-items: start; }
+body.hd-site .hd-pdp__story-text p { margin: 0 0 1.1em; font-size: 17px; line-height: 1.75; color: var(--bs-basalt); overflow-wrap: anywhere; }
+body.hd-site .hd-pdp__story:lang(ko) p { word-break: keep-all; overflow-wrap: break-word; }
+body.hd-site .hd-pdp__story:lang(ja) p, body.hd-site .hd-pdp__story:lang(zh) p { line-break: strict; }
+body.hd-site .hd-pdp__story-text p:last-child { margin-bottom: 0; }
+body.hd-site .hd-pdp__story-box { padding: 24px; background: var(--bs-raised); border: 1px solid var(--hd-line); }
+body.hd-site .hd-pdp__story-box h3 { margin: 0 0 12px; font-size: 14px; font-weight: 600; color: var(--bs-muted); }
+body.hd-site .hd-pdp__story-box ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: 15px; line-height: 1.55; }
+body.hd-site .hd-pdp__story-box p { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--hd-line); font-size: 14px; color: var(--bs-muted); }
+body.hd-site .hd-pdp__story-box p span { color: var(--bs-basalt); font-weight: 600; }
+@media (max-width: 1023px) {
+  body.hd-site .hd-pdp__story { margin-top: 64px; }
+  body.hd-site .hd-pdp__story-body { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  body.hd-site .hd-pdp__story-text p { font-size: 16px; }
+}

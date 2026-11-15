@@ -11,6 +11,7 @@ import { salesPresentationCopy } from '../shared/sales-presentation-copy.js';
 import { PICKUP_IMAGE, pickupAlternates, pickupSearchLanguage, pickupSearchMeta, pickupSearchPath } from '../shared/pickup-search.js';
 import { diffuserCare as CARE, diffuserGuide, diffuserSpecs as diffuserFacts, thaiDiffuserActions } from '../shared/diffuser-guide.js';
 import { diffuserGuideAlternates, diffuserGuideMarket, diffuserMarkets } from '../shared/diffuser-search-routes.js';
+import { productStory } from '../shared/product-story.js';
 import { LOCALES, SEO_LANGUAGES, HREFLANGS, HTML_LANG, LOCALIZED_PAGES, seoLanguagesFor } from '../shared/seo-locales.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
@@ -100,6 +101,11 @@ export function productOverviewSchema(product, {
   };
 }
 
+const storyHtml = (slug, lang) => {
+  const story = productStory(slug, lang);
+  if (!story) return '';
+  return `<section><h2>${esc(story.labels.heading)}</h2>${story.paragraphs.map((p) => `<p>${esc(p)}</p>`).join('')}<h3>${esc(story.labels.box)}</h3><ul>${story.box.map((b) => `<li>${esc(b)}</li>`).join('')}</ul><p>${esc(story.labels.maker)}: ${esc(story.maker)}</p></section>`;
+};
 const productImage = (product, name = product.name) =>
   `<img src="${esc(product.image)}" alt="${esc(name)}" width="880" height="1100" decoding="async">`;
 
@@ -179,6 +185,7 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
         + (facts ? `<ul><li>Content: ${esc(facts.content)} Jeju volcanic scoria</li><li>Container: ${esc(facts.container)}</li><li>Size: ${esc(facts.dimensions)}</li><li>Fragrance oil: ${esc(facts.oil)} citrus oil included</li></ul><p>Maker and product brand: <a href="${esc(facts.source)}">StoneJeju</a>. Seller and curator: HONDIT.</p>` : product.category === 'CARE' ? '<p>Brand: J’essence. Manufacturer: 제주리퍼블릭. Seller and curator: HONDIT.</p>' : '')
         + `<section><h2>Highlights</h2><ul>${product.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>How to use</h2><p>Follow the product label.</p><ol>${product.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
+        + (path === 'product' ? storyHtml(product.slug, 'en') : '')
         + (product.goodFor ? `<section><h2>Good for</h2><p>${esc(product.goodFor)}</p></section>` : '') + care
         + `<section><h2>Order conditions by country</h2>${termsHtml(rows, product.slug)}${rows.length ? TERMS_NOTE : ''}</section>`
         + (facts ? '<p><a href="/diffusers">Compare the 350g and 500g diffusers</a> · <a href="/faq">Diffuser questions and answers</a> · <a href="/jeju/pickup">Jeju Airport pickup</a></p>' : '')
@@ -358,6 +365,7 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
         + (f && lf ? `<ul><li>${esc(L.label.content)}${sep}${esc(lf.content)}</li><li>${esc(L.label.container)}${sep}${esc(lf.container)}</li><li>${esc(L.label.size)}${sep}${esc(f.dimensions)}</li><li>${esc(L.label.oil)}${sep}${esc(lf.oil)}</li></ul><p>${esc(L.label.maker)}${sep}<a href="${esc(f.source)}">StoneJeju</a>${stop}${esc(L.label.seller)}${sep}HONDIT${stop.trim()}</p>` : product.category === 'CARE' ? `<p>${esc(L.label.careBrand)}</p>` : '')
         + `<section><h2>${esc(L.label.highlights)}</h2><ul>${lp.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>${esc(L.label.howTo)}</h2><p>${esc(L.label.followLabel)}</p><ol>${lp.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
+        + storyHtml(product.slug, lang)
         + `<section><h2>${esc(L.label.goodFor)}</h2><p>${esc(lp.goodFor)}</p></section>`
         + (f ? `<section><h2>${esc(L.label.care)}</h2><ul>${L.care.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></section>` : '')
         + `<section${lang === 'th' ? ' id="thai-delivery"' : ''}><h2>${esc(L.label.terms)}</h2>${termsL(rows, product.slug)}${rows.length ? '<p>' + esc(L.termsNote) + '</p>' : ''}</section>`
