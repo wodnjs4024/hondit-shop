@@ -455,3 +455,17 @@ body.hd-site .hd-pdp__reading a { display: grid; gap: 6px; color: var(--bs-basal
 body.hd-site .hd-pdp__reading strong { font-size: 17px; font-weight: 600; line-height: 1.4; text-decoration: underline; text-decoration-color: var(--hd-line-strong); text-underline-offset: 4px; }
 body.hd-site .hd-pdp__reading a:hover strong { text-decoration-color: currentColor; }
 body.hd-site .hd-pdp__reading span { font-size: 14px; line-height: 1.55; color: var(--bs-muted); }
+
+/* Product questions: plain disclosure rows */
+body.hd-site .hd-pdp__faq { max-width: var(--frame, 1600px); margin: 72px auto 0; padding: 0 var(--hd-gutter); }
+body.hd-site .hd-pdp__faq > h2 { font-size: var(--hd-size-section); font-weight: 650; letter-spacing: -0.025em; line-height: 1.2; margin: 0 0 16px; }
+body.hd-site .hd-pdp__faq details { max-width: 68ch; border-top: 1px solid var(--hd-line); }
+body.hd-site .hd-pdp__faq details:last-child { border-bottom: 1px solid var(--hd-line); }
+body.hd-site .hd-pdp__faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; font-size: 17px; font-weight: 600; color: var(--bs-basalt); }
+body.hd-site .hd-pdp__faq summary::-webkit-details-marker { display: none; }
+body.hd-site .hd-pdp__faq summary::after { content: "+"; font-weight: 400; color: var(--bs-muted); }
+body.hd-site .hd-pdp__faq details[open] summary::after { content: "–"; }
+body.hd-site .hd-pdp__faq summary:focus-visible { outline: 2px solid var(--bs-basalt); outline-offset: 4px; }
+body.hd-site .hd-pdp__faq details p { margin: 0 0 18px; font-size: 16px; line-height: 1.7; color: var(--bs-basalt); }
+body.hd-site .hd-pdp__faq:lang(ko) :is(summary, p) { word-break: keep-all; }
+@media (max-width: 1023px) { body.hd-site .hd-pdp__faq { margin-top: 56px; } }

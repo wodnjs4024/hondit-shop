@@ -11,8 +11,9 @@ import { salesPresentationCopy } from '../shared/sales-presentation-copy.js';
 import { PICKUP_IMAGE, pickupAlternates, pickupSearchLanguage, pickupSearchMeta, pickupSearchPath } from '../shared/pickup-search.js';
 import { diffuserCare as CARE, diffuserGuide, diffuserSpecs as diffuserFacts, thaiDiffuserActions } from '../shared/diffuser-guide.js';
 import { diffuserGuideAlternates, diffuserGuideMarket, diffuserMarkets } from '../shared/diffuser-search-routes.js';
-import { productStory } from '../shared/product-story.js';
+import { productStory, productImageAlt } from '../shared/product-story.js';
 import { relatedReading, readingLabel } from '../shared/product-reading.js';
+import { productFaq, productFaqSchema } from '../shared/product-faq.js';
 import { LOCALES, SEO_LANGUAGES, HREFLANGS, HTML_LANG, LOCALIZED_PAGES, seoLanguagesFor } from '../shared/seo-locales.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
@@ -112,8 +113,14 @@ const readingHtml = (articles, slug, lang) => {
   if (!links.length) return '';
   return `<section><h2>${esc(readingLabel(lang))}</h2><ul>${links.map((l) => `<li><a href="${esc(l.path)}" hreflang="${esc(l.hreflang)}" lang="${esc(l.hreflang)}">${esc(l.title)}</a>${l.dek ? ` <span lang="${esc(l.hreflang)}">${esc(l.dek)}</span>` : ''}</li>`).join('')}</ul></section>`;
 };
-const productImage = (product, name = product.name) =>
-  `<img src="${esc(product.image)}" alt="${esc(name)}" width="880" height="1100" decoding="async">`;
+const faqHtml = (slug, lang) => {
+  const faq = productFaq(slug, lang);
+  if (!faq) return '';
+  return `<section><h2>${esc(faq.label)}</h2>${faq.items.map((i) => `<h3>${esc(i.question)}</h3><p>${esc(i.answer)}</p>`).join('')}</section>`;
+};
+const imageAlt = (slug, name, lang) => productImageAlt(slug, name, lang);
+const productImage = (product, name = product.name, lang = 'en') =>
+  `<img src="${esc(product.image)}" alt="${esc(imageAlt(product.slug, name, lang))}" width="880" height="1100" decoding="async">`;
 
 const breadcrumb = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: SITE + path })) });
 const hrefAlternates = (alternates) => alternates.map(({ hreflang, path }) => ({ hreflang, href: SITE + path }));
@@ -185,13 +192,13 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
     const care = facts ? `<section><h2>Care</h2><ul>${CARE.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></section>` : '';
     return { status: 200, canonical, image: abs(product.image), title: `${product.name}${path === 'bulkProduct' ? ' order conditions' : EN_TITLE_TAIL[product.slug] ? `: ${EN_TITLE_TAIL[product.slug]}` : ''} | HONDIT`,
       description: `${product.description} ${facts ? 'A non-electric aroma stone with no flame. Made by StoneJeju, introduced by HONDIT. ' : product.category === 'CARE' ? 'J’essence, made by 제주리퍼블릭, sold by HONDIT. ' : ''}Direct checkout quantities and prices by country.`.slice(0, 300),
-      jsonLd: [...(path === 'product' ? [productOverviewSchema(product)] : []), breadcrumb([['Home', '/'], [path === 'product' ? 'Products' : 'Bulk orders', path === 'product' ? '/products' : '/bulk-orders'], [product.name, new URL(canonical).pathname]])],
+      jsonLd: [...(path === 'product' ? [productOverviewSchema(product), productFaqSchema(product.slug, 'en', canonical)].filter(Boolean) : []), breadcrumb([['Home', '/'], [path === 'product' ? 'Products' : 'Bulk orders', path === 'product' ? '/products' : '/bulk-orders'], [product.name, new URL(canonical).pathname]])],
       html: wrap(`<nav aria-label="Breadcrumb"><a href="/products">Products</a> / ${esc(product.name)}</nav><h1>${esc(product.name)}</h1><p>${esc(product.description)}</p>`
         + (path === 'product' ? productImage(product) : '')
         + (facts ? `<ul><li>Content: ${esc(facts.content)} Jeju volcanic scoria</li><li>Container: ${esc(facts.container)}</li><li>Size: ${esc(facts.dimensions)}</li><li>Fragrance oil: ${esc(facts.oil)} citrus oil included</li></ul><p>Maker and product brand: <a href="${esc(facts.source)}">StoneJeju</a>. Seller and curator: HONDIT.</p>` : product.category === 'CARE' ? '<p>Brand: J’essence. Manufacturer: 제주리퍼블릭. Seller and curator: HONDIT.</p>' : '')
         + `<section><h2>Highlights</h2><ul>${product.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>How to use</h2><p>Follow the product label.</p><ol>${product.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
-        + (path === 'product' ? storyHtml(product.slug, 'en') + readingHtml(articles, product.slug, 'en') : '')
+        + (path === 'product' ? storyHtml(product.slug, 'en') + faqHtml(product.slug, 'en') + readingHtml(articles, product.slug, 'en') : '')
         + (product.goodFor ? `<section><h2>Good for</h2><p>${esc(product.goodFor)}</p></section>` : '') + care
         + `<section><h2>Order conditions by country</h2>${termsHtml(rows, product.slug)}${rows.length ? TERMS_NOTE : ''}</section>`
         + (facts ? '<p><a href="/diffusers">Compare the 350g and 500g diffusers</a> · <a href="/faq">Diffuser questions and answers</a> · <a href="/jeju/pickup">Jeju Airport pickup</a></p>' : '')
@@ -366,12 +373,12 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
     const f = diffuserFacts[product.slug]; const lf = L.facts[product.slug];
     const schema = productOverviewSchema(product, { url: seoUrl(`/products/${product.slug}`, lang), name: lp.name, description: lp.body, language: HTML_LANG[lang] });
     return page(`/products/${product.slug}`, { image: abs(product.image), title: lp.title, description: lp.description,
-      jsonLd: [schema, breadcrumbL([[L.nav['/'], '/'], [L.nav['/products'], '/products'], [lp.name, `/products/${product.slug}`]])],
-      html: wrapL(`<nav aria-label="Breadcrumb">${a('/products', L.label.products)} / ${esc(lp.name)}</nav><h1>${esc(lp.name)}</h1><p>${esc(lp.body)}</p>${lang === 'th' && (!market || market === 'TH') ? renderThaiActions(product.slug) : ''}${productImage(product, lp.name)}`
+      jsonLd: [schema, ...[productFaqSchema(product.slug, lang, seoUrl(`/products/${product.slug}`, lang))].filter(Boolean), breadcrumbL([[L.nav['/'], '/'], [L.nav['/products'], '/products'], [lp.name, `/products/${product.slug}`]])],
+      html: wrapL(`<nav aria-label="Breadcrumb">${a('/products', L.label.products)} / ${esc(lp.name)}</nav><h1>${esc(lp.name)}</h1><p>${esc(lp.body)}</p>${lang === 'th' && (!market || market === 'TH') ? renderThaiActions(product.slug) : ''}${productImage(product, lp.name, lang)}`
         + (f && lf ? `<ul><li>${esc(L.label.content)}${sep}${esc(lf.content)}</li><li>${esc(L.label.container)}${sep}${esc(lf.container)}</li><li>${esc(L.label.size)}${sep}${esc(f.dimensions)}</li><li>${esc(L.label.oil)}${sep}${esc(lf.oil)}</li></ul><p>${esc(L.label.maker)}${sep}<a href="${esc(f.source)}">StoneJeju</a>${stop}${esc(L.label.seller)}${sep}HONDIT${stop.trim()}</p>` : product.category === 'CARE' ? `<p>${esc(L.label.careBrand)}</p>` : '')
         + `<section><h2>${esc(L.label.highlights)}</h2><ul>${lp.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>${esc(L.label.howTo)}</h2><p>${esc(L.label.followLabel)}</p><ol>${lp.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
-        + storyHtml(product.slug, lang) + readingHtml(articles, product.slug, lang)
+        + storyHtml(product.slug, lang) + faqHtml(product.slug, lang) + readingHtml(articles, product.slug, lang)
         + `<section><h2>${esc(L.label.goodFor)}</h2><p>${esc(lp.goodFor)}</p></section>`
         + (f ? `<section><h2>${esc(L.label.care)}</h2><ul>${L.care.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></section>` : '')
         + `<section${lang === 'th' ? ' id="thai-delivery"' : ''}><h2>${esc(L.label.terms)}</h2>${termsL(rows, product.slug)}${rows.length ? '<p>' + esc(L.termsNote) + '</p>' : ''}</section>`
