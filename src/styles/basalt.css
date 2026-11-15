@@ -469,3 +469,6 @@ body.hd-site .hd-pdp__faq summary:focus-visible { outline: 2px solid var(--bs-ba
 body.hd-site .hd-pdp__faq details p { margin: 0 0 18px; font-size: 16px; line-height: 1.7; color: var(--bs-basalt); }
 body.hd-site .hd-pdp__faq:lang(ko) :is(summary, p) { word-break: keep-all; }
 @media (max-width: 1023px) { body.hd-site .hd-pdp__faq { margin-top: 56px; } }
+
+/* Seasonal order-by line on the bulk order page */
+body.hd-site main.bundle-entry .bundle-entry__season { margin-top: 12px !important; padding: 2px 0 2px 16px; border-left: 2px solid var(--bs-on-dark); color: var(--bs-on-dark) !important; font-weight: 500; line-height: 1.6; }
