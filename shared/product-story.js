@@ -284,3 +284,14 @@ export function productStory(slug, language = 'en') {
   const copy = entry[lang] || entry.en;
   return { ...copy, maker: entry.maker, labels: PRODUCT_STORY_LABELS[lang] || PRODUCT_STORY_LABELS.en, language: lang };
 }
+
+// Short image description from the box contents, without sizes: "Volcanic Diffuser 350g (Jeju volcanic scoria, black glass vessel, citrus fragrance oil)".
+const SIZE = /\s*\d[\d\s.,×±]*\s*(mm|mL|ml|g|มม\.|มล\.|กรัม)?\s*±?\s*$/u;
+export function productImageAlt(slug, name, language = 'en') {
+  const story = productStory(slug, language);
+  if (!story) return name;
+  const parts = story.box.slice(0, 3).map((item) => item.split(/,\s/)[0].replace(SIZE, '').trim()).filter(Boolean)
+    .map((part, i) => (i > 0 && /^[A-Z][a-z]/.test(part) && !/^Jeju\b/.test(part) ? part[0].toLowerCase() + part.slice(1) : part));
+  const sep = /^(ja|zh)/.test(story.language) ? '、' : ', ';
+  return parts.length ? `${name} (${parts.join(sep)})` : name;
+}
