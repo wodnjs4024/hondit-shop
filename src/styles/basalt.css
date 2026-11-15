@@ -96,8 +96,8 @@ body.hd-site .contact-channel__qr figcaption { font-size: 14px; }
 /* Page heroes (/jeju and the other about-style pages) use the same heading weight as the home hero */
 body.hd-site .about-hero h1, body.hd-site .about-hero h1 em { font-family: var(--hd-sans) !important; font-weight: 650 !important; font-style: normal !important; letter-spacing: -0.03em !important; }
 
-/* Phone order bar: the button label stays on one line */
-body.hd-site .order-bar .order-bar__cta { white-space: nowrap; }
+/* Phone order bar: a long button label wraps to two balanced lines instead of being cut off */
+body.hd-site .order-bar .order-bar__cta { white-space: normal; text-wrap: balance; padding-block: 6px; font-size: 14px; }
 
 /* Product page sections share one left edge and width */
 body.hd-site .hd-pdp .stonejeju-scene-gallery { max-width: none !important; margin: 96px 0 0 !important; padding: 0 var(--hd-gutter) !important; }

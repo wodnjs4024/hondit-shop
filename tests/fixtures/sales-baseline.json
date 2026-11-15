@@ -883,7 +883,7 @@
  },
  "diffuser-350g|TW|listing": {
   "visible": true,
-  "unitPrice": "$480",
+  "unitPrice": "NT$480",
   "moq": 20,
   "stock": 240,
   "active": true,
@@ -3235,7 +3235,7 @@
  },
  "diffuser-500g|TW|listing": {
   "visible": true,
-  "unitPrice": "$1,050",
+  "unitPrice": "NT$1,050",
   "moq": 20,
   "stock": 200,
   "active": true,
@@ -5587,7 +5587,7 @@
  },
  "foam-oil|TW|listing": {
   "visible": false,
-  "unitPrice": "$199.75",
+  "unitPrice": "NT$199.75",
   "moq": 30,
   "stock": 600,
   "active": true,
@@ -7939,7 +7939,7 @@
  },
  "foaming-cleanser|TW|listing": {
   "visible": false,
-  "unitPrice": "$199.75",
+  "unitPrice": "NT$199.75",
   "moq": 30,
   "stock": 600,
   "active": true,
@@ -10291,7 +10291,7 @@
  },
  "cleansing-water|TW|listing": {
   "visible": false,
-  "unitPrice": "$199.75",
+  "unitPrice": "NT$199.75",
   "moq": 30,
   "stock": 600,
   "active": true,

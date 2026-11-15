@@ -336,7 +336,8 @@ export function MarketSelectionDialog(_props: { disabled?: boolean } = {}) {
 }
 
 export function formatCurrency(amount: number, currency: CurrencyCode | string = "SGD", locale = "en-SG") {
-  return new Intl.NumberFormat(locale, {
+  // The zh-TW locale writes New Taiwan dollars as a bare "$", which reads as US dollars; en-TW writes NT$ with the same digits.
+  return new Intl.NumberFormat(currency === "TWD" && locale === "zh-TW" ? "en-TW" : locale, {
     style: "currency",
     currency,
     maximumFractionDigits: Number.isInteger(amount) ? 0 : 2,
