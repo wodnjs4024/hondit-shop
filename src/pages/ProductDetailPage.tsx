@@ -22,6 +22,8 @@ import { composeStorefrontProducts, loadStorefrontProduct } from "../lib/storefr
 import { getAdminToken } from "../lib/bulkApi";
 import { catalogCopy } from "../data/catalogCopy";
 import { productStory } from "../../shared/product-story.js";
+import { relatedReading, readingLabel, type ReadingLink } from "../../shared/product-reading.js";
+import { fetchJournalList } from "../lib/journal";
 import { productDescription as describeProduct, productGallery, productList, productMainImage, productName as nameOf, productPriceLabel } from "../lib/productText";
 import { salesPresentationCopy } from "../data/salesPresentationCopy";
 import { diffuserGuide, diffuserLocalizedMeta } from "../../shared/diffuser-guide.js";
@@ -47,6 +49,12 @@ export function ProductDetailPage() {
   const previewMode = params.get("preview") === "1";
   const [loaded, setLoaded] = useState(false);
   const [previewError, setPreviewError] = useState(false);
+  const [journalArticles, setJournalArticles] = useState<unknown[]>([]);
+  useEffect(() => {
+    let alive = true;
+    fetchJournalList(null).then((data) => { if (alive) setJournalArticles(data.articles || []); }).catch(() => undefined);
+    return () => { alive = false; };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -86,6 +94,7 @@ export function ProductDetailPage() {
   const productName = nameOf(product, language);
   const productDescription = describeProduct(product, language, productFacts(product.slug)?.description||product.description);
   const story = productStory(product.slug, language);
+  const reading: ReadingLink[] = previewMode ? [] : relatedReading(journalArticles, product.slug, language);
   const productGoodFor = product.goodFor ? marketProductText(language, product.goodFor) : "";
   const showSingaporeDiffuserDetails = market.code === "SG" && product.slug === "diffuser-350g";
   const selectDetailImage = (nextIndex: number, source: "arrow" | "thumbnail" | "keyboard") => {
@@ -156,6 +165,10 @@ export function ProductDetailPage() {
               <p><span>{story.labels.maker}</span> {story.maker}</p>
             </aside>
           </div>
+          {reading.length > 0 && <nav className="hd-pdp__reading" aria-label={readingLabel(language)}>
+            <h3>{readingLabel(language)}</h3>
+            <ul>{reading.map((item) => <li key={item.path}><a href={item.path} hrefLang={item.hreflang} lang={item.hreflang}><strong>{item.title}</strong>{item.dek && <span>{item.dek}</span>}</a></li>)}</ul>
+          </nav>}
         </section>}
 
         <section className="hd-pdp__about">

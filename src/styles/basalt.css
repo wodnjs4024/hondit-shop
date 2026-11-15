@@ -448,3 +448,10 @@ body.hd-site .hd-pdp__story-box p span { color: var(--bs-basalt); font-weight: 6
   body.hd-site .hd-pdp__story-body { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   body.hd-site .hd-pdp__story-text p { font-size: 16px; }
 }
+body.hd-site .hd-pdp__reading { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--hd-line); }
+body.hd-site .hd-pdp__reading h3 { margin: 0 0 16px; font-size: 14px; font-weight: 600; color: var(--bs-muted); }
+body.hd-site .hd-pdp__reading ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px 32px; }
+body.hd-site .hd-pdp__reading a { display: grid; gap: 6px; color: var(--bs-basalt); text-decoration: none; }
+body.hd-site .hd-pdp__reading strong { font-size: 17px; font-weight: 600; line-height: 1.4; text-decoration: underline; text-decoration-color: var(--hd-line-strong); text-underline-offset: 4px; }
+body.hd-site .hd-pdp__reading a:hover strong { text-decoration-color: currentColor; }
+body.hd-site .hd-pdp__reading span { font-size: 14px; line-height: 1.55; color: var(--bs-muted); }
