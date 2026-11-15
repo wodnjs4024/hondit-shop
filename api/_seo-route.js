@@ -5,6 +5,7 @@ import { buildSeoPage, buildLocalizedSeoPage, catalogProducts, seoAlternates, se
 import { canonicalSeoLanguage, HTML_LANG, OG_LOCALE, LOCALIZED_PAGES } from '../shared/seo-locales.js';
 import { setHead, shell } from './_journal-html.js';
 import { getPayPalMode, getStorefrontProducts, supabase } from './_utils.js';
+import { listPublicArticles } from './_journal.js';
 import { homeHeroPoster } from '../shared/storefront-catalog.js';
 
 const PUBLIC_CACHE = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300';
@@ -49,10 +50,12 @@ export async function seoRoute(req, res) {
   if (productionCatalog && (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY)) {
     return send(res, 503, req.method === 'HEAD' ? '' : html, 'no-store');
   }
-  const [live, checkoutLive] = await Promise.all([
+  const [live, checkoutLive, journal] = await Promise.all([
     catalogPages.has(kind) ? getStorefrontProducts().catch(() => null) : null,
     orderPages.has(kind) && confirmedLiveCheckout(),
+    kind === 'product' ? listPublicArticles().catch(() => null) : null,
   ]);
+  const articles = journal?.articles || [];
   if (productionCatalog && !live) return send(res, 503, req.method === 'HEAD' ? '' : html, 'no-store');
   const products = catalogProducts(live || [], { liveOnly: productionCatalog });
   const indexedLang = canonicalSeoLanguage(lang, seoPath(kind, slug));
@@ -60,8 +63,8 @@ export async function seoRoute(req, res) {
   const showOrderTerms = Boolean(live && checkoutLive) && (indexedLang !== 'th' || !requestedMarket || requestedMarket === 'TH');
   const localized = indexedLang !== 'en' && LOCALIZED_PAGES.includes(kind);
   const page = localized
-    ? buildLocalizedSeoPage(kind, indexedLang, { slug, products, showOrderTerms, market: requestedMarket })
-    : buildSeoPage(kind, { slug, policy: q(req, 'seoPolicy'), language: lang, guidePath, products, showOrderTerms });
+    ? buildLocalizedSeoPage(kind, indexedLang, { slug, products, showOrderTerms, market: requestedMarket, articles })
+    : buildSeoPage(kind, { slug, policy: q(req, 'seoPolicy'), language: lang, guidePath, products, showOrderTerms, articles });
   // A product or policy that does not exist answers 404 (the app still draws its own not-found page). Products added in the admin
   // exist only in the database, so a product slug is called unknown only when the database was read and does not list it.
   const missing = page.status === 404
