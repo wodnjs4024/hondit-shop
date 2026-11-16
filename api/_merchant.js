@@ -83,6 +83,13 @@ function identifiers(metadata) {
   if (metadata.identifierExists === false && !result.gtin && !result.mpn) result.identifierExists = false;
   return result;
 }
+// Real product photographs already shown on the product page (src/data/productPhotos.ts). Google rates a listing with one
+// image per product "Low", so products that have no gallery of their own in the database get these as additional images.
+const PHOTO_ROOT = '/images/hondit-pack/hondit_codex_image_pack/01_product_originals/';
+const builtInPhotos = {
+  'diffuser-350g': ['03_diffuser_350_window.webp', '04_diffuser_350_stone.webp', '05_diffuser_350_shelf.webp'].map(f => PHOTO_ROOT + f),
+  'diffuser-500g': ['07_diffuser_500_window.webp', '08_diffuser_500_wood.webp', '01_diffuser_350_package.webp'].map(f => PHOTO_ROOT + f),
+};
 export function merchantOffer(product, market = 'SG', language, requestedQuantity) {
   const channel = merchantMarket(market, language);
   if (!channel) return { reason: 'market_not_enabled' };
@@ -131,7 +138,7 @@ export function merchantOffer(product, market = 'SG', language, requestedQuantit
     market, language: channel.language, quantity, link,
     checkoutLink: `${SITE}/bulk-orders/${product.slug}?${checkoutQuery}`,
     detailsLink: `${SITE}/products/${product.slug}?${checkoutQuery}`,
-    image, extraImages: [...new Set([...(product.media || []).filter(m => m.role === 'gallery').map(m => publicImage(m.url)), ...(product.galleryImages || []).map(publicImage)])].filter(url => url && url !== image).slice(0,10),
+    image, extraImages: [...new Set([...(product.media || []).filter(m => m.role === 'gallery').map(m => publicImage(m.url)), ...(product.galleryImages || []).map(publicImage), ...(builtInPhotos[sku] || []).map(publicImage)])].filter(url => url && url !== image).slice(0,10),
     availability: available ? 'in_stock' : 'out_of_stock', currency: decision.billingCurrency,
     // The existing delivered price has no separately charged freight; never invent a cost allocation.
     priceAmount: amount(decision.productTotalMinor), price: `${amount(decision.productTotalMinor)} ${decision.billingCurrency}`,
@@ -148,7 +155,11 @@ export function merchantSchema(item) {
     offers:{'@type':'Offer',url:item.link,price:item.priceAmount,priceCurrency:item.currency,
       availability:`https://schema.org/${item.availability === 'in_stock' ? 'InStock' : 'OutOfStock'}`,
       itemCondition:'https://schema.org/NewCondition',seller:{'@type':'Organization',name:'HONDIT'},
-      shippingDetails:{'@type':'OfferShippingDetails',shippingRate:{'@type':'MonetaryAmount',value:item.shippingAmount,currency:item.currency},shippingDestination:{'@type':'DefinedRegion',addressCountry:item.market}}}
+      shippingDetails:{'@type':'OfferShippingDetails',shippingRate:{'@type':'MonetaryAmount',value:item.shippingAmount,currency:item.currency},shippingDestination:{'@type':'DefinedRegion',addressCountry:item.market},
+        // Same wording as the Shipping policy: usually 3-5 business days after dispatch.
+        deliveryTime:{'@type':'ShippingDeliveryTime',transitTime:{'@type':'QuantitativeValue',minValue:3,maxValue:5,unitCode:'DAY'}}},
+      // Mirrors the published Refund policy: no change-of-mind returns; damaged, wrong or missing items are handled by replacement, reshipment or refund.
+      hasMerchantReturnPolicy:{'@type':'MerchantReturnPolicy',applicableCountry:item.market,returnPolicyCategory:'https://schema.org/MerchantReturnNotPermitted',merchantReturnLink:`${SITE}/policy/refund?market=${item.market}&lang=${item.language}`}}
   };
 }
 const displayAmount = amount => { const [whole, fraction] = String(amount).split('.'); return whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (fraction ? `.${fraction}` : ''); };
