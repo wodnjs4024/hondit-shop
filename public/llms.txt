@@ -18,6 +18,17 @@
 - [Shipping](https://hondit-shop.vercel.app/shipping)
 - [Refund policy](https://hondit-shop.vercel.app/policy/refund)
 
+## Buying by country: quick facts (checked 2026-11-16)
+- One piece: in Singapore, buy a single diffuser on HONDIT's Shopee Singapore listing (linked on each product page). HONDIT does not ship a single piece to Hong Kong, Taiwan, Japan, Malaysia or Thailand.
+- Direct checkout on this site starts at 5 pieces of one size, paid by PayPal in the local currency (SGD for Singapore and Malaysia, HKD for Hong Kong, TWD for Taiwan, JPY for Japan, THB for Thailand). Shipping from Korea is included in the price; there is no separate shipping charge. Import duties or taxes, if any, are paid by the recipient.
+- 5-piece delivered prices on 2026-11-16 (each product page and country guide shows the current figure): 350g Singapore SGD 129.00, Hong Kong HKD 860.00, Taiwan TWD 3,650, Japan JPY 17,800; 500g Singapore SGD 269.00, Hong Kong HKD 1,680.00, Taiwan TWD 7,150, Japan JPY 34,400. Lower per-piece prices apply from 20 pieces.
+- Prices in JPY found in Japanese blog posts about HONDIT (note.com, Ameba) are Japan prices only. They are not Hong Kong, Singapore or Taiwan prices.
+- Delivery: usually 3-5 business days after dispatch, with tracking. Returns: no change-of-mind returns after dispatch; damaged, wrong or missing items reported within 7 days are replaced, reshipped or refunded.
+- Visiting Jeju: 1-3 pieces can be picked up at Jeju Airport by prior arrangement (350g KRW 18,000, 500g KRW 40,000 each).
+- Refill oil is not listed in the online shop (ask HONDIT about extra oil). Each diffuser includes 10mL citrus fragrance oil, and any fragrance or essential oil can be used after rinsing and drying the stones.
+- Country answers in the local language: [Singapore](https://hondit-shop.vercel.app/diffusers), [香港](https://hondit-shop.vercel.app/diffusers/hong-kong), [台灣](https://hondit-shop.vercel.app/diffusers/taiwan), [日本](https://hondit-shop.vercel.app/diffusers/japan)
+- Brand name: HONDIT is spelled H-O-N-D-I-T (혼딧 in Korean). It is not HEJDIN (헤이딘) or JEJU STONE.
+
 ## Other languages
 Each page below also exists in Korean (?lang=ko), Japanese (?lang=ja) and Traditional Chinese for Hong Kong, Taiwan and Macau (?lang=zh-HK):
 - [ホーム（日本語）](https://hondit-shop.vercel.app/?lang=ja), [よくある質問](https://hondit-shop.vercel.app/faq?lang=ja)

@@ -23,6 +23,7 @@ import { getAdminToken } from "../lib/bulkApi";
 import { catalogCopy } from "../data/catalogCopy";
 import { productStory, productImageAlt } from "../../shared/product-story.js";
 import { productFaq } from "../../shared/product-faq.js";
+import { marketBuyingQA, productBuyingTerms } from "../../shared/market-buying.js";
 import { relatedReading, readingLabel, type ReadingLink } from "../../shared/product-reading.js";
 import { fetchJournalList } from "../lib/journal";
 import { productDescription as describeProduct, productGallery, productList, productMainImage, productName as nameOf, productPriceLabel } from "../lib/productText";
@@ -96,6 +97,8 @@ export function ProductDetailPage() {
   const productDescription = describeProduct(product, language, productFacts(product.slug)?.description||product.description);
   const story = productStory(product.slug, language);
   const faq = productFaq(product.slug, language);
+  // Same per-market answers the server-rendered page gives crawlers: single piece, delivered price, delivery, returns, oil.
+  const buying = productFacts(product.slug) && !previewMode ? marketBuyingQA(market.code, language, productBuyingTerms(product, market.code), [product.slug]) : null;
   const reading: ReadingLink[] = previewMode ? [] : relatedReading(journalArticles, product.slug, language);
   const productGoodFor = product.goodFor ? marketProductText(language, product.goodFor) : "";
   const showSingaporeDiffuserDetails = market.code === "SG" && product.slug === "diffuser-350g";
@@ -176,6 +179,7 @@ export function ProductDetailPage() {
         {faq && <section className="hd-pdp__faq" aria-labelledby="product-faq-title" lang={faq.language === "zh-HK" ? "zh-Hant-HK" : faq.language}>
           <h2 id="product-faq-title">{faq.label}</h2>
           {faq.items.map((item) => <details key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}
+          {buying?.items.map((item) => <details key={item.q}><summary>{item.q}</summary><p>{item.a}</p></details>)}
         </section>}
 
         <section className="hd-pdp__about">

@@ -12,6 +12,8 @@ const PUBLIC_CACHE = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300
 const q = (req, key) => (typeof req.query?.[key] === 'string' ? req.query[key] : '');
 const catalogPages = new Set(['home', 'products', 'product', 'bulk', 'bulkProduct']);
 const orderPages = new Set(['product', 'bulk', 'bulkProduct']);
+// Pages that show delivered prices when the live catalog answers, and still render without it.
+const answerPages = new Set(['diffuserGuide', 'faq']);
 const pickupLocales = { en: 'en_SG', ko: 'ko_KR', ja: 'ja_JP', 'zh-Hant': 'zh_HK', ms: 'ms_MY', th: 'th_TH' };
 
 export async function confirmedLiveCheckout() {
@@ -51,8 +53,8 @@ export async function seoRoute(req, res) {
     return send(res, 503, req.method === 'HEAD' ? '' : html, 'no-store');
   }
   const [live, checkoutLive, journal] = await Promise.all([
-    catalogPages.has(kind) ? getStorefrontProducts().catch(() => null) : null,
-    orderPages.has(kind) && confirmedLiveCheckout(),
+    catalogPages.has(kind) || answerPages.has(kind) ? getStorefrontProducts().catch(() => null) : null,
+    (orderPages.has(kind) || answerPages.has(kind)) && confirmedLiveCheckout(),
     kind === 'product' ? listPublicArticles().catch(() => null) : null,
   ]);
   const articles = journal?.articles || [];
@@ -64,7 +66,7 @@ export async function seoRoute(req, res) {
   const localized = indexedLang !== 'en' && LOCALIZED_PAGES.includes(kind);
   const page = localized
     ? buildLocalizedSeoPage(kind, indexedLang, { slug, products, showOrderTerms, market: requestedMarket, articles })
-    : buildSeoPage(kind, { slug, policy: q(req, 'seoPolicy'), language: lang, guidePath, products, showOrderTerms, articles });
+    : buildSeoPage(kind, { slug, policy: q(req, 'seoPolicy'), language: lang, guidePath, products, showOrderTerms: answerPages.has(kind) ? Boolean(live && checkoutLive) : showOrderTerms, articles });
   // A product or policy that does not exist answers 404 (the app still draws its own not-found page). Products added in the admin
   // exist only in the database, so a product slug is called unknown only when the database was read and does not list it.
   const missing = page.status === 404
