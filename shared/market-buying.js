@@ -49,7 +49,7 @@ const COPY = {
     deliveryQ: 'How long does delivery take, and can I return it?',
     delivery: 'Orders ship from Korea after payment is confirmed and usually arrive 3-5 business days after dispatch, with tracking. Change-of-mind returns after dispatch are not accepted. Report a damaged, wrong or missing item within 7 days of delivery, with photos, for a replacement, reshipment or refund.',
     oilQ: 'Can I buy extra fragrance oil?',
-    oil: 'Each diffuser comes with 10mL citrus fragrance oil. HONDIT does not sell refill oil separately. You can use your own fragrance or essential oil after rinsing the stones in warm water and drying them completely.',
+    oil: 'Each diffuser comes with 10mL citrus fragrance oil. Refill oil is not listed in the online shop; message HONDIT to ask about extra oil. You can use your own fragrance or essential oil after rinsing the stones in warm water and drying them completely.',
     offers: 'Offer pages with price, delivery and returns',
   },
   'zh-HK': {
@@ -65,7 +65,7 @@ const COPY = {
     deliveryQ: '幾耐收到？可以退貨嗎？',
     delivery: '確認付款後由韓國發貨，一般發貨後 3 至 5 個工作天送達，並提供追蹤資料。發貨後不接受改變主意的退貨。如收到損壞、錯誤或缺漏的商品，請於收貨後 7 天內附相片聯絡，HONDIT 會安排更換、補寄或退款。',
     oilQ: '可以另購香氛油嗎？',
-    oil: '每件擴香附 10mL 柑橘香氛油。HONDIT 不另售補充油。用溫水沖洗石頭並完全晾乾後，可改用你自己的香氛油或精油。',
+    oil: '每件擴香附 10mL 柑橘香氛油。網店沒有列出補充油，如需額外香氛油請聯絡 HONDIT。用溫水沖洗石頭並完全晾乾後，可改用你自己的香氛油或精油。',
     offers: '價錢、送貨及退貨資料頁',
   },
   'zh-TW': {
@@ -81,7 +81,7 @@ const COPY = {
     deliveryQ: '多久會收到？可以退貨嗎？',
     delivery: '確認付款後由韓國出貨，通常出貨後 3 到 5 個工作天送達，並提供追蹤資訊。出貨後不接受個人因素退貨。收到破損、寄錯或缺件的商品，請在收貨後 7 天內附照片聯絡，HONDIT 會安排更換、補寄或退款。',
     oilQ: '可以加購香氛油嗎？',
-    oil: '每組附 10mL 柑橘香氛油。HONDIT 沒有另外販售補充油。把石頭用溫水沖洗並完全晾乾後，可以改用自己的香氛油或精油。',
+    oil: '每組附 10mL 柑橘香氛油。網路商店沒有列出補充油，需要額外香氛油請聯絡 HONDIT。把石頭用溫水沖洗並完全晾乾後，可以改用自己的香氛油或精油。',
     offers: '價格、配送與退貨資訊頁',
   },
   ja: {
@@ -97,7 +97,7 @@ const COPY = {
     deliveryQ: '届くまでの日数と返品について教えてください。',
     delivery: 'お支払い確認後に韓国から発送し、通常は発送後3〜5営業日でお届けします（追跡番号あり）。発送後のお客様都合による返品はお受けしていません。破損・誤配送・不足は受け取りから7日以内に写真を添えてご連絡ください。交換、再送または返金をご案内します。',
     oilQ: 'オイルだけ追加で買えますか？',
-    oil: '各ディフューザーに10mLのシトラスオイルが付属します。詰め替え用オイルの単品販売はありません。石をぬるま湯で洗い、完全に乾かせば、お手持ちのアロマオイルやエッセンシャルオイルも使えます。',
+    oil: '各ディフューザーに10mLのシトラスオイルが付属します。オンラインショップに詰め替え用オイルは掲載していません。追加のオイルはHONDITにお問い合わせください。石をぬるま湯で洗い、完全に乾かせば、お手持ちのアロマオイルやエッセンシャルオイルも使えます。',
     offers: '価格・配送・返品の詳細ページ',
   },
 };

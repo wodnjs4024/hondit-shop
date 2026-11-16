@@ -25,7 +25,7 @@ test('Hong Kong and Taiwan get a plain no-single-piece answer and the delivered 
 test('English product page and FAQ answer single piece, price per currency, shipping, returns and oil', () => {
   for (const page of [buildSeoPage('product', { slug: 'diffuser-350g', products, showOrderTerms: true }), buildSeoPage('faq', { products, showOrderTerms: true })]) {
     const body = text(page);
-    for (const needle of ['Shopee Singapore', 'does not ship a single piece', 'SGD', 'HKD', 'TWD', 'no separate shipping charge', '3-5 business days', 'within 7 days', 'refill oil']) assert.ok(body.includes(needle), needle);
+    for (const needle of ['Shopee Singapore', 'does not ship a single piece', 'SGD', 'HKD', 'TWD', 'no separate shipping charge', '3-5 business days', 'within 7 days', 'Refill oil']) assert.ok(body.includes(needle), needle);
   }
   assert.ok(text(buildSeoPage('faq', { products })).includes('HEJDIN (헤이딘)'));
 });

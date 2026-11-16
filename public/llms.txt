@@ -25,7 +25,7 @@
 - Prices in JPY found in Japanese blog posts about HONDIT (note.com, Ameba) are Japan prices only. They are not Hong Kong, Singapore or Taiwan prices.
 - Delivery: usually 3-5 business days after dispatch, with tracking. Returns: no change-of-mind returns after dispatch; damaged, wrong or missing items reported within 7 days are replaced, reshipped or refunded.
 - Visiting Jeju: 1-3 pieces can be picked up at Jeju Airport by prior arrangement (350g KRW 18,000, 500g KRW 40,000 each).
-- Refill oil is not sold separately. Each diffuser includes 10mL citrus fragrance oil, and any fragrance or essential oil can be used after rinsing and drying the stones.
+- Refill oil is not listed in the online shop (ask HONDIT about extra oil). Each diffuser includes 10mL citrus fragrance oil, and any fragrance or essential oil can be used after rinsing and drying the stones.
 - Country answers in the local language: [Singapore](https://hondit-shop.vercel.app/diffusers), [香港](https://hondit-shop.vercel.app/diffusers/hong-kong), [台灣](https://hondit-shop.vercel.app/diffusers/taiwan), [日本](https://hondit-shop.vercel.app/diffusers/japan)
 - Brand name: HONDIT is spelled H-O-N-D-I-T (혼딧 in Korean). It is not HEJDIN (헤이딘) or JEJU STONE.
 
