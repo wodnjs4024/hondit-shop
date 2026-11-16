@@ -126,16 +126,30 @@ const copy = {
   },
 };
 
+// Order buttons at the top of each country guide: one per size, straight to that market's order page, with the payment currency.
+// Thailand has its own delivery/pickup buttons (thaiDiffuserActions), so it gets none here.
+const topOrder = {
+  SG: { label: (size) => `Order ${size} · SGD`, pay: 'Paid in SGD by PayPal, with delivery from Korea included.' },
+  JP: { label: (size) => `${size}を注文 · 日本円`, pay: '日本円でPayPal決済、韓国からの送料込みです。' },
+  HK: { label: (size) => `訂購 ${size} · 港幣`, pay: '以港幣經 PayPal 付款，已包括由韓國寄出的運費。' },
+  TW: { label: (size) => `訂購 ${size} · 新台幣`, pay: '以新台幣經 PayPal 付款，已含從韓國寄出的運費。' },
+  MY: { label: (size) => `Pesan ${size} · SGD`, pay: 'Dibayar dalam SGD melalui PayPal, termasuk penghantaran dari Korea.' },
+};
+
 export function diffuserGuide(option) {
   const data = copy[option.market];
   const selection = new URLSearchParams({ market: option.market, lang: option.lang });
+  const top = topOrder[option.market];
+  const products = diffuserSlugs.map((slug, index) => ({
+    slug, ...diffuserSpecs[slug], name: data.model[index], useCase: data.modelDescription[index],
+    detailsPath: diffuserProductPath(slug, option),
+    orderPath: '/bulk-orders/' + slug + '?' + selection,
+  }));
   return {
     ...data,
-    products: diffuserSlugs.map((slug, index) => ({
-      slug, ...diffuserSpecs[slug], name: data.model[index], useCase: data.modelDescription[index],
-      detailsPath: diffuserProductPath(slug, option),
-      orderPath: '/bulk-orders/' + slug + '?' + selection,
-    })),
+    products,
+    topOrders: top ? products.map((item) => ({ slug: item.slug, path: item.orderPath, label: top.label(item.slug.replace('diffuser-', '')) })) : [],
+    payNote: top?.pay || '',
     pickupPath: pickupSearchPath(option.lang),
     otherMarkets: Object.values(diffuserMarkets).filter(({ market }) => market !== option.market),
   };

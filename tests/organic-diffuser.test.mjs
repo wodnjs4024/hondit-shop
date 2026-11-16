@@ -47,7 +47,12 @@ test('regional guides give bots and buyers the same localized answer, maker evid
       assert.ok(actions.querySelector('a[href="#compare-diffusers"]'));
       assert.ok(doc.getElementById('compare-diffusers'));
       assert.equal(new URL(actions.querySelector('a[href^="/jeju/pickup"]').href).searchParams.get('lang'), 'th');
-    } else assert.equal(actions, null);
+    } else {
+      assert.equal(actions, null);
+      // Every other guide opens with one order button per size, to that market's order page.
+      const top = [...doc.querySelectorAll('.diffuser-guide__intro .diffuser-guide__order a')].map((a) => a.getAttribute('href'));
+      assert.deepEqual(top, guide.products.map((product) => product.orderPath));
+    }
     assert.equal((await request(query, 'HEAD')).body, '');
   }
   assert.equal((await request({ seoPage: 'diffuserGuide', seoGuide: 'unsupported' })).statusCode, 404);

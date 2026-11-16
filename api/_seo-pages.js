@@ -168,7 +168,7 @@ function comparisonPage(option, { products = [], showOrderTerms = false } = {}) 
       inLanguage: option.lang,
       mainEntity: { '@type': 'ItemList', itemListElement: data.products.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, url: SITE + item.detailsPath })) },
     }],
-    html: wrap(`<header class="diffuser-guide__intro"><h1>${esc(data.title)}</h1><p>${esc(data.description)}</p>${option.market === 'TH' ? renderThaiActions() : ''}</header>`
+    html: wrap(`<header class="diffuser-guide__intro"><h1>${esc(data.title)}</h1><p>${esc(data.description)}</p>${option.market === 'TH' ? renderThaiActions() : ''}${data.topOrders.length ? `<div class="diffuser-guide__order">${data.topOrders.map((o, i) => `<a class="button ${i ? 'button--outline-dark' : 'button--primary'}" href="${esc(o.path)}">${esc(o.label)}</a>`).join('')}</div><p class="diffuser-guide__pay">${esc(data.payNote)}</p>` : ''}</header>`
       + `<section id="compare-diffusers" class="diffuser-guide__comparison"><h2>${esc(data.compare)}</h2><div class="diffuser-guide__models">${models}</div><p>${esc(data.maker)}</p></section>`
       + buyingHtml(buying) + `<div class="diffuser-guide__answers">${answers}</div><nav class="diffuser-guide__markets" aria-label="${esc(data.other)}">${other}</nav>`, 'diffuser-guide'),
   };
