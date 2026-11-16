@@ -9,5 +9,6 @@ export function diffuserGuide(option: DiffuserMarket): {
   details: string; order: string; source: string; specs: string; included: string; oil: string;
   how: string; use: string; buy: string; buying: string; pickup: string; pickupNote: string; maker: string;
   other: string; guide: string; products: (DiffuserSpec & { slug: DiffuserSlug; name: string; useCase: string; detailsPath: string; orderPath: string })[];
+  topOrders: { slug: DiffuserSlug; path: string; label: string }[]; payNote: string;
   pickupPath: string; otherMarkets: DiffuserMarket[];
 };

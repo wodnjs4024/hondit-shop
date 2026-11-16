@@ -16,6 +16,12 @@ export function DiffuserGuidePage() {
           <h1>{content.title}</h1>
           <p>{content.description}</p>
           {option.market === "TH" && <ThaiDiffuserActions />}
+          {content.topOrders.length > 0 && <>
+            <div className="diffuser-guide__order">
+              {content.topOrders.map((order, index) => <Link key={order.slug} className={`button ${index ? "button--outline-dark" : "button--primary"}`} to={order.path}>{order.label}</Link>)}
+            </div>
+            <p className="diffuser-guide__pay">{content.payNote}</p>
+          </>}
         </header>
         <section id="compare-diffusers" className="diffuser-guide__comparison" aria-labelledby="diffuser-guide-comparison">
           <h2 id="diffuser-guide-comparison">{content.compare}</h2>
