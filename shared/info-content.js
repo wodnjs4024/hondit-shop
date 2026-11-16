@@ -82,7 +82,7 @@ export const ABOUT_PAGE = {
     },
     {
       q: 'Is HONDIT the same as JEJU STONE, HEJDIN or other Jeju stone brands?',
-      a: 'No. HONDIT is a separate seller. Its diffusers are made by StoneJeju (stonejeju.com). Other Jeju stone or fragrance brands are separate brands and are not HONDIT.',
+      a: 'No. HONDIT (spelled H-O-N-D-I-T, 혼딧 in Korean) is a separate seller run by a Jeju National University student team. Its diffusers are made by StoneJeju (stonejeju.com). HEJDIN (헤이딘), JEJU STONE and other Jeju stone or fragrance brands are separate brands and are not HONDIT.',
     },
   ],
 };
@@ -132,7 +132,7 @@ export const FAQ_PAGE = {
     },
     {
       q: 'Where can I buy a Jeju volcanic-stone diffuser from overseas?',
-      a: 'HONDIT sells the StoneJeju diffusers to customers in Singapore, Hong Kong, Japan, Taiwan and other Asian markets with direct PayPal checkout at set quantities and delivery from Korea. The quantities and prices for each country are on the order conditions page.',
+      a: 'HONDIT sells the StoneJeju diffusers to customers in Singapore, Hong Kong, Japan, Taiwan and other Asian markets with direct PayPal checkout at set quantities and delivery from Korea. A single piece is not shipped overseas (in Singapore one piece can be bought on Shopee); direct checkout starts at 5 pieces of one size with delivery included in the price. The delivered price in each currency is in the buying answers below and on each product page.',
     },
     {
       q: 'Is it a good non-food gift or souvenir from Jeju?',
@@ -157,6 +157,10 @@ export const FAQ_PAGE = {
     {
       q: 'Who is HONDIT and who makes the diffusers?',
       a: WHO,
+    },
+    {
+      q: 'Is HONDIT the same as JEJU STONE, HEJDIN or other Jeju stone brands?',
+      a: 'No. HONDIT (spelled H-O-N-D-I-T, 혼딧 in Korean) is a separate seller run by a Jeju National University student team. Its diffusers are made by StoneJeju (stonejeju.com). HEJDIN (헤이딘), JEJU STONE and other Jeju stone or fragrance brands are separate brands and are not HONDIT.',
     },
   ],
 };
@@ -223,7 +227,7 @@ export const ABOUT_PAGE_KO = {
     },
     {
       q: 'HONDIT은 JEJU STONE, HEJDIN 같은 다른 제주 돌 브랜드와 같은 곳인가요?',
-      a: '아닙니다. HONDIT은 별도의 판매자이며 디퓨저는 StoneJeju(stonejeju.com)가 만듭니다. 다른 제주 돌·향 브랜드는 HONDIT과 관계없는 별도 브랜드입니다.',
+      a: '아닙니다. HONDIT(혼딧, 영문 H-O-N-D-I-T)은 제주대학교 학생 팀이 운영하는 별도의 판매자이며 디퓨저는 StoneJeju(stonejeju.com)가 만듭니다. HEJDIN(헤이딘), JEJU STONE 등 다른 제주 돌·향 브랜드는 HONDIT과 관계없는 별도 브랜드입니다.',
     },
   ],
 };
@@ -297,6 +301,10 @@ export const FAQ_PAGE_KO = {
       q: 'HONDIT은 누구이고, 디퓨저는 누가 만드나요?',
       a: WHO_KO,
     },
+    {
+      q: 'HONDIT은 JEJU STONE, HEJDIN 같은 다른 제주 돌 브랜드와 같은 곳인가요?',
+      a: '아닙니다. HONDIT(혼딧, 영문 H-O-N-D-I-T)은 제주대학교 학생 팀이 운영하는 별도의 판매자이며 디퓨저는 StoneJeju(stonejeju.com)가 만듭니다. HEJDIN(헤이딘), JEJU STONE 등 다른 제주 돌·향 브랜드는 HONDIT과 관계없는 별도 브랜드입니다.',
+    },
   ],
 };
 
@@ -365,7 +373,7 @@ export const ABOUT_PAGE_JA = {
     },
     {
       q: 'HONDITはJEJU STONEやHEJDINなど、ほかの済州ストーンブランドと同じですか？',
-      a: 'いいえ。HONDITは別の販売者で、ディフューザーはStoneJeju（stonejeju.com）が製造しています。ほかの済州の石や香りのブランドは、HONDITとは関係のない別ブランドです。',
+      a: 'いいえ。HONDIT（つづりはH-O-N-D-I-T、韓国語で혼딧）は済州大学の学生チームが運営する別の販売者で、ディフューザーはStoneJeju（stonejeju.com）が製造しています。HEJDIN（헤이딘）、JEJU STONEなど、ほかの済州の石や香りのブランドはHONDITとは関係のない別ブランドです。',
     },
   ],
 };
@@ -400,7 +408,7 @@ export const FAQ_PAGE_JA = {
     },
     {
       q: '日本から済州島の火山石ディフューザーを買えますか？',
-      a: 'HONDITは日本、シンガポール、香港、台湾などのお客様に、決まった数量でPayPal直接決済と韓国からの発送を行っています。国ごとの数量と価格は注文条件のページに載っています。',
+      a: 'はい。HONDITは韓国から日本へ発送し、PayPal（日本円）で直接お支払いいただけます。1個単位の配送はなく、同じサイズ5個から、送料込みの価格です。日本円の価格は下の「日本からのご購入」と各商品ページに載っています。',
     },
     {
       q: '食べ物以外の済州島のお土産・ギフトになりますか？',
@@ -425,6 +433,10 @@ export const FAQ_PAGE_JA = {
     {
       q: 'HONDITとは？ディフューザーは誰が作っていますか？',
       a: WHO_JA,
+    },
+    {
+      q: 'HONDITはJEJU STONEやHEJDINなど、ほかの済州ストーンブランドと同じですか？',
+      a: 'いいえ。HONDIT（つづりはH-O-N-D-I-T、韓国語で혼딧）は済州大学の学生チームが運営する別の販売者で、ディフューザーはStoneJeju（stonejeju.com）が製造しています。HEJDIN（헤이딘）、JEJU STONEなど、ほかの済州の石や香りのブランドはHONDITとは関係のない別ブランドです。',
     },
   ],
 };
@@ -487,7 +499,7 @@ export const ABOUT_PAGE_ZH = {
     },
     {
       q: 'HONDIT 和 JEJU STONE、HEJDIN 等其他濟州石品牌是同一家嗎？',
-      a: '不是。HONDIT 是獨立賣家，擴香由 StoneJeju（stonejeju.com）製造。其他濟州石或香氛品牌都是與 HONDIT 無關的獨立品牌。',
+      a: '不是。HONDIT（拼法 H-O-N-D-I-T，韓文 혼딧）是濟州大學學生團隊經營的獨立賣家，擴香由 StoneJeju（stonejeju.com）製造。HEJDIN（헤이딘）、JEJU STONE 等其他濟州石或香氛品牌都是與 HONDIT 無關的獨立品牌。',
     },
   ],
 };
@@ -522,7 +534,7 @@ export const FAQ_PAGE_ZH = {
     },
     {
       q: '在香港或台灣可以買到濟州火山石擴香嗎？',
-      a: 'HONDIT 為香港、台灣、新加坡、日本等地的顧客提供指定數量的 PayPal 直接付款，並由韓國發貨。各地區的數量與價格列在訂購條件頁面。',
+      a: '可以。HONDIT 由韓國寄到香港、台灣、新加坡、日本等地，以 PayPal 直接付款。不提供單件寄送，最少 5 件同一款式，價錢已包括運費。以港幣、新台幣計的連運費價錢列在下面的購買解答及各商品頁。',
     },
     {
       q: '適合做濟州島手信或伴手禮嗎？',
@@ -547,6 +559,10 @@ export const FAQ_PAGE_ZH = {
     {
       q: 'HONDIT 是誰？擴香由誰製造？',
       a: WHO_ZH,
+    },
+    {
+      q: 'HONDIT 和 JEJU STONE、HEJDIN 等其他濟州石品牌是同一家嗎？',
+      a: '不是。HONDIT（拼法 H-O-N-D-I-T，韓文 혼딧）是濟州大學學生團隊經營的獨立賣家，擴香由 StoneJeju（stonejeju.com）製造。HEJDIN（헤이딘）、JEJU STONE 等其他濟州石或香氛品牌都是與 HONDIT 無關的獨立品牌。',
     },
   ],
 };

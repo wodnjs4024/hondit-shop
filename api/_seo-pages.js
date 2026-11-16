@@ -17,6 +17,7 @@ import { productFaq, productFaqSchema } from '../shared/product-faq.js';
 import { LOCALES, SEO_LANGUAGES, HREFLANGS, HTML_LANG, LOCALIZED_PAGES, seoLanguagesFor } from '../shared/seo-locales.js';
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
+import { buyingTerms, marketBuyingQA, overviewBuyingQA, BUYING_SLUGS } from '../shared/market-buying.js';
 import { escapeMarkup as esc } from './_merchant.js';
 
 export const SITE = 'https://hondit-shop.vercel.app';
@@ -85,7 +86,8 @@ const org = () => ({ '@context': 'https://schema.org', '@type': 'Organization', 
   identifier: { '@type': 'PropertyValue', name: 'Business registration number (Republic of Korea)', value: SITE_FACTS.businessRegistration },
   contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: EMAIL, telephone: PHONE },
   address: { '@type': 'PostalAddress', streetAddress: '102 Jejudaehak-ro', addressLocality: 'Jeju-si', postalCode: '63243', addressCountry: 'KR' },
-  description: 'Selling and curation brand of a Jeju National University GTEP student team, introducing StoneJeju volcanic-stone diffusers to overseas customers.' });
+  description: 'Selling and curation brand of a Jeju National University GTEP student team, introducing StoneJeju volcanic-stone diffusers to overseas customers.',
+  disambiguatingDescription: 'HONDIT (혼딧) is the overseas seller of StoneJeju diffusers; StoneJeju makes them. HONDIT is not HEJDIN (헤이딘), JEJU STONE or any other Jeju stone brand.' });
 export function productOverviewSchema(product, {
   url = `${SITE}/products/${product.slug}`,
   name = product.name,
@@ -118,6 +120,26 @@ const faqHtml = (slug, lang) => {
   if (!faq) return '';
   return `<section><h2>${esc(faq.label)}</h2>${faq.items.map((i) => `<h3>${esc(i.question)}</h3><p>${esc(i.answer)}</p>`).join('')}</section>`;
 };
+/* Per-market buying answers (single piece, delivered price, shipping cost, delivery and returns, refill oil). */
+const OVERVIEW_MARKETS = ['SG', 'HK', 'TW', 'MY', 'JP', 'TH'];
+const LOCAL_MARKETS = { 'zh-HK': ['HK', 'TW'], ja: ['JP'] };
+export function buyingFor(products, slugs, showOrderTerms) {
+  return buyingTerms(Object.fromEntries(slugs.map((s) => [s, showOrderTerms && products.find((p) => p.slug === s) ? orderTerms(products.find((p) => p.slug === s)) : []])));
+}
+export function buyingHtml(qa, href = (path) => path) {
+  if (!qa) return '';
+  const body = qa.items.map((i) => `<h3>${esc(i.q)}</h3>${i.list?.length ? `<ul>${i.list.map((l) => `<li>${esc(l)}</li>`).join('')}</ul><p>${esc(i.tail)}</p>` : `<p>${esc(i.a)}</p>`}`).join('');
+  const offers = qa.offers.length ? `<p>${esc(qa.offersLabel)}: ${qa.offers.map((o) => `<a href="${esc(href(o.path))}">${esc(o.label)}</a>`).join(' · ')}</p>` : '';
+  return `<section id="buying"><h2>${esc(qa.heading)}</h2>${body}${offers}</section>`;
+}
+const qaSchema = (items) => items.map((i) => ({ '@type': 'Question', name: i.q, acceptedAnswer: { '@type': 'Answer', text: i.a } }));
+const withBuyingFaq = (schema, qas) => {
+  const extra = qas.filter(Boolean).flatMap((qa) => qaSchema(qa.items));
+  return schema ? { ...schema, mainEntity: [...schema.mainEntity, ...extra] } : null;
+};
+export function localBuyingQAs(lang, terms, slugs = BUYING_SLUGS) {
+  return (LOCAL_MARKETS[lang] || []).map((m) => marketBuyingQA(m, m === 'TW' ? 'zh-TW' : lang, terms, slugs)).filter(Boolean);
+}
 const imageAlt = (slug, name, lang) => productImageAlt(slug, name, lang);
 const productImage = (product, name = product.name, lang = 'en') =>
   `<img src="${esc(product.image)}" alt="${esc(imageAlt(product.slug, name, lang))}" width="880" height="1100" decoding="async">`;
@@ -130,8 +152,9 @@ function renderThaiActions(slug) {
   return `<div class="thai-diffuser-actions"><a class="button button--primary" href="${esc(actions.deliveryPath)}">${esc(actions.deliveryLabel)}</a><a class="button button--outline-dark" href="${esc(actions.pickupPath)}">${esc(actions.pickupLabel)}</a></div>`;
 }
 
-function comparisonPage(option) {
+function comparisonPage(option, { products = [], showOrderTerms = false } = {}) {
   const data = diffuserGuide(option);
+  const buying = marketBuyingQA(option.market, option.market === 'TW' ? 'zh-TW' : option.lang, buyingFor(products, BUYING_SLUGS, showOrderTerms));
   const models = data.products.map((item) => `<article><img src="${esc(item.image)}" alt="${esc(item.name)}" width="880" height="1100" decoding="async"><h3>${esc(item.name)}</h3><p>${esc(item.useCase)}</p><dl><div><dt>${esc(data.specs)}</dt><dd>${esc(item.dimensions)}</dd></div><div><dt>${esc(data.included)}</dt><dd>${esc(data.oil)}</dd></div></dl><p class="diffuser-guide__links"><a href="${esc(item.detailsPath)}">${esc(data.details)}</a><a href="${esc(item.orderPath)}">${esc(data.order)}</a><a href="${esc(item.source)}">${esc(data.source)}</a></p></article>`).join('');
   const answers = [[data.how, data.use], [data.buy, data.buying], [data.pickup, data.pickupNote, data.pickupPath]]
     .map(([question, answer, path]) => `<section><h2>${esc(question)}</h2><p>${esc(answer)}</p>${path ? `<a href="${esc(path)}">${esc(question)}</a>` : ''}</section>`).join('');
@@ -140,14 +163,14 @@ function comparisonPage(option) {
     status: 200, canonical: SITE + option.path, lang: option.lang, locale: option.locale,
     title: data.title + ' | HONDIT', description: data.description, image: abs(data.products[0].image),
     alternates: hrefAlternates(diffuserGuideAlternates()),
-    jsonLd: [org(), breadcrumb([['HONDIT', '/'], [data.title, option.path]]), {
+    jsonLd: [org(), breadcrumb([['HONDIT', '/'], [data.title, option.path]]), ...(buying ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${SITE}${option.path}#buying`, inLanguage: option.lang, mainEntity: qaSchema(buying.items) }] : []), {
       '@context': 'https://schema.org', '@type': 'CollectionPage', url: SITE + option.path, name: data.title,
       inLanguage: option.lang,
       mainEntity: { '@type': 'ItemList', itemListElement: data.products.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, url: SITE + item.detailsPath })) },
     }],
     html: wrap(`<header class="diffuser-guide__intro"><h1>${esc(data.title)}</h1><p>${esc(data.description)}</p>${option.market === 'TH' ? renderThaiActions() : ''}</header>`
       + `<section id="compare-diffusers" class="diffuser-guide__comparison"><h2>${esc(data.compare)}</h2><div class="diffuser-guide__models">${models}</div><p>${esc(data.maker)}</p></section>`
-      + `<div class="diffuser-guide__answers">${answers}</div><nav class="diffuser-guide__markets" aria-label="${esc(data.other)}">${other}</nav>`, 'diffuser-guide'),
+      + buyingHtml(buying) + `<div class="diffuser-guide__answers">${answers}</div><nav class="diffuser-guide__markets" aria-label="${esc(data.other)}">${other}</nav>`, 'diffuser-guide'),
   };
 }
 
@@ -164,7 +187,7 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
   const bySlug = (s) => list.find((p) => p.slug === s);
   if (path === 'diffuserGuide') {
     const option = diffuserGuideMarket(guidePath);
-    return option ? comparisonPage(option) : { status: 404 };
+    return option ? comparisonPage(option, { products: list, showOrderTerms }) : { status: 404 };
   }
   if (path === 'home') {
     const diffusers = list.filter((p) => p.category === 'SCENT');
@@ -189,13 +212,15 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
     const rows = showOrderTerms ? orderTerms(product) : [];
     const facts = diffuserFacts[product.slug];
     const canonical = `${SITE}/${path === 'product' ? 'products' : 'bulk-orders'}/${product.slug}`;
+    const buying = facts && path === 'product' ? overviewBuyingQA(OVERVIEW_MARKETS, buyingFor(list, [product.slug], showOrderTerms), [product.slug]) : null;
     const care = facts ? `<section><h2>Care</h2><ul>${CARE.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></section>` : '';
     return { status: 200, canonical, image: abs(product.image), title: `${product.name}${path === 'bulkProduct' ? ' order conditions' : EN_TITLE_TAIL[product.slug] ? `: ${EN_TITLE_TAIL[product.slug]}` : ''} | HONDIT`,
       description: `${product.description} ${facts ? 'A non-electric aroma stone with no flame. Made by StoneJeju, introduced by HONDIT. ' : product.category === 'CARE' ? 'J’essence, made by 제주리퍼블릭, sold by HONDIT. ' : ''}Direct checkout quantities and prices by country.`.slice(0, 300),
-      jsonLd: [...(path === 'product' ? [productOverviewSchema(product), productFaqSchema(product.slug, 'en', canonical)].filter(Boolean) : []), breadcrumb([['Home', '/'], [path === 'product' ? 'Products' : 'Bulk orders', path === 'product' ? '/products' : '/bulk-orders'], [product.name, new URL(canonical).pathname]])],
+      jsonLd: [...(path === 'product' ? [productOverviewSchema(product), withBuyingFaq(productFaqSchema(product.slug, 'en', canonical), [buying])].filter(Boolean) : []), breadcrumb([['Home', '/'], [path === 'product' ? 'Products' : 'Bulk orders', path === 'product' ? '/products' : '/bulk-orders'], [product.name, new URL(canonical).pathname]])],
       html: wrap(`<nav aria-label="Breadcrumb"><a href="/products">Products</a> / ${esc(product.name)}</nav><h1>${esc(product.name)}</h1><p>${esc(product.description)}</p>`
         + (path === 'product' ? productImage(product) : '')
         + (facts ? `<ul><li>Content: ${esc(facts.content)} Jeju volcanic scoria</li><li>Container: ${esc(facts.container)}</li><li>Size: ${esc(facts.dimensions)}</li><li>Fragrance oil: ${esc(facts.oil)} citrus oil included</li></ul><p>Maker and product brand: <a href="${esc(facts.source)}">StoneJeju</a>. Seller and curator: HONDIT.</p>` : product.category === 'CARE' ? '<p>Brand: J’essence. Manufacturer: 제주리퍼블릭. Seller and curator: HONDIT.</p>' : '')
+        + buyingHtml(buying)
         + `<section><h2>Highlights</h2><ul>${product.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>How to use</h2><p>Follow the product label.</p><ol>${product.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
         + (path === 'product' ? storyHtml(product.slug, 'en') + faqHtml(product.slug, 'en') + readingHtml(articles, product.slug, 'en') : '')
@@ -245,14 +270,15 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
   }
   if (path === 'about' || path === 'faq') {
     const info = INFO_PAGES[path];
-    const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: info.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+    const buying = path === 'faq' ? overviewBuyingQA(['SG', 'HK', 'TW', 'MY'], buyingFor(list, BUYING_SLUGS, showOrderTerms)) : null;
+    const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [...info.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })), ...(buying ? qaSchema(buying.items) : [])] };
     const links = (l = []) => (l.length ? `<p>${l.map(([label, href]) => `<a href="${esc(href)}">${esc(label)}</a>`).join(' · ')}</p>` : '');
     const sections = info.sections.map((s) => `<section><h2>${esc(s.heading)}</h2>${(s.paragraphs || []).map((t) => `<p>${esc(t)}</p>`).join('')}${s.items ? `<ul>${s.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}${links(s.links)}</section>`).join('');
     const profiles = path === 'about' ? `<section><h2>Our channels</h2><ul>${SITE_FACTS.profiles.map(([label, url]) => `<li><a href="${esc(url)}" rel="me">${esc(label)}</a></li>`).join('')}</ul></section>` : '';
     const makers = path === 'about' ? `<section><h2>Maker pages</h2><ul>${SITE_FACTS.makerPages.map(([label, url]) => `<li><a href="${esc(url)}">${esc(label)}</a></li>`).join('')}</ul></section>` : '';
     return { status: 200, canonical: SITE + info.path, title: info.title, description: info.description,
       jsonLd: [org(), breadcrumb([['Home', '/'], [info.navLabel, info.path]]), { '@context': 'https://schema.org', '@type': path === 'about' ? 'AboutPage' : 'WebPage', name: info.h1, url: SITE + info.path, about: { '@id': `${SITE}/#organization` } }, faqLd],
-      html: wrap(`<h1>${esc(info.h1)}</h1>${info.intro.map((t) => `<p>${esc(t)}</p>`).join('')}${sections}${makers}${profiles}<section><h2>Questions and answers</h2>${info.faq.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join('')}</section>`) };
+      html: wrap(`<h1>${esc(info.h1)}</h1>${info.intro.map((t) => `<p>${esc(t)}</p>`).join('')}${sections}${buyingHtml(buying)}${makers}${profiles}<section><h2>Questions and answers</h2>${info.faq.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join('')}</section>`) };
   }
   if (path === 'shipping') {
     return { status: 200, canonical: SITE + '/shipping', title: 'Shipping and delivery | HONDIT', description: 'HONDIT shipping: orders ship from Korea after payment is confirmed. Delivery timing, tracking, customs and returns of damaged items.',
@@ -372,10 +398,12 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
     const rows = showOrderTerms ? orderTerms(product).filter((row) => lang !== 'th' || row.market === 'TH') : [];
     const f = diffuserFacts[product.slug]; const lf = L.facts[product.slug];
     const schema = productOverviewSchema(product, { url: seoUrl(`/products/${product.slug}`, lang), name: lp.name, description: lp.body, language: HTML_LANG[lang] });
+    const buying = f ? localBuyingQAs(lang, buyingFor(list, [product.slug], showOrderTerms), [product.slug]) : [];
     return page(`/products/${product.slug}`, { image: abs(product.image), title: lp.title, description: lp.description,
-      jsonLd: [schema, ...[productFaqSchema(product.slug, lang, seoUrl(`/products/${product.slug}`, lang))].filter(Boolean), breadcrumbL([[L.nav['/'], '/'], [L.nav['/products'], '/products'], [lp.name, `/products/${product.slug}`]])],
+      jsonLd: [schema, ...[withBuyingFaq(productFaqSchema(product.slug, lang, seoUrl(`/products/${product.slug}`, lang)), buying)].filter(Boolean), breadcrumbL([[L.nav['/'], '/'], [L.nav['/products'], '/products'], [lp.name, `/products/${product.slug}`]])],
       html: wrapL(`<nav aria-label="Breadcrumb">${a('/products', L.label.products)} / ${esc(lp.name)}</nav><h1>${esc(lp.name)}</h1><p>${esc(lp.body)}</p>${lang === 'th' && (!market || market === 'TH') ? renderThaiActions(product.slug) : ''}${productImage(product, lp.name, lang)}`
         + (f && lf ? `<ul><li>${esc(L.label.content)}${sep}${esc(lf.content)}</li><li>${esc(L.label.container)}${sep}${esc(lf.container)}</li><li>${esc(L.label.size)}${sep}${esc(f.dimensions)}</li><li>${esc(L.label.oil)}${sep}${esc(lf.oil)}</li></ul><p>${esc(L.label.maker)}${sep}<a href="${esc(f.source)}">StoneJeju</a>${stop}${esc(L.label.seller)}${sep}HONDIT${stop.trim()}</p>` : product.category === 'CARE' ? `<p>${esc(L.label.careBrand)}</p>` : '')
+        + buying.map((qa) => buyingHtml(qa)).join('')
         + `<section><h2>${esc(L.label.highlights)}</h2><ul>${lp.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul></section>`
         + `<section><h2>${esc(L.label.howTo)}</h2><p>${esc(L.label.followLabel)}</p><ol>${lp.howTo.map((h) => `<li>${esc(h)}</li>`).join('')}</ol></section>`
         + storyHtml(product.slug, lang) + faqHtml(product.slug, lang) + readingHtml(articles, product.slug, lang)
@@ -399,13 +427,14 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
   }
   if (path === 'about' || path === 'faq') {
     const info = infoPageFor(path, lang);
-    const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang, mainEntity: info.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+    const buying = path === 'faq' ? localBuyingQAs(lang, buyingFor(list, BUYING_SLUGS, showOrderTerms)) : [];
+    const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang, mainEntity: [...info.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })), ...buying.flatMap((qa) => qaSchema(qa.items))] };
     const links = (l = []) => (l.length ? `<p>${l.map(([label, href]) => a(href, label)).join(' · ')}</p>` : '');
     const sections = info.sections.map((sec) => `<section><h2>${esc(sec.heading)}</h2>${(sec.paragraphs || []).map((t) => `<p>${esc(t)}</p>`).join('')}${sec.items ? `<ul>${sec.items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}${links(sec.links)}</section>`).join('');
     const extra = path === 'about' ? `<section><ul>${SITE_FACTS.makerPages.map(([label, url]) => `<li><a href="${esc(url)}">${esc(label)}</a></li>`).join('')}${SITE_FACTS.profiles.map(([label, url]) => `<li><a href="${esc(url)}" rel="me">${esc(label)}</a></li>`).join('')}</ul></section>` : '';
     return page(info.path, { title: info.title, description: info.description,
       jsonLd: [org(), breadcrumbL([[L.nav['/'], '/'], [info.navLabel, info.path]]), { '@context': 'https://schema.org', '@type': path === 'about' ? 'AboutPage' : 'WebPage', name: info.h1, url: seoUrl(info.path, lang), inLanguage: lang, about: { '@id': `${SITE}/#organization` } }, faqLd],
-      html: wrapL(`<h1>${esc(info.h1)}</h1>${info.intro.map((t) => `<p>${esc(t)}</p>`).join('')}${sections}${extra}<section>${info.faq.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join('')}</section>`) });
+      html: wrapL(`<h1>${esc(info.h1)}</h1>${info.intro.map((t) => `<p>${esc(t)}</p>`).join('')}${sections}${buying.map((qa) => buyingHtml(qa)).join('')}${extra}<section>${info.faq.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join('')}</section>`) });
   }
   return { status: 404 };
 }

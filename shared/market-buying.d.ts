@@ -1,0 +1,10 @@
+export type BuyingTier = { quantity: number; currency: string; unitMinor: number; totalMinor: number; shippingMinor: number };
+export type BuyingTerms = Record<string, Record<string, { first: BuyingTier; best: BuyingTier | null }>>;
+export type BuyingQA = { heading: string; items: { q: string; a: string; list?: string[]; tail?: string }[]; offers: { label: string; path: string }[]; offersLabel: string };
+export const BUYING_SLUGS: string[];
+export function formatMoney(minor: number, currency: string): string;
+export function buyingTerms(rowsBySlug: Record<string, { market: string; tiers: BuyingTier[] }[]>): BuyingTerms;
+export function productBuyingTerms(product: unknown, market: string): BuyingTerms;
+export function buyingCopyLanguage(lang: string, market: string): string | null;
+export function marketBuyingQA(market: string, lang: string, terms: BuyingTerms, slugs?: string[]): BuyingQA | null;
+export function overviewBuyingQA(markets: string[], terms: BuyingTerms, slugs?: string[]): BuyingQA;
