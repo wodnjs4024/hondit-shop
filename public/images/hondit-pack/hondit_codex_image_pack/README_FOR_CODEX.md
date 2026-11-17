@@ -35,8 +35,8 @@
 | Our Jeju hero | `03_jeju_real_photos/02_seongsan_ilchulbong.webp` |
 | Jeju forest story | `03_jeju_real_photos/04_saryeoni_forest_user_01.webp` |
 | Jeju stone story | `03_jeju_real_photos/11_jusangjeolli_cliff.webp` 또는 `14_jeju_stone_wall.webp` |
-| Products — 350g diffuser | `01_product_originals/02_diffuser_350_studio.webp` |
-| Products — 500g diffuser | `01_product_originals/06_diffuser_500_studio.webp` |
+| Products — 350g diffuser | `/images/diffuser-350g.webp` (주의: `02_diffuser_350_studio.webp`는 이름과 달리 500g 옹기 사진, `01_diffuser_350_package.webp`는 500g 상자 사진) |
+| Products — 500g diffuser | `/images/diffuser-500g.webp` |
 | Products — foaming cleanser | `01_product_originals/10_foaming_cleanser_pack.webp` |
 | Products — foam oil cleanser | `01_product_originals/12_foam_oil_cleanser.webp` |
 | Products — cleansing water | `01_product_originals/13_cleansing_water_pack.webp` |

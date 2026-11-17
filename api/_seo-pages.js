@@ -18,7 +18,7 @@ import { LOCALES, SEO_LANGUAGES, HREFLANGS, HTML_LANG, LOCALIZED_PAGES, seoLangu
 import { paypalCurrencyDigits as currencyDigits } from '../shared/checkout-terms.js';
 import { markets } from './_markets.js';
 import { buyingTerms, marketBuyingQA, overviewBuyingQA, BUYING_SLUGS } from '../shared/market-buying.js';
-import { escapeMarkup as esc } from './_merchant.js';
+import { escapeMarkup as esc, merchantOffer, merchantSchema } from './_merchant.js';
 
 export const SITE = 'https://hondit-shop.vercel.app';
 const INSTAGRAM = 'https://www.instagram.com/hondit.office/';
@@ -88,20 +88,39 @@ const org = () => ({ '@context': 'https://schema.org', '@type': 'Organization', 
   address: { '@type': 'PostalAddress', streetAddress: '102 Jejudaehak-ro', addressLocality: 'Jeju-si', postalCode: '63243', addressCountry: 'KR' },
   description: 'Selling and curation brand of a Jeju National University GTEP student team, introducing StoneJeju volcanic-stone diffusers to overseas customers.',
   disambiguatingDescription: 'HONDIT (혼딧) is the overseas seller of StoneJeju diffusers; StoneJeju makes them. HONDIT is not HEJDIN (헤이딘), JEJU STONE or any other Jeju stone brand.' });
+/* Per-market Offers, built by the same function as the /merchant pages and the Shopping feed (merchantOffer), so price,
+   currency, quantity and stock always match them. `rows` are the raw live catalog rows, passed only when live checkout is
+   confirmed. Each offer is the bundle the market can actually buy (for example 5 pieces, delivery included), so it names
+   that quantity and is limited to that country. Never market-neutral: a page lists only the markets it is written for. */
+export function marketOffers(rows = [], slug, markets = []) {
+  const row = rows.find((r) => r.slug === slug);
+  if (!row) return [];
+  return markets.map((market) => merchantOffer(row, market).item).filter(Boolean).map((item) => {
+    const { seller, ...offer } = merchantSchema(item).offers;
+    return { ...offer, name: item.title, sku: item.id, seller: { '@type': 'Organization', '@id': `${SITE}/#organization`, name: seller.name },
+      eligibleRegion: { '@type': 'Country', name: item.market },
+      eligibleQuantity: { '@type': 'QuantitativeValue', value: item.quantity, unitCode: 'C62' } };
+  });
+}
+/* The product as a schema.org Product with offers when the page serves known markets, otherwise a plain Thing. */
+function productEntity(product, { id, name, description, offers = [] }) {
+  const facts = diffuserFacts[product.slug];
+  if (!offers.length) return { '@type': 'Thing', '@id': id, name, ...(facts ? { sameAs: facts.source } : {}) };
+  return { '@type': 'Product', '@id': id, name, description, image: [abs(product.image)], sku: product.slug,
+    ...(facts ? { brand: { '@type': 'Brand', name: 'StoneJeju' }, manufacturer: { '@type': 'Organization', name: 'StoneJeju', url: 'https://stonejeju.com' }, sameAs: facts.source } : {}),
+    offers };
+}
 export function productOverviewSchema(product, {
   url = `${SITE}/products/${product.slug}`,
   name = product.name,
   description = product.description,
   language = 'en',
+  offers = [],
 } = {}) {
-  const facts = diffuserFacts[product.slug];
   return {
     '@context': 'https://schema.org', '@type': 'ItemPage', url, name, description, inLanguage: language,
     primaryImageOfPage: { '@type': 'ImageObject', contentUrl: abs(product.image) },
-    mainEntity: {
-      '@type': 'Thing', '@id': `${SITE}/products/${product.slug}#product`, name,
-      ...(facts ? { sameAs: facts.source } : {}),
-    },
+    mainEntity: productEntity(product, { id: offers.length ? `${url}#product` : `${SITE}/products/${product.slug}#product`, name, description, offers }),
   };
 }
 
@@ -123,6 +142,7 @@ const faqHtml = (slug, lang) => {
 /* Per-market buying answers (single piece, delivered price, shipping cost, delivery and returns, refill oil). */
 const OVERVIEW_MARKETS = ['SG', 'HK', 'TW', 'MY', 'JP', 'TH'];
 const LOCAL_MARKETS = { 'zh-HK': ['HK', 'TW'], ja: ['JP'] };
+const SINGLE_MARKET_LANG = { ja: 'JP', th: 'TH' };
 export function buyingFor(products, slugs, showOrderTerms) {
   return buyingTerms(Object.fromEntries(slugs.map((s) => [s, showOrderTerms && products.find((p) => p.slug === s) ? orderTerms(products.find((p) => p.slug === s)) : []])));
 }
@@ -152,21 +172,27 @@ function renderThaiActions(slug) {
   return `<div class="thai-diffuser-actions"><a class="button button--primary" href="${esc(actions.deliveryPath)}">${esc(actions.deliveryLabel)}</a><a class="button button--outline-dark" href="${esc(actions.pickupPath)}">${esc(actions.pickupLabel)}</a></div>`;
 }
 
-function comparisonPage(option, { products = [], showOrderTerms = false } = {}) {
+function comparisonPage(option, { products = [], showOrderTerms = false, offerRows = [] } = {}) {
   const data = diffuserGuide(option);
   const buying = marketBuyingQA(option.market, option.market === 'TW' ? 'zh-TW' : option.lang, buyingFor(products, BUYING_SLUGS, showOrderTerms));
   const models = data.products.map((item) => `<article><img src="${esc(item.image)}" alt="${esc(item.name)}" width="880" height="1100" decoding="async"><h3>${esc(item.name)}</h3><p>${esc(item.useCase)}</p><dl><div><dt>${esc(data.specs)}</dt><dd>${esc(item.dimensions)}</dd></div><div><dt>${esc(data.included)}</dt><dd>${esc(data.oil)}</dd></div></dl><p class="diffuser-guide__links"><a href="${esc(item.detailsPath)}">${esc(data.details)}</a><a href="${esc(item.orderPath)}">${esc(data.order)}</a><a href="${esc(item.source)}">${esc(data.source)}</a></p></article>`).join('');
-  const answers = [[data.how, data.use], [data.buy, data.buying], [data.pickup, data.pickupNote, data.pickupPath]]
+  const answers = [...data.quick.map((item) => [item.q, item.a]), [data.how, data.use], [data.buy, data.buying], [data.pickup, data.pickupNote, data.pickupPath]]
     .map(([question, answer, path]) => `<section><h2>${esc(question)}</h2><p>${esc(answer)}</p>${path ? `<a href="${esc(path)}">${esc(question)}</a>` : ''}</section>`).join('');
   const other = data.otherMarkets.map((market) => `<a href="${market.path}" lang="${market.lang}" hreflang="${market.hreflang}">${esc(market.label)}</a>`).join('');
   return {
     status: 200, canonical: SITE + option.path, lang: option.lang, locale: option.locale,
     title: data.title + ' | HONDIT', description: data.description, image: abs(data.products[0].image),
     alternates: hrefAlternates(diffuserGuideAlternates()),
-    jsonLd: [org(), breadcrumb([['HONDIT', '/'], [data.title, option.path]]), ...(buying ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${SITE}${option.path}#buying`, inLanguage: option.lang, mainEntity: qaSchema(buying.items) }] : []), {
+    jsonLd: [org(), breadcrumb([['HONDIT', '/'], [data.title, option.path]]), ...(buying || data.quick.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${SITE}${option.path}#buying`, inLanguage: option.lang, mainEntity: [...qaSchema(data.quick), ...(buying ? qaSchema(buying.items) : [])] }] : []), {
       '@context': 'https://schema.org', '@type': 'CollectionPage', url: SITE + option.path, name: data.title,
       inLanguage: option.lang,
-      mainEntity: { '@type': 'ItemList', itemListElement: data.products.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, url: SITE + item.detailsPath })) },
+      mainEntity: { '@type': 'ItemList', itemListElement: data.products.map((item, index) => {
+        const offers = marketOffers(offerRows, item.slug, [option.market]);
+        const product = products.find((p) => p.slug === item.slug);
+        return offers.length && product
+          ? { '@type': 'ListItem', position: index + 1, url: SITE + item.detailsPath, item: productEntity(product, { id: `${SITE}${option.path}#${item.slug}`, name: item.name, description: item.useCase, offers }) }
+          : { '@type': 'ListItem', position: index + 1, name: item.name, url: SITE + item.detailsPath };
+      }) },
     }],
     html: wrap(`<header class="diffuser-guide__intro"><h1>${esc(data.title)}</h1><p>${esc(data.description)}</p>${option.market === 'TH' ? renderThaiActions() : ''}${data.topOrders.length ? `<div class="diffuser-guide__order">${data.topOrders.map((o, i) => `<a class="button ${i ? 'button--outline-dark' : 'button--primary'}" href="${esc(o.path)}">${esc(o.label)}</a>`).join('')}</div><p class="diffuser-guide__pay">${esc(data.payNote)}</p>` : ''}</header>`
       + `<section id="compare-diffusers" class="diffuser-guide__comparison"><h2>${esc(data.compare)}</h2><div class="diffuser-guide__models">${models}</div><p>${esc(data.maker)}</p></section>`
@@ -182,12 +208,12 @@ function productSection(product, { heading = 'h2' } = {}) {
 }
 
 /* A page = { status, title, description, canonical, jsonLd[], html }. `path` is one of the names below. */
-export function buildSeoPage(path, { slug = '', policy = '', language = 'en', products = [], showOrderTerms = true, guidePath, articles = [] } = {}) {
+export function buildSeoPage(path, { slug = '', policy = '', language = 'en', products = [], showOrderTerms = true, guidePath, articles = [], offerRows = [] } = {}) {
   const list = products;
   const bySlug = (s) => list.find((p) => p.slug === s);
   if (path === 'diffuserGuide') {
     const option = diffuserGuideMarket(guidePath);
-    return option ? comparisonPage(option, { products: list, showOrderTerms }) : { status: 404 };
+    return option ? comparisonPage(option, { products: list, showOrderTerms, offerRows }) : { status: 404 };
   }
   if (path === 'home') {
     const diffusers = list.filter((p) => p.category === 'SCENT');
@@ -339,7 +365,7 @@ const hrefIn = (href, lang) => {
   return localized ? `${pathname}?lang=${lang}` : href;
 };
 
-export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], showOrderTerms = true, market = '', articles = [] } = {}) {
+export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], showOrderTerms = true, market = '', articles = [], offerRows = [] } = {}) {
   const L = LOCALES[lang];
   if (!L || !LOCALIZED_PAGES.includes(path) || !seoLanguagesFor(seoPath(path, slug)).includes(lang)) return { status: 404 };
   const list = products;
@@ -397,7 +423,10 @@ export function buildLocalizedSeoPage(path, lang, { slug = '', products = [], sh
     if (!product || !lp) return { status: 404 };
     const rows = showOrderTerms ? orderTerms(product).filter((row) => lang !== 'th' || row.market === 'TH') : [];
     const f = diffuserFacts[product.slug]; const lf = L.facts[product.slug];
-    const schema = productOverviewSchema(product, { url: seoUrl(`/products/${product.slug}`, lang), name: lp.name, description: lp.body, language: HTML_LANG[lang] });
+    // Japanese and Thai pages serve one market each, so they carry that market's Offer; English and Traditional Chinese pages
+    // serve several markets and stay market-neutral (their prices are in the buying answers and on the country guides).
+    const offers = diffuserFacts[product.slug] ? marketOffers(offerRows, product.slug, SINGLE_MARKET_LANG[lang] ? [SINGLE_MARKET_LANG[lang]] : []) : [];
+    const schema = productOverviewSchema(product, { url: seoUrl(`/products/${product.slug}`, lang), name: lp.name, description: lp.body, language: HTML_LANG[lang], offers });
     const buying = f ? localBuyingQAs(lang, buyingFor(list, [product.slug], showOrderTerms), [product.slug]) : [];
     return page(`/products/${product.slug}`, { image: abs(product.image), title: lp.title, description: lp.description,
       jsonLd: [schema, ...[withBuyingFaq(productFaqSchema(product.slug, lang, seoUrl(`/products/${product.slug}`, lang)), buying)].filter(Boolean), breadcrumbL([[L.nav['/'], '/'], [L.nav['/products'], '/products'], [lp.name, `/products/${product.slug}`]])],

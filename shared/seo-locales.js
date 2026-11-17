@@ -83,7 +83,7 @@ export const LOCALES = {
   ja: {
     nav: { '/': 'ホーム', '/products': '製品一覧', '/bulk-orders': 'まとめて注文', '/jeju': '私たちの済州', '/about': 'HONDITについて', '/faq': 'よくある質問', '/journal': 'ジャーナル', '/shipping': '配送案内', '/contact': 'お問い合わせ' },
     footer: (reg) => `HONDIT · 済州大学校GTEP学生チーム · 韓国事業者登録番号 ${reg}`,
-    brandLine: 'HONDITは、済州大学校GTEPプログラムの学生チームが運営する販売・キュレーションブランドです。火山石ディフューザーのメーカー兼製品ブランドはStoneJejuです。',
+    brandLine: 'HONDIT（ホンディット）は、済州大学校GTEPプログラムの学生チームが運営する販売・キュレーションブランドです。火山石ディフューザーのメーカー兼製品ブランドはStoneJejuです。',
     whoLine: 'HONDITはディフューザーを製造していません。海外のお客様に紹介し、注文のご質問にお答えしています。',
     countries: { SG: 'シンガポール', HK: '香港', JP: '日本', TW: '台湾', TH: 'タイ', MY: 'マレーシア', BN: 'ブルネイ', MO: 'マカオ' },
     tier: (q, price, included) => `${q}個：1個あたり ${price}${included ? '（送料込み）' : ''}`,

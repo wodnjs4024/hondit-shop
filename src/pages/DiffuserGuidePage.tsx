@@ -46,6 +46,7 @@ export function DiffuserGuidePage() {
           <p>{content.maker}</p>
         </section>
         <div className="diffuser-guide__answers">
+          {content.quick.map((item) => <section key={item.q}><h2>{item.q}</h2><p>{item.a}</p></section>)}
           <section><h2>{content.how}</h2><p>{content.use}</p></section>
           <section><h2>{content.buy}</h2><p>{content.buying}</p></section>
           <section><h2>{content.pickup}</h2><p>{content.pickupNote}</p><Link className="hd-textlink" to={content.pickupPath}>{content.pickup}</Link></section>

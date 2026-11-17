@@ -22,7 +22,7 @@ export const SITE_FACTS = {
   ],
 };
 
-const WHO = 'HONDIT is the selling and curation brand of a student team in the GTEP programme at Jeju National University. StoneJeju is the maker and product brand of the volcanic-stone diffusers. HONDIT does not manufacture them.';
+const WHO = 'HONDIT is the selling and curation brand of a student team in the GTEP programme at Jeju National University. It introduces and sells products made in Jeju by StoneJeju, the maker and product brand of the volcanic-stone diffusers, to customers in Singapore, Hong Kong, Japan and Taiwan. HONDIT does not manufacture them.';
 
 export const ABOUT_PAGE = {
   path: '/about',
@@ -83,6 +83,10 @@ export const ABOUT_PAGE = {
     {
       q: 'Is HONDIT the same as JEJU STONE, HEJDIN or other Jeju stone brands?',
       a: 'No. HONDIT (spelled H-O-N-D-I-T, 혼딧 in Korean) is a separate seller run by a Jeju National University student team. Its diffusers are made by StoneJeju (stonejeju.com). HEJDIN (헤이딘), JEJU STONE and other Jeju stone or fragrance brands are separate brands and are not HONDIT.',
+    },
+    {
+      q: 'Where is HONDIT’s official shop?',
+      a: 'The official shop is https://hondit-shop.vercel.app. Each market has its own guide with prices in the local currency: Singapore https://hondit-shop.vercel.app/diffusers, Japan https://hondit-shop.vercel.app/diffusers/japan, Hong Kong https://hondit-shop.vercel.app/diffusers/hong-kong and Taiwan https://hondit-shop.vercel.app/diffusers/taiwan. HONDIT’s own channels are Instagram @hondit.office, Blogger, WordPress and Tumblr.',
     },
   ],
 };
@@ -312,8 +316,8 @@ export const FAQ_PAGE_KO = {
 // Japanese and Traditional Chinese versions (same facts as the English pages). Used by the React pages and by the
 // server-rendered language versions (/about?lang=ja, /faq?lang=zh-HK ...). Keyword choices follow how people search in
 // each market: アロマストーン・溶岩石・済州島 お土産 (JP), 擴香石・火山石擴香・濟州島手信/伴手禮 (HK, TW, MO).
-const WHO_JA = 'HONDITは、済州大学校（チェジュ大学）GTEPプログラムの学生チームが運営する販売・キュレーションブランドです。火山石ディフューザーのメーカー兼製品ブランドはStoneJejuで、HONDITは製造していません。';
-const WHO_ZH = 'HONDIT 是濟州大學 GTEP 課程學生團隊經營的銷售與選品品牌。火山石擴香的製造商及產品品牌是 StoneJeju，HONDIT 並不生產這些產品。';
+const WHO_JA = 'HONDIT（ホンディット）は、済州大学校（チェジュ大学）GTEPプログラムの学生チームが運営する販売・キュレーションブランドです。済州のメーカーStoneJejuが作る火山石ディフューザーを、日本・香港・台湾・シンガポールのお客様に紹介・販売しています。製造はStoneJejuで、HONDITは製造していません。';
+const WHO_ZH = 'HONDIT（韓文 혼딧）是濟州大學 GTEP 課程學生團隊經營的銷售與選品品牌，向香港、台灣、新加坡、日本的顧客介紹及銷售濟州製造商 StoneJeju 的火山石擴香。火山石擴香的製造商及產品品牌是 StoneJeju，HONDIT 並不生產這些產品。';
 
 export const ABOUT_PAGE_JA = {
   ...ABOUT_PAGE,
@@ -374,6 +378,10 @@ export const ABOUT_PAGE_JA = {
     {
       q: 'HONDITはJEJU STONEやHEJDINなど、ほかの済州ストーンブランドと同じですか？',
       a: 'いいえ。HONDIT（つづりはH-O-N-D-I-T、韓国語で혼딧）は済州大学の学生チームが運営する別の販売者で、ディフューザーはStoneJeju（stonejeju.com）が製造しています。HEJDIN（헤이딘）、JEJU STONEなど、ほかの済州の石や香りのブランドはHONDITとは関係のない別ブランドです。',
+    },
+    {
+      q: 'HONDITの公式サイトはどこですか？',
+      a: '公式ショップは https://hondit-shop.vercel.app です。日本からのご注文は日本向けの案内 https://hondit-shop.vercel.app/diffusers/japan で、日本円・送料込みの価格と注文ボタンを確認できます。運営チャンネルはInstagram @hondit.office、Blogger、WordPress、Tumblrです。',
     },
   ],
 };
@@ -500,6 +508,10 @@ export const ABOUT_PAGE_ZH = {
     {
       q: 'HONDIT 和 JEJU STONE、HEJDIN 等其他濟州石品牌是同一家嗎？',
       a: '不是。HONDIT（拼法 H-O-N-D-I-T，韓文 혼딧）是濟州大學學生團隊經營的獨立賣家，擴香由 StoneJeju（stonejeju.com）製造。HEJDIN（헤이딘）、JEJU STONE 等其他濟州石或香氛品牌都是與 HONDIT 無關的獨立品牌。',
+    },
+    {
+      q: 'HONDIT 的官方網站在哪裡？',
+      a: '官方網店是 https://hondit-shop.vercel.app 。香港顧客請看 https://hondit-shop.vercel.app/diffusers/hong-kong （港幣連運費價錢），台灣顧客請看 https://hondit-shop.vercel.app/diffusers/taiwan （新台幣含運價格）。官方渠道是 Instagram @hondit.office、Blogger、WordPress 和 Tumblr。',
     },
   ],
 };
