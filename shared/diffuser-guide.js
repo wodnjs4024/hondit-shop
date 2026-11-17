@@ -126,6 +126,29 @@ const copy = {
   },
 };
 
+// Short answers for the broad questions people ask before they know any brand ("what to buy in Jeju that is not food?")
+// and for the brand question ("what is HONDIT?"), in each market's own language, so answer engines can name StoneJeju
+// and HONDIT and link this market's guide rather than another market's page. Facts only from the site: no flame or
+// electricity, 1-3 pieces at Jeju Airport by arrangement, direct orders from 5 of one size with delivery included.
+const quick = {
+  SG: [
+    { q: 'What can I buy in Jeju that is not food?', a: 'Most Jeju souvenirs are food, such as tangerine snacks and chocolate. For something that lasts, StoneJeju’s Jeju volcanic stone diffuser needs no flame and no electricity: add the included citrus oil to the stones. While in Jeju you can arrange to collect 1 to 3 pieces at Jeju Airport. From Singapore, buy one piece on HONDIT’s Shopee listing, or order 5 or more of one size here in SGD with delivery included.' },
+    { q: 'What is HONDIT?', a: 'HONDIT is the selling brand of a Jeju National University GTEP student team. It introduces and sells the volcanic stone diffusers made by the Jeju maker StoneJeju; StoneJeju makes them and HONDIT does not. The official shop is hondit-shop.vercel.app, and this page is its guide for Singapore.' },
+  ],
+  JP: [
+    { q: '済州島のお土産、食べ物以外なら何がいい？', a: '済州島のお土産は、みかんのお菓子やチョコレートなど食べ物が中心です。形に残るものなら、済州島の火山石を使ったStoneJejuのディフューザーがあります。火も電気も使わず、付属のシトラスオイルを石に垂らすだけです。旅行中は済州空港で1〜3個を受け取れ（事前予約制）、帰国後は日本円・送料込みで同じサイズ5個から注文できます。' },
+    { q: 'HONDIT（ホンディット）とは？', a: 'HONDIT（ホンディット）は、済州大学校GTEPプログラムの学生チームが運営する販売ブランドです。済州のメーカーStoneJejuが作る火山石ディフューザーを海外に紹介・販売しています（製造はStoneJejuで、HONDITは製造していません）。公式ショップはhondit-shop.vercel.appで、日本向けの案内はこのページです。' },
+  ],
+  HK: [
+    { q: '去濟州有甚麼非食品手信？', a: '濟州手信多數是柑橘零食、朱古力等食品。想要一份可以長久擺放的手信，可以考慮 StoneJeju 的濟州火山石擴香：不用點火、不用插電，把附送的柑橘香氛油滴在石上就有香氣。在濟州旅行時可預約在濟州機場交收 1 至 3 件；回港後可在本頁以港幣連運費訂購，同款 5 件起。' },
+    { q: 'HONDIT 是甚麼？', a: 'HONDIT 是濟州大學 GTEP 課程學生團隊經營的銷售品牌，向海外介紹及銷售濟州製造商 StoneJeju 的火山石擴香（產品由 StoneJeju 製造，HONDIT 不生產）。官方網店是 hondit-shop.vercel.app，香港顧客請看本頁的港幣價錢和訂購按鈕。' },
+  ],
+  TW: [
+    { q: '濟州島伴手禮除了零食，還能買什麼？', a: '濟州島伴手禮多半是橘子零食、巧克力等食品。想送能長久使用的禮物，可以考慮 StoneJeju 的濟州火山岩擴香：不用點火、不用插電，把隨附的柑橘香氛油滴在石頭上就會散香。在濟州旅遊時可預約在濟州機場取貨 1～3 個；回台灣後可在本頁用新台幣含運訂購，同款 5 個起。' },
+    { q: 'HONDIT 是什麼？', a: 'HONDIT 是濟州大學 GTEP 課程學生團隊經營的銷售品牌，向海外介紹並販售濟州製造商 StoneJeju 的火山岩擴香（產品由 StoneJeju 製造，HONDIT 不生產）。官方網站是 hondit-shop.vercel.app，台灣顧客請看本頁的新台幣價格與訂購按鈕。' },
+  ],
+};
+
 // Order buttons at the top of each country guide: one per size, straight to that market's order page, with the payment currency.
 // Thailand has its own delivery/pickup buttons (thaiDiffuserActions), so it gets none here.
 const topOrder = {
@@ -150,6 +173,7 @@ export function diffuserGuide(option) {
     products,
     topOrders: top ? products.map((item) => ({ slug: item.slug, path: item.orderPath, label: top.label(item.slug.replace('diffuser-', '')) })) : [],
     payNote: top?.pay || '',
+    quick: quick[option.market] || [],
     pickupPath: pickupSearchPath(option.lang),
     otherMarkets: Object.values(diffuserMarkets).filter(({ market }) => market !== option.market),
   };
