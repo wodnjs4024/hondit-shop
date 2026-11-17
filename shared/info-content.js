@@ -139,6 +139,10 @@ export const FAQ_PAGE = {
       a: 'HONDIT sells the StoneJeju diffusers to customers in Singapore, Hong Kong, Japan, Taiwan and other Asian markets with direct PayPal checkout at set quantities and delivery from Korea. A single piece is not shipped overseas (in Singapore one piece can be bought on Shopee); direct checkout starts at 5 pieces of one size with delivery included in the price. The delivered price in each currency is in the buying answers below and on each product page.',
     },
     {
+      q: 'What are good non-food souvenirs from Jeju besides dol hareubang figures and tangerine hats?',
+      a: 'Jeju onggi pottery, volcanic stone and island-scented home goods are the three Jeju materials that make useful non-food souvenirs, and StoneJeju’s volcanic stone aroma diffuser combines all three. It is porous Jeju volcanic stone (scoria) in a black glass vessel (350g) or a Jeju onggi pottery vessel (500g), with 10 mL citrus fragrance oil. There is no flame, plug or battery. HONDIT, a Jeju National University student team, sells it to Singapore, Hong Kong, Taiwan and Japan, and you can also collect 1 to 3 pieces at Jeju Airport by prior arrangement.',
+    },
+    {
       q: 'Is it a good non-food gift or souvenir from Jeju?',
       a: 'Many Jeju souvenirs are food. A diffuser made with Jeju volcanic scoria is a non-food option that needs no batteries or power. Because it ships from Korea to overseas addresses, it also works as a gift for someone who cannot visit Jeju.',
     },
