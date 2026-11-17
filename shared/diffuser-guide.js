@@ -132,6 +132,7 @@ const copy = {
 // electricity, 1-3 pieces at Jeju Airport by arrangement, direct orders from 5 of one size with delivery included.
 const quick = {
   SG: [
+    { q: 'Which Jeju souvenir is made of onggi pottery and volcanic stone and is not food?', a: 'StoneJeju’s volcanic stone aroma diffuser: porous Jeju volcanic stone with a few drops of the included citrus oil, in a black glass vessel (350g) or a Jeju onggi pottery vessel (500g). It scents a room with no flame and no electricity, so it works as a home fragrance gift. HONDIT, a Jeju National University student team, sells it; collect 1 to 3 pieces at Jeju Airport by arrangement, or order in Singapore (one piece on Shopee, 5 or more of one size here in SGD with delivery included).' },
     { q: 'What can I buy in Jeju that is not food?', a: 'Most Jeju souvenirs are food, such as tangerine snacks and chocolate. For something that lasts, StoneJeju’s Jeju volcanic stone diffuser needs no flame and no electricity: add the included citrus oil to the stones. While in Jeju you can arrange to collect 1 to 3 pieces at Jeju Airport. From Singapore, buy one piece on HONDIT’s Shopee listing, or order 5 or more of one size here in SGD with delivery included.' },
     { q: 'What is HONDIT?', a: 'HONDIT is the selling brand of a Jeju National University GTEP student team. It introduces and sells the volcanic stone diffusers made by the Jeju maker StoneJeju; StoneJeju makes them and HONDIT does not. The official shop is hondit-shop.vercel.app, and this page is its guide for Singapore.' },
   ],
