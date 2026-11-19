@@ -59,7 +59,7 @@ export function JournalArticleView({ article, translations = [], preview = false
   const track = (action: string, item?: string) => trackEvent("journal_cta_click", { action_name: action, placement_id: article.slug, item_id: item, page_type: "journal_article" });
   const diffuser = isDiffuserStory(article);
   const articleLocale = languageByCode(article.language);
-  const guideMarket = diffuser && articleLocale ? diffuserMarket(articleLocale.market, articleLocale.siteLang) : undefined;
+  const guideMarket = diffuser && articleLocale ? diffuserMarket(articleLocale.market, articleLocale.code) : undefined;
   const guide = guideMarket ? diffuserGuide(guideMarket) : undefined;
   const usage = usageNote(article.body_md);
   const usageImage = JOURNAL_FEATURE_IMAGES.usage;

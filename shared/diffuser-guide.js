@@ -1,5 +1,6 @@
 import { diffuserMarkets, diffuserProductPath, diffuserSlugs } from './diffuser-search-routes.js';
 import { pickupSearchPath } from './pickup-search.js';
+import { articlePath } from './journal.js';
 
 // Verified against StoneJeju product detail images. Retail offers and stock are resolved by the existing shop.
 export const diffuserSpecs = {
@@ -161,10 +162,18 @@ const topOrder = {
   MY: { label: (size) => `Pesan ${size} · SGD`, pay: 'Dibayar dalam SGD melalui PayPal, termasuk penghantaran dari Korea.' },
 };
 
+const giftGuideLabels = {
+  SG: 'Jeju gift guide: a souvenir to bring home',
+  JP: '済州島のお土産ガイド：火山石ディフューザー',
+  HK: '濟州手信指南：火山石香薰',
+  TW: '濟州島伴手禮指南：火山石擴香',
+};
+
 export function diffuserGuide(option) {
   const data = copy[option.market];
   const selection = new URLSearchParams({ market: option.market, lang: option.lang });
   const top = topOrder[option.market];
+  const giftGuideLabel = giftGuideLabels[option.market];
   if (top?.quantity) selection.set('quantity', String(top.quantity));
   const products = diffuserSlugs.map((slug, index) => ({
     slug, ...diffuserSpecs[slug], name: data.model[index], useCase: data.modelDescription[index],
@@ -184,6 +193,10 @@ export function diffuserGuide(option) {
     hasFivePack: Boolean(top?.quantity),
     quick: quick[option.market] || [],
     pickupPath: pickupSearchPath(option.lang),
+    giftGuide: giftGuideLabel ? {
+      label: giftGuideLabel,
+      path: articlePath({ language: option.lang, slug: 'jeju-only-gift-guide-volcanic-stone-diffuser' }),
+    } : null,
     otherMarkets: Object.values(diffuserMarkets).filter(({ market }) => market !== option.market),
   };
 }

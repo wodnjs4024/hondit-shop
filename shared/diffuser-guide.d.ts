@@ -10,5 +10,5 @@ export function diffuserGuide(option: DiffuserMarket): {
   how: string; use: string; buy: string; buying: string; pickup: string; pickupNote: string; maker: string;
   other: string; guide: string; products: (DiffuserSpec & { slug: DiffuserSlug; name: string; useCase: string; detailsPath: string; orderPath: string; orderLabel: string })[];
   topOrders: { slug: DiffuserSlug; path: string; label: string }[]; payNote: string; hasFivePack: boolean; quick: { q: string; a: string }[];
-  pickupPath: string; otherMarkets: DiffuserMarket[];
+  pickupPath: string; giftGuide: { label: string; path: string } | null; otherMarkets: DiffuserMarket[];
 };

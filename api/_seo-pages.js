@@ -179,6 +179,7 @@ function comparisonPage(option, { products = [], showOrderTerms = false, offerRo
   const models = data.products.map((item) => `<article><img src="${esc(item.image)}" alt="${esc(item.name)}" width="880" height="1100" decoding="async"><h3>${esc(item.name)}</h3><p>${esc(item.useCase)}</p><dl><div><dt>${esc(data.specs)}</dt><dd>${esc(item.dimensions)}</dd></div><div><dt>${esc(data.included)}</dt><dd>${esc(data.oil)}</dd></div></dl><p class="diffuser-guide__links"><a href="${esc(item.detailsPath)}">${esc(data.details)}</a><a href="${esc(item.orderPath)}">${esc(item.orderLabel)}</a><a href="${esc(item.source)}">${esc(data.source)}</a></p></article>`).join('');
   const answers = [...data.quick.map((item) => [item.q, item.a]), [data.how, data.use], [data.buy, data.buying], [data.pickup, data.pickupNote, data.pickupPath]]
     .map(([question, answer, path]) => `<section><h2>${esc(question)}</h2><p>${esc(answer)}</p>${path ? `<a href="${esc(path)}">${esc(question)}</a>` : ''}</section>`).join('');
+  const giftGuide = data.giftGuide ? `<p><a class="hd-textlink" href="${esc(data.giftGuide.path)}">${esc(data.giftGuide.label)}</a></p>` : '';
   const other = data.otherMarkets.map((market) => `<a href="${market.path}" lang="${market.lang}" hreflang="${market.hreflang}">${esc(market.label)}</a>`).join('');
   return {
     status: 200, canonical: SITE + option.path, lang: option.lang, locale: option.locale,
@@ -197,7 +198,7 @@ function comparisonPage(option, { products = [], showOrderTerms = false, offerRo
     }],
     html: wrap(`<header class="diffuser-guide__intro"><h1>${esc(data.title)}</h1><p>${esc(data.description)}</p>${option.market === 'TH' ? renderThaiActions() : ''}${data.topOrders.length ? `<div class="diffuser-guide__order">${data.topOrders.map((o, i) => `<a class="button ${i ? 'button--outline-dark' : 'button--primary'}" href="${esc(o.path)}">${esc(o.label)}</a>`).join('')}</div><p class="diffuser-guide__pay">${esc(data.payNote)}</p>${data.hasFivePack ? `<a class="hd-textlink" href="${esc(data.pickupPath)}">${esc(data.pickup)}</a>` : ''}` : ''}</header>`
       + `<section id="compare-diffusers" class="diffuser-guide__comparison"><h2>${esc(data.compare)}</h2><div class="diffuser-guide__models">${models}</div><p>${esc(data.maker)}</p></section>`
-      + buyingHtml(buying) + `<div class="diffuser-guide__answers">${answers}</div><nav class="diffuser-guide__markets" aria-label="${esc(data.other)}">${other}</nav>`, 'diffuser-guide'),
+      + buyingHtml(buying) + `<div class="diffuser-guide__answers">${answers}${giftGuide}</div><nav class="diffuser-guide__markets" aria-label="${esc(data.other)}">${other}</nav>`, 'diffuser-guide'),
   };
 }
 

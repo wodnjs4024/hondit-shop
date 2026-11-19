@@ -9,7 +9,7 @@ export const JOURNAL_LANGUAGES = [
   { code: 'en', segment: 'en', market: 'SG', label: 'English', hreflang: 'en', ogLocale: 'en_SG', siteLang: 'en' },
   { code: 'ja', segment: 'ja', market: 'JP', label: '日本語', hreflang: 'ja', ogLocale: 'ja_JP', siteLang: 'ja' },
   { code: 'zh-HK', segment: 'zh-hk', market: 'HK', label: '繁體中文（香港）', hreflang: 'zh-HK', ogLocale: 'zh_HK', siteLang: 'zh-HK' },
-  // The site's Taiwan links keep lang=en (zh-TW is not a selectable storefront language), the article itself is zh-TW.
+  // Preserve the approved 03_LINKS locale in externally distributed campaign URLs.
   { code: 'zh-TW', segment: 'zh-tw', market: 'TW', label: '繁體中文（台灣）', hreflang: 'zh-TW', ogLocale: 'zh_TW', siteLang: 'en' },
 ];
 export const languageByCode = (code) => JOURNAL_LANGUAGES.find((l) => l.code === code) || null;
@@ -109,7 +109,7 @@ export function usageNote(text) {
 export function marketLink(path, language) {
   const lang = languageByCode(language);
   if (!lang || !String(path).startsWith('/') || /^\/(journal|images)(\/|$)/.test(path) || /[?#]/.test(path)) return path;
-  return `${path}?${new URLSearchParams({ market: lang.market, lang: lang.siteLang })}`;
+  return `${path}?${new URLSearchParams({ market: lang.market, lang: lang.code })}`;
 }
 
 export function plainText(article) {

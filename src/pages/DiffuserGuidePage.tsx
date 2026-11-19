@@ -51,6 +51,7 @@ export function DiffuserGuidePage() {
           <section><h2>{content.how}</h2><p>{content.use}</p></section>
           <section><h2>{content.buy}</h2><p>{content.buying}</p></section>
           <section><h2>{content.pickup}</h2><p>{content.pickupNote}</p><Link className="hd-textlink" to={content.pickupPath}>{content.pickup}</Link></section>
+          {content.giftGuide && <p><Link className="hd-textlink" to={content.giftGuide.path}>{content.giftGuide.label}</Link></p>}
         </div>
         <nav className="diffuser-guide__markets" aria-label={content.other}>
           {content.otherMarkets.map((market) => <Link key={market.market} className="hd-textlink" to={market.path} hrefLang={market.hreflang} lang={market.lang}>{market.label}</Link>)}

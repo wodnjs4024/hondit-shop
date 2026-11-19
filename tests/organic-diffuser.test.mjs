@@ -8,6 +8,8 @@ import { safeLanding } from '../shared/tracking-policy.js';
 import { diffuserGuide, diffuserSpecs } from '../shared/diffuser-guide.js';
 import { diffuserMarkets, diffuserProductLocale, diffuserSlugs } from '../shared/diffuser-search-routes.js';
 import { canonicalSeoLanguage } from '../shared/seo-locales.js';
+import { articleMarkup } from '../api/_journal-html.js';
+import { seedArticles4 } from '../shared/journal-seed-4.js';
 
 const site = 'https://hondit-shop.vercel.app';
 async function request(query, method = 'GET') {
@@ -29,6 +31,10 @@ test('regional guides give bots and buyers the same localized answer, maker evid
     assert.equal(doc.documentElement.lang, option.lang);
     assert.equal(doc.querySelector('link[rel="canonical"]').href, site + option.path);
     assert.equal(doc.querySelector('h1').textContent, guide.title);
+    const giftGuide = doc.querySelector('.diffuser-guide__answers a[href^="/journal/"]');
+    if (['SG', 'JP', 'HK', 'TW'].includes(option.market)) {
+      assert.equal(giftGuide.getAttribute('href'), `/journal/${option.lang.toLowerCase()}/jeju-only-gift-guide-volcanic-stone-diffuser`);
+    } else assert.equal(giftGuide, null);
     assert.ok(doc.body.textContent.includes(guide.buying));
     assert.equal(alternateMap(doc)[option.hreflang], site + option.path);
     alternate ??= alternateMap(doc);
@@ -64,6 +70,14 @@ test('regional guides give bots and buyers the same localized answer, maker evid
     assert.equal((await request(query, 'HEAD')).body, '');
   }
   assert.equal((await request({ seoPage: 'diffuserGuide', seoGuide: 'unsupported' })).statusCode, 404);
+});
+
+test('Taiwan gift articles offer Traditional Chinese pickup and the Taiwan buying guide', () => {
+  const article = seedArticles4.find((entry) => entry.language === 'zh-TW');
+  const doc = documentOf(articleMarkup(article));
+  assert.ok(doc.querySelector('.journal-related a[href="/diffusers/taiwan"]'));
+  assert.ok(doc.querySelector('.journal-body a[href="/jeju/pickup?market=TW&lang=zh-TW"]'));
+  assert.ok(doc.querySelector('.journal-related a[href="/products/diffuser-350g?market=TW&lang=zh-TW"]'));
 });
 
 test('localized product market aliases share the live language canonical and the sitemap advertises it once', async () => {

@@ -64,7 +64,7 @@ export function articleMarkup(article, translations = [], { preview = false } = 
   const cta = article.cta_type === 'partners' ? ['/partners', c.partners] : ['/contact', c.contact];
   const diffuser = isDiffuserStory(article);
   const articleLocale = languageByCode(article.language);
-  const guideMarket = diffuser && articleLocale ? diffuserMarket(articleLocale.market, articleLocale.siteLang) : undefined;
+  const guideMarket = diffuser && articleLocale ? diffuserMarket(articleLocale.market, articleLocale.code) : undefined;
   const guide = guideMarket ? diffuserGuide(guideMarket) : undefined;
   const usage = usageNote(article.body_md);
   const usageImage = JOURNAL_FEATURE_IMAGES.usage;
