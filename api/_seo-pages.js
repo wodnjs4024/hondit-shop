@@ -9,6 +9,7 @@ import { INFO_PAGES, SITE_FACTS, infoPageFor } from '../shared/info-content.js';
 import { pickupRequestTotal } from '../shared/contact-copy.js';
 import { salesPresentationCopy } from '../shared/sales-presentation-copy.js';
 import { PICKUP_IMAGE, pickupAlternates, pickupSearchLanguage, pickupSearchMeta, pickupSearchPath } from '../shared/pickup-search.js';
+import { pickupFaq, pickupFaqHeading } from '../shared/pickup-faq.js';
 import { diffuserCare as CARE, diffuserGuide, diffuserSpecs as diffuserFacts, thaiDiffuserActions } from '../shared/diffuser-guide.js';
 import { diffuserGuideAlternates, diffuserGuideMarket, diffuserMarkets } from '../shared/diffuser-search-routes.js';
 import { productStory, productImageAlt } from '../shared/product-story.js';
@@ -278,15 +279,18 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
     const canonical = SITE + pickupSearchPath(language);
     const { lang, title, description } = pickupSearchMeta(language);
     const productLinks = ['350g', '500g'].map((size) => `<li><a href="/products/diffuser-${size}">StoneJeju ${size}</a> · KRW ${pickupRequestTotal(1, size).toLocaleString('en-US')}</li>`).join('');
+    const faq = pickupFaq(language);
+    const faqHtml = faq ? `<section class="pickup-faq"><h2>${esc(pickupFaqHeading[faq.language])}</h2>${faq.items.map(([q, a]) => `<details open><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</section>` : '';
+    const faqLd = faq ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${canonical}#faq`, inLanguage: lang, mainEntity: faq.items.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }] : [];
     return {
       status: 200, canonical, lang, title, description, image: SITE + PICKUP_IMAGE,
       alternates: pickupAlternates.map((item) => ({ hreflang: item.hreflang, href: SITE + item.path })),
-      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebPage', name: copy.pickupTitle, url: canonical, inLanguage: lang, about: { '@id': `${SITE}/#organization` } }, breadcrumb([['HONDIT', '/'], [copy.pickupNav, pickupSearchPath(language)]])],
+      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebPage', name: copy.pickupTitle, url: canonical, inLanguage: lang, about: { '@id': `${SITE}/#organization` } }, breadcrumb([['HONDIT', '/'], [copy.pickupNav, pickupSearchPath(language)]]), ...faqLd],
       html: wrap(`<section class="pickup-introduction"><div><h1>${esc(copy.pickupTitle)}</h1><p>${esc(copy.pickupBody)}</p><a class="hd-textlink" href="mailto:${EMAIL}">${esc(copy.pickupAction)}</a></div>`
         + `<figure><div class="pickup-airport-sign-frame"><img src="${PICKUP_IMAGE}" alt="${esc(copy.pickupImageAlt)}" width="1504" height="418" fetchpriority="high"></div><figcaption>${esc(copy.pickupShort)}</figcaption></figure>`
         + `<ul class="pickup-intro-facts">${productLinks}</ul><div class="pickup-arrangements">`
         + `<article><h2>${esc(copy.pickupSchedule)}</h2><p>${esc(copy.pickupScheduleBody)}</p></article>`
-        + `<article><h2>${esc(copy.pickupMethod)}</h2><p>${esc(copy.pickupMethodBody)}</p></article></div></section>`, 'pickup-page pickup-simple pickup-travel'),
+        + `<article><h2>${esc(copy.pickupMethod)}</h2><p>${esc(copy.pickupMethodBody)}</p></article></div></section>` + faqHtml, 'pickup-page pickup-simple pickup-travel'),
     };
   }
   if (path === 'jeju') {
