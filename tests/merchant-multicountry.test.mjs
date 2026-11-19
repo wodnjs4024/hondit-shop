@@ -7,7 +7,7 @@ import { merchantOffer, merchantHtml, merchantConfig, merchantMarket } from '../
 import { googleFeed } from '../api/_feeds.js';
 import { termsFor } from '../shared/market-overrides.js';
 const products=defaultProducts.map(toClientProduct);
-const cases={SG:['SGD',5,10,'230.00','500.00'],JP:['JPY',2,20,'48000','104000'],HK:['HKD',5,20,'2560.00','5600.00'],TW:['TWD',2,20,'9600','21000'],TH:['THB',2,20,'11000.00','24000.00'],MY:['SGD',2,20,'420.00','920.00']};
+const cases={SG:['SGD',7,10,'230.00','500.00'],JP:['JPY',4,20,'48000','104000'],HK:['HKD',7,20,'2560.00','5600.00'],TW:['TWD',4,20,'9600','21000'],TH:['THB',2,20,'11000.00','24000.00'],MY:['SGD',2,20,'420.00','920.00']};
 const languages={SG:'en',JP:'ja',HK:'zh-HK',TW:'zh-TW',TH:'th',MY:'ms'};
 for(const [market,[currency,count,quantity,small,large]] of Object.entries(cases)) {
  test(`${market}: approved minimum total, currency, language, stock and initial HTML agree`,()=>{

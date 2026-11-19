@@ -21,23 +21,35 @@ test('merchant uses existing storefront default names and photos, not a separate
 
 test('SG minimum payable quantity, price, brand, identifiers and XML validity',()=>{
  const doc=parse(googleFeed(products,'SG'));
- const nodes=[...doc.querySelectorAll('item')]; assert.equal(nodes.length,5);
+ const nodes=[...doc.querySelectorAll('item')]; assert.equal(nodes.length,7);
  for(const node of nodes){
   const source=products.find(p=>field(node,'id').startsWith(p.slug+'-q'));
-  const item=feedItem(source,'SG');
   const q=Number(new URL(field(node,'link')).searchParams.get('quantity'));
+  const item=merchantOffer(source,'SG','en',String(q)).item;
   const decision=termsFor({...source,stockQuantity:source.stockUnits},'SG',q);
   assert.equal(decision.status,'direct');
   assert.equal(field(node,'price'),`${(decision.productTotalMinor/100).toFixed(2)} SGD`);
   assert.equal(item.totalAmount, (decision.totalMinor/100).toFixed(2));
   assert.equal(field(node,'identifier_exists'),undefined,'unknown identifiers never asserted absent');
-  assert.equal(field(node,'multipack'),undefined,'MOQ does not claim a retailer-defined multipack');
+  assert.equal(field(node,'multipack'),q===5 ? '5' : undefined,'Only the explicit gift pack uses the multipack attribute');
   assert.notEqual(field(node,'brand'),'HONDIT');
  }
  assert.equal(feedItem(diffuser,'SG').quantity,10);
  assert.equal(feedItem(diffuser,'SG').price,'230.00 SGD');
  assert.equal(feedItem(products.find(p=>p.slug==='diffuser-500g'),'SG').price,'500.00 SGD');
  assert.equal(feedItem(products[0],'SG').price,'267.00 SGD');
+});
+
+test('four market feeds expose both five-unit diffuser gift packs at the approved totals', () => {
+ const totals = {SG:['129.00 SGD','269.00 SGD'],JP:['17800 JPY','34400 JPY'],HK:['860.00 HKD','1680.00 HKD'],TW:['3650 TWD','7150 TWD']};
+ for(const [market, expected] of Object.entries(totals)) {
+  const packs = [...parse(googleFeed(products,market)).querySelectorAll('item')].filter(node => field(node,'multipack') === '5');
+  assert.deepEqual(packs.map(node => field(node,'price')), expected);
+  assert.deepEqual(packs.map(node => field(node,'id')), ['diffuser-350g-q5','diffuser-500g-q5']);
+ }
+ for(const market of ['TH','MY']) {
+  assert.equal(merchantOffer(diffuser,market,undefined,'5').item,undefined);
+ }
 });
 
 test('only reviewed market/language is active; no silent SG fallback',()=>{

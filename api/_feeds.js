@@ -7,15 +7,23 @@ import { diffuserGuideAlternates } from '../shared/diffuser-search-routes.js';
 import { seoLanguagesFor, HREFLANGS } from '../shared/seo-locales.js';
 import { storefrontCatalog } from '../shared/storefront-catalog.js';
 export function feedItem(product, market = 'SG', language) { return merchantOffer(product, market, language).item || null; }
+function feedItems(products, market, language) {
+  return products.flatMap((product) => {
+    const standard = feedItem(product, market, language);
+    const giftPack = merchantOffer(product, market, language, '5').item;
+    return [standard, giftPack?.id === standard?.id ? null : giftPack].filter(Boolean);
+  });
+}
+
 export function googleFeed(products, market = 'SG', language) {
   const channel = merchantMarket(market, language);
   if (!channel) throw new RangeError('Merchant market/language not enabled');
-  const items = products.map(p => feedItem(p, market, channel.language)).filter(Boolean);
+  const items = feedItems(products, market, channel.language);
   const tag = (name, value) => `      <g:${name}>${esc(value)}</g:${name}>`;
   const body = items.map(item => `    <item>\n${[
     tag('id',item.id),tag('title',item.title),tag('description',item.description),tag('link',item.link),tag('image_link',item.image),
     ...item.extraImages.map(url => tag('additional_image_link',url)),tag('availability',item.availability),tag('price',item.price),
-    tag('brand',item.brand),tag('condition','new'),...(item.productType ? [tag('product_type',item.productType)] : []),
+    tag('brand',item.brand),tag('condition','new'),...(item.multipack ? [tag('multipack',item.multipack)] : []),...(item.productType ? [tag('product_type',item.productType)] : []),
     ...(item.gtin ? [tag('gtin',item.gtin)] : []),...(item.mpn ? [tag('mpn',item.mpn)] : []),
     ...(item.identifierExists === false ? [tag('identifier_exists','no')] : []),
     `      <g:shipping><g:country>${market}</g:country><g:price>${esc(item.shippingPrice)}</g:price></g:shipping>`
@@ -59,7 +67,7 @@ export function sitemap(products, journal = [], { checkoutLive = false } = {}) {
   ];
   const merchantEntries = checkoutLive ? Object.keys(merchantConfig.markets)
     .filter((market) => merchantMarket(market))
-    .flatMap((market) => live.map((product) => feedItem(product, market)).filter(Boolean))
+    .flatMap((market) => feedItems(live, market))
     .map(({ link, image }) => `  <url><loc>${esc(link)}</loc><image:image><image:loc>${esc(image)}</image:loc></image:image></url>`) : [];
   const pageEntries = [...new Set([...urls, ...journalIndex])].flatMap((url) => {
     const slug = url.startsWith('/products/') ? url.slice('/products/'.length) : '';

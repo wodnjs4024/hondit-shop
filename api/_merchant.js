@@ -90,6 +90,9 @@ const builtInPhotos = {
   'diffuser-350g': ['03_diffuser_350_window.webp', '04_diffuser_350_stone.webp', '05_diffuser_350_shelf.webp'].map(f => PHOTO_ROOT + f),
   'diffuser-500g': ['07_diffuser_500_window.webp', '08_diffuser_500_wood.webp', '01_diffuser_350_package.webp'].map(f => PHOTO_ROOT + f),
 };
+const giftPackMarkets = new Set(['SG', 'JP', 'HK', 'TW']);
+const giftPackProducts = new Set(['diffuser-350g', 'diffuser-500g']);
+
 export function merchantOffer(product, market = 'SG', language, requestedQuantity) {
   const channel = merchantMarket(market, language);
   if (!channel) return { reason: 'market_not_enabled' };
@@ -108,7 +111,9 @@ export function merchantOffer(product, market = 'SG', language, requestedQuantit
     const candidate = termsFor(pricing, market, quantity);
     if (candidate.status === 'direct') { decision = candidate; break; }
   }
-  if (!decision || decision.billingCurrency !== channel.currency || !Number.isSafeInteger(decision.totalMinor) || decision.totalMinor <= 0 || !Number.isSafeInteger(decision.productTotalMinor) || decision.productTotalMinor <= 0 || !Number.isSafeInteger(decision.shippingMinor) || decision.shippingMinor < 0 || decision.totalMinor !== decision.productTotalMinor + decision.shippingMinor) return { reason: 'no_approved_direct_offer' };
+  const giftPack = requestedQuantity === '5' && giftPackMarkets.has(market) && giftPackProducts.has(sku);
+  if (giftPack) decision = termsFor(pricing, market, 5);
+  if (decision?.status !== 'direct' || decision.billingCurrency !== channel.currency || !Number.isSafeInteger(decision.totalMinor) || decision.totalMinor <= 0 || !Number.isSafeInteger(decision.productTotalMinor) || decision.productTotalMinor <= 0 || !Number.isSafeInteger(decision.shippingMinor) || decision.shippingMinor < 0 || decision.totalMinor !== decision.productTotalMinor + decision.shippingMinor) return { reason: 'no_approved_direct_offer' };
   const quantity = decision.quantity;
   if (requestedQuantity !== undefined && String(requestedQuantity) !== String(quantity)) return { reason: 'offer_quantity_mismatch' };
   const builtIn = storefrontCatalog.find(p => p.apiSlug === sku);
@@ -136,6 +141,7 @@ export function merchantOffer(product, market = 'SG', language, requestedQuantit
     id: `${sku}-q${quantity}`, slug: product.slug, title, description, brand: metadata.brand,
     productType: productType[builtIn?.category || product.category] || '',
     market, language: channel.language, quantity, link,
+    ...(giftPack ? { multipack: quantity } : {}),
     checkoutLink: `${SITE}/bulk-orders/${product.slug}?${checkoutQuery}`,
     detailsLink: `${SITE}/products/${product.slug}?${checkoutQuery}`,
     image, extraImages: [...new Set([...(product.media || []).filter(m => m.role === 'gallery').map(m => publicImage(m.url)), ...(product.galleryImages || []).map(publicImage), ...(builtInPhotos[sku] || []).map(publicImage)])].filter(url => url && url !== image).slice(0,10),
