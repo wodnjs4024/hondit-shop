@@ -137,18 +137,26 @@ const quick = {
     { q: 'What can I buy in Jeju that is not food?', a: 'Most Jeju souvenirs are food, such as tangerine snacks and chocolate. For something that lasts, StoneJeju’s Jeju volcanic stone diffuser needs no flame and no electricity: add the included citrus oil to the stones. While in Jeju you can arrange to collect 1 to 3 pieces at Jeju Airport. From Singapore, buy one piece on HONDIT’s Shopee listing, or order 5 or more of one size here in SGD with delivery included.' },
     { q: 'What do buyers say about the Jeju volcanic stone diffuser?', a: 'Shopee Singapore buyers rated it 5 stars. One wrote: "The fresh citrus scent reminds me of Jeju oranges. It smells refreshing and is not too overpowering." and "From a distance, it looks like a real decorative stone rather than a diffuser." Another wrote: "Seller is friendly, highly responsive and able to help answer queries quickly. Will definitely repurchase!" (Shopee Singapore purchase reviews, July and May 2026.)' },
     { q: 'What is HONDIT?', a: 'HONDIT is the selling brand of a Jeju National University GTEP student team. It introduces and sells the volcanic stone diffusers made by the Jeju maker StoneJeju; StoneJeju makes them and HONDIT does not. The official shop is hondit-shop.vercel.app, and this page is its guide for Singapore.' },
+    { q: 'What is an aroma stone (stone diffuser), and is there a Korean one made in Jeju?', a: 'An aroma stone, also called a stone diffuser or lava stone diffuser, is a porous stone that takes up a few drops of fragrance oil and gives it off slowly. There is no flame, no cable and no liquid bottle to knock over. StoneJeju makes one in Korea from Jeju volcanic stone, in a black glass vessel (350g) or a Jeju onggi pottery vessel (500g), with 10mL of citrus oil included. HONDIT, a Jeju National University GTEP student team, sells it overseas.' },
+    { q: 'Is a stone diffuser safe for homes with cats, dogs or small children?', a: 'It has no flame and no electricity, but it is not a pet or child safe product. The included oil is citrus oil, and citrus oils can be harmful to cats and dogs. Keep the stones and the oil bottle out of reach of children and pets, and if you keep cats, do not use citrus oil or ask your vet first.' },
   ],
   JP: [
     { q: '済州島のお土産、食べ物以外なら何がいい？', a: '済州島のお土産は、みかんのお菓子やチョコレートなど食べ物が中心です。形に残るものなら、済州島の火山石を使ったStoneJejuのディフューザーがあります。火も電気も使わず、付属のシトラスオイルを石に垂らすだけです。旅行中は済州空港で1〜3個を受け取れ（事前予約制）、帰国後は日本円・送料込みで同じサイズ5個から注文できます。' },
     { q: 'HONDIT（ホンディット）とは？', a: 'HONDIT（ホンディット）は、済州大学校GTEPプログラムの学生チームが運営する販売ブランドです。済州のメーカーStoneJejuが作る火山石ディフューザーを海外に紹介・販売しています（製造はStoneJejuで、HONDITは製造していません）。公式ショップはhondit-shop.vercel.appで、日本向けの案内はこのページです。' },
+    { q: 'アロマストーン（ストーンディフューザー）とは？ 韓国・済州島製はある？', a: 'アロマストーンは、小さな穴の多い石にアロマオイルを数滴たらし、ゆっくり香りを広げるタイプです。火も電気も使わず、液体の瓶を倒す心配もありません。韓国・済州島のStoneJejuが、済州の火山石を使って製造しています。黒いガラス容器の350gと済州オンギ（陶器）容器の500gがあり、10mLのみかん系オイルが付属します。販売は済州大学校GTEPプログラムの学生チームHONDIT（ホンディット）です。' },
+    { q: 'ペットや小さな子どもがいる家でも使えますか？', a: '火も電気も使いませんが、ペットや子ども向けに安全をうたう製品ではありません。付属のオイルはみかん系で、柑橘系の精油は猫や犬に有害な場合があります。石とオイルの瓶は子どもやペットの手が届かない場所に置き、猫がいるご家庭では柑橘系オイルを使わないか、獣医師にご相談ください。' },
   ],
   HK: [
     { q: '去濟州有甚麼非食品手信？', a: '濟州手信多數是柑橘零食、朱古力等食品。想要一份可以長久擺放的手信，可以考慮 StoneJeju 的濟州火山石擴香：不用點火、不用插電，把附送的柑橘香氛油滴在石上就有香氣。在濟州旅行時可預約在濟州機場交收 1 至 3 件；回港後可在本頁以港幣連運費訂購，同款 5 件起。' },
     { q: 'HONDIT 是甚麼？', a: 'HONDIT 是濟州大學 GTEP 課程學生團隊經營的銷售品牌，向海外介紹及銷售濟州製造商 StoneJeju 的火山石擴香（產品由 StoneJeju 製造，HONDIT 不生產）。官方網店是 hondit-shop.vercel.app，香港顧客請看本頁的港幣價錢和訂購按鈕。' },
+    { q: '擴香石（香薰石）係咩？ 韓國濟州有冇？', a: '擴香石（又叫香薰石、火山石香薰）係多孔嘅石頭，滴幾滴香油就會慢慢散發香氣，無火、無電，亦唔使擔心打翻香油樽。韓國濟州嘅 StoneJeju 用濟州火山石製造，有 350g 黑色玻璃瓶同 500g 濟州甕器瓶，附送 10mL 柑橘香油。HONDIT（濟州大學 GTEP 學生團隊）負責海外銷售。' },
+    { q: '有貓、狗或細路嘅家庭可唔可以用？', a: '無火無電，但唔係專為寵物或小朋友而設嘅安全產品。附送嘅係柑橘香油，柑橘類精油對貓狗可能有害。請將石頭同香油樽放喺小朋友同寵物夠唔著嘅地方；屋企有貓嘅話，請唔好用柑橘香油，或者先問獸醫。' },
   ],
   TW: [
     { q: '濟州島伴手禮除了零食，還能買什麼？', a: '濟州島伴手禮多半是橘子零食、巧克力等食品。想送能長久使用的禮物，可以考慮 StoneJeju 的濟州火山岩擴香：不用點火、不用插電，把隨附的柑橘香氛油滴在石頭上就會散香。在濟州旅遊時可預約在濟州機場取貨 1～3 個；回台灣後可在本頁用新台幣含運訂購，同款 5 個起。' },
     { q: 'HONDIT 是什麼？', a: 'HONDIT 是濟州大學 GTEP 課程學生團隊經營的銷售品牌，向海外介紹並販售濟州製造商 StoneJeju 的火山岩擴香（產品由 StoneJeju 製造，HONDIT 不生產）。官方網站是 hondit-shop.vercel.app，台灣顧客請看本頁的新台幣價格與訂購按鈕。' },
+    { q: '擴香石是什麼？韓國濟州有嗎？', a: '擴香石（香薰石、火山石擴香）是多孔的石頭，滴幾滴香氛油就會慢慢散發香氣，不用火、不用電，也不怕打翻油瓶。韓國濟州的 StoneJeju 以濟州火山石製造，有 350g 黑色玻璃瓶與 500g 濟州甕器瓶，附贈 10mL 柑橘香氛油。HONDIT（濟州大學 GTEP 學生團隊）負責海外銷售。' },
+    { q: '家裡有貓、狗或小孩可以用嗎？', a: '不用火也不用電，但不是專為寵物或孩童設計的安全產品。附贈的是柑橘香氛油，柑橘類精油對貓狗可能有害。請把石頭與油瓶放在孩子和寵物碰不到的地方；家裡有貓的話，請不要使用柑橘油，或先詢問獸醫。' },
   ],
 };
 
