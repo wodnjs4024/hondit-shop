@@ -281,7 +281,7 @@ export function buildSeoPage(path, { slug = '', policy = '', language = 'en', pr
     return {
       status: 200, canonical, lang, title, description, image: SITE + PICKUP_IMAGE,
       alternates: pickupAlternates.map((item) => ({ hreflang: item.hreflang, href: SITE + item.path })),
-      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebPage', name: copy.pickupTitle, url: canonical, inLanguage: lang, about: { '@id': `${SITE}/#organization` } }, breadcrumb([['HONDIT', '/'], [copy.pickupNav, pickupSearchPath(language)]])],
+      jsonLd: [org(), { '@context': 'https://schema.org', '@type': 'WebPage', name: copy.pickupTitle, url: canonical, inLanguage: lang, about: { '@id': `${SITE}/#organization` } }, breadcrumb([['HONDIT', '/'], [copy.pickupNav, pickupSearchPath(language)]]), { '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${canonical}#faq`, inLanguage: lang, mainEntity: qaSchema([{ q: copy.pickupTitle, a: copy.pickupBody }, { q: copy.pickupSchedule, a: copy.pickupScheduleBody }, { q: copy.pickupMethod, a: copy.pickupMethodBody }]) }],
       html: wrap(`<section class="pickup-introduction"><div><h1>${esc(copy.pickupTitle)}</h1><p>${esc(copy.pickupBody)}</p><a class="hd-textlink" href="mailto:${EMAIL}">${esc(copy.pickupAction)}</a></div>`
         + `<figure><div class="pickup-airport-sign-frame"><img src="${PICKUP_IMAGE}" alt="${esc(copy.pickupImageAlt)}" width="1504" height="418" fetchpriority="high"></div><figcaption>${esc(copy.pickupShort)}</figcaption></figure>`
         + `<ul class="pickup-intro-facts">${productLinks}</ul><div class="pickup-arrangements">`
