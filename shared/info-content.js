@@ -22,7 +22,7 @@ export const SITE_FACTS = {
   ],
 };
 
-const WHO = 'HONDIT is the selling and curation brand of a student team in the GTEP programme at Jeju National University. It introduces and sells products made in Jeju by StoneJeju, the maker and product brand of the volcanic-stone diffusers, to customers in Singapore, Hong Kong, Japan and Taiwan. HONDIT does not manufacture them. StoneJeju products are normally sold only at offline stores in Jeju; HONDIT sells them overseas as a limited-period exception through its GTEP activity, until 27 March 2027.';
+const WHO = 'HONDIT is the selling and curation brand of a student team in the GTEP programme at Jeju National University. It introduces and sells products made in Jeju by StoneJeju, the maker and product brand of the volcanic-stone diffusers, to customers in Singapore, Hong Kong, Japan and Taiwan. HONDIT does not manufacture them. StoneJeju products are normally sold only at offline stores in Jeju; HONDIT sells them overseas as a limited-period exception through its GTEP activity, until March 2027.';
 
 export const ABOUT_PAGE = {
   path: '/about',
@@ -320,8 +320,8 @@ export const FAQ_PAGE_KO = {
 // Japanese and Traditional Chinese versions (same facts as the English pages). Used by the React pages and by the
 // server-rendered language versions (/about?lang=ja, /faq?lang=zh-HK ...). Keyword choices follow how people search in
 // each market: アロマストーン・溶岩石・済州島 お土産 (JP), 擴香石・火山石擴香・濟州島手信/伴手禮 (HK, TW, MO).
-const WHO_JA = 'HONDIT（ホンディット）は、済州大学校（チェジュ大学）GTEPプログラムの学生チームが運営する販売・キュレーションブランドです。済州のメーカーStoneJejuが作る火山石ディフューザーを、日本・香港・台湾・シンガポールのお客様に紹介・販売しています。製造はStoneJejuで、HONDITは製造していません。StoneJejuの製品は本来、済州のオフライン店舗でのみ販売されており、HONDITはGTEP活動の一環として、2027年3月27日までの期間限定で例外的に海外へ販売しています。';
-const WHO_ZH = 'HONDIT（韓文 혼딧）是濟州大學 GTEP 課程學生團隊經營的銷售與選品品牌，向香港、台灣、新加坡、日本的顧客介紹及銷售濟州製造商 StoneJeju 的火山石擴香。火山石擴香的製造商及產品品牌是 StoneJeju，HONDIT 並不生產這些產品。StoneJeju 的產品原本只在濟州線下門市販售，HONDIT 透過 GTEP 活動，在 2027 年 3 月 27 日前以期間限定的例外方式向海外銷售。';
+const WHO_JA = 'HONDIT（ホンディット）は、済州大学校（チェジュ大学）GTEPプログラムの学生チームが運営する販売・キュレーションブランドです。済州のメーカーStoneJejuが作る火山石ディフューザーを、日本・香港・台湾・シンガポールのお客様に紹介・販売しています。製造はStoneJejuで、HONDITは製造していません。StoneJejuの製品は本来、済州のオフライン店舗でのみ販売されており、HONDITはGTEP活動の一環として、2027年3月までの期間限定で例外的に海外へ販売しています。';
+const WHO_ZH = 'HONDIT（韓文 혼딧）是濟州大學 GTEP 課程學生團隊經營的銷售與選品品牌，向香港、台灣、新加坡、日本的顧客介紹及銷售濟州製造商 StoneJeju 的火山石擴香。火山石擴香的製造商及產品品牌是 StoneJeju，HONDIT 並不生產這些產品。StoneJeju 的產品原本只在濟州線下門市販售，HONDIT 透過 GTEP 活動，在 2027 年 3 月前以期間限定的例外方式向海外銷售。';
 
 export const ABOUT_PAGE_JA = {
   ...ABOUT_PAGE,
