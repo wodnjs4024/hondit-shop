@@ -21,6 +21,7 @@ export function DiffuserGuidePage() {
               {content.topOrders.map((order, index) => <Link key={order.slug} className={`button ${index ? "button--outline-dark" : "button--primary"}`} to={order.path}>{order.label}</Link>)}
             </div>
             <p className="diffuser-guide__pay">{content.payNote}</p>
+            {content.hasFivePack && <Link className="hd-textlink" to={content.pickupPath}>{content.pickup}</Link>}
           </>}
         </header>
         <section id="compare-diffusers" className="diffuser-guide__comparison" aria-labelledby="diffuser-guide-comparison">
@@ -37,7 +38,7 @@ export function DiffuserGuidePage() {
                 </dl>
                 <p className="diffuser-guide__links">
                   <Link className="hd-textlink" to={product.detailsPath}>{content.details}</Link>
-                  <Link className="hd-textlink" to={product.orderPath}>{content.order}</Link>
+                  <Link className="hd-textlink" to={product.orderPath}>{product.orderLabel}</Link>
                   <a className="hd-textlink" href={product.source}>{content.source}</a>
                 </p>
               </article>

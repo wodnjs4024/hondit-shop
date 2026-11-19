@@ -51,9 +51,15 @@ test('regional guides give bots and buyers the same localized answer, maker evid
       assert.equal(actions, null);
       const top = [...doc.querySelectorAll('.diffuser-guide__intro .diffuser-guide__order a')];
       const hasFivePackCta = ['SG', 'JP', 'HK', 'TW'].includes(option.market);
-      assert.deepEqual(top.map((a) => a.getAttribute('href')), guide.products.map(({ orderPath }) =>
-        hasFivePackCta ? orderPath + '&quantity=5' : orderPath));
-      if (hasFivePackCta) for (const link of top) assert.match(link.textContent, /× 5/);
+      assert.deepEqual(top.map((a) => a.getAttribute('href')), guide.products.map(({ orderPath }) => orderPath));
+      const compareOrders = [...doc.querySelectorAll('.diffuser-guide__links a[href^="/bulk-orders/"]')];
+      const pickupLink = doc.querySelector('.diffuser-guide__intro a[href^="/jeju/pickup"]');
+      assert.equal(Boolean(pickupLink), hasFivePackCta);
+      if (hasFivePackCta) assert.equal(pickupLink.getAttribute('href'), guide.pickupPath);
+      for (const link of [...top, ...compareOrders]) {
+        assert.equal(new URL(link.href).searchParams.get('quantity'), hasFivePackCta ? '5' : null);
+        if (hasFivePackCta) assert.match(link.textContent, /× 5/);
+      }
     }
     assert.equal((await request(query, 'HEAD')).body, '');
   }

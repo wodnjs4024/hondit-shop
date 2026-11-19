@@ -8,7 +8,7 @@ export function diffuserGuide(option: DiffuserMarket): {
   title: string; description: string; compare: string; model: string[]; modelDescription: string[];
   details: string; order: string; source: string; specs: string; included: string; oil: string;
   how: string; use: string; buy: string; buying: string; pickup: string; pickupNote: string; maker: string;
-  other: string; guide: string; products: (DiffuserSpec & { slug: DiffuserSlug; name: string; useCase: string; detailsPath: string; orderPath: string })[];
-  topOrders: { slug: DiffuserSlug; path: string; label: string }[]; payNote: string; quick: { q: string; a: string }[];
+  other: string; guide: string; products: (DiffuserSpec & { slug: DiffuserSlug; name: string; useCase: string; detailsPath: string; orderPath: string; orderLabel: string })[];
+  topOrders: { slug: DiffuserSlug; path: string; label: string }[]; payNote: string; hasFivePack: boolean; quick: { q: string; a: string }[];
   pickupPath: string; otherMarkets: DiffuserMarket[];
 };

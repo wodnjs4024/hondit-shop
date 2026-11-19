@@ -165,20 +165,23 @@ export function diffuserGuide(option) {
   const data = copy[option.market];
   const selection = new URLSearchParams({ market: option.market, lang: option.lang });
   const top = topOrder[option.market];
+  if (top?.quantity) selection.set('quantity', String(top.quantity));
   const products = diffuserSlugs.map((slug, index) => ({
     slug, ...diffuserSpecs[slug], name: data.model[index], useCase: data.modelDescription[index],
     detailsPath: diffuserProductPath(slug, option),
     orderPath: '/bulk-orders/' + slug + '?' + selection,
+    orderLabel: top?.quantity ? top.label(slug.replace('diffuser-', '')) : data.order,
   }));
   return {
     ...data,
     products,
     topOrders: top ? products.map((item) => ({
       slug: item.slug,
-      path: top.quantity ? `${item.orderPath}&quantity=${top.quantity}` : item.orderPath,
+      path: item.orderPath,
       label: top.label(item.slug.replace('diffuser-', '')),
     })) : [],
     payNote: top?.pay || '',
+    hasFivePack: Boolean(top?.quantity),
     quick: quick[option.market] || [],
     pickupPath: pickupSearchPath(option.lang),
     otherMarkets: Object.values(diffuserMarkets).filter(({ market }) => market !== option.market),
