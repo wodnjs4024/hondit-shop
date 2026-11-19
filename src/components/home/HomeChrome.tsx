@@ -43,7 +43,7 @@ function MarketLanguageFields({ idPrefix }: { idPrefix: string }) {
       </option>)}
     </select>
     <label htmlFor={`${idPrefix}-language`}>{marketText(language, "Language")}</label>
-    <select id={`${idPrefix}-language`} value={language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
+    <select id={`${idPrefix}-language`} value={language === "zh-TW" ? "zh-HK" : language} onChange={(event) => setLanguage(event.target.value as DisplayLanguage)}>
       {displayLanguages.map((option) => <option key={option.code} value={option.code}>{option.shortLabel}</option>)}
     </select>
   </div>;
@@ -64,7 +64,7 @@ export function HomeHeader({ overlay = false }: { overlay?: boolean }) {
   const [localeOpen, setLocaleOpen] = useState(false);
   const [notice, setNotice] = useState("");
   const localeRef = useRef<HTMLDivElement>(null);
-  const languageLabel = displayLanguages.find((option) => option.code === language)?.shortLabel ?? language;
+  const languageLabel = displayLanguages.find((option) => option.code === (language === "zh-TW" ? "zh-HK" : language))?.shortLabel ?? language;
 
   useEffect(() => {
     fetch("/api/admin/settings")

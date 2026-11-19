@@ -521,12 +521,12 @@ export function BulkProductPage() {
               <p className="shipping-pill">
                 {marketText(
                   language,
-                  isDiffuser(product) ? "Trial: 10 units. General order: 20 or more. Shipping scope is confirmed per quantity." : market.code === "SG"
+                    isDiffuser(product) ? "Gift & Group Pack: 5 units. Trial: 10 units. General order: 20 or more. Shipping scope is confirmed per quantity." : market.code === "SG"
                     ? "Single-product MOQ bundle for direct checkout. Additional quantities and combinations require an enquiry."
                     : isCleansingMix
                     ? `Mix any cleansing products in steps of ${BULK_QTY_STEP}. Combined minimum: ${moq} units.`
                     : `Order from ${moq} units, in steps of ${BULK_QTY_STEP}.${maxUnits ? ` Available up to ${maxUnits} units.` : ""}`,
-                  isDiffuser(product) ? "체험 주문 10개 · 일반 주문 20개 이상. 배송 범위는 수량별로 확인합니다." : market.code === "SG"
+                    isDiffuser(product) ? "선물·공동구매 5개 · 체험 주문 10개 · 일반 주문 20개 이상. 배송 범위는 수량별로 확인합니다." : market.code === "SG"
                     ? "한 상품을 최소 수량 이상 고르면 바로 결제할 수 있습니다. 여러 상품을 섞으려면 문의해 주세요."
                     : isCleansingMix
                     ? `클렌징 3종을 ${BULK_QTY_STEP}개 단위로 자유롭게 섞을 수 있습니다. 합계 최소 ${moq}개입니다.`

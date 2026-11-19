@@ -83,12 +83,12 @@ export const diffuserCopy = {
     "ms": "Harga seunit pesanan biasa (20+)",
     "th": "ราคาต่อชิ้นสำหรับคำสั่งซื้อทั่วไป (20 ชิ้นขึ้นไป)"
   },
-  "Trial: 10 units. General order: 20 or more. Shipping scope is confirmed per quantity.": {
-    "ko": "체험 주문 10개 · 일반 주문 20개 이상. 배송 범위는 수량별로 확인합니다.",
-    "zh-HK": "體驗訂單10件；一般訂單20件起。配送範圍按數量確認。",
-    "ja": "お試し10個、通常注文20個以上。配送範囲は数量ごとに確認します。",
-    "ms": "Percubaan 10 unit; pesanan biasa 20 unit atau lebih. Skop penghantaran disahkan mengikut kuantiti.",
-    "th": "ทดลอง 10 ชิ้น ทั่วไป 20 ชิ้นขึ้นไป ยืนยันขอบเขตจัดส่งตามจำนวน"
+  "Gift & Group Pack: 5 units. Trial: 10 units. General order: 20 or more. Shipping scope is confirmed per quantity.": {
+    "ko": "선물·공동구매 5개 · 체험 주문 10개 · 일반 주문 20개 이상. 배송 범위는 수량별로 확인합니다.",
+    "zh-HK": "送禮及團購5件、體驗10件、一般訂單20件起。配送範圍按數量確認。",
+    "ja": "ギフト・グループ用5個、お試し10個、通常注文20個以上。配送範囲は数量ごとに確認します。",
+    "ms": "Pek hadiah dan kumpulan 5 unit, percubaan 10 unit, pesanan biasa 20 unit atau lebih. Skop penghantaran disahkan mengikut kuantiti.",
+    "th": "ชุดของขวัญและสั่งซื้อกลุ่ม 5 ชิ้น ทดลอง 10 ชิ้น ทั่วไป 20 ชิ้นขึ้นไป ยืนยันขอบเขตจัดส่งตามจำนวน"
   },
   "General order minimum": {
     "ko": "일반 주문 최소 수량",

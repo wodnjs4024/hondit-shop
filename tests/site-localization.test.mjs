@@ -5,12 +5,29 @@ import path from 'node:path';
 import Module from 'node:module';
 import { createRequire } from 'node:module';
 import { buildSync } from 'esbuild';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { JSDOM } from 'jsdom';
 import ts from 'typescript';
 const require=createRequire(import.meta.url);
 const root=path.resolve(import.meta.dirname,'..');
-const bundle=buildSync({stdin:{contents:'export * from "./src/lib/market"; export {v23Products} from "./src/data/v23SiteData"; export {ourJejuPlaces} from "./src/data/v23JejuData";',resolveDir:root},bundle:true,platform:'node',format:'cjs',write:false,external:['react'],define:{'import.meta.env':'{}'}});
+const bundle=buildSync({stdin:{contents:'export * from "./src/lib/market"; export {v23Products} from "./src/data/v23SiteData"; export {ourJejuPlaces} from "./src/data/v23JejuData"; export {MemoryRouter} from "react-router-dom";',resolveDir:root},bundle:true,platform:'node',format:'cjs',write:false,external:['react'],define:{'import.meta.env':'{}'}});
 const runtime=new Module(path.join(root,'localization-runtime.cjs'));runtime.paths=Module._nodeModulePaths(root);runtime._compile(bundle.outputFiles[0].text,path.join(root,'localization-runtime.cjs'));
 const {marketText,marketProductText,markets,v23Products,ourJejuPlaces}=runtime.exports;
+
+test('Taiwan checkout query preserves Traditional Chinese and the Taiwan market', () => {
+ const { MarketProvider, MemoryRouter, useMarket } = runtime.exports;
+ function CheckoutLanguage() {
+  const { market, language } = useMarket();
+  return createElement('p', { lang: language }, market.code);
+ }
+ const markup = renderToStaticMarkup(createElement(MemoryRouter,
+  { initialEntries: ['/bulk-orders/diffuser-350g?market=TW&lang=zh-TW&quantity=5'] },
+  createElement(MarketProvider, null, createElement(CheckoutLanguage))));
+ const content = new JSDOM(markup).window.document.querySelector('p');
+ assert.equal(content.lang, 'zh-TW');
+ assert.equal(content.textContent, 'TW');
+});
 const languages=['ko','zh-HK','ja','ms','th'];
 const pages=['HomePage','ContactPage','JejuPage','NotFoundPage','OrderCompletePage','PaymentFailedPage','ProductsPage','ProductDetailPage','BulkOrdersPage','BulkProductPage','ShippingPage','PartnersPage','PartnerGuidePage','ProductGuidePage'];
 const files=[...pages.map(p=>`src/pages/${p}.tsx`),'src/pages/JejuPickupPage.tsx','src/components/ResaleCalculator.tsx','src/components/RequestActions.tsx','src/components/PickupRequestPanel.tsx','src/components/ContactQrs.tsx','src/components/SalesDiscovery.tsx','src/components/v23/SiteChrome.tsx','src/components/v23/GeoJourney.tsx','src/components/ProductSalesSummary.tsx','src/components/ProductReviews.tsx','src/components/ConsultationPanel.tsx','src/components/BusinessPlanner.tsx','src/components/QuantityReview.tsx','src/components/ProductFactsDisplay.tsx'];

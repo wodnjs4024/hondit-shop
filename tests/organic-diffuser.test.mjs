@@ -49,9 +49,11 @@ test('regional guides give bots and buyers the same localized answer, maker evid
       assert.equal(new URL(actions.querySelector('a[href^="/jeju/pickup"]').href).searchParams.get('lang'), 'th');
     } else {
       assert.equal(actions, null);
-      // Every other guide opens with one order button per size, to that market's order page.
-      const top = [...doc.querySelectorAll('.diffuser-guide__intro .diffuser-guide__order a')].map((a) => a.getAttribute('href'));
-      assert.deepEqual(top, guide.products.map((product) => product.orderPath));
+      const top = [...doc.querySelectorAll('.diffuser-guide__intro .diffuser-guide__order a')];
+      const hasFivePackCta = ['SG', 'JP', 'HK', 'TW'].includes(option.market);
+      assert.deepEqual(top.map((a) => a.getAttribute('href')), guide.products.map(({ orderPath }) =>
+        hasFivePackCta ? orderPath + '&quantity=5' : orderPath));
+      if (hasFivePackCta) for (const link of top) assert.match(link.textContent, /× 5/);
     }
     assert.equal((await request(query, 'HEAD')).body, '');
   }

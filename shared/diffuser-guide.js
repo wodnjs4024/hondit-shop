@@ -154,10 +154,10 @@ const quick = {
 // Order buttons at the top of each country guide: one per size, straight to that market's order page, with the payment currency.
 // Thailand has its own delivery/pickup buttons (thaiDiffuserActions), so it gets none here.
 const topOrder = {
-  SG: { label: (size) => `Order ${size} · SGD`, pay: 'Paid in SGD by PayPal, with delivery from Korea included.' },
-  JP: { label: (size) => `${size}を注文 · 日本円`, pay: '日本円でPayPal決済、韓国からの送料込みです。' },
-  HK: { label: (size) => `訂購 ${size} · 港幣`, pay: '以港幣經 PayPal 付款，已包括由韓國寄出的運費。' },
-  TW: { label: (size) => `訂購 ${size} · 新台幣`, pay: '以新台幣經 PayPal 付款，已含從韓國寄出的運費。' },
+  SG: { quantity: 5, label: (size) => `Order ${size} × 5 · SGD`, pay: 'Paid in SGD by PayPal, with delivery from Korea included.' },
+  JP: { quantity: 5, label: (size) => `${size} × 5個を注文 · 日本円`, pay: '日本円でPayPal決済、韓国からの送料込みです。' },
+  HK: { quantity: 5, label: (size) => `訂購 ${size} × 5件 · 港幣`, pay: '以港幣經 PayPal 付款，已包括由韓國寄出的運費。' },
+  TW: { quantity: 5, label: (size) => `訂購 ${size} × 5個 · 新台幣`, pay: '以新台幣經 PayPal 付款，已含從韓國寄出的運費。' },
   MY: { label: (size) => `Pesan ${size} · SGD`, pay: 'Dibayar dalam SGD melalui PayPal, termasuk penghantaran dari Korea.' },
 };
 
@@ -173,7 +173,11 @@ export function diffuserGuide(option) {
   return {
     ...data,
     products,
-    topOrders: top ? products.map((item) => ({ slug: item.slug, path: item.orderPath, label: top.label(item.slug.replace('diffuser-', '')) })) : [],
+    topOrders: top ? products.map((item) => ({
+      slug: item.slug,
+      path: top.quantity ? `${item.orderPath}&quantity=${top.quantity}` : item.orderPath,
+      label: top.label(item.slug.replace('diffuser-', '')),
+    })) : [],
     payNote: top?.pay || '',
     quick: quick[option.market] || [],
     pickupPath: pickupSearchPath(option.lang),

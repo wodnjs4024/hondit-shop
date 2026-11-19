@@ -232,7 +232,7 @@ function isMarketCode(value: string | null): value is MarketCode {
 }
 
 function isDisplayLanguage(value: string | null): value is DisplayLanguage {
-  return displayLanguages.some((item) => item.code === value);
+  return value === "zh-TW" || displayLanguages.some((item) => item.code === value);
 }
 
 function getInitialMarket(): MarketCode {
