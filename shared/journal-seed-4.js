@@ -1,7 +1,7 @@
 // Journal batch 4 (2026-11-19): one gift guide per market, written around situations people ask about
 // (partner, parents, housewarming, colleagues, homes with children or pets, small rented rooms).
 // New fact (JW, 2026-11-19): StoneJeju diffusers are normally sold only offline in Jeju; HONDIT sells them outside Jeju
-// as a GTEP-programme exception until March 2027. Other facts only from JOURNAL_FACTS and the checkout terms
+// as a GTEP-programme exception until the end of February 2027. Other facts only from JOURNAL_FACTS and the checkout terms
 // (5 or 20+ of one size pay directly; Singapore also 10, and one piece on Shopee; other quantities or mixed sizes are quotes).
 // Prices are not quoted in the text (they live on the product pages). Every article starts "in_review": nothing is public
 // until the operator approves it in /admin/journal.
@@ -9,7 +9,7 @@ import { JOURNAL_FACTS } from './journal-seed.js';
 
 const SOURCES = (...ids) => JOURNAL_FACTS.filter((f) => ids.includes(f.id)).map(({ label, url }) => ({ label, url }));
 const AVAILABILITY_SOURCE = { label: 'HONDIT 판매처·판매 기간 (운영자 확인 2026-11-19)', url: 'https://hondit-shop.vercel.app/jeju/pickup' };
-const REVIEWED = { facts: true, claims: true, images: true, notes: '2026-11-19: 사실은 JOURNAL_FACTS·주문 조건·운영자 확인(제주 오프라인 한정, 2027년 3월까지 HONDIT 해외 판매) 기준. 위험 표현 자동 검사 통과. 사진은 StoneJeju 사용 허락 범위, 다른 글에 쓰지 않은 사진. 가격 수치는 본문에 넣지 않음.', reviewer: 'HONDIT editorial', reviewed_at: '2026-11-19T00:00:00Z' };
+const REVIEWED = { facts: true, claims: true, images: true, notes: '2026-11-19: 사실은 JOURNAL_FACTS·주문 조건·운영자 확인(제주 오프라인 한정, 2027년 2월 말까지 HONDIT 해외 판매) 기준. 위험 표현 자동 검사 통과. 사진은 StoneJeju 사용 허락 범위, 다른 글에 쓰지 않은 사진. 가격 수치는 본문에 넣지 않음.', reviewer: 'HONDIT editorial', reviewed_at: '2026-11-19T00:00:00Z' };
 const BASE = { status: 'in_review', author_type: 'hondit_editorial', author_name: 'HONDIT editorial team', image_rights: 'confirmed', review: REVIEWED, source_doc: null, related_products: ['diffuser-350g', 'diffuser-500g'], cta_type: 'product', group_key: 'jeju-only-gift-guide-2026-11', sources: [...SOURCES('diffuser-350g', 'diffuser-500g', 'care', 'brand'), AVAILABILITY_SOURCE] };
 const CREDIT = 'Photo: StoneJeju product photograph. Used with permission.';
 
@@ -22,14 +22,14 @@ export const seedArticles4 = [
     market: 'SG',
     slug: 'jeju-only-gift-guide-volcanic-stone-diffuser',
     title: 'A gift that is usually sold only in Jeju: who the StoneJeju diffuser suits',
-    dek: 'StoneJeju\'s volcanic stone diffuser is normally sold only in shops in Jeju, South Korea. Until March 2027 HONDIT, a Jeju National University student team, sells it outside the island. Here is who it suits as a gift, and which size to pick.',
+    dek: 'StoneJeju\'s volcanic stone diffuser is normally sold only in shops in Jeju, South Korea. Until the end of February 2027 HONDIT, a Jeju National University student team, sells it outside the island. Here is who it suits as a gift, and which size to pick.',
     hero_image_url: '/images/journal/sg-04-hero-gift-box.webp',
     hero_image_alt: 'An opened shipping box with StoneJeju volcanic stone diffusers, citrus oil bottles and HONDIT cleansing products on a stone slab',
     hero_image_caption: 'How a HONDIT order arrives from Korea: the diffuser, its oil and the box.',
     hero_image_credit: CREDIT,
     seo_title: 'Jeju gift guide: StoneJeju volcanic stone diffuser, sold outside Jeju only via HONDIT | HONDIT Journal',
-    seo_description: 'StoneJeju diffusers are normally sold only in Jeju, South Korea. Until March 2027 HONDIT sells them abroad. Gift ideas for a partner, parents, a new home, colleagues and homes with children or pets.',
-    body_md: `Most souvenirs from Jeju, South Korea, are easy to find again: tangerine chocolate, dol hareubang figures, cosmetics sold at the airport. StoneJeju's volcanic stone diffuser is different. The maker normally sells it only in shops on Jeju Island. Until March 2027, HONDIT, a student team in Jeju National University's GTEP programme, sells it to customers outside Jeju as an exception. That limited route is part of what makes it a gift with a story.
+    seo_description: 'StoneJeju diffusers are normally sold only in Jeju, South Korea. Until the end of February 2027 HONDIT sells them abroad. Gift ideas for a partner, parents, a new home, colleagues and homes with children or pets.',
+    body_md: `Most souvenirs from Jeju, South Korea, are easy to find again: tangerine chocolate, dol hareubang figures, cosmetics sold at the airport. StoneJeju's volcanic stone diffuser is different. The maker normally sells it only in shops on Jeju Island. Until the end of February 2027, HONDIT, a student team in Jeju National University's GTEP programme, sells it to customers outside Jeju as an exception. That limited route is part of what makes it a gift with a story.
 
 ## What the gift is
 
@@ -72,14 +72,14 @@ For Christmas, order by 4 December; for Chinese New Year, order by 15 January. S
     market: 'JP',
     slug: 'jeju-only-gift-guide-volcanic-stone-diffuser',
     title: '済州島でしか買えない香りのギフト：StoneJejuの火山石ディフューザーを贈る相手と選び方',
-    dek: 'StoneJejuの火山石ディフューザーは、本来は韓国・済州島の店舗だけで販売されています。2027年3月までは、済州大学の学生チームHONDITを通して日本からも注文できます。贈る相手ごとの選び方をまとめました。',
+    dek: 'StoneJejuの火山石ディフューザーは、本来は韓国・済州島の店舗だけで販売されています。2027年2月末までは、済州大学の学生チームHONDITを通して日本からも注文できます。贈る相手ごとの選び方をまとめました。',
     hero_image_url: '/images/journal/jp-04-hero-collection.webp',
     hero_image_alt: '石の台の上に並んだStoneJejuの火山石ディフューザー、シトラスオイル、パッケージ',
     hero_image_caption: '火山石ディフューザーとオイル、パッケージ。',
     hero_image_credit: CREDIT,
     seo_title: '済州島でしか買えないギフト：StoneJeju火山石ディフューザーの選び方 | HONDIT Journal',
-    seo_description: 'StoneJejuの火山石ディフューザーは本来、韓国・済州島の店舗だけで販売。2027年3月までHONDITが日本向けに販売します。彼女、母、新築祝い、子どもやペットのいる家への贈り方。',
-    body_md: `韓国・済州島のお土産は、みかんのお菓子や石像のミニチュアなど、帰国してからも手に入るものが少なくありません。StoneJejuの火山石ディフューザーは少し事情が違います。メーカーは本来、済州島の店舗だけで販売しています。2027年3月までは例外として、済州大学校GTEPプログラムの学生チームHONDIT（ホンディット）が島の外のお客様に販売しています。期間が限られていること自体が、贈り物の話題になります。
+    seo_description: 'StoneJejuの火山石ディフューザーは本来、韓国・済州島の店舗だけで販売。2027年2月末までHONDITが日本向けに販売します。彼女、母、新築祝い、子どもやペットのいる家への贈り方。',
+    body_md: `韓国・済州島のお土産は、みかんのお菓子や石像のミニチュアなど、帰国してからも手に入るものが少なくありません。StoneJejuの火山石ディフューザーは少し事情が違います。メーカーは本来、済州島の店舗だけで販売しています。2027年2月末までは例外として、済州大学校GTEPプログラムの学生チームHONDIT（ホンディット）が島の外のお客様に販売しています。期間が限られていること自体が、贈り物の話題になります。
 
 ## どんなものか
 
@@ -116,14 +116,14 @@ For Christmas, order by 4 December; for Chinese New Year, order by 15 January. S
     market: 'HK',
     slug: 'jeju-only-gift-guide-volcanic-stone-diffuser',
     title: '原本只喺濟州有得賣：StoneJeju 火山石香薰送邊個啱、點揀',
-    dek: 'StoneJeju 火山石香薰原本只喺韓國濟州島實體店發售。2027 年 3 月前，濟州大學學生團隊 HONDIT 例外地將佢賣去濟州以外，包括香港。以下按送禮對象講點揀。',
+    dek: 'StoneJeju 火山石香薰原本只喺韓國濟州島實體店發售。2027 年 2 月底前，濟州大學學生團隊 HONDIT 例外地將佢賣去濟州以外，包括香港。以下按送禮對象講點揀。',
     hero_image_url: '/images/journal/hk-04-hero-diffuser.webp',
     hero_image_alt: 'StoneJeju 黑色玻璃容器火山石香薰，旁邊是包裝盒和柑橘香氛油',
     hero_image_caption: '350g 火山石香薰、包裝盒同附送嘅柑橘香氛油。',
     hero_image_credit: CREDIT,
     seo_title: '原本只喺濟州賣：StoneJeju 火山石香薰送禮點揀 | HONDIT Journal',
-    seo_description: 'StoneJeju 火山石香薰原本只喺韓國濟州島實體店發售，2027 年 3 月前由 HONDIT 賣去香港。送女朋友、屋企人、新屋入伙、同事同有細路寵物嘅家點揀。',
-    body_md: `去韓國濟州島旅行，手信通常係柑橘朱古力、石頭公仔或者化妝品，返到香港好多都買得到。StoneJeju 火山石香薰唔同：製造商原本只喺濟州島嘅實體店發售。2027 年 3 月前，濟州大學 GTEP 課程學生團隊 HONDIT 例外地將佢賣畀濟州以外嘅客人。有期限，送出去都多個話題。
+    seo_description: 'StoneJeju 火山石香薰原本只喺韓國濟州島實體店發售，2027 年 2 月底前由 HONDIT 賣去香港。送女朋友、屋企人、新屋入伙、同事同有細路寵物嘅家點揀。',
+    body_md: `去韓國濟州島旅行，手信通常係柑橘朱古力、石頭公仔或者化妝品，返到香港好多都買得到。StoneJeju 火山石香薰唔同：製造商原本只喺濟州島嘅實體店發售。2027 年 2 月底前，濟州大學 GTEP 課程學生團隊 HONDIT 例外地將佢賣畀濟州以外嘅客人。有期限，送出去都多個話題。
 
 ## 係乜嘢
 
@@ -161,14 +161,14 @@ For Christmas, order by 4 December; for Chinese New Year, order by 15 January. S
     market: 'TW',
     slug: 'jeju-only-gift-guide-volcanic-stone-diffuser',
     title: '原本只在濟州販售：StoneJeju 火山岩擴香適合送誰、怎麼挑',
-    dek: 'StoneJeju 火山岩擴香原本只在韓國濟州島的實體店販售。2027 年 3 月前，濟州大學學生團隊 HONDIT 例外地把它賣到濟州以外，包括台灣。以下依送禮對象整理挑選方式。',
+    dek: 'StoneJeju 火山岩擴香原本只在韓國濟州島的實體店販售。2027 年 2 月底前，濟州大學學生團隊 HONDIT 例外地把它賣到濟州以外，包括台灣。以下依送禮對象整理挑選方式。',
     hero_image_url: '/images/journal/tw-04-hero-jeju-origin.webp',
     hero_image_alt: 'StoneJeju 黑色玻璃容器火山岩擴香與香氛油瓶，旁邊寫著 JEJU ORIGIN',
     hero_image_caption: '來自濟州的火山岩，裝在黑色玻璃容器裡。',
     hero_image_credit: CREDIT,
     seo_title: '原本只在濟州販售：StoneJeju 火山岩擴香送禮怎麼挑 | HONDIT Journal',
-    seo_description: 'StoneJeju 火山岩擴香原本只在韓國濟州島實體店販售，2027 年 3 月前由 HONDIT 賣到台灣。送女友、爸媽、新居落成、同事與有小孩寵物的家怎麼挑。',
-    body_md: `到韓國濟州島旅行，伴手禮多半是柑橘巧克力、石爺爺小物或保養品，回台灣後很多都買得到。StoneJeju 火山岩擴香不太一樣：製造商原本只在濟州島的實體店販售。2027 年 3 月前，濟州大學 GTEP 課程的學生團隊 HONDIT 以例外方式，把它賣給濟州以外的顧客。有期限這件事，本身就是送禮時可以說的故事。
+    seo_description: 'StoneJeju 火山岩擴香原本只在韓國濟州島實體店販售，2027 年 2 月底前由 HONDIT 賣到台灣。送女友、爸媽、新居落成、同事與有小孩寵物的家怎麼挑。',
+    body_md: `到韓國濟州島旅行，伴手禮多半是柑橘巧克力、石爺爺小物或保養品，回台灣後很多都買得到。StoneJeju 火山岩擴香不太一樣：製造商原本只在濟州島的實體店販售。2027 年 2 月底前，濟州大學 GTEP 課程的學生團隊 HONDIT 以例外方式，把它賣給濟州以外的顧客。有期限這件事，本身就是送禮時可以說的故事。
 
 ## 它是什麼
 

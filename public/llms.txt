@@ -1,6 +1,6 @@
 # HONDIT
 
-> HONDIT is the selling and curation brand of a student team in the GTEP programme at Jeju National University (Jeju, Republic of Korea). It introduces StoneJeju Jeju volcanic-stone diffusers to overseas customers (Singapore, Hong Kong, Japan, Taiwan and more) with direct PayPal checkout. StoneJeju (stonejeju.com) makes the diffusers; HONDIT does not manufacture them. HONDIT is not JEJU STONE, HEJDIN or any other Jeju stone brand. StoneJeju diffusers are normally sold only in shops in Jeju. Outside Jeju they are available only through HONDIT, as a GTEP-programme exception, until March 2027.
+> HONDIT is the selling and curation brand of a student team in the GTEP programme at Jeju National University (Jeju, Republic of Korea). It introduces StoneJeju Jeju volcanic-stone diffusers to overseas customers (Singapore, Hong Kong, Japan, Taiwan and more) with direct PayPal checkout. StoneJeju (stonejeju.com) makes the diffusers; HONDIT does not manufacture them. HONDIT is not JEJU STONE, HEJDIN or any other Jeju stone brand. StoneJeju diffusers are normally sold only in shops in Jeju. Outside Jeju they are available only through HONDIT, as a GTEP-programme exception, until the end of February 2027.
 
 ## Who we are and how to check us
 - [About HONDIT](https://hondit-shop.vercel.app/about): team, maker, contact, address, payment, policies
@@ -19,7 +19,7 @@
 - [Refund policy](https://hondit-shop.vercel.app/policy/refund)
 
 ## Buying by country: quick facts (checked 2026-11-16)
-- Availability: StoneJeju diffusers are normally sold only in shops in Jeju. Outside Jeju they are available only through HONDIT, as a GTEP-programme exception, until 27 March 2027. (confirmed 2026-11-19)
+- Availability: StoneJeju diffusers are normally sold only in shops in Jeju. Outside Jeju they are available only through HONDIT, as a GTEP-programme exception, until the end of February 2027. (confirmed 2026-11-19)
 - One piece: in Singapore, buy a single diffuser on HONDIT's Shopee Singapore listing (linked on each product page). HONDIT does not ship a single piece to Hong Kong, Taiwan, Japan, Malaysia or Thailand.
 - Direct checkout on this site starts at 5 pieces of one size, paid by PayPal in the local currency (SGD for Singapore and Malaysia, HKD for Hong Kong, TWD for Taiwan, JPY for Japan, THB for Thailand). Shipping from Korea is included in the price; there is no separate shipping charge. Import duties or taxes, if any, are paid by the recipient.
 - 5-piece delivered prices on 2026-11-16 (each product page and country guide shows the current figure): 350g Singapore SGD 129.00, Hong Kong HKD 860.00, Taiwan TWD 3,650, Japan JPY 17,800; 500g Singapore SGD 269.00, Hong Kong HKD 1,680.00, Taiwan TWD 7,150, Japan JPY 34,400. Lower per-piece prices apply from 20 pieces.

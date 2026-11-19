@@ -2,15 +2,15 @@
 // Facts: pickup 1-3 pieces (contact-copy.js pickupRequestTotal), 350g KRW 18,000 / 500g KRW 40,000 each,
 // handover time, meeting point and payment confirmed by message (sales-presentation-copy.js).
 // Availability (JW, 2026-11-19): StoneJeju diffusers are normally sold only offline in Jeju; HONDIT sells them
-// to overseas buyers as a GTEP-programme exception until March 2027.
+// to overseas buyers as a GTEP-programme exception until the end of February 2027.
 import { pickupSearchLanguage } from './pickup-search.js';
 
 export const AVAILABILITY = {
-  en: 'StoneJeju diffusers are normally sold only in shops in Jeju. Outside Jeju they are available only through HONDIT, a Jeju National University GTEP student team, until March 2027.',
-  ko: 'StoneJeju 디퓨저는 원래 제주 오프라인 매장에서만 판매됩니다. 제주 밖에서는 2027년 3월까지 제주대학교 GTEP 학생팀 HONDIT을 통해서만 구매할 수 있습니다.',
-  ja: 'StoneJejuのディフューザーは、本来は済州島の店舗だけで販売されています。済州島の外では、2027年3月まで済州大学GTEP学生チームのHONDITを通してのみ購入できます。',
-  'zh-HK': 'StoneJeju 火山石香薰原本只在濟州實體店發售。濟州以外，2027 年 3 月前只可經濟州大學 GTEP 學生團隊 HONDIT 購買。',
-  'zh-TW': 'StoneJeju 火山岩擴香原本只在濟州實體店販售。濟州以外，2027 年 3 月前只能透過濟州大學 GTEP 學生團隊 HONDIT 購買。',
+  en: 'StoneJeju diffusers are normally sold only in shops in Jeju. Outside Jeju they are available only through HONDIT, a Jeju National University GTEP student team, until the end of February 2027.',
+  ko: 'StoneJeju 디퓨저는 원래 제주 오프라인 매장에서만 판매됩니다. 제주 밖에서는 2027년 2월 말까지 제주대학교 GTEP 학생팀 HONDIT을 통해서만 구매할 수 있습니다.',
+  ja: 'StoneJejuのディフューザーは、本来は済州島の店舗だけで販売されています。済州島の外では、2027年2月末まで済州大学GTEP学生チームのHONDITを通してのみ購入できます。',
+  'zh-HK': 'StoneJeju 火山石香薰原本只在濟州實體店發售。濟州以外，2027 年 2 月底前只可經濟州大學 GTEP 學生團隊 HONDIT 購買。',
+  'zh-TW': 'StoneJeju 火山岩擴香原本只在濟州實體店販售。濟州以外，2027 年 2 月底前只能透過濟州大學 GTEP 學生團隊 HONDIT 購買。',
 };
 
 const FAQ = {

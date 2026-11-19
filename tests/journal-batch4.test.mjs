@@ -1,5 +1,5 @@
 // Journal batch 4: four market gift guides pass the automated review, differ from every other article, stay in_review,
-// state the Jeju-only availability until March 2027, quote no prices, and the SQL matches the code.
+// state the Jeju-only availability until the end of February 2027, quote no prices, and the SQL matches the code.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
@@ -28,8 +28,8 @@ test('batch 4 articles pass the automated review against every other article', (
   for (const a of seedArticles4) assert.ok(!earlier.has(a.hero_image_url), `${a.content_id} reuses an earlier hero photo`);
 });
 
-test('each guide states the Jeju-only availability until March 2027 and quotes no prices', () => {
-  const until = { en: /March 2027/, ja: /2027年3月/, 'zh-HK': /2027 年 3 月/, 'zh-TW': /2027 年 3 月/ };
+test('each guide states the Jeju-only availability until the end of February 2027 and quotes no prices', () => {
+  const until = { en: /end of February 2027/, ja: /2027年2月末/, 'zh-HK': /2027 年 2 月底/, 'zh-TW': /2027 年 2 月底/ };
   for (const a of seedArticles4) {
     assert.match(a.dek, until[a.language], a.content_id);
     assert.match(a.body_md, until[a.language], a.content_id);
